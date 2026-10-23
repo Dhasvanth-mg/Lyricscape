@@ -6,6 +6,7 @@
 
 import type { Track } from '../../types';
 import { PlaybackClock } from '../clock';
+import { TelemetryAgeEstimator } from '../telemetry';
 import {
   SpotifyApiError,
   getDevices,
@@ -30,6 +31,19 @@ const kindMap = (k: SpotifyApiError['kind']): BackendErrorKind =>
 export class SpotifyBackend implements PlaybackBackend {
   readonly kind = 'spotify' as const;
   readonly clock = new PlaybackClock();
+  private readonly telemetry = new TelemetryAgeEstimator();
+  /** Commands (seek/play/pause/start) sent but not yet confirmed by Spotify. Telemetry read meanwhile is pre-command. */
+  private commandsInFlight = 0;
+
+  private async command<T>(fn: () => Promise<T>): Promise<T> {
+    this.commandsInFlight++;
+    try {
+      return await fn();
+    } finally {
+      this.commandsInFlight--;
+      this.clock.bump(); // anything requested before Spotify confirmed the command may describe the old state
+    }
+  }
   readonly sdk: SpotifySdk;
   private ev: BackendEvents | null = null;
   private expectedId: string | null = null;
@@ -80,8 +94,25 @@ export class SpotifyBackend implements PlaybackBackend {
     this.ev?.state({ playing: this.playing, buffering, positionMs: this.clock.position(), durationMs: this.durationMs });
   }
 
-  private apply(opts: { id: string | null; track: ApiTrack | null; positionMs: number; playing: boolean; durationMs: number; fromSdk: boolean }) {
+  private apply(opts: {
+    id: string | null;
+    track: ApiTrack | null;
+    positionMs: number;
+    playing: boolean;
+    durationMs: number;
+    fromSdk: boolean;
+    /** local clock time (performance.now base) at which positionMs was true */
+    validAt?: number;
+    /** the clock epoch when this report was requested; a mismatch means a seek/pause/load happened since */
+    epoch?: number;
+  }) {
     const { id, track, positionMs, playing, durationMs } = opts;
+    // The report describes a moment before the latest command: applying it would drag the clock (and the play/pause
+    // state) back to the past. Drop it and look again shortly.
+    if ((opts.epoch !== undefined && opts.epoch !== this.clock.epoch) || (!opts.fromSdk && this.commandsInFlight > 0)) {
+      this.schedulePoll(400);
+      return;
+    }
     const now = Date.now();
     const wasPlaying = this.playing;
     const prevPos = this.lastPos;
@@ -120,7 +151,8 @@ export class SpotifyBackend implements PlaybackBackend {
     this.playing = playing;
     this.lastPos = positionMs;
     if (playing) this.lastPlayingAt = now;
-    this.clock.sync(positionMs, playing);
+    const result = this.clock.observe({ positionMs, playing, validAt: opts.validAt, epoch: opts.epoch, pushed: opts.fromSdk });
+    if (result === 'stale') return;
     this.emit();
     this.scheduleEndCheck();
   }
@@ -165,7 +197,10 @@ export class SpotifyBackend implements PlaybackBackend {
     const hidden = typeof document !== 'undefined' && document.visibilityState === 'hidden';
     let next = hidden ? 10_000 : this.playing ? 3500 : 7000;
     try {
+      const epoch = this.clock.epoch;
+      const t0 = performance.now();
       const st = await getPlaybackState();
+      const t1 = performance.now();
       this.failures = 0;
       if (!st || !st.item) {
         // nothing playing anywhere
@@ -178,14 +213,17 @@ export class SpotifyBackend implements PlaybackBackend {
         this.ev?.external?.(null);
       } else {
         this.activeDeviceId = st.device?.id ?? this.activeDeviceId;
-        const age = st.is_playing ? Math.min(2000, Math.max(0, Date.now() - st.timestamp)) : 0;
+        // how long before receipt was progress_ms true? (see lib/player/telemetry.ts: robust to a wrong local clock)
+        const age = this.telemetry.ageAtReceipt(st.timestamp, Date.now(), t1 - t0);
         this.apply({
           id: st.item.id,
           track: st.item,
-          positionMs: (st.progress_ms ?? 0) + (Number.isFinite(age) ? age : 0),
+          positionMs: st.progress_ms ?? 0,
           playing: st.is_playing,
           durationMs: st.item.duration_ms,
           fromSdk: false,
+          validAt: t1 - (st.is_playing ? age : 0),
+          epoch,
         });
       }
     } catch (e) {
@@ -238,7 +276,7 @@ export class SpotifyBackend implements PlaybackBackend {
     try {
       await this.sdk.activate();
       const device = await this.pickDevice();
-      await playTrackUri(track.providerTrackId!, device, startMs);
+      await this.command(() => playTrackUri(track.providerTrackId!, device, startMs));
       this.pendingTrack = null;
       this.activeDeviceId = device;
       this.loadedAt = Date.now();
@@ -260,7 +298,7 @@ export class SpotifyBackend implements PlaybackBackend {
     try {
       if (this.pendingTrack) return this.startTrack(this.pendingTrack, this.clock.position());
       await this.sdk.activate();
-      await resumePlayback(this.activeDeviceId);
+      await this.command(() => resumePlayback(this.activeDeviceId));
       this.playing = true;
       this.clock.setPlaying(true);
       this.emit();
@@ -272,7 +310,7 @@ export class SpotifyBackend implements PlaybackBackend {
 
   async pause() {
     try {
-      await pausePlayback(this.activeDeviceId);
+      await this.command(() => pausePlayback(this.activeDeviceId));
       this.playing = false;
       this.clock.setPlaying(false);
       this.emit();
@@ -288,7 +326,7 @@ export class SpotifyBackend implements PlaybackBackend {
     this.emit();
     if (this.pendingTrack) return;
     try {
-      await seekPlayback(positionMs, this.activeDeviceId);
+      await this.command(() => seekPlayback(positionMs, this.activeDeviceId));
       this.schedulePoll(1200);
     } catch (e) {
       this.fail(e);

@@ -17,14 +17,17 @@
     "prebuild": "node scripts/copy-vendor.mjs",
     "smoke": "node scripts/smoke-party.mjs",
     "worker": "tsx workers/media/worker.ts",
-    "dev:all": "node scripts/dev-all.mjs"
+    "dev:all": "node scripts/dev-all.mjs",
+    "aligner": "node scripts/aligner.mjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@fontsource/anton": "^5.3.0",
+    "@fontsource/bangers": "^5.3.0",
     "@fontsource/dm-serif-display": "^5.3.0",
+    "@fontsource/permanent-marker": "^5.3.0",
     "clsx": "^2.1.1",
     "lucide-react": "^1.59.0",
     "maplibre-gl": "^6.15.0",
@@ -35,6 +38,7 @@
     "react-dom": "^19.3.1",
     "topojson-client": "^3.1.0",
     "world-atlas": "^2.0.2",
+    "yaml": "^2.9.1",
     "zod": "^4.6.7",
     "zustand": "^5.0.15"
   },

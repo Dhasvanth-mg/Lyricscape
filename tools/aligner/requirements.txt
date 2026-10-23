@@ -1,0 +1,10 @@
+# Optional lyric aligner (tools/aligner). Python 3.10-3.12 recommended.
+# CPU is enough (a 4-minute song takes a few minutes with Demucs); install a CUDA build of torch for speed.
+torch
+torchaudio
+soundfile
+numpy
+fastapi
+uvicorn
+python-multipart
+demucs        # vocal separation: without it, alignment on a full mix mostly fails (see docs/lyric-sync-report.md)

@@ -28,7 +28,13 @@ export type CompileOptions = {
   label?: string;
   /** cues from the cover art (see extractPalette) */
   cover?: VisualTimeline['cover'];
+  /** Animate word by word on line-synced lyrics using ESTIMATED word times. Off by default: a guess is not sync. */
+  estimateWords?: boolean;
 };
+
+/** Presentation only (not a timing claim): words of an untimed line enter a beat apart, then all stay until the line ends. */
+const STAGGER_MS = 40;
+const STAGGER_MAX_MS = 320;
 
 const normalize = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, '').replace(/\s+/g, ' ').trim();
 
@@ -76,7 +82,11 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
     const hook = (counts.get(key) ?? 0) >= 2;
     const durSec = Math.max(0.2, (line.endMs - line.startMs) / 1000);
     const wps = line.words.length / durSec;
-    const fast = wps > 3.6 && line.words.length >= 4;
+    const wt = line.wordTiming ?? 'authored';
+    // Real word times drive word-level motion. Without them the line is shown as a unit (see STAGGER_MS) unless the
+    // user opted in to estimated word timing.
+    const wordLevel = wt === 'authored' || (wt === 'estimated' && !!opts.estimateWords);
+    const fast = wordLevel && wps > 3.6 && line.words.length >= 4;
 
     let preset: PresetId;
     if (hook) preset = style.hookPreset;
@@ -94,7 +104,7 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
 
     const rng = rngFor(seed, `scene:${li}`);
     const lineCues: WordCue[] = line.words.map((w, wi) => {
-      const dur = w.endMs - w.startMs;
+      const dur = wordLevel ? w.endMs - w.startMs : 0;
       const longWord = dur > 650;
       let effect: EffectId = 'pop';
       if (longWord) effect = 'stretch';
@@ -105,7 +115,11 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
       else if (w.text.length >= 6 && rng() > 0.55) effect = 'mask';
       const lengthBias = Math.min(1, w.text.replace(/\W/g, '').length / 9);
       const emphasis = Math.min(1, (hook ? 0.55 : 0.2) + (longWord ? 0.3 : 0) + lengthBias * 0.25 + rng() * 0.1);
-      return { id: `${li}:${wi}`, text: w.text, startMs: w.startMs, endMs: w.endMs, emphasis: round(emphasis), effect };
+      if (!wordLevel) {
+        const startMs = Math.min(line.startMs + Math.min(wi * STAGGER_MS, STAGGER_MAX_MS), Math.max(line.startMs, line.endMs - 1));
+        return { id: `${li}:${wi}`, text: w.text, startMs, endMs: Math.max(startMs, line.endMs), emphasis: round(emphasis), effect, timing: 'none' as const };
+      }
+      return { id: `${li}:${wi}`, text: w.text, startMs: w.startMs, endMs: w.endMs, emphasis: round(emphasis), effect, timing: wt as 'authored' | 'estimated' };
     });
     cues.push(...lineCues);
 

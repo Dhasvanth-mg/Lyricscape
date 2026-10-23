@@ -210,6 +210,10 @@ class PlayerController {
   getPositionMs() {
     return this.active?.positionMs() ?? get().positionMs;
   }
+  /** Automatic output latency of the active backend (0 when it does not report one). */
+  getOutputLatencyMs() {
+    return this.active?.outputLatencyMs?.() ?? 0;
+  }
 
   private async loadCurrent(autoplay: boolean, startMs = 0) {
     const entry = currentEntry(get().queue);

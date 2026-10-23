@@ -39,9 +39,13 @@ describe('PlaybackClock', () => {
     const c = new PlaybackClock(() => t);
     c.reset(0, true);
     t += 1000;
-    c.sync(1050, true); // 50ms ahead: slew, not snap
-    expect(c.position()).toBeGreaterThan(1000);
-    expect(c.position()).toBeLessThan(1050);
+    c.sync(1050, true); // 50ms ahead: absorbed by running slightly fast, never by jumping
+    expect(c.position()).toBe(1000); // continuous at the moment of the report
+    t += 500;
+    expect(c.position()).toBeGreaterThan(1500);
+    expect(c.position()).toBeLessThan(1550);
+    t += 4000;
+    expect(c.position()).toBeCloseTo(5500 + 40, 0); // the 50ms gap (80% of it, the rest is treated as noise) is absorbed
     c.sync(9000, true); // seek elsewhere
     expect(c.position()).toBe(9000);
   });

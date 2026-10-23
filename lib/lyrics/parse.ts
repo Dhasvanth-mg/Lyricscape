@@ -1,4 +1,5 @@
-import type { LyricDocument, TimedLine, TimedWord } from '../types';
+import type { EndSource, LyricDocument, TimedLine, TimedWord, WordTiming } from '../types';
+import { cleanLyricRows, expectedSungMs, wordWeight } from './words';
 
 // ---------------------------------------------------------------------------
 // Time helpers
@@ -25,6 +26,28 @@ export function formatTimestamp(ms: number, digits: 2 | 3 = 2): string {
   const sec = Math.floor(rem / perSecond);
   const frac = rem % perSecond;
   return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}.${String(frac).padStart(digits, '0')}`;
+}
+
+// ---------------------------------------------------------------------------
+// Line ends
+//
+// A line's end is only KNOWN when the file says so (a blank cue, a trailing word tag, a VTT cue end). Otherwise the
+// next cue is the best upper bound, and if that is far away (an instrumental break, or the song ends) the end is a
+// guess. Every line records which of the three it is, so nothing downstream mistakes a guess for a measurement.
+// ---------------------------------------------------------------------------
+
+/**
+ * When nothing says where a line really ends, it stays up until the next cue if that is within this long (slow
+ * ballads hold lines for many seconds, and a line that vanishes while someone is still singing is the worse mistake).
+ * Beyond it the cue is treated as an instrumental break: the line ends here, labelled a guess.
+ */
+export const MIN_GUESSED_SPAN_MS = 10_000;
+
+function resolveEnd(tokens: string[], start: number, explicitEnd: number | undefined, nextStart: number | undefined): { endMs: number; endSource: EndSource } {
+  if (explicitEnd !== undefined && explicitEnd >= start) return { endMs: explicitEnd, endSource: 'explicit' };
+  const cap = Math.max(MIN_GUESSED_SPAN_MS, Math.round(expectedSungMs(tokens) * 2.5));
+  if (nextStart !== undefined && nextStart - start <= cap) return { endMs: Math.max(start, nextStart), endSource: 'next-line' };
+  return { endMs: start + cap, endSource: 'estimated' };
 }
 
 // ---------------------------------------------------------------------------
@@ -64,19 +87,43 @@ export function parseLrc(input: string, licenseSource = 'user-supplied'): LyricD
     for (const t of stamps) raw.push({ startMs: t, text: rest });
   }
 
+  // [offset:+500] = the lyrics should appear 500 ms sooner (LRC convention). Applied once, here, and recorded so it is
+  // never applied again (it is dropped from meta, and serialization writes the shifted timestamps).
+  const offsetMs = Number.parseInt(meta.offset ?? '', 10);
+  const shift = Number.isFinite(offsetMs) && offsetMs !== 0 ? -offsetMs : 0;
+  if (shift) for (const r of raw) r.startMs = Math.max(0, r.startMs + shift);
+  delete meta.offset;
+  const shiftText = (text: string) =>
+    shift ? text.replace(new RegExp(WORD_TAG_SRC, 'g'), (_m, t: string) => `<${formatTimestamp(Math.max(0, parseTimestamp(t) + shift), 3)}>`) : text;
+
   raw.sort((a, b) => a.startMs - b.startMs);
 
   const lines: TimedLine[] = [];
   for (let i = 0; i < raw.length; i++) {
     const cur = raw[i]!;
-    const line = buildLine(cur.text, cur.startMs, raw[i + 1]?.startMs);
+    const next = raw[i + 1];
+    const blankNext = next !== undefined && next.text.trim() === '' ? next.startMs : undefined;
+    if (cur.text.trim() === '') continue; // a blank cue only ends the line before it (handled via blankNext)
+    // the next cue that carries text, for the "best upper bound"
+    let nextText: number | undefined;
+    for (let j = i + 1; j < raw.length; j++) if (raw[j]!.text.trim() !== '') {
+      nextText = raw[j]!.startMs;
+      break;
+    }
+    const line = buildLine(shiftText(cur.text), cur.startMs, blankNext, nextText);
     if (line.words.length > 0) lines.push(line);
   }
 
-  return { source: enhanced ? 'enhanced-lrc' : 'lrc', licenseSource, lines: fixOverlaps(lines), meta };
+  return {
+    source: enhanced ? 'enhanced-lrc' : 'lrc',
+    licenseSource,
+    lines: fixOverlaps(lines),
+    meta,
+    timing: { source: enhanced ? 'enhanced-lrc' : 'lrc', ...(shift ? { offsetAppliedMs: -shift } : {}) },
+  };
 }
 
-function buildLine(text: string, lineStart: number, nextLineStart: number | undefined): TimedLine {
+function buildLine(text: string, lineStart: number, blankEnd: number | undefined, nextLineStart: number | undefined): TimedLine {
   if (HAS_WORD_TAG.test(text)) {
     const parts: { startMs: number; text: string }[] = [];
     let lastIdx = 0;
@@ -92,16 +139,20 @@ function buildLine(text: string, lineStart: number, nextLineStart: number | unde
     const tail = text.slice(lastIdx);
     if (tail.trim()) parts.push({ startMs: lastTime, text: tail });
 
-    // A trailing bare tag marks the explicit end of the line.
+    // A trailing bare tag marks the explicit end of the line; so does a blank cue after it.
     const trailing = new RegExp(WORD_TAG_SRC + String.raw`\s*$`).exec(text);
-    const explicitEnd = trailing ? parseTimestamp(trailing[1]!) : undefined;
+    const explicitEnd = trailing ? parseTimestamp(trailing[1]!) : blankEnd;
 
     const words: TimedWord[] = [];
+    let allSingle = true;
+    const allTokens = parts.flatMap((p) => p.text.trim().split(/\s+/).filter(Boolean));
+    const lineEnd = resolveEnd(allTokens, lineStart, explicitEnd, nextLineStart);
     for (let i = 0; i < parts.length; i++) {
       const p = parts[i]!;
       const tokens = p.text.trim().split(/\s+/).filter(Boolean);
+      if (tokens.length > 1) allSingle = false; // several words under one stamp: the inner ones are interpolated
       const segStart = p.startMs;
-      const segEnd = parts[i + 1]?.startMs ?? explicitEnd ?? nextLineStart ?? segStart + 400 * tokens.length;
+      const segEnd = parts[i + 1]?.startMs ?? lineEnd.endMs;
       tokens.forEach((tok, k) => {
         const span = (segEnd - segStart) / tokens.length;
         words.push({
@@ -112,18 +163,27 @@ function buildLine(text: string, lineStart: number, nextLineStart: number | unde
       });
     }
     const end = words.length ? words[words.length - 1]!.endMs : lineStart;
-    return { startMs: lineStart, endMs: Math.max(end, lineStart), words };
+    return {
+      startMs: lineStart,
+      endMs: Math.max(end, lineStart),
+      words,
+      wordTiming: allSingle ? 'authored' : 'estimated',
+      endSource: lineEnd.endSource,
+    };
   }
 
   const tokens = text.trim().split(/\s+/).filter(Boolean);
-  const maxSpan = Math.max(1200, tokens.length * 650);
-  const end = Math.min(nextLineStart ?? lineStart + maxSpan, lineStart + maxSpan);
-  return distributeWords(tokens, lineStart, end);
+  const { endMs, endSource } = resolveEnd(tokens, lineStart, blankEnd, nextLineStart);
+  const line = distributeWords(tokens, lineStart, endMs);
+  return { ...line, wordTiming: 'estimated', endSource };
 }
 
-/** Spread tokens across [start,end] proportionally to length (heuristic alignment for line-level LRC). */
+/**
+ * Spread tokens across [start,end] proportionally to their syllables. This is a GUESS used only to give a line-level
+ * line something to animate when the user opts in; it is always labelled `estimated` by the callers.
+ */
 export function distributeWords(tokens: string[], startMs: number, endMs: number): TimedLine {
-  const weights = tokens.map((t) => 0.6 + t.replace(/[^\p{L}\p{N}]/gu, '').length);
+  const weights = tokens.map(wordWeight);
   const sum = weights.reduce((a, b) => a + b, 0) || 1;
   let cursor = startMs;
   const words = tokens.map((text, i) => {
@@ -143,8 +203,13 @@ export function fixOverlaps(lines: TimedLine[]): TimedLine[] {
     const startMs = prev ? Math.max(l.startMs, prev.startMs) : l.startMs;
     const words = l.words.map((w) => ({ ...w, endMs: Math.max(w.endMs, w.startMs) }));
     const endMs = Math.max(l.endMs, words.length ? words[words.length - 1]!.endMs : startMs);
-    if (prev && prev.endMs > startMs) prev.endMs = startMs;
-    out.push({ startMs, endMs, words });
+    if (prev && prev.endMs > startMs) {
+      prev.endMs = startMs;
+      if (prev.endSource === 'explicit') prev.endSource = 'next-line'; // an overlap means the explicit end lost to the next line
+      const last = prev.words[prev.words.length - 1];
+      if (last && last.endMs > startMs) last.endMs = Math.max(last.startMs, startMs);
+    }
+    out.push({ ...l, startMs, endMs, words });
   }
   return out;
 }
@@ -169,15 +234,16 @@ export function parseVtt(input: string, licenseSource = 'user-supplied'): LyricD
     const stripped = body.replace(/<(?!\d)[^>]*>/g, '');
     if (/<\d{1,2}:\d{2}[:.]\d/.test(stripped)) {
       const normalized = stripped.replace(/<([\d:.,]+)>/g, (_m, t: string) => `<${formatTimestamp(parseTimestamp(t), 3)}>`);
-      const line = buildLine(normalized, startMs, endMs);
+      const line = buildLine(normalized, startMs, endMs, undefined);
       line.endMs = endMs;
+      line.endSource = 'explicit';
       if (line.words.length) lines.push(line);
     } else {
       const tokens = stripped.trim().split(/\s+/).filter(Boolean);
-      if (tokens.length) lines.push(distributeWords(tokens, startMs, endMs));
+      if (tokens.length) lines.push({ ...distributeWords(tokens, startMs, endMs), wordTiming: 'estimated', endSource: 'explicit' });
     }
   }
-  return { source: 'vtt', licenseSource, lines: fixOverlaps(lines) };
+  return { source: 'vtt', licenseSource, lines: fixOverlaps(lines), timing: { source: 'vtt' } };
 }
 
 // ---------------------------------------------------------------------------
@@ -199,27 +265,33 @@ export function parseLyricJson(input: string, licenseSource = 'user-supplied'): 
       startMs: Number(l.startMs ?? words[0]!.startMs),
       endMs: Number(l.endMs ?? words[words.length - 1]!.endMs),
       words,
+      wordTiming: 'authored' as const,
     };
   });
-  return { source: 'json', licenseSource, lines: fixOverlaps(lines) };
+  return { source: 'json', licenseSource, lines: fixOverlaps(lines), timing: { source: 'json' } };
 }
 
 // ---------------------------------------------------------------------------
-// Plain text -> naive, evenly distributed timing (needs manual adjust in editor)
+// Plain text -> NO timing. The lines are spread over the song only so something can be shown; that is not sync.
 // ---------------------------------------------------------------------------
 
 export function fromPlainText(text: string, durationMs: number, licenseSource = 'user-supplied'): LyricDocument {
-  const rows = text
-    .split(/\r?\n/)
-    .map((r) => r.trim())
-    .filter(Boolean);
+  const { rows, stanzaBefore } = cleanLyricRows(text);
+  // Longer lines get more time and a stanza break gets a breath, instead of an even split per row.
+  const toks = rows.map((r) => r.split(/\s+/));
+  const weights = toks.map((t, i) => t.reduce((a, w) => a + wordWeight(w), 0) + (stanzaBefore[i] ? 2 : 0));
+  const total = weights.reduce((a, b) => a + b, 0) || 1;
   const lead = Math.min(4000, durationMs * 0.05);
-  const span = Math.max(1000, durationMs - lead - 2000) / Math.max(1, rows.length);
-  const lines = rows.map((r, i) => {
-    const start = lead + i * span;
-    return distributeWords(r.split(/\s+/), Math.round(start), Math.round(start + span * 0.9));
+  const avail = Math.max(1000, durationMs - lead - 2000);
+  let cursor = lead;
+  const lines = rows.map((_, i) => {
+    const span = (avail * weights[i]!) / total;
+    const start = cursor + (stanzaBefore[i] ? (avail * 2) / total : 0);
+    cursor += span;
+    const end = Math.max(start + 400, cursor - span * 0.1);
+    return { ...distributeWords(toks[i]!, Math.round(start), Math.round(end)), wordTiming: 'estimated' as const, endSource: 'estimated' as const };
   });
-  return { source: 'plain', licenseSource, lines };
+  return { source: 'plain', licenseSource, lines, timing: { source: 'plain' } };
 }
 
 // ---------------------------------------------------------------------------
@@ -238,13 +310,48 @@ export function parseLyrics(input: string, opts: { durationMs?: number; licenseS
   return fromPlainText(trimmed, opts.durationMs ?? 180000, licenseSource);
 }
 
+/**
+ * LRC text for storage. Word stamps are written ONLY for lines whose word times are authored: a line-synced line is
+ * saved as a plain `[mm:ss.xx] text` line, so a guess can never be mistaken for a measurement on the next load.
+ * An explicit line end that is not simply the next line's start is kept as a blank cue.
+ */
 export function toEnhancedLrc(doc: LyricDocument, meta: Record<string, string> = {}): string {
-  const header = Object.entries({ ...doc.meta, ...meta }).map(([k, v]) => `[${k}:${v}]`);
-  const body = doc.lines.map(
-    (l) =>
-      `[${formatTimestamp(l.startMs)}] ${l.words.map((w) => `<${formatTimestamp(w.startMs)}>${w.text}`).join(' ')} <${formatTimestamp(l.endMs)}>`,
-  );
+  // A plain (unsynced) document has only an even spread of made-up line times. With nothing hand-timed, save the text
+  // itself, not those times.
+  if ((doc.source === 'plain' || doc.timing?.source === 'plain') && !doc.lines.some((l) => (l.wordTiming ?? 'authored') === 'authored')) {
+    return doc.lines.map((l) => l.words.map((w) => w.text).join(' ')).join('\n') + '\n';
+  }
+  const header = Object.entries({ ...doc.meta, ...meta })
+    .filter(([k]) => k !== 'offset') // already applied to every timestamp
+    .map(([k, v]) => `[${k}:${v}]`);
+  const body: string[] = [];
+  doc.lines.forEach((l, i) => {
+    const wt: WordTiming = l.wordTiming ?? 'authored';
+    if (wt === 'authored') {
+      body.push(`[${formatTimestamp(l.startMs)}] ${l.words.map((w) => `<${formatTimestamp(w.startMs)}>${w.text}`).join(' ')} <${formatTimestamp(l.endMs)}>`);
+    } else {
+      body.push(`[${formatTimestamp(l.startMs)}] ${l.words.map((w) => w.text).join(' ')}`);
+      const next = doc.lines[i + 1];
+      if (l.endSource === 'explicit' && (!next || next.startMs - l.endMs > 20)) body.push(`[${formatTimestamp(l.endMs)}]`);
+    }
+  });
   return [...header, ...body].join('\n') + '\n';
+}
+
+export type TimingSummary = {
+  /** are line starts real timestamps, or an even spread over the song? */
+  lines: 'synced' | 'unsynced';
+  words: 'authored' | 'mixed' | 'estimated';
+  label: string;
+};
+
+/** One honest description of a document's timing, for the UI. */
+export function timingSummary(doc: LyricDocument): TimingSummary {
+  const unsynced = doc.timing?.source === 'plain' || doc.source === 'plain';
+  const kinds = new Set(doc.lines.map((l) => l.wordTiming ?? 'authored'));
+  const words: TimingSummary['words'] = kinds.size === 1 && kinds.has('authored') ? 'authored' : kinds.has('authored') ? 'mixed' : 'estimated';
+  const label = unsynced ? 'Not synced (spread evenly)' : words === 'authored' ? 'Word-synced' : words === 'mixed' ? 'Line-synced, some words timed' : 'Line-synced';
+  return { lines: unsynced ? 'unsynced' : 'synced', words, label };
 }
 
 export function validateDocument(doc: LyricDocument): string[] {

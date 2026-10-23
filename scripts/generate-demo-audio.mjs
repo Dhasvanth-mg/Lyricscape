@@ -12,6 +12,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { generateCoverSvg } from '../lib/artwork/generate.ts';
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'demo');
 mkdirSync(OUT, { recursive: true });
@@ -371,41 +372,8 @@ function toEnhancedLrc(track, lines) {
   return [...header, ...body].join('\n') + '\n';
 }
 
-// ---- artwork (original SVG; no raster, no AI) ------------------------------
-function artwork(track) {
-  const rnd = mulberry32(track.seed * 101);
-  const [c1, c2, c3, bg] = track.palette;
-  const W = 800;
-  const parts = [];
-  parts.push(`<rect width="${W}" height="${W}" fill="${bg}"/>`);
-  // sun / planet
-  const cx = 280 + rnd() * 240;
-  const cy = 260 + rnd() * 160;
-  const r = 170 + rnd() * 80;
-  parts.push(`<circle cx="${cx.toFixed(0)}" cy="${cy.toFixed(0)}" r="${r.toFixed(0)}" fill="${c1}"/>`);
-  // stripes cutting the sun
-  for (let i = 0; i < 7; i++) {
-    const y = cy + 10 + i * 24 + rnd() * 8;
-    parts.push(`<rect x="0" y="${y.toFixed(0)}" width="${W}" height="${(4 + i * 2.2).toFixed(1)}" fill="${bg}"/>`);
-  }
-  // halftone dots
-  for (let gy = 0; gy < 14; gy++) {
-    for (let gx = 0; gx < 14; gx++) {
-      const x = 40 + gx * 52;
-      const y = 40 + gy * 52;
-      const d = Math.hypot(x - cx, y - cy);
-      const rr = Math.max(0, 9 - (d / W) * 18 + rnd() * 1.5);
-      if (rr > 1 && d > r + 20) parts.push(`<circle cx="${x}" cy="${y}" r="${rr.toFixed(1)}" fill="${c2}" opacity="0.55"/>`);
-    }
-  }
-  // ground wedge
-  parts.push(`<polygon points="0,${W} ${W},${W} ${W},${(W * 0.72).toFixed(0)} 0,${(W * 0.86).toFixed(0)}" fill="${c3}"/>`);
-  // big title glyph
-  parts.push(
-    `<text x="48" y="${W - 52}" font-family="Impact, Anton, sans-serif" font-size="120" fill="${bg}" letter-spacing="2">${track.title.toUpperCase()}</text>`,
-  );
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${W}" width="${W}" height="${W}">${parts.join('')}</svg>`;
-}
+// each demo song gets a different original cover style (see lib/artwork/generate.ts)
+const COVER_STYLE = { 'neon-static': 'sunset', 'glass-hours': 'bauhaus', 'paper-planets': 'contour' };
 
 // ---- main ------------------------------------------------------------------
 const catalog = [];
@@ -419,7 +387,7 @@ for (const track of TRACKS) {
 
   writeFileSync(join(OUT, `${track.id}.wav`), wavBuffer(samples));
   writeFileSync(join(OUT, `${track.id}.lrc`), toEnhancedLrc(track, lines));
-  writeFileSync(join(OUT, `${track.id}.svg`), artwork(track));
+  writeFileSync(join(OUT, `${track.id}.svg`), generateCoverSvg({ seed: track.id, title: track.title, artist: track.artist, palette: track.palette, style: COVER_STYLE[track.id] }));
   catalog.push({
     id: track.id,
     title: track.title,

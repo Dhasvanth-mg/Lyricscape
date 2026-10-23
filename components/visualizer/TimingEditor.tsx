@@ -9,6 +9,8 @@ import { saveEditedDocument } from '@/lib/lyrics/service';
 import { player } from '@/lib/player/controller';
 import { kvGet, kvSet } from '@/lib/library/db';
 import { Button, IconButton } from '@/components/ui/bits';
+import { useLyricClock } from './useLyricClock';
+import { LOW_CONFIDENCE } from '@/lib/lyrics/autoalign';
 
 type Sel = { line: number; word: number } | null;
 
@@ -37,6 +39,12 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
   const [redo, setRedo] = useState<LyricDocument[]>([]);
   const [sel, setSel] = useState<Sel>(null);
   const [dirty, setDirty] = useState(false);
+  // stamp and highlight with the SAME clock the stage renders with, so what you stamp is what you then see (audit B6)
+  const clock = useLyricClock(track);
+  const clockRef = useRef(clock.now);
+  useEffect(() => {
+    clockRef.current = clock.now;
+  }, [clock.now]);
   const [saved, setSaved] = useState<string | null>(null);
   // Only the *indices* of the active line/word live in state, so the (potentially hundreds of) word buttons
   // re-render when the singer moves on, not 10x a second.
@@ -69,7 +77,7 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
   useEffect(() => {
     let raf = 0;
     const tick = () => {
-      const p = player.getPositionMs();
+      const p = clockRef.current();
       let li = -1;
       for (let i = 0; i < work.lines.length; i++) {
         if (p >= work.lines[i]!.startMs) li = i;
@@ -107,6 +115,7 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
     if (!sel) return;
     commit((d) => {
       d.lines[sel.line]!.words[sel.word]!.startMs += delta;
+      d.lines[sel.line]!.wordTiming = 'authored'; // the person timed a word: the line is theirs now
     });
   };
   const shiftLine = (delta: number) => {
@@ -120,9 +129,10 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
   };
   const stampNow = () => {
     if (!sel) return;
-    const now = Math.round(player.getPositionMs());
+    const now = Math.round(clockRef.current());
     commit((d) => {
       d.lines[sel.line]!.words[sel.word]!.startMs = now;
+      d.lines[sel.line]!.wordTiming = 'authored';
     });
     // advance selection to the next word for rapid tap-timing
     const line = work.lines[sel.line]!;
@@ -221,6 +231,8 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
       {sel && (
         <p className="border-t border-ink-700 px-3 py-2 font-mono text-[11px] text-ink-300">
           “{work.lines[sel.line]?.words[sel.word]?.text}” starts at {formatTimestamp(work.lines[sel.line]?.words[sel.word]?.startMs ?? 0, 3)}
+          {work.lines[sel.line]?.words[sel.word]?.confidence !== undefined ? ` · aligner confidence ${Math.round((work.lines[sel.line]!.words[sel.word]!.confidence ?? 0) * 100)}%${(work.lines[sel.line]!.words[sel.word]!.confidence ?? 1) < LOW_CONFIDENCE ? ' (low: please check this word)' : ''}` : ''}
+          {work.lines[sel.line]?.wordTiming && work.lines[sel.line]?.wordTiming !== 'authored' ? ' · estimated (dashed): stamping or nudging any word makes the word times of this line yours' : ''}
         </p>
       )}
     </div>
@@ -244,7 +256,12 @@ const LineRow = memo(function LineRow({ line, li, active, sungWord, selWord, onS
             aria-selected={selWord === wi}
             onClick={() => onSelect({ line: li, word: wi })}
             title={formatTimestamp(w.startMs, 3)}
-            className={clsx('rounded px-1.5 py-0.5 text-sm transition', selWord === wi ? 'bg-signal text-white' : sungWord === wi ? 'bg-aqua/25 text-aqua' : 'hover:bg-ink-700')}
+            className={clsx(
+              'rounded px-1.5 py-0.5 text-sm transition',
+              line.wordTiming && line.wordTiming !== 'authored' && 'border border-dashed border-ink-500 text-ink-300',
+              w.confidence !== undefined && w.confidence < LOW_CONFIDENCE && 'ring-1 ring-amber-400/80',
+              selWord === wi ? 'bg-signal text-white' : sungWord === wi ? 'bg-aqua/25 text-aqua' : 'hover:bg-ink-700',
+            )}
           >
             {w.text}
           </button>

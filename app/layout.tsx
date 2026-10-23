@@ -5,6 +5,8 @@ import '@fontsource-variable/jetbrains-mono';
 import '@fontsource/anton';
 import '@fontsource/dm-serif-display';
 import '@fontsource/dm-serif-display/400-italic.css';
+import '@fontsource/bangers';
+import '@fontsource/permanent-marker';
 import './globals.css';
 import { AppShell } from '@/components/shell/AppShell';
 

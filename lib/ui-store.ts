@@ -23,16 +23,23 @@ export type Prefs = {
   /** keep ONE sync delay for every song instead of resetting per track */
   syncShared: boolean;
   syncGlobal: Record<SyncFamily, number>;
+  /** word-by-word motion on line-synced lyrics from ESTIMATED word times (off = the line appears as a unit) */
+  estimatedWords: boolean;
 };
 
-const DEFAULTS: Prefs = { style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 } };
+const DEFAULTS: Prefs = { style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: false };
 
 function readPrefs(): Prefs {
   try {
     const raw = localStorage.getItem(PREFS_KEY);
     const legacyStyle = localStorage.getItem('lyricscape.style') as StyleId | null;
-    const parsed = raw ? (JSON.parse(raw) as Partial<Prefs>) : {};
-    return { ...DEFAULTS, ...(legacyStyle ? { style: legacyStyle } : {}), ...parsed, syncGlobal: { ...DEFAULTS.syncGlobal, ...(parsed.syncGlobal ?? {}) } };
+    const parsed = raw ? (JSON.parse(raw) as Partial<Prefs> & { splitV?: number }) : {};
+    // Before the device/song split (stored prefs without splitV), "same for all songs" off meant the shared value was
+    // NOT used: only the per-song one, which now lives on as the song offset. Keep that behaviour for people who had it
+    // off by starting their device delay at 0. Prefs written by this version carry splitV and are taken as they are.
+    const legacyOff = parsed.splitV === undefined && parsed.syncShared === false;
+    const syncGlobal = legacyOff ? DEFAULTS.syncGlobal : { ...DEFAULTS.syncGlobal, ...(parsed.syncGlobal ?? {}) };
+    return { ...DEFAULTS, ...(legacyStyle ? { style: legacyStyle } : {}), ...parsed, syncGlobal };
   } catch {
     return DEFAULTS;
   }
@@ -53,9 +60,9 @@ type UiState = Prefs & {
 
 export const useUi = create<UiState>((set, get) => {
   const persist = () => {
-    const { style, colorMode, emojis, doodles, artwork, quality, mood, syncShared, syncGlobal } = get();
+    const { style, colorMode, emojis, doodles, artwork, quality, mood, syncShared, syncGlobal, estimatedWords } = get();
     try {
-      localStorage.setItem(PREFS_KEY, JSON.stringify({ style, colorMode, emojis, doodles, artwork, quality, mood, syncShared, syncGlobal }));
+      localStorage.setItem(PREFS_KEY, JSON.stringify({ style, colorMode, emojis, doodles, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, splitV: 2 }));
     } catch {
       /* storage unavailable */
     }

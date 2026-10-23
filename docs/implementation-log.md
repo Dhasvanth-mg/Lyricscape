@@ -55,6 +55,13 @@ HTTP; the Web Playback SDK and Connect polling have not been exercised against S
 ### M6 Social
 - Friends, blocks, Song of the Day (once per day), direct recommendations, reactions, notifications, chronological feed, profiles. One `canView()` function guards every read.
 
+### M7 Lyric sync, themes and artwork
+- **Sync for Spotify is metadata-based, on purpose.** Spotify exposes no audio (DRM stream, audio-analysis API closed to new apps, and `spotify-compliance.md` forbids processing it), so lyrics are matched by title / artist / length against LRCLIB and follow the playback position. `lib/lyrics/match.ts` ranks every candidate (title, lead artist, length within a few seconds, synced over plain); `/api/lyrics/lookup` gathers exact + fuzzy results, survives a flaky secondary search, and takes `exclude` so the stage can offer **Try another version** when a recorded timing drifts. Auto-lookup now defaults to on (Settings -> Lyrics turns it off; only title, artist and length are sent).
+- Word timing inside line-synced LRC uses syllables (`lib/lyrics/words.ts`) and stops a line from stretching across an instrumental gap; pasted lyric sheets drop `[Chorus]` headers and `(x2)` markers and give longer lines more time.
+- Tried and dropped: aligning lyrics to the audio with a vocal-activity detector. It cannot tell a loud band from a voice, so its confidence was misleading. Real forced alignment would need a speech model and audio we are allowed to read (local files only).
+- Six new visual styles (Neon noir, Vaporwave, Retro VHS, Notebook, Aurora, Pop art): new background kinds, glow / colour-split / hard-shadow / highlighter / gradient text treatments, per-style cover-wash strength, and a quiet **next-line preview** under the lyrics in every style.
+- `lib/artwork/generate.ts`: original deterministic cover art in six styles (sunset, bauhaus, contour, waves, orbit, mesh). Regenerates the demo covers and is the fallback cover (library, player, stage backdrop, palette) for any track without one.
+
 ## Deliberate deviations from the README
 
 See `architecture.md`. In short: JSON store instead of Postgres, SSE instead of Supabase Realtime, local signed storage instead of R2,

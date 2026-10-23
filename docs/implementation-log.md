@@ -80,3 +80,9 @@ and only recovers after 25 s of smooth frames. Settings -> Performance: auto / h
 
 Album art is a soft, blurred background wash (never a card). When there is no singing (intros, breaks, instrumentals, or songs with no lyrics) the stage runs an interlude show instead: aurora lights, beat rings, ribbons, particles, orbiting doodles, a mood emoji and a title marquee, all in the cover palette and cheaper than a lyric frame (~6 ms vs ~6 ms in headless Edge).
 Cover cues used: dominant colors, brightness (bright covers get a bright ground), focal point (glow + doodle gathering).
+
+## Lyric-video export (no audio)
+
+`lib/export/video.ts` + `components/visualizer/ExportDialog.tsx`. Because `computeFrame(timeline, t)` is pure, export steps `t` at a fixed fps (not real time), draws each frame on an off-screen canvas at the exact output size, and encodes with WebCodecs through `mediabunny` (MP4/H.264 or WebM/VP9; Chromium browsers only). Options: size (16:9, 9:16, 4:5, 1:1), 30/60 fps, quality, song-time range (with "trim to lyrics"), style, color source, mood, and toggles for emoji, doodles, album background, the breaks show, grain/texture and calm motion. PNG stills use the same path. The cover is re-loaded with CORS for export (a tainted canvas can't be encoded); if the host refuses, the file is produced without the album background. The timeline for both the live stage and the exporter is built by `lib/kinetic/forTrack.ts`.
+
+The sync control is now − / + buttons (50 ms per step, hold to repeat) around an editable millisecond value, with no range limit.

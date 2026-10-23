@@ -185,6 +185,8 @@ export type FrameEnv = {
   artwork?: 'off' | 'background';
   /** 0..1 visual budget from the quality level (fewer doodles/emoji when the machine struggles) */
   density?: number;
+  /** the generative show in instrumental breaks / no-lyric songs (default true) */
+  interlude?: boolean;
 };
 
 export type { ColorMode, EmotionId, MotifId };

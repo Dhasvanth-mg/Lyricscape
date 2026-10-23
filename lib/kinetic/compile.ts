@@ -1,6 +1,7 @@
 import type { LyricDocument } from '../types';
 import { hashString, rngFor } from './util';
 import { STYLES } from './styles';
+import type { Mood, MoodAnalysis } from './emotion';
 import {
   type EffectId,
   type PresetId,
@@ -21,6 +22,12 @@ export type CompileOptions = {
   beatTimesMs?: number[];
   artworkAssetId?: string;
   custom?: VisualTimeline['custom'];
+  /** from analyzeEmotion(): colors/emoji/doodles follow it */
+  mood?: MoodAnalysis;
+  /** song title + artist for the interlude marquee */
+  label?: string;
+  /** cues from the cover art (see extractPalette) */
+  cover?: VisualTimeline['cover'];
 };
 
 const normalize = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, '').replace(/\s+/g, ' ').trim();
@@ -110,6 +117,7 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
       seed: Math.floor(rng() * 2 ** 31),
       preset,
       hook,
+      mood: opts.mood?.perLine[li] as Mood | undefined,
       intensity: round(Math.min(2, style.motion * (hook ? 1.25 : 1) * (fast ? 1.1 : 1))),
       words: lineCues,
       effects: lineCues
@@ -154,6 +162,9 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
     scenes,
     gaps,
     effects,
+    cover: opts.cover,
+    label: opts.label,
+    emotion: opts.mood ? { overall: opts.mood.overall, basis: opts.mood.basis } : undefined,
     custom: opts.custom,
   };
   return visualTimelineSchema.parse(timeline);

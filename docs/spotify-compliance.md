@@ -16,7 +16,7 @@ Lyricscape follows the README's rules. This is engineering guidance, not legal a
 |---|---|
 | Read, record, analyse or process Spotify audio | Not available and not permitted; beat analysis uses imported/CC0 audio only |
 | Mix/overlap Spotify recordings, or render them into video | Policy; the recap engine refuses `spotify` soundtracks (HTTP 422) |
-| Alter Spotify artwork (masks, tilt, recolour, blur) | Policy; the renderer switches to an "unmodified" artwork mode for Spotify tracks |
+| Alter Spotify artwork (masks, tilt, recolour, blur) | Policy. **Waived in this personal-use build**: the cover is blurred/tinted as a background for every track. Restore an unmodified-art mode before any public deployment. |
 | Scrape Spotify or lyrics websites | Spec rule. Lyrics come from the user, bundled CC0 files, or the optional LRCLIB API |
 | Ingest Spotify content into AI | Policy; no AI features touch Spotify data |
 
@@ -30,3 +30,8 @@ local display feature; keep it that way unless you obtain the rights.
 ## Development Mode limits
 
 Up to five authorized users, listed under *User Management* in your Spotify app dashboard. Redirect URIs must use `127.0.0.1` (not `localhost`) for HTTP loopback; the Settings page shows the exact URI to register.
+
+## Album colors and mood (visualizer)
+
+- **Palette from cover art:** the visualizer reads a few dominant colors from a 48 px thumbnail of the cover to theme the stage. The cover is also shown blurred as the stage background (personal-use build, see the table above). If Spotify's image host does not allow reading pixels (CORS), extraction fails quietly and a derived palette is used instead. If you want zero pixel reads of Spotify art, choose **Mood** as the color source: that mode never uses the cover colors.
+- **Mood detection:** a lexicon + tempo heuristic over lyrics (no ML, no Spotify audio features). For Spotify tracks only the lyrics are used. Moods only pick colors, emoji and doodles.

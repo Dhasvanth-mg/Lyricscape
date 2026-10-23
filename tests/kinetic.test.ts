@@ -108,12 +108,11 @@ describe('computeFrame determinism & seeking', () => {
     expect(f.visibleWordIds).not.toContain(scene.words[scene.words.length - 1]!.id);
   });
 
-  it('renders no words in the intro gap and raises the hero artwork amount', () => {
+  it('renders no words in the intro gap, and the cover stays in the background (never pops forward by default)', () => {
     const gap = tl.gaps[0]!;
     const f = computeFrame(tl, gap.startMs + Math.min(2000, (gap.endMs - gap.startMs) / 2), env);
     expect(f.words).toHaveLength(0);
-    expect(f.artwork.hero).toBeGreaterThan(0.5);
-    expect(f.artwork.mode).toBe('hero');
+    for (let t = 0; t < tl.durationMs; t += 400) expect(computeFrame(tl, t, env).artwork.mode).toBe('backdrop');
   });
 
   it('clears the screen after the last line has exited', () => {

@@ -9,6 +9,7 @@ import { STYLES } from '@/lib/kinetic/styles';
 import { STYLE_IDS } from '@/lib/kinetic/types';
 import { LyricStage } from '@/components/visualizer/LyricStage';
 import { LyricsPanel } from '@/components/visualizer/LyricsPanel';
+import { LookControls } from '@/components/visualizer/LookControls';
 import { useLyrics } from '@/components/visualizer/useLyrics';
 import { Button, Chip, Empty, PageHeader } from '@/components/ui/bits';
 
@@ -69,6 +70,8 @@ export default function VisualsPage() {
               </button>
             ))}
           </div>
+
+          <LookControls className="mb-8" />
 
           <LyricsPanel track={track} lyrics={lyrics} />
         </>

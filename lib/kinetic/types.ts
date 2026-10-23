@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { EMOTIONS, MOTIFS, type ColorMode, type EmotionId, type MotifId } from './emotion';
 
 export const STYLE_IDS = ['maximalist', 'editorial', 'psychedelic', 'minimal', 'y2k', 'custom'] as const;
 export type StyleId = (typeof STYLE_IDS)[number];
@@ -21,6 +22,8 @@ export const wordCueSchema = z.object({
 });
 export type WordCue = z.infer<typeof wordCueSchema>;
 
+export const moodSchema = z.object({ emotion: z.enum(EMOTIONS), valence: z.number().min(-1).max(1), arousal: z.number().min(0).max(1), confidence: z.number().min(0).max(1) });
+
 /** README `VisualScene`-compatible scene (one per lyric line). */
 export const sceneSchema = z.object({
   id: z.string(),
@@ -30,6 +33,7 @@ export const sceneSchema = z.object({
   seed: z.number().int(),
   preset: z.enum(PRESET_IDS),
   hook: z.boolean(),
+  mood: moodSchema.optional(),
   intensity: z.number().min(0).max(2),
   words: z.array(wordCueSchema),
   effects: z.array(
@@ -68,6 +72,11 @@ export const visualTimelineSchema = z.object({
       params: z.record(z.string(), z.unknown()),
     }),
   ),
+  /** shown in the interlude marquee (song title / artist) */
+  label: z.string().max(200).optional(),
+  /** visual cues read from the album cover (brightness, where the focal color sits) */
+  cover: z.object({ light: z.number().min(0).max(1), focal: z.object({ x: z.number().min(0).max(1), y: z.number().min(0).max(1) }), vibrance: z.number().min(0).max(1) }).optional(),
+  emotion: z.object({ overall: moodSchema, basis: z.enum(['lyrics', 'tempo', 'lyrics+tempo', 'none']) }).optional(),
   custom: z
     .object({
       font: z.enum(['display', 'wide', 'serif', 'mono', 'body']).optional(),
@@ -107,6 +116,29 @@ export type DrawWord = {
   maxWidthPx: number;
 };
 
+export type DrawDoodle = {
+  id: string;
+  kind: MotifId;
+  x: number;
+  y: number;
+  size: number;
+  rotationDeg: number;
+  alpha: number;
+  fill: string | null;
+  stroke: string | null;
+  lineWidth: number;
+  accent?: string;
+  seed: number;
+};
+export type DrawEmoji = { id: string; char: string; x: number; y: number; sizePx: number; rotationDeg: number; alpha: number };
+
+export type Aurora = { x: number; y: number; r: number; color: string; alpha: number };
+export type Ring = { r: number; alpha: number; color: string; width: number };
+export type Ribbon = { y: number; amp: number; freq: number; phase: number; color: string; width: number; alpha: number };
+export type Particle = { x: number; y: number; size: number; alpha: number; color: string };
+/** The generative show that runs while nobody is singing (intro, breaks, outro, songs without lyrics). */
+export type Interlude = { amount: number; aurora: Aurora[]; rings: Ring[]; ribbons: Ribbon[]; particles: Particle[] };
+
 export type MarqueeRow = { text: string; y: number; offsetX: number; sizePx: number; alpha: number; font: FontKey; color: string };
 
 export type Frame = {
@@ -116,12 +148,18 @@ export type Frame = {
   hook: boolean;
   activeWordId: string | null;
   visibleWordIds: string[];
-  bg: { c0: string; c1: string; angleDeg: number; invert: boolean; pulse: number; solid: boolean };
+  bg: { c0: string; c1: string; angleDeg: number; invert: boolean; pulse: number; solid: boolean; glow: { x: number; y: number; color: string; alpha: number } | null };
   artwork: { mode: 'backdrop' | 'hero' | 'sticker'; alpha: number; scale: number; rotationDeg: number; x: number; y: number; hero: number };
   camera: { zoom: number; rotationDeg: number; x: number; y: number };
   overlays: { grain: number; vignette: number; halftone: number; flash: number; scanlines: number };
   beat: { pulse: number; index: number; strength: number };
   marquee: MarqueeRow[];
+  interlude: Interlude;
+  doodles: DrawDoodle[];
+  emojis: DrawEmoji[];
+  /** mood of the current line and the palette actually in use (after album/mood blending) */
+  mood: EmotionId | null;
+  palette: string[];
   words: DrawWord[];
   textColor: string;
   accent: string;
@@ -137,4 +175,17 @@ export type FrameEnv = {
   motionScale?: number;
   /** Bump when fonts finish loading so cached layouts are re-measured. */
   layoutEpoch?: number;
+  /** blend = album colors tinted by mood, album = cover only, emotion = mood palettes only */
+  colorMode?: ColorMode;
+  /** emoji stickers next to matching words + ambient emoji in hooks (default true) */
+  emojis?: boolean;
+  /** animated vector doodles (default true) */
+  doodles?: boolean;
+  /** off = no cover; background = the cover as a soft blurred backdrop (default) */
+  artwork?: 'off' | 'background';
+  /** 0..1 visual budget from the quality level (fewer doodles/emoji when the machine struggles) */
+  density?: number;
 };
+
+export type { ColorMode, EmotionId, MotifId };
+export { MOTIFS };

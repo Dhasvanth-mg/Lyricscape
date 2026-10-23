@@ -20,7 +20,8 @@ import {
   textOn,
 } from './util';
 import { STYLES, estimateWidth, type FontDef, type StyleDef } from './styles';
-import type { DrawWord, FontKey, Frame, FrameEnv, MarqueeRow, Scene, VisualTimeline, WordCue } from './types';
+import { EMOTION_DEFS, emojiForWord } from './emotion';
+import type { DrawDoodle, DrawEmoji, DrawWord, FontKey, Frame, FrameEnv, Interlude, MarqueeRow, Scene, VisualTimeline, WordCue } from './types';
 
 export const LEAD_MS = 70; // words land slightly early so impact meets the sung syllable
 const APPEAR_MS = 260;
@@ -246,8 +247,8 @@ function backgroundFor(
   style: StyleDef,
   tMs: number,
   invert: number,
+  p: string[],
 ): { c0: string; c1: string; solid: boolean; textColor: string; accent: string; wordColors: string[] } {
-  const p = tl.palette;
   const dark = p[p.length - 1]!;
   const a0 = p[0]!;
   const a1 = p[1] ?? p[0]!;
@@ -276,15 +277,239 @@ function backgroundFor(
       c1 = mix(dark, a2, 0.28 + invert * 0.4);
       break;
     default:
-      c0 = mix(dark, a0, invert);
-      c1 = mix(mix(dark, a0, 0.32), a1, invert);
+      if (tl.cover && tl.cover.light > 0.62 && invert < 0.5) {
+        // a bright cover gets a bright ground in its own colors instead of a heavy dark slab
+        c0 = mix('#f6f1e7', a0, 0.22 + invert * 0.3);
+        c1 = mix('#f6f1e7', a1, 0.42 + invert * 0.3);
+      } else {
+        // the cover's own dark and dominant colors make the ground
+        c0 = mix(dark, a0, invert);
+        c1 = mix(mix(dark, a0, tl.cover ? 0.5 : 0.32), a1, invert);
+      }
   }
+  // Pick the text color that reads best on the WORSE end of the gradient, then nudge either end of the
+  // gradient away from the text color until both ends reach contrast >= 3.2 (mood/album palettes can be bright).
+  const LIGHT = '#fbfaf6';
+  const INK = '#101014';
+  const worst = (t: string) => Math.min(contrastRatio(t, c0), contrastRatio(t, c1));
+  const textColor = worst(LIGHT) >= worst(INK) ? LIGHT : INK;
+  const away = textColor === LIGHT ? '#000000' : '#ffffff';
+  for (let i = 0; i < 14 && contrastRatio(textColor, c0) < 3.2; i++) c0 = mix(c0, away, 0.1);
+  for (let i = 0; i < 14 && contrastRatio(textColor, c1) < 3.2; i++) c1 = mix(c1, away, 0.1);
   const mid = mix(c0, c1, 0.5);
-  const textColor = textOn(mid);
   const candidates = [a1, a0, a2, p[3] ?? a2].filter((c) => contrastRatio(c, mid) >= 3);
   const accent = style.id === 'editorial' || style.id === 'minimal' ? (contrastRatio(a0, mid) >= 3 ? a0 : textColor) : (candidates[0] ?? textColor);
   const wordColors = style.id === 'editorial' ? [textColor] : candidates.length ? [textColor, ...candidates] : [textColor];
   return { c0, c1, solid, textColor, accent, wordColors };
+}
+
+// ---------------------------------------------------------------------------
+// mood-aware palettes (album colors, tinted or replaced by the song's feeling)
+// ---------------------------------------------------------------------------
+function palettePad(p: string[]): string[] {
+  return [p[0]!, p[1] ?? p[0]!, p[2] ?? p[1] ?? p[0]!, p[p.length - 1]!];
+}
+
+function scenePalette(tl: VisualTimeline, scene: Scene | undefined, mode: 'blend' | 'album' | 'emotion'): string[] {
+  const base = palettePad(tl.palette);
+  const mood = scene?.mood ?? tl.emotion?.overall;
+  if (mode === 'album' || !mood) return base;
+  const m = EMOTION_DEFS[mood.emotion].palette;
+  const k = mode === 'emotion' ? 1 : clamp(0.1 + mood.confidence * 0.16, 0.1, 0.26);
+  return base.map((c, i) => mix(c, m[i]!, k));
+}
+
+function blendPalettes(a: string[], b: string[], t: number): string[] {
+  return t >= 1 ? b : t <= 0 ? a : a.map((c, i) => mix(c, b[i]!, t));
+}
+
+const STICKER_STYLES = new Set(['maximalist', 'custom', 'y2k', 'psychedelic']);
+
+function buildDoodles(a: { tl: VisualTimeline; style: StyleDef; scenes: Scene[]; tMs: number; W: number; H: number; S: number; motionScale: number; beatPulse: number; palette: string[]; textColor: string; density: number; focal?: { x: number; y: number } }): DrawDoodle[] {
+  const { tl, style, scenes, tMs, W, H, S, motionScale, beatPulse, palette, textColor, density, focal } = a;
+  const out: DrawDoodle[] = [];
+  const dark = palette[3]!;
+  for (const scene of scenes) {
+    const mood = scene.mood ?? tl.emotion?.overall;
+    if (!mood) continue;
+    const def = EMOTION_DEFS[mood.emotion];
+    const dur = Math.max(400, scene.endMs - scene.startMs);
+    const count = Math.round((2 + def.arousal * 5 + (scene.hook ? 3 : 0)) * clamp(motionScale, 0.3, 1.1) * clamp(density, 0.2, 1));
+    for (let k = 0; k < Math.min(12, count); k++) {
+      const kind = def.motifs[Math.floor(noise(scene.seed, 100 + k) * def.motifs.length)]!;
+      let x = 0;
+      let y = 0;
+      for (let tries = 0; tries < 8; tries++) {
+        x = signed(scene.seed, 200 + k * 7 + tries) * 0.47 * W;
+        y = signed(scene.seed, 300 + k * 11 + tries) * 0.45 * H;
+        if (focal && tries < 4) {
+          // pull toward the side of the screen where the cover's brightest color sits
+          x = x * 0.55 + (focal.x - 0.5) * W * 0.5;
+          y = y * 0.55 + (focal.y - 0.5) * H * 0.5;
+        }
+        if (Math.abs(x) > 0.3 * W || Math.abs(y) > 0.24 * H) break; // keep the middle clear for the words
+      }
+      const size = S * (0.07 + noise(scene.seed, 400 + k) * 0.1) * (scene.hook ? 1.2 : 1);
+      const birth = scene.startMs - LEAD_MS + noise(scene.seed, 500 + k) * dur * 0.35;
+      const tIn = tMs - birth;
+      if (tIn < 0) continue;
+      const tOut = tMs - (scene.endMs + (scene.hook ? 120 : 0));
+      if (tOut > 300) continue;
+      const appear = easeOutBack(clamp(tIn / 420), 2.2);
+      const exit = tOut > 0 ? 1 - clamp(tOut / 300) : 1;
+      const pulse = 1 + beatPulse * 0.14 * (def.arousal + 0.3);
+      const spin = kind === 'sun' || kind === 'flower' || kind === 'burst' || kind === 'spiral' ? tMs * 0.02 * (k % 2 ? -1 : 1) : 0;
+      const col = palette[k % 3]!;
+      const sticker = STICKER_STYLES.has(style.id);
+      out.push({
+        id: scene.id + ':d' + k,
+        kind,
+        x: x + Math.sin(tMs / 1100 + k * 1.7) * S * 0.01,
+        y: y + Math.sin(tMs / 800 + k) * S * 0.014,
+        size: size * appear * exit * pulse,
+        rotationDeg: signed(scene.seed, 600 + k) * 25 + Math.sin(tMs / 1300 + k) * 8 + spin,
+        alpha: clamp(0.88 * exit * Math.min(1, tIn / 160)),
+        fill: sticker ? col : null,
+        stroke: sticker ? dark : mix(textColor, col, 0.35),
+        lineWidth: sticker ? Math.max(2, S * 0.007) : Math.max(1.5, S * 0.004),
+        accent: palette[(k + 1) % 3],
+        seed: Math.floor(noise(scene.seed, 700 + k) * 1000),
+      });
+    }
+  }
+  return out;
+}
+
+function buildAmbientEmojis(a: { tl: VisualTimeline; scenes: Scene[]; tMs: number; W: number; H: number; S: number; density: number }): DrawEmoji[] {
+  const { tl, scenes, tMs, W, H, S, density } = a;
+  const out: DrawEmoji[] = [];
+  for (const scene of scenes) {
+    const mood = scene.mood ?? tl.emotion?.overall;
+    if (!mood || !scene.hook) continue; // hooks get a shower; verses stay clean
+    const set = EMOTION_DEFS[mood.emotion].emojiSet;
+    const dur = Math.max(800, scene.endMs - scene.startMs);
+    const n = Math.max(2, Math.round(6 * density));
+    for (let k = 0; k < n; k++) {
+      const birth = scene.startMs + (k / n) * dur * 0.55;
+      const life = 2600;
+      const p = (tMs - birth) / life;
+      if (p < 0 || p > 1) continue;
+      out.push({
+        id: scene.id + ':e' + k,
+        char: set[Math.floor(noise(scene.seed, 800 + k) * set.length)]!,
+        x: signed(scene.seed, 810 + k) * W * 0.42 + Math.sin(p * 6 + k) * S * 0.03,
+        y: H * 0.5 - p * H * 1.05,
+        sizePx: S * (0.07 + noise(scene.seed, 820 + k) * 0.06),
+        rotationDeg: signed(scene.seed, 830 + k) * 24 + Math.sin(p * 8 + k) * 10,
+        alpha: Math.min(1, p * 8) * (1 - smoothstep(0.75, 1, p)),
+      });
+    }
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
+// interlude: what happens when nobody is singing
+// ---------------------------------------------------------------------------
+const NO_INTERLUDE: Interlude = { amount: 0, aurora: [], rings: [], ribbons: [], particles: [] };
+
+function buildInterlude(a: {
+  tl: VisualTimeline;
+  amount: number;
+  tMs: number;
+  W: number;
+  H: number;
+  S: number;
+  palette: string[];
+  beat: { pulse: number; index: number; strength: number };
+  density: number;
+  reduced: boolean;
+  textColor: string;
+}): { show: Interlude; doodles: DrawDoodle[]; emojis: DrawEmoji[] } {
+  const { tl, amount, tMs, W, H, S, palette, beat, density, reduced } = a;
+  if (amount <= 0.01) return { show: NO_INTERLUDE, doodles: [], emojis: [] };
+  const mood = tl.emotion?.overall;
+  const def = EMOTION_DEFS[mood?.emotion ?? 'calm'];
+  const t = reduced ? 0 : tMs;
+  const col = (k: number) => palette[k % 3]!;
+
+  // 1) aurora: big soft lights drifting on slow Lissajous paths, in the cover's colors
+  const nA = Math.max(2, Math.round(4 * density));
+  const aurora = Array.from({ length: nA }, (_, k) => ({
+    x: W * (0.5 + 0.4 * Math.sin(t / (4200 + k * 900) + k * 1.9)),
+    y: H * (0.5 + 0.36 * Math.cos(t / (5100 + k * 700) + k * 1.3)),
+    r: S * (0.55 + 0.18 * Math.sin(t / 3100 + k)) * (1 + (reduced ? 0 : beat.pulse) * 0.08),
+    color: col(k),
+    alpha: 0.4 * amount,
+  }));
+  if (reduced) return { show: { amount, aurora, rings: [], ribbons: [], particles: [] }, doodles: [], emojis: [] };
+
+  // 2) rings pulsing out from the centre on every beat (a steady pseudo-beat when the track has no beat grid)
+  const beats = tl.beatTimesMs;
+  const rings: Interlude['rings'] = [];
+  const RING_LIFE = 1500;
+  for (let j = 0; j < 3; j++) {
+    const idx = beat.index >= 0 ? beat.index - j : Math.floor(tMs / 700) - j;
+    const bt = beat.index >= 0 ? beats[idx] : idx * 700;
+    if (bt === undefined) continue;
+    const age = tMs - bt;
+    if (age < 0 || age > RING_LIFE) continue;
+    const p = age / RING_LIFE;
+    rings.push({ r: easeOutCubic(p) * Math.max(W, H) * 0.62, alpha: (1 - p) * 0.55 * amount * (idx % 4 === 0 ? 1 : 0.6), color: col(idx), width: Math.max(2, S * (0.014 - p * 0.008)) });
+  }
+
+  // 3) ribbons: two flowing waves that swell with the beat
+  const ribbons: Interlude['ribbons'] = [0, 1].map((k) => ({
+    y: H * (k ? 0.68 : 0.32),
+    amp: S * (0.05 + 0.07 * beat.pulse) * (k ? 1 : 0.8),
+    freq: 2.2 + k * 0.9,
+    phase: t / (900 - k * 250) * (k ? -1 : 1),
+    color: col(k + 1),
+    width: Math.max(3, S * 0.012),
+    alpha: 0.5 * amount,
+  }));
+
+  // 4) particles rising like embers / bubbles
+  const nP = Math.round(46 * density);
+  const particles: Interlude['particles'] = [];
+  for (let k = 0; k < nP; k++) {
+    const speed = 9000 + noise(7, k) * 7000;
+    const p = (t / speed + noise(8, k)) % 1;
+    particles.push({
+      x: noise(9, k) * W + Math.sin(p * 9 + k) * S * 0.02,
+      y: H * (1.04 - p * 1.1),
+      size: S * (0.004 + noise(10, k) * 0.009) * (1 + beat.pulse * 0.4),
+      alpha: Math.sin(p * Math.PI) * (0.35 + 0.4 * noise(11, k)) * amount,
+      color: k % 5 === 0 ? a.textColor : col(k),
+    });
+  }
+
+  // 5) the mood emoji pulses in the middle while vector doodles orbit it
+  const doodles: DrawDoodle[] = [];
+  const nO = Math.max(3, Math.round(6 * density));
+  for (let k = 0; k < nO; k++) {
+    const ang = t * 0.00042 * (k % 2 ? -1 : 1) + (k * Math.PI * 2) / nO;
+    const rad = S * (0.3 + 0.03 * Math.sin(t / 900 + k));
+    const kind = def.motifs[k % def.motifs.length]!;
+    doodles.push({
+      id: 'int:d' + k,
+      kind,
+      x: Math.cos(ang) * rad * 1.5,
+      y: Math.sin(ang) * rad,
+      size: S * (0.055 + 0.015 * Math.sin(t / 700 + k)) * (1 + beat.pulse * 0.2) * amount,
+      rotationDeg: (ang * 180) / Math.PI + t * 0.02,
+      alpha: 0.9 * amount,
+      fill: col(k),
+      stroke: palette[3]!,
+      lineWidth: Math.max(2, S * 0.006),
+      accent: col(k + 1),
+      seed: k * 37,
+    });
+  }
+  const emojis: DrawEmoji[] = [
+    { id: 'int:mood', char: def.emoji, x: 0, y: Math.sin(t / 800) * S * 0.015, sizePx: S * 0.2 * (1 + beat.pulse * 0.14) * easeOutBack(clamp(amount * 1.4)), rotationDeg: Math.sin(t / 1300) * 8, alpha: clamp(amount * 1.2) },
+  ];
+  return { show: { amount, aurora, rings, ribbons, particles }, doodles, emojis };
 }
 
 // ---------------------------------------------------------------------------
@@ -304,6 +529,7 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
   // --- which scenes are on screen -------------------------------------------------
   const active: Scene[] = [];
   let primary: Scene | null = null;
+  let foundIdx = -1;
   {
     // binary search last scene with start <= t+LEAD, then scan a few back
     let lo = 0;
@@ -316,6 +542,7 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
         lo = mid + 1;
       } else hi = mid - 1;
     }
+    foundIdx = found;
     for (let i = Math.max(0, found - 3); i <= Math.min(tl.scenes.length - 1, found + 1); i++) {
       const s = tl.scenes[i]!;
       const lastExit = s.endMs + EXIT_MS + 40;
@@ -334,19 +561,31 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     const outAmt = 1 - smoothstep(e.endMs + 60, e.endMs + 320, tMs);
     invert = Math.max(invert, Math.min(inAmt, outAmt));
   }
-  const bgInfo = backgroundFor(tl, style, tMs, invert);
+  const colorMode = env.colorMode ?? 'blend';
+  const curScene = tl.scenes[foundIdx];
+  const prevScene = foundIdx > 0 ? tl.scenes[foundIdx - 1] : undefined;
+  const palette =
+    prevScene && curScene
+      ? blendPalettes(scenePalette(tl, prevScene, colorMode), scenePalette(tl, curScene, colorMode), smoothstep(curScene.startMs - 150, curScene.startMs + 650, tMs))
+      : scenePalette(tl, curScene, colorMode);
+  const bgInfo = backgroundFor(tl, style, tMs, invert, palette);
 
   // --- instrumental "hero artwork" amount ------------------------------------------------
-  let hero = 0;
+  const artMode = env.artwork ?? 'background';
+  const hero = 0; // the cover is always a background now: the interlude show takes the stage in breaks
+  let interludeAmt = 0;
   for (const g of tl.gaps) {
-    const a = smoothstep(g.startMs + 150, g.startMs + 700, tMs);
-    const b = 1 - smoothstep(g.endMs - 650, g.endMs - 100, tMs);
-    hero = Math.max(hero, Math.min(a, b));
+    if (g.endMs - g.startMs < 1500) continue;
+    const a = smoothstep(g.startMs + 200, g.startMs + 750, tMs);
+    const b = 1 - smoothstep(g.endMs - 500, g.endMs - 60, tMs);
+    interludeAmt = Math.max(interludeAmt, Math.min(a, b));
   }
   const hookNow = !!primary?.hook && tMs <= (primary?.endMs ?? 0) + 100;
 
   // --- words ---------------------------------------------------------------------------------
   const words: DrawWord[] = [];
+  const emojis: DrawEmoji[] = [];
+  const wantEmoji = env.emojis !== false && !reduced;
   const visibleWordIds: string[] = [];
   let activeWordId: string | null = null;
 
@@ -359,6 +598,25 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
       if (!item) continue;
       const dw = poseWord({ tl, style, scene, cue, wi, item, tMs, W, H, S, intensity, reduced, beat, bgInfo, hook: scene.hook, env });
       if (!dw) continue;
+      if (wantEmoji && emojis.length < 10) {
+        const ch = emojiForWord(cue.text);
+        if (ch && (cue.emphasis ?? 0) > 0.15) {
+          const tE = tMs - (cue.startMs - LEAD_MS);
+          if (tE >= 0 && tMs <= scene.endMs + 260) {
+            const pop = easeOutElastic(clamp(tE / 520));
+            const fade = 1 - smoothstep(scene.endMs, scene.endMs + 260, tMs);
+            emojis.push({
+              id: cue.id + ':emoji',
+              char: ch,
+              x: dw.x + Math.min(item.widthPx * 0.5, W * 0.4) * 0.9,
+              y: dw.y - item.size * 0.55 - tE * 0.012,
+              sizePx: clamp(item.size * 0.6, S * 0.07, S * 0.17) * pop,
+              rotationDeg: signed(scene.seed, hashId(cue.id)) * 14,
+              alpha: clamp(fade),
+            });
+          }
+        }
+      }
       words.push(dw);
       visibleWordIds.push(cue.id);
       if (scene === primary && tMs >= cue.startMs && tMs < cue.endMs) activeWordId = cue.id;
@@ -375,6 +633,11 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     }
   }
   words.sort((a, b) => a.z - b.z);
+  const inter = buildInterlude({ tl, amount: interludeAmt, tMs, W, H, S, palette, beat, density: env.density ?? 1, reduced, textColor: bgInfo.textColor });
+  const doodles = env.doodles !== false && !reduced ? buildDoodles({ tl, style, scenes: active, tMs, W, H, S, motionScale, beatPulse: beat.pulse, palette, textColor: bgInfo.textColor, density: env.density ?? 1, focal: tl.cover?.focal }) : [];
+  if (env.doodles !== false) doodles.push(...inter.doodles);
+  if (wantEmoji) emojis.push(...inter.emojis);
+  if (wantEmoji && emojis.length < 10) emojis.push(...buildAmbientEmojis({ tl, scenes: active, tMs, W, H, S, density: env.density ?? 1 }).slice(0, 10 - emojis.length));
 
   // --- camera / overlays -------------------------------------------------------------------------
   const sceneProgress = primary ? clamp((tMs - primary.startMs) / Math.max(1, primary.endMs - primary.startMs)) : 0;
@@ -387,13 +650,13 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     y: shakeAmp * signed(beat.index + 1, 29) * H * 0.006,
   };
 
-  const artworkMode: Frame['artwork']['mode'] = hero > 0.02 ? 'hero' : hookNow ? 'sticker' : 'backdrop';
+  const artworkMode: Frame['artwork']['mode'] = hero > 0.02 ? 'hero' : 'backdrop';
   const artwork: Frame['artwork'] = {
     mode: artworkMode,
     hero,
-    alpha: lerp(style.background === 'mono' ? 0.1 : 0.22, 1, hero),
+    alpha: artMode === 'off' ? 0 : lerp(style.background === 'mono' ? 0.18 : 0.36, 0.55, interludeAmt),
     scale: lerp(1.05, 0.62, hero) * (1 + beat.pulse * 0.03 * motionScale) + sceneProgress * 0.03 * motionScale,
-    rotationDeg: lerp(0, -4 + Math.sin(tMs / 1800) * 3 * motionScale, hero) + (artworkMode === 'sticker' ? 6 : 0),
+    rotationDeg: lerp(0, -4 + Math.sin(tMs / 1800) * 3 * motionScale, hero),
     x: lerp(0, 0, hero),
     y: lerp(0, -H * 0.02, hero),
   };
@@ -416,6 +679,13 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     }
   }
 
+  if (tl.label && interludeAmt > 0.05 && !reduced) {
+    const phrase = tl.label.toUpperCase() + '  •  ';
+    for (let r = 0; r < 3; r++) {
+      marquee.push({ text: phrase.repeat(4), y: (r - 1) * S * 0.36, offsetX: ((tMs * 0.05 * (r % 2 ? -1 : 1)) % (S * 1.5)) - W * 0.3, sizePx: S * 0.26, alpha: 0.08 * interludeAmt, font: style.displayFont, color: bgInfo.textColor });
+    }
+  }
+
   return {
     tMs,
     sceneId: primary?.id ?? null,
@@ -423,7 +693,15 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     hook: hookNow,
     activeWordId,
     visibleWordIds,
-    bg: { c0: bgInfo.c0, c1: bgInfo.c1, angleDeg: 160 + (reduced ? 0 : Math.sin(tMs / 5000) * 12), invert: invert > 0.5, pulse: reduced ? 0 : beat.pulse, solid: bgInfo.solid },
+    bg: {
+      c0: bgInfo.c0,
+      c1: bgInfo.c1,
+      angleDeg: 160 + (reduced ? 0 : Math.sin(tMs / 5000) * 12),
+      invert: invert > 0.5,
+      pulse: reduced ? 0 : beat.pulse,
+      solid: bgInfo.solid,
+      glow: tl.cover && colorMode !== 'emotion' ? { x: tl.cover.focal.x, y: tl.cover.focal.y, color: palette[0]!, alpha: 0.22 + (reduced ? 0 : beat.pulse * 0.1) } : null,
+    },
     artwork,
     camera,
     overlays: {
@@ -435,6 +713,11 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     },
     beat,
     marquee,
+    interlude: inter.show,
+    doodles,
+    emojis,
+    mood: (primary?.mood ?? curScene?.mood ?? tl.emotion?.overall)?.emotion ?? null,
+    palette,
     words,
     textColor: bgInfo.textColor,
     accent: bgInfo.accent,

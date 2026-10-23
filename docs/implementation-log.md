@@ -33,8 +33,10 @@ HTTP; the Web Playback SDK and Connect polling have not been exercised against S
 - Lyrics for any track (including Spotify): saved locally, optional LRCLIB lookup (API, not scraping), paste/import, timing editor with undo/redo and tap-to-stamp.
 
 ### M2 Kinetic visualizer
-- `lib/kinetic`: compile lyrics to a deterministic timeline, `computeFrame(timeline, t, viewport)` is a **pure function**, so seeking to any timestamp reproduces the exact frame. Six styles, rule-based motion director (hooks -> burst + inverted background, fast passages -> single-word cuts, sustained words -> elastic stretch, instrumental gaps -> hero artwork), reduced-motion and readable-lyrics modes, flash limiter.
-- Canvas 2D renderer. Spotify artwork is shown unmodified (no masks, tilt or recolouring) by policy.
+- `lib/kinetic`: compile lyrics to a deterministic timeline, `computeFrame(timeline, t, viewport)` is a **pure function**, so seeking to any timestamp reproduces the exact frame. Six styles, rule-based motion director (hooks -> burst + inverted background, fast passages -> single-word cuts, sustained words -> elastic stretch, instrumental gaps -> a generative "interlude" show), reduced-motion and readable-lyrics modes, flash limiter.
+- Canvas 2D renderer. Album art is used only as a blurred, palette-matched background (Spotify art-modification policy waived for personal use).
+
+- Mood-aware look: lexicon+tempo emotion detection per line, album palette extraction, color modes (Blend / Album / Mood), emoji stickers keyed to lyric words, 18 original vector doodles, one shared sync delay across songs (per Spotify / local) with a per-song option.
 
 ### M3 Party core
 - Roles (host / cohost / member / guest), hashed + expiring + revocable invites, passcodes (scrypt), event-bound guest tokens, fair queue ordering, duplicate detection, voting, moderation, bans, reports, audit log.
@@ -66,3 +68,15 @@ Node worker instead of Python (no Python on this machine), Canvas 2D determinist
 - Crossfades between clips (xfade), face-free "activity" scoring for video, Demucs/WhisperX are not implemented.
 - Multi-user listening rooms and concert memories (P2/P3) are not implemented.
 - Accessibility pass is partial (keyboard + reduced motion + ARIA on custom controls); no screen-reader audit yet.
+
+## Performance notes (visualizer)
+
+Measured with `renderer.bench()` (forces a GPU flush) on a software-rendered browser, hook scenes, maximalist: **253 ms -> 17 ms per frame**.
+The cost was never the doodles; it was colour-emoji glyphs re-rasterised at a new size every frame (~180 ms), a blend-mode film-grain overlay (~20 ms),
+per-word blur filters and shadowBlur, and a giant repeated marquee string. Fixes: cached emoji sprites, cached marquee strips, grain/halftone baked with alpha
+and painted with plain source-over, one-call scanline/grid strokes, cached text measurements, and a device-pixel budget (DPR is capped, so 4K fullscreen is bounded).
+`FrameGovernor` (lib/kinetic/governor.ts) lowers quality automatically when the median frame interval exceeds ~24 ms (high -> medium -> low: fewer doodles/emoji, no grain/halftone/marquee, lower DPR)
+and only recovers after 25 s of smooth frames. Settings -> Performance: auto / high / balanced / light. The timing editor's lyric rows are memoised so only the active word re-renders.
+
+Album art is a soft, blurred background wash (never a card). When there is no singing (intros, breaks, instrumentals, or songs with no lyrics) the stage runs an interlude show instead: aurora lights, beat rings, ribbons, particles, orbiting doodles, a mood emoji and a title marquee, all in the cover palette and cheaper than a lyric frame (~6 ms vs ~6 ms in headless Edge).
+Cover cues used: dominant colors, brightness (bright covers get a bright ground), focal point (glow + doodle gathering).

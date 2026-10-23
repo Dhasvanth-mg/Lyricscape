@@ -1,0 +1,5 @@
+onlyBuiltDependencies:
+  - ffmpeg-static
+ignoredBuiltDependencies:
+  - unrs-resolver
+  - sharp

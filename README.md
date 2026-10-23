@@ -4,6 +4,33 @@
 
 **Status:** product specification, ready for implementation. **Primary stack:** Next.js + Vercel + Supabase. **Philosophy:** free-first, mobile-first, real features, no AI-generated pictures required.
 
+## Local quick start (what is built)
+
+Runs entirely on your machine: **no Supabase, no Vercel, no cloud**. Data lives in `.data/`.
+
+```bash
+pnpm install
+pnpm dev:all          # web app (http://127.0.0.1:3000) + media worker
+# or: pnpm dev        # web app only (recaps need `pnpm worker` in a second terminal)
+```
+
+Open **http://127.0.0.1:3000** (use `127.0.0.1`, not `localhost`: Spotify requires it).
+
+**Lyrics while you chill with Spotify:** Settings -> paste your Spotify Client ID (register the redirect URI shown there) -> Connect.
+Play anything in the Spotify app/phone/speaker and press **L** (or "Lyrics stage"): lyrics follow along. Turn on *Automatically look up lyrics* in Settings
+(LRCLIB, an open lyrics API) or paste/import your own. Nudge timing with the sync slider. Spotify provides no lyrics itself, and nothing scrapes lyrics sites.
+
+| Command | What it does |
+|---|---|
+| `pnpm test` | 198 unit/integration tests (analysis vs. ground truth, security, privacy, jobs, real FFmpeg renders) |
+| `pnpm lint` / `pnpm typecheck` | ESLint / TypeScript |
+| `pnpm build && pnpm test:e2e` | production build + Playwright smoke tests (uses installed Edge) |
+| `pnpm smoke` | HTTP-level party smoke test against a running app |
+| `pnpm demo:generate` | regenerate the CC0 demo songs, lyrics and artwork |
+
+Status, deviations from this spec, and known gaps: [`docs/implementation-log.md`](docs/implementation-log.md), [`docs/architecture.md`](docs/architecture.md),
+[`docs/spotify-compliance.md`](docs/spotify-compliance.md), [`docs/media-rights.md`](docs/media-rights.md).
+
 ## 1. Product vision
 
 Lyricscape makes music a richer personal and social experience. The player is the center of the app, not a bolt-on. Around it are four experiences:

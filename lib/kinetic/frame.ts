@@ -276,6 +276,26 @@ function backgroundFor(
       c0 = mix('#070314', dark, 0.5);
       c1 = mix(dark, a2, 0.28 + invert * 0.4);
       break;
+    case 'noir': // night-black ground with a breath of the cover colour (neon, VHS)
+      c0 = mix('#04030a', dark, 0.35 + invert * 0.3);
+      c1 = mix('#090818', a2, 0.14 + invert * 0.4);
+      break;
+    case 'sunset':
+      c0 = mix('#14062e', dark, 0.25);
+      c1 = mix('#6a1b6e', a0, 0.25 + invert * 0.35);
+      break;
+    case 'notebook':
+      c0 = mix('#f6f0e1', a0, 0.06 + invert * 0.2);
+      c1 = mix('#ece4d0', a1, 0.08 + invert * 0.2);
+      break;
+    case 'aurora':
+      c0 = mix('#050914', dark, 0.4 + invert * 0.2);
+      c1 = mix('#0a1224', a1, 0.2 + invert * 0.3);
+      break;
+    case 'pop':
+      c0 = mix('#ffd23f', a1, 0.1 + invert * 0.45);
+      c1 = mix('#ff4f5e', a0, 0.14 + invert * 0.45);
+      break;
     default:
       if (tl.cover && tl.cover.light > 0.62 && invert < 0.5) {
         // a bright cover gets a bright ground in its own colors instead of a heavy dark slab
@@ -654,7 +674,7 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
   const artwork: Frame['artwork'] = {
     mode: artworkMode,
     hero,
-    alpha: artMode === 'off' ? 0 : lerp(style.background === 'mono' ? 0.18 : 0.36, 0.55, interludeAmt),
+    alpha: artMode === 'off' ? 0 : lerp(style.artwork ?? (style.background === 'mono' ? 0.18 : 0.36), Math.max(style.artwork ?? 0.55, 0.3), interludeAmt),
     scale: lerp(1.05, 0.62, hero) * (1 + beat.pulse * 0.03 * motionScale) + sceneProgress * 0.03 * motionScale,
     rotationDeg: lerp(0, -4 + Math.sin(tMs / 1800) * 3 * motionScale, hero),
     x: lerp(0, 0, hero),
@@ -706,7 +726,7 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     camera,
     overlays: {
       grain: style.grain,
-      vignette: 0.55,
+      vignette: style.vignette ?? 0.55,
       halftone: style.halftone * (1 - hero * 0.6),
       flash: reduced ? 0 : Math.min(0.12, beat.pulse * 0.12 * (strongKick ? 1 : 0.4) * style.beatShake * motionScale),
       scanlines: style.scanlines,
@@ -721,7 +741,21 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     words,
     textColor: bgInfo.textColor,
     accent: bgInfo.accent,
+    caption: captionFor(tl, primary, tMs, interludeAmt, reduced),
   };
+}
+
+/** The next line, quietly, in the last stretch of the current one: enough to sing along without stealing the stage. */
+function captionFor(tl: VisualTimeline, primary: Scene | null, tMs: number, interludeAmt: number, reduced: boolean): Frame['caption'] {
+  if (!primary || interludeAmt > 0.2) return null;
+  const next = tl.scenes[primary.lineIndex + 1] ?? tl.scenes.find((s) => s.startMs > primary.startMs);
+  if (!next || next.startMs - primary.endMs > 6000) return null;
+  const from = primary.startMs + (primary.endMs - primary.startMs) * 0.3;
+  const appear = smoothstep(from, from + 350, tMs);
+  const gone = 1 - smoothstep(next.startMs - LEAD_MS - 80, next.startMs - LEAD_MS + 120, tMs);
+  const alpha = (reduced ? 1 : appear) * gone;
+  if (alpha < 0.02) return null;
+  return { text: next.words.map((w) => w.text).join(' '), alpha };
 }
 
 // ---------------------------------------------------------------------------
@@ -745,6 +779,8 @@ type PoseArgs = {
   hook: boolean;
   env: FrameEnv;
 };
+
+const POP_FILLS = ['#fffdf5', '#ffe14d', '#7df0ff', '#ff9ec7'];
 
 function poseWord(a: PoseArgs): DrawWord | null {
   const { style, scene, cue, wi, item, tMs, W, H, S, intensity, reduced, beat, bgInfo } = a;
@@ -916,9 +952,14 @@ function poseWord(a: PoseArgs): DrawWord | null {
   const active = tMs >= cue.startMs && tMs < cue.endMs;
   const sung = tMs >= cue.endMs;
   const wordIndexColor = bgInfo.wordColors[(hid + wi) % bgInfo.wordColors.length]!;
-  let fill = style.id === 'maximalist' || style.id === 'custom' || style.id === 'y2k' ? wordIndexColor : bgInfo.textColor;
-  if (active) fill = bgInfo.accent;
-  else if (sung && style.id === 'minimal') fill = mix(bgInfo.textColor, bgInfo.c0, 0.35);
+  const multicolor = style.id === 'maximalist' || style.id === 'custom' || style.id === 'y2k' || !!style.text?.multicolor;
+  let fill = multicolor ? wordIndexColor : bgInfo.textColor;
+  if (active) fill = style.text?.highlight ? bgInfo.textColor : bgInfo.accent; // a highlighter swipe sits behind the ink
+  else if (sung && (style.id === 'minimal' || style.id === 'aurora' || style.id === 'notebook')) fill = mix(bgInfo.textColor, bgInfo.c0, style.id === 'notebook' ? 0.3 : 0.35);
+  const tx = style.text;
+  const outline = !!tx?.outline;
+  // outlined (comic) type needs a bright fill so the ink outline and shadow frame it instead of swallowing it
+  if (outline) fill = active ? '#ffffff' : POP_FILLS[(hid + wi) % POP_FILLS.length]!;
 
   return {
     id: cue.id,
@@ -933,8 +974,13 @@ function poseWord(a: PoseArgs): DrawWord | null {
     skewX: skew,
     alpha: clamp(alpha),
     fill,
-    stroke: style.chromeText ? bgInfo.accent : undefined,
-    strokeWidth: style.chromeText ? Math.max(2, item.size * 0.03) : undefined,
+    stroke: outline ? '#111018' : style.chromeText ? bgInfo.accent : undefined,
+    strokeWidth: outline ? Math.max(3, item.size * 0.075) : style.chromeText ? Math.max(2, item.size * 0.03) : undefined,
+    glow: tx?.glow ? tx.glow * (active ? 1 : 0.7) : undefined,
+    aberration: tx?.aberration ? Math.max(1.5, item.size * 0.018) * (1 + beat.pulse * 0.8) : undefined,
+    shadow: tx?.shadow ? Math.max(3, item.size * 0.055) : undefined,
+    highlight: tx?.highlight && active ? mix(bgInfo.accent, '#fff36b', 0.55) : undefined,
+    gradient: tx?.gradient,
     mask,
     split,
     echo,

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { EMOTIONS, MOTIFS, type ColorMode, type EmotionId, type MotifId } from './emotion';
 
-export const STYLE_IDS = ['maximalist', 'editorial', 'psychedelic', 'minimal', 'y2k', 'custom'] as const;
+export const STYLE_IDS = ['maximalist', 'editorial', 'psychedelic', 'minimal', 'y2k', 'neon', 'vaporwave', 'vhs', 'notebook', 'aurora', 'popart', 'custom'] as const;
 export type StyleId = (typeof STYLE_IDS)[number];
 
 export const PRESET_IDS = ['ticker', 'stack', 'burst', 'drop', 'wave', 'cut'] as const;
@@ -10,7 +10,7 @@ export type PresetId = (typeof PRESET_IDS)[number];
 export const EFFECT_IDS = ['pop', 'slide', 'stretch', 'shake', 'mask', 'float'] as const;
 export type EffectId = (typeof EFFECT_IDS)[number];
 
-export type FontKey = 'display' | 'wide' | 'serif' | 'mono' | 'body';
+export type FontKey = 'display' | 'wide' | 'serif' | 'mono' | 'body' | 'comic' | 'marker';
 
 export const wordCueSchema = z.object({
   id: z.string(),
@@ -19,6 +19,8 @@ export const wordCueSchema = z.object({
   endMs: z.number().nonnegative(),
   emphasis: z.number().min(0).max(1).optional(),
   effect: z.enum(EFFECT_IDS).optional(),
+  /** where this word's times came from: 'none' = shown with its line, not individually timed */
+  timing: z.enum(['authored', 'estimated', 'none']).optional(),
 });
 export type WordCue = z.infer<typeof wordCueSchema>;
 
@@ -79,7 +81,7 @@ export const visualTimelineSchema = z.object({
   emotion: z.object({ overall: moodSchema, basis: z.enum(['lyrics', 'tempo', 'lyrics+tempo', 'none']) }).optional(),
   custom: z
     .object({
-      font: z.enum(['display', 'wide', 'serif', 'mono', 'body']).optional(),
+      font: z.enum(['display', 'wide', 'serif', 'mono', 'body', 'comic', 'marker']).optional(),
       intensity: z.number().min(0).max(2).optional(),
       uppercase: z.boolean().optional(),
     })
@@ -114,6 +116,16 @@ export type DrawWord = {
   z: number;
   /** Fit hint: renderer shrinks the word so it never exceeds this width in px */
   maxWidthPx: number;
+  /** soft halo around the glyphs, 0..1 (neon, aurora) */
+  glow?: number;
+  /** red/cyan channel split in px (VHS) */
+  aberration?: number;
+  /** hard, flat drop shadow offset in px (pop art) */
+  shadow?: number;
+  /** marker swipe painted behind the word (notebook) */
+  highlight?: string;
+  /** vertical glyph gradient */
+  gradient?: 'chrome' | 'sunset';
 };
 
 export type DrawDoodle = {
@@ -141,6 +153,9 @@ export type Interlude = { amount: number; aurora: Aurora[]; rings: Ring[]; ribbo
 
 export type MarqueeRow = { text: string; y: number; offsetX: number; sizePx: number; alpha: number; font: FontKey; color: string };
 
+/** A quiet preview of the line that comes next, so you can sing along. */
+export type Caption = { text: string; alpha: number };
+
 export type Frame = {
   tMs: number;
   sceneId: string | null;
@@ -163,6 +178,7 @@ export type Frame = {
   words: DrawWord[];
   textColor: string;
   accent: string;
+  caption: Caption | null;
 };
 
 export type FrameEnv = {

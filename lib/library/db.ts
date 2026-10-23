@@ -23,6 +23,17 @@ export type StoredLyrics = {
   source: string; // provenance, e.g. "user-supplied", "LRCLIB (community)"
   synced: boolean;
   savedAt: number;
+  /** LRCLIB record id, so "try another version" can skip what was already shown */
+  versionId?: number;
+  tried?: number[];
+  /**
+   * Who made these timestamps. 'lrclib' / 'lyricsfile' came from a lookup and may be swapped for another version;
+   * 'user' (pasted/imported), 'edited' (hand-timed) and 'auto-aligned' belong to the user and are never replaced
+   * by a lookup. Absent on records saved before this field existed: treated as the user's (never overwritten).
+   */
+  origin?: 'lrclib' | 'lyricsfile' | 'user' | 'edited' | 'auto-aligned';
+  /** how well the looked-up recording matched the track, for the UI */
+  match?: import('../types').MatchInfo;
 };
 
 export type StoredPlaylist = { id: string; title: string; trackIds: string[]; tracks: Track[]; createdAt: number; updatedAt: number };

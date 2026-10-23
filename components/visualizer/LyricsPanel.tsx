@@ -1,9 +1,12 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { FileUp, Search, Trash2 } from 'lucide-react';
-import type { Track } from '@/lib/types';
+import { useEffect, useRef, useState } from 'react';
+import { FileUp, Search, Trash2, Wand2 } from 'lucide-react';
+import type { LyricDocument, Track } from '@/lib/types';
 import { removeLyrics, saveUserLyrics } from '@/lib/lyrics/service';
+import { alignWithLocalAligner, alignerStatus, hasReadableAudio, type AlignerStatus } from '@/lib/lyrics/autoalign';
+import { kvSet } from '@/lib/library/db';
+import { timingSummary } from '@/lib/lyrics/parse';
 import { Button, Chip, Spinner } from '@/components/ui/bits';
 import { TimingEditor } from './TimingEditor';
 import type { useLyrics } from './useLyrics';
@@ -15,6 +18,32 @@ export function LyricsPanel({ track, lyrics }: { track: Track; lyrics: L }) {
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [tab, setTab] = useState<'add' | 'timing'>(lyrics.doc ? 'timing' : 'add');
   const fileRef = useRef<HTMLInputElement>(null);
+  const [aligner, setAligner] = useState<AlignerStatus | null>(null);
+  const [aligning, setAligning] = useState(false);
+  const [reviewRev, setReviewRev] = useState(0);
+  const canAlign = hasReadableAudio(track) && !!lyrics.doc;
+  useEffect(() => {
+    if (canAlign) void alignerStatus().then(setAligner);
+  }, [canAlign, track.id]);
+
+  /** Runs the local aligner, then opens the result in the timing editor as an UNSAVED draft to review. */
+  const autoAlign = async () => {
+    if (!lyrics.doc) return;
+    setAligning(true);
+    setMsg(null);
+    try {
+      const proposal = await alignWithLocalAligner(track, lyrics.doc, { separate: true });
+      await kvSet(`draft:${track.id}`, proposal);
+      setReviewRev((n) => n + 1);
+      setTab('timing');
+      const notes = proposal.timing?.notes ?? [];
+      setMsg({ ok: notes.length === 0, text: `Aligned. Nothing is saved yet: words with an amber ring are low confidence, check them, then Save.${notes.length ? ' ' + notes.join(' ') : ''}` });
+    } catch (e) {
+      setMsg({ ok: false, text: (e as Error).message });
+    } finally {
+      setAligning(false);
+    }
+  };
 
   const save = async (raw: string, source: string) => {
     try {
@@ -32,7 +61,7 @@ export function LyricsPanel({ track, lyrics }: { track: Track; lyrics: L }) {
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <h2 className="font-display text-2xl tracking-wide uppercase">Lyrics</h2>
         {lyrics.source && <Chip tone="good">{lyrics.source}</Chip>}
-        {lyrics.doc && <Chip>{lyrics.doc.source}</Chip>}
+        {lyrics.doc && <TimingChips doc={lyrics.doc} />}
         <div className="ml-auto flex gap-1 rounded-full bg-ink-800 p-1 text-sm">
           {(['add', 'timing'] as const).map((t) => (
             <button
@@ -67,6 +96,11 @@ export function LyricsPanel({ track, lyrics }: { track: Track; lyrics: L }) {
                 if (f) await save(await f.text(), `user-supplied (${f.name})`);
               }}
             />
+            {canAlign && (
+              <Button size="sm" onClick={() => void autoAlign()} disabled={aligning || !aligner?.available} title={aligner?.available ? 'Align the lyric text to the audio with the local aligner (English). The result is a draft to review.' : aligner?.reason ?? 'Checking for the local aligner...'}>
+                {aligning ? <Spinner /> : <Wand2 size={14} />} Auto-align from audio
+              </Button>
+            )}
             {lyrics.doc && (
               <Button
                 size="sm"
@@ -110,7 +144,30 @@ export function LyricsPanel({ track, lyrics }: { track: Track; lyrics: L }) {
         </div>
       )}
 
-      {tab === 'timing' && lyrics.doc && <TimingEditor track={track} doc={lyrics.doc} onSaved={() => void lyrics.reload()} />}
+      {canAlign && aligner && !aligner.available && tab === 'add' && (
+        <p className="mt-3 text-xs text-ink-400">Auto-align needs the optional local aligner ({aligner.reason}). It only works on audio files you have here, never on Spotify.</p>
+      )}
+      {msg && tab === 'timing' && (
+        <p role="status" className={msg.ok ? 'mb-2 text-sm text-aqua' : 'mb-2 text-sm text-amber-300'}>
+          {msg.text}
+        </p>
+      )}
+      {tab === 'timing' && lyrics.doc && <TimingEditor key={reviewRev} track={track} doc={lyrics.doc} onSaved={() => void lyrics.reload()} />}
     </div>
+  );
+}
+
+/** What the timing really is: nothing here says "accurate", only where the numbers came from. */
+function TimingChips({ doc }: { doc: LyricDocument }) {
+  const s = timingSummary(doc);
+  const m = doc.timing?.match;
+  const src = doc.timing?.source;
+  return (
+    <>
+      <Chip tone={s.words === 'authored' ? 'good' : 'default'}>{s.label}</Chip>
+      {src === 'edited' && <Chip>Timed by you</Chip>}
+      {src === 'auto-aligned' && <Chip>Auto-aligned{doc.timing?.confidence !== undefined ? ` · confidence ${Math.round(doc.timing.confidence * 100)}%` : ''} · review</Chip>}
+      {m && <Chip tone={m.verdict === 'exact' ? 'good' : 'default'}>{m.verdict === 'exact' ? 'Same length as your track' : m.verdict === 'close' ? `Length differs by ${m.durationDeltaSec}s` : 'Length not checked'}</Chip>}
+    </>
   );
 }

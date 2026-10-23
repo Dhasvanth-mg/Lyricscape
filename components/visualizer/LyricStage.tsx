@@ -13,11 +13,13 @@ import { extractPaletteFromUrl } from '@/lib/kinetic/extractPalette';
 import { FrameGovernor, type QualityLevel } from '@/lib/kinetic/governor';
 import { useUi } from '@/lib/ui-store';
 import { STYLES } from '@/lib/kinetic/styles';
+import { artworkFor } from '@/lib/artwork/forTrack';
 import { STYLE_IDS, type StyleId } from '@/lib/kinetic/types';
-import { player, usePlayer } from '@/lib/player/controller';
-import { kvGet, kvSet } from '@/lib/library/db';
+import { usePlayer, player } from '@/lib/player/controller';
+import { useLyricClock } from './useLyricClock';
 import { Button, IconButton, Spinner } from '@/components/ui/bits';
 import { useLyrics } from './useLyrics';
+import { timingSummary } from '@/lib/lyrics/parse';
 import { LookControls } from './LookControls';
 
 type Props = {
@@ -37,10 +39,11 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<KineticRenderer | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
-  const offsetRef = useRef(0);
   const status = usePlayer((s) => s.status);
 
   const lyrics = useLyrics(track);
+  // the track's cover, or an original generated one: always something to take colors from and wash the background with
+  const artSrc = track ? artworkFor(track) : null;
   const ui = useUi();
   const [albumPalette, setAlbumPalette] = useState<string[] | null>(null);
   const [coverCues, setCoverCues] = useState<{ light: number; focal: { x: number; y: number }; vibrance: number } | null>(null);
@@ -48,7 +51,6 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   const [osReduced, setOsReduced] = useState(false);
   const [forceCalm, setForceCalm] = useState(false);
   const [readable, setReadable] = useState(false);
-  const [trackOffset, setTrackOffset] = useState(0);
   const [controlsVisible, setControlsVisible] = useState(true);
   const [isFs, setIsFs] = useState(false);
   const [ready, setReady] = useState(false);
@@ -65,32 +67,21 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     return () => mq.removeEventListener('change', sync);
   }, []);
 
-  // Sync delay. By default ONE delay is shared by every song (kept separately for Spotify, whose position is
-  // polled, and for local audio, which is exact), so it doesn't reset each track. Turn sharing off for per-song values.
-  const family = track?.provider === 'spotify' ? 'spotify' : 'local';
-  const offsetMs = ui.syncShared ? ui.syncGlobal[family] : trackOffset;
+  // Two separate corrections (lib/player/lyricTime.ts): the device delay is the same for every song; the song offset
+  // belongs to this lyric version. Neither is written into the stored lyrics.
+  const clock = useLyricClock(track);
+  const clockRef = useRef(clock.now);
   useEffect(() => {
-    let cancelled = false;
-    setTrackOffset(0);
-    if (!track || ui.syncShared) return;
-    void kvGet<number>(`offset:${track.id}`).then((v) => {
-      if (!cancelled && typeof v === 'number') setTrackOffset(v);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [track, ui.syncShared]);
-  useEffect(() => {
-    offsetRef.current = offsetMs;
-  }, [offsetMs]);
+    clockRef.current = clock.now;
+  }, [clock.now]);
 
   // album colors: read a few dominant colors from the cover (the cover itself is never altered)
   useEffect(() => {
     let cancelled = false;
     setAlbumPalette(null);
     setCoverCues(null);
-    if (!track?.artworkUrl) return;
-    void extractPaletteFromUrl(track.artworkUrl).then((r) => {
+    if (!artSrc) return;
+    void extractPaletteFromUrl(artSrc).then((r) => {
       if (cancelled || !r) return;
       if (r.vibrance > 0.12) setAlbumPalette(r.palette);
       setCoverCues({ light: r.light, focal: r.focal, vibrance: r.vibrance });
@@ -98,7 +89,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     return () => {
       cancelled = true;
     };
-  }, [track?.artworkUrl]);
+  }, [artSrc]);
 
   // mood from lyrics + tempo (a transparent heuristic), or the one the user picked
   const mood = useMemo(() => {
@@ -120,8 +111,9 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       mood: mood ?? undefined,
       cover: coverCues ?? undefined,
       label: `${track.title} • ${track.artists.join(', ')}`,
+      estimateWords: ui.estimatedWords,
     });
-  }, [track, lyrics.doc, style, albumPalette, mood, coverCues]);
+  }, [track, lyrics.doc, style, albumPalette, mood, coverCues, ui.estimatedWords]);
 
   // renderer lifecycle
   useEffect(() => {
@@ -156,15 +148,15 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     const r = rendererRef.current;
     imgRef.current = null;
     r?.setArtwork(null);
-    if (!track?.artworkUrl) return;
+    if (!artSrc) return;
     const img = new Image();
     img.decoding = 'async';
     img.onload = () => {
       imgRef.current = img;
       rendererRef.current?.setArtwork(img);
     };
-    img.src = track.artworkUrl;
-  }, [track?.artworkUrl, ready]);
+    img.src = artSrc;
+  }, [artSrc, ready]);
 
   // options
   useEffect(() => {
@@ -198,7 +190,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     const loop = (now: number) => {
       const r = rendererRef.current;
       if (r && document.visibilityState === 'visible') {
-        r.render(Math.max(0, player.getPositionMs() + offsetRef.current));
+        r.render(Math.max(0, clockRef.current()));
         if (last && useUi.getState().quality === 'auto') {
           const next = governorRef.current.push(now - last, now);
           if (next) r.setQuality(next);
@@ -240,14 +232,6 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   const toggleFs = () => {
     if (document.fullscreenElement) void document.exitFullscreen();
     else void wrapRef.current?.requestFullscreen?.().catch(() => undefined);
-  };
-
-  const changeOffset = (v: number) => {
-    if (ui.syncShared) ui.setSyncGlobal(family, v);
-    else {
-      setTrackOffset(v);
-      if (track) void kvSet(`offset:${track.id}`, v);
-    }
   };
 
   const noLyrics = track && (lyrics.status === 'missing' || lyrics.status === 'error');
@@ -309,7 +293,24 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
             {EMOTION_DEFS[mood.overall.emotion].emoji} {EMOTION_DEFS[mood.overall.emotion].label}
             <span className="ml-1 opacity-60">· {ui.mood === 'auto' ? mood.basis === 'none' ? 'guess' : mood.basis : 'your pick'}</span>
           </span>
-          {lyrics.doc && <span>Lyrics: {lyrics.source}</span>}
+          {lyrics.doc && (
+            <span>
+              Lyrics: {lyrics.source} · {timingSummary(lyrics.doc).label}
+            </span>
+          )}
+        </div>
+      )}
+      {track && lyrics.doc && lyrics.versionId != null && (
+        <div className={clsx('absolute right-4 bottom-20 z-10 transition-opacity duration-300', controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0')}>
+          <button
+            onClick={() => void lyrics.anotherVersion()}
+            disabled={lyrics.searching}
+            className="rounded-full border border-white/20 bg-black/55 px-3 py-1.5 text-xs font-semibold backdrop-blur transition hover:border-white/50 disabled:opacity-50"
+            title="Lyrics drifting against your copy? Try another recorded version of this song."
+          >
+            {lyrics.searching ? 'Looking…' : 'Lyrics off? Try another version'}
+          </button>
+          {lyrics.message && <p className="mt-1 max-w-56 text-right text-[11px] text-white/70">{lyrics.message}</p>}
         </div>
       )}
 
@@ -373,31 +374,48 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
           </button>
           <div className="ml-auto flex items-center gap-2 text-xs text-ink-200">
             <Gauge size={14} aria-hidden />
-            <label htmlFor="sync-offset" className="whitespace-nowrap">
-              Sync {offsetMs > 0 ? '+' : ''}
-              {offsetMs} ms
-            </label>
-            <input
-              id="sync-offset"
-              type="range"
-              className="seek w-32"
-              min={-3000}
-              max={3000}
-              step={50}
-              value={offsetMs}
-              style={{ ['--pct' as string]: `${((offsetMs + 3000) / 6000) * 100}%` }}
-              onChange={(e) => changeOffset(Number(e.target.value))}
+            <OffsetSlider
+              id="sync-device"
+              label="Device"
+              title={`How far this ${clock.family === 'spotify' ? 'Spotify device' : 'speaker / Bluetooth link'} is off. Same for every song, set it once. Positive = lyrics sooner.`}
+              value={clock.device}
+              onChange={clock.setDevice}
             />
-            <button className="underline" onClick={() => changeOffset(0)}>
-              reset
-            </button>
-            <label className="ml-2 inline-flex cursor-pointer items-center gap-1.5 whitespace-nowrap" title="Keep one delay for every song instead of resetting per track">
-              <input type="checkbox" checked={ui.syncShared} onChange={(e) => ui.set({ syncShared: e.target.checked })} className="accent-[var(--color-signal)]" />
-              same for all {family === 'spotify' ? 'Spotify ' : ''}songs
-            </label>
+            <OffsetSlider
+              id="sync-song"
+              label="This song"
+              title="Fixes THIS lyric version against THIS recording (saved for the song, not in the lyrics). Positive = lyrics sooner."
+              value={clock.trackOffset}
+              onChange={clock.setTrackOffset}
+            />
           </div>
         </div>
       )}
     </div>
+  );
+}
+
+function OffsetSlider({ id, label, title, value, onChange }: { id: string; label: string; title: string; value: number; onChange: (ms: number) => void }) {
+  return (
+    <span className="inline-flex items-center gap-1.5" title={title}>
+      <label htmlFor={id} className="whitespace-nowrap">
+        {label} {value > 0 ? '+' : ''}
+        {value} ms
+      </label>
+      <input
+        id={id}
+        type="range"
+        className="seek w-24"
+        min={-3000}
+        max={3000}
+        step={50}
+        value={value}
+        style={{ ['--pct' as string]: `${((value + 3000) / 6000) * 100}%` }}
+        onChange={(e) => onChange(Number(e.target.value))}
+      />
+      <button className="underline" onClick={() => onChange(0)} aria-label={`Reset ${label.toLowerCase()} offset`}>
+        reset
+      </button>
+    </span>
   );
 }

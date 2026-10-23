@@ -1,0 +1,66 @@
+{
+  "clock in sync, quiet network": {
+    "old": {
+      "p50": 0,
+      "p95": 0,
+      "max": 0
+    },
+    "new": {
+      "p50": 0,
+      "p95": 0,
+      "max": 0
+    }
+  },
+  "clock 3 s ahead": {
+    "old": {
+      "p50": 1908,
+      "p95": 1944,
+      "max": 1964
+    },
+    "new": {
+      "p50": 2,
+      "p95": 8,
+      "max": 11
+    }
+  },
+  "clock 5 s behind": {
+    "old": {
+      "p50": 97,
+      "p95": 890,
+      "max": 979
+    },
+    "new": {
+      "p50": 3,
+      "p95": 7,
+      "max": 12
+    }
+  },
+  "clock 45 s ahead": {
+    "old": {
+      "p50": 1899,
+      "p95": 1935,
+      "max": 1954
+    },
+    "new": {
+      "p50": 6,
+      "p95": 10,
+      "max": 11
+    }
+  },
+  "jittery network + 0.2% drift": {
+    "old": {
+      "p50": 775,
+      "p95": 778,
+      "max": 779
+    },
+    "new": {
+      "p50": 12,
+      "p95": 21,
+      "max": 23
+    }
+  },
+  "seek during in-flight poll": {
+    "old": 139700,
+    "new": 0
+  }
+}

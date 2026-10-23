@@ -254,6 +254,7 @@ export class KineticRenderer {
     ctx.translate(-W / 2, -H / 2);
 
     if (tl.style === 'y2k') this.drawGrid(frame, W, H);
+    if (style.scene) this.drawScenery(style.scene, frame, W, H);
     this.drawArtwork(frame, W, H);
     if (frame.overlays.halftone > 0.01 && prof.halftone) this.drawHalftone(frame, tl, W, H);
     this.drawMarquee(frame, style, prof.marqueeRows, W, H);
@@ -287,6 +288,10 @@ export class KineticRenderer {
       ctx.restore();
     }
     ctx.restore();
+
+    // ---- next-line preview (screen space, quiet) -----------------------------------------------------
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (frame.caption && frame.caption.alpha > 0.02) this.drawCaption(frame, style, W, H);
 
     // ---- overlays (screen space) ------------------------------------------------------------------
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -472,8 +477,60 @@ export class KineticRenderer {
         g.addColorStop(0.52, '#1b1030');
         g.addColorStop(1, w.fill);
         ctx.fillStyle = g;
+      } else if (w.gradient === 'sunset') {
+        const g = ctx.createLinearGradient(0, -size / 2, 0, size / 2);
+        g.addColorStop(0, '#ffe66d');
+        g.addColorStop(0.5, '#ff5ea8');
+        g.addColorStop(1, '#46e3ff');
+        ctx.fillStyle = g;
       } else {
         ctx.fillStyle = w.fill;
+      }
+      // text treatments (skipped on the light profile and on the split halves)
+      if (!clip && this.options.quality !== 'low') {
+        const base = ctx.globalAlpha;
+        if (w.highlight) {
+          ctx.save();
+          ctx.globalAlpha = base * 0.8;
+          ctx.fillStyle = w.highlight;
+          ctx.beginPath();
+          const pad = size * 0.08;
+          ctx.roundRect(-textWidth / 2 - pad, -size * 0.3, textWidth + pad * 2, size * 0.62, size * 0.1);
+          ctx.fill();
+          ctx.restore();
+        }
+        if (w.shadow) {
+          ctx.save();
+          ctx.translate(w.shadow, w.shadow);
+          ctx.fillStyle = '#111018';
+          ctx.strokeStyle = '#111018';
+          ctx.lineJoin = 'round';
+          ctx.lineWidth = w.strokeWidth ?? 2;
+          ctx.strokeText(w.text, 0, 0);
+          ctx.fillText(w.text, 0, 0);
+          ctx.restore();
+        }
+        if (w.glow) {
+          // soft halo from three widening translucent strokes (a real shadowBlur costs ~10x more)
+          ctx.save();
+          ctx.strokeStyle = w.gradient ? '#ff5ea8' : w.fill;
+          ctx.lineJoin = 'round';
+          for (const [k, a] of [[0.2, 0.07], [0.11, 0.12], [0.05, 0.2]] as const) {
+            ctx.globalAlpha = base * a * w.glow * 2.2;
+            ctx.lineWidth = size * k * w.glow;
+            ctx.strokeText(w.text, 0, 0);
+          }
+          ctx.restore();
+        }
+        if (w.aberration) {
+          ctx.save();
+          ctx.globalAlpha = base * 0.7;
+          ctx.fillStyle = '#ff2a55';
+          ctx.fillText(w.text, -w.aberration, 0);
+          ctx.fillStyle = '#19e3ff';
+          ctx.fillText(w.text, w.aberration, 0);
+          ctx.restore();
+        }
       }
       if (w.stroke) {
         ctx.lineJoin = 'round';
@@ -548,7 +605,7 @@ export class KineticRenderer {
 
   /** Halftone dots are baked into a bitmap WITH their color; drawing it is a plain source-over blit (no blend mode). */
   private drawHalftone(frame: Frame, tl: VisualTimeline, W: number, H: number) {
-    const dots = frame.bg.invert ? 'rgba(0,0,0,0.5)' : (frame.palette[0] ?? tl.palette[0] ?? '#fff');
+    const dots = frame.bg.invert ? 'rgba(0,0,0,0.5)' : tl.style === 'popart' ? mix(frame.bg.c1, '#8a0f33', 0.55) : (frame.palette[0] ?? tl.palette[0] ?? '#fff');
     const key = `${dots}|${Math.round(W)}x${Math.round(H)}`;
     let c = this.halftoneCache.get(key);
     if (!c) {
@@ -578,6 +635,103 @@ export class KineticRenderer {
     this.ctx.globalAlpha = frame.overlays.halftone * (frame.bg.invert ? 0.6 : 0.8);
     this.ctx.drawImage(c, 0, 0, W, H);
     this.ctx.restore();
+  }
+
+  private drawCaption(frame: Frame, style: (typeof STYLES)[keyof typeof STYLES], W: number, H: number) {
+    const ctx = this.ctx;
+    const cap = frame.caption!;
+    const S = Math.min(H, W * 0.9);
+    let size = Math.max(13, S * 0.04);
+    const def = { ...style.fonts.body, weight: 600, uppercase: false };
+    this.setFont(fontCss(def, size), 0);
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const wide = ctx.measureText(cap.text).width;
+    if (wide > W * 0.86) {
+      size *= (W * 0.86) / wide;
+      this.setFont(fontCss(def, size), 0);
+    }
+    ctx.globalAlpha = Math.min(1, cap.alpha) * 0.55;
+    ctx.fillStyle = frame.textColor;
+    ctx.fillText(cap.text, W / 2, H - Math.max(26, S * 0.075));
+    ctx.restore();
+  }
+
+  /** Backdrop scenery for themes that have a place, not just a colour. All plain gradients/strokes, cached where static. */
+  private sceneCache = new Map<string, HTMLCanvasElement>();
+  private drawScenery(kind: 'sunset' | 'notebook' | 'aurora', frame: Frame, W: number, H: number) {
+    const ctx = this.ctx;
+    const t = frame.tMs / 1000;
+    if (kind === 'sunset') {
+      const horizon = H * 0.56;
+      const R = Math.min(W, H) * 0.3;
+      const key = `sun|${Math.round(W)}x${Math.round(H)}`;
+      let sun = this.sceneCache.get(key);
+      if (!sun) {
+        sun = document.createElement('canvas');
+        sun.width = Math.ceil(R * 2);
+        sun.height = Math.ceil(R * 2);
+        const c = sun.getContext('2d')!;
+        const g = c.createLinearGradient(0, 0, 0, R * 2);
+        g.addColorStop(0, '#ffe66d');
+        g.addColorStop(0.55, '#ff6b9d');
+        g.addColorStop(1, '#c13cff');
+        c.fillStyle = g;
+        c.beginPath();
+        c.arc(R, R, R, 0, Math.PI * 2);
+        c.fill();
+        c.globalCompositeOperation = 'destination-out';
+        for (let i = 0; i < 7; i++) c.fillRect(0, R * (1.05 + i * 0.13), R * 2, R * (0.015 + i * 0.022));
+        this.sceneCache.set(key, sun);
+        if (this.sceneCache.size > 8) this.sceneCache.delete(this.sceneCache.keys().next().value as string);
+      }
+      ctx.save();
+      ctx.globalAlpha = 0.9;
+      ctx.drawImage(sun, W / 2 - R, horizon - R * 1.15 + Math.sin(t / 3) * R * 0.02);
+      const ground = ctx.createLinearGradient(0, horizon, 0, H);
+      ground.addColorStop(0, 'rgba(255,94,168,0.35)');
+      ground.addColorStop(0.08, 'rgba(14,4,36,0.92)');
+      ground.addColorStop(1, 'rgba(8,2,22,0.98)');
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = ground;
+      ctx.fillRect(0, horizon, W, H - horizon);
+      ctx.restore();
+      this.drawGrid(frame, W, H);
+    } else if (kind === 'notebook') {
+      const S = Math.min(H, W * 0.9);
+      const step = Math.max(24, S * 0.075);
+      ctx.save();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(70,110,200,0.26)';
+      ctx.beginPath();
+      for (let y = step * 1.5; y < H; y += step) {
+        ctx.moveTo(0, y);
+        ctx.lineTo(W, y);
+      }
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(220,70,70,0.4)';
+      ctx.beginPath();
+      ctx.moveTo(W * 0.1, 0);
+      ctx.lineTo(W * 0.1, H);
+      ctx.stroke();
+      ctx.restore();
+    } else {
+      const R = Math.max(W, H) * 0.55;
+      ctx.save();
+      for (let k = 0; k < 3; k++) {
+        const color = frame.palette[k] ?? frame.accent;
+        const x = W * (0.2 + k * 0.3 + Math.sin(t / (5 + k * 1.7) + k * 2) * 0.12);
+        const y = H * (0.4 + Math.sin(t / (6 + k) + k * 1.3) * 0.22);
+        const g = ctx.createRadialGradient(x, y, 0, x, y, R * (0.8 + k * 0.1));
+        g.addColorStop(0, color);
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.globalAlpha = 0.34 + frame.beat.pulse * 0.08;
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, W, H);
+      }
+      ctx.restore();
+    }
   }
 
   private drawGrid(frame: Frame, W: number, H: number) {

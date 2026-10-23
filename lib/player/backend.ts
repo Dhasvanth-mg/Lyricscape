@@ -30,6 +30,8 @@ export interface PlaybackBackend {
   setVolume(volume: number, muted: boolean): void;
   /** Authoritative-estimate position, cheap enough to call every animation frame. */
   positionMs(): number;
+  /** Delay between this position and the sound leaving the speakers, when the platform reports one. */
+  outputLatencyMs?(): number;
   dispose(): void;
 }
 

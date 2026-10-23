@@ -131,6 +131,14 @@ export class LocalBackend implements PlaybackBackend {
     return this.audio.currentTime * 1000;
   }
 
+  /** The element's clock runs ahead of what you hear by the audio stack's latency (the graph is routed through ctx). */
+  outputLatencyMs() {
+    const c = this.ctx;
+    if (!c) return 0;
+    const ms = ((c.baseLatency || 0) + ((c as AudioContext & { outputLatency?: number }).outputLatency || 0)) * 1000;
+    return Number.isFinite(ms) ? Math.min(500, Math.max(0, ms)) : 0;
+  }
+
   /** Lazily create the Web Audio graph (needed for bass/waveform visualisation of local audio). */
   private async ensureContext() {
     if (this.ctx) {

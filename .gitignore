@@ -10,3 +10,10 @@ playwright-report
 .DS_Store
 public/vendor
 .data-e2e
+
+# optional lyric aligner: environment, downloaded dataset, raw outputs
+tools/aligner/.venv
+tools/aligner/data
+tools/aligner/results/aligned_*.json
+tools/aligner/results/heuristic_*.json
+tools/aligner/__pycache__

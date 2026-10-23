@@ -31,11 +31,13 @@ export default function SettingsPage() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  const [auto, setAuto] = useState(false);
+  const [auto, setAuto] = useState(true);
   const [redirect, setRedirect] = useState('');
   const [localhost, setLocalhost] = useState(false);
   const style = useUi((s) => s.style);
   const setStyle = useUi((s) => s.setStyle);
+  const estimatedWords = useUi((s) => s.estimatedWords);
+  const setUi = useUi((s) => s.set);
 
   useEffect(() => {
     setCid(getClientId() ?? '');
@@ -232,6 +234,20 @@ export default function SettingsPage() {
             <span className="block font-semibold">Automatically look up lyrics for songs I play</span>
             <span className="text-sm text-ink-300">
               Uses LRCLIB, an open lyrics database. Sends the song title, artist and length only, never your account or listening history. Found lyrics are saved on this device. You can always paste your own.
+            </span>
+          </span>
+        </label>
+        <label className="mt-4 flex cursor-pointer items-start gap-3">
+          <input
+            type="checkbox"
+            checked={estimatedWords}
+            onChange={(e) => setUi({ estimatedWords: e.target.checked })}
+            className="mt-1 h-4 w-4 accent-[var(--color-signal)]"
+          />
+          <span>
+            <span className="block font-semibold">Word-by-word motion on line-synced lyrics (estimated)</span>
+            <span className="text-sm text-ink-300">
+              Most online lyrics only say when each <em>line</em> starts. Off: a line appears as a unit, exactly on time. On: words are animated one after another from a guess of the word timing, which can be a few hundred milliseconds off. Lyrics with real word timing always animate word by word.
             </span>
           </span>
         </label>

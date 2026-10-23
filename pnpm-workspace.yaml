@@ -3,3 +3,7 @@ onlyBuiltDependencies:
 ignoredBuiltDependencies:
   - unrs-resolver
   - sharp
+allowBuilds:
+  esbuild: true
+  ffmpeg-static: true
+  unrs-resolver: false

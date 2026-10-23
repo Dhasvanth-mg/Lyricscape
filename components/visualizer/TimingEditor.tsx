@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { Crosshair, Redo2, Save, Undo2 } from 'lucide-react';
 import clsx from 'clsx';
 import type { LyricDocument, Track } from '@/lib/types';
@@ -9,7 +9,6 @@ import { saveEditedDocument } from '@/lib/lyrics/service';
 import { player } from '@/lib/player/controller';
 import { kvGet, kvSet } from '@/lib/library/db';
 import { Button, IconButton } from '@/components/ui/bits';
-import { usePosition } from '@/components/player/hooks';
 
 type Sel = { line: number; word: number } | null;
 
@@ -39,7 +38,9 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
   const [sel, setSel] = useState<Sel>(null);
   const [dirty, setDirty] = useState(false);
   const [saved, setSaved] = useState<string | null>(null);
-  const pos = usePosition(true, 10);
+  // Only the *indices* of the active line/word live in state, so the (potentially hundreds of) word buttons
+  // re-render when the singer moves on, not 10x a second.
+  const [cursor, setCursor] = useState({ line: -1, word: -1 });
   const listRef = useRef<HTMLDivElement>(null);
   const draftKey = `draft:${track.id}`;
 
@@ -65,13 +66,27 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
   }, [work, dirty, draftKey]);
 
   const problems = useMemo(() => validateDocument(work), [work]);
-  const activeLine = useMemo(() => {
-    let idx = -1;
-    work.lines.forEach((l, i) => {
-      if (pos >= l.startMs) idx = i;
-    });
-    return idx;
-  }, [work, pos]);
+  useEffect(() => {
+    let raf = 0;
+    const tick = () => {
+      const p = player.getPositionMs();
+      let li = -1;
+      for (let i = 0; i < work.lines.length; i++) {
+        if (p >= work.lines[i]!.startMs) li = i;
+        else break;
+      }
+      let wi = -1;
+      if (li >= 0) {
+        const words = work.lines[li]!.words;
+        for (let j = 0; j < words.length; j++) if (p >= words[j]!.startMs && p < words[j]!.endMs) wi = j;
+      }
+      setCursor((c) => (c.line === li && c.word === wi ? c : { line: li, word: wi }));
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [work]);
+  const activeLine = cursor.line;
 
   useEffect(() => {
     const el = listRef.current?.querySelector<HTMLElement>(`[data-line="${activeLine}"]`);
@@ -192,36 +207,15 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
       )}
       <div ref={listRef} className="max-h-[360px] overflow-y-auto p-2" role="listbox" aria-label="Lyric lines">
         {work.lines.map((line, li) => (
-          <div key={li} data-line={li} className={clsx('flex items-start gap-2 rounded-lg px-2 py-1.5', li === activeLine && 'bg-ink-800')}>
-            <button
-              className="mt-0.5 w-16 shrink-0 text-left font-mono text-[11px] text-ink-400 hover:text-bone"
-              onClick={() => void player.seek(line.startMs)}
-              title="Seek to this line"
-            >
-              {formatTimestamp(line.startMs)}
-            </button>
-            <div className="flex flex-wrap gap-x-1 gap-y-1">
-              {line.words.map((w, wi) => {
-                const selected = sel?.line === li && sel.word === wi;
-                const sung = pos >= w.startMs && pos < w.endMs;
-                return (
-                  <button
-                    key={wi}
-                    role="option"
-                    aria-selected={selected}
-                    onClick={() => setSel({ line: li, word: wi })}
-                    title={`${formatTimestamp(w.startMs, 3)}`}
-                    className={clsx(
-                      'rounded px-1.5 py-0.5 text-sm transition',
-                      selected ? 'bg-signal text-white' : sung ? 'bg-aqua/25 text-aqua' : 'hover:bg-ink-700',
-                    )}
-                  >
-                    {w.text}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          <LineRow
+            key={li}
+            line={line}
+            li={li}
+            active={li === activeLine}
+            sungWord={li === cursor.line ? cursor.word : -1}
+            selWord={sel?.line === li ? sel.word : -1}
+            onSelect={setSel}
+          />
         ))}
       </div>
       {sel && (
@@ -232,3 +226,30 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
     </div>
   );
 }
+
+type RowProps = { line: LyricDocument['lines'][number]; li: number; active: boolean; sungWord: number; selWord: number; onSelect: (s: { line: number; word: number }) => void };
+
+/** One lyric line. Memoised: it only re-renders when its own line, highlight or selection changes. */
+const LineRow = memo(function LineRow({ line, li, active, sungWord, selWord, onSelect }: RowProps) {
+  return (
+    <div data-line={li} className={clsx('flex items-start gap-2 rounded-lg px-2 py-1.5', active && 'bg-ink-800')}>
+      <button className="mt-0.5 w-16 shrink-0 text-left font-mono text-[11px] text-ink-400 hover:text-bone" onClick={() => void player.seek(line.startMs)} title="Seek to this line">
+        {formatTimestamp(line.startMs)}
+      </button>
+      <div className="flex flex-wrap gap-x-1 gap-y-1">
+        {line.words.map((w, wi) => (
+          <button
+            key={wi}
+            role="option"
+            aria-selected={selWord === wi}
+            onClick={() => onSelect({ line: li, word: wi })}
+            title={formatTimestamp(w.startMs, 3)}
+            className={clsx('rounded px-1.5 py-0.5 text-sm transition', selWord === wi ? 'bg-signal text-white' : sungWord === wi ? 'bg-aqua/25 text-aqua' : 'hover:bg-ink-700')}
+          >
+            {w.text}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+});

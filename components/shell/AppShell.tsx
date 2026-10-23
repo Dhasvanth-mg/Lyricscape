@@ -7,7 +7,6 @@ import clsx from 'clsx';
 import { Headphones, Library, Map as MapIcon, PartyPopper, Settings, Sparkles, Compass, X } from 'lucide-react';
 import { player, usePlayer } from '@/lib/player/controller';
 import { useUi } from '@/lib/ui-store';
-import type { StyleId } from '@/lib/kinetic/types';
 import { MiniPlayer } from '@/components/player/MiniPlayer';
 import { QueueDrawer } from '@/components/player/QueueDrawer';
 import { StageOverlay } from './StageOverlay';
@@ -86,12 +85,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     player.init();
-    try {
-      const saved = localStorage.getItem('lyricscape.style') as StyleId | null;
-      if (saved) useUi.setState({ style: saved });
-    } catch {
-      /* ignore */
-    }
+    useUi.getState().hydrate();
   }, []);
 
   useEffect(() => {

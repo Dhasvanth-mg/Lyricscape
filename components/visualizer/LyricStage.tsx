@@ -3,17 +3,22 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { Eye, Gauge, Maximize, Minimize, Search, Type, X } from 'lucide-react';
+import { Eye, Gauge, Maximize, Minimize, PenTool, Search, Smile, Type, X } from 'lucide-react';
 import type { Track } from '@/lib/types';
 import { compileTimeline } from '@/lib/kinetic/compile';
 import { KineticRenderer } from '@/lib/kinetic/render';
 import { paletteForTrack } from '@/lib/kinetic/palette';
+import { EMOTIONS, EMOTION_DEFS, analyzeEmotion, overrideMood, type ColorMode } from '@/lib/kinetic/emotion';
+import { extractPaletteFromUrl } from '@/lib/kinetic/extractPalette';
+import { FrameGovernor, type QualityLevel } from '@/lib/kinetic/governor';
+import { useUi } from '@/lib/ui-store';
 import { STYLES } from '@/lib/kinetic/styles';
 import { STYLE_IDS, type StyleId } from '@/lib/kinetic/types';
 import { player, usePlayer } from '@/lib/player/controller';
 import { kvGet, kvSet } from '@/lib/library/db';
 import { Button, IconButton, Spinner } from '@/components/ui/bits';
 import { useLyrics } from './useLyrics';
+import { LookControls } from './LookControls';
 
 type Props = {
   track: Track | null;
@@ -36,10 +41,14 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   const status = usePlayer((s) => s.status);
 
   const lyrics = useLyrics(track);
+  const ui = useUi();
+  const [albumPalette, setAlbumPalette] = useState<string[] | null>(null);
+  const [coverCues, setCoverCues] = useState<{ light: number; focal: { x: number; y: number }; vibrance: number } | null>(null);
+  const governorRef = useRef(new FrameGovernor('high'));
   const [osReduced, setOsReduced] = useState(false);
   const [forceCalm, setForceCalm] = useState(false);
   const [readable, setReadable] = useState(false);
-  const [offsetMs, setOffsetMs] = useState(0);
+  const [trackOffset, setTrackOffset] = useState(0);
   const [controlsVisible, setControlsVisible] = useState(true);
   const [isFs, setIsFs] = useState(false);
   const [ready, setReady] = useState(false);
@@ -56,21 +65,47 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     return () => mq.removeEventListener('change', sync);
   }, []);
 
-  // per-track sync offset (important when following Spotify, whose position is polled)
+  // Sync delay. By default ONE delay is shared by every song (kept separately for Spotify, whose position is
+  // polled, and for local audio, which is exact), so it doesn't reset each track. Turn sharing off for per-song values.
+  const family = track?.provider === 'spotify' ? 'spotify' : 'local';
+  const offsetMs = ui.syncShared ? ui.syncGlobal[family] : trackOffset;
   useEffect(() => {
     let cancelled = false;
-    setOffsetMs(0);
-    if (!track) return;
+    setTrackOffset(0);
+    if (!track || ui.syncShared) return;
     void kvGet<number>(`offset:${track.id}`).then((v) => {
-      if (!cancelled && typeof v === 'number') setOffsetMs(v);
+      if (!cancelled && typeof v === 'number') setTrackOffset(v);
     });
     return () => {
       cancelled = true;
     };
-  }, [track]);
+  }, [track, ui.syncShared]);
   useEffect(() => {
     offsetRef.current = offsetMs;
   }, [offsetMs]);
+
+  // album colors: read a few dominant colors from the cover (the cover itself is never altered)
+  useEffect(() => {
+    let cancelled = false;
+    setAlbumPalette(null);
+    setCoverCues(null);
+    if (!track?.artworkUrl) return;
+    void extractPaletteFromUrl(track.artworkUrl).then((r) => {
+      if (cancelled || !r) return;
+      if (r.vibrance > 0.12) setAlbumPalette(r.palette);
+      setCoverCues({ light: r.light, focal: r.focal, vibrance: r.vibrance });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [track?.artworkUrl]);
+
+  // mood from lyrics + tempo (a transparent heuristic), or the one the user picked
+  const mood = useMemo(() => {
+    if (!track) return null;
+    const detected = analyzeEmotion(lyrics.doc, { bpm: track.bpm });
+    return ui.mood === 'auto' ? detected : overrideMood(detected, ui.mood);
+  }, [track, lyrics.doc, ui.mood]);
 
   const timeline = useMemo(() => {
     if (!track) return null;
@@ -78,12 +113,15 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     return compileTimeline(doc, {
       trackId: track.id,
       durationMs: track.durationMs || 180000,
-      palette: paletteForTrack(track),
+      palette: albumPalette ?? paletteForTrack(track),
       style,
       bpm: track.bpm,
       beatTimesMs: track.beatTimesMs,
+      mood: mood ?? undefined,
+      cover: coverCues ?? undefined,
+      label: `${track.title} • ${track.artists.join(', ')}`,
     });
-  }, [track, lyrics.doc, style]);
+  }, [track, lyrics.doc, style, albumPalette, mood, coverCues]);
 
   // renderer lifecycle
   useEffect(() => {
@@ -92,6 +130,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     if (!canvas || !wrap) return;
     const r = new KineticRenderer(canvas);
     rendererRef.current = r;
+    if (process.env.NODE_ENV !== 'production') (window as unknown as { __ls?: unknown }).__ls = { r, ui: useUi };
     let alive = true;
     void r.loadFonts().then(() => alive && setReady(true));
     const ro = new ResizeObserver(() => {
@@ -134,17 +173,38 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     r.options = {
       reducedMotion: reduced,
       motionScale: readable ? 0.35 : 1,
-      quality: 'high',
-      artworkPolicy: track?.provider === 'spotify' ? 'unmodified' : 'full',
+      quality: r.options.quality,
+      artworkPolicy: 'full', // personal-use build: the cover is used freely as a backdrop for every source
+      colorMode: ui.colorMode,
+      emojis: ui.emojis,
+      doodles: ui.doodles,
+      artwork: ui.artwork,
     };
-  }, [reduced, readable, track?.provider, ready]);
+  }, [reduced, readable, track?.provider, ready, ui.colorMode, ui.emojis, ui.doodles, ui.artwork]);
+
+  // quality: pinned by the user, or adapted live from real frame intervals
+  useEffect(() => {
+    const r = rendererRef.current;
+    if (!r) return;
+    const start: QualityLevel = ui.quality === 'auto' ? 'high' : ui.quality;
+    governorRef.current.reset(start, performance.now());
+    r.setQuality(start);
+  }, [ui.quality, ready]);
 
   // render loop (driven by the playback clock, never by its own wall clock)
   useEffect(() => {
     let raf = 0;
-    const loop = () => {
+    let last = 0;
+    const loop = (now: number) => {
       const r = rendererRef.current;
-      if (r && document.visibilityState === 'visible') r.render(Math.max(0, player.getPositionMs() + offsetRef.current));
+      if (r && document.visibilityState === 'visible') {
+        r.render(Math.max(0, player.getPositionMs() + offsetRef.current));
+        if (last && useUi.getState().quality === 'auto') {
+          const next = governorRef.current.push(now - last, now);
+          if (next) r.setQuality(next);
+        }
+      }
+      last = now;
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
@@ -183,8 +243,11 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   };
 
   const changeOffset = (v: number) => {
-    setOffsetMs(v);
-    if (track) void kvSet(`offset:${track.id}`, v);
+    if (ui.syncShared) ui.setSyncGlobal(family, v);
+    else {
+      setTrackOffset(v);
+      if (track) void kvSet(`offset:${track.id}`, v);
+    }
   };
 
   const noLyrics = track && (lyrics.status === 'missing' || lyrics.status === 'error');
@@ -239,10 +302,14 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
         </div>
       )}
 
-      {/* corner badge: lyric source */}
-      {track && lyrics.doc && (
-        <div className="pointer-events-none absolute bottom-3 left-4 hidden font-mono text-[10px] tracking-wide text-white/50 uppercase sm:block">
-          Lyrics: {lyrics.source}
+      {/* corner badge: detected mood + lyric source */}
+      {track && mood && (
+        <div className="pointer-events-none absolute bottom-3 left-4 hidden items-center gap-2 font-mono text-[10px] tracking-wide text-white/60 uppercase sm:flex" data-testid="mood-chip">
+          <span className="rounded-full bg-black/50 px-2 py-1 text-xs normal-case backdrop-blur">
+            {EMOTION_DEFS[mood.overall.emotion].emoji} {EMOTION_DEFS[mood.overall.emotion].label}
+            <span className="ml-1 opacity-60">· {ui.mood === 'auto' ? mood.basis === 'none' ? 'guess' : mood.basis : 'your pick'}</span>
+          </span>
+          {lyrics.doc && <span>Lyrics: {lyrics.source}</span>}
         </div>
       )}
 
@@ -272,6 +339,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
               </option>
             ))}
           </select>
+          <LookControls compact />
           <IconButton label={readable ? 'Readable lyrics: on' : 'Readable lyrics: off'} active={readable} onClick={() => setReadable((v) => !v)}>
             <Type size={18} />
           </IconButton>
@@ -323,6 +391,10 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
             <button className="underline" onClick={() => changeOffset(0)}>
               reset
             </button>
+            <label className="ml-2 inline-flex cursor-pointer items-center gap-1.5 whitespace-nowrap" title="Keep one delay for every song instead of resetting per track">
+              <input type="checkbox" checked={ui.syncShared} onChange={(e) => ui.set({ syncShared: e.target.checked })} className="accent-[var(--color-signal)]" />
+              same for all {family === 'spotify' ? 'Spotify ' : ''}songs
+            </label>
           </div>
         </div>
       )}

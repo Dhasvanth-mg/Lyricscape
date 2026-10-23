@@ -48,7 +48,7 @@ export default function VisualsPage() {
             <span className="text-sm text-ink-200">
               {track.title} · {track.artists.join(', ')}
             </span>
-            {track.provider === 'spotify' && <span className="text-xs text-ink-400">Artwork shown unmodified per Spotify policy; no audio analysis.</span>}
+            {track.provider === 'spotify' && <span className="text-xs text-ink-400">Spotify gives no audio analysis, so mood comes from the lyrics alone.</span>}
           </div>
 
           <LyricStage track={track} style={style} className="mb-5 aspect-video max-h-[62vh] w-full rounded-2xl border border-ink-700" />

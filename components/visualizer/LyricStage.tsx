@@ -3,12 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { Eye, Gauge, Maximize, Minimize, PenTool, Search, Smile, Type, X } from 'lucide-react';
+import { Download, Eye, Maximize, Minimize, Search, Type, X } from 'lucide-react';
 import type { Track } from '@/lib/types';
-import { compileTimeline } from '@/lib/kinetic/compile';
 import { KineticRenderer } from '@/lib/kinetic/render';
-import { paletteForTrack } from '@/lib/kinetic/palette';
-import { EMOTIONS, EMOTION_DEFS, analyzeEmotion, overrideMood, type ColorMode } from '@/lib/kinetic/emotion';
+import { EMOTION_DEFS } from '@/lib/kinetic/emotion';
+import { compileForTrack, moodFor } from '@/lib/kinetic/forTrack';
 import { extractPaletteFromUrl } from '@/lib/kinetic/extractPalette';
 import { FrameGovernor, type QualityLevel } from '@/lib/kinetic/governor';
 import { useUi } from '@/lib/ui-store';
@@ -19,6 +18,8 @@ import { kvGet, kvSet } from '@/lib/library/db';
 import { Button, IconButton, Spinner } from '@/components/ui/bits';
 import { useLyrics } from './useLyrics';
 import { LookControls } from './LookControls';
+import { SyncStepper } from './SyncStepper';
+import { ExportDialog } from './ExportDialog';
 
 type Props = {
   track: Track | null;
@@ -52,9 +53,18 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   const [controlsVisible, setControlsVisible] = useState(true);
   const [isFs, setIsFs] = useState(false);
   const [ready, setReady] = useState(false);
+  const [exportShown, setExportShown] = useState(false);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const barHover = useRef(false);
 
   const reduced = osReduced || forceCalm;
+
+  // while this stage's export dialog is open, the live stage stops drawing so the exporter has the machine to itself
+  useEffect(() => {
+    if (!exportShown) return;
+    useUi.getState().setExportOpen(true);
+    return () => useUi.getState().setExportOpen(false);
+  }, [exportShown]);
 
   // OS-level reduced motion
   useEffect(() => {
@@ -101,26 +111,11 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   }, [track?.artworkUrl]);
 
   // mood from lyrics + tempo (a transparent heuristic), or the one the user picked
-  const mood = useMemo(() => {
-    if (!track) return null;
-    const detected = analyzeEmotion(lyrics.doc, { bpm: track.bpm });
-    return ui.mood === 'auto' ? detected : overrideMood(detected, ui.mood);
-  }, [track, lyrics.doc, ui.mood]);
+  const mood = useMemo(() => (track ? moodFor(track, lyrics.doc, ui.mood) : null), [track, lyrics.doc, ui.mood]);
 
   const timeline = useMemo(() => {
     if (!track) return null;
-    const doc = lyrics.doc ?? { source: 'manual' as const, licenseSource: 'none', lines: [] };
-    return compileTimeline(doc, {
-      trackId: track.id,
-      durationMs: track.durationMs || 180000,
-      palette: albumPalette ?? paletteForTrack(track),
-      style,
-      bpm: track.bpm,
-      beatTimesMs: track.beatTimesMs,
-      mood: mood ?? undefined,
-      cover: coverCues ?? undefined,
-      label: `${track.title} • ${track.artists.join(', ')}`,
-    });
+    return compileForTrack({ track, doc: lyrics.doc, style, albumPalette, cover: coverCues, mood });
   }, [track, lyrics.doc, style, albumPalette, mood, coverCues]);
 
   // renderer lifecycle
@@ -179,8 +174,10 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       emojis: ui.emojis,
       doodles: ui.doodles,
       artwork: ui.artwork,
+      interlude: ui.interlude,
+      texture: true,
     };
-  }, [reduced, readable, track?.provider, ready, ui.colorMode, ui.emojis, ui.doodles, ui.artwork]);
+  }, [reduced, readable, track?.provider, ready, ui.colorMode, ui.emojis, ui.doodles, ui.artwork, ui.interlude]);
 
   // quality: pinned by the user, or adapted live from real frame intervals
   useEffect(() => {
@@ -197,7 +194,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     let last = 0;
     const loop = (now: number) => {
       const r = rendererRef.current;
-      if (r && document.visibilityState === 'visible') {
+      if (r && document.visibilityState === 'visible' && !useUi.getState().exportOpen) {
         r.render(Math.max(0, player.getPositionMs() + offsetRef.current));
         if (last && useUi.getState().quality === 'auto') {
           const next = governorRef.current.push(now - last, now);
@@ -217,7 +214,10 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     const show = () => {
       setControlsVisible(true);
       if (hideTimer.current) clearTimeout(hideTimer.current);
-      hideTimer.current = setTimeout(() => setControlsVisible(false), 3200);
+      hideTimer.current = setTimeout(() => {
+        if (barHover.current) return show(); // keep the controls up while the pointer is on them
+        setControlsVisible(false);
+      }, 3200);
     };
     show();
     window.addEventListener('mousemove', show);
@@ -250,6 +250,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     }
   };
 
+  const canExport = !!track && !!lyrics.doc && lyrics.doc.lines.length > 0;
   const noLyrics = track && (lyrics.status === 'missing' || lyrics.status === 'error');
 
   return (
@@ -340,6 +341,9 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
             ))}
           </select>
           <LookControls compact />
+          <IconButton label="Export lyric video" onClick={() => setExportShown(true)} disabled={!canExport}>
+            <Download size={18} />
+          </IconButton>
           <IconButton label={readable ? 'Readable lyrics: on' : 'Readable lyrics: off'} active={readable} onClick={() => setReadable((v) => !v)}>
             <Type size={18} />
           </IconButton>
@@ -359,6 +363,8 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
 
       {chrome && (
         <div
+          onPointerEnter={() => (barHover.current = true)}
+          onPointerLeave={() => (barHover.current = false)}
           className={clsx(
             'absolute inset-x-0 bottom-0 flex items-center gap-3 bg-gradient-to-t from-black/85 to-transparent p-3 sm:p-4 transition-opacity duration-300',
             controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0',
@@ -372,31 +378,27 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
             {status === 'playing' ? 'Pause' : 'Play'}
           </button>
           <div className="ml-auto flex items-center gap-2 text-xs text-ink-200">
-            <Gauge size={14} aria-hidden />
-            <label htmlFor="sync-offset" className="whitespace-nowrap">
-              Sync {offsetMs > 0 ? '+' : ''}
-              {offsetMs} ms
-            </label>
-            <input
-              id="sync-offset"
-              type="range"
-              className="seek w-32"
-              min={-3000}
-              max={3000}
-              step={50}
-              value={offsetMs}
-              style={{ ['--pct' as string]: `${((offsetMs + 3000) / 6000) * 100}%` }}
-              onChange={(e) => changeOffset(Number(e.target.value))}
-            />
-            <button className="underline" onClick={() => changeOffset(0)}>
-              reset
-            </button>
+            <SyncStepper value={offsetMs} onChange={changeOffset} />
             <label className="ml-2 inline-flex cursor-pointer items-center gap-1.5 whitespace-nowrap" title="Keep one delay for every song instead of resetting per track">
               <input type="checkbox" checked={ui.syncShared} onChange={(e) => ui.set({ syncShared: e.target.checked })} className="accent-[var(--color-signal)]" />
               same for all {family === 'spotify' ? 'Spotify ' : ''}songs
             </label>
           </div>
         </div>
+      )}
+
+      {!chrome && canExport && (
+        <button
+          onClick={() => setExportShown(true)}
+          className="absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-3 py-1.5 text-xs font-semibold text-white opacity-70 backdrop-blur transition hover:opacity-100 focus-visible:opacity-100"
+          title="Export this as a lyric video (no audio)"
+        >
+          <Download size={14} /> Export
+        </button>
+      )}
+
+      {exportShown && track && (
+        <ExportDialog track={track} doc={lyrics.doc} baseStyle={style} albumPalette={albumPalette} cover={coverCues} onClose={() => setExportShown(false)} />
       )}
     </div>
   );

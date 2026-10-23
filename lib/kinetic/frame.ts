@@ -574,7 +574,7 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
   const artMode = env.artwork ?? 'background';
   const hero = 0; // the cover is always a background now: the interlude show takes the stage in breaks
   let interludeAmt = 0;
-  for (const g of tl.gaps) {
+  for (const g of env.interlude === false ? [] : tl.gaps) {
     if (g.endMs - g.startMs < 1500) continue;
     const a = smoothstep(g.startMs + 200, g.startMs + 750, tMs);
     const b = 1 - smoothstep(g.endMs - 500, g.endMs - 60, tMs);

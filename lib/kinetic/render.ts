@@ -28,6 +28,10 @@ export type RendererOptions = {
   emojis: boolean;
   doodles: boolean;
   artwork: ArtworkAmount;
+  /** the generative show in instrumental breaks */
+  interlude: boolean;
+  /** film grain, halftone dots and scanlines (default true) */
+  texture: boolean;
 };
 
 type Ls = CanvasRenderingContext2D & { letterSpacing?: string };
@@ -63,7 +67,11 @@ export class KineticRenderer {
     emojis: true,
     doodles: true,
     artwork: 'background',
+    interlude: true,
+    texture: true,
   };
+  /** export mode: draw at exactly the pixel size asked for (no DPR cap or pixel budget) */
+  exact = false;
 
   constructor(private canvas: HTMLCanvasElement) {
     const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true }) as Ls | null;
@@ -120,6 +128,7 @@ export class KineticRenderer {
 
   /** Device-pixel ratio actually used: capped by quality and by a total pixel budget. */
   private effectiveDpr(): number {
+    if (this.exact) return this.rawDpr;
     const cap = QUALITY_PROFILE[this.options.quality].dprCap;
     const budget = Math.sqrt(PIXEL_BUDGET / Math.max(1, this.width * this.height));
     return Math.max(0.75, Math.min(this.rawDpr, cap, budget));
@@ -194,6 +203,7 @@ export class KineticRenderer {
       emojis: this.options.emojis,
       doodles: this.options.doodles,
       artwork: this.options.artwork,
+      interlude: this.options.interlude,
       density: this.density,
     });
     this.draw(frame, tl);
@@ -255,7 +265,7 @@ export class KineticRenderer {
 
     if (tl.style === 'y2k') this.drawGrid(frame, W, H);
     this.drawArtwork(frame, W, H);
-    if (frame.overlays.halftone > 0.01 && prof.halftone) this.drawHalftone(frame, tl, W, H);
+    if (frame.overlays.halftone > 0.01 && prof.halftone && this.options.texture) this.drawHalftone(frame, tl, W, H);
     this.drawMarquee(frame, style, prof.marqueeRows, W, H);
     if (frame.interlude.amount > 0.01) this.drawInterlude(frame, W, H);
 
@@ -297,7 +307,7 @@ export class KineticRenderer {
       ctx.fillStyle = v;
       ctx.fillRect(0, 0, W, H);
     }
-    if (frame.overlays.scanlines > 0 && prof.scanlines) {
+    if (frame.overlays.scanlines > 0 && prof.scanlines && this.options.texture) {
       // one pattern fill instead of ~250 fillRect calls
       if (!this.scanPattern) {
         const c = document.createElement('canvas');
@@ -320,7 +330,7 @@ export class KineticRenderer {
       ctx.fillStyle = `rgba(255,255,255,${frame.overlays.flash})`;
       ctx.fillRect(0, 0, W, H);
     }
-    if (frame.overlays.grain > 0 && prof.grain) this.drawGrain(frame, W, H);
+    if (frame.overlays.grain > 0 && prof.grain && this.options.texture) this.drawGrain(frame, W, H);
   }
 
   /** The generative show for instrumental moments. Everything is a plain gradient / stroke / dot: cheap and deterministic. */

@@ -234,6 +234,8 @@ export type FrameEnv = {
   density?: number;
   /** the resolved art direction for this song (colours, typography, artwork treatment, motion). Absent = the classic style table. */
   look?: import('./look').Look;
+  /** the generative show in instrumental breaks / no-lyric songs (default true) */
+  interlude?: boolean;
 };
 
 export type { ColorMode, EmotionId, MotifId };

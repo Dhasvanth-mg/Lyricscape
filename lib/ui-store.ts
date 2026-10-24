@@ -14,6 +14,8 @@ export type Prefs = {
   colorMode: ColorMode;
   emojis: boolean;
   doodles: boolean;
+  /** generative show in instrumental breaks and for songs without lyrics */
+  interlude: boolean;
   /** off | soft blurred background (default) | background + the cover itself in long instrumental breaks */
   artwork: ArtworkAmount;
   /** 'auto' adapts to the machine; the others pin a level */
@@ -33,7 +35,7 @@ export type Prefs = {
   onlineGenres: boolean;
 };
 
-const DEFAULTS: Prefs = { style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true };
+const DEFAULTS: Prefs = { style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, interlude: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true };
 
 function readPrefs(): Prefs {
   try {
@@ -56,6 +58,9 @@ type UiState = Prefs & {
   stageOpen: boolean;
   openStage: () => void;
   closeStage: () => void;
+  /** the export dialog is open: the live stage stops drawing so the exporter has the machine to itself */
+  exportOpen: boolean;
+  setExportOpen: (v: boolean) => void;
   queueOpen: boolean;
   setQueueOpen: (v: boolean) => void;
   hydrate: () => void;
@@ -66,9 +71,9 @@ type UiState = Prefs & {
 
 export const useUi = create<UiState>((set, get) => {
   const persist = () => {
-    const { style, colorMode, emojis, doodles, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres } = get();
+    const { style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres } = get();
     try {
-      localStorage.setItem(PREFS_KEY, JSON.stringify({ style, colorMode, emojis, doodles, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, splitV: 2 }));
+      localStorage.setItem(PREFS_KEY, JSON.stringify({ style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, splitV: 2 }));
     } catch {
       /* storage unavailable */
     }
@@ -78,6 +83,8 @@ export const useUi = create<UiState>((set, get) => {
     stageOpen: false,
     openStage: () => set({ stageOpen: true }),
     closeStage: () => set({ stageOpen: false }),
+    exportOpen: false,
+    setExportOpen: (exportOpen) => set({ exportOpen }),
     queueOpen: false,
     setQueueOpen: (queueOpen) => set({ queueOpen }),
     hydrate: () => set(readPrefs()),

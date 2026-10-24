@@ -77,6 +77,10 @@ HTTP; the Web Playback SDK and Connect polling have not been exercised against S
 - Cover Pop: full-bleed undimmed cover, rounded italic phrase-by-phrase type, per-word colour chosen against the pixels behind it, white chips, icons. A choice, never automatic.
 - Settings/Studio show which GPU draws the lyrics; `pnpm open:gpu` launches the browser on the dedicated one (a page cannot choose). Details and numbers: `docs/artistic-direction-v3.md` section 11.
 
+### M11 Integration: lyric-video export and unbounded sync merged with the V3 looks
+- Merged `feat/local-first-build` (lyric-video export, sync stepper, interlude/texture options, shared `compileForTrack`) into the art-direction work. The exporter renders with the song's own Look (Cover Pop included; the dialog defaults to the stage's direction and can switch), waits for the look's typefaces before the first frame, and compiles with the stage's estimated-words switch so video and screen agree. The Studio Sync tab uses the unbounded stepper (no +/- 3 s cap; the nudge, anchor and keys are uncapped too).
+- No separate "clean graphics" branch existed on the remote when this was merged; Clean / Turbo modes are still to do.
+
 ## Deliberate deviations from the README
 
 See `architecture.md`. In short: JSON store instead of Postgres, SSE instead of Supabase Realtime, local signed storage instead of R2,
@@ -102,3 +106,9 @@ and only recovers after 25 s of smooth frames. Settings -> Performance: auto / h
 
 Album art is a soft, blurred background wash (never a card). When there is no singing (intros, breaks, instrumentals, or songs with no lyrics) the stage runs an interlude show instead: aurora lights, beat rings, ribbons, particles, orbiting doodles, a mood emoji and a title marquee, all in the cover palette and cheaper than a lyric frame (~6 ms vs ~6 ms in headless Edge).
 Cover cues used: dominant colors, brightness (bright covers get a bright ground), focal point (glow + doodle gathering).
+
+## Lyric-video export (no audio)
+
+`lib/export/video.ts` + `components/visualizer/ExportDialog.tsx`. Because `computeFrame(timeline, t)` is pure, export steps `t` at a fixed fps (not real time), draws each frame on an off-screen canvas at the exact output size, and encodes with WebCodecs through `mediabunny` (MP4/H.264 or WebM/VP9; Chromium browsers only). Options: size (16:9, 9:16, 4:5, 1:1), 30/60 fps, quality, song-time range (with "trim to lyrics"), style, color source, mood, and toggles for emoji, doodles, album background, the breaks show, grain/texture and calm motion. PNG stills use the same path. The cover is re-loaded with CORS for export (a tainted canvas can't be encoded); if the host refuses, the file is produced without the album background. The timeline for both the live stage and the exporter is built by `lib/kinetic/forTrack.ts`.
+
+The sync control is now − / + buttons (50 ms per step, hold to repeat) around an editable millisecond value, with no range limit.

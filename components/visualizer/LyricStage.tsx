@@ -3,13 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { Gauge, Maximize, Minimize, Palette, Pause, Play, Search, X } from 'lucide-react';
+import { Download, Gauge, Maximize, Minimize, Palette, Pause, Play, Search, X } from 'lucide-react';
 import type { Track } from '@/lib/types';
-import { compileTimeline, sceneAt } from '@/lib/kinetic/compile';
+import { sceneAt } from '@/lib/kinetic/compile';
+import { compileForTrack, moodFor } from '@/lib/kinetic/forTrack';
 import { syncDiag } from '@/lib/player/syncDiag';
 import { KineticRenderer } from '@/lib/kinetic/render';
-import { paletteForTrack } from '@/lib/kinetic/palette';
-import { EMOTIONS, EMOTION_DEFS, analyzeEmotion, overrideMood, type ColorMode } from '@/lib/kinetic/emotion';
 import { extractPaletteFromUrl } from '@/lib/kinetic/extractPalette';
 import { FrameGovernor, type QualityLevel } from '@/lib/kinetic/governor';
 import { useUi } from '@/lib/ui-store';
@@ -26,6 +25,7 @@ import { useLyrics } from './useLyrics';
 import { timingSummary } from '@/lib/lyrics/parse';
 import { Cover } from '@/components/ui/Cover';
 import { StagePanel, type PanelTab } from './StagePanel';
+import { ExportDialog } from './ExportDialog';
 
 type Props = {
   track: Track | null;
@@ -70,6 +70,14 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   const [isFs, setIsFs] = useState(false);
   const [ready, setReady] = useState(false);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [exportShown, setExportShown] = useState(false);
+  const barHover = useRef(false);
+  // while this stage's export dialog is open, the live stage stops drawing so the exporter has the machine to itself
+  useEffect(() => {
+    if (!exportShown) return;
+    useUi.getState().setExportOpen(true);
+    return () => useUi.getState().setExportOpen(false);
+  }, [exportShown]);
 
   const reduced = osReduced || forceCalm;
 
@@ -111,11 +119,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   }, [artSrc]);
 
   // mood from lyrics + tempo (a transparent heuristic), or the one the user picked
-  const mood = useMemo(() => {
-    if (!track) return null;
-    const detected = analyzeEmotion(lyrics.doc, { bpm: track.bpm });
-    return ui.mood === 'auto' ? detected : overrideMood(detected, ui.mood);
-  }, [track, lyrics.doc, ui.mood]);
+  const mood = useMemo(() => (track ? moodFor(track, lyrics.doc, ui.mood) : null), [track, lyrics.doc, ui.mood]);
 
   // ---- the song's look: identity -> art direction -> one resolved Look (see useSongLook) ----
   const sl = useSongLook({ track, doc: lyrics.doc, cover: coverInfo, fallbackStyle: style });
@@ -123,19 +127,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
 
   const timeline = useMemo(() => {
     if (!track || !sl.ready) return null;
-    const doc = lyrics.doc ?? { source: 'manual' as const, licenseSource: 'none', lines: [] };
-    return compileTimeline(doc, {
-      trackId: track.id,
-      durationMs: track.durationMs || 180000,
-      palette: albumPalette ?? paletteForTrack(track),
-      style: resolved.direction,
-      bpm: track.bpm,
-      beatTimesMs: track.beatTimesMs,
-      mood: mood ?? undefined,
-      cover: coverCues ?? undefined,
-      label: `${track.title} • ${track.artists.join(', ')}`,
-      estimateWords: ui.estimatedWords,
-    });
+    return compileForTrack({ track, doc: lyrics.doc, style: resolved.direction, albumPalette, cover: coverCues, mood, estimateWords: ui.estimatedWords });
   }, [track, sl.ready, lyrics.doc, resolved.direction, albumPalette, mood, coverCues, ui.estimatedWords]);
 
   useEffect(() => {
@@ -217,8 +209,10 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       emojis: ui.emojis,
       doodles: ui.doodles,
       artwork: ui.artwork,
+      interlude: ui.interlude,
+      texture: true,
     };
-  }, [reduced, readable, track?.provider, ready, ui.colorMode, ui.emojis, ui.doodles, ui.artwork]);
+  }, [reduced, readable, track?.provider, ready, ui.colorMode, ui.emojis, ui.doodles, ui.artwork, ui.interlude]);
 
   // quality: pinned by the user, or adapted live from real frame intervals
   useEffect(() => {
@@ -236,7 +230,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     let lastDiag = 0;
     const loop = (now: number) => {
       const r = rendererRef.current;
-      if (r && document.visibilityState === 'visible') {
+      if (r && document.visibilityState === 'visible' && !useUi.getState().exportOpen) {
         const lyricTime = Math.max(0, clockRef.current());
         r.render(lyricTime);
         if (syncDiag.enabled() && now - lastDiag > 500 && diagRef.current) {
@@ -282,6 +276,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       setControlsVisible(true);
       if (hideTimer.current) clearTimeout(hideTimer.current);
       hideTimer.current = setTimeout(() => {
+        if (barHover.current) return show(); // keep the controls up while the pointer is on them
         if (!panelOpenRef.current) setControlsVisible(false);
       }, 3200);
     };
@@ -308,6 +303,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     else void wrapRef.current?.requestFullscreen?.().catch(() => undefined);
   };
 
+  const canExport = !!track && !!lyrics.doc && lyrics.doc.lines.length > 0;
   const noLyrics = track && (lyrics.status === 'missing' || lyrics.status === 'error');
 
   // ---- side panel (Look / Sync) -------------------------------------------------------------------------------
@@ -335,7 +331,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     if (!sc) return say('No line to anchor to here.');
     const target = doc.lines[sc.lineIndex + (which === 'next' ? 1 : 0)];
     if (!target) return say('There is no next line.');
-    const next = Math.round(Math.max(-5000, Math.min(5000, clock.trackOffset + (target.startMs - now))));
+    const next = Math.round(clock.trackOffset + (target.startMs - now));
     clock.setTrackOffset(next);
     say(`Song offset set to ${next > 0 ? '+' : ''}${next} ms. Fine-tune with the nudge buttons.`);
   };
@@ -347,8 +343,8 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       const t = e.target as HTMLElement | null;
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
       const step = e.shiftKey ? 500 : 100;
-      if (e.key === '[' || e.key === '{') clock.setTrackOffset(Math.max(-5000, clock.trackOffset - step));
-      else if (e.key === ']' || e.key === '}') clock.setTrackOffset(Math.min(5000, clock.trackOffset + step));
+      if (e.key === '[' || e.key === '{') clock.setTrackOffset(clock.trackOffset - step);
+      else if (e.key === ']' || e.key === '}') clock.setTrackOffset(clock.trackOffset + step);
       else if (e.key === '\\') clock.setTrackOffset(0);
       else return;
       e.preventDefault();
@@ -412,7 +408,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       {chrome && (
         <>
           {/* top: what is playing, the look, sync, window controls */}
-          <div className={clsx('absolute inset-x-0 top-0 z-10 flex items-center gap-3 bg-gradient-to-b from-black/75 via-black/30 to-transparent p-3 transition-opacity duration-300 sm:p-4', controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0')}>
+          <div onPointerEnter={() => (barHover.current = true)} onPointerLeave={() => (barHover.current = false)} className={clsx('absolute inset-x-0 top-0 z-10 flex items-center gap-3 bg-gradient-to-b from-black/75 via-black/30 to-transparent p-3 transition-opacity duration-300 sm:p-4', controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0')}>
             {track && <Cover track={track} className="h-10 w-10 shrink-0 shadow-lg ring-1 ring-white/15" rounded="rounded-md" />}
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold">{track?.title ?? '—'}</p>
@@ -432,6 +428,9 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
                 </button>
               </>
             )}
+            <IconButton label="Export lyric video" onClick={() => setExportShown(true)} disabled={!canExport}>
+              <Download size={18} />
+            </IconButton>
             <IconButton label={isFs ? 'Exit fullscreen' : 'Fullscreen'} onClick={toggleFs}>
               {isFs ? <Minimize size={18} /> : <Maximize size={18} />}
             </IconButton>
@@ -443,7 +442,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
           </div>
 
           {/* bottom: transport only. Everything else lives in the panel so the lyrics stay the show. */}
-          <div className={clsx('absolute inset-x-0 bottom-0 z-10 flex items-center gap-3 bg-gradient-to-t from-black/70 to-transparent p-3 transition-opacity duration-300 sm:p-4', controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0')}>
+          <div onPointerEnter={() => (barHover.current = true)} onPointerLeave={() => (barHover.current = false)} className={clsx('absolute inset-x-0 bottom-0 z-10 flex items-center gap-3 bg-gradient-to-t from-black/70 to-transparent p-3 transition-opacity duration-300 sm:p-4', controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0')}>
             <button onClick={() => void player.toggle()} className="grid h-11 w-11 place-items-center rounded-full bg-bone text-ink-950 shadow-lg transition hover:scale-105 active:scale-95" aria-label={status === 'playing' ? 'Pause' : 'Play'}>
               {status === 'playing' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" className="ml-0.5" />}
             </button>
@@ -475,6 +474,20 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
             />
           )}
         </>
+      )}
+
+      {!chrome && canExport && (
+        <button
+          onClick={() => setExportShown(true)}
+          className="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-3 py-1.5 text-xs font-semibold text-white opacity-70 backdrop-blur transition hover:opacity-100 focus-visible:opacity-100"
+          title="Export this as a lyric video (no audio)"
+        >
+          <Download size={14} /> Export
+        </button>
+      )}
+
+      {exportShown && track && (
+        <ExportDialog track={track} doc={lyrics.doc} direction={resolved.direction} look={resolved.look} identity={sl.identity} coverInfo={coverInfo} albumPalette={albumPalette} cover={coverCues} onClose={() => setExportShown(false)} />
       )}
     </div>
   );

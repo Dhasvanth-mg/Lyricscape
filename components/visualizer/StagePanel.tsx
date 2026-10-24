@@ -6,6 +6,7 @@ import type { LyricDocument, Track } from '@/lib/types';
 import { timingSummary } from '@/lib/lyrics/parse';
 import { useUi } from '@/lib/ui-store';
 import { StudioTab, type SongLookApi } from './StudioTab';
+import { SyncStepper } from './SyncStepper';
 import type { useLyricClock } from './useLyricClock';
 import type { useLyrics } from './useLyrics';
 
@@ -89,27 +90,12 @@ function Toggle({ on, onChange, label, hint, disabled }: { on: boolean; onChange
 // ---------------------------------------------------------------------------------------------------------------------
 // Sync
 // ---------------------------------------------------------------------------------------------------------------------
-function Slider({ id, label, hint, value, onChange }: { id: string; label: string; hint: string; value: number; onChange: (n: number) => void }) {
-  return (
-    <div className="mb-3">
-      <div className="mb-1 flex items-baseline justify-between">
-        <label htmlFor={id} className="text-sm font-semibold">
-          {label}
-        </label>
-        <span className="font-mono text-xs text-ink-200 tabular-nums">{fmt(value)}</span>
-      </div>
-      <input id={id} type="range" className="seek w-full" min={-3000} max={3000} step={50} value={value} style={{ ['--pct' as string]: `${((value + 3000) / 6000) * 100}%` }} onChange={(e) => onChange(Number(e.target.value))} />
-      <p className="mt-1 text-[11px] text-ink-400">{hint}</p>
-    </div>
-  );
-}
-
 function SyncTab(p: Props) {
   const ui = useUi();
   const doc: LyricDocument | null = p.lyrics.doc;
   const sum = doc ? timingSummary(doc) : null;
   const m = doc?.timing?.match;
-  const nudge = (d: number) => p.clock.setTrackOffset(Math.max(-5000, Math.min(5000, p.clock.trackOffset + d)));
+  const nudge = (d: number) => p.clock.setTrackOffset(p.clock.trackOffset + d);
   return (
     <>
       <Section title="These lyrics">
@@ -163,8 +149,16 @@ function SyncTab(p: Props) {
             </button>
           ))}
         </div>
-        <Slider id="sync-song" label="This song" hint="Saved for this song only, never written into the lyrics. Positive = lyrics sooner. Keys: [ ] nudge, \ reset." value={p.clock.trackOffset} onChange={p.clock.setTrackOffset} />
-        <Slider id="sync-device" label={p.clock.family === 'spotify' ? 'Spotify device' : 'Speakers / Bluetooth'} hint="How far this setup is off, the same for every song. Set it once." value={p.clock.device} onChange={p.clock.setDevice} />
+        <div className="mb-3">
+          <p className="mb-1 text-sm font-semibold">This song</p>
+          <SyncStepper id="sync-song" label="" title="This song's lyric timing offset" value={p.clock.trackOffset} onChange={p.clock.setTrackOffset} />
+          <p className="mt-1 text-[11px] text-ink-400">Saved for this song only, never written into the lyrics. Positive = lyrics sooner. Hold − / + to repeat, or type any value: there is no limit. Keys: [ ] nudge, \ reset.</p>
+        </div>
+        <div className="mb-3">
+          <p className="mb-1 text-sm font-semibold">{p.clock.family === 'spotify' ? 'Spotify device' : 'Speakers / Bluetooth'}</p>
+          <SyncStepper id="sync-device" label="" title="Device delay" value={p.clock.device} onChange={p.clock.setDevice} />
+          <p className="mt-1 text-[11px] text-ink-400">How far this setup is off, the same for every song. Set it once.</p>
+        </div>
         <button onClick={() => { p.clock.setTrackOffset(0); p.clock.setDevice(0); }} className="inline-flex items-center gap-1.5 text-xs text-ink-300 underline-offset-2 hover:underline">
           <RotateCcw size={12} aria-hidden /> Reset both
         </button>

@@ -647,7 +647,7 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
   // --- instrumental "hero artwork" amount ------------------------------------------------
   const artMode = look?.artwork.treatment === 'off' ? 'off' : (env.artwork ?? 'background');
   let interludeAmt = 0;
-  for (const g of tl.gaps) {
+  for (const g of env.interlude === false ? [] : tl.gaps) {
     if (g.endMs - g.startMs < 1500) continue;
     const a = smoothstep(g.startMs + 200, g.startMs + 750, tMs);
     const b = 1 - smoothstep(g.endMs - 500, g.endMs - 60, tMs);

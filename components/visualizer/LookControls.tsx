@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { PenTool, Smile } from 'lucide-react';
+import { PenTool, Smile, Sparkles } from 'lucide-react';
 import { EMOTIONS, EMOTION_DEFS, type ColorMode, type EmotionId } from '@/lib/kinetic/emotion';
 import { useUi } from '@/lib/ui-store';
 
@@ -13,7 +13,7 @@ const MODES: [ColorMode, string, string][] = [
 
 /** Color source, mood override, and the icon / vector-doodle toggles. */
 export function LookControls({ compact = false, className }: { compact?: boolean; className?: string }) {
-  const { colorMode, emojis, doodles, mood, artwork, quality, set } = useUi();
+  const { colorMode, emojis, doodles, interlude, mood, artwork, quality, set } = useUi();
   const pill = (on: boolean) => clsx('inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition', on ? 'border-signal bg-signal text-white' : 'border-ink-600 text-ink-200 hover:border-ink-400');
   return (
     <div className={clsx('flex flex-wrap items-center gap-2', className)} role="group" aria-label="Look">
@@ -29,6 +29,9 @@ export function LookControls({ compact = false, className }: { compact?: boolean
       </button>
       <button aria-pressed={doodles} onClick={() => set({ doodles: !doodles })} className={pill(doodles)} title="Animated vector doodles">
         <PenTool size={15} /> {!compact && 'Doodles'}
+      </button>
+      <button aria-pressed={interlude} onClick={() => set({ interlude: !interlude })} className={pill(interlude)} title="A generative light show during instrumental breaks and for songs without lyrics">
+        <Sparkles size={15} /> {!compact && 'Breaks show'}
       </button>
       <label className="sr-only" htmlFor="art-pick">
         Album art

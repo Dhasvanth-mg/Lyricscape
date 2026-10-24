@@ -69,6 +69,52 @@ test.describe('player + kinetic lyrics', () => {
     await expect(stage.locator('canvas')).toBeVisible();
   });
 
+  test('export opens in the stage\'s own look, and the sync offset has no limit', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(String(e)));
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Try the demo songs' }).click();
+    await page.waitForTimeout(600);
+    await page.keyboard.press('l');
+    await expect(page.getByTestId('lyric-stage')).toBeVisible();
+    await page.mouse.move(640, 360);
+    // pin Cover Pop, then export: the dialog starts from exactly that look
+    await page.getByTestId('theme-pill').click();
+    await page.getByTestId('dir-coverpop').click();
+    await expect(page.getByTestId('theme-pill')).toContainText(/Cover Pop/);
+    await page.getByRole('button', { name: 'Close panel' }).click();
+    await page.mouse.move(600, 340);
+    await page.getByRole('button', { name: 'Export lyric video' }).click();
+    const dialog = page.getByRole('dialog', { name: 'Export lyric video' });
+    await expect(dialog).toBeVisible();
+    await expect(dialog.locator('#exp-style')).toHaveValue('coverpop');
+    await page.waitForTimeout(900);
+    const spread = await dialog.getByRole('img', { name: 'Export preview' }).evaluate((c: HTMLCanvasElement) => {
+      const small = document.createElement('canvas');
+      small.width = small.height = 8;
+      const x = small.getContext('2d')!;
+      x.drawImage(c, 0, 0, 8, 8);
+      const d = x.getImageData(0, 0, 8, 8).data;
+      let v = 0;
+      for (let i = 4; i < d.length; i += 4) v += Math.abs(d[i]! - d[0]!) + Math.abs(d[i + 1]! - d[1]!) + Math.abs(d[i + 2]! - d[2]!);
+      return v;
+    });
+    expect(spread).toBeGreaterThan(30);
+    await dialog.getByRole('button', { name: 'Close', exact: true }).first().click();
+    await expect(dialog).toBeHidden();
+
+    // sync: type a value far beyond the old +/- 3 s slider
+    await page.mouse.move(640, 360);
+    await page.getByTestId('sync-pill').click();
+    const song = page.locator('#sync-song');
+    await song.fill('90000');
+    await song.blur();
+    await expect(page.getByTestId('sync-pill')).toContainText('90000');
+    await song.fill('0');
+    await song.blur();
+    expect(errors).toEqual([]);
+  });
+
   test('settings explains Spotify setup honestly (not connected, no fake playback)', async ({ page }) => {
     await page.goto('/settings');
     // it also says which GPU the lyrics are drawn on (and how to move them to the dedicated one)

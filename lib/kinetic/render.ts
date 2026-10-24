@@ -30,6 +30,10 @@ export type RendererOptions = {
   emojis: boolean;
   doodles: boolean;
   artwork: ArtworkAmount;
+  /** the generative show in instrumental breaks */
+  interlude: boolean;
+  /** film grain, halftone dots and scanlines (default true) */
+  texture: boolean;
 };
 
 type Ls = CanvasRenderingContext2D & { letterSpacing?: string };
@@ -65,7 +69,11 @@ export class KineticRenderer {
     emojis: true,
     doodles: true,
     artwork: 'background',
+    interlude: true,
+    texture: true,
   };
+  /** export mode: draw at exactly the pixel size asked for (no DPR cap or pixel budget) */
+  exact = false;
 
   constructor(private canvas: HTMLCanvasElement) {
     const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true }) as Ls | null;
@@ -96,11 +104,18 @@ export class KineticRenderer {
     if (look?.key === this.look?.key) return;
     this.look = look;
     this.invalidateText();
-    if (look && typeof document !== 'undefined' && document.fonts) {
-      void Promise.all(fontLoadsFor(look.style).map((f) => document.fonts.load(f, 'Aa lyrics')))
-        .then(() => this.invalidateText())
-        .catch(() => undefined);
+    void this.loadLookFonts();
+  }
+  /** Resolves when the typefaces of the current Look are ready (and text is re-measured). */
+  async loadLookFonts(): Promise<void> {
+    const look = this.look;
+    if (!look || typeof document === 'undefined' || !document.fonts) return;
+    try {
+      await Promise.all(fontLoadsFor(look.style).map((f) => document.fonts.load(f, 'Aa lyrics')));
+    } catch {
+      /* fall back to system faces; layout is re-measured anyway */
     }
+    this.invalidateText();
   }
   private currentStyle() {
     return this.look?.style ?? (this.timeline ? STYLES[this.timeline.style] : STYLES.maximalist);
@@ -175,6 +190,7 @@ export class KineticRenderer {
 
   /** Device-pixel ratio actually used: capped by quality and by a total pixel budget. */
   private effectiveDpr(): number {
+    if (this.exact) return this.rawDpr;
     const cap = QUALITY_PROFILE[this.options.quality].dprCap;
     const budget = Math.sqrt(PIXEL_BUDGET / Math.max(1, this.width * this.height));
     return Math.max(0.75, Math.min(this.rawDpr, cap, budget));
@@ -249,6 +265,7 @@ export class KineticRenderer {
       emojis: this.options.emojis,
       doodles: this.options.doodles,
       artwork: this.options.artwork,
+      interlude: this.options.interlude,
       density: this.density,
       look: this.look ?? undefined,
     });
@@ -320,7 +337,7 @@ export class KineticRenderer {
       ctx.fillRect(d.x, d.y, d.w, d.h);
     }
     ctx.globalAlpha = 1;
-    if (frame.overlays.halftone > 0.01 && prof.halftone) this.drawHalftone(frame, tl, W, H);
+    if (frame.overlays.halftone > 0.01 && prof.halftone && this.options.texture) this.drawHalftone(frame, tl, W, H);
     this.drawMarquee(frame, style, prof.marqueeRows, W, H);
     if (frame.interlude.amount > 0.01) this.drawInterlude(frame, W, H);
 
@@ -377,7 +394,7 @@ export class KineticRenderer {
       ctx.fillStyle = v;
       ctx.fillRect(0, 0, W, H);
     }
-    if (frame.overlays.scanlines > 0 && prof.scanlines) {
+    if (frame.overlays.scanlines > 0 && prof.scanlines && this.options.texture) {
       // one pattern fill instead of ~250 fillRect calls
       if (!this.scanPattern) {
         const c = document.createElement('canvas');
@@ -400,7 +417,7 @@ export class KineticRenderer {
       ctx.fillStyle = `rgba(255,255,255,${frame.overlays.flash})`;
       ctx.fillRect(0, 0, W, H);
     }
-    if (frame.overlays.grain > 0 && prof.grain) this.drawGrain(frame, W, H);
+    if (frame.overlays.grain > 0 && prof.grain && this.options.texture) this.drawGrain(frame, W, H);
   }
 
   /** The generative show for instrumental moments. Everything is a plain gradient / stroke / dot: cheap and deterministic. */

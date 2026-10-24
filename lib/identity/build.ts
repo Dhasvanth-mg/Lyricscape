@@ -11,6 +11,7 @@
 import { MOTIFS, type MotifId } from '../kinetic/emotion';
 import { readGenres } from './genre';
 import { lyricStats } from './lyricStats';
+import { detectDocLanguage } from '../lyrics/script';
 import { rate, readText } from './text';
 import { AI_CONF_CAP } from './ai';
 import { GENRE_LABEL, DIM_KEYS, clamp01, knownDim, type Delivery, type Dim, type DimKey, type IdentityInputs, type ProvenanceRow, type Source, type SongIdentity } from './types';
@@ -64,6 +65,11 @@ function compute(inp: IdentityInputs, key: string): SongIdentity {
   const g = readGenres(inp.tags);
   const text = readText(inp.lyrics);
   const stats = lyricStats(inp.lyrics);
+  // The mood word lists are strongest in English and thinner in other languages, and absent for some. How much "none of these words
+  // appeared" may count as evidence follows that, so a Turkish or Thai song is never called "not sad" just because we cannot read it.
+  const lang = inp.lyrics && inp.lyrics.lines.length >= 3 ? detectDocLanguage(inp.lyrics) : null;
+  const COVERED = ['hi', 'ta', 'hi-latn', 'ta-latn', 'es', 'fr', 'pt', 'de', 'it', 'ko', 'ja', 'zh', 'ru', 'ar'];
+  const absenceScale = !lang || lang.id === 'en' || lang.id === 'unknown' ? 1 : COVERED.includes(lang.id) ? 0.45 : 0;
   const pace = stats?.pace;
   const cover = inp.cover ?? null;
   const ai = inp.ai ?? null;
@@ -85,7 +91,7 @@ function compute(inp: IdentityInputs, key: string): SongIdentity {
     const cat = text.cat;
     const pos = R('joy') + 0.8 * R('love') + 0.3 * R('energy') + 0.2 * R('calm') + 0.3 * R('warm');
     const neg = R('sadness') + 0.9 * R('anger') + 0.8 * R('dark') + 0.6 * R('tension') + 0.3 * R('cold');
-    const absence = text.words >= 120 ? 0.22 : 0.1; // plenty of words and none of these: weak evidence of "not this"
+    const absence = (text.words >= 120 ? 0.22 : 0.1) * absenceScale; // plenty of words and none of these: weak evidence of "not this"
     const lex = (k: DimKey, v: number, mass: number) => push(k, v, Math.max(absence, Math.min(0.9, mass / 5)), 'lyrics');
     if (pos + neg > 0.3) push('valence', 0.5 + (0.5 * (pos - neg)) / (pos + neg + 1.2), Math.min(1.1, text.hits / 8), 'lyrics');
     if (R('energy') + R('calm') > 0.2) push('energy', 0.5 + (0.5 * (R('energy') - R('calm'))) / (R('energy') + R('calm') + 1), Math.min(0.45, (cat.energy + cat.calm) / 10), 'lyrics');
@@ -202,7 +208,7 @@ function compute(inp: IdentityInputs, key: string): SongIdentity {
   const tagSources = [...new Set(inp.tags.map((t) => t.source))];
   const rows: ProvenanceRow[] = [
     { source: 'genre', used: inp.tags.length > 0, detail: inp.tags.length ? `${inp.tags.length} tag${inp.tags.length === 1 ? '' : 's'} from ${tagSources.join(' + ')}` : 'no genre tags for this artist' },
-    { source: 'lyrics', used: !!text && text.words >= 40, detail: text ? `${Math.round(text.words)} words read (a word list, not understanding)` : 'no lyrics loaded' },
+    { source: 'lyrics', used: !!text && text.words >= 40, detail: text ? `${Math.round(text.words)} words read${lang && lang.id !== 'en' && lang.id !== 'unknown' ? ` (${lang.label})` : ''} (a word list, not understanding)` : 'no lyrics loaded' },
     { source: 'pace', used: pace !== undefined, detail: pace !== undefined ? `${pace.toFixed(1)} words per second` : 'needs line-synced lyrics' },
     { source: 'cover', used: !!cover, detail: cover ? 'brightness, colourfulness and colour temperature of the cover' : 'cover not read' },
     { source: 'tempo', used: !!inp.bpm, detail: inp.bpm ? `${Math.round(inp.bpm)} BPM` : 'not available (Spotify exposes no audio features)' },
@@ -221,6 +227,7 @@ function compute(inp: IdentityInputs, key: string): SongIdentity {
   if (ai) inferred.push('AI reading of lyric themes');
   const unknown = ['timbre, harmony and production (no audio analysis)', 'how the recording builds through its sections', "the artist's influences and intentions (never inferred)"];
   if (!inp.bpm) unknown.unshift('tempo');
+  if (lang && !['en', 'unknown'].includes(lang.id)) unknown.unshift(COVERED.includes(lang.id) ? `mood from the words is approximate for ${lang.label} lyrics (a small word list)` : `mood from the words (this app has no word list for ${lang.label})`);
 
   const genreW = Math.min(1, inp.tags.reduce((a, t) => a + t.weight, 0) / 3);
   const evidence = clamp01(0.35 * genreW + 0.35 * (text ? Math.min(1, text.hits / 12) : 0) + 0.15 * (pace !== undefined ? 1 : 0) + 0.15 * (cover ? 1 : 0));

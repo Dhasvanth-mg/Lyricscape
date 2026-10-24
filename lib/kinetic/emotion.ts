@@ -6,8 +6,8 @@
 // Moods only choose colors, emoji and doodles. They never decide anything about the listener.
 
 import type { LyricDocument } from '../types';
-import { INDIC_MOOD, INDIC_NEGATORS } from '../lyrics/indicLexicon';
-import { INDIC } from '../lyrics/script';
+import { LEX_MOOD, LEX_NEGATORS } from '../lyrics/lexicons';
+import { isComplexScript } from '../lyrics/script';
 import { hexToRgb } from './util';
 import type { IconId } from './icons';
 
@@ -55,9 +55,9 @@ const LEXICON: Record<EmotionId, string[]> = {
   anger: ['hate', 'angry', 'rage', 'fight', 'war', 'scream', 'kill', 'hell', 'damn', 'enemy', 'lies', 'break', 'shake', 'chain', 'mad', 'revenge', 'bleed', 'burn', 'smash'],
   dark: ['dark', 'shadow', 'black', 'death', 'ghost', 'devil', 'demon', 'void', 'cold', 'fear', 'haunt', 'midnight', 'grave', 'blood', 'moon', 'dead', 'sin', 'abyss'],
 };
-// Hindi and Tamil (native script and romanised): see lib/lyrics/indicLexicon.ts
-for (const e of EMOTIONS) LEXICON[e].push(...INDIC_MOOD[e]);
-const NEGATORS = new Set([...INDIC_NEGATORS, 'not', 'never', 'no', "don't", 'dont', "can't", 'cant', "won't", 'wont', "ain't", 'aint', 'without', 'nothing']);
+// Hindi, Tamil and the world languages (native script and romanised): see lib/lyrics/lexicons.ts
+for (const e of EMOTIONS) LEXICON[e].push(...LEX_MOOD[e]);
+const NEGATORS = new Set([...LEX_NEGATORS, 'not', 'never', 'no', "don't", 'dont', "can't", 'cant', "won't", 'wont', "ain't", 'aint', 'without', 'nothing']);
 /** "not happy" leans sad, "never alone" leans joy. */
 const FLIP: Record<EmotionId, EmotionId> = { joy: 'sadness', love: 'sadness', energy: 'calm', calm: 'energy', nostalgia: 'joy', sadness: 'joy', anger: 'calm', dark: 'joy' };
 
@@ -78,7 +78,7 @@ export function scoreText(text: string): Scores {
   for (const p of PHRASES) if (t.includes(p.stem)) out[p.emotion] += 1;
   const words = t.split(/\s+/).filter(Boolean);
   words.forEach((w, i) => {
-    const hit = SINGLE.find((e) => (INDIC.test(e.stem) ? w.startsWith(e.stem) : e.stem.length <= 3 ? w === e.stem || w === e.stem + 's' : w.startsWith(e.stem)));
+    const hit = SINGLE.find((e) => (isComplexScript(e.stem) ? w.includes(e.stem) : e.stem.length <= 3 ? w === e.stem || w === e.stem + 's' : w.startsWith(e.stem)));
     if (!hit) return;
     const negated = NEGATORS.has(words[i - 1] ?? '') || NEGATORS.has(words[i - 2] ?? '');
     out[negated ? FLIP[hit.emotion] : hit.emotion] += 1;

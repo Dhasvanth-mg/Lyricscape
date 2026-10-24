@@ -2,6 +2,8 @@
 
 import type { LyricDocument } from '../types';
 import type { LyricStats, Perspective } from './types';
+import { isComplexScript } from '../lyrics/script';
+import { syllables } from '../lyrics/words';
 
 /** Words per second over the time lines are actually on screen: a delivery-speed signal that works without any audio. */
 export function lyricsPace(doc: LyricDocument | null | undefined): number | undefined {
@@ -16,16 +18,23 @@ export function lyricsPace(doc: LyricDocument | null | undefined): number | unde
     if (!next || next.startMs - l.startMs > 8000) return;
     const span = Math.min(l.endMs - l.startMs, next.startMs - l.startMs, 6000);
     if (span > 0) {
-      words += l.words.length;
+      // a "word" is a very different amount of singing in different languages (a Japanese or Tamil word can be one syllable or six):
+      // outside plain Latin text the pace is counted in syllables, scaled to the words-per-second an English line would give
+      words += l.words.some((w) => isComplexScript(w.text)) ? l.words.reduce((a, w) => a + syllables(w.text), 0) / 1.35 : l.words.length;
       ms += span;
     }
   });
   return ms > 4000 ? words / (ms / 1000) : undefined;
 }
 
-const FIRST = new Set(['i', "i'm", 'im', "i'll", "i've", "i'd", 'me', 'my', 'mine', 'myself']);
-const SECOND = new Set(['you', "you're", 'youre', "you'll", "you've", "you'd", 'your', 'yours', 'u', 'ya']);
-const PLURAL = new Set(['we', "we're", "we'll", "we've", 'us', 'our', 'ours', 'everybody', 'everyone', "y'all", 'yall']);
+// pronouns of the other languages the lexicons cover (perspective is read from these)
+const P = (s: string) => s.split(' ');
+const FIRST_X = P('yo mi me mis mío mio eu meu minha je moi mon ma mes ich mir mein meine io mio mia main mai mera meri mere mujhe mujhko मैं मेरा मेरी मेरे मुझे நான் என் எனக்கு 나 내 저 제 私 僕 俺 я мне мой моя меня أنا');
+const SECOND_X = P('tú tu te ti ustedes vos você voce tua toi ton ta tes du dich dir dein deine tuo tua tera teri tere tujhe tum तू तुम तेरा तेरी तेरे तुझे நீ உன் உனக்கு 너 네 君 あなた お前 ты тебе твой أنت');
+const PLURAL_X = P('nosotros nos nuestro nuestra nós nosso nossa nous notre wir uns unser noi nostro hum hamara हम हमारा நாம் நாங்கள் 우리 私たち 僕ら мы наш نحن');
+const FIRST = new Set(['i', "i'm", 'im', "i'll", "i've", "i'd", 'me', 'my', 'mine', 'myself', ...FIRST_X]);
+const SECOND = new Set([...SECOND_X, 'you', "you're", 'youre', "you'll", "you've", "you'd", 'your', 'yours', 'u', 'ya']);
+const PLURAL = new Set([...PLURAL_X, 'we', "we're", "we'll", "we've", 'us', 'our', 'ours', 'everybody', 'everyone', "y'all", 'yall']);
 const THIRD = new Set(['he', 'she', 'they', 'him', 'her', 'them', 'his', 'hers', 'their', "he's", "she's", "they're"]);
 const PAST = new Set(['was', 'were', 'had', 'did', 'said', 'told', 'went', 'came', 'got', 'saw', 'knew', 'thought', 'felt', 'took', 'made', 'left', 'gave', 'found', 'heard', 'wanted', 'used']);
 

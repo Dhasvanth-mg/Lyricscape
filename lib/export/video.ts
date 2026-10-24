@@ -101,7 +101,11 @@ export async function makeExportRenderer(job: ExportJob): Promise<{ r: StageRend
 export async function exportStill(job: ExportJob, tMs: number): Promise<Blob> {
   const { r, canvas } = await makeExportRenderer(job);
   r.render(tMs + (job.offsetMs ?? 0));
-  return new Promise((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Could not encode the image'))), 'image/png'));
+  try {
+    return await new Promise<Blob>((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Could not encode the image'))), 'image/png'));
+  } finally {
+    r.dispose?.(); // free the GPU objects (a WebGL context is a scarce resource)
+  }
 }
 
 /** Which containers this browser can actually encode at the given size. */
@@ -143,8 +147,10 @@ export async function exportVideo(job: ExportJob, opts: { format: ExportFormat; 
     await output.finalize();
   } catch (e) {
     await output.cancel().catch(() => undefined);
+    r.dispose?.();
     throw e;
   }
+  r.dispose?.(); // free the GPU objects (a WebGL context is a scarce resource)
   const buffer = target.buffer;
   if (!buffer) throw new Error('The encoder produced no data');
   return { blob: new Blob([buffer], { type: format === 'mp4' ? 'video/mp4' : 'video/webm' }), extension: format, codec, frames: total };

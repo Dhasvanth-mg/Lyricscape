@@ -1,5 +1,5 @@
 import type { EndSource, LyricDocument, TimedLine, TimedWord, WordTiming } from '../types';
-import { cleanLyricRows, expectedSungMs, sungShareOfGap, wordWeight } from './words';
+import { cleanLyricRows, expectedSungMs, sungShareOfGap, tokenize, wordWeight } from './words';
 
 // ---------------------------------------------------------------------------
 // Time helpers
@@ -145,11 +145,11 @@ function buildLine(text: string, lineStart: number, blankEnd: number | undefined
 
     const words: TimedWord[] = [];
     let allSingle = true;
-    const allTokens = parts.flatMap((p) => p.text.trim().split(/\s+/).filter(Boolean));
+    const allTokens = parts.flatMap((p) => tokenize(p.text));
     const lineEnd = resolveEnd(allTokens, lineStart, explicitEnd, nextLineStart);
     for (let i = 0; i < parts.length; i++) {
       const p = parts[i]!;
-      const tokens = p.text.trim().split(/\s+/).filter(Boolean);
+      const tokens = tokenize(p.text);
       if (tokens.length > 1) allSingle = false; // several words under one stamp: the inner ones are interpolated
       const segStart = p.startMs;
       const segEnd = parts[i + 1]?.startMs ?? lineEnd.endMs;
@@ -172,7 +172,7 @@ function buildLine(text: string, lineStart: number, blankEnd: number | undefined
     };
   }
 
-  const tokens = text.trim().split(/\s+/).filter(Boolean);
+  const tokens = tokenize(text);
   const { endMs, endSource } = resolveEnd(tokens, lineStart, blankEnd, nextLineStart);
   const line = distributeWords(tokens, lineStart, estimatedSpreadEnd(tokens.length, lineStart, endMs, endSource, nextLineStart));
   return { ...line, endMs, wordTiming: 'estimated', endSource };
@@ -255,7 +255,7 @@ export function parseVtt(input: string, licenseSource = 'user-supplied'): LyricD
       line.endSource = 'explicit';
       if (line.words.length) lines.push(line);
     } else {
-      const tokens = stripped.trim().split(/\s+/).filter(Boolean);
+      const tokens = tokenize(stripped);
       if (tokens.length) lines.push({ ...distributeWords(tokens, startMs, endMs), wordTiming: 'estimated', endSource: 'explicit' });
     }
   }
@@ -294,7 +294,7 @@ export function parseLyricJson(input: string, licenseSource = 'user-supplied'): 
 export function fromPlainText(text: string, durationMs: number, licenseSource = 'user-supplied'): LyricDocument {
   const { rows, stanzaBefore } = cleanLyricRows(text);
   // Longer lines get more time and a stanza break gets a breath, instead of an even split per row.
-  const toks = rows.map((r) => r.split(/\s+/));
+  const toks = rows.map((r) => tokenize(r));
   const weights = toks.map((t, i) => t.reduce((a, w) => a + wordWeight(w), 0) + (stanzaBefore[i] ? 2 : 0));
   const total = weights.reduce((a, b) => a + b, 0) || 1;
   const lead = Math.min(4000, durationMs * 0.05);

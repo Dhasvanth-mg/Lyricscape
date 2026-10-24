@@ -1,5 +1,46 @@
 // Text-side helpers for timing lyrics when only line starts (or nothing) are known.
 
+import { HAN, HANGUL, KANA, THAI } from './script';
+
+const SMALL_KANA = /[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/;
+const UNSPACED = /[\u3040-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\u0E00-\u0E7F]{5,}/;
+
+/**
+ * Split lyric text into words. Whitespace separates words, except in scripts that are written WITHOUT spaces (Japanese, Chinese, Thai):
+ * a long unspaced run there would be one enormous "word", so it is cut into real words with the browser's own segmenter (ICU).
+ * Falls back to short runs of characters where the segmenter is missing.
+ */
+export function tokenize(text: string): string[] {
+  const out: string[] = [];
+  for (const tok of text.trim().split(/\s+/).filter(Boolean)) {
+    if (!UNSPACED.test(tok)) {
+      out.push(tok);
+      continue;
+    }
+    const lang = KANA.test(tok) ? 'ja' : HAN.test(tok) ? 'zh' : 'th';
+    let parts: string[] = [];
+    if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
+      try {
+        const seg = new Intl.Segmenter(lang, { granularity: 'word' });
+        for (const s of seg.segment(tok)) parts.push(s.segment);
+      } catch {
+        parts = [];
+      }
+    }
+    if (!parts.length) parts = Array.from(tok.match(/.{1,3}/gu) ?? [tok]);
+    // punctuation travels with the word before it; words that are only particles stay attached too (a 1-character word is a poor unit)
+    const merged: string[] = [];
+    for (const p of parts) {
+      const pure = /^[\p{P}\p{S}]+$/u.test(p);
+      if (pure && merged.length) merged[merged.length - 1] += p;
+      else if (merged.length && Array.from(merged[merged.length - 1]!).length === 1 && Array.from(p).length === 1 && lang !== 'th') merged[merged.length - 1] += p;
+      else merged.push(p);
+    }
+    out.push(...merged);
+  }
+  return out;
+}
+
 /** Rough syllable count; good enough to apportion time (English-ish, falls back to length for other scripts). */
 export function syllables(word: string): number {
   const w = word.toLowerCase().replace(/[^\p{L}\p{M}]/gu, '');
@@ -12,7 +53,19 @@ export function syllables(word: string): number {
     for (let i = 0; i < cps.length; i++) if (/\p{L}/u.test(cps[i]!) && cps[i + 1] !== '्' && cps[i + 1] !== '்') n++;
     return Math.max(1, n);
   }
-  if (!/^[a-z]+$/.test(w)) return Math.max(1, Math.ceil(w.length / 2.2)); // Hangul, accented Latin, ...
+  if (HANGUL.test(w) || KANA.test(w) || HAN.test(w)) {
+    // Korean: one syllable block per character. Japanese: one mora per kana (small ya/yu/yo/tsu join the one before). Chinese / kanji: one per character.
+    let n = 0;
+    for (const c of w) {
+      if (SMALL_KANA.test(c) || c === 'ー' || c === 'っ' || c === 'ッ') continue;
+      n++;
+    }
+    return Math.max(1, n);
+  }
+  if (THAI.test(w)) return Math.max(1, Math.round(Array.from(w).filter((c) => !/\p{M}/u.test(c)).length / 2.2));
+  if (/[\u0400-\u04FF]/.test(w)) return Math.max(1, (w.match(/[аеёиоуыэюяіїє]/g) ?? []).length);
+  if (/[\u0600-\u06FF\u0590-\u05FF]/.test(w)) return Math.max(1, Math.round(Array.from(w).filter((c) => !/\p{M}/u.test(c)).length / 2.2));
+  if (!/^[a-z]+$/.test(w)) return Math.max(1, Math.ceil(w.length / 2.2)); // accented Latin, Greek, ...
   let groups = (w.match(/[aeiouy]+/g) ?? []).length;
   if (groups > 1 && /[^aeiouy]e$/.test(w) && !/[^aeiouy]le$/.test(w)) groups--; // silent e
   if (groups > 1 && /ed$/.test(w) && !/[td]ed$/.test(w)) groups--; // "walked"

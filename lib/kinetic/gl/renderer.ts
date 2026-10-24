@@ -118,13 +118,18 @@ export class TurboRenderer {
 
   /** true when a WebGL2 context can be created at all */
   static supported(): boolean {
+    // Cached, and the probe context is released at once: browsers keep only ~16 live WebGL contexts and silently kill the OLDEST
+    // when the limit is hit (which would be the stage's own). This used to run on every render of the export dialog.
+    if (supportedCache !== null) return supportedCache;
     try {
       const c = document.createElement('canvas');
-      const ok = !!c.getContext('webgl2');
-      return ok;
+      const gl = c.getContext('webgl2');
+      supportedCache = !!gl;
+      gl?.getExtension('WEBGL_lose_context')?.loseContext();
     } catch {
-      return false;
+      supportedCache = false;
     }
+    return supportedCache;
   }
 
   // ---- setup ---------------------------------------------------------------------------------------------------------------
@@ -1231,6 +1236,8 @@ export class TurboRenderer {
     gl.enable(gl.BLEND);
   }
 }
+
+let supportedCache: boolean | null = null;
 
 /** a stable hash in 0..1 for a small integer */
 function hash01(n: number): number {

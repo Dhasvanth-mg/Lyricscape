@@ -1,7 +1,7 @@
 import type { FontKey, StyleId } from './types';
 import { FONTS, withFonts, type FontDef, type SceneKind, type StyleDef } from './styleBase';
 import { DIRECTION_STYLES } from './directionStyles';
-import { hasDevanagari, hasIndic, hasTamil } from '../lyrics/script';
+import { ARABIC, HAN, HANGUL, HEBREW, KANA, THAI, hasDevanagari, hasTamil, isComplexScript } from '../lyrics/script';
 
 export { FONTS, withFonts };
 export type { FontDef, SceneKind, StyleDef };
@@ -314,24 +314,46 @@ export function fontCss(def: FontDef, sizePx: number): string {
 const DEV_FAMILY = '"Noto Sans Devanagari Variable", "Nirmala UI", "Mangal"';
 const TAM_FAMILY = '"Noto Sans Tamil Variable", "Nirmala UI", "Latha"';
 
-/** The CSS font for a piece of text: the look's face for Latin text, a script face (then the look's face for any Latin words) for Indic. */
+// East Asian, Arabic, Hebrew and Thai: the faces that ship with the operating system (no download), most specific first
+const KO_FAMILY = '"Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR"';
+const JA_FAMILY = '"Yu Gothic", "Hiragino Sans", "Meiryo", "Noto Sans JP"';
+const ZH_FAMILY = '"Microsoft YaHei", "PingFang SC", "Noto Sans SC"';
+const AR_FAMILY = '"Segoe UI", "Geeza Pro", "Noto Naskh Arabic", Tahoma';
+const HE_FAMILY = '"Segoe UI", "Arial Hebrew", Arial';
+const TH_FAMILY = '"Leelawadee UI", "Thonburi", "Noto Sans Thai", Tahoma';
+
+/** The script faces a text needs, in order, or null for plain Latin / Cyrillic / Greek. */
+export function scriptFamilies(text: string): string | null {
+  const fams: string[] = [];
+  if (hasTamil(text)) fams.push(TAM_FAMILY);
+  if (hasDevanagari(text)) fams.push(DEV_FAMILY);
+  if (HANGUL.test(text)) fams.push(KO_FAMILY);
+  if (KANA.test(text)) fams.push(JA_FAMILY);
+  if (HAN.test(text)) fams.push(KANA.test(text) ? JA_FAMILY : ZH_FAMILY);
+  if (ARABIC.test(text)) fams.push(AR_FAMILY);
+  if (HEBREW.test(text)) fams.push(HE_FAMILY);
+  if (THAI.test(text)) fams.push(TH_FAMILY);
+  return fams.length ? [...new Set(fams)].join(', ') : null;
+}
+
+/** The CSS font for a piece of text: the look's face for Latin text, a script face (then the look's face for any Latin words) otherwise. */
 export function fontCssFor(def: FontDef, sizePx: number, text: string): string {
-  if (!hasIndic(text)) return fontCss(def, sizePx);
-  const fam = hasTamil(text) ? (hasDevanagari(text) ? `${TAM_FAMILY}, ${DEV_FAMILY}` : TAM_FAMILY) : DEV_FAMILY;
+  const fam = scriptFamilies(text);
+  if (!fam) return fontCss(def, sizePx);
   const w = Number(def.weight);
   const weight = Number.isFinite(w) ? (w >= 800 ? 800 : w >= 600 ? 700 : 600) : 700;
   return `${weight} ${Math.max(1, Math.round(sizePx))}px ${fam}, "${def.family}", "Arial Black", sans-serif`;
 }
 
 /** Letter spacing in px for this text: the look's own, except Indic text which must not be spaced. */
-export const spacingFor = (def: FontDef, sizePx: number, text: string): number => (hasIndic(text) ? 0 : def.letterSpacingEm * sizePx);
+export const spacingFor = (def: FontDef, sizePx: number, text: string): number => (isComplexScript(text) ? 0 : def.letterSpacingEm * sizePx);
 
 /**
  * Make the browser fetch the script faces a lyric needs (their font files are split by unicode range, so a Latin sample never
  * triggers them). Resolves when they are usable; callers re-measure text afterwards.
  */
 export async function loadScriptFonts(text: string): Promise<boolean> {
-  if (typeof document === 'undefined' || !document.fonts || !hasIndic(text)) return false;
+  if (typeof document === 'undefined' || !document.fonts || (!hasDevanagari(text) && !hasTamil(text))) return false;
   const jobs: Promise<unknown>[] = [];
   if (hasDevanagari(text)) jobs.push(document.fonts.load('700 64px "Noto Sans Devanagari Variable"', 'हिन्दी अआक'));
   if (hasTamil(text)) jobs.push(document.fonts.load('700 64px "Noto Sans Tamil Variable"', 'தமிழ் அஆக'));
@@ -369,10 +391,15 @@ export function fontLoadsFor(style: StyleDef): string[] {
 /** Cheap width estimator used in tests / SSR; the browser passes ctx.measureText. */
 export function estimateWidth(text: string, font: FontDef, sizePx: number): number {
   const t = font.uppercase ? text.toUpperCase() : text;
-  if (hasIndic(t)) {
-    // vowel signs and viramas ride on the letter before them and add no width; Indic letters run a little wider than Latin ones
-    const letters = Array.from(t).filter((c) => !/\p{M}/u.test(c)).length;
-    return letters * 0.62 * sizePx;
+  if (isComplexScript(t)) {
+    // vowel signs and viramas ride on the letter before them and add no width. CJK and Hangul are full-width squares, Indic letters run
+    // a little wider than Latin ones, Arabic and Thai a little narrower.
+    let w = 0;
+    for (const c of t) {
+      if (/\p{M}/u.test(c)) continue;
+      w += HANGUL.test(c) || KANA.test(c) || HAN.test(c) ? 1 : ARABIC.test(c) || THAI.test(c) ? 0.5 : c === ' ' ? 0.3 : 0.62;
+    }
+    return w * sizePx;
   }
   return t.length * (font.widthFactor + font.letterSpacingEm) * sizePx;
 }

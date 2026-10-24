@@ -25,7 +25,7 @@ import { STYLES, estimateWidth, type FontDef, type StyleDef } from './styles';
 import { effectiveTreatment, layoutBox, type Look, type LayoutBox, type LookColors } from './look';
 import { EMOTION_DEFS } from './emotion';
 import { iconForWord } from './icons';
-import { hasIndic } from '../lyrics/script';
+import { hasCjk, hasIndic, hasRtl, hasThai } from '../lyrics/script';
 import type { DrawDoodle, DrawIcon, DrawWord, FontKey, Frame, FrameEnv, Interlude, MarqueeRow, Scene, VisualTimeline, WordCue } from './types';
 
 export const LEAD_MS = 70; // words land slightly early so impact meets the sung syllable
@@ -96,6 +96,8 @@ function pickFont(style: StyleDef, cue: WordCue, custom: VisualTimeline['custom'
 function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: StyleDef): SceneLayout {
   const out = layoutSceneRaw(tl, scene, env, style);
   const box = layoutBox(env.look, env.width, env.height);
+  // right-to-left text (Arabic, Hebrew): the first word of a line sits at the RIGHT, so the whole arrangement is mirrored
+  if (scene.words.length > 1 && hasRtl(scene.words.map((w) => w.text).join(' '))) for (const it of out.values()) it.x = -it.x;
   if (box.shiftX !== 0 || box.y !== 0) {
     for (const it of out.values()) {
       it.x += box.shiftX;
@@ -124,7 +126,8 @@ function layoutSceneRaw(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: 
 
   const width = (text: string, font: FontKey, size: number) => measure(text, font, size);
   // Devanagari and Tamil carry tall marks above and below the line: give each row more room so rows never collide
-  const lh = cased.some((c) => hasIndic(c.text)) ? 1.3 : 1;
+  const sceneText = cased.map((c) => c.text).join(' ');
+  const lh = hasIndic(sceneText) || hasThai(sceneText) || hasRtl(sceneText) ? 1.3 : hasCjk(sceneText) ? 1.12 : 1;
 
   // ---- single-word cut --------------------------------------------------------
   if (scene.preset === 'cut') {

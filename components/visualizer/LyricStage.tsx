@@ -232,8 +232,9 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       artwork: ui.artwork,
       interlude: ui.interlude,
       texture: true,
+      turboStyle: ui.turboStyle,
     };
-  }, [reduced, readable, track?.provider, ready, mode, ui.colorMode, ui.emojis, ui.doodles, ui.artwork, ui.interlude]);
+  }, [reduced, readable, track?.provider, ready, mode, ui.colorMode, ui.emojis, ui.doodles, ui.artwork, ui.interlude, ui.turboStyle]);
 
   // quality: pinned by the user, or adapted live from real frame intervals
   useEffect(() => {

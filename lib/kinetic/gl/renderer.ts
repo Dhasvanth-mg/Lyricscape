@@ -12,13 +12,13 @@ import type { Look } from '../look';
 import { drawDoodle } from '../doodles';
 import { PIXEL_BUDGET, QUALITY_PROFILE, type QualityLevel } from '../governor';
 import type { DrawWord, FontKey, Frame, VisualTimeline } from '../types';
-import { contrastRatio, mix, rgbToHex } from '../util';
+import { contrastRatio, mix, rgbToHex, rotateHue } from '../util';
 import { drawIcon, iconColors, type IconId } from '../icons';
 import { EMOTION_DEFS } from '../emotion';
 import type { RendererOptions } from '../render';
-import { planStage, turboLook } from '../turbo';
+import { STYLE_SPECS, planStage, turboLook, type StyleSpec, type TurboStyleId } from '../turbo';
 import { IDENTITY, Program, cameraMatrix, createTarget, freeTarget, mul, parseColor, rotate, scale, skewX, textureFrom, toClip, translate, type Affine, type Target, type Tex } from './gpu';
-import { BLIT_FS, BLUR_FS, BRIGHT_FS, FULL_VS, POINT_FS, POINT_VS, POST_FS, QUAD_VS, SHAPE_FS, SPRITE_FS, STAGE_FS, STRIP_FS, STRIP_VS } from './shaders';
+import { ASCII_FS, BLIT_FS, BLUR_FS, BRIGHT_FS, FULL_VS, POINT_FS, POINT_VS, POST_FS, QUAD_VS, SHAPE_FS, SPRITE_FS, STAGE_FS, STRIP_FS, STRIP_VS } from './shaders';
 
 type Ls = CanvasRenderingContext2D & { letterSpacing?: string };
 type Glyph = { tex: Tex; /** quad size in css px at the bucketed font size */ w: number; h: number; textW: number; pad: number; sizeB: number };
@@ -44,6 +44,11 @@ type SpriteOpts = {
     grey?: number;
     tone?: { color: string; amt: number };
     maskScale?: number;
+    /** hand-drawn boil strength and the current re-roll step */
+    boil?: number;
+    boilStep?: number;
+    /** typewriter: draw only this fraction of the text span */
+    clip?: { x: number; span: [number, number] };
   };
 
 /** glyph textures may use about this much GPU memory in total; the least recently used are dropped first */
@@ -66,7 +71,7 @@ export class TurboRenderer {
   options: RendererOptions = { reducedMotion: false, motionScale: 1, quality: 'high', artworkPolicy: 'full', colorMode: 'blend', emojis: true, doodles: true, artwork: 'background', interlude: true, texture: true };
 
   private gl!: WebGL2RenderingContext;
-  private programs!: { sprite: Program; shape: Program; point: Program; strip: Program; stage: Program; blit: Program; bright: Program; blur: Program; post: Program };
+  private programs!: { ascii: Program; sprite: Program; shape: Program; point: Program; strip: Program; stage: Program; blit: Program; bright: Program; blur: Program; post: Program };
   private quadVao!: WebGLVertexArrayObject;
   private pointVao!: WebGLVertexArrayObject;
   private pointBuf!: WebGLBuffer;
@@ -79,6 +84,10 @@ export class TurboRenderer {
   private stageRT: Target | null = null;
   private bloomA: Target | null = null;
   private bloomB: Target | null = null;
+  private asciiRT: Target | null = null;
+  private asciiAtlas: { tex: Tex; n: number } | null = null;
+  private styleCache = new Map<string, StyleDef>();
+  private lastTurboStyle: TurboStyleId = 'liquid';
 
   private dpr = 1;
   private rawDpr = 1;
@@ -139,6 +148,7 @@ export class TurboRenderer {
     if (gl.isContextLost()) throw new Error('the GPU context was lost; reload the page');
     this.gl = gl;
     this.programs = {
+      ascii: new Program(gl, FULL_VS, ASCII_FS, 'ascii'),
       sprite: new Program(gl, QUAD_VS, SPRITE_FS, 'sprite'),
       shape: new Program(gl, QUAD_VS, SHAPE_FS, 'shape'),
       point: new Program(gl, POINT_VS, POINT_FS, 'point'),
@@ -195,7 +205,8 @@ export class TurboRenderer {
     this.glyphs.clear();
     this.marquees.clear();
     this.sprites.clear();
-    this.sceneRT = this.stageRT = this.bloomA = this.bloomB = null;
+    this.sceneRT = this.stageRT = this.bloomA = this.bloomB = this.asciiRT = null;
+    this.asciiAtlas = null;
     this.artTex = null;
     this.artLevels = null;
     this.initGl();
@@ -231,7 +242,9 @@ export class TurboRenderer {
     freeTarget(gl, this.stageRT);
     freeTarget(gl, this.bloomA);
     freeTarget(gl, this.bloomB);
-    this.sceneRT = this.stageRT = this.bloomA = this.bloomB = null;
+    freeTarget(gl, this.asciiRT);
+    if (this.asciiAtlas) gl.deleteTexture(this.asciiAtlas.tex.tex);
+    this.sceneRT = this.stageRT = this.bloomA = this.bloomB = this.asciiRT = null;
     for (const p of Object.values(this.programs)) gl.deleteProgram(p.prog);
     gl.deleteVertexArray(this.quadVao);
     gl.deleteVertexArray(this.pointVao);
@@ -268,7 +281,7 @@ export class TurboRenderer {
   setLook(look: Look | null) {
     if (look?.key === this.baseLook?.key) return;
     this.baseLook = look;
-    this.look = look ? turboLook(look) : null;
+    this.look = look ? turboLook(look, this.lastTurboStyle) : null;
     this.invalidateText();
     void this.loadLookFonts();
   }
@@ -283,7 +296,24 @@ export class TurboRenderer {
     this.invalidateText();
   }
   private currentStyle(): StyleDef {
-    return this.look?.style ?? (this.timeline ? STYLES[this.timeline.style] : STYLES.maximalist);
+    const base = this.look?.style ?? (this.timeline ? STYLES[this.timeline.style] : STYLES.maximalist);
+    const S = this.spec();
+    if (!S.font) return base;
+    // a Turbo style that sets its own face (mono for the terminal, marker for the sketchbook...): every font slot becomes that face
+    const key = `${base.id}|${this.look?.key}|${S.font}`;
+    let out = this.styleCache.get(key);
+    if (!out) {
+      const def = base.fonts[S.font];
+      out = { ...base, fonts: Object.fromEntries(Object.keys(base.fonts).map((k) => [k, def])) as StyleDef['fonts'], displayFont: S.font, accentFont: S.font };
+      this.styleCache.set(key, out);
+    }
+    return out;
+  }
+  private styleId(): TurboStyleId {
+    return this.options.turboStyle ?? 'liquid';
+  }
+  private spec(): StyleSpec {
+    return STYLE_SPECS[this.styleId()];
   }
 
   setTimeline(tl: VisualTimeline | null) {
@@ -330,6 +360,8 @@ export class TurboRenderer {
     freeTarget(gl, this.stageRT);
     freeTarget(gl, this.bloomA);
     freeTarget(gl, this.bloomB);
+    freeTarget(gl, this.asciiRT);
+    this.asciiRT = null;
     const w = this.canvas.width;
     const h = this.canvas.height;
     const s = this.options.quality === 'high' ? 0.5 : this.options.quality === 'medium' ? 0.38 : 0.28;
@@ -337,6 +369,7 @@ export class TurboRenderer {
     this.stageRT = createTarget(gl, Math.max(8, Math.floor(w * s)), Math.max(8, Math.floor(h * s)));
     this.bloomA = createTarget(gl, Math.max(8, w >> 2), Math.max(8, h >> 2));
     this.bloomB = createTarget(gl, Math.max(8, w >> 2), Math.max(8, h >> 2));
+    if (this.styleId() === 'ascii') this.asciiRT = createTarget(gl, w, h);
   }
   setQuality(q: QualityLevel) {
     if (this.options.quality === q) return;
@@ -546,6 +579,14 @@ export class TurboRenderer {
   render(tMs: number): Frame | null {
     const tl = this.timeline;
     if (!tl || !this.width || this.lost || this.disposed || !this.sceneRT) return null;
+    const ts = this.styleId();
+    if (ts !== this.lastTurboStyle) {
+      this.lastTurboStyle = ts;
+      this.look = this.baseLook ? turboLook(this.baseLook, ts) : null;
+      this.styleCache.clear();
+      this.invalidateText();
+      this.allocTargets();
+    }
     const frame = computeFrame(tl, tMs, {
       width: this.width,
       height: this.height,
@@ -629,6 +670,10 @@ export class TurboRenderer {
     p.v4('u_uvRect', ur[0], ur[1], ur[2], ur[3]);
     p.f('u_grey', o.grey ?? 0);
     p.f('u_toneAmt', o.tone?.amt ?? 0);
+    p.f('u_boil', o.boil ?? 0);
+    p.f('u_boilStep', o.boilStep ?? 0);
+    p.f('u_clipX', o.clip ? o.clip.x : -1);
+    if (o.clip) p.v2('u_span', o.clip.span[0], o.clip.span[1]);
     if (o.tone) p.col3('u_tone', parseColor(o.tone.color));
     if (o.mode === 3 && this.artTex) {
       this.bindTex(1, this.artTex.tex);
@@ -639,7 +684,7 @@ export class TurboRenderer {
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 
-  private drawShape(o: { kind: 0 | 1 | 2 | 3; m: Affine; w: number; h: number; color: string | [number, number, number, number]; color2?: string; alpha?: number; radius?: number; width?: number; soft?: number; camera?: boolean }) {
+  private drawShape(o: { kind: 0 | 1 | 2 | 3 | 4 | 5; m: Affine; w: number; h: number; color: string | [number, number, number, number]; color2?: string; alpha?: number; radius?: number; width?: number; soft?: number; camera?: boolean }) {
     const gl = this.gl;
     const p = this.programs.shape;
     p.use();
@@ -674,14 +719,16 @@ export class TurboRenderer {
     const scene = this.sceneRT!;
     const style = this.currentStyle();
     const prof = QUALITY_PROFILE[this.options.quality];
+    const S = this.spec();
+    const sid = this.styleId();
     this.clip = toClip(W, H);
     this.cam = cameraMatrix(W, H, frame.camera);
     this.bleedSide = 0;
 
     const moodDef = frame.mood ? EMOTION_DEFS[frame.mood] : null;
     const arousal = moodDef?.arousal ?? 0.5;
-    const lightGround = contrastRatio(frame.bg.c0, '#000000') < contrastRatio(frame.bg.c0, '#ffffff') * 0.55 && contrastRatio(frame.bg.c1, '#000000') < contrastRatio(frame.bg.c1, '#ffffff') * 0.55;
-    const plan = planStage({ arousal, scene: style.scene ?? null, hasCover: !!this.artLevels && this.options.artwork !== 'off', artAmount: this.look?.artwork.amount ?? 0.4, hook: frame.hook });
+    const lightGround = S.ground ? contrastRatio(this.groundColors(frame)[0], '#000000') < contrastRatio(this.groundColors(frame)[0], '#ffffff') * 0.55 : contrastRatio(frame.bg.c0, '#000000') < contrastRatio(frame.bg.c0, '#ffffff') * 0.55 && contrastRatio(frame.bg.c1, '#000000') < contrastRatio(frame.bg.c1, '#ffffff') * 0.55;
+    const plan = planStage({ arousal, scene: style.scene ?? null, hasCover: !!this.artLevels && this.options.artwork !== 'off', artAmount: this.look?.artwork.amount ?? 0.4, hook: frame.hook, style: sid });
     const since = frame.beat.index >= 0 && frame.beat.pulse > 0.001 ? -0.15 * Math.log(Math.min(1, frame.beat.pulse / Math.max(0.01, frame.beat.strength))) : 9;
 
     // 1) the stage: a fragment shader at reduced resolution, stretched under everything
@@ -703,8 +750,11 @@ export class TurboRenderer {
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     gl.enable(gl.BLEND);
 
-    // 3) cover artwork, per treatment
+    // 3) cover artwork, per treatment, then this style's own backdrop layers
     this.drawArtwork(frame, W, H);
+    if (sid === 'terminal') this.drawCodeLayer(frame, W, H);
+    else if (sid === 'nebula') this.drawNebula(frame, W, H);
+    else if (sid === 'acid') this.drawOrbs(frame, W, H);
 
     // 4) coloured slices (controlled disorder)
     for (const d of frame.disrupt) this.rect(d.x, d.y, d.w, d.h, d.color, d.alpha);
@@ -713,14 +763,21 @@ export class TurboRenderer {
     this.drawMarquee(frame, style, prof.marqueeRows, W, H);
     if (frame.interlude.amount > 0.01) this.drawInterlude(frame, W, H);
     if (frame.transition) this.drawLineTransition(frame.transition, W, H);
-    this.drawSparks(frame, W, H, arousal, lightGround);
+    if (sid === 'liquid') this.drawSparks(frame, W, H, arousal, lightGround);
 
     // 6) doodles, words, icons (words are centred on the stage: stage coords = centre + offset)
-    for (const d of frame.doodles) {
+    // the direction's line-art doodles do not belong in the terminal, the nebula or the ASCII world
+    const showDoodles = sid !== 'terminal' && sid !== 'nebula' && sid !== 'ascii';
+    for (const d of showDoodles ? frame.doodles : []) {
       if (d.alpha <= 0.01 || d.size <= 1) continue;
       const spr = this.doodleSprite(d);
       const k = d.size / DOODLE_R;
       this.drawSprite({ tex: spr.tex, m: mul(translate(W / 2 + d.x, H / 2 + d.y), rotate((d.rotationDeg * Math.PI) / 180)), w: spr.w * k, h: spr.h * k, alpha: d.alpha });
+    }
+    if (S.ascii > 0) {
+      this.asciiPass(frame, W, H);
+      // keep the type readable over bright characters: a dark pool behind the words
+      this.pool(W / 2, H / 2, Math.max(W, H) * 0.5, '#000000', 0.36, false);
     }
     this.bloomPass(plan, lightGround); // the glow of everything behind the type, before the type
     for (const w of frame.words) this.drawWord(w, frame, style, prof.echo);
@@ -753,15 +810,17 @@ export class TurboRenderer {
     p.f('u_guard', 0.5);
     p.i('u_variant', plan.variant);
     const pal = new Float32Array(12);
+    const stylePal = this.stylePal(frame);
     for (let i = 0; i < 4; i++) {
-      const c = parseColor(frame.palette[i] ?? frame.palette[0] ?? frame.accent);
+      const c = parseColor(stylePal[i] ?? stylePal[0] ?? frame.accent);
       pal[i * 3] = c[0];
       pal[i * 3 + 1] = c[1];
       pal[i * 3 + 2] = c[2];
     }
     p.v3arr('u_pal', pal);
-    p.col3('u_c0', parseColor(frame.bg.c0));
-    p.col3('u_c1', parseColor(frame.bg.c1));
+    const ground = this.groundColors(frame);
+    p.col3('u_c0', parseColor(ground[0]));
+    p.col3('u_c1', parseColor(ground[1]));
     const cover = this.artLevels && this.options.artwork !== 'off' && frame.artwork.treatment !== 'off' ? this.artLevels.l56 : null;
     p.f('u_hasCover', cover ? 1 : 0);
     p.f('u_coverMix', plan.coverMix * (lightGround ? 0.6 : 1));
@@ -776,8 +835,9 @@ export class TurboRenderer {
 
   private drawArtwork(frame: Frame, W: number, H: number) {
     const a = frame.artwork;
-    const t = a.treatment;
+    const t = this.spec().ascii > 0 ? 'bleed' : a.treatment;
     if (this.options.artwork === 'off' || t === 'off' || !this.artTex) return;
+    if (this.styleId() !== 'liquid' && this.spec().ascii === 0) return; // terminal, sketchbook, nebula, acid draw their own worlds
     const tt = frame.tMs / 1000;
     const asCard = t === 'card' || t === 'collage' || t === 'split';
     const alpha = Math.min(1, a.alpha);
@@ -1070,9 +1130,18 @@ export class TurboRenderer {
       size *= w.maxWidthPx / (textWidth * Math.abs(w.scaleX));
       textWidth = this.measure(w.text, w.font, size);
     }
+    const S = this.spec();
+    const sid = this.styleId();
     const low = this.options.quality === 'low';
-    const ink = this.adaptInk(frame, w, size, textWidth);
-    const fillColor = ink?.fill ?? w.fill;
+    // a style that owns the word colour drops the direction's extra treatments (outline, shadow, art fill, split colours...)
+    const quiet = S.ink !== null;
+    const ink = quiet ? null : this.adaptInk(frame, w, size, textWidth);
+    const fillColor = S.ink ? (w.active ? (S.inkActive ?? S.ink) : S.ink) : (ink?.fill ?? w.fill);
+    const boil = S.boil > 0 && !this.options.reducedMotion ? S.boil : 0;
+    const boilStep = Math.floor(frame.tMs / 110);
+    const typed = S.typewriter && w.age !== undefined ? Math.min(1, w.age / (Math.max(1, w.text.length) * 38)) : 1;
+    const wid = w.id.split(':');
+    const seed = hash01(parseInt(wid[0] ?? '0', 10) * 31 + parseInt(wid[1] ?? '0', 10));
     const g = this.glyph(w.text, def, size);
     const k = size / g.sizeB; // glyph textures are made at a bucketed size
     const gw = g.w * k;
@@ -1080,8 +1149,13 @@ export class TurboRenderer {
     const span: [number, number] = [g.pad / g.w, (g.pad + g.textW) / g.w];
     const vh = (size * 0.5) / gh;
     const vspan: [number, number] = [0.5 - vh, 0.5 + vh];
+    const tw = typed < 1 ? { x: typed, span } : undefined; // typewriter: how much of the word is typed so far
+    const tilt = S.rotate ? mul(translate(W / 2, H / 2), mul(rotate((S.rotate * Math.PI) / 180), translate(-W / 2, -H / 2))) : null;
 
-    const local = (dx = 0, dy = 0): Affine => mul(mul(mul(mul(translate(W / 2 + w.x + dx, H / 2 + w.y + dy), rotate((w.rotationDeg * Math.PI) / 180)), skewX(w.skewX)), scale(w.scaleX, w.scaleY)), IDENTITY);
+    const local = (dx = 0, dy = 0): Affine => {
+      const m0 = mul(mul(mul(translate(W / 2 + w.x + dx, H / 2 + w.y + dy), rotate((w.rotationDeg * Math.PI) / 180)), skewX(w.skewX)), scale(w.scaleX, w.scaleY));
+      return tilt ? mul(tilt, m0) : m0; // a style may tilt the whole line (nebula: along the light streaks)
+    };
     const glyphDraw = (tex: Glyph, color: string, alpha: number, extra: { dx?: number; dy?: number; vclip?: [number, number]; progress?: boolean; grad?: boolean; mode?: 0 | 1 | 2 | 3; lod?: number; glowR?: number } = {}) => {
       const gg = tex === g ? { w: gw, h: gh } : { w: tex.w * (size / tex.sizeB), h: tex.h * (size / tex.sizeB) };
       let grad: SpriteOpts['grad'];
@@ -1103,13 +1177,16 @@ export class TurboRenderer {
         grad,
         progress: extra.progress && w.progress !== undefined && w.lit ? { v: w.progress, lit: w.lit, span } : undefined,
         maskScale: size * 2.4,
+        boil,
+        boilStep,
+        clip: extra.mode === 2 ? undefined : tw,
       });
     };
 
     const base = Math.min(1, w.alpha);
     const drawAll = (alpha: number, dy = 0, clip?: [number, number]) => {
       const a = Math.min(1, base * alpha);
-      if (w.chip && !clip) {
+      if (w.chip && !clip && !quiet) {
         const px = size * 0.16;
         const cw = textWidth + px * 2;
         const ch = size * 0.86;
@@ -1122,11 +1199,11 @@ export class TurboRenderer {
           const s = 1 + 0.08 * w.focus;
           this.drawSprite({ tex: g.tex, m: mul(local(0, dy), scale(s, s)), w: gw, h: gh, alpha: a * 0.34 * w.focus, mode: 1, color: fillColor });
         }
-        if (w.highlight) {
+        if (w.highlight && !quiet) {
           const pad = size * 0.08;
           this.drawShape({ kind: 0, m: mul(local(0, dy), translate(0, size * 0.01)), w: textWidth + pad * 2, h: size * 0.62, color: w.highlight, alpha: a * 0.8, radius: size * 0.1, soft: 0.5 });
         }
-        if (w.shadow) {
+        if (w.shadow && !quiet) {
           if (w.strokeWidth) glyphDraw(this.glyph(w.text, def, size, w.strokeWidth), '#111018', a, { dx: w.shadow, dy: dy + w.shadow });
           glyphDraw(g, '#111018', a, { dx: w.shadow, dy: dy + w.shadow });
         }
@@ -1134,18 +1211,36 @@ export class TurboRenderer {
           const gl2 = this.glyph(w.text, def, size);
           glyphDraw(gl2, w.gradient ? '#ff5ea8' : fillColor, Math.min(1, a * (0.35 + w.glow * 0.7)), { dy, mode: 2, lod: 1.5, glowR: Math.max(2, size * 0.13 * Math.max(0.4, w.glow) * (this.dpr > 1 ? 1 : 1) * (g.tex.w / g.w)) });
         }
-        if (w.aberration) {
+        if (w.aberration && !quiet) {
           glyphDraw(g, '#ff2a55', a * 0.7, { dx: -w.aberration, dy });
           glyphDraw(g, '#19e3ff', a * 0.7, { dx: w.aberration, dy });
         }
       }
-      if (w.stroke) glyphDraw(this.glyph(w.text, def, size, w.strokeWidth ?? 2), w.stroke, a, { dy, vclip: clip });
-      if (ink && ink.edgeK > 0 && !clip) glyphDraw(this.glyph(w.text, def, size, Math.max(2.5, size * ink.edgeK)), ink.edge, a, { dy });
-      const masked = w.mask && this.artTex && this.options.artworkPolicy === 'full' && !clip;
-      glyphDraw(g, fillColor, a, { dy, vclip: clip, progress: true, grad: !masked && (style.id === 'y2k' || w.gradient === 'sunset'), mode: masked ? 3 : 1 });
+      if (!clip) {
+        if (S.blob && w.active) {
+          // a marker swipe behind the sung word, in one of the sketchbook's pen colours
+          const pad = size * 0.22;
+          this.drawShape({ kind: 4, m: mul(local(0, dy), translate(0, size * 0.06)), w: textWidth + pad * 2, h: size * 0.82, color: S.pal ? S.pal[Math.floor(seed * 3) % 3]! : '#ffd23f', alpha: a * 0.9, radius: seed * 6.28, width: size * 0.035, soft: 0.5 });
+        }
+        if (S.pill && w.active) {
+          // the sung word sits on a soft pill
+          const px = size * 0.3;
+          this.drawShape({ kind: 0, m: mul(local(0, dy), translate(0, size * 0.02)), w: textWidth + px * 2, h: size * 1.02, color: mix(S.pal?.[0] ?? '#8a5bff', '#ffffff', 0.18), alpha: a * 0.88, radius: size * 0.5, soft: 0.8 });
+        }
+        if (sid === 'acid') glyphDraw(this.glyph(w.text, def, size, Math.max(3, size * 0.09)), '#1a1030', a, { dy });
+      }
+      if (w.stroke && !quiet) glyphDraw(this.glyph(w.text, def, size, w.strokeWidth ?? 2), w.stroke, a, { dy, vclip: clip });
+      if (ink && ink.edgeK > 0 && !clip && !quiet) glyphDraw(this.glyph(w.text, def, size, Math.max(2.5, size * ink.edgeK)), ink.edge, a, { dy });
+      const masked = w.mask && this.artTex && this.options.artworkPolicy === 'full' && !clip && !quiet;
+      glyphDraw(g, fillColor, a, { dy, vclip: clip, progress: !quiet, grad: !masked && !quiet && (style.id === 'y2k' || w.gradient === 'sunset'), mode: masked ? 3 : 1 });
+      if (S.typewriter && !clip && (w.active || typed < 1)) {
+        // the console cursor, blinking, right after the last typed letter
+        const blink = Math.floor(frame.tMs / 420) % 2 === 0 ? 0.95 : 0.12;
+        this.drawShape({ kind: 0, m: mul(local(0, dy), translate(-textWidth / 2 + textWidth * typed + size * 0.08, 0)), w: Math.max(3, size * 0.085), h: size * 0.8, color: S.inkActive ?? '#ffffff', alpha: a * blink, radius: 0, soft: 0.5 });
+      }
     };
 
-    for (let i = Math.min(w.echo, maxEcho); i >= 1; i--) {
+    for (let i = Math.min(quiet ? 0 : w.echo, maxEcho); i >= 1; i--) {
       // echo trails: offset copies, fading
       const a = 0.22 / i;
       this.drawSprite({ tex: g.tex, m: mul(translate(-i * size * 0.035, i * size * 0.02), local()), w: gw, h: gh, alpha: Math.min(1, base * a), mode: 1, color: fillColor });
@@ -1165,7 +1260,7 @@ export class TurboRenderer {
   private bloomPass(plan: ReturnType<typeof planStage>, lightGround: boolean) {
     const gl = this.gl;
     const scene = this.sceneRT!;
-    const bloomOn = this.options.quality !== 'low' && !this.options.reducedMotion;
+    const bloomOn = this.options.quality !== 'low' && !this.options.reducedMotion && plan.bloom > 0.01;
     if (!bloomOn) return;
     gl.disable(gl.BLEND);
     const A = this.bloomA!;
@@ -1199,11 +1294,200 @@ export class TurboRenderer {
     void lightGround;
   }
 
+  // ---- Turbo styles -------------------------------------------------------------------------------------------------------------------
+  /** The ground colours in use: the style's own (a sketchbook page takes a tint of the current line's colour) or the direction's. */
+  private groundColors(frame: Frame): [string, string] {
+    const S = this.spec();
+    if (!S.ground) return [frame.bg.c0, frame.bg.c1];
+    if (this.styleId() === 'sketch' && S.pal) {
+      const tint = S.pal[Math.max(0, frame.lineIndex) % 3]!;
+      return [mix(S.ground[0], tint, 0.2), mix(S.ground[1], tint, 0.26)];
+    }
+    return S.ground;
+  }
+
+  /** The four light colours in use (acid slowly cycles its hues). */
+  private stylePal(frame: Frame): string[] {
+    const S = this.spec();
+    if (!S.pal) return frame.palette;
+    if (this.styleId() === 'acid') return S.pal.map((c, i) => (i < 3 ? rotateHue(c, (frame.tMs / 1000) * 14 + i * 40) : c));
+    return S.pal;
+  }
+
+  /** Terminal: three parallax layers of scrolling code, soft at the back and sharper in front. */
+  private drawCodeLayer(frame: Frame, W: number, H: number) {
+    const spr = this.sprite('code', 1024, 1536, (c) => {
+      const LINES = [
+        'export function computeFrame(tl, t, env) {', '  const beat = beatStateAt(tl.beatTimesMs, t);', '  const scene = sceneAt(tl, t);', '  if (!scene) return empty(env);',
+        '  for (const word of scene.words) {', '    const pose = poseWord(word, t, beat);', '    if (pose.alpha > 0.005) draw(pose);', '  }', '  return frame;', '}', '',
+        'const lead = 70; // ms: land just before the syllable', 'type Cue = { text: string; startMs: number; endMs: number };', '',
+        'async function loadLyrics(track) {', '  const res = await fetch("/api/lyrics/lookup?" + query(track));', '  if (!res.ok) throw new Error("no lyrics: " + res.status);',
+        '  return parseLrc(await res.text());', '}', '', 'let clock = performance.now();', 'requestAnimationFrame(function tick(now) {', '  render(position(now - clock));',
+        '  requestAnimationFrame(tick);', '});', '', 'if (gpu.kind === "dedicated") quality = "high";', 'else quality = governor.step(frameTimes);', '',
+        '// 0 errors  0 warnings  sync +120 ms', 'export default { computeFrame, loadLyrics };',
+      ];
+      c.font = '600 22px "JetBrains Mono Variable", monospace';
+      c.fillStyle = '#ffffff';
+      c.textBaseline = 'middle';
+      for (let y = 26, i = 0; y < 1536; y += 30, i++) c.fillText(LINES[i % LINES.length]!, 24, y);
+    });
+    const t = frame.tMs / 1000;
+    const pal = this.stylePal(frame);
+    const layers = [
+      { k: 1.9, speed: 12, lod: 2.6, a: 0.07, col: pal[1]! },
+      { k: 1.2, speed: 24, lod: 1.2, a: 0.1, col: pal[0]! },
+      { k: 0.75, speed: 42, lod: 0, a: 0.14, col: pal[2]! },
+    ];
+    layers.forEach((L, i) => {
+      const w = spr.w * L.k;
+      const h = spr.h * L.k;
+      const off = (t * L.speed * L.k) % h;
+      for (let r = -1; r * h - off < H; r++) for (let cx = 0; cx * w - i * 211 < W; cx++) this.drawSprite({ tex: spr.tex, m: translate(cx * w - i * 211 + w / 2, r * h - off + h / 2), w, h, alpha: L.a * (0.75 + frame.beat.pulse * 0.5), mode: 1, color: L.col, lod: L.lod, camera: false });
+    });
+  }
+
+  /** Nebula: light streaks racing across a field of stars. */
+  private drawNebula(frame: Frame, W: number, H: number) {
+    const t = frame.tMs / 1000;
+    const pal = this.stylePal(frame);
+    for (let k = 0; k < 6; k++) {
+      const p = (t * (0.04 + hash01(k + 40) * 0.05) + hash01(k + 50)) % 1;
+      const len = W * (0.42 + 0.4 * hash01(k + 60));
+      const x = -len * 0.3 + p * (W + len * 1.2);
+      const y = H * (0.12 + 0.76 * hash01(k + 70)) + (p - 0.5) * H * 0.32;
+      const ang = ((-24 + hash01(k + 80) * 8) * Math.PI) / 180;
+      this.drawShape({ kind: 5, m: mul(translate(x, y), rotate(ang)), w: len, h: len * 0.09, color: pal[k % 3]!, color2: '#ffffff', alpha: 0.5 + 0.4 * frame.beat.pulse });
+    }
+    const S = Math.min(H, W * 0.9);
+    const stars: { x: number; y: number; size: number; alpha: number; color: string }[] = [];
+    for (let k = 0; k < 150; k++) {
+      const tw = 0.5 + 0.5 * Math.sin(t * (0.8 + hash01(k + 5) * 2.2) + k);
+      stars.push({ x: hash01(k * 2 + 1) * W, y: hash01(k * 2 + 2) * H, size: S * (0.0016 + hash01(k + 9) * 0.0035), alpha: (0.25 + 0.6 * tw) * (0.4 + hash01(k + 13) * 0.6), color: k % 5 === 0 ? pal[1]! : '#ffffff' });
+    }
+    this.drawPoints(stars);
+  }
+
+  /** Acid: hand-drawn orbs and eyes drifting about, with their colour channels split apart. */
+  private orbSprite(i: number, color: string): Sprite {
+    return this.sprite(`orb|${i}|${color}`, 192, 192, (c) => {
+      c.translate(96, 96);
+      const blob = (r: number, seed: number) => {
+        c.beginPath();
+        for (let k = 0; k <= 32; k++) {
+          const a = (k / 32) * Math.PI * 2;
+          const rr = r * (1 + 0.05 * Math.sin(a * 3 + seed) + 0.03 * Math.sin(a * 5 + seed * 2));
+          k ? c.lineTo(Math.cos(a) * rr, Math.sin(a) * rr) : c.moveTo(Math.cos(a) * rr, Math.sin(a) * rr);
+        }
+        c.closePath();
+      };
+      c.lineJoin = 'round';
+      blob(72, i);
+      c.fillStyle = color;
+      c.fill();
+      c.strokeStyle = '#14091f';
+      c.lineWidth = 7;
+      c.stroke();
+      c.lineWidth = 4;
+      c.strokeStyle = 'rgba(20,9,31,0.8)';
+      blob(46, i + 1.3);
+      c.stroke();
+      blob(26, i + 2.1);
+      c.fillStyle = '#14091f';
+      c.fill();
+      c.fillStyle = '#ffffff';
+      c.beginPath();
+      c.arc(-8, -9, 6, 0, Math.PI * 2);
+      c.fill();
+    });
+  }
+
+  private drawOrbs(frame: Frame, W: number, H: number) {
+    const gl = this.gl;
+    const t = frame.tMs / 1000;
+    const S = Math.min(H, W * 0.9);
+    const pal = this.stylePal(frame);
+    const n = Math.round(8 * this.density) + 3;
+    for (let k = 0; k < n; k++) {
+      const h1 = hash01(k * 5 + 1);
+      const h2 = hash01(k * 5 + 2);
+      const h3 = hash01(k * 5 + 3);
+      const size = S * (0.1 + h3 * 0.17) * (1 + frame.beat.pulse * 0.07);
+      const x = h1 * W + Math.sin(t * (0.25 + h2 * 0.3) + k) * W * 0.03;
+      const y = (0.3 + h2 * 0.75) * H + Math.cos(t * (0.2 + h1 * 0.3) + k * 2) * H * 0.025;
+      const m = mul(translate(x, y), rotate((Math.sin(t * 0.4 + k) * 20 * Math.PI) / 180));
+      const spr = this.orbSprite(k % 4, pal[k % 4]!);
+      this.drawSprite({ tex: spr.tex, m, w: size, h: size, alpha: 0.95 });
+      // the colour channels slip apart: a red copy to one side, a blue one to the other
+      const off = S * 0.007 * (1 + frame.beat.pulse * 1.5);
+      gl.blendFunc(gl.ONE, gl.ONE);
+      this.drawSprite({ tex: spr.tex, m: mul(translate(-off, 0), m), w: size, h: size, alpha: 0.55, color: [1, 0.12, 0.2, 1] });
+      this.drawSprite({ tex: spr.tex, m: mul(translate(off, 0), m), w: size, h: size, alpha: 0.55, color: [0.1, 0.5, 1, 1] });
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    }
+  }
+
+  /** ASCII: the picture so far becomes characters (brightness picks the glyph, the colour stays), dissolving back on the beat. */
+  private ensureAtlas(): { tex: Tex; n: number } {
+    if (this.asciiAtlas) return this.asciiAtlas;
+    const RAMP = ' .:;i1tfLCG08@';
+    const CELL = 24;
+    const c = document.createElement('canvas');
+    c.width = CELL * RAMP.length;
+    c.height = CELL;
+    const cx = c.getContext('2d')!;
+    cx.font = '700 21px "JetBrains Mono Variable", monospace';
+    cx.fillStyle = '#ffffff';
+    cx.textAlign = 'center';
+    cx.textBaseline = 'middle';
+    [...RAMP].forEach((ch, i) => ch !== ' ' && cx.fillText(ch, CELL * i + CELL / 2, CELL / 2 + 1));
+    this.asciiAtlas = { tex: textureFrom(this.gl, c, c.width, c.height, { mips: false }), n: RAMP.length };
+    return this.asciiAtlas;
+  }
+
+  private asciiPass(frame: Frame, W: number, H: number) {
+    const gl = this.gl;
+    const scene = this.sceneRT!;
+    const out = this.asciiRT;
+    if (!out) return;
+    const atlas = this.ensureAtlas();
+    void W;
+    void H;
+    gl.disable(gl.BLEND);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, out.fbo);
+    gl.viewport(0, 0, out.w, out.h);
+    const p = this.programs.ascii;
+    p.use();
+    this.bindTex(0, scene.tex);
+    this.bindTex(1, atlas.tex.tex);
+    p.i('u_scene', 0);
+    p.i('u_atlas', 1);
+    p.v2('u_res', out.w, out.h);
+    p.f('u_cell', Math.max(8, Math.round(12 * this.dpr)));
+    p.f('u_n', atlas.n);
+    // mostly characters, falling back toward the real picture on the beat
+    p.f('u_mix', Math.min(1, Math.max(0.3, 0.72 + 0.2 * Math.sin(frame.tMs / 2300) - frame.beat.pulse * 0.45)));
+    p.f('u_time', frame.tMs / 1000);
+    p.f('u_boost', 1.7);
+    gl.bindVertexArray(this.quadVao);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    // and back into the scene
+    gl.bindFramebuffer(gl.FRAMEBUFFER, scene.fbo);
+    gl.viewport(0, 0, scene.w, scene.h);
+    const blit = this.programs.blit;
+    blit.use();
+    this.bindTex(0, out.tex);
+    blit.i('u_tex', 0);
+    blit.f('u_alpha', 1);
+    blit.f('u_lod', 0);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    gl.enable(gl.BLEND);
+  }
+
   // ---- finishing -------------------------------------------------------------------------------------------------------------------------
   private finish(frame: Frame, plan: ReturnType<typeof planStage>, lightGround: boolean) {
     const gl = this.gl;
     const scene = this.sceneRT!;
-    const bloomOn = this.options.quality !== 'low' && !this.options.reducedMotion;
+    const bloomOn = this.options.quality !== 'low' && !this.options.reducedMotion && plan.bloom > 0.01;
     const bloomAmt = bloomOn ? plan.bloom * (lightGround ? 0.25 : 1) : 0;
     gl.disable(gl.BLEND);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
@@ -1225,12 +1509,18 @@ export class TurboRenderer {
     p.f('u_vignette', Math.min(1, ov.vignette));
     p.f('u_scrim', ov.scrim);
     p.f('u_scrimDark', ov.scrimDark ? 1 : 0);
-    p.f('u_grain', prof.grain && this.options.texture ? ov.grain * 0.8 : 0);
-    p.f('u_scan', prof.scanlines && this.options.texture ? ov.scanlines : 0);
+    const S = this.spec();
+    p.f('u_grain', S.post.grain !== null ? S.post.grain : prof.grain && this.options.texture ? ov.grain * 0.8 : 0);
+    p.f('u_scan', S.post.scan > 0 ? S.post.scan : prof.scanlines && this.options.texture ? ov.scanlines : 0);
     p.f('u_halftone', prof.halftone && this.options.texture ? ov.halftone : 0);
     p.col3('u_dotColor', parseColor(frame.bg.invert ? '#000000' : (frame.palette[0] ?? frame.accent)));
     p.f('u_flash', ov.flash);
     p.f('u_pulse', frame.beat.pulse);
+    p.f('u_curve', calm ? 0 : S.post.curve);
+    p.f('u_glitch', calm ? 0 : S.post.glitch * (0.3 + frame.beat.pulse * 1.4));
+    p.f('u_dither', S.post.dither);
+    p.f('u_grainCell', Math.max(1, S.post.grainCell * this.dpr));
+    p.f('u_aberMode', S.post.aberFull);
     gl.bindVertexArray(this.quadVao);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     gl.enable(gl.BLEND);

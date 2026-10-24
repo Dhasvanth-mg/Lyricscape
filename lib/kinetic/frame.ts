@@ -1325,6 +1325,7 @@ function poseWord(a: PoseArgs): DrawWord | null {
     split,
     echo,
     blur: blur + blurBoost,
+    age: tIn,
     active,
     z: active ? 2 : 1 + wi * 0.001,
     maxWidthPx: W * 0.94 * box.widthFrac,

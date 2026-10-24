@@ -7,6 +7,8 @@
 
 import { BufferTarget, CanvasSource, Mp4OutputFormat, Output, QUALITY_HIGH, QUALITY_MEDIUM, QUALITY_VERY_HIGH, WebMOutputFormat, getFirstEncodableVideoCodec } from 'mediabunny';
 import { KineticRenderer, type RendererOptions } from '../kinetic/render';
+import { createStageRenderer, type StageRenderer } from '../kinetic/stageRenderer';
+import type { StageMode } from '../kinetic/modes';
 import type { Look } from '../kinetic/look';
 import type { VisualTimeline } from '../kinetic/types';
 
@@ -26,6 +28,8 @@ export type ExportQuality = 'standard' | 'high' | 'max';
 export type ExportContent = Pick<RendererOptions, 'colorMode' | 'emojis' | 'doodles' | 'artwork' | 'interlude' | 'texture' | 'reducedMotion'>;
 
 export type ExportJob = {
+  /** which renderer draws the file (default Clean). Turbo falls back to Clean where WebGL2 is missing. */
+  mode?: StageMode;
   timeline: VisualTimeline;
   /** the art direction the song is shown in (palette, type, artwork treatment, motion); absent = the classic style table */
   look?: Look;
@@ -69,9 +73,16 @@ export function loadCorsImage(url: string | undefined): Promise<HTMLImageElement
 }
 
 /** A renderer on its own canvas at an exact pixel size. */
-export async function makeExportRenderer(job: ExportJob): Promise<{ r: KineticRenderer; canvas: HTMLCanvasElement }> {
-  const canvas = document.createElement('canvas');
-  const r = new KineticRenderer(canvas);
+export async function makeExportRenderer(job: ExportJob): Promise<{ r: StageRenderer; canvas: HTMLCanvasElement }> {
+  let canvas = document.createElement('canvas');
+  let r: StageRenderer;
+  try {
+    // preserveDrawingBuffer: the encoder reads the canvas after drawing, so it must not be cleared by the compositor first
+    r = createStageRenderer(job.mode ?? 'clean', canvas, { preserveDrawingBuffer: true });
+  } catch {
+    canvas = document.createElement('canvas'); // a canvas that was handed a WebGL context can never give a 2D one
+    r = new KineticRenderer(canvas);
+  }
   r.exact = true;
   r.options = { ...r.options, ...job.content, motionScale: 1, quality: 'high', artworkPolicy: 'full' };
   r.resize(job.width, job.height, 1);

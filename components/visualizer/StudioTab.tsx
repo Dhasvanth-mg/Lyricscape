@@ -18,6 +18,7 @@ import type { Tweaks, TypePairId } from '@/lib/theme/types';
 import type { StyleId } from '@/lib/kinetic/types';
 import { useUi } from '@/lib/ui-store';
 import { LookControls } from './LookControls';
+import { ModePicker } from './ModePicker';
 import { GpuStatus } from '@/components/ui/GpuStatus';
 import type { useSongLook } from './useSongLook';
 
@@ -170,6 +171,7 @@ export function StudioTab({ sl, readable, onReadable, reduced, osReduced, onForc
 
   return (
     <>
+      <ModePicker />
       {/* ---- what the app understood about this song ---------------------------------------------------------------- */}
       <section className="mb-5 rounded-xl border border-white/10 bg-white/[0.03] p-3" data-testid="identity-card">
         <p className="font-mono text-[10px] tracking-[0.14em] text-ink-400 uppercase">This song, as understood</p>

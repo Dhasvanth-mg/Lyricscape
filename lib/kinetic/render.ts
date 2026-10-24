@@ -41,6 +41,7 @@ const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans
 const SPRITE_PX = 128;
 
 export class KineticRenderer {
+  readonly kind = 'canvas2d' as const;
   private ctx: Ls;
   private dpr = 1;
   private rawDpr = 1;

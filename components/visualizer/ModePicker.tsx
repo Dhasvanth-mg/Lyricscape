@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { Cpu, Gem, Zap } from 'lucide-react';
 import { MODES, STAGE_MODES, type StageMode } from '@/lib/kinetic/modes';
 import { turboSupported } from '@/lib/kinetic/stageRenderer';
+import { TURBO_STYLES, TURBO_STYLE_IDS } from '@/lib/kinetic/turbo';
 import { useUi } from '@/lib/ui-store';
 import { GpuStatus } from '@/components/ui/GpuStatus';
 
@@ -14,6 +15,7 @@ const ICON: Record<StageMode, typeof Gem> = { clean: Gem, turbo: Zap };
 export function ModePicker() {
   const mode = useUi((s) => s.mode);
   const set = useUi((s) => s.set);
+  const turboStyle = useUi((s) => s.turboStyle);
   const [gl, setGl] = useState<boolean | null>(null);
   useEffect(() => setGl(turboSupported()), []);
   return (
@@ -53,9 +55,20 @@ export function ModePicker() {
         </ul>
       </details>
       {mode === 'turbo' && (
-        <div className="mt-2">
-          <GpuStatus compact />
-        </div>
+        <>
+          <h3 className="mt-3 mb-1 font-mono text-[10px] tracking-[0.14em] text-ink-400 uppercase">Turbo style</h3>
+          <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Turbo style">
+            {TURBO_STYLE_IDS.map((id) => (
+              <button key={id} role="radio" aria-checked={turboStyle === id} onClick={() => set({ turboStyle: id })} data-testid={`turbo-style-${id}`} className={clsx('rounded-full border px-3 py-1.5 text-xs font-semibold transition', turboStyle === id ? 'border-signal bg-signal text-white' : 'border-white/15 hover:border-white/40')}>
+                {TURBO_STYLES[id].label}
+              </button>
+            ))}
+          </div>
+          <p className="mt-1.5 text-[11px] leading-snug text-ink-300">{TURBO_STYLES[turboStyle].tagline}</p>
+          <div className="mt-2">
+            <GpuStatus compact />
+          </div>
+        </>
       )}
       {gl === false && (
         <p className="mt-2 flex items-start gap-1.5 text-[11px] text-amber-300">

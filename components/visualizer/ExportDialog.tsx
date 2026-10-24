@@ -9,6 +9,7 @@ import { compileForTrack, moodFor, type CoverCues } from '@/lib/kinetic/forTrack
 import { KineticRenderer } from '@/lib/kinetic/render';
 import { createStageRenderer, turboSupported, type StageRenderer } from '@/lib/kinetic/stageRenderer';
 import { MODES, STAGE_MODES, type StageMode } from '@/lib/kinetic/modes';
+import { TURBO_STYLES, TURBO_STYLE_IDS, type TurboStyleId } from '@/lib/kinetic/turbo';
 import { STYLES } from '@/lib/kinetic/styles';
 import { STYLE_IDS, type StyleId } from '@/lib/kinetic/types';
 import type { Look } from '@/lib/kinetic/look';
@@ -66,6 +67,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
   const [style, setStyle] = useState<StyleId>(direction);
   const [mode, setMode] = useState<StageMode>(ui.mode === 'turbo' && turboSupported() ? 'turbo' : 'clean');
   const canTurbo = turboSupported();
+  const [turboStyle, setTurboStyle] = useState<TurboStyleId>(ui.turboStyle);
   const [colorMode, setColorMode] = useState<ColorMode>(ui.colorMode);
   const [moodPick, setMoodPick] = useState<EmotionId | 'auto'>(ui.mood);
   const [emojis, setEmojis] = useState(ui.emojis);
@@ -99,7 +101,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
   const timeline = useMemo(() => compileForTrack({ track, doc, style, albumPalette, cover, mood: moodFor(track, doc, moodPick), estimateWords: ui.estimatedWords }), [track, doc, style, albumPalette, cover, moodPick, ui.estimatedWords]);
   // the stage's own Look when the style is unchanged, otherwise the chosen direction composed for this song
   const look = useMemo(() => (style === direction ? stageLook : composeLook({ direction: directionOf(style), identity, cover: coverInfo }).look), [style, direction, stageLook, identity, coverInfo]);
-  const content: ExportContent = useMemo(() => ({ colorMode, emojis, doodles, artwork, interlude, texture, reducedMotion: calm }), [colorMode, emojis, doodles, artwork, interlude, texture, calm]);
+  const content: ExportContent = useMemo(() => ({ colorMode, emojis, doodles, artwork, interlude, texture, reducedMotion: calm, turboStyle }), [colorMode, emojis, doodles, artwork, interlude, texture, calm, turboStyle]);
 
   // the cover must be loaded with CORS or the encoder would refuse the tainted canvas
   useEffect(() => {
@@ -360,6 +362,21 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
                 ))}
               </div>
               <p className="text-xs text-ink-400">{MODES[mode].tagline}</p>
+              {mode === 'turbo' && (
+                <>
+                  <label className="sr-only" htmlFor="exp-turbo-style">
+                    Turbo style
+                  </label>
+                  <select id="exp-turbo-style" value={turboStyle} onChange={(e) => setTurboStyle(e.target.value as TurboStyleId)} className={field} disabled={lock} data-testid="export-turbo-style">
+                    {TURBO_STYLE_IDS.map((id) => (
+                      <option key={id} value={id}>
+                        {TURBO_STYLES[id].label}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-ink-400">{TURBO_STYLES[turboStyle].tagline}</p>
+                </>
+              )}
             </fieldset>
 
             <fieldset className="grid gap-2">

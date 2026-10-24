@@ -34,6 +34,8 @@ export type RendererOptions = {
   interlude: boolean;
   /** film grain, halftone dots and scanlines (default true) */
   texture: boolean;
+  /** Turbo only: which of the six GPU styles to draw (default liquid light) */
+  turboStyle?: import('./turbo').TurboStyleId;
 };
 
 type Ls = CanvasRenderingContext2D & { letterSpacing?: string };

@@ -94,3 +94,19 @@ Removed: `Frame.caption` is always `null` and neither renderer draws it.
 `pnpm typecheck`, `pnpm lint` clean. Unit tests added: `indic` (17), `world-lang` (27), `transitions` (46), `turbo` (18); updated: export file names.
 Browser checks (Edge, headless): Turbo and Clean on Hindi, Tamil, Japanese, Korean, Arabic lyrics; persisted Turbo mode on a fresh stage mount; 24 mode toggles;
 MP4 export in Turbo (H.264, 120 frames) with a decoded frame inspected; no console errors or warnings.
+
+## 8. Turbo styles (drawn from your reference videos)
+
+Five reference clips set the direction; each became a GPU style, chosen in the Studio under Mode -> Turbo style (and in the export dialog). The first is the default liquid light.
+
+| Style | From the reference | How it is built (all GPU) |
+|---|---|---|
+| **Terminal** | typed code on a dark console, error panels, glitchy slices | monospace type typed letter by letter (a clip in the glyph shader driven by the word's age) with a blinking cursor; three parallax layers of scrolling code (a texture, tinted and blurred by mip level); CRT barrel curve, scanlines and horizontal glitch slices in the finishing pass; phosphor bloom |
+| **Sketchbook** | hand-drawn cards, marker highlights, dithered paper | marker typeface with "line boil" (the glyph sampling is jittered by noise that re-rolls ~9 times a second); a paper-and-frame backdrop shader whose tint follows the current line; a marker swipe (a warped rounded bar) behind the sung word; ordered dithering and coarse grain in the finishing pass |
+| **Nebula** | Apple Music-style gradient and purple space with streaks, pill on the emphasised word | flowing nebula shader in purples, shader light streaks that race across, 150 twinkling stars, the whole line tilted along the streaks, the sung word on a soft pill |
+| **Acid** | grainy colour blobs, RGB-split hand-drawn eyes, yellow subtitle at the top | hue-cycling blobs, procedural hand-drawn orbs with pupils whose red and blue channels are drawn apart (additive blending), fringing across the whole frame, heavy coarse grain, a small yellow condensed subtitle with a dark outline |
+| **ASCII** | a picture turned into characters that dissolve | a shader that replaces every screen cell with the glyph (from an atlas, dark to bright) matching its brightness, keeping the colour, dissolving back toward the picture on the beat; the cover is the stage; type stays crisp on top |
+
+The Terminal and Sketchbook styles re-measure the layout in their own typeface, so words never overlap. The directions' cover cards and line-art doodles are hidden in the styled worlds
+(they have their own scenery); readable ink on the style's own ground is asserted in `tests/turbo-styles.test.ts`. Measured here (Intel Iris Xe, headless Edge): 2-7 ms per frame at 1280x720.
+The reference clips themselves are not copied: no footage, frames, art or text from them is used; only the techniques (typing, boil, streaks, channel split, character mosaics) were recreated from scratch.

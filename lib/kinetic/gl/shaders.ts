@@ -58,6 +58,15 @@ uniform vec2 u_size;
 uniform float u_grey;      // 0..1 desaturate (tonal artwork)
 uniform vec3 u_tone;       // colour laid over the picture
 uniform float u_toneAmt;
+uniform float u_boil;      // hand-drawn "line boil": the picture wobbles, re-rolled a few times a second
+uniform float u_boilStep;
+uniform float u_clipX;     // < 0 = off, else only the first fraction of the text span is drawn (typewriter)
+
+float hsh(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
+float nz(vec2 p) {
+  vec2 i = floor(p); vec2 f = fract(p); f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hsh(i), hsh(i + vec2(1.0, 0.0)), f.x), mix(hsh(i + vec2(0.0, 1.0)), hsh(i + vec2(1.0, 1.0)), f.x), f.y);
+}
 
 float sdBox(vec2 p, vec2 b, float r) {
   vec2 q = abs(p) - b + r;
@@ -66,6 +75,9 @@ float sdBox(vec2 p, vec2 b, float r) {
 
 void main() {
   if (v_uv.y < u_vclip.x || v_uv.y > u_vclip.y) discard;
+  if (u_clipX >= 0.0 && (v_uv.x - u_span.x) / max(0.001, u_span.y - u_span.x) > u_clipX) discard;
+  vec2 buv = v_uv;
+  if (u_boil > 0.0) buv += (vec2(nz(v_uv * 9.0 + u_boilStep * 3.7), nz(v_uv * 9.0 + 7.3 + u_boilStep * 5.1)) - 0.5) * u_boil * 0.018;
   vec2 tuv = u_uvRect.xy + v_uv * u_uvRect.zw;
   vec4 c;
   if (u_mode == 0) {
@@ -80,7 +92,7 @@ void main() {
   } else {
     float m;
     if (u_mode == 1 || u_mode == 3) {
-      m = textureLod(u_tex, v_uv, u_lod).a;
+      m = textureLod(u_tex, buv, u_lod).a;
     } else {
       m = 0.0;
       float tw = 0.0;
@@ -150,6 +162,21 @@ void main() {
     float t = clamp(length(v_local) / max(u_radius, 1.0), 0.0, 1.0);
     a = 1.0 - t;
     a *= a * (3.0 - 2.0 * a);
+  } else if (u_kind == 4) {
+    // a marker swipe: a rounded bar whose edges wander (u_width = wobble in px, u_radius = seed)
+    vec2 q = v_local;
+    q.x += sin(q.y * 0.11 + u_radius) * u_width + sin(q.y * 0.27 + u_radius * 2.3) * u_width * 0.5;
+    q.y += sin(q.x * 0.09 + u_radius * 1.7) * u_width * 0.8 + sin(q.x * 0.23 + u_radius) * u_width * 0.4;
+    float d = sdBox(q, u_size * 0.5, u_size.y * 0.42);
+    a = 1.0 - smoothstep(-1.2, 1.2, d);
+  } else if (u_kind == 5) {
+    // a light streak: bright core, soft sides, fading in and out along its length, colour u_color -> u_color2 toward the head
+    float t = v_uv.x;
+    float core = exp(-pow((v_uv.y - 0.5) * 14.0, 2.0));
+    float k = core * smoothstep(0.0, 0.25, t) * smoothstep(1.0, 0.7, t) * u_alpha;
+    vec3 rgb = mix(u_color.rgb, u_color2.rgb, t);
+    o = vec4(rgb * k, k);
+    return;
   } else {
     float x = v_uv.x;
     vec3 rgb = x < 0.55 ? u_color.rgb : u_color2.rgb;
@@ -269,6 +296,17 @@ void main() {
       col += u_pal[int(mod(fi, 3.0))] * disc * (0.07 + 0.12 * u_beat) * a;
     }
     if (u_hasCover > 0.5) col = mix(col, texture(u_cover, v_uv).rgb, u_coverMix);
+  } else if (u_variant == 5) {
+    // sketchbook page: warm paper with fibres, a wobbling hand-drawn frame, darker outside it
+    float fibre = fbm(v_uv * vec2(aspect, 1.0) * 70.0) * 0.07 + noise(v_uv * vec2(aspect, 1.0) * 420.0) * 0.035;
+    col = mix(u_c0, u_c1, t) + (fibre - 0.06);
+    float inset = 0.032;
+    vec2 e = min(v_uv, 1.0 - v_uv) * vec2(aspect, 1.0);
+    float wob = (noise(v_uv * vec2(aspect, 1.0) * 14.0 + floor(u_time * 6.0) * 1.7) - 0.5) * 0.008;
+    float dist = min(e.x, e.y) - inset + wob;
+    float line = smoothstep(0.0075, 0.0, abs(dist));
+    col = mix(col, u_pal[3], line * 0.92);
+    if (dist < -0.003) col *= 0.88;
   } else if (u_variant == 3) {
     float horizon = 0.56;
     if (v_uv.y > horizon) {
@@ -292,6 +330,43 @@ void main() {
   col += u_pal[0] * u_beat * 0.07 * a;
   col = mix(col, col * 1.18 + 0.05, u_lift * 0.5);
   o = vec4(col, 1.0);
+}`;
+
+/**
+ * Turns the picture into characters: every cell of the screen becomes the glyph (from an atlas ordered dark to bright) that matches its
+ * brightness, in its own colour. u_mix blends from the real picture to the characters; the dissolve edge wanders with noise.
+ */
+export const ASCII_FS = `${HEAD}
+in vec2 v_tc;
+out vec4 o;
+uniform sampler2D u_scene;
+uniform sampler2D u_atlas;
+uniform vec2 u_res;
+uniform float u_cell;
+uniform float u_n;
+uniform float u_mix;
+uniform float u_time;
+uniform float u_boost;
+float h2(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
+float n2(vec2 p) {
+  vec2 i = floor(p); vec2 f = fract(p); f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(h2(i), h2(i + vec2(1.0, 0.0)), f.x), mix(h2(i + vec2(0.0, 1.0)), h2(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+void main() {
+  vec2 cell = floor(gl_FragCoord.xy / u_cell);
+  vec2 c0 = (cell + 0.5) * u_cell / u_res;
+  vec2 px = vec2(u_cell * 0.3) / u_res;
+  vec3 c = (texture(u_scene, c0).rgb * 2.0 + texture(u_scene, c0 + px).rgb + texture(u_scene, c0 - px).rgb + texture(u_scene, c0 + vec2(px.x, -px.y)).rgb + texture(u_scene, c0 - vec2(px.x, -px.y)).rgb) / 6.0;
+  float lum = dot(c, vec3(0.299, 0.587, 0.114));
+  float g = floor(clamp(lum * 1.25, 0.0, 0.999) * u_n);
+  vec2 f = fract(gl_FragCoord.xy / u_cell);
+  float m = texture(u_atlas, vec2((g + f.x) / u_n, 1.0 - f.y)).a;
+  vec3 asc = c * u_boost * m + c * 0.05;
+  vec3 base = texture(u_scene, v_tc).rgb;
+  float edge = n2(v_tc * vec2(u_res.x / u_res.y, 1.0) * 6.0 + u_time * 0.25);
+  float k = smoothstep(u_mix - 0.12, u_mix + 0.12, 1.0 - edge * (1.0 - u_mix) - (1.0 - u_mix) * 0.0);
+  float amount = clamp(u_mix * 1.2 - edge * 0.2 + 0.1, 0.0, 1.0);
+  o = vec4(mix(base, asc, amount), 1.0);
 }`;
 
 /** draws a render-target texture over the whole stage */
@@ -347,15 +422,32 @@ uniform float u_halftone;
 uniform vec3 u_dotColor;
 uniform float u_flash;
 uniform float u_pulse;
+uniform float u_curve;      // CRT barrel curve
+uniform float u_glitch;     // horizontal glitch slices
+uniform float u_dither;     // colour levels for ordered dithering, 0 = off
+uniform float u_grainCell;  // grain size in device px
+uniform float u_aberMode;   // 0 = fringing only toward the edges, 1 = across the whole frame
 
 float hash(vec2 p) { p = fract(p * vec2(443.897, 441.423)); p += dot(p, p + 19.19); return fract(p.x * p.y); }
 
 void main() {
-  vec2 d = v_tc - 0.5;
-  // lens fringing: none in the middle (where the words are, so they stay crisp), growing toward the edges
-  float ab = u_aber * smoothstep(0.42, 0.72, length(d)) * 0.8;
-  vec3 col = vec3(texture(u_scene, v_tc + d * ab).r, texture(u_scene, v_tc).g, texture(u_scene, v_tc - d * ab).b);
-  col += texture(u_bloom, v_tc).rgb * u_bloomAmt;
+  vec2 uv = v_tc;
+  if (u_curve > 0.0) {
+    vec2 cc = uv * 2.0 - 1.0;
+    cc *= 1.0 + u_curve * dot(cc, cc) * 0.28;
+    uv = cc * 0.5 + 0.5;
+    if (uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0) { o = vec4(0.0, 0.0, 0.0, 1.0); return; }
+  }
+  if (u_glitch > 0.0) {
+    float band = floor(uv.y * 30.0);
+    float step_ = floor(u_time * 14.0);
+    if (hash(vec2(band, step_)) > 1.0 - u_glitch * 0.3) uv.x += (hash(vec2(band, step_ + 3.0)) - 0.5) * 0.07 * u_glitch;
+  }
+  vec2 d = uv - 0.5;
+  // lens fringing: none in the middle (where the words are, so they stay crisp), growing toward the edges (or everywhere, for acid)
+  float ab = u_aber * mix(smoothstep(0.42, 0.72, length(d)) * 0.8, 0.4 + length(d) * 0.8, u_aberMode);
+  vec3 col = vec3(texture(u_scene, uv + d * ab).r, texture(u_scene, uv).g, texture(u_scene, uv - d * ab).b);
+  col += texture(u_bloom, uv).rgb * u_bloomAmt;
 
   float rr = length(d * vec2(u_res.x / u_res.y, 1.0));
   if (u_scrim > 0.0) {
@@ -375,8 +467,13 @@ void main() {
   }
   if (u_scan > 0.0) col *= 1.0 - u_scan * step(mod(floor(gl_FragCoord.y / u_dpr), 3.0), 0.5);
   if (u_grain > 0.0) {
-    float n = hash(gl_FragCoord.xy + floor(u_time * 12.5) * 17.0);
+    float n = hash(floor(gl_FragCoord.xy / max(u_grainCell, 1.0)) + floor(u_time * 12.5) * 17.0);
     col += (n - 0.5) * u_grain * 0.9;
+  }
+  if (u_dither > 0.0) {
+    // ordered dithering with interleaved gradient noise: the flat, printed look of low-colour art
+    float t = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715)))) - 0.5;
+    col = floor(col * u_dither + 0.5 + t * 0.9) / u_dither;
   }
   col += u_flash;
   o = vec4(clamp(col, 0.0, 1.0), 1.0);

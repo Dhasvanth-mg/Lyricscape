@@ -135,6 +135,8 @@ export type DrawWord = {
   lit?: string;
   /** soft ghost copy that settles into the word as it lands, 0..1 */
   focus?: number;
+  /** ms since this word's entrance began (the typewriter and other time-driven treatments read it) */
+  age?: number;
 };
 
 export type DrawDoodle = {

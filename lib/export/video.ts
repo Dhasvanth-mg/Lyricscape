@@ -25,7 +25,7 @@ export type ExportFormat = 'mp4' | 'webm';
 export type ExportQuality = 'standard' | 'high' | 'max';
 
 /** Everything the renderer needs besides the timeline: what gets drawn. */
-export type ExportContent = Pick<RendererOptions, 'colorMode' | 'emojis' | 'doodles' | 'artwork' | 'interlude' | 'texture' | 'reducedMotion'>;
+export type ExportContent = Pick<RendererOptions, 'colorMode' | 'emojis' | 'doodles' | 'artwork' | 'interlude' | 'texture' | 'reducedMotion' | 'turboStyle'>;
 
 export type ExportJob = {
   /** lyric time = song time + this: the song's own sync offset, so the video lines up with the audio the way the stage did (default 0) */

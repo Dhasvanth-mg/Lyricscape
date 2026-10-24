@@ -5,6 +5,7 @@ import type { StyleId } from './kinetic/types';
 import type { ColorMode, EmotionId } from './kinetic/emotion';
 import type { ArtworkAmount } from './kinetic/render';
 import { isStageMode, type StageMode } from './kinetic/modes';
+import { isTurboStyle, type TurboStyleId } from './kinetic/turbo';
 
 const PREFS_KEY = 'lyricscape.prefs.v1';
 
@@ -13,6 +14,8 @@ type SyncFamily = 'spotify' | 'local';
 export type Prefs = {
   /** Clean = the art-direction renderer (Canvas 2D); Turbo = everything on the GPU (WebGL2) at full intensity */
   mode: StageMode;
+  /** which Turbo style to draw (only used in Turbo mode) */
+  turboStyle: TurboStyleId;
   style: StyleId;
   colorMode: ColorMode;
   emojis: boolean;
@@ -38,7 +41,7 @@ export type Prefs = {
   onlineGenres: boolean;
 };
 
-const DEFAULTS: Prefs = { mode: 'clean', style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, interlude: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true };
+const DEFAULTS: Prefs = { mode: 'clean', turboStyle: 'liquid', style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, interlude: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true };
 
 function readPrefs(): Prefs {
   try {
@@ -50,7 +53,7 @@ function readPrefs(): Prefs {
     // off by starting their device delay at 0. Prefs written by this version carry splitV and are taken as they are.
     const legacyOff = parsed.splitV === undefined && parsed.syncShared === false;
     const syncGlobal = legacyOff ? DEFAULTS.syncGlobal : { ...DEFAULTS.syncGlobal, ...(parsed.syncGlobal ?? {}) };
-    return { ...DEFAULTS, ...(legacyStyle ? { style: legacyStyle } : {}), ...parsed, mode: isStageMode(parsed.mode) ? parsed.mode : DEFAULTS.mode, syncGlobal };
+    return { ...DEFAULTS, ...(legacyStyle ? { style: legacyStyle } : {}), ...parsed, mode: isStageMode(parsed.mode) ? parsed.mode : DEFAULTS.mode, turboStyle: isTurboStyle(parsed.turboStyle) ? parsed.turboStyle : DEFAULTS.turboStyle, syncGlobal };
   } catch {
     return DEFAULTS;
   }
@@ -74,9 +77,9 @@ type UiState = Prefs & {
 
 export const useUi = create<UiState>((set, get) => {
   const persist = () => {
-    const { mode, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres } = get();
+    const { mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres } = get();
     try {
-      localStorage.setItem(PREFS_KEY, JSON.stringify({ mode, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, splitV: 2 }));
+      localStorage.setItem(PREFS_KEY, JSON.stringify({ mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, splitV: 2 }));
     } catch {
       /* storage unavailable */
     }

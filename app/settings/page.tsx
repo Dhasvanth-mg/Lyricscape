@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, X } from 'lucide-react';
+import { GpuStatus } from '@/components/ui/GpuStatus';
 import { usePlayer, player } from '@/lib/player/controller';
 import { disconnect, getClientId, isLocalhostOrigin, redirectUri, setClientId, startLogin, SpotifyAuthError } from '@/lib/spotify/auth';
 import { getDevices, getMe, SpotifyApiError, type SpotifyDevice, type SpotifyMe } from '@/lib/spotify/api';
@@ -37,6 +38,9 @@ export default function SettingsPage() {
   const style = useUi((s) => s.style);
   const setStyle = useUi((s) => s.setStyle);
   const estimatedWords = useUi((s) => s.estimatedWords);
+  const autoTheme = useUi((s) => s.autoTheme);
+  const onlineGenres = useUi((s) => s.onlineGenres);
+  const aiInterpret = useUi((s) => s.aiInterpret);
   const setUi = useUi((s) => s.set);
 
   useEffect(() => {
@@ -205,7 +209,7 @@ export default function SettingsPage() {
           <ul className="mt-3 space-y-1.5">
             {capKeys.map((k) => (
               <li key={k} className="flex gap-2">
-                <span className={caps[k] ? 'text-aqua' : 'text-ink-500'}>{caps[k] ? '✓' : '✕'}</span>
+                <span className={caps[k] ? 'text-aqua' : 'text-ink-500'}>{caps[k] ? <Check size={14} aria-label="yes" className="inline" /> : <X size={14} aria-label="no" className="inline" />}</span>
                 <span>
                   <span className="font-mono text-xs">{k}</span>
                   {!caps[k] && explainSpotifyCapability(k) && <span className="block text-ink-400">{explainSpotifyCapability(k)}</span>}
@@ -251,22 +255,59 @@ export default function SettingsPage() {
             </span>
           </span>
         </label>
+        <label className="mt-4 flex cursor-pointer items-start gap-3">
+          <input type="checkbox" checked={onlineGenres} onChange={(e) => setUi({ onlineGenres: e.target.checked })} className="mt-1 h-4 w-4 accent-[var(--color-signal)]" />
+          <span>
+            <span className="block font-semibold">Look up genre tags online when a song has none</span>
+            <span className="text-sm text-ink-300">
+              Genres help Auto choose an art direction for the song. Spotify provides them when connected; otherwise this asks MusicBrainz, an open music encyclopedia, for the artist&apos;s community tags. Sends the artist name only. Off: songs without tags are styled from their words and cover alone.
+            </span>
+          </span>
+        </label>
+        <label className="mt-4 flex cursor-pointer items-start gap-3">
+          <input type="checkbox" checked={aiInterpret} onChange={(e) => setUi({ aiInterpret: e.target.checked })} className="mt-1 h-4 w-4 accent-[var(--color-signal)]" />
+          <span>
+            <span className="block font-semibold">AI reading of lyric themes (optional)</span>
+            <span className="text-sm text-ink-300">
+              Asks an AI gateway you configure (<code>OMNIROUTE_API_KEY</code>, see the README) for the emotional shape and imagery of a song&apos;s lyrics, once per song, then keeps the answer on this device. It sends the title, artist, genre tags and an excerpt of the lyrics to that gateway. It never controls animation; it is one more clue, with its confidence capped, and the app works fully without it. Off by default.
+            </span>
+          </span>
+        </label>
       </Section>
 
       <Section title="Default look">
+        <button
+          onClick={() => setUi({ autoTheme: true })}
+          aria-pressed={autoTheme}
+          className={`mb-3 block w-full rounded-xl border p-4 text-left transition ${autoTheme ? 'border-signal bg-signal/10' : 'border-ink-700 hover:border-ink-500'}`}
+        >
+          <span className="block font-semibold">Auto: fits each song</span>
+          <span className="text-sm text-ink-300">
+            Each song gets its own art direction: warm shadow for late-night R&amp;B, paper and serif type for reflective rap, flat colour for bright pop, grain for rock, stillness for slow songs, and so on. Chosen from what is known about the song (genre tags, its words, delivery pace, the cover) and explained in the stage&apos;s Studio panel, where you can correct it, adjust it, save your own themes or pin a look for any song.
+          </span>
+        </button>
+        <p className="mb-2 text-xs text-ink-400">Or use one look for everything:</p>
         <div className="grid gap-2 sm:grid-cols-2">
-          {STYLE_IDS.map((id) => (
+          {STYLE_IDS.filter((id) => id !== 'custom').map((id) => (
             <button
               key={id}
-              onClick={() => setStyle(id)}
-              aria-pressed={style === id}
-              className={`rounded-xl border p-3 text-left transition ${style === id ? 'border-signal bg-signal/10' : 'border-ink-700 hover:border-ink-500'}`}
+              onClick={() => {
+                setStyle(id);
+                setUi({ autoTheme: false });
+              }}
+              aria-pressed={!autoTheme && style === id}
+              className={`rounded-xl border p-3 text-left transition ${!autoTheme && style === id ? 'border-signal bg-signal/10' : 'border-ink-700 hover:border-ink-500'}`}
             >
               <span className="block font-semibold">{STYLES[id].label}</span>
               <span className="text-xs text-ink-300">{STYLES[id].description}</span>
             </button>
           ))}
         </div>
+      </Section>
+
+      <Section title="Graphics">
+        <p className="mb-3 text-sm text-ink-300">Which processor draws the lyrics. The dedicated GPU is used whenever the browser is running on it; the page itself cannot choose.</p>
+        <GpuStatus />
       </Section>
 
       <Section title="Your data">

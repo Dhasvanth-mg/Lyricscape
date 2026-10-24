@@ -1,0 +1,115 @@
+{
+ "note": "Timings and word COUNTS only (LRCLIB record id 9031800, Bazzi - Mine, COSMIC, 131 s); the words are replaced by placeholders so no lyrics are stored.",
+ "recordId": 9031800,
+ "durationSec": 131,
+ "cues": [
+  {
+   "startMs": 4790,
+   "words": 2
+  },
+  {
+   "startMs": 6810,
+   "words": 3
+  },
+  {
+   "startMs": 8000,
+   "words": 8
+  },
+  {
+   "startMs": 10120,
+   "words": 7
+  },
+  {
+   "startMs": 12490,
+   "words": 1
+  },
+  {
+   "startMs": 14260,
+   "words": 10
+  },
+  {
+   "startMs": 20920,
+   "words": 13
+  },
+  {
+   "startMs": 27630,
+   "words": 8
+  },
+  {
+   "startMs": 34350,
+   "words": 10
+  },
+  {
+   "startMs": 41200,
+   "words": 11
+  },
+  {
+   "startMs": 48010,
+   "words": 7
+  },
+  {
+   "startMs": 52140,
+   "words": 10
+  },
+  {
+   "startMs": 57300,
+   "words": 12
+  },
+  {
+   "startMs": 64540,
+   "words": 9
+  },
+  {
+   "startMs": 71220,
+   "words": 8
+  },
+  {
+   "startMs": 73470,
+   "words": 9
+  },
+  {
+   "startMs": 78210,
+   "words": 12
+  },
+  {
+   "startMs": 83330,
+   "words": 14
+  },
+  {
+   "startMs": 89520,
+   "words": 5
+  },
+  {
+   "startMs": 91430,
+   "words": 10
+  },
+  {
+   "startMs": 94310,
+   "words": 12
+  },
+  {
+   "startMs": 98240,
+   "words": 14
+  },
+  {
+   "startMs": 105080,
+   "words": 16
+  },
+  {
+   "startMs": 111700,
+   "words": 8
+  },
+  {
+   "startMs": 115880,
+   "words": 10
+  },
+  {
+   "startMs": 121480,
+   "words": 12
+  },
+  {
+   "startMs": 128660,
+   "words": 0
+  }
+ ]
+}

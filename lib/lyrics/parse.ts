@@ -1,5 +1,5 @@
 import type { EndSource, LyricDocument, TimedLine, TimedWord, WordTiming } from '../types';
-import { cleanLyricRows, expectedSungMs, wordWeight } from './words';
+import { cleanLyricRows, expectedSungMs, sungShareOfGap, wordWeight } from './words';
 
 // ---------------------------------------------------------------------------
 // Time helpers
@@ -174,14 +174,30 @@ function buildLine(text: string, lineStart: number, blankEnd: number | undefined
 
   const tokens = text.trim().split(/\s+/).filter(Boolean);
   const { endMs, endSource } = resolveEnd(tokens, lineStart, blankEnd, nextLineStart);
-  const line = distributeWords(tokens, lineStart, endMs);
-  return { ...line, wordTiming: 'estimated', endSource };
+  const line = distributeWords(tokens, lineStart, estimatedSpreadEnd(tokens.length, lineStart, endMs, endSource, nextLineStart));
+  return { ...line, endMs, wordTiming: 'estimated', endSource };
 }
 
 /**
  * Spread tokens across [start,end] proportionally to their syllables. This is a GUESS used only to give a line-level
  * line something to animate when the user opts in; it is always labelled `estimated` by the callers.
  */
+/**
+ * How far into a line its words are spread when only the line start is known.
+ *  - the file says where the line ends (blank cue): spread to there;
+ *  - a next line exists: the part of the gap that is actually sung at this line's pace (sungShareOfGap), bounded by 1.5 s per word;
+ *  - last line: about 450 ms per word (the measured median), 1.2 s at least.
+ * Never beyond the line's display end. The previous fixed 650 ms-per-word cap ran late on normal-pace lines (last word a median
+ * 528 ms late) and early on slow ones; see docs/lyric-sync-motion.md.
+ */
+export function estimatedSpreadEnd(tokenCount: number, startMs: number, endMs: number, endSource?: EndSource, nextStartMs?: number): number {
+  if (endSource === 'explicit') return endMs;
+  const gap = nextStartMs !== undefined ? nextStartMs - startMs : undefined;
+  const span =
+    gap !== undefined && gap > 0 ? Math.min(gap * sungShareOfGap(gap / Math.max(1, tokenCount)), Math.max(2500, tokenCount * 1500)) : Math.max(1200, tokenCount * 450);
+  return Math.min(endMs, startMs + span);
+}
+
 export function distributeWords(tokens: string[], startMs: number, endMs: number): TimedLine {
   const weights = tokens.map(wordWeight);
   const sum = weights.reduce((a, b) => a + b, 0) || 1;

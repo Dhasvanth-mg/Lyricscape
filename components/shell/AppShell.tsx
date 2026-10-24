@@ -23,7 +23,7 @@ const NAV = [
 
 /** Routes that render without the app chrome (guest join + big-screen display). */
 function isBare(pathname: string) {
-  return pathname.startsWith('/join/') || pathname.startsWith('/p/') || /^\/parties\/[^/]+\/screen/.test(pathname) || pathname.startsWith('/spotify/callback');
+  return pathname.startsWith('/join/') || pathname.startsWith('/p/') || /^\/parties\/[^/]+\/screen/.test(pathname) || pathname.startsWith('/spotify/callback') || pathname === '/looks' || pathname.startsWith('/looks/');
 }
 
 function useShortcuts() {

@@ -7,6 +7,8 @@
 import {
   clamp,
   contrastRatio,
+  hexToRgb,
+  rgbToHex,
   easeInBack,
   easeInCubic,
   easeOutBack,
@@ -20,8 +22,10 @@ import {
   textOn,
 } from './util';
 import { STYLES, estimateWidth, type FontDef, type StyleDef } from './styles';
-import { EMOTION_DEFS, emojiForWord } from './emotion';
-import type { DrawDoodle, DrawEmoji, DrawWord, FontKey, Frame, FrameEnv, Interlude, MarqueeRow, Scene, VisualTimeline, WordCue } from './types';
+import { effectiveTreatment, layoutBox, type Look, type LayoutBox, type LookColors } from './look';
+import { EMOTION_DEFS } from './emotion';
+import { iconForWord } from './icons';
+import type { DrawDoodle, DrawIcon, DrawWord, FontKey, Frame, FrameEnv, Interlude, MarqueeRow, Scene, VisualTimeline, WordCue } from './types';
 
 export const LEAD_MS = 70; // words land slightly early so impact meets the sung syllable
 const APPEAR_MS = 260;
@@ -61,7 +65,7 @@ export function beatStateAt(beats: number[], tMs: number): { pulse: number; inde
 // ---------------------------------------------------------------------------
 // layout (cached per timeline + viewport)
 // ---------------------------------------------------------------------------
-type LayoutItem = { x: number; y: number; size: number; rot: number; font: FontKey; text: string; widthPx: number };
+type LayoutItem = { x: number; y: number; size: number; rot: number; font: FontKey; text: string; widthPx: number; /** free horizontal room beside the word (px): how much it may grow without touching a neighbour */ room?: number };
 type SceneLayout = Map<string, LayoutItem>;
 
 const layoutCache = new WeakMap<VisualTimeline, Map<string, SceneLayout>>();
@@ -78,14 +82,34 @@ type Measure = (text: string, font: FontKey, sizePx: number) => number;
 
 function pickFont(style: StyleDef, cue: WordCue, custom: VisualTimeline['custom']): FontKey {
   if (style.id === 'custom' && custom?.font) return custom.font;
+  if (style.fontMix) {
+    // about one word in three speaks in another face; emphasised words keep the accent face so the hierarchy still reads
+    const h = hashId(cue.id);
+    if ((cue.emphasis ?? 0) > 0.62) return style.accentFont;
+    if (h % 3 === 0) return (['serif', 'mono', 'wide'] as FontKey[])[(h >>> 3) % 3]!;
+    return style.displayFont;
+  }
   return (cue.emphasis ?? 0) > 0.62 ? style.accentFont : style.displayFont;
 }
 
 function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: StyleDef): SceneLayout {
+  const out = layoutSceneRaw(tl, scene, env, style);
+  const box = layoutBox(env.look, env.width, env.height);
+  if (box.shiftX !== 0 || box.y !== 0) {
+    for (const it of out.values()) {
+      it.x += box.shiftX;
+      it.y += box.y;
+    }
+  }
+  return out;
+}
+
+function layoutSceneRaw(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: StyleDef): SceneLayout {
   const W = env.width;
   const H = env.height;
   const S = Math.min(H, W * 0.9);
-  const maxW = W * 0.9;
+  const box = layoutBox(env.look, W, H);
+  const maxW = W * 0.9 * box.widthFrac;
   const measure: Measure =
     env.measure ?? ((text, font, size) => estimateWidth(text, fontDef(style, font), size));
   const out: SceneLayout = new Map();
@@ -102,7 +126,7 @@ function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: Sty
   // ---- single-word cut --------------------------------------------------------
   if (scene.preset === 'cut') {
     for (const w of cased) {
-      let size = S * (0.36 + (w.cue.emphasis ?? 0) * 0.14);
+      let size = S * box.scale * (0.36 + (w.cue.emphasis ?? 0) * 0.14);
       const wpx = width(w.text, w.font, size);
       if (wpx > maxW) size *= maxW / wpx;
       out.set(w.cue.id, {
@@ -113,6 +137,7 @@ function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: Sty
         font: w.font,
         text: w.text,
         widthPx: width(w.text, w.font, size),
+        room: Math.max(0, maxW - width(w.text, w.font, size)),
       });
     }
     return out;
@@ -125,7 +150,7 @@ function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: Sty
     for (let i = 0; i < cased.length; i += perRow) rows.push(cased.slice(i, i + perRow));
     const rowH = Math.min((H * 0.84) / rows.length, S * 0.36);
     rows.forEach((row, ri) => {
-      const sizeCap = rowH * 0.92;
+      const sizeCap = rowH * 0.92 * Math.min(box.scale, 1.15);
       // fit row to width
       let size = sizeCap;
       const gap = 0.3;
@@ -135,8 +160,8 @@ function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: Sty
       const total = rowWidth(size);
       const align = ri % 2 === 0 ? -1 : 1; // alternate left/right drift
       const baseX = align * Math.max(0, (maxW - total) / 2) * 0.55;
-      let cursor = baseX - total / 2;
-      const y = (ri - (rows.length - 1) / 2) * rowH;
+      let cursor = box.align === 'left' ? -maxW / 2 : baseX - total / 2;
+      const y = (ri - (rows.length - 1) / 2) * Math.min(rowH, size * 1.22);
       row.forEach((w) => {
         const wpx = width(w.text, w.font, size);
         out.set(w.cue.id, {
@@ -147,6 +172,7 @@ function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: Sty
           font: w.font,
           text: w.text,
           widthPx: wpx,
+          room: row.length > 1 ? gap * size : Math.max(0, maxW - wpx),
         });
         cursor += wpx + gap * size;
       });
@@ -155,12 +181,14 @@ function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: Sty
   }
 
   // ---- ticker / burst / drop / wave: wrapped block, centered --------------------
+  // burst makes important words bigger; the room for them has to be measured at the size they will really be drawn
+  const burstMult = (w: (typeof cased)[number]) => (scene.preset === 'burst' ? 0.88 + (w.cue.emphasis ?? 0.3) * 0.5 : 1);
   const tryRows = (size: number) => {
     const gap = size * 0.28;
     const rows: { items: typeof cased; widths: number[]; total: number }[] = [];
     let cur: { items: typeof cased; widths: number[]; total: number } = { items: [], widths: [], total: 0 };
     for (const w of cased) {
-      const wpx = width(w.text, w.font, size);
+      const wpx = width(w.text, w.font, size * burstMult(w));
       const add = cur.items.length ? gap + wpx : wpx;
       if (cur.items.length && cur.total + add > maxW) {
         rows.push(cur);
@@ -179,7 +207,7 @@ function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: Sty
   };
 
   const factor = scene.preset === 'burst' ? 1.18 : scene.preset === 'wave' ? 0.85 : 1;
-  const sizes = [0.3, 0.24, 0.19, 0.15, 0.12, 0.09, 0.07].map((f) => f * S * factor);
+  const sizes = [0.3, 0.24, 0.19, 0.15, 0.12, 0.09, 0.07].map((f) => f * S * factor * box.scale);
   let chosen = tryRows(sizes[sizes.length - 1]!);
   let chosenSize = sizes[sizes.length - 1]!;
   for (const sz of sizes) {
@@ -194,7 +222,7 @@ function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: Sty
   }
   const rowH = chosenSize * 1.05;
   chosen.rows.forEach((row, ri) => {
-    let cursor = -row.total / 2;
+    let cursor = box.align === 'left' ? -maxW / 2 : -row.total / 2;
     const y = (ri - (chosen.rows.length - 1) / 2) * rowH;
     row.items.forEach((w, i) => {
       const wpx = row.widths[i]!;
@@ -203,14 +231,14 @@ function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: Sty
       let rot = 0;
       let jy = 0;
       if (scene.preset === 'burst') {
-        size *= 0.88 + (w.cue.emphasis ?? 0.3) * 0.5;
+        size *= burstMult(w);
         rot = signed(scene.seed, h) * 9;
         jy = signed(scene.seed, h + 3) * chosenSize * 0.12;
       } else if (scene.preset === 'drop') {
         rot = signed(scene.seed, h) * 2.5;
       }
       const wAdj = width(w.text, w.font, size);
-      out.set(w.cue.id, { x: cursor + wpx / 2, y: y + jy, size, rot, font: w.font, text: w.text, widthPx: wAdj });
+      out.set(w.cue.id, { x: cursor + wpx / 2, y: y + jy, size, rot, font: w.font, text: w.text, widthPx: wAdj, room: chosen.gap });
       cursor += wpx + chosen.gap;
     });
   });
@@ -229,7 +257,7 @@ function getLayout(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: Style
     perTl = new Map();
     layoutCache.set(tl, perTl);
   }
-  const key = `${scene.id}|${Math.round(env.width)}x${Math.round(env.height)}|${env.layoutEpoch ?? 0}`;
+  const key = `${scene.id}|${Math.round(env.width)}x${Math.round(env.height)}|${env.layoutEpoch ?? 0}|${env.look?.key ?? ''}`;
   let layout = perTl.get(key);
   if (!layout) {
     layout = layoutScene(tl, scene, env, style);
@@ -248,7 +276,14 @@ function backgroundFor(
   tMs: number,
   invert: number,
   p: string[],
-): { c0: string; c1: string; solid: boolean; textColor: string; accent: string; wordColors: string[] } {
+  look?: Look,
+  lift = 0,
+): { c0: string; c1: string; solid: boolean; textColor: string; accent: string; wordColors: string[]; tone: LookColors } {
+  // an art direction supplies its own ground and a full colour hierarchy (contrast was enforced when it was composed)
+  if (look?.ground && look.colors) {
+    const C = look.colors;
+    return { c0: mix(look.ground[0], C.accent, 0.1 * lift), c1: mix(look.ground[1], C.accent, 0.14 * lift), solid: false, textColor: C.ink, accent: C.accent, wordColors: [C.ink], tone: C };
+  }
   const dark = p[p.length - 1]!;
   const a0 = p[0]!;
   const a1 = p[1] ?? p[0]!;
@@ -292,6 +327,14 @@ function backgroundFor(
       c0 = mix('#050914', dark, 0.4 + invert * 0.2);
       c1 = mix('#0a1224', a1, 0.2 + invert * 0.3);
       break;
+    case 'gloss':
+      c0 = mix('#fff6ef', a0, 0.5 + invert * 0.3);
+      c1 = mix('#ffe3f1', a1, 0.45 + invert * 0.3);
+      break;
+    case 'film':
+      c0 = mix('#0c0907', dark, 0.25 + invert * 0.3);
+      c1 = mix('#1c130d', a0, 0.14 + invert * 0.35);
+      break;
     case 'pop':
       c0 = mix('#ffd23f', a1, 0.1 + invert * 0.45);
       c1 = mix('#ff4f5e', a0, 0.14 + invert * 0.45);
@@ -320,7 +363,8 @@ function backgroundFor(
   const candidates = [a1, a0, a2, p[3] ?? a2].filter((c) => contrastRatio(c, mid) >= 3);
   const accent = style.id === 'editorial' || style.id === 'minimal' ? (contrastRatio(a0, mid) >= 3 ? a0 : textColor) : (candidates[0] ?? textColor);
   const wordColors = style.id === 'editorial' ? [textColor] : candidates.length ? [textColor, ...candidates] : [textColor];
-  return { c0, c1, solid, textColor, accent, wordColors };
+  const tone: LookColors = { ink: textColor, inkDim: mix(textColor, c0, 0.45), active: accent, accent, support: mix(textColor, c0, 0.3) };
+  return { c0, c1, solid, textColor, accent, wordColors, tone };
 }
 
 // ---------------------------------------------------------------------------
@@ -400,13 +444,13 @@ function buildDoodles(a: { tl: VisualTimeline; style: StyleDef; scenes: Scene[];
   return out;
 }
 
-function buildAmbientEmojis(a: { tl: VisualTimeline; scenes: Scene[]; tMs: number; W: number; H: number; S: number; density: number }): DrawEmoji[] {
+function buildAmbientIcons(a: { tl: VisualTimeline; scenes: Scene[]; tMs: number; W: number; H: number; S: number; density: number }): DrawIcon[] {
   const { tl, scenes, tMs, W, H, S, density } = a;
-  const out: DrawEmoji[] = [];
+  const out: DrawIcon[] = [];
   for (const scene of scenes) {
     const mood = scene.mood ?? tl.emotion?.overall;
     if (!mood || !scene.hook) continue; // hooks get a shower; verses stay clean
-    const set = EMOTION_DEFS[mood.emotion].emojiSet;
+    const set = EMOTION_DEFS[mood.emotion].iconSet;
     const dur = Math.max(800, scene.endMs - scene.startMs);
     const n = Math.max(2, Math.round(6 * density));
     for (let k = 0; k < n; k++) {
@@ -416,7 +460,7 @@ function buildAmbientEmojis(a: { tl: VisualTimeline; scenes: Scene[]; tMs: numbe
       if (p < 0 || p > 1) continue;
       out.push({
         id: scene.id + ':e' + k,
-        char: set[Math.floor(noise(scene.seed, 800 + k) * set.length)]!,
+        icon: set[Math.floor(noise(scene.seed, 800 + k) * set.length)]!,
         x: signed(scene.seed, 810 + k) * W * 0.42 + Math.sin(p * 6 + k) * S * 0.03,
         y: H * 0.5 - p * H * 1.05,
         sizePx: S * (0.07 + noise(scene.seed, 820 + k) * 0.06),
@@ -445,9 +489,9 @@ function buildInterlude(a: {
   density: number;
   reduced: boolean;
   textColor: string;
-}): { show: Interlude; doodles: DrawDoodle[]; emojis: DrawEmoji[] } {
+}): { show: Interlude; doodles: DrawDoodle[]; icons: DrawIcon[] } {
   const { tl, amount, tMs, W, H, S, palette, beat, density, reduced } = a;
-  if (amount <= 0.01) return { show: NO_INTERLUDE, doodles: [], emojis: [] };
+  if (amount <= 0.01) return { show: NO_INTERLUDE, doodles: [], icons: [] };
   const mood = tl.emotion?.overall;
   const def = EMOTION_DEFS[mood?.emotion ?? 'calm'];
   const t = reduced ? 0 : tMs;
@@ -462,7 +506,7 @@ function buildInterlude(a: {
     color: col(k),
     alpha: 0.4 * amount,
   }));
-  if (reduced) return { show: { amount, aurora, rings: [], ribbons: [], particles: [] }, doodles: [], emojis: [] };
+  if (reduced) return { show: { amount, aurora, rings: [], ribbons: [], particles: [] }, doodles: [], icons: [] };
 
   // 2) rings pulsing out from the centre on every beat (a steady pseudo-beat when the track has no beat grid)
   const beats = tl.beatTimesMs;
@@ -526,10 +570,10 @@ function buildInterlude(a: {
       seed: k * 37,
     });
   }
-  const emojis: DrawEmoji[] = [
-    { id: 'int:mood', char: def.emoji, x: 0, y: Math.sin(t / 800) * S * 0.015, sizePx: S * 0.2 * (1 + beat.pulse * 0.14) * easeOutBack(clamp(amount * 1.4)), rotationDeg: Math.sin(t / 1300) * 8, alpha: clamp(amount * 1.2) },
+  const icons: DrawIcon[] = [
+    { id: 'int:mood', icon: def.icon, x: 0, y: Math.sin(t / 800) * S * 0.015, sizePx: S * 0.2 * (1 + beat.pulse * 0.14) * easeOutBack(clamp(amount * 1.4)), rotationDeg: Math.sin(t / 1300) * 8, alpha: clamp(amount * 1.2) },
   ];
-  return { show: { amount, aurora, rings, ribbons, particles }, doodles, emojis };
+  return { show: { amount, aurora, rings, ribbons, particles }, doodles, icons };
 }
 
 // ---------------------------------------------------------------------------
@@ -537,9 +581,11 @@ function buildInterlude(a: {
 // ---------------------------------------------------------------------------
 export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): Frame {
   const tMs = Math.max(0, tMsIn);
-  const style = STYLES[tl.style];
+  const look = env.look;
+  const style = look?.style ?? STYLES[tl.style];
   const reduced = env.reducedMotion;
-  const motionScale = reduced ? 0 : clamp(env.motionScale ?? 1, 0, 1.5) * (tl.custom?.intensity ?? 1);
+  const motionScale = reduced ? 0 : clamp(env.motionScale ?? 1, 0, 1.5) * (tl.custom?.intensity ?? 1) * (look?.motion.intensity ?? 1);
+  const box = layoutBox(look, env.width, env.height);
   const W = env.width;
   const H = env.height;
   const S = Math.min(H, W * 0.9);
@@ -581,18 +627,25 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     const outAmt = 1 - smoothstep(e.endMs + 60, e.endMs + 320, tMs);
     invert = Math.max(invert, Math.min(inAmt, outAmt));
   }
+  // looks that do not invert brighten the ground a little in a chorus instead (only where the lyrics themselves repeat)
+  let lift = 0;
+  if (style.invert === false) {
+    lift = look?.motion.sections === false ? 0 : invert;
+    invert = 0;
+  }
   const colorMode = env.colorMode ?? 'blend';
   const curScene = tl.scenes[foundIdx];
   const prevScene = foundIdx > 0 ? tl.scenes[foundIdx - 1] : undefined;
-  const palette =
+  const moodPalette =
     prevScene && curScene
       ? blendPalettes(scenePalette(tl, prevScene, colorMode), scenePalette(tl, curScene, colorMode), smoothstep(curScene.startMs - 150, curScene.startMs + 650, tMs))
       : scenePalette(tl, curScene, colorMode);
-  const bgInfo = backgroundFor(tl, style, tMs, invert, palette);
+  // an art direction owns its palette: the mood tint (which re-colours per line) is for the classic styles only
+  const palette = look?.palette ?? moodPalette;
+  const bgInfo = backgroundFor(tl, style, tMs, invert, palette, look, lift);
 
   // --- instrumental "hero artwork" amount ------------------------------------------------
-  const artMode = env.artwork ?? 'background';
-  const hero = 0; // the cover is always a background now: the interlude show takes the stage in breaks
+  const artMode = look?.artwork.treatment === 'off' ? 'off' : (env.artwork ?? 'background');
   let interludeAmt = 0;
   for (const g of tl.gaps) {
     if (g.endMs - g.startMs < 1500) continue;
@@ -600,12 +653,16 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     const b = 1 - smoothstep(g.endMs - 500, g.endMs - 60, tMs);
     interludeAmt = Math.max(interludeAmt, Math.min(a, b));
   }
+  // In a long instrumental break (not a short pause) the cover steps forward as a card; while words are sung it is atmosphere behind them.
+  const longBreak = tl.gaps.some((g) => g.endMs - g.startMs >= 4000 && tMs >= g.startMs && tMs <= g.endMs);
+  const hero = artMode === 'off' || reduced || !longBreak ? 0 : interludeAmt * 0.9;
   const hookNow = !!primary?.hook && tMs <= (primary?.endMs ?? 0) + 100;
 
   // --- words ---------------------------------------------------------------------------------
   const words: DrawWord[] = [];
-  const emojis: DrawEmoji[] = [];
-  const wantEmoji = env.emojis !== false && !reduced;
+  const icons: DrawIcon[] = [];
+  const decor = style.decor ?? 1; // calm themes carry little decoration
+  const wantIcons = env.emojis !== false && !reduced && decor > 0.25;
   const visibleWordIds: string[] = [];
   let activeWordId: string | null = null;
 
@@ -616,18 +673,18 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
       const cue = scene.words[wi]!;
       const item = layout.get(cue.id);
       if (!item) continue;
-      const dw = poseWord({ tl, style, scene, cue, wi, item, tMs, W, H, S, intensity, reduced, beat, bgInfo, hook: scene.hook, env });
+      const dw = poseWord({ tl, style, scene, cue, wi, item, tMs, W, H, S, intensity, reduced, beat, bgInfo, hook: scene.hook, env, look, box });
       if (!dw) continue;
-      if (wantEmoji && emojis.length < 10) {
-        const ch = emojiForWord(cue.text);
+      if (wantIcons && icons.length < 10) {
+        const ch = iconForWord(cue.text);
         if (ch && (cue.emphasis ?? 0) > 0.15) {
           const tE = tMs - (cue.startMs - LEAD_MS);
           if (tE >= 0 && tMs <= scene.endMs + 260) {
             const pop = easeOutElastic(clamp(tE / 520));
             const fade = 1 - smoothstep(scene.endMs, scene.endMs + 260, tMs);
-            emojis.push({
-              id: cue.id + ':emoji',
-              char: ch,
+            icons.push({
+              id: cue.id + ':icon',
+              icon: ch,
               x: dw.x + Math.min(item.widthPx * 0.5, W * 0.4) * 0.9,
               y: dw.y - item.size * 0.55 - tE * 0.012,
               sizePx: clamp(item.size * 0.6, S * 0.07, S * 0.17) * pop,
@@ -654,10 +711,12 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
   }
   words.sort((a, b) => a.z - b.z);
   const inter = buildInterlude({ tl, amount: interludeAmt, tMs, W, H, S, palette, beat, density: env.density ?? 1, reduced, textColor: bgInfo.textColor });
-  const doodles = env.doodles !== false && !reduced ? buildDoodles({ tl, style, scenes: active, tMs, W, H, S, motionScale, beatPulse: beat.pulse, palette, textColor: bgInfo.textColor, density: env.density ?? 1, focal: tl.cover?.focal }) : [];
-  if (env.doodles !== false) doodles.push(...inter.doodles);
-  if (wantEmoji) emojis.push(...inter.emojis);
-  if (wantEmoji && emojis.length < 10) emojis.push(...buildAmbientEmojis({ tl, scenes: active, tMs, W, H, S, density: env.density ?? 1 }).slice(0, 10 - emojis.length));
+  const showDecor = decor * (look?.appearance.density ?? 1) > 0.05;
+  const doodles = env.doodles !== false && !reduced && showDecor && style.doodles !== false ? buildDoodles({ tl, style, scenes: active, tMs, W, H, S, motionScale, beatPulse: beat.pulse, palette, textColor: bgInfo.textColor, density: (env.density ?? 1) * decor * (look?.appearance.density ?? 1), focal: tl.cover?.focal }) : [];
+  const directed = !!look?.colors;
+  if (env.doodles !== false && showDecor && !directed) doodles.push(...inter.doodles);
+  if (wantIcons && !directed) icons.push(...inter.icons);
+  if (wantIcons && icons.length < 10) icons.push(...buildAmbientIcons({ tl, scenes: active, tMs, W, H, S, density: env.density ?? 1 }).slice(0, 10 - icons.length));
 
   // --- camera / overlays -------------------------------------------------------------------------
   const sceneProgress = primary ? clamp((tMs - primary.startMs) / Math.max(1, primary.endMs - primary.startMs)) : 0;
@@ -672,6 +731,12 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
 
   const artworkMode: Frame['artwork']['mode'] = hero > 0.02 ? 'hero' : 'backdrop';
   const artwork: Frame['artwork'] = {
+    treatment: effectiveTreatment(look, W, H),
+    side: look?.artwork.side ?? 'left',
+    reflect: look?.artwork.reflect ?? false,
+    blur: look?.artwork.blur ?? 0,
+    card: box.cardRect,
+    split: box.splitRect,
     mode: artworkMode,
     hero,
     alpha: artMode === 'off' ? 0 : lerp(style.artwork ?? (style.background === 'mono' ? 0.18 : 0.36), Math.max(style.artwork ?? 0.55, 0.3), interludeAmt),
@@ -680,6 +745,19 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     x: lerp(0, 0, hero),
     y: lerp(0, -H * 0.02, hero),
   };
+
+  // brief slices of colour behind the words at the start of some lines (controlled disorder). Deterministic per line, never over the words.
+  const disrupt: Frame['disrupt'] = [];
+  if (primary && !reduced && (style.disrupt ?? 0) > 0) {
+    const since = tMs - primary.startMs;
+    if (since >= 0 && since < 190 && noise(primary.seed, 7) < 0.55 * (style.disrupt ?? 0)) {
+      const a = (1 - since / 190) * 0.5;
+      for (let k = 0; k < 3; k++) {
+        const h = H * (0.012 + noise(primary.seed, 20 + k) * 0.045);
+        disrupt.push({ x: noise(primary.seed, 30 + k) * W * 0.3, y: noise(primary.seed, 40 + k) * (H - h), w: W * (0.35 + noise(primary.seed, 50 + k) * 0.6), h, alpha: a, color: bgInfo.tone.accent });
+      }
+    }
+  }
 
   const marquee: MarqueeRow[] = [];
   if (primary && hookNow && (style.id === 'editorial' || style.id === 'maximalist' || style.id === 'y2k') && !reduced) {
@@ -699,7 +777,7 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
     }
   }
 
-  if (tl.label && interludeAmt > 0.05 && !reduced) {
+  if (tl.label && interludeAmt > 0.05 && !reduced && (style.decor ?? 1) > 0.25) {
     const phrase = tl.label.toUpperCase() + '  •  ';
     for (let r = 0; r < 3; r++) {
       marquee.push({ text: phrase.repeat(4), y: (r - 1) * S * 0.36, offsetX: ((tMs * 0.05 * (r % 2 ? -1 : 1)) % (S * 1.5)) - W * 0.3, sizePx: S * 0.26, alpha: 0.08 * interludeAmt, font: style.displayFont, color: bgInfo.textColor });
@@ -730,18 +808,23 @@ export function computeFrame(tl: VisualTimeline, tMsIn: number, env: FrameEnv): 
       halftone: style.halftone * (1 - hero * 0.6),
       flash: reduced ? 0 : Math.min(0.12, beat.pulse * 0.12 * (strongKick ? 1 : 0.4) * style.beatShake * motionScale),
       scanlines: style.scanlines,
+      scrim: (reduced ? 0.3 : 0.26 * (1 - interludeAmt * 0.85)) * (style.scrim ?? 1),
+      scrimDark: contrastRatio(bgInfo.textColor, '#000000') > contrastRatio(bgInfo.textColor, '#ffffff'),
     },
     beat,
     marquee,
-    interlude: inter.show,
+    interlude: directed ? { ...inter.show, ribbons: [], rings: [], particles: [] } : showDecor ? inter.show : { ...inter.show, ribbons: [], rings: [] },
     doodles,
-    emojis,
+    icons,
     mood: (primary?.mood ?? curScene?.mood ?? tl.emotion?.overall)?.emotion ?? null,
     palette,
     words,
     textColor: bgInfo.textColor,
     accent: bgInfo.accent,
-    caption: captionFor(tl, primary, tMs, interludeAmt, reduced),
+    tone: bgInfo.tone,
+    lift,
+    disrupt,
+    caption: ((cap) => (cap ? { ...cap, cx: W / 2 + box.shiftX, maxW: W * 0.86 * box.widthFrac } : null))(style.caption === false ? null : captionFor(tl, primary, tMs, interludeAmt, reduced)),
   };
 }
 
@@ -776,30 +859,46 @@ type PoseArgs = {
   reduced: boolean;
   beat: { pulse: number; index: number; strength: number };
   bgInfo: ReturnType<typeof backgroundFor>;
+  look?: Look;
+  box: LayoutBox;
   hook: boolean;
   env: FrameEnv;
 };
 
+/** A dropped word lands about 150 ms after its cue (it used to take 460 ms and landed 350 ms late: tools/sync-report/ab/preset_landing.ts). */
+const DROP_MS = 220;
 const POP_FILLS = ['#fffdf5', '#ffe14d', '#7df0ff', '#ff9ec7'];
 
 function poseWord(a: PoseArgs): DrawWord | null {
-  const { style, scene, cue, wi, item, tMs, W, H, S, intensity, reduced, beat, bgInfo } = a;
-  const tIn = tMs - (cue.startMs - LEAD_MS);
+  const { style, scene, cue, wi, item, tMs, W, H, S, intensity, reduced, beat, bgInfo, look, box } = a;
+  // the look's motion profile: how soft, how emphatic, how much the beat matters, whether the line is shown up front
+  const M = look?.motion;
+  const smooth = M?.smooth ?? 0;
+  const emph = M?.emphasis ?? 1;
+  const beatK = M?.beat ?? 1;
+  const lineReveal = M?.reveal === 'line' && !reduced;
+  const trans: string = reduced ? 'preset' : (M?.transition ?? 'preset');
+  const ovr = 1 - smooth * 0.85; // entrance overshoot shrinks as entrances get softer
+  const tIn = tMs - ((lineReveal ? Math.min(scene.startMs, cue.startMs) : cue.startMs) - LEAD_MS);
   if (tIn < 0) return null;
   const isCut = scene.preset === 'cut';
-  const holdUntil = isCut ? cue.endMs + 20 : scene.endMs;
+  // (the next word appears LEAD_MS before its cue, so a cut leaves just ahead of that moment)
+  const holdUntil = isCut ? Math.max(cue.startMs + 50, cue.endMs - LEAD_MS - 40) : scene.endMs;
   const tOut = tMs - holdUntil;
-  if (tOut > EXIT_MS) return null;
+  const exitMs = isCut ? 40 : style.phrases ? 100 : EXIT_MS;
+  if (tOut > exitMs) return null;
 
   const hid = hashId(cue.id);
   const effect = cue.effect ?? 'pop';
-  const appearMs = isCut ? 150 : APPEAR_MS;
+  const appearMs = isCut ? 150 : lineReveal ? 380 : APPEAR_MS * (1 + smooth * 0.3);
   const p = clamp(tIn / appearMs);
 
   let sx = 1;
   let sy = 1;
   let dx = 0;
   let dy = 0;
+  // Dense lines (10+ words) get calmer motion: big rotations and shakes on a long line make it unreadable.
+  const dense = scene.words.length > 9 ? 0.45 : 1;
   let rot = item.rot;
   let alpha = 1;
   let skew = 0;
@@ -812,14 +911,37 @@ function poseWord(a: PoseArgs): DrawWord | null {
     alpha = clamp(tIn / 200);
     rot = 0;
   } else {
-    // preset-driven entrance
-    switch (scene.preset) {
+    // preset-driven entrance, or the look's own softer transition
+    const enterKind: string = trans === 'preset' ? scene.preset : 't:' + trans;
+    switch (enterKind) {
+      case 't:fade': {
+        const e = easeOutCubic(p);
+        alpha = clamp(p * 2.6);
+        sx = sy = 0.975 + 0.025 * e;
+        dy = (1 - e) * S * 0.012;
+        break;
+      }
+      case 't:drift': {
+        const e = easeOutCubic(p);
+        alpha = clamp(p * 2.6);
+        dx = (noise(scene.seed, 5) > 0.5 ? 1 : -1) * (1 - e) * W * 0.03;
+        break;
+      }
+      case 't:rise': {
+        alpha = clamp(p * 2.6);
+        dy = (1 - easeOutCubic(p)) * S * 0.05;
+        break;
+      }
+      case 't:cut': {
+        alpha = 1;
+        break;
+      }
       case 'drop': {
-        const q = clamp(tIn / 460);
+        const q = clamp(tIn / DROP_MS);
         dy = -(1 - easeOutBounce(q)) * H * 0.55 * Math.min(1, intensity + 0.3);
         alpha = clamp(tIn / 60);
         if (q >= 1) {
-          const land = clamp((tIn - 460) / 160);
+          const land = clamp((tIn - DROP_MS) / 140);
           sy = 1 - 0.14 * (1 - land) * Math.sin(land * Math.PI * 0.5 + 0.5);
           sx = 1 + 0.1 * (1 - land);
         }
@@ -828,16 +950,16 @@ function poseWord(a: PoseArgs): DrawWord | null {
       case 'burst': {
         const e = easeOutBack(p, 3.2);
         sx = sy = e;
-        rot += signed(scene.seed, hid + 9) * 30 * (1 - easeOutCubic(p));
+        rot += signed(scene.seed, hid + 9) * 30 * dense * (1 - easeOutCubic(p));
         alpha = clamp(p * 6);
         break;
       }
       case 'wave': {
         alpha = clamp(p * 3);
         sx = sy = easeOutBack(p, 1.2);
-        dy += Math.sin(tMs / 380 + wi * 0.9) * S * 0.035 * intensity;
-        rot += Math.sin(tMs / 700 + wi) * 2 * intensity;
-        skew = Math.sin(tMs / 900 + wi * 0.5) * 0.08 * intensity;
+        dy += Math.sin(tMs / 380 + wi * 0.9) * Math.min(S * 0.035 * intensity, item.size * 0.14); // never more than a sliver of the row height
+        rot += Math.sin(tMs / 700 + wi) * 2 * dense * intensity;
+        skew = Math.sin(tMs / 900 + wi * 0.5) * 0.08 * dense * intensity;
         echo = style.echo;
         break;
       }
@@ -856,7 +978,7 @@ function poseWord(a: PoseArgs): DrawWord | null {
       }
       default: {
         // ticker
-        const e = easeOutBack(p, 1.9);
+        const e = easeOutBack(p, 1.9 * ovr);
         sx = sy = e;
         dy = (1 - easeOutCubic(p)) * S * 0.05;
         alpha = clamp(p * 5);
@@ -869,24 +991,27 @@ function poseWord(a: PoseArgs): DrawWord | null {
       case 'stretch': {
         const e = easeOutElastic(p);
         const dur = Math.max(1, cue.endMs - cue.startMs);
-        const hold = clamp(since / dur);
-        sx *= 1 + 0.55 * (1 - e) + 0.16 * hold * (since >= 0 ? 1 : 0);
+        // the held stretch builds while the word is sung and RELAXES once it is over (it used to stay on until the line left,
+        // which widened words past the room reserved for them and piled them onto their neighbours)
+        const hold = clamp(since / dur) * (1 - smoothstep(dur, dur + 260, since));
+        const roomFrac = item.room !== undefined ? Math.max(0, (item.room * 0.8) / Math.max(1, item.widthPx)) : 0.04;
+        sx *= 1 + Math.min(0.55, roomFrac * 3) * (1 - e) * emph + Math.min(0.16, roomFrac) * hold * emph * (since >= 0 ? 1 : 0);
         sy *= 1 - 0.22 * (1 - e) - 0.04 * hold * (since >= 0 ? 1 : 0);
         break;
       }
       case 'shake': {
         const k = Math.floor(since / 32);
         const decay = Math.exp(-Math.max(0, since) / 260);
-        dx += signed(hid, k) * S * 0.02 * decay * intensity;
-        dy += signed(hid + 1, k) * S * 0.02 * decay * intensity;
-        rot += signed(hid + 2, k) * 4 * decay * intensity;
+        dx += signed(hid, k) * S * 0.02 * decay * intensity * emph;
+        dy += signed(hid + 1, k) * S * 0.02 * decay * intensity * emph;
+        rot += signed(hid + 2, k) * 4 * dense * decay * intensity;
         break;
       }
       case 'slide':
-        dx += (noise(scene.seed, hid + 4) > 0.5 ? 1 : -1) * W * 0.12 * (1 - easeOutCubic(p));
+        dx += (noise(scene.seed, hid + 4) > 0.5 ? 1 : -1) * W * 0.12 * (1 - easeOutCubic(p)) * (1 - smooth * 0.8);
         break;
       case 'float':
-        dy += Math.sin(tMs / 520 + wi) * S * 0.015 * intensity;
+        dy += Math.sin(tMs / 520 + wi) * Math.min(S * 0.015 * intensity, item.size * 0.1);
         break;
       case 'mask':
         mask = true;
@@ -899,16 +1024,16 @@ function poseWord(a: PoseArgs): DrawWord | null {
     const sinceStart = tMs - cue.startMs;
     if (sinceStart >= -LEAD_MS) {
       const punch = Math.exp(-Math.max(0, sinceStart) / 150);
-      const k = 1 + 0.1 * intensity * punch;
+      const k = 1 + 0.1 * intensity * emph * punch;
       sx *= k;
       sy *= k;
     }
-    const pump = 1 + beat.pulse * 0.03 * intensity;
+    const pump = 1 + beat.pulse * 0.03 * intensity * beatK;
     sx *= pump;
     sy *= pump;
 
     // split effect on strong hits
-    if ((cue.emphasis ?? 0) > 0.7 && sinceStart >= 0) split = S * 0.03 * Math.exp(-sinceStart / 220) * intensity;
+    if ((cue.emphasis ?? 0) > 0.7 && emph >= 0.8 && sinceStart >= 0) split = S * 0.03 * Math.exp(-sinceStart / 220) * intensity;
     // gentle blur on entrance
     blur = (1 - p) * 4 * Math.min(1, intensity);
     if (!echo) echo = (cue.emphasis ?? 0) > 0.75 ? style.echo : style.echo > 0 ? 1 : 0;
@@ -916,8 +1041,22 @@ function poseWord(a: PoseArgs): DrawWord | null {
 
   // exit
   if (tOut > 0 && !reduced) {
-    const q = clamp(tOut / EXIT_MS);
-    switch (scene.preset) {
+    const q = clamp(tOut / exitMs);
+    switch (trans === 'preset' ? scene.preset : 't:' + trans) {
+      case 't:fade':
+        alpha *= 1 - clamp(q * 1.8);
+        break;
+      case 't:drift':
+        dx += (noise(scene.seed, 5) > 0.5 ? 1 : -1) * easeInCubic(q) * W * 0.02;
+        alpha *= 1 - clamp(q * 1.8);
+        break;
+      case 't:rise':
+        dy -= easeInCubic(q) * S * 0.04;
+        alpha *= 1 - clamp(q * 1.8);
+        break;
+      case 't:cut':
+        alpha *= 1 - clamp(q * 2.5);
+        break;
       case 'burst': {
         const ang = noise(scene.seed, hid + 21) * Math.PI * 2;
         dx += Math.cos(ang) * q * q * W * 0.55;
@@ -960,6 +1099,51 @@ function poseWord(a: PoseArgs): DrawWord | null {
   const outline = !!tx?.outline;
   // outlined (comic) type needs a bright fill so the ink outline and shadow frame it instead of swallowing it
   if (outline) fill = active ? '#ffffff' : POP_FILLS[(hid + wi) % POP_FILLS.length]!;
+  // an art direction's colour hierarchy: sung words rest in ink, upcoming ones (line reveal) are dimmer, the word being sung is
+  // lit, and in a chorus the emphasised words take the accent. Colour changes with the lyrics' own structure, never per word at random.
+  let lit: string | undefined;
+  let progress: number | undefined;
+  const C = look?.colors;
+  if (C) {
+    const chorus = !!M?.sections && scene.hook;
+    const emphWord = (cue.emphasis ?? 0) >= 0.62;
+    // a line with no word times is shown as one unit: lighting its words one by one would claim timing nobody has
+    const timed = cue.timing !== 'none';
+    const resting = lineReveal && timed && !sung && !active ? C.inkDim : C.ink;
+    fill = !timed ? C.ink : active ? C.active : sung ? (chorus && emphWord ? C.accent : C.ink) : resting;
+    const dur = cue.endMs - cue.startMs;
+    if (M?.progress && active && !reduced && dur >= 450 && timed) {
+      // light travels through a held word as it is sung
+      fill = lineReveal ? C.inkDim : C.ink;
+      lit = C.active;
+      progress = clamp((tMs - cue.startMs) / dur);
+    }
+  }
+
+  // Cover Pop: words choose their colour by what the art behind them looks like (the renderer decides, it has the pixels), and ONE
+  // word per line (the heaviest) sits on a white chip. Chips and hot type are presentation of emphasis, not timing.
+  let adapt: string[] | undefined;
+  let chip: string | undefined;
+  if (C && style.adapt) {
+    const weight = (c: WordCue) => (c.emphasis ?? 0) * Math.max(3, c.text.replace(/\W/g, '').length);
+    const top = scene.words.reduce((best, c) => (weight(c) > weight(best) ? c : best), scene.words[0]!);
+    if (style.text?.chip && top.id === cue.id && scene.words.length >= 3 && (cue.emphasis ?? 0) >= 0.3 && cue.text.replace(/\W/g, '').length >= 4) {
+      chip = '#ffffff';
+      // darken the hot colour by scaling its channels (this keeps its hue and richness; mixing with black turns it muddy)
+      let [r, g, b] = hexToRgb(C.active);
+      let ink = C.active;
+      for (let i = 0; i < 24 && contrastRatio(ink, '#ffffff') < 4.5; i++) {
+        r *= 0.9;
+        g *= 0.9;
+        b *= 0.9;
+        ink = rgbToHex(r, g, b);
+      }
+      fill = ink;
+    } else {
+      adapt = active ? ['#ffffff', C.active, '#16111d'] : [C.active, '#ffffff', '#16111d'];
+      fill = C.active;
+    }
+  }
 
   return {
     id: cue.id,
@@ -981,12 +1165,17 @@ function poseWord(a: PoseArgs): DrawWord | null {
     shadow: tx?.shadow ? Math.max(3, item.size * 0.055) : undefined,
     highlight: tx?.highlight && active ? mix(bgInfo.accent, '#fff36b', 0.55) : undefined,
     gradient: tx?.gradient,
+    adapt,
+    chip,
+    progress,
+    lit,
+    focus: tx?.focus && !reduced ? tx.focus * (1 - p) : undefined,
     mask,
     split,
     echo,
     blur,
     active,
     z: active ? 2 : 1 + wi * 0.001,
-    maxWidthPx: W * 0.94,
+    maxWidthPx: W * 0.94 * box.widthFrac,
   };
 }

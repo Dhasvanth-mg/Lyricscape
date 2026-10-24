@@ -24,13 +24,26 @@ describe('album art is always a background; the interlude show handles "nobody i
   const tlGap = compileTimeline(longGap, { trackId: 'g', durationMs: 30000, palette: t.palette, mood: analyzeEmotion(longGap), label: 'Test Song • Someone' });
   const noLyrics = compileTimeline({ source: 'manual', licenseSource: 'none', lines: [] }, { trackId: 'n', durationMs: 120000, palette: t.palette, bpm: 120, label: 'No Lyrics • Band' });
 
-  it('the cover never becomes a card: always a backdrop, faint, and removable', () => {
+  // Product decision (changed with the visual redesign): the cover is atmosphere behind the words, and steps forward as a card
+  // ONLY during a long instrumental break (4 s or more) when nobody is singing. Never over sung words, never when switched off.
+  it('the cover is a faint backdrop while words are sung and steps forward as a card only in a long break', () => {
+    const longBreaks = tlGap.gaps.filter((g) => g.endMs - g.startMs >= 4000);
+    let sawCard = false;
     for (let ms = 0; ms < 30000; ms += 250) {
       const f = computeFrame(tlGap, ms, env);
-      expect(f.artwork.mode).toBe('backdrop');
-      expect(f.artwork.alpha).toBeLessThanOrEqual(0.56);
+      const inLongBreak = longBreaks.some((g) => ms >= g.startMs && ms <= g.endMs);
+      if (f.artwork.mode === 'hero') {
+        sawCard = true;
+        expect(inLongBreak).toBe(true);
+        expect(f.words).toHaveLength(0);
+      } else {
+        expect(f.artwork.alpha).toBeLessThanOrEqual(0.56);
+      }
     }
+    expect(sawCard).toBe(true);
     expect(computeFrame(tlGap, 5000, { ...env, artwork: 'off' }).artwork.alpha).toBe(0);
+    expect(computeFrame(tlGap, 5000, { ...env, artwork: 'off' }).artwork.mode).toBe('backdrop');
+    expect(computeFrame(tlGap, 5000, { ...env, reducedMotion: true }).artwork.mode).toBe('backdrop');
   });
 
   it('the backdrop swells (but stays a wash) when nobody is singing', () => {
@@ -48,7 +61,7 @@ describe('album art is always a background; the interlude show handles "nobody i
     expect(f.interlude.ribbons).toHaveLength(2);
     expect(f.interlude.particles.length).toBeGreaterThan(20);
     expect(f.doodles.filter((d) => d.id.startsWith('int:')).length).toBeGreaterThanOrEqual(3);
-    expect(f.emojis.some((e) => e.id === 'int:mood' && e.sizePx > 10)).toBe(true);
+    expect(f.icons.some((e) => e.id === 'int:mood' && e.sizePx > 10)).toBe(true);
     expect(f.marquee.length).toBeGreaterThan(0); // the song title scrolls behind it
   });
 
@@ -93,7 +106,7 @@ describe('album art is always a background; the interlude show handles "nobody i
     expect(low.interlude.particles.length).toBeLessThan(full.interlude.particles.length * 0.5);
     expect(low.doodles.length).toBeLessThanOrEqual(full.doodles.length);
     expect(computeFrame(noLyrics, 20000, { ...env, doodles: false }).doodles).toHaveLength(0);
-    expect(computeFrame(noLyrics, 20000, { ...env, emojis: false }).emojis).toHaveLength(0);
+    expect(computeFrame(noLyrics, 20000, { ...env, emojis: false }).icons).toHaveLength(0);
     const calm = computeFrame(noLyrics, 20000, { ...env, reducedMotion: true });
     expect(calm.interlude.aurora.length).toBeGreaterThan(0);
     expect(calm.interlude.rings).toHaveLength(0);
@@ -280,7 +293,7 @@ describe('density scales the decoration (fewer doodles/emoji on slow machines)',
     for (let ms = 2000; ms < 44000; ms += 200) {
       const f = computeFrame(tl, ms, { ...env, density });
       d += f.doodles.length;
-      e += f.emojis.length;
+      e += f.icons.length;
     }
     return { d, e };
   };

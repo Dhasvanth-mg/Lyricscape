@@ -6,6 +6,7 @@ import { kvGet, kvSet } from '@/lib/library/db';
 import { player } from '@/lib/player/controller';
 import { lyricTimeMs } from '@/lib/player/lyricTime';
 import { useUi } from '@/lib/ui-store';
+import { syncDiag } from '@/lib/player/syncDiag';
 
 /**
  * The lyric clock for the current track: provider position + automatic output latency + the two user corrections
@@ -42,6 +43,13 @@ export function useLyricClock(track: Track | null) {
   useEffect(() => {
     ref.current = { device, trackOffset };
   }, [device, trackOffset]);
+
+  // opt-in diagnostics (lib/player/syncDiag.ts): report the corrections in use next to the raw telemetry
+  useEffect(() => {
+    if (!syncDiag.enabled()) return;
+    syncDiag.setCorrections(() => ({ deviceAdvanceMs: ref.current.device, trackOffsetMs: ref.current.trackOffset, outputLatencyMs: player.getOutputLatencyMs() }));
+    return () => syncDiag.setCorrections(null);
+  }, []);
 
   const now = useCallback(
     () => lyricTimeMs(player.getPositionMs(), { outputLatencyMs: player.getOutputLatencyMs(), deviceAdvanceMs: ref.current.device, trackOffsetMs: ref.current.trackOffset }),

@@ -6,7 +6,8 @@
 
 import type { Track } from '../../types';
 import { PlaybackClock } from '../clock';
-import { TelemetryAgeEstimator } from '../telemetry';
+import { TelemetryAgeEstimator, telemetryAgeMs } from '../telemetry';
+import { syncDiag } from '../syncDiag';
 import {
   SpotifyApiError,
   getDevices,
@@ -169,6 +170,7 @@ export class SpotifyBackend implements PlaybackBackend {
       return;
     }
     this.activeDeviceId = this.sdk.deviceId ?? this.activeDeviceId;
+    if (syncDiag.enabled()) syncDiag.sdk({ wall: Date.now(), positionMs: s.position, paused: s.paused, sdkTimestamp: (s as unknown as { timestamp?: number }).timestamp, clockPositionMs: this.clock.position() });
     this.apply({
       id: cur.id,
       track: { id: cur.id, name: cur.name, duration_ms: cur.duration_ms, artists: cur.artists, album: { name: cur.album.name, images: cur.album.images } },
@@ -213,8 +215,12 @@ export class SpotifyBackend implements PlaybackBackend {
         this.ev?.external?.(null);
       } else {
         this.activeDeviceId = st.device?.id ?? this.activeDeviceId;
-        // how long before receipt was progress_ms true? (see lib/player/telemetry.ts: robust to a wrong local clock)
-        const age = this.telemetry.ageAtReceipt(st.timestamp, Date.now(), t1 - t0);
+        // how long before receipt was progress_ms true? The formula real use was calibrated against (lib/player/telemetry.ts).
+        const wall = Date.now();
+        const age = telemetryAgeMs(st.timestamp, wall);
+        if (syncDiag.enabled()) {
+          syncDiag.poll({ wall, perf: t1, rttMs: t1 - t0, timestamp: st.timestamp, progressMs: st.progress_ms ?? 0, playing: st.is_playing, trackId: st.item.id ?? "", appliedAgeMs: st.is_playing ? age : 0, shadowAgeMs: this.telemetry.ageAtReceipt(st.timestamp, wall, t1 - t0), positionBeforeMs: this.clock.position(), epoch, commandsInFlight: this.commandsInFlight });
+        }
         this.apply({
           id: st.item.id,
           track: st.item,
@@ -225,6 +231,7 @@ export class SpotifyBackend implements PlaybackBackend {
           validAt: t1 - (st.is_playing ? age : 0),
           epoch,
         });
+        if (syncDiag.enabled()) syncDiag.patchLast(this.clock.position());
       }
     } catch (e) {
       this.failures++;

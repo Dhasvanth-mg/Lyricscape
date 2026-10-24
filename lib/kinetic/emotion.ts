@@ -7,6 +7,7 @@
 
 import type { LyricDocument } from '../types';
 import { hexToRgb } from './util';
+import type { IconId } from './icons';
 
 export const EMOTIONS = ['joy', 'love', 'energy', 'calm', 'nostalgia', 'sadness', 'anger', 'dark'] as const;
 export type EmotionId = (typeof EMOTIONS)[number];
@@ -17,9 +18,10 @@ export type MotifId = (typeof MOTIFS)[number];
 export type EmotionDef = {
   id: EmotionId;
   label: string;
-  emoji: string;
-  /** emoji that float around in this mood */
-  emojiSet: string[];
+  /** the icon that stands for this mood */
+  icon: IconId;
+  /** icons that float around in this mood */
+  iconSet: IconId[];
   /** [accent1, accent2, accent3, dark] — original palettes */
   palette: [string, string, string, string];
   motifs: MotifId[];
@@ -28,14 +30,14 @@ export type EmotionDef = {
 };
 
 export const EMOTION_DEFS: Record<EmotionId, EmotionDef> = {
-  joy: { id: 'joy', label: 'Joyful', emoji: '😄', emojiSet: ['😄', '✨', '🌞', '🎉', '🌈'], palette: ['#ffb703', '#fb5607', '#ff006e', '#26123d'], motifs: ['sun', 'sparkle', 'star', 'burst', 'flower'], valence: 0.8, arousal: 0.7 },
-  love: { id: 'love', label: 'Romantic', emoji: '😍', emojiSet: ['❤️', '💖', '😍', '🌹', '💘'], palette: ['#ff4d8d', '#ff9bb3', '#ffd6e0', '#2a0a1e'], motifs: ['heart', 'sparkle', 'ring', 'flower', 'star'], valence: 0.8, arousal: 0.4 },
-  energy: { id: 'energy', label: 'Hyped', emoji: '🔥', emojiSet: ['🔥', '⚡', '💃', '🕺', '🚀'], palette: ['#ff2bd6', '#00e5ff', '#c6ff00', '#0c0220'], motifs: ['bolt', 'star', 'zigzag', 'burst', 'spiral'], valence: 0.6, arousal: 0.95 },
-  calm: { id: 'calm', label: 'Dreamy', emoji: '🌙', emojiSet: ['🌙', '🌊', '🍃', '☁️', '🕊️'], palette: ['#4cc9f0', '#80ed99', '#c8f7e4', '#07212b'], motifs: ['wave', 'cloud', 'ring', 'moon', 'flower'], valence: 0.4, arousal: 0.15 },
-  nostalgia: { id: 'nostalgia', label: 'Nostalgic', emoji: '📼', emojiSet: ['📼', '🌅', '📷', '🍂', '🎞️'], palette: ['#e9a23b', '#d4745e', '#f4d8a8', '#2a1810'], motifs: ['sun', 'spiral', 'ring', 'flower', 'squiggle'], valence: 0.3, arousal: 0.3 },
-  sadness: { id: 'sadness', label: 'Melancholy', emoji: '😢', emojiSet: ['😢', '🌧️', '💔', '🥀', '🌑'], palette: ['#5a7bd8', '#8f9bd6', '#b8c4ee', '#0b1030'], motifs: ['rain', 'cloud', 'wave', 'moon', 'squiggle'], valence: -0.7, arousal: 0.2 },
-  anger: { id: 'anger', label: 'Intense', emoji: '😤', emojiSet: ['😤', '🔥', '💢', '⚡', '🖤'], palette: ['#ff1f1f', '#ff7a00', '#ffd000', '#1a0505'], motifs: ['bolt', 'flame', 'burst', 'zigzag', 'star'], valence: -0.7, arousal: 0.9 },
-  dark: { id: 'dark', label: 'Moody', emoji: '🌑', emojiSet: ['🌑', '🦇', '👁️', '🕯️', '🖤'], palette: ['#9d4edd', '#ff4d9d', '#e0aaff', '#0d0221'], motifs: ['moon', 'spiral', 'star', 'zigzag', 'blob'], valence: -0.5, arousal: 0.5 },
+  joy: { id: 'joy', label: 'Joyful', icon: 'sun', iconSet: ['sun', 'sparkle', 'party', 'star', 'flower'], palette: ['#ffb703', '#fb5607', '#ff006e', '#26123d'], motifs: ['sun', 'sparkle', 'star', 'burst', 'flower'], valence: 0.8, arousal: 0.7 },
+  love: { id: 'love', label: 'Romantic', icon: 'heart', iconSet: ['heart', 'sparkle', 'flower', 'star', 'heart'], palette: ['#ff4d8d', '#ff9bb3', '#ffd6e0', '#2a0a1e'], motifs: ['heart', 'sparkle', 'ring', 'flower', 'star'], valence: 0.8, arousal: 0.4 },
+  energy: { id: 'energy', label: 'Hyped', icon: 'bolt', iconSet: ['flame', 'bolt', 'note', 'rocket', 'star'], palette: ['#ff2bd6', '#00e5ff', '#c6ff00', '#0c0220'], motifs: ['bolt', 'star', 'zigzag', 'burst', 'spiral'], valence: 0.6, arousal: 0.95 },
+  calm: { id: 'calm', label: 'Dreamy', icon: 'moon', iconSet: ['moon', 'wave', 'leaf', 'cloud', 'wing'], palette: ['#4cc9f0', '#80ed99', '#c8f7e4', '#07212b'], motifs: ['wave', 'cloud', 'ring', 'moon', 'flower'], valence: 0.4, arousal: 0.15 },
+  nostalgia: { id: 'nostalgia', label: 'Nostalgic', icon: 'cassette', iconSet: ['cassette', 'sun', 'camera', 'leaf', 'clock'], palette: ['#e9a23b', '#d4745e', '#f4d8a8', '#2a1810'], motifs: ['sun', 'spiral', 'ring', 'flower', 'squiggle'], valence: 0.3, arousal: 0.3 },
+  sadness: { id: 'sadness', label: 'Melancholy', icon: 'tear', iconSet: ['tear', 'rain', 'heartbreak', 'flower', 'moon'], palette: ['#5a7bd8', '#8f9bd6', '#b8c4ee', '#0b1030'], motifs: ['rain', 'cloud', 'wave', 'moon', 'squiggle'], valence: -0.7, arousal: 0.2 },
+  anger: { id: 'anger', label: 'Intense', icon: 'flame', iconSet: ['flame', 'bolt', 'face-angry', 'burst', 'ghost'], palette: ['#ff1f1f', '#ff7a00', '#ffd000', '#1a0505'], motifs: ['bolt', 'flame', 'burst', 'zigzag', 'star'], valence: -0.7, arousal: 0.9 },
+  dark: { id: 'dark', label: 'Moody', icon: 'ghost', iconSet: ['moon', 'ghost', 'eye', 'skull', 'bulb'], palette: ['#9d4edd', '#ff4d9d', '#e0aaff', '#0d0221'], motifs: ['moon', 'spiral', 'star', 'zigzag', 'blob'], valence: -0.5, arousal: 0.5 },
 };
 
 // ---------------------------------------------------------------------------
@@ -148,23 +150,7 @@ export function overrideMood(a: MoodAnalysis, emotion: EmotionId): MoodAnalysis 
   return { ...a, overall: m, perLine: a.perLine.map(() => m), basis: 'none' };
 }
 
-// ---------------------------------------------------------------------------
-// Words -> emoji
-// ---------------------------------------------------------------------------
-const WORD_EMOJI: Record<string, string> = {
-  love: '❤️', heart: '💖', kiss: '💋', fire: '🔥', burn: '🔥', sun: '☀️', sunshine: '🌞', star: '⭐', stars: '✨', moon: '🌙', night: '🌃', midnight: '🌌', rain: '🌧️',
-  cry: '😢', tears: '💧', tear: '💧', smile: '😊', laugh: '😂', dance: '💃', dancing: '💃', party: '🎉', dream: '💭', dreams: '💭', sky: '🌤️', cloud: '☁️', ocean: '🌊', sea: '🌊', wave: '🌊',
-  light: '💡', lights: '✨', glass: '🥂', run: '🏃', fast: '⚡', lightning: '⚡', neon: '🌆', static: '📺', signal: '📡', city: '🏙️', chains: '⛓️', paper: '📄', planet: '🪐', planets: '🪐',
-  fly: '🕊️', wings: '🪽', flower: '🌸', flowers: '🌸', summer: '🏖️', home: '🏠', gold: '✨', golden: '✨', free: '🕊️', ghost: '👻', dark: '🌑', shadow: '🌑', heaven: '😇', angel: '😇',
-  money: '💸', road: '🛣️', car: '🚗', eyes: '👀', hands: '🙌', music: '🎵', sing: '🎤', song: '🎶', guitar: '🎸', time: '⏳', hours: '⏳', hour: '⏳', clock: '⏰', broken: '💔', break: '💔',
-  fall: '🍂', wind: '🍃', snow: '❄️', ice: '🧊', storm: '⛈️', thunder: '⚡', boom: '💥', crown: '👑', diamond: '💎', hold: '🤝', catch: '🫳', hit: '💥', red: '🔴', blue: '🔵', electric: '⚡',
-  tape: '📼', wall: '🧱', skies: '🌤️', orbit: '🪐', alone: '🫥', pieces: '🧩', fade: '🌫️', white: '🤍', black: '🖤',
-};
-
-export function emojiForWord(word: string): string | null {
-  const w = word.toLowerCase().replace(/[^\p{L}']/gu, '');
-  return WORD_EMOJI[w] ?? null;
-}
+// Words -> icons live in ./icons (iconForWord): a custom vector set replaced the emoji.
 
 // ---------------------------------------------------------------------------
 // Palettes

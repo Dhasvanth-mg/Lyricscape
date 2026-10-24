@@ -23,11 +23,17 @@ export type Prefs = {
   /** keep ONE sync delay for every song instead of resetting per track */
   syncShared: boolean;
   syncGlobal: Record<SyncFamily, number>;
-  /** word-by-word motion on line-synced lyrics from ESTIMATED word times (off = the line appears as a unit) */
+  /** pick the look from the song (genre, pace, mood, cover); off = always use `style` */
+  autoTheme: boolean;
+  /** word-by-word motion on line-synced lyrics from ESTIMATED word times (default on, as before; off = the line appears as a unit) */
   estimatedWords: boolean;
+  /** ask the configured AI gateway to read the lyric themes (sends title, artist and a lyric excerpt). Off by default; the local analysis always runs. */
+  aiInterpret: boolean;
+  /** look up genre tags online (MusicBrainz, artist name only) when the track carries none */
+  onlineGenres: boolean;
 };
 
-const DEFAULTS: Prefs = { style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: false };
+const DEFAULTS: Prefs = { style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true };
 
 function readPrefs(): Prefs {
   try {
@@ -60,9 +66,9 @@ type UiState = Prefs & {
 
 export const useUi = create<UiState>((set, get) => {
   const persist = () => {
-    const { style, colorMode, emojis, doodles, artwork, quality, mood, syncShared, syncGlobal, estimatedWords } = get();
+    const { style, colorMode, emojis, doodles, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres } = get();
     try {
-      localStorage.setItem(PREFS_KEY, JSON.stringify({ style, colorMode, emojis, doodles, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, splitV: 2 }));
+      localStorage.setItem(PREFS_KEY, JSON.stringify({ style, colorMode, emojis, doodles, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, splitV: 2 }));
     } catch {
       /* storage unavailable */
     }

@@ -3,7 +3,7 @@
 
 import { getAccessToken } from './auth';
 
-export type SdkTrack = { id: string | null; uri: string; name: string; duration_ms: number; artists: { name: string }[]; album: { name: string; images: { url: string; width?: number }[] } };
+export type SdkTrack = { id: string | null; uri: string; name: string; duration_ms: number; artists: { name: string; uri?: string }[]; album: { name: string; images: { url: string; width?: number }[] } };
 export type SdkState = {
   paused: boolean;
   position: number;

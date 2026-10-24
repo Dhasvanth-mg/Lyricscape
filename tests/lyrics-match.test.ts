@@ -115,3 +115,31 @@ describe('word timing from text', () => {
     expect(validateDocument(doc)).toEqual([]);
   });
 });
+
+describe('timing consensus: a lone mis-timed version does not win on length alone', () => {
+  const lrc = (offsetMs: number, lines = 8) =>
+    Array.from({ length: lines }, (_, i) => {
+      const t = 5000 + i * 4000 + offsetMs;
+      return `[${String(Math.floor(t / 60000)).padStart(2, '0')}:${((t % 60000) / 1000).toFixed(2).padStart(5, '0')}] line ${i + 1} words here`;
+    }).join('\n');
+  const mk = (id: number, duration: number, offsetMs: number): LrclibRecord => ({ id, trackName: 'Mine', artistName: 'Bazzi', albumName: 'x', duration, plainLyrics: 'x', syncedLyrics: lrc(offsetMs) });
+  const q = { title: 'Mine', artist: 'Bazzi', album: 'COSMIC', duration: 131 };
+
+  it('flags a version that is seconds away from where independent versions agree (shape seen on a real song)', async () => {
+    const { timingOutlierIds } = await import('@/lib/lyrics/match');
+    const recs = [mk(1, 131, 0), mk(2, 131, 0), mk(3, 131, -60), mk(4, 131, 40), mk(5, 131, -3790)];
+    expect([...timingOutlierIds(recs)]).toEqual([5]);
+  });
+
+  it('prefers the consensus version even when the outlier matches the track length best', () => {
+    const recs = [mk(5, 131, -3790), mk(1, 133, 0), mk(3, 134, -60), mk(4, 134, 40)];
+    expect(rankCandidates(recs, q)[0]!.record.id).not.toBe(5);
+    // without the outlier rule it would have won on length (131 vs 133/134)
+  });
+
+  it('does nothing when there are not enough independent opinions to outvote anyone', async () => {
+    const { timingOutlierIds } = await import('@/lib/lyrics/match');
+    expect(timingOutlierIds([mk(1, 131, 0), mk(2, 131, -3000)]).size).toBe(0);
+    expect(timingOutlierIds([mk(1, 131, 0), mk(2, 131, 0), mk(3, 131, 0)]).size).toBe(0); // copies are one opinion
+  });
+});

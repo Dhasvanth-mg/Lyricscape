@@ -1,70 +1,11 @@
-import type { FontKey, PresetId, StyleId } from './types';
+import type { FontKey, StyleId } from './types';
+import { FONTS, withFonts, type FontDef, type SceneKind, type StyleDef } from './styleBase';
+import { DIRECTION_STYLES } from './directionStyles';
 
-export type FontDef = {
-  family: string;
-  weight: number | string;
-  italic?: boolean;
-  /** average glyph advance / font-size, used by the width estimator and layout fallback */
-  widthFactor: number;
-  uppercase: boolean;
-  letterSpacingEm: number;
-};
+export { FONTS, withFonts };
+export type { FontDef, SceneKind, StyleDef };
 
-export type StyleDef = {
-  id: StyleId;
-  label: string;
-  description: string;
-  fonts: Record<FontKey, FontDef>;
-  /** primary font for lines, accent font for emphasised words */
-  displayFont: FontKey;
-  accentFont: FontKey;
-  /** base motion amplitude 0..1.5 */
-  motion: number;
-  background: 'palette' | 'mono' | 'paper' | 'cycle' | 'grid' | 'noir' | 'sunset' | 'notebook' | 'aurora' | 'pop';
-  /** how visible the blurred album-cover wash is behind the words (0..1, default 0.36) */
-  artwork?: number;
-  /** edge darkening 0..1 (default 0.55) */
-  vignette?: number;
-  /** backdrop scenery the renderer paints behind the words */
-  scene?: 'sunset' | 'notebook' | 'aurora';
-  /** text treatments beyond font + colour */
-  text?: {
-    glow?: number;
-    aberration?: number;
-    shadow?: number;
-    outline?: boolean;
-    highlight?: boolean;
-    gradient?: 'chrome' | 'sunset';
-    /** every word gets its own palette colour, like Maximalist */
-    multicolor?: boolean;
-  };
-  hookPreset: PresetId;
-  calmPresets: PresetId[];
-  grain: number;
-  halftone: number;
-  echo: number;
-  scanlines: number;
-  chromeText: boolean;
-  beatShake: number;
-};
-
-const FONTS: Record<FontKey, FontDef> = {
-  display: { family: 'Anton', weight: 400, widthFactor: 0.44, uppercase: true, letterSpacingEm: 0.01 },
-  wide: { family: 'Archivo Variable', weight: 900, widthFactor: 0.66, uppercase: true, letterSpacingEm: -0.02 },
-  serif: { family: 'DM Serif Display', weight: 400, widthFactor: 0.5, uppercase: false, italic: true, letterSpacingEm: 0 },
-  mono: { family: 'JetBrains Mono Variable', weight: 700, widthFactor: 0.6, uppercase: true, letterSpacingEm: 0 },
-  body: { family: 'Inter Variable', weight: 800, widthFactor: 0.58, uppercase: false, letterSpacingEm: -0.03 },
-  comic: { family: 'Bangers', weight: 400, widthFactor: 0.46, uppercase: true, letterSpacingEm: 0.03 },
-  marker: { family: 'Permanent Marker', weight: 400, widthFactor: 0.56, uppercase: false, letterSpacingEm: 0 },
-};
-
-function withFonts(overrides: Partial<Record<FontKey, Partial<FontDef>>> = {}): Record<FontKey, FontDef> {
-  const out = { ...FONTS };
-  for (const k of Object.keys(overrides) as FontKey[]) out[k] = { ...FONTS[k], ...overrides[k] };
-  return out;
-}
-
-export const STYLES: Record<StyleId, StyleDef> = {
+const LEGACY_STYLES = {
   maximalist: {
     id: 'maximalist',
     label: 'Maximalist',
@@ -85,6 +26,8 @@ export const STYLES: Record<StyleId, StyleDef> = {
   },
   editorial: {
     id: 'editorial',
+    decor: 0.3,
+    maskWords: false,
     label: 'Monochrome editorial',
     description: 'Black, white and bone. Big serif/grotesk type with razor-clean moves.',
     fonts: withFonts(),
@@ -121,6 +64,8 @@ export const STYLES: Record<StyleId, StyleDef> = {
   },
   minimal: {
     id: 'minimal',
+    decor: 0.2,
+    maskWords: false,
     label: 'Minimal',
     description: 'Quiet, readable lyrics with gentle fades and a single accent.',
     fonts: withFonts({ body: { weight: 700, uppercase: false } }),
@@ -157,6 +102,8 @@ export const STYLES: Record<StyleId, StyleDef> = {
   },
   neon: {
     id: 'neon',
+    decor: 0.7,
+    maskWords: false,
     label: 'Neon noir',
     description: 'Glowing tube-light type on a night-black ground, in the brightest colors of the cover.',
     fonts: withFonts(),
@@ -177,6 +124,8 @@ export const STYLES: Record<StyleId, StyleDef> = {
   },
   vaporwave: {
     id: 'vaporwave',
+    decor: 0.6,
+    maskWords: false,
     label: 'Vaporwave',
     description: 'Striped sunset, a gliding horizon grid and pink-to-cyan italic type.',
     fonts: withFonts({ serif: { family: 'DM Serif Display', italic: true, uppercase: true, widthFactor: 0.55 } }),
@@ -198,6 +147,8 @@ export const STYLES: Record<StyleId, StyleDef> = {
   },
   vhs: {
     id: 'vhs',
+    decor: 0.5,
+    maskWords: false,
     label: 'Retro VHS',
     description: 'Tape-era monospace with scanlines, grain and a red/cyan colour split.',
     fonts: withFonts({ mono: { weight: 800 } }),
@@ -218,6 +169,8 @@ export const STYLES: Record<StyleId, StyleDef> = {
   },
   notebook: {
     id: 'notebook',
+    decor: 0.6,
+    maskWords: false,
     label: 'Notebook',
     description: 'Marker handwriting on ruled paper, with a highlighter swipe on the word being sung.',
     fonts: withFonts(),
@@ -240,6 +193,8 @@ export const STYLES: Record<StyleId, StyleDef> = {
   },
   aurora: {
     id: 'aurora',
+    decor: 0.4,
+    maskWords: false,
     label: 'Aurora',
     description: 'Slow northern-lights gradients and soft glowing type. Easy on the eyes.',
     fonts: withFonts({ body: { weight: 800, uppercase: false } }),
@@ -280,6 +235,51 @@ export const STYLES: Record<StyleId, StyleDef> = {
     beatShake: 1,
     text: { outline: true, shadow: 1, multicolor: true },
   },
+  gloss: {
+    id: 'gloss',
+    decor: 0.35,
+    maskWords: false,
+    label: 'Gloss',
+    description: 'Bright, clean pop: glossy cover-colour gradients and crisp, highly readable type.',
+    fonts: withFonts(),
+    displayFont: 'wide',
+    accentFont: 'wide',
+    motion: 0.9,
+    background: 'gloss',
+    artwork: 0.16,
+    vignette: 0.12,
+    hookPreset: 'stack',
+    calmPresets: ['stack', 'ticker', 'drop'],
+    grain: 0.03,
+    halftone: 0,
+    echo: 0,
+    scanlines: 0,
+    chromeText: false,
+    beatShake: 0.45,
+    text: { glow: 0.2 },
+  },
+  film: {
+    id: 'film',
+    decor: 0.3,
+    maskWords: false,
+    label: 'Film',
+    description: 'Cinematic and a little raw: warm grain, a deep vignette and serif titles.',
+    fonts: withFonts(),
+    displayFont: 'serif',
+    accentFont: 'serif',
+    motion: 0.6,
+    background: 'film',
+    artwork: 0.3,
+    vignette: 0.75,
+    hookPreset: 'ticker',
+    calmPresets: ['ticker', 'stack'],
+    grain: 0.24,
+    halftone: 0,
+    echo: 0,
+    scanlines: 0.04,
+    chromeText: false,
+    beatShake: 0.2,
+  },
   custom: {
     id: 'custom',
     label: 'Custom',
@@ -298,7 +298,9 @@ export const STYLES: Record<StyleId, StyleDef> = {
     chromeText: false,
     beatShake: 0.8,
   },
-};
+} satisfies Partial<Record<StyleId, StyleDef>>;
+
+export const STYLES: Record<StyleId, StyleDef> = { ...LEGACY_STYLES, ...DIRECTION_STYLES } as Record<StyleId, StyleDef>;
 
 export function fontCss(def: FontDef, sizePx: number): string {
   return `${def.italic ? 'italic ' : ''}${def.weight} ${Math.max(1, Math.round(sizePx))}px "${def.family}", "Arial Black", Impact, sans-serif`;
@@ -314,6 +316,18 @@ export const REQUIRED_FONT_LOADS = [
   '400 64px "Bangers"',
   '400 64px "Permanent Marker"',
 ];
+
+/** Font shorthands a style needs before its first frame (display + accent + caption face, and the mixed pool if it has one). */
+export function fontLoadsFor(style: StyleDef): string[] {
+  const keys: FontKey[] = [style.displayFont, style.accentFont, 'body'];
+  if (style.fontMix) keys.push('display', 'serif', 'mono', 'wide');
+  const out = new Set<string>();
+  for (const k of keys) {
+    const f = style.fonts[k];
+    out.add(`${f.italic ? 'italic ' : ''}${f.weight} 64px "${f.family}"`);
+  }
+  return [...out];
+}
 
 /** Cheap width estimator used in tests / SSR; the browser passes ctx.measureText. */
 export function estimateWidth(text: string, font: FontDef, sizePx: number): number {

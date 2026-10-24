@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Play, Search, Upload } from 'lucide-react';
+import { Play, Search, Upload, Check, Equal, X } from 'lucide-react';
 import clsx from 'clsx';
 import type { Track } from '@/lib/types';
 import { player, usePlayer } from '@/lib/player/controller';
@@ -171,7 +171,7 @@ export default function ListenPage() {
             <ul className="w-full space-y-1 text-sm" aria-live="polite">
               {report.map((r, i) => (
                 <li key={i} className={clsx(r.status === 'added' ? 'text-aqua' : r.status === 'duplicate' ? 'text-sun' : 'text-red-300')}>
-                  {r.status === 'added' ? '✓' : r.status === 'duplicate' ? '=' : '✕'} {r.fileName}
+                  {r.status === 'added' ? <Check size={14} className="inline" /> : r.status === 'duplicate' ? <Equal size={14} className="inline" /> : <X size={14} className="inline" />} {r.fileName}
                   {r.message ? ` — ${r.message}` : ''}
                 </li>
               ))}

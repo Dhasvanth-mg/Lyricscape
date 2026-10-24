@@ -51,8 +51,10 @@ accurate real LRCLIB timestamps are against a recording was **not measured**; th
 ### What these numbers mean for the app
 
 * Even with perfect line starts *and* ends, estimated word times are within 200 ms for 55.6 % of words, and for typical line-only data 43.6 %,
-  and they are **late by ~100–220 ms on average** (singers land the first word of a line right at the line start). That is why
-  line-synced lyrics now appear as a unit by default and word-by-word motion on them is an opt-in labelled "estimated".
+  and they are **late by ~100–220 ms on average** (singers land the first word of a line right at the line start). The rebuild
+  made the whole-line-at-once display the default; that turned out to place later words seconds early (a worse match for what is heard than the
+  estimate: 22 % vs 46 % of words within 200 ms), so word-by-word motion is on again by default, still labelled "estimated"
+  (lyric-sync-regression.md).
 * Plain, unsynced lyrics are essentially never right (1.2 % within 200 ms; median 8 s off). They are labelled "Not synced".
 * The aligner is much better than any estimate **when it has separated vocals** (88.6 % within 200 ms), and unusable without
   them on some songs (below).
@@ -87,27 +89,20 @@ used here (it adds Whisper transcription we do not need because the lyrics are k
 A transcription-first approach would also reintroduce the risk of dropping or reordering lyrics. The multilingual MMS aligner
 was not tried (very large); **this build is English only** and refuses other languages.
 
-## 4. Playback clock
+## 4. Playback clock (CORRECTED)
 
-Scripted Spotify telemetry in virtual time, `tools/sync-report/clock_report.ts` (`clock_report.json`). OLD is a transcription of the
-replaced code. Position error vs the true position (ms), 9 minutes after a 1-minute warm-up, polls every 3.5 s:
+**This section originally claimed the rebuilt skew-removing estimator cut position error from ~1900 ms to ~10 ms. That claim is withdrawn.**
+It came from a simulation whose staleness values I had assumed. When the rebuild was run on real use, positions moved by 1-3 s
+relative to the behaviour you had calibrated against (see [lyric-sync-regression.md](lyric-sync-regression.md)), because a browser cannot tell
+a wrong local clock from Spotify's own reporting lag (its `Date` header is hidden from page scripts).
 
-| Scenario | OLD p50 / p95 / max | NEW p50 / p95 / max |
-|---|---|---|
-| local clock in sync, quiet network | 0 / 0 / 0 | 0 / 0 / 0 |
-| local clock 3 s ahead | 1908 / 1944 / 1964 | 2 / 8 / 11 |
-| local clock 5 s behind | 97 / 890 / 979 | 3 / 7 / 12 |
-| local clock 45 s ahead | 1899 / 1935 / 1954 | 6 / 10 / 11 |
-| jittery network, 0.2 % drift, clock 0.8 s off | 775 / 778 / 779 | 12 / 21 / 23 |
-| user seeks while a poll is in flight; error 3 s later | 139,700 | 0 |
+What is true now:
 
-These are simulations of the *algorithms*; they are not measurements against Spotify. The tests also drive the real
-`SpotifyBackend` code with scripted telemetry (`tests/playback-clock.test.ts`). **Not verified:** a real Spotify session
-(needs credentials and the Web Playback SDK), and real output latency of a real Bluetooth device. `LocalBackend` uses the
-latency the audio stack reports (`AudioContext.outputLatency`); the device-delay slider covers what it cannot see.
-
-Known limit by design: a cache that is *always* stale by a constant amount looks like clock skew. Apparent skew within ±250 ms is
-treated as real staleness, larger as a wrong local clock; the worst case is therefore bounded at about 250 ms.
+* The position uses the pre-rebuild telemetry age, `clamp(Date.now() − timestamp, 0, 2000)`.
+* Kept from the rebuild, still verified by tests: an epoch guard (a poll requested before a seek/pause/load is dropped, so a seek
+  during an in-flight poll no longer throws the clock back 60 s), an in-flight command guard, and continuous slewing (no jump for small drift).
+* The skew-removing estimator survives only inside the opt-in diagnostics (`lyricscapeSync`) so real telemetry can judge it.
+* Not verified: a real Spotify session, real Bluetooth latency. `LocalBackend` uses the audio stack's reported output latency.
 
 ## 5. Tests and regressions
 

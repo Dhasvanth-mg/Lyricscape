@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { EMOTIONS, MOTIFS, type ColorMode, type EmotionId, type MotifId } from './emotion';
 
-export const STYLE_IDS = ['maximalist', 'editorial', 'psychedelic', 'minimal', 'y2k', 'neon', 'vaporwave', 'vhs', 'notebook', 'aurora', 'popart', 'custom'] as const;
+export const STYLE_IDS = ['maximalist', 'editorial', 'psychedelic', 'minimal', 'y2k', 'neon', 'vaporwave', 'vhs', 'notebook', 'aurora', 'popart', 'gloss', 'film', 'velvet', 'ether', 'nocturne', 'rhythm', 'broadsheet', 'graphic', 'analog', 'artbook', 'stillness', 'disorder', 'coverpop', 'custom'] as const;
 export type StyleId = (typeof STYLE_IDS)[number];
 
 export const PRESET_IDS = ['ticker', 'stack', 'burst', 'drop', 'wave', 'cut'] as const;
@@ -126,6 +126,15 @@ export type DrawWord = {
   highlight?: string;
   /** vertical glyph gradient */
   gradient?: 'chrome' | 'sunset';
+  /** colours to choose from by what the ART behind the word looks like (first that reads wins); the renderer decides, with a sticker edge */
+  adapt?: string[];
+  /** a solid rounded chip painted behind the word (this colour); the word's own fill is chosen to read on it */
+  chip?: string;
+  /** illumination through a held word: the part of the word sung so far (0..1), painted in `lit` */
+  progress?: number;
+  lit?: string;
+  /** soft ghost copy that settles into the word as it lands, 0..1 */
+  focus?: number;
 };
 
 export type DrawDoodle = {
@@ -142,7 +151,7 @@ export type DrawDoodle = {
   accent?: string;
   seed: number;
 };
-export type DrawEmoji = { id: string; char: string; x: number; y: number; sizePx: number; rotationDeg: number; alpha: number };
+export type DrawIcon = { id: string; icon: import('./icons').IconId; x: number; y: number; sizePx: number; rotationDeg: number; alpha: number };
 
 export type Aurora = { x: number; y: number; r: number; color: string; alpha: number };
 export type Ring = { r: number; alpha: number; color: string; width: number };
@@ -154,7 +163,7 @@ export type Interlude = { amount: number; aurora: Aurora[]; rings: Ring[]; ribbo
 export type MarqueeRow = { text: string; y: number; offsetX: number; sizePx: number; alpha: number; font: FontKey; color: string };
 
 /** A quiet preview of the line that comes next, so you can sing along. */
-export type Caption = { text: string; alpha: number };
+export type Caption = { text: string; alpha: number; /** centre x and max width in px, so it stays beside an artwork panel instead of running under it */ cx?: number; maxW?: number };
 
 export type Frame = {
   tMs: number;
@@ -164,14 +173,36 @@ export type Frame = {
   activeWordId: string | null;
   visibleWordIds: string[];
   bg: { c0: string; c1: string; angleDeg: number; invert: boolean; pulse: number; solid: boolean; glow: { x: number; y: number; color: string; alpha: number } | null };
-  artwork: { mode: 'backdrop' | 'hero' | 'sticker'; alpha: number; scale: number; rotationDeg: number; x: number; y: number; hero: number };
+  artwork: {
+    mode: 'backdrop' | 'hero' | 'sticker';
+    alpha: number;
+    scale: number;
+    rotationDeg: number;
+    x: number;
+    y: number;
+    hero: number;
+    /** how the cover is used (see lib/kinetic/look.ts) */
+    treatment: import('./look').ArtTreatment;
+    side: 'left' | 'right';
+    reflect: boolean;
+    blur: number;
+    card: { x: number; y: number; w: number; h: number } | null;
+    split: { x: number; w: number } | null;
+  };
+  /** the colour hierarchy in use right now: resting ink, not-yet-sung ink, the word being sung, the accent, small furniture */
+  tone: import('./look').LookColors;
+  /** 0..1: how far a chorus has lifted the ground (looks that do not invert) */
+  lift: number;
+  /** brief coloured slices behind the words (controlled disorder), px from the top-left */
+  disrupt: { x: number; y: number; w: number; h: number; alpha: number; color: string }[];
   camera: { zoom: number; rotationDeg: number; x: number; y: number };
-  overlays: { grain: number; vignette: number; halftone: number; flash: number; scanlines: number };
+  overlays: { grain: number; vignette: number; halftone: number; flash: number; scanlines: number; /** soft pool behind the words so they stay readable over busy art */ scrim: number; /** true = dark pool (light text), false = light pool (dark text) */ scrimDark: boolean };
   beat: { pulse: number; index: number; strength: number };
   marquee: MarqueeRow[];
   interlude: Interlude;
   doodles: DrawDoodle[];
-  emojis: DrawEmoji[];
+  /** custom vector icons next to matching words and floating in hooks (these replaced emoji) */
+  icons: DrawIcon[];
   /** mood of the current line and the palette actually in use (after album/mood blending) */
   mood: EmotionId | null;
   palette: string[];
@@ -193,7 +224,7 @@ export type FrameEnv = {
   layoutEpoch?: number;
   /** blend = album colors tinted by mood, album = cover only, emotion = mood palettes only */
   colorMode?: ColorMode;
-  /** emoji stickers next to matching words + ambient emoji in hooks (default true) */
+  /** icon stickers next to matching words + ambient icons in hooks (default true; the key keeps its old name) */
   emojis?: boolean;
   /** animated vector doodles (default true) */
   doodles?: boolean;
@@ -201,6 +232,8 @@ export type FrameEnv = {
   artwork?: 'off' | 'background';
   /** 0..1 visual budget from the quality level (fewer doodles/emoji when the machine struggles) */
   density?: number;
+  /** the resolved art direction for this song (colours, typography, artwork treatment, motion). Absent = the classic style table. */
+  look?: import('./look').Look;
 };
 
 export type { ColorMode, EmotionId, MotifId };

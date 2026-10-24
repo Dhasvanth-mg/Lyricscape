@@ -8,7 +8,7 @@
 
 import { parse } from 'yaml';
 import type { EndSource, LyricDocument, TimedLine, TimedWord } from '../types';
-import { MIN_GUESSED_SPAN_MS, distributeWords, fixOverlaps } from './parse';
+import { MIN_GUESSED_SPAN_MS, distributeWords, estimatedSpreadEnd, fixOverlaps } from './parse';
 import { expectedSungMs } from './words';
 
 type RawWord = { text?: unknown; start_ms?: unknown; end_ms?: unknown };
@@ -83,7 +83,7 @@ export function parseLyricsfile(yaml: string, licenseSource = 'LRCLIB (community
       endMs = start + cap;
       endSource = 'estimated';
     }
-    lines.push({ ...distributeWords(tokens, start, endMs), wordTiming: 'estimated', endSource });
+    lines.push({ ...distributeWords(tokens, start, estimatedSpreadEnd(tokens.length, start, endMs, endSource, nextText)), endMs, wordTiming: 'estimated', endSource });
   }
 
   const wordSynced = lines.some((l) => l.wordTiming === 'authored');

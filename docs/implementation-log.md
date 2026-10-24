@@ -62,6 +62,21 @@ HTTP; the Web Playback SDK and Connect polling have not been exercised against S
 - Six new visual styles (Neon noir, Vaporwave, Retro VHS, Notebook, Aurora, Pop art): new background kinds, glow / colour-split / hard-shadow / highlighter / gradient text treatments, per-style cover-wash strength, and a quiet **next-line preview** under the lyrics in every style.
 - `lib/artwork/generate.ts`: original deterministic cover art in six styles (sunset, bauhaus, contour, waves, orbit, mesh). Regenerates the demo covers and is the fallback cover (library, player, stage backdrop, palette) for any track without one.
 
+### M8 Sync accuracy, motion, auto themes, stage panel
+- Pace-aware word estimator for line-synced lyrics (held-out within-200 ms 52.6 % vs 46.5 % before; words >300 ms late 24.4 % vs 36.5 %), animation landing tuned (`drop` +350 -> +180 ms), version-outlier guard, opt-in sync diagnostics. Evidence, numbers and limits: `docs/lyric-sync-motion.md`.
+- Genre / pace / mood / cover based auto theme with per-song pin (`lib/kinetic/themeSelect.ts`), Gloss and Film styles, per-style decoration level, layout-overlap guarantees, a Look/Sync stage panel (tap-to-anchor, nudge, per-song offset), generated cover fallback.
+- Not claimed: "perfect sync". Not measured: real Spotify playback lag, the source offset of real LRC files, audible feel.
+
+### M9 Artistic direction V3: song identity, art directions, Visual Studio
+- Song Visual Identity (`lib/identity`): independent emotional dimensions with confidence and sources, ambiguity, delivery, lyric stats, tag-derived genre/subgenre, provenance and an explicit list of what cannot be known. Optional, schema-validated, cached AI reading (confidence capped); MusicBrainz tag fallback.
+- Ten composed art directions (`lib/theme`, `lib/kinetic/directionStyles.ts`) incl. three R&B ones (Velvet, Ether, Nocturne): deterministic choice with reasons, contrast floors enforced at composition time, artwork treatments, per-direction motion personality, colour hierarchy, held-word illumination.
+- Studio panel: identity card with corrections, direction cards, full customisation with per-control reset, saved themes, per-family defaults. `/looks` gallery and bench. Measured draw cost <= 13.7 ms at 1080p on integrated graphics. Details: `docs/artistic-direction-v3.md`.
+
+### M10 Custom icons, Cover Pop mode, dedicated-GPU awareness
+- 48 original vector icons replace every emoji (canvas sprites + React `<Icon/>` from one path table); a test forbids emoji in app source.
+- Cover Pop: full-bleed undimmed cover, rounded italic phrase-by-phrase type, per-word colour chosen against the pixels behind it, white chips, icons. A choice, never automatic.
+- Settings/Studio show which GPU draws the lyrics; `pnpm open:gpu` launches the browser on the dedicated one (a page cannot choose). Details and numbers: `docs/artistic-direction-v3.md` section 11.
+
 ## Deliberate deviations from the README
 
 See `architecture.md`. In short: JSON store instead of Postgres, SSE instead of Supabase Realtime, local signed storage instead of R2,

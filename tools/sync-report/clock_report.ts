@@ -1,3 +1,5 @@
+// SUPERSEDED: this compared the old code with the rebuilt estimator using a staleness model I ASSUMED (mostly fresh answers). Real use
+// disagreed with it; see tools/sync-report/ab/clock_ab.ts and docs/lyric-sync-regression.md. Kept only to show what was claimed.
 // Position-estimate error, OLD vs NEW, on identical scripted Spotify telemetry (virtual time, fully deterministic).
 //
 //   pnpm exec tsx tools/sync-report/clock_report.ts

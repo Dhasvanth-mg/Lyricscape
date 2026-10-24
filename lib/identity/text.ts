@@ -10,6 +10,8 @@
 
 import type { LyricDocument } from '../types';
 import type { MotifId } from '../kinetic/emotion';
+import { INDIC_NEGATORS, INDIC_SUBJECT_STEMS, INDIC_TEXT } from '../lyrics/indicLexicon';
+import { INDIC } from '../lyrics/script';
 
 export const TEXT_CATS = ['joy', 'love', 'energy', 'calm', 'nostalgia', 'sadness', 'anger', 'dark', 'tension', 'warm', 'cold'] as const;
 export type TextCat = (typeof TEXT_CATS)[number];
@@ -45,8 +47,15 @@ export const SUBJECTS: Subject[] = [
   { id: 'defiance', label: 'defiance', stems: ['rebel', 'system', 'against', 'revolution', 'liar', 'lies', 'speak up', 'never bow'], motifs: ['bolt', 'flame'] },
 ];
 
-const NEGATORS = new Set(['not', 'never', 'no', "don't", 'dont', "can't", 'cant', "won't", 'wont', "ain't", 'aint', 'without', 'nothing']);
-const norm = (s: string) => ' ' + s.toLowerCase().replace(/[’]/g, "'").replace(/[^\p{L}\p{N}'\s]/gu, ' ').replace(/\s+/g, ' ').trim() + ' ';
+// Hindi and Tamil (native script and romanised): see lib/lyrics/indicLexicon.ts
+for (const [cat, lex] of Object.entries(INDIC_TEXT)) {
+  LEX[cat as TextCat].strong.push(...lex.strong);
+  LEX[cat as TextCat].weak.push(...lex.weak);
+}
+for (const s of SUBJECTS) s.stems.push(...(INDIC_SUBJECT_STEMS[s.id] ?? []));
+
+const NEGATORS = new Set([...INDIC_NEGATORS, 'not', 'never', 'no', "don't", 'dont', "can't", 'cant', "won't", 'wont', "ain't", 'aint', 'without', 'nothing']);
+const norm = (s: string) => ' ' + s.toLowerCase().replace(/[’]/g, "'").replace(/[^\p{L}\p{M}\p{N}'\s]/gu, ' ').replace(/\s+/g, ' ').trim() + ' ';
 
 type Entry = { stem: string; cat: TextCat; w: number; phrase: boolean };
 const ENTRIES: Entry[] = TEXT_CATS.flatMap((cat) => [
@@ -57,7 +66,7 @@ const WORD_ENTRIES = ENTRIES.filter((e) => !e.phrase);
 const PHRASE_ENTRIES = ENTRIES.filter((e) => e.phrase);
 
 /** Does token `t` carry stem `s`? Short stems must match the word (or its plural), long ones are prefixes. */
-const stemHit = (t: string, s: string) => (s.length <= 4 ? t === s || t === s + 's' : t.startsWith(s));
+const stemHit = (t: string, s: string) => (INDIC.test(s) ? t.startsWith(s) : s.length <= 4 ? t === s || t === s + 's' : t.startsWith(s));
 
 export type TextRead = {
   words: number;

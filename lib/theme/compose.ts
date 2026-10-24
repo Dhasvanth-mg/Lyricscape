@@ -208,6 +208,10 @@ export function composeLook(input: ComposeInput): Composed {
     complexity,
     reveal: dm.reveal,
     transition: TM.transition ?? dm.transition,
+    exit: TM.exit ?? dm.exit,
+    speed: TM.speed ?? dm.speed,
+    lineTransition: TM.lineTransition ?? dm.lineTransition,
+    lineOn: TM.lineOn ?? dm.lineOn,
     progress: dm.progress,
     sections: dm.sections,
   };

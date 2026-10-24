@@ -2,9 +2,17 @@
 
 /** Rough syllable count; good enough to apportion time (English-ish, falls back to length for other scripts). */
 export function syllables(word: string): number {
-  const w = word.toLowerCase().replace(/[^\p{L}]/gu, '');
+  const w = word.toLowerCase().replace(/[^\p{L}\p{M}]/gu, '');
   if (!w) return 0.5;
-  if (!/^[a-z]+$/.test(w)) return Math.max(1, Math.ceil(w.length / 2.2)); // Devanagari, Hangul, accented Latin, ...
+  if (/[ऀ-ॿ஀-௿]/.test(w)) {
+    // Devanagari / Tamil: every consonant or independent vowel starts a syllable (an akshara), except a consonant that carries a
+    // virama / pulli (it closes the syllable before it, or opens a conjunct whose last consonant carries the vowel).
+    let n = 0;
+    const cps = Array.from(w);
+    for (let i = 0; i < cps.length; i++) if (/\p{L}/u.test(cps[i]!) && cps[i + 1] !== '्' && cps[i + 1] !== '்') n++;
+    return Math.max(1, n);
+  }
+  if (!/^[a-z]+$/.test(w)) return Math.max(1, Math.ceil(w.length / 2.2)); // Hangul, accented Latin, ...
   let groups = (w.match(/[aeiouy]+/g) ?? []).length;
   if (groups > 1 && /[^aeiouy]e$/.test(w) && !/[^aeiouy]le$/.test(w)) groups--; // silent e
   if (groups > 1 && /ed$/.test(w) && !/[td]ed$/.test(w)) groups--; // "walked"

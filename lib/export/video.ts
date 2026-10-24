@@ -28,6 +28,8 @@ export type ExportQuality = 'standard' | 'high' | 'max';
 export type ExportContent = Pick<RendererOptions, 'colorMode' | 'emojis' | 'doodles' | 'artwork' | 'interlude' | 'texture' | 'reducedMotion'>;
 
 export type ExportJob = {
+  /** lyric time = song time + this: the song's own sync offset, so the video lines up with the audio the way the stage did (default 0) */
+  offsetMs?: number;
   /** which renderer draws the file (default Clean). Turbo falls back to Clean where WebGL2 is missing. */
   mode?: StageMode;
   timeline: VisualTimeline;
@@ -98,7 +100,7 @@ export async function makeExportRenderer(job: ExportJob): Promise<{ r: StageRend
 
 export async function exportStill(job: ExportJob, tMs: number): Promise<Blob> {
   const { r, canvas } = await makeExportRenderer(job);
-  r.render(tMs);
+  r.render(tMs + (job.offsetMs ?? 0));
   return new Promise((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Could not encode the image'))), 'image/png'));
 }
 
@@ -130,7 +132,7 @@ export async function exportVideo(job: ExportJob, opts: { format: ExportFormat; 
   try {
     for (let i = 0; i < total; i++) {
       if (signal?.aborted) throw new DOMException('Export cancelled', 'AbortError');
-      r.render(job.startMs + (i * 1000) / job.fps);
+      r.render(job.startMs + (i * 1000) / job.fps + (job.offsetMs ?? 0));
       await source.add(i / job.fps, 1 / job.fps); // resolves when the encoder is ready for more (backpressure)
       if (i % 6 === 5) {
         onProgress?.(i + 1, total);
@@ -162,7 +164,7 @@ export function downloadBlob(blob: Blob, filename: string) {
 export const safeFilename = (s: string) =>
   s
     .normalize('NFKD')
-    .replace(/[^\w\s.-]+/g, '')
+    .replace(/[^\p{L}\p{M}\p{N}_\s.-]+/gu, '')
     .trim()
     .replace(/\s+/g, '-')
     .slice(0, 80) || 'lyricscape';

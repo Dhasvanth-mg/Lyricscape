@@ -23,6 +23,7 @@ import { useLyricClock } from './useLyricClock';
 import { Button, IconButton, Spinner } from '@/components/ui/bits';
 import { useLyrics } from './useLyrics';
 import { timingSummary } from '@/lib/lyrics/parse';
+import { detectDocLanguage } from '@/lib/lyrics/script';
 import { Cover } from '@/components/ui/Cover';
 import { StagePanel, type PanelTab } from './StagePanel';
 import { ExportDialog } from './ExportDialog';
@@ -150,6 +151,14 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       return;
     }
     rendererRef.current = r;
+    // if the GPU takes the context away and does not give it back, drop to Clean instead of freezing on a dead canvas
+    let lostTimer: ReturnType<typeof setTimeout> | null = null;
+    if (r.kind === 'webgl2') {
+      (r as unknown as { onContextChange?: (lost: boolean) => void }).onContextChange = (lost) => {
+        if (lostTimer) clearTimeout(lostTimer);
+        lostTimer = lost ? setTimeout(() => setTurboFailed('the GPU context was lost'), 2500) : null;
+      };
+    }
     setReady(false);
     if (process.env.NODE_ENV !== 'production') (window as unknown as { __ls?: unknown }).__ls = { r, ui: useUi };
     let alive = true;
@@ -164,6 +173,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     return () => {
       alive = false;
       ro.disconnect();
+      if (lostTimer) clearTimeout(lostTimer);
       r.dispose?.();
       rendererRef.current = null;
     };
@@ -314,6 +324,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     else void wrapRef.current?.requestFullscreen?.().catch(() => undefined);
   };
 
+  const language = useMemo(() => (lyrics.doc ? detectDocLanguage(lyrics.doc) : null), [lyrics.doc]);
   const canExport = !!track && !!lyrics.doc && lyrics.doc.lines.length > 0;
   const noLyrics = track && (lyrics.status === 'missing' || lyrics.status === 'error');
 
@@ -470,6 +481,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
             {lyrics.doc && (
               <span className="hidden font-mono text-[10px] tracking-wide text-white/60 uppercase sm:inline" data-testid="mood-chip">
                 {timingSummary(lyrics.doc).label}
+                {language && language.id !== 'en' && language.id !== 'unknown' ? ` · ${language.label}` : ''}
                 {sl.described && sl.described.words.length ? ` · ${sl.described.headline}` : ''}
               </span>
             )}

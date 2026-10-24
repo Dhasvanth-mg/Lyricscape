@@ -28,7 +28,8 @@ describe('video export helpers', () => {
 
   it('makes filesystem-safe names', () => {
     expect(safeFilename('AC/DC: Back In Black?')).toBe('ACDC-Back-In-Black');
-    expect(safeFilename('日本語')).toBe('lyricscape');
+    expect(safeFilename('日本語')).toBe('日本語'); // native-script names are kept (Hindi, Tamil, Japanese...)
+    expect(safeFilename('???')).toBe('lyricscape');
     expect(safeFilename('a'.repeat(200)).length).toBeLessThanOrEqual(80);
   });
 });

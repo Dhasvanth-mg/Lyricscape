@@ -352,7 +352,8 @@ float hash(vec2 p) { p = fract(p * vec2(443.897, 441.423)); p += dot(p, p + 19.1
 
 void main() {
   vec2 d = v_tc - 0.5;
-  float ab = u_aber * (0.35 + dot(d, d) * 2.2);
+  // lens fringing: none in the middle (where the words are, so they stay crisp), growing toward the edges
+  float ab = u_aber * smoothstep(0.42, 0.72, length(d)) * 0.8;
   vec3 col = vec3(texture(u_scene, v_tc + d * ab).r, texture(u_scene, v_tc).g, texture(u_scene, v_tc - d * ab).b);
   col += texture(u_bloom, v_tc).rgb * u_bloomAmt;
 

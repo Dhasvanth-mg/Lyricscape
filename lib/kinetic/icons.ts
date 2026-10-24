@@ -6,6 +6,7 @@
 // from the icon's own hue pulled toward the current accent, so icons sit inside whatever palette the look has instead of
 // clashing with it the way platform emoji do.
 
+import { INDIC_ICONS } from '../lyrics/indicLexicon';
 import { clamp, hexToRgb, mix, rgbToHex } from './util';
 
 export type Role = 'main' | 'dark' | 'light' | 'white' | 'ink';
@@ -385,9 +386,12 @@ const WORD_ICON: Record<string, IconId> = {
   skull: 'skull', death: 'skull', dead: 'skull', die: 'skull', grave: 'skull', demon: 'skull', devil: 'skull',
 };
 
+// Hindi and Tamil words (native script and romanised)
+Object.assign(WORD_ICON, INDIC_ICONS);
+
 /** The icon that goes with a lyric word, or null (most words have none). */
 export function iconForWord(word: string): IconId | null {
-  const w = word.toLowerCase().replace(/[^\p{L}']/gu, '');
+  const w = word.toLowerCase().replace(/[^\p{L}\p{M}']/gu, '');
   return WORD_ICON[w] ?? null;
 }
 

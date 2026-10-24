@@ -6,6 +6,8 @@
 // Moods only choose colors, emoji and doodles. They never decide anything about the listener.
 
 import type { LyricDocument } from '../types';
+import { INDIC_MOOD, INDIC_NEGATORS } from '../lyrics/indicLexicon';
+import { INDIC } from '../lyrics/script';
 import { hexToRgb } from './util';
 import type { IconId } from './icons';
 
@@ -53,7 +55,9 @@ const LEXICON: Record<EmotionId, string[]> = {
   anger: ['hate', 'angry', 'rage', 'fight', 'war', 'scream', 'kill', 'hell', 'damn', 'enemy', 'lies', 'break', 'shake', 'chain', 'mad', 'revenge', 'bleed', 'burn', 'smash'],
   dark: ['dark', 'shadow', 'black', 'death', 'ghost', 'devil', 'demon', 'void', 'cold', 'fear', 'haunt', 'midnight', 'grave', 'blood', 'moon', 'dead', 'sin', 'abyss'],
 };
-const NEGATORS = new Set(['not', 'never', 'no', "don't", 'dont', "can't", 'cant', "won't", 'wont', "ain't", 'aint', 'without', 'nothing']);
+// Hindi and Tamil (native script and romanised): see lib/lyrics/indicLexicon.ts
+for (const e of EMOTIONS) LEXICON[e].push(...INDIC_MOOD[e]);
+const NEGATORS = new Set([...INDIC_NEGATORS, 'not', 'never', 'no', "don't", 'dont', "can't", 'cant', "won't", 'wont', "ain't", 'aint', 'without', 'nothing']);
 /** "not happy" leans sad, "never alone" leans joy. */
 const FLIP: Record<EmotionId, EmotionId> = { joy: 'sadness', love: 'sadness', energy: 'calm', calm: 'energy', nostalgia: 'joy', sadness: 'joy', anger: 'calm', dark: 'joy' };
 
@@ -62,7 +66,7 @@ const ENTRIES: Entry[] = Object.entries(LEXICON).flatMap(([emotion, stems]) => s
 const SINGLE = ENTRIES.filter((e) => !e.stem.includes(' '));
 const PHRASES = ENTRIES.filter((e) => e.stem.includes(' '));
 
-const norm = (s: string) => s.toLowerCase().replace(/[’]/g, "'").replace(/[^\p{L}\p{N}'\s]/gu, ' ');
+const norm = (s: string) => s.toLowerCase().replace(/[’]/g, "'").replace(/[^\p{L}\p{M}\p{N}'\s]/gu, ' ');
 
 export type Scores = Record<EmotionId, number>;
 const zero = (): Scores => ({ joy: 0, love: 0, energy: 0, calm: 0, nostalgia: 0, sadness: 0, anger: 0, dark: 0 });
@@ -74,7 +78,7 @@ export function scoreText(text: string): Scores {
   for (const p of PHRASES) if (t.includes(p.stem)) out[p.emotion] += 1;
   const words = t.split(/\s+/).filter(Boolean);
   words.forEach((w, i) => {
-    const hit = SINGLE.find((e) => (e.stem.length <= 3 ? w === e.stem || w === e.stem + 's' : w.startsWith(e.stem)));
+    const hit = SINGLE.find((e) => (INDIC.test(e.stem) ? w.startsWith(e.stem) : e.stem.length <= 3 ? w === e.stem || w === e.stem + 's' : w.startsWith(e.stem)));
     if (!hit) return;
     const negated = NEGATORS.has(words[i - 1] ?? '') || NEGATORS.has(words[i - 2] ?? '');
     out[negated ? FLIP[hit.emotion] : hit.emotion] += 1;

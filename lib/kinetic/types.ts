@@ -200,6 +200,8 @@ export type Frame = {
   beat: { pulse: number; index: number; strength: number };
   marquee: MarqueeRow[];
   interlude: Interlude;
+  /** a one-shot shape between lines (wipe, iris, bars); p runs 0..1 over its duration */
+  transition: { kind: 'wipe' | 'iris' | 'bars'; p: number; color: string; angle: number } | null;
   doodles: DrawDoodle[];
   /** custom vector icons next to matching words and floating in hooks (these replaced emoji) */
   icons: DrawIcon[];
@@ -209,6 +211,7 @@ export type Frame = {
   words: DrawWord[];
   textColor: string;
   accent: string;
+  /** always null: the next-line preview was removed (kept so older callers and tests that read it still work) */
   caption: Caption | null;
 };
 

@@ -29,7 +29,7 @@ const PLURAL = new Set(['we', "we're", "we'll", "we've", 'us', 'our', 'ours', 'e
 const THIRD = new Set(['he', 'she', 'they', 'him', 'her', 'them', 'his', 'hers', 'their', "he's", "she's", "they're"]);
 const PAST = new Set(['was', 'were', 'had', 'did', 'said', 'told', 'went', 'came', 'got', 'saw', 'knew', 'thought', 'felt', 'took', 'made', 'left', 'gave', 'found', 'heard', 'wanted', 'used']);
 
-const tokenize = (s: string) => s.toLowerCase().replace(/[’]/g, "'").replace(/[^\p{L}\p{N}'\s]/gu, ' ').split(/\s+/).filter(Boolean);
+const tokenize = (s: string) => s.toLowerCase().replace(/[’]/g, "'").replace(/[^\p{L}\p{M}\p{N}'\s]/gu, ' ').split(/\s+/).filter(Boolean);
 
 export function lyricStats(doc: LyricDocument | null | undefined): LyricStats | null {
   if (!doc || doc.lines.length < 3) return null;

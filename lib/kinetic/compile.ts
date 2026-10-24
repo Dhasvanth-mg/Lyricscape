@@ -36,7 +36,7 @@ export type CompileOptions = {
 const STAGGER_MS = 40;
 const STAGGER_MAX_MS = 320;
 
-const normalize = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, '').replace(/\s+/g, ' ').trim();
+const normalize = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{M}\p{N}\s]/gu, '').replace(/\s+/g, ' ').trim();
 
 /** Split a line's words into short phrases of 1 to 3 words (up to 4 when they are all tiny), at punctuation and at audible gaps. */
 export function splitPhrases(words: WordCue[]): WordCue[][] {

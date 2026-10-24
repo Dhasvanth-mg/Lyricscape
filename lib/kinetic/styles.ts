@@ -1,6 +1,7 @@
 import type { FontKey, StyleId } from './types';
 import { FONTS, withFonts, type FontDef, type SceneKind, type StyleDef } from './styleBase';
 import { DIRECTION_STYLES } from './directionStyles';
+import { hasDevanagari, hasIndic, hasTamil } from '../lyrics/script';
 
 export { FONTS, withFonts };
 export type { FontDef, SceneKind, StyleDef };
@@ -306,6 +307,42 @@ export function fontCss(def: FontDef, sizePx: number): string {
   return `${def.italic ? 'italic ' : ''}${def.weight} ${Math.max(1, Math.round(sizePx))}px "${def.family}", "Arial Black", Impact, sans-serif`;
 }
 
+// ---- Devanagari (Hindi) and Tamil -----------------------------------------------------------------------------------------------
+// The display faces of the looks have no Indic glyphs, and Indic text needs its own treatment: a face that carries the script, no
+// italic (a synthesised slant wrecks the vowel signs), no letter spacing (it separates a letter from its signs), and room for tall
+// marks above and below the line.
+const DEV_FAMILY = '"Noto Sans Devanagari Variable", "Nirmala UI", "Mangal"';
+const TAM_FAMILY = '"Noto Sans Tamil Variable", "Nirmala UI", "Latha"';
+
+/** The CSS font for a piece of text: the look's face for Latin text, a script face (then the look's face for any Latin words) for Indic. */
+export function fontCssFor(def: FontDef, sizePx: number, text: string): string {
+  if (!hasIndic(text)) return fontCss(def, sizePx);
+  const fam = hasTamil(text) ? (hasDevanagari(text) ? `${TAM_FAMILY}, ${DEV_FAMILY}` : TAM_FAMILY) : DEV_FAMILY;
+  const w = Number(def.weight);
+  const weight = Number.isFinite(w) ? (w >= 800 ? 800 : w >= 600 ? 700 : 600) : 700;
+  return `${weight} ${Math.max(1, Math.round(sizePx))}px ${fam}, "${def.family}", "Arial Black", sans-serif`;
+}
+
+/** Letter spacing in px for this text: the look's own, except Indic text which must not be spaced. */
+export const spacingFor = (def: FontDef, sizePx: number, text: string): number => (hasIndic(text) ? 0 : def.letterSpacingEm * sizePx);
+
+/**
+ * Make the browser fetch the script faces a lyric needs (their font files are split by unicode range, so a Latin sample never
+ * triggers them). Resolves when they are usable; callers re-measure text afterwards.
+ */
+export async function loadScriptFonts(text: string): Promise<boolean> {
+  if (typeof document === 'undefined' || !document.fonts || !hasIndic(text)) return false;
+  const jobs: Promise<unknown>[] = [];
+  if (hasDevanagari(text)) jobs.push(document.fonts.load('700 64px "Noto Sans Devanagari Variable"', 'हिन्दी अआक'));
+  if (hasTamil(text)) jobs.push(document.fonts.load('700 64px "Noto Sans Tamil Variable"', 'தமிழ் அஆக'));
+  try {
+    await Promise.all(jobs);
+  } catch {
+    /* system Indic faces (Nirmala UI, Mangal, Latha) take over */
+  }
+  return true;
+}
+
 /** Families the canvas needs loaded before the first frame. */
 export const REQUIRED_FONT_LOADS = [
   '400 64px "Anton"',
@@ -332,5 +369,10 @@ export function fontLoadsFor(style: StyleDef): string[] {
 /** Cheap width estimator used in tests / SSR; the browser passes ctx.measureText. */
 export function estimateWidth(text: string, font: FontDef, sizePx: number): number {
   const t = font.uppercase ? text.toUpperCase() : text;
+  if (hasIndic(t)) {
+    // vowel signs and viramas ride on the letter before them and add no width; Indic letters run a little wider than Latin ones
+    const letters = Array.from(t).filter((c) => !/\p{M}/u.test(c)).length;
+    return letters * 0.62 * sizePx;
+  }
   return t.length * (font.widthFactor + font.letterSpacingEm) * sizePx;
 }

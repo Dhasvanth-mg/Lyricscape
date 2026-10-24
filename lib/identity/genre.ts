@@ -38,6 +38,9 @@ const RULES: Rule[] = [
   { re: /\bpop\b/, fam: 'pop', w: 1.8 },
   { re: /dance pop|electropop|synth.?pop|teen pop|bubblegum|europop|k-pop|j-pop|latin pop|girl group|boy band/, fam: 'pop', sub: 'pop', w: 1.2, prior: { valence: 0.7, energy: 0.68 } },
   { re: /bollywood|filmi|hindi pop|punjabi pop|desi pop|indian pop/, fam: 'pop', sub: 'Bollywood / desi pop', w: 2, prior: { warmth: 0.68, valence: 0.62 } },
+  { re: /kollywood|tamil|tollywood|telugu|malayalam|kannada|south indian|tamil film|tamil pop|tamil cinema/, fam: 'pop', sub: 'South Indian film music', w: 2, prior: { warmth: 0.66, valence: 0.6, energy: 0.62 } },
+  { re: /tamil hip|hiphop tamizha|tamil rap|tamil indie|hindi rap|hindi indie|desi indie/, fam: 'hiphop', sub: 'desi hip-hop', w: 1.4 },
+  { re: /carnatic|hindustani|ghazal|qawwali|sufi|bhajan|raga|devotional|classical indian|indian classical/, fam: 'atmospheric', sub: 'Indian classical / devotional', w: 1.6, prior: { intimacy: 0.7, dreaminess: 0.55, energy: 0.35 } },
   { re: /art pop|chamber pop|baroque pop|dream pop/, fam: 'pop', sub: 'art pop', w: 1.1, prior: { dreaminess: 0.65, intimacy: 0.6 } },
   { re: /disco|funk pop|new wave pop/, fam: 'pop', sub: 'pop', w: 0.9, prior: { valence: 0.7, warmth: 0.62 } },
   // ---- rock & indie

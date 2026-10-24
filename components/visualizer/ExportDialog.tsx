@@ -7,6 +7,8 @@ import type { LyricDocument, Track } from '@/lib/types';
 import { EMOTIONS, EMOTION_DEFS, type ColorMode, type EmotionId } from '@/lib/kinetic/emotion';
 import { compileForTrack, moodFor, type CoverCues } from '@/lib/kinetic/forTrack';
 import { KineticRenderer } from '@/lib/kinetic/render';
+import { createStageRenderer, turboSupported, type StageRenderer } from '@/lib/kinetic/stageRenderer';
+import { MODES, STAGE_MODES, type StageMode } from '@/lib/kinetic/modes';
 import { STYLES } from '@/lib/kinetic/styles';
 import { STYLE_IDS, type StyleId } from '@/lib/kinetic/types';
 import type { Look } from '@/lib/kinetic/look';
@@ -56,6 +58,8 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
   const [format, setFormat] = useState<ExportFormat>(saved.format);
   const [quality, setQuality] = useState<ExportQuality>(saved.quality);
   const [style, setStyle] = useState<StyleId>(direction);
+  const [mode, setMode] = useState<StageMode>(ui.mode === 'turbo' && turboSupported() ? 'turbo' : 'clean');
+  const canTurbo = turboSupported();
   const [colorMode, setColorMode] = useState<ColorMode>(ui.colorMode);
   const [moodPick, setMoodPick] = useState<EmotionId | 'auto'>(ui.mood);
   const [emojis, setEmojis] = useState(ui.emojis);
@@ -123,13 +127,19 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
   // ---- live preview: the same renderer and timeline the export uses, just smaller ---------------------------
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rendererRef = useRef<KineticRenderer | null>(null);
+  const rendererRef = useRef<StageRenderer | null>(null);
   const [ready, setReady] = useState(false);
   useEffect(() => {
     const canvas = canvasRef.current;
     const wrap = wrapRef.current;
     if (!canvas || !wrap) return;
-    const r = new KineticRenderer(canvas);
+    let r: StageRenderer;
+    try {
+      r = createStageRenderer(mode, canvas);
+    } catch {
+      setMode('clean'); // WebGL2 failed: the canvas is spoiled for 2D, the key below remounts it
+      return;
+    }
     rendererRef.current = r;
     let live = true;
     void r.loadFonts().then(() => live && setReady(true));
@@ -143,9 +153,10 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
     return () => {
       live = false;
       ro.disconnect();
+      r.dispose?.();
       rendererRef.current = null;
     };
-  }, []);
+  }, [mode]);
   useEffect(() => {
     const r = rendererRef.current;
     if (!r) return;
@@ -157,7 +168,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
     // the look's faces arrive a moment later: draw again once they are in
     void r.loadLookFonts().then(() => rendererRef.current === r && r.render(previewMs));
     // eslint-disable-next-line react-hooks/exhaustive-deps -- previewMs is drawn by the effect below
-  }, [timeline, look, content, art, ready]);
+  }, [timeline, look, content, art, ready, mode]);
   useEffect(() => {
     rendererRef.current?.render(previewMs);
   }, [previewMs, sz.id]);
@@ -185,7 +196,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
   }, [playing, startMs, endMs]);
 
   // ---- actions -----------------------------------------------------------------------------------------------
-  const job = (): ExportJob => ({ timeline, look, artwork: art ?? null, content, width: sz.width, height: sz.height, fps, startMs, endMs });
+  const job = (): ExportJob => ({ mode, timeline, look, artwork: art ?? null, content, width: sz.width, height: sz.height, fps, startMs, endMs });
   const baseName = `${safeFilename(`${track.artists[0] ?? ''} ${track.title}`)}-lyrics`;
 
   const runVideo = async () => {
@@ -298,7 +309,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
           <section aria-label="Preview" className="flex flex-col gap-3">
             <div className="flex justify-center rounded-2xl border border-ink-700 bg-black/40 p-2">
               <div ref={wrapRef} className="relative max-h-[52vh] w-full overflow-hidden rounded-xl bg-ink-950" style={{ aspectRatio: `${sz.width} / ${sz.height}`, maxWidth: `min(100%, calc(52vh * ${sz.width / sz.height}))` }}>
-                <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-label="Export preview" role="img" />
+                <canvas key={mode} ref={canvasRef} className="absolute inset-0 h-full w-full" aria-label="Export preview" role="img" />
                 {art === undefined && track.artworkUrl && (
                   <span className="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-1 text-[10px]">
                     <Spinner /> cover
@@ -333,6 +344,18 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
 
           {/* settings */}
           <section aria-label="Export settings" className="flex flex-col gap-4 text-sm">
+            <fieldset className="grid gap-2">
+              <legend className="mb-1 font-mono text-[11px] tracking-wide text-ink-400 uppercase">Mode</legend>
+              <div className="flex gap-1 rounded-full bg-ink-800/80 p-1" role="radiogroup" aria-label="Stage mode">
+                {STAGE_MODES.map((m) => (
+                  <button key={m} role="radio" aria-checked={mode === m} onClick={() => setMode(m)} disabled={lock || (m === 'turbo' && !canTurbo)} title={m === 'turbo' && !canTurbo ? 'WebGL2 is not available in this browser' : MODES[m].tagline} className={seg(mode === m)} data-testid={`export-mode-${m}`}>
+                    {MODES[m].label}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-ink-400">{MODES[mode].tagline}</p>
+            </fieldset>
+
             <fieldset className="grid gap-2">
               <legend className="mb-1 font-mono text-[11px] tracking-wide text-ink-400 uppercase">Look</legend>
               <div className="flex flex-wrap items-center gap-2">

@@ -3,12 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { Download, Gauge, Maximize, Minimize, Palette, Pause, Play, Search, X } from 'lucide-react';
+import { Download, Gauge, Maximize, Minimize, Palette, Pause, Play, Search, X, Zap } from 'lucide-react';
 import type { Track } from '@/lib/types';
 import { sceneAt } from '@/lib/kinetic/compile';
 import { compileForTrack, moodFor } from '@/lib/kinetic/forTrack';
 import { syncDiag } from '@/lib/player/syncDiag';
-import { KineticRenderer } from '@/lib/kinetic/render';
+import { createStageRenderer, type StageRenderer } from '@/lib/kinetic/stageRenderer';
 import { extractPaletteFromUrl } from '@/lib/kinetic/extractPalette';
 import { FrameGovernor, type QualityLevel } from '@/lib/kinetic/governor';
 import { useUi } from '@/lib/ui-store';
@@ -42,7 +42,7 @@ type Props = {
 export function LyricStage({ track, style, onStyleChange, chrome = false, onClose, className, onEditLyrics }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rendererRef = useRef<KineticRenderer | null>(null);
+  const rendererRef = useRef<StageRenderer | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const status = usePlayer((s) => s.status);
 
@@ -50,6 +50,9 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   // the track's cover, or an original generated one: always something to take colors from and wash the background with
   const artSrc = track ? artworkFor(track) : null;
   const ui = useUi();
+  // Turbo needs WebGL2; if the GPU path fails the stage drops back to Clean (on a fresh canvas) and says so
+  const [turboFailed, setTurboFailed] = useState<string | null>(null);
+  const mode = ui.mode === 'turbo' && !turboFailed ? 'turbo' : 'clean';
   const [albumPalette, setAlbumPalette] = useState<string[] | null>(null);
   const [coverCues, setCoverCues] = useState<{ light: number; focal: { x: number; y: number }; vibrance: number } | null>(null);
   const [coverInfo, setCoverInfo] = useState<CoverInfo | null>(null);
@@ -139,8 +142,15 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     const canvas = canvasRef.current;
     const wrap = wrapRef.current;
     if (!canvas || !wrap) return;
-    const r = new KineticRenderer(canvas);
+    let r: StageRenderer;
+    try {
+      r = createStageRenderer(mode, canvas);
+    } catch (e) {
+      setTurboFailed(e instanceof Error ? e.message : 'WebGL2 is not available');
+      return;
+    }
     rendererRef.current = r;
+    setReady(false);
     if (process.env.NODE_ENV !== 'production') (window as unknown as { __ls?: unknown }).__ls = { r, ui: useUi };
     let alive = true;
     void r.loadFonts().then(() => alive && setReady(true));
@@ -154,18 +164,19 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     return () => {
       alive = false;
       ro.disconnect();
+      r.dispose?.();
       rendererRef.current = null;
     };
-  }, []);
+  }, [mode]);
 
   useEffect(() => {
     rendererRef.current?.setTimeline(timeline);
-  }, [timeline, ready]);
+  }, [timeline, ready, mode]);
 
   // the art direction: colours, type, artwork treatment and motion for this song
   useEffect(() => {
     rendererRef.current?.setLook(resolved.look);
-  }, [resolved.look, ready]);
+  }, [resolved.look, ready, mode]);
 
   // artwork
   useEffect(() => {
@@ -194,7 +205,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     return () => {
       dead = true;
     };
-  }, [artSrc, ready]);
+  }, [artSrc, ready, mode]);
 
   // options
   useEffect(() => {
@@ -212,7 +223,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       interlude: ui.interlude,
       texture: true,
     };
-  }, [reduced, readable, track?.provider, ready, ui.colorMode, ui.emojis, ui.doodles, ui.artwork, ui.interlude]);
+  }, [reduced, readable, track?.provider, ready, mode, ui.colorMode, ui.emojis, ui.doodles, ui.artwork, ui.interlude]);
 
   // quality: pinned by the user, or adapted live from real frame intervals
   useEffect(() => {
@@ -221,7 +232,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     const start: QualityLevel = ui.quality === 'auto' ? 'high' : ui.quality;
     governorRef.current.reset(start, performance.now());
     r.setQuality(start);
-  }, [ui.quality, ready]);
+  }, [ui.quality, ready, mode]);
 
   // render loop (driven by the playback clock, never by its own wall clock)
   useEffect(() => {
@@ -361,7 +372,13 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       className={clsx('relative isolate overflow-hidden bg-ink-950', chrome && !controlsVisible && 'cursor-none', className)}
       data-testid="lyric-stage"
     >
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-label={track ? `Lyrics for ${track.title}` : 'Lyrics'} role="img" />
+      <canvas key={mode} ref={canvasRef} data-renderer={mode === 'turbo' ? 'webgl2' : 'canvas2d'} className="absolute inset-0 h-full w-full" aria-label={track ? `Lyrics for ${track.title}` : 'Lyrics'} role="img" />
+
+      {ui.mode === 'turbo' && turboFailed && (
+        <p role="status" className="absolute top-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-amber-400/15 px-3 py-1.5 text-xs text-amber-200 backdrop-blur">
+          Turbo needs WebGL2 ({turboFailed}). Showing Clean instead.
+        </p>
+      )}
 
       {!track && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-8 text-center">
@@ -420,6 +437,10 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
                   <Palette size={14} aria-hidden />
                   <span className="hidden sm:inline">{sl.ready ? directionOf(resolved.direction).label : 'Look'}</span>
                   <span className="text-[10px] text-ink-300 uppercase">{!sl.ready ? '' : resolved.basis === 'auto' ? 'auto' : resolved.basis === 'fixed' ? 'fixed' : 'pinned'}</span>
+                </button>
+                <button onClick={() => ui.set({ mode: ui.mode === 'turbo' ? 'clean' : 'turbo' })} className={pill(mode === 'turbo')} title={mode === 'turbo' ? 'Turbo: everything on the GPU. Click for Clean.' : 'Clean. Click for Turbo (GPU, full intensity).'} aria-pressed={mode === 'turbo'} data-testid="mode-pill">
+                  <Zap size={14} aria-hidden />
+                  <span className="hidden sm:inline">{mode === 'turbo' ? 'Turbo' : 'Clean'}</span>
                 </button>
                 <button onClick={() => openPanel('sync')} className={pill(panelOpen && panelTab === 'sync')} title="Sync: nudge, anchor, try another version" data-testid="sync-pill">
                   <Gauge size={14} aria-hidden />

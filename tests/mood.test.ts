@@ -2,7 +2,8 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { parseLrc, fromPlainText } from '@/lib/lyrics/parse';
-import { EMOTIONS, EMOTION_DEFS, MOTIFS, analyzeEmotion, emojiForWord, overrideMood, scoreText, tempoPrior, type Scores } from '@/lib/kinetic/emotion';
+import { EMOTIONS, EMOTION_DEFS, MOTIFS, analyzeEmotion, overrideMood, scoreText, tempoPrior, type Scores } from '@/lib/kinetic/emotion';
+import { ICON_IDS, iconForWord } from '@/lib/kinetic/icons';
 import { paletteFromPixels } from '@/lib/kinetic/extractPalette';
 import { DRAWERS } from '@/lib/kinetic/doodles';
 import { compileTimeline } from '@/lib/kinetic/compile';
@@ -81,20 +82,21 @@ describe('analyzeEmotion', () => {
     expect(a.perLine[3]!.emotion).toBe('joy');
   });
 
-  it('every mood has a usable palette (accents readable on its dark), emoji and motifs', () => {
+  it('every mood has a usable palette (accents readable on its dark), icons and motifs', () => {
     for (const e of EMOTIONS) {
       const d = EMOTION_DEFS[e];
-      expect(d.emojiSet.length).toBeGreaterThanOrEqual(4);
+      expect(d.iconSet.length).toBeGreaterThanOrEqual(4);
+      expect([d.icon, ...d.iconSet].every((i) => ICON_IDS.includes(i))).toBe(true);
       expect(d.motifs.every((m) => MOTIFS.includes(m))).toBe(true);
       for (const accent of d.palette.slice(0, 3)) expect(contrastRatio(accent, d.palette[3])).toBeGreaterThan(3);
     }
   });
 
-  it('maps lyric words to emoji', () => {
-    expect(emojiForWord('Love')).toBe('❤️');
-    expect(emojiForWord('fire,')).toBe('🔥');
-    expect(emojiForWord('hours')).toBe('⏳');
-    expect(emojiForWord('the')).toBeNull();
+  it('maps lyric words to custom icons', () => {
+    expect(iconForWord('Love')).toBe('heart');
+    expect(iconForWord('fire,')).toBe('flame');
+    expect(iconForWord('hours')).toBe('clock');
+    expect(iconForWord('the')).toBeNull();
   });
 });
 
@@ -205,26 +207,26 @@ describe('mood in the timeline and frames', () => {
     expect(seen).toBeGreaterThan(5);
   });
 
-  it('shows an emoji beside a matching sung word and showers emoji on hooks', () => {
+  it('shows an icon beside a matching sung word and showers icons on hooks', () => {
     const doc2 = parseLrc('[00:01.00] <00:01.00>I <00:01.40>love <00:02.00>you <00:02.60>baby');
     const tl2 = compileTimeline(doc2, { trackId: 'x', durationMs: 10000, palette: ['#ff2e63', '#ffd23f', '#08d9d6', '#14121f'], mood: analyzeEmotion(doc2) });
     const cue = tl2.cues.find((c) => c.text === 'love')!;
     const f = computeFrame(tl2, cue.startMs + 200, env);
-    expect(f.emojis.some((e) => e.char === '❤️')).toBe(true);
+    expect(f.icons.some((e) => e.icon === 'heart')).toBe(true);
     const hook = tl.scenes.find((s) => s.hook)!;
-    const showers = computeFrame(tl, hook.startMs + 1500, env).emojis;
+    const showers = computeFrame(tl, hook.startMs + 1500, env).icons;
     expect(showers.length).toBeGreaterThan(0);
     expect(showers.length).toBeLessThanOrEqual(10);
-    expect(showers.every((e) => EMOTION_DEFS[hook.mood!.emotion].emojiSet.includes(e.char) || emojiForWord('x') === null)).toBe(true);
+    expect(showers.every((e) => EMOTION_DEFS[hook.mood!.emotion].iconSet.includes(e.icon) || e.id.endsWith(':icon') || e.id === 'int:mood')).toBe(true);
   });
 
-  it('respects the toggles and reduced motion (no doodles, no emoji)', () => {
+  it('respects the toggles and reduced motion (no doodles, no icons)', () => {
     const ms = hookScene.startMs + 900;
     expect(computeFrame(tl, ms, { ...env, doodles: false }).doodles).toHaveLength(0);
-    expect(computeFrame(tl, ms, { ...env, emojis: false }).emojis).toHaveLength(0);
+    expect(computeFrame(tl, ms, { ...env, emojis: false }).icons).toHaveLength(0);
     const calm = computeFrame(tl, ms, { ...env, reducedMotion: true });
     expect(calm.doodles).toHaveLength(0);
-    expect(calm.emojis).toHaveLength(0);
+    expect(calm.icons).toHaveLength(0);
   });
 
   it('color modes: album = cover colors only, mood = mood palette only, blend = in between', () => {

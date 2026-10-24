@@ -22,6 +22,7 @@ export const MAX_SYNCED_DURATION_DELTA_SEC = 5;
 export const MAX_PLAIN_DURATION_DELTA_SEC = 10;
 
 import type { MatchInfo } from '../types';
+import { parseLrc } from './parse';
 
 export type Query = { title: string; artist: string; album?: string; duration?: number };
 
@@ -118,14 +119,45 @@ export function matchInfoFor(r: LrclibRecord, q: Query): MatchInfo {
   };
 }
 
+/** A version this far from where independent versions agree is a different edit or a mis-timed copy (seen: 3.7-3.8 s on "Mine"). */
+export const OUTLIER_OFFSET_MS = 1500;
+const OUTLIER_PENALTY = 60;
+const AGREE_MS = 300;
+
+/**
+ * Ids of synced records whose timing disagrees with the rest. Most LRCLIB entries of a song are copies of one timing, so only
+ * DISTINCT timings count as opinions; a record is an outlier when at least two other distinct timings agree with each other
+ * (within 300 ms) and this one is more than 1.5 s from them. With fewer opinions nothing is called an outlier.
+ */
+export function timingOutlierIds(records: LrclibRecord[]): Set<number> {
+  const rows = records.filter((r) => r.syncedLyrics).map((r) => ({ id: r.id, starts: parseLrc(r.syncedLyrics!).lines.map((l) => l.startMs) })).filter((r) => r.starts.length > 0);
+  const lens = new Map<number, number>();
+  for (const r of rows) lens.set(r.starts.length, (lens.get(r.starts.length) ?? 0) + 1);
+  const modal = [...lens.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+  const out = new Set<number>();
+  if (modal === undefined) return out;
+  const group = rows.filter((r) => r.starts.length === modal);
+  const distinct = new Map<string, number[]>();
+  for (const r of group) distinct.set(r.starts.join(','), r.starts);
+  if (distinct.size < 3) return out;
+  const med = (a: number[]) => [...a].sort((x, y) => x - y)[a.length >> 1]!;
+  const ref = Array.from({ length: modal }, (_, i) => med([...distinct.values()].map((s) => s[i]!)));
+  const offset = (s: number[]) => med(s.map((x, i) => x - ref[i]!));
+  const agreeing = [...distinct.values()].filter((s) => Math.abs(offset(s)) <= AGREE_MS);
+  if (agreeing.length < 2) return out;
+  for (const r of group) if (Math.abs(offset(r.starts)) > OUTLIER_OFFSET_MS) out.add(r.id);
+  return out;
+}
+
 export function rankCandidates(records: LrclibRecord[], q: Query, exclude: ReadonlySet<number> = new Set()): Ranked[] {
   const seen = new Set<number>();
   const out: Ranked[] = [];
+  const outliers = timingOutlierIds(records);
   for (const record of records) {
     if (seen.has(record.id) || exclude.has(record.id)) continue;
     seen.add(record.id);
     const score = scoreCandidate(record, q);
-    if (score !== null) out.push({ record, score, synced: !!record.syncedLyrics });
+    if (score !== null) out.push({ record, score: score - (outliers.has(record.id) ? OUTLIER_PENALTY : 0), synced: !!record.syncedLyrics });
   }
   return out.sort((a, b) => b.score - a.score);
 }

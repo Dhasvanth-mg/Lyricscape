@@ -10,7 +10,13 @@ export type Track = {
   providerTrackId?: string;
   title: string;
   artists: string[];
+  /** Spotify artist ids, used only to look up genre tags for the theme */
+  artistIds?: string[];
+  /** genre tags when known (Spotify artist genres) */
+  genres?: string[];
   album?: string;
+  /** release year of the album, when the source reports one (Spotify) */
+  releaseYear?: number;
   artworkUrl?: string;
   durationMs: number;
   externalUrl?: string;

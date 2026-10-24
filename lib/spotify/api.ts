@@ -115,8 +115,8 @@ export type ApiTrack = {
   id: string | null;
   name: string;
   duration_ms: number;
-  artists: { name: string }[];
-  album?: { name: string; images?: ApiImage[] };
+  artists: { name: string; id?: string | null; uri?: string }[];
+  album?: { name: string; images?: ApiImage[]; release_date?: string };
   external_urls?: { spotify?: string };
   is_local?: boolean;
   type?: string;
@@ -132,7 +132,9 @@ export function mapTrack(t: ApiTrack): Track | null {
     providerTrackId: t.id,
     title: t.name,
     artists: t.artists.map((a) => a.name),
+    artistIds: t.artists.map((a) => a.id ?? a.uri?.split(':').pop() ?? '').filter(Boolean),
     album: t.album?.name,
+    releaseYear: /^\d{4}/.test(t.album?.release_date ?? '') ? Number(t.album!.release_date!.slice(0, 4)) : undefined,
     artworkUrl: pick?.url,
     durationMs: t.duration_ms,
     externalUrl: t.external_urls?.spotify,

@@ -11,7 +11,7 @@ const MODES: [ColorMode, string, string][] = [
   ['emotion', 'Mood', 'Only colors that match the detected feeling'],
 ];
 
-/** Color source, mood override, and the emoji / vector-doodle toggles. */
+/** Color source, mood override, and the icon / vector-doodle toggles. */
 export function LookControls({ compact = false, className }: { compact?: boolean; className?: string }) {
   const { colorMode, emojis, doodles, mood, artwork, quality, set } = useUi();
   const pill = (on: boolean) => clsx('inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition', on ? 'border-signal bg-signal text-white' : 'border-ink-600 text-ink-200 hover:border-ink-400');
@@ -24,8 +24,8 @@ export function LookControls({ compact = false, className }: { compact?: boolean
           </button>
         ))}
       </div>
-      <button aria-pressed={emojis} onClick={() => set({ emojis: !emojis })} className={pill(emojis)} title="Emoji pop up next to matching words">
-        <Smile size={15} /> {!compact && 'Emoji'}
+      <button aria-pressed={emojis} onClick={() => set({ emojis: !emojis })} className={pill(emojis)} title="Custom icons pop up next to matching words">
+        <Smile size={15} /> {!compact && 'Icons'}
       </button>
       <button aria-pressed={doodles} onClick={() => set({ doodles: !doodles })} className={pill(doodles)} title="Animated vector doodles">
         <PenTool size={15} /> {!compact && 'Doodles'}
@@ -53,7 +53,7 @@ export function LookControls({ compact = false, className }: { compact?: boolean
         <option value="auto">Mood: auto-detect</option>
         {EMOTIONS.map((e) => (
           <option key={e} value={e}>
-            {EMOTION_DEFS[e].emoji} {EMOTION_DEFS[e].label}
+            {EMOTION_DEFS[e].label}
           </option>
         ))}
       </select>

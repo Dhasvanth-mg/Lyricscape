@@ -1,4 +1,5 @@
 'use client';
+import { Icon } from '@/components/ui/Icon';
 
 import { use, useState } from 'react';
 import Link from 'next/link';
@@ -50,7 +51,8 @@ export default function GuestRoom({ params }: { params: Promise<{ slug: string }
           )}
         </div>
         <h1 className="font-display text-5xl leading-none tracking-wide uppercase">{snap.event.title}</h1>
-        <p className="mt-1 text-sm text-ink-300">Hi {snap.me.displayName} 👋</p>
+        <p className="mt-1 text-sm text-ink-300">Hi {snap.me.displayName} <Icon id="hand" size={16} className="ml-0.5 inline align-[-3px]" />
+        </p>
       </header>
 
       {closed && <p className="mb-4 rounded-xl border border-ink-700 p-3 text-sm text-ink-300">This party has ended. You can still look around.</p>}

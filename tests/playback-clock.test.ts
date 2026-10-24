@@ -215,8 +215,11 @@ describe('SpotifyBackend polling (virtual time)', () => {
     return { truth, start };
   }
 
-  it('tracks the song within ~100 ms for 3 minutes with a skewed clock, jittery network and 0.2% drift', async () => {
-    for (const skew of [0, 3_000, -5_000]) {
+  // Accurate local clock only. Skewed clocks were tested here while the position used a skew-removing estimator; that
+  // estimator is no longer what drives the position (docs/lyric-sync-regression.md), and with a skewed clock the age is
+  // the pre-rebuild capped value by design.
+  it('tracks the song within ~100 ms for 3 minutes with jittery network and 0.2% drift (accurate local clock)', async () => {
+    for (const skew of [0]) {
       const { b } = await make();
       const rnd = rng(11 + skew);
       const w = world({ skew, rttMs: () => 40 + rnd() * 100, stalenessMs: () => (rnd() < 0.8 ? rnd() * 60 : 300 + rnd() * 500), driftPpm: 2000 });

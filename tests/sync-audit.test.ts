@@ -34,12 +34,15 @@ describe('Spotify position estimate (audit B1, B4)', () => {
     expect(Math.abs(b.positionMs() - 120_700)).toBeLessThan(400);
   });
 
-  it('B1: a wrong local clock must not be mistaken for telemetry age', async () => {
+  // SUPERSEDED. This test used to require that a wrong local clock is NOT mistaken for telemetry age (the rebuild's
+  // skew-removing estimator). On the one real machine checked (clock 60 s fast) that moved positions 1-2 s away from what
+  // real use had been calibrated against, because a browser cannot tell clock error from Spotify's own reporting lag.
+  // The age is the pre-rebuild clamp again; see docs/lyric-sync-regression.md and tests/sync-regression.test.ts.
+  it('B1 (superseded): the age is the capped Date.now()-timestamp, as before the rebuild, even with a skewed clock', async () => {
     const b = await backend();
-    // the user's clock runs 3 s ahead of Spotify's; the data itself is fresh (+~30 ms of network)
     api.getPlaybackState.mockResolvedValueOnce({ ...state, progress_ms: 50_000, timestamp: Date.now() - 3000 - 30 });
     await (b as unknown as { poll(): Promise<void> }).poll();
-    expect(Math.abs(b.positionMs() - 50_030)).toBeLessThan(400);
+    expect(Math.abs(b.positionMs() - 52_000)).toBeLessThan(80);
   });
 });
 

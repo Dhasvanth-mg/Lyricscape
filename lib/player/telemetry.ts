@@ -1,4 +1,4 @@
-// How old is a Spotify playback report by the time we read it?
+// EXPERIMENTAL (diagnostics only): how old is a Spotify playback report by the time we read it?
 //
 // `GET /me/player` returns `progress_ms` plus `timestamp`, the server's Unix time when that progress was true.
 // Comparing it with the local `Date.now()` mixes two things: how long ago the data was true (what we want) and how far
@@ -14,6 +14,23 @@
 //    +-SKEW_TRUST_MS is taken to be real staleness, not skew (a PC with a synced clock then gets the exact answer);
 //    only a larger one is removed. The worst case is therefore bounded by SKEW_TRUST_MS.
 //  - The result is capped.
+
+/**
+ * The telemetry age used for the playback position: how long before we read it `progress_ms` was true, taken as
+ * `Date.now() - state.timestamp`, never negative and never more than TELEMETRY_AGE_CAP_MS.
+ *
+ * This is the formula the app shipped with and that real use was calibrated against ("Mine" was in sync at Device 0).
+ * It is NOT guaranteed to be physically right: it depends on the local clock and on what Spotify's `timestamp`
+ * means, neither of which a browser can verify (the `Date` header is hidden from page scripts by CORS). The
+ * experimental estimator below tried to do better and, on identical telemetry, moved the position by 1-3 s on the
+ * only real machine it was checked on (docs/lyric-sync-regression.md). It now only runs in the opt-in diagnostics
+ * (lib/player/syncDiag.ts) so real data can show whether it is ever better.
+ */
+export const TELEMETRY_AGE_CAP_MS = 2000;
+export function telemetryAgeMs(serverTimestampMs: number, localNowMs: number): number {
+  const age = Math.min(TELEMETRY_AGE_CAP_MS, Math.max(0, localNowMs - serverTimestampMs));
+  return Number.isFinite(age) ? age : 0;
+}
 
 const WINDOW = 24;
 /** An apparent clock offset smaller than this is treated as data staleness, larger as a wrong local clock. */

@@ -38,6 +38,26 @@ const STAGGER_MAX_MS = 320;
 
 const normalize = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, '').replace(/\s+/g, ' ').trim();
 
+/** Split a line's words into short phrases of 1 to 3 words (up to 4 when they are all tiny), at punctuation and at audible gaps. */
+export function splitPhrases(words: WordCue[]): WordCue[][] {
+  const tiny = (c: WordCue) => c.text.replace(/\W/g, '').length <= 3;
+  const groups: WordCue[][] = [];
+  let cur: WordCue[] = [];
+  for (const c of words) {
+    const prev = cur[cur.length - 1];
+    const maxLen = cur.every(tiny) && tiny(c) ? 4 : 3;
+    if (prev && (cur.length >= maxLen || c.startMs - prev.endMs > 450 || /[,.;:!?\u2014-]$/.test(prev.text))) {
+      groups.push(cur);
+      cur = [];
+    }
+    cur.push(c);
+  }
+  if (cur.length) groups.push(cur);
+  // a lone trailing word joins the phrase before it when that stays small
+  if (groups.length > 1 && groups[groups.length - 1]!.length === 1 && groups[groups.length - 2]!.length < 4) groups[groups.length - 2]!.push(...groups.pop()!);
+  return groups;
+}
+
 /** Fill in a regular beat grid from a BPM when no analysed grid is available. */
 export function gridFromBpm(bpm: number, durationMs: number, offsetMs = 0): number[] {
   const beat = 60000 / bpm;
@@ -86,12 +106,13 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
     // Real word times drive word-level motion. Without them the line is shown as a unit (see STAGGER_MS) unless the
     // user opted in to estimated word timing.
     const wordLevel = wt === 'authored' || (wt === 'estimated' && !!opts.estimateWords);
-    const fast = wordLevel && wps > 3.6 && line.words.length >= 4;
+    // calm directions never turn a quick passage into single-word cuts (that is what makes fast singing unreadable)
+    const fast = wordLevel && wps > 3.6 && line.words.length >= 4 && !style.presetPolicy;
 
     let preset: PresetId;
     if (hook) preset = style.hookPreset;
     else if (fast) preset = 'cut';
-    else if (line.words.length <= 3) preset = 'stack';
+    else if (line.words.length <= 3 && style.presetPolicy !== 'calm') preset = 'stack';
     else {
       const calm = style.calmPresets;
       preset = calm[calmRotation++ % calm.length]!;
@@ -100,6 +121,8 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
       const calm = style.calmPresets.filter((p) => p !== preset);
       preset = calm[(calmRotation++) % calm.length] ?? preset;
     }
+    // "stack" gives every word or pair its own giant row: lovely for a short line, a wall of rows for a long one
+    if (preset === 'stack' && line.words.length > (style.presetPolicy ? 5 : 8)) preset = style.presetPolicy ? 'ticker' : (style.calmPresets.find((p) => p !== 'stack') ?? 'ticker');
     prevPreset = preset;
 
     const rng = rngFor(seed, `scene:${li}`);
@@ -108,11 +131,11 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
       const longWord = dur > 650;
       let effect: EffectId = 'pop';
       if (longWord) effect = 'stretch';
-      else if (hook && wi === line.words.length - 1) effect = 'shake';
+      else if (hook && wi === line.words.length - 1) effect = style.presetPolicy ? 'pop' : 'shake';
       else if (preset === 'cut') effect = 'pop';
       else if (preset === 'stack') effect = wi % 2 === 0 ? 'slide' : 'pop';
       else if (preset === 'wave') effect = 'float';
-      else if (w.text.length >= 6 && rng() > 0.55) effect = 'mask';
+      else if (w.text.length >= 6 && rng() > 0.55 && style.maskWords !== false) effect = 'mask';
       const lengthBias = Math.min(1, w.text.replace(/\W/g, '').length / 9);
       const emphasis = Math.min(1, (hook ? 0.55 : 0.2) + (longWord ? 0.3 : 0) + lengthBias * 0.25 + rng() * 0.1);
       if (!wordLevel) {
@@ -123,28 +146,46 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
     });
     cues.push(...lineCues);
 
-    scenes.push({
-      id: `scene-${li}`,
-      lineIndex: li,
-      startMs: line.startMs,
-      endMs: line.endMs,
-      seed: Math.floor(rng() * 2 ** 31),
-      preset,
-      hook,
-      mood: opts.mood?.perLine[li] as Mood | undefined,
-      intensity: round(Math.min(2, style.motion * (hook ? 1.25 : 1) * (fast ? 1.1 : 1))),
-      words: lineCues,
-      effects: lineCues
-        .filter((c) => c.effect === 'shake' || c.effect === 'stretch')
-        .map((c) => ({
-          type: c.effect as string,
-          startMs: c.startMs,
-          durationMs: Math.max(180, c.endMs - c.startMs),
-          targetWords: [Number(c.id.split(':')[1])],
-          intensity: round(c.emphasis ?? 0.5),
-          easing: c.effect === 'stretch' ? 'easeOutElastic' : 'easeOutBack',
-        })),
-      background: { type: hook ? 'gradient' : 'solid' },
+    // phrase mode: a line with real or estimated word times becomes a run of short scenes (1 to 3 big words each); a line with
+    // no word times stays one unit, because splitting it would invent timing
+    const groups = style.phrases && wordLevel && lineCues.length > 1 ? splitPhrases(lineCues) : [lineCues];
+    groups.forEach((g, gi) => {
+      const next = groups[gi + 1];
+      const last = g[g.length - 1]!;
+      const startMs = gi === 0 ? line.startMs : g[0]!.startMs;
+      let endMs = next ? next[0]!.startMs : line.endMs;
+      // a phrase hands the stage over BEFORE the next one lands (the next word appears 70 ms ahead of its cue), so two never share it
+      if (groups.length > 1) endMs = Math.max(g[0]!.startMs + 300, Math.min(next ? endMs - 100 : endMs, last.endMs + 450));
+      let groupPreset = preset;
+      if (groups.length > 1) {
+        groupPreset = hook ? style.hookPreset : g.length === 1 ? 'cut' : g.length <= 3 ? 'stack' : preset;
+        g.forEach((c, i) => {
+          if (c.effect !== 'stretch' && c.effect !== 'shake') c.effect = groupPreset === 'stack' ? (i % 2 === 0 ? 'slide' : 'pop') : 'pop';
+        });
+      }
+      scenes.push({
+        id: gi === 0 ? `scene-${li}` : `scene-${li}-${gi}`,
+        lineIndex: li,
+        startMs,
+        endMs,
+        seed: Math.floor(rng() * 2 ** 31),
+        preset: groupPreset,
+        hook,
+        mood: opts.mood?.perLine[li] as Mood | undefined,
+        intensity: round(Math.min(2, style.motion * (hook ? 1.25 : 1) * (fast ? 1.1 : 1))),
+        words: g,
+        effects: g
+          .filter((c) => c.effect === 'shake' || c.effect === 'stretch')
+          .map((c) => ({
+            type: c.effect as string,
+            startMs: c.startMs,
+            durationMs: Math.max(180, c.endMs - c.startMs),
+            targetWords: [Number(c.id.split(':')[1])],
+            intensity: round(c.emphasis ?? 0.5),
+            easing: c.effect === 'stretch' ? 'easeOutElastic' : 'easeOutBack',
+          })),
+        background: { type: hook ? 'gradient' : 'solid' },
+      });
     });
   });
 

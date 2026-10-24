@@ -32,8 +32,48 @@ test.describe('player + kinetic lyrics', () => {
     await expect(stage).toBeHidden();
   });
 
+  test('stage panel: pick a theme (pinned per song), nudge sync, close', async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Try the demo songs' }).click();
+    await page.waitForTimeout(600);
+    await page.keyboard.press('l');
+    const stage = page.getByTestId('lyric-stage');
+    await expect(stage).toBeVisible();
+    await page.mouse.move(640, 360); // chrome auto-hides until the pointer moves
+    await page.getByTestId('theme-pill').click();
+    const panel = page.getByTestId('stage-panel');
+    await expect(panel).toBeVisible();
+    // the studio explains the song, then lets the listener pick, correct, adjust and save
+    await expect(page.getByTestId('identity-card')).toBeVisible();
+    await page.getByRole('button', { name: 'More intimate' }).click();
+    await page.getByTestId('dir-analog').click();
+    await expect(page.getByTestId('theme-pill')).toContainText(/Analog Cinema/);
+    await expect(page.getByTestId('theme-pill')).toContainText(/pinned/i);
+    await panel.getByRole('button', { name: /Customize this look/ }).click();
+    await page.locator('#p-grain').fill('0.1');
+    await expect(panel.getByRole('button', { name: 'Reset Grain' })).toBeEnabled();
+    await panel.getByLabel('Theme name').fill('E2E night');
+    await panel.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByTestId('saved-themes')).toContainText('E2E night');
+    // Cover Pop is a choice in the Studio (Auto never switches to it by itself)
+    await page.getByTestId('dir-coverpop').click();
+    await expect(page.getByTestId('theme-pill')).toContainText(/Cover Pop/);
+    // back to Auto
+    await page.getByTestId('dir-auto').click();
+    await expect(page.getByTestId('theme-pill')).toContainText(/auto/i);
+    // the Sync tab is reachable from the pill and the panel closes again
+    await page.getByTestId('sync-pill').click();
+    await expect(panel).toBeVisible();
+    await panel.getByRole('button', { name: 'Close panel' }).click();
+    await expect(panel).toBeHidden();
+    await expect(stage.locator('canvas')).toBeVisible();
+  });
+
   test('settings explains Spotify setup honestly (not connected, no fake playback)', async ({ page }) => {
     await page.goto('/settings');
+    // it also says which GPU the lyrics are drawn on (and how to move them to the dedicated one)
+    await expect(page.getByTestId('gpu-card')).toBeVisible();
+    await expect(page.getByTestId('gpu-card')).toHaveAttribute('data-kind', /dedicated|integrated|unified|software|unknown/);
     await expect(page.getByText('Not connected')).toBeVisible();
     await expect(page.getByText(/Redirect URI/i).first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Connect Spotify' })).toBeDisabled();

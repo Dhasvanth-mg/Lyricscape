@@ -1,4 +1,5 @@
 'use client';
+import { Icon } from '@/components/ui/Icon';
 
 import { useState } from 'react';
 import { Check, Flag, Star, Trash2, X } from 'lucide-react';
@@ -48,7 +49,10 @@ export function MediaGrid({ eventId, media, role, meId, onChange }: { eventId: s
             </button>
             <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-1 p-1.5">
               {m.status !== 'approved' && <Chip tone={m.status === 'pending' ? 'warn' : 'bad'}>{m.status === 'pending' ? 'pending' : 'hidden'}</Chip>}
-              {m.mustInclude && <Chip tone="good">★ recap</Chip>}
+              {m.mustInclude && <Chip tone="good">
+                <Icon id="star" size={12} className="mr-1 inline align-[-2px]" />
+                recap
+              </Chip>}
             </div>
             <div className="absolute inset-x-0 bottom-0 flex items-center gap-1 bg-gradient-to-t from-black/80 to-transparent p-1.5 pt-6">
               <span className="min-w-0 flex-1 truncate text-[11px] text-white/80">{m.uploaderName}</span>

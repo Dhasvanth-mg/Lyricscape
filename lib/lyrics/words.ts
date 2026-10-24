@@ -14,6 +14,24 @@ export function syllables(word: string): number {
 /** Time weight of a word inside a line: its syllables, plus a small breath after punctuation. */
 export const wordWeight = (word: string): number => syllables(word) + (/[,;:.!?…]$/.test(word) ? 0.3 : 0);
 
+/**
+ * Pace-aware spread for line-synced lyrics: how much of the gap before the next line is actually SUNG, by how fast the
+ * line is delivered (gap per word). Singing fills almost all of a fast line's gap and only about half of a very slow one's
+ * (pauses, held notes, instrumental tails). Fitted on 20 human-annotated songs by minimising word-onset error with a word
+ * that appears EARLY counted twice as bad as one that is a little late (tools/sync-report/ab/estimator_study.ts, E8);
+ * with every song scored on parameters fitted on the other 19 it beat the previous fixed 650 ms-per-word cap:
+ * within 200 ms 52.6 % vs 46.5 %, words more than 300 ms late 24.4 % vs 36.5 %. It is an estimate, not timing.
+ */
+const PACE_MIDS = [200, 425, 600, 850, 1250, 2200];
+const PACE_SHARE = [1.0, 0.85, 0.85, 0.7, 0.55, 0.5];
+export function sungShareOfGap(gapPerWordMs: number): number {
+  if (gapPerWordMs <= PACE_MIDS[0]!) return PACE_SHARE[0]!;
+  for (let i = 1; i < PACE_MIDS.length; i++) {
+    if (gapPerWordMs <= PACE_MIDS[i]!) return PACE_SHARE[i - 1]! + ((PACE_SHARE[i]! - PACE_SHARE[i - 1]!) * (gapPerWordMs - PACE_MIDS[i - 1]!)) / (PACE_MIDS[i]! - PACE_MIDS[i - 1]!);
+  }
+  return PACE_SHARE[PACE_SHARE.length - 1]!;
+}
+
 /** How long a line takes to sing at a typical pace (used to stop words stretching across an instrumental gap). */
 export function expectedSungMs(tokens: string[]): number {
   const syl = tokens.reduce((a, w) => a + syllables(w), 0);

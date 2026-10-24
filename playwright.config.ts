@@ -16,7 +16,8 @@ export default defineConfig({
     baseURL: 'http://127.0.0.1:3100',
     channel: channel === 'chromium' ? undefined : channel,
     trace: 'retain-on-failure',
-    launchOptions: { args: ['--autoplay-policy=no-user-gesture-required'] },
+    // --force_high_performance_gpu: on a laptop with a dedicated GPU the tests (and the visual checks) run on it, not the integrated one
+    launchOptions: { args: ['--autoplay-policy=no-user-gesture-required', '--force_high_performance_gpu'] },
   },
   webServer: {
     command: 'pnpm exec next start --hostname 127.0.0.1 --port 3100',

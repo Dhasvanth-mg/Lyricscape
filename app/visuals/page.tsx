@@ -16,6 +16,8 @@ import { Button, Chip, Empty, PageHeader } from '@/components/ui/bits';
 export default function VisualsPage() {
   const track = usePlayer((s) => s.track);
   const style = useUi((s) => s.style);
+  const autoTheme = useUi((s) => s.autoTheme);
+  const setUi = useUi((s) => s.set);
   const setStyle = useUi((s) => s.setStyle);
   const openStage = useUi((s) => s.openStage);
   const lyrics = useLyrics(track);
@@ -54,16 +56,28 @@ export default function VisualsPage() {
           <LyricStage track={track} style={style} className="mb-5 aspect-video max-h-[62vh] w-full rounded-2xl border border-ink-700" />
 
           <div className="mb-8 flex flex-wrap gap-2" role="radiogroup" aria-label="Visual style">
-            {STYLE_IDS.map((id) => (
+            <button
+              role="radio"
+              aria-checked={autoTheme}
+              onClick={() => setUi({ autoTheme: true })}
+              title="Pick the look from the song: genre, delivery speed, mood and cover"
+              className={clsx('rounded-full border px-4 py-2 text-sm font-semibold transition', autoTheme ? 'border-signal bg-signal text-white' : 'border-ink-600 text-ink-200 hover:border-ink-400')}
+            >
+              Auto
+            </button>
+            {STYLE_IDS.filter((id) => id !== 'custom').map((id) => (
               <button
                 key={id}
                 role="radio"
-                aria-checked={style === id}
-                onClick={() => setStyle(id)}
+                aria-checked={!autoTheme && style === id}
+                onClick={() => {
+                  setStyle(id);
+                  setUi({ autoTheme: false });
+                }}
                 title={STYLES[id].description}
                 className={clsx(
                   'rounded-full border px-4 py-2 text-sm font-semibold transition',
-                  style === id ? 'border-signal bg-signal text-white' : 'border-ink-600 text-ink-200 hover:border-ink-400',
+                  !autoTheme && style === id ? 'border-signal bg-signal text-white' : 'border-ink-600 text-ink-200 hover:border-ink-400',
                 )}
               >
                 {STYLES[id].label}

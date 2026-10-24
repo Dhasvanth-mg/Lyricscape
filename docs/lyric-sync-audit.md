@@ -60,13 +60,13 @@ Nothing here is called accurate until stage 6 prints measured numbers; see the r
 |---|---|---|
 | A1 offset tag | `parseLrc` applies it once and records `timing.offsetAppliedMs`; serialization drops the tag | `tests/sync-audit.test.ts` A1, `tests/lyric-timeline.test.ts` ([offset:]) |
 | A2 blank cue / line ends | `resolveEnd`: explicit (blank cue) > next cue > labelled guess; `endSource` on every line | A2 repro, `line ends` tests |
-| A3 invented word times | `wordTiming: authored / estimated / none` on every line; compile shows untimed lines as a unit; estimated word motion is an opt-in (Settings → Lyrics) | `what the visualizer does with unreal word times` |
+| A3 invented word times | `wordTiming: authored / estimated / none` on every line, kept; estimated lines are labelled. **Default changed back:** word-by-word motion on line-synced lyrics is ON by default (the whole-line display placed later words seconds early), Settings → Lyrics switches it off | `what the visualizer does with unreal word times`, `tests/sync-regression.test.ts` |
 | A4 laundering on save | `toEnhancedLrc` writes word stamps only for authored lines; plain documents save as text | A8 repro, `serialization` tests |
 | A5 word sync ignored | `lib/lyrics/lyricsfile.ts` + route returns `hasWordSync`/`lyricsfile` | `Lyricsfile` tests (spec-shaped YAML; **no real word-synced LRCLIB record was found in 500 sampled results**) |
 | A6 LRCLIB `end_ms` | not trusted for lines without words; blank entries are explicit ends | real-record-shape test |
 | A7 version tolerance | synced lyrics refused beyond 5 s length difference; `MatchInfo` stored and shown; word sync only a tie-breaker | `choosing the recording` |
 | A8 provenance | `StoredLyrics.origin`; lookups never replace user-owned lyrics | `who owns the lyrics` |
-| B1 skew-blind age | `TelemetryAgeEstimator` (RTT + skew min-filter, trust band ±250 ms) | B1 repro, estimator tests, `tools/sync-report/clock_report.ts` |
+| B1 skew-blind age | **Reverted.** The skew-removing estimator moved positions by 1-3 s on real use; the age is the pre-rebuild clamp again (the estimator is diagnostics-only). The "defect" rested on an unverifiable assumption about Spotify's `timestamp`. | `tests/sync-regression.test.ts`, `docs/lyric-sync-regression.md` |
 | B2 SDK timestamp | pushed reports go through `observe({ pushed })` with a post-command grace window | `PlaybackClock` tests |
 | B3 clock model | `PlaybackClock` keeps position continuous (≤ 4% rate trim), snaps only for real jumps | continuity tests |
 | B4 stale poll | epoch guard + commands-in-flight guard + epoch bump when Spotify confirms a command | B4 repro, `SpotifyBackend polling` tests |

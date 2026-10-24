@@ -3,24 +3,29 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { Eye, Gauge, Maximize, Minimize, PenTool, Search, Smile, Type, X } from 'lucide-react';
+import { Gauge, Maximize, Minimize, Palette, Pause, Play, Search, X } from 'lucide-react';
 import type { Track } from '@/lib/types';
-import { compileTimeline } from '@/lib/kinetic/compile';
+import { compileTimeline, sceneAt } from '@/lib/kinetic/compile';
+import { syncDiag } from '@/lib/player/syncDiag';
 import { KineticRenderer } from '@/lib/kinetic/render';
 import { paletteForTrack } from '@/lib/kinetic/palette';
 import { EMOTIONS, EMOTION_DEFS, analyzeEmotion, overrideMood, type ColorMode } from '@/lib/kinetic/emotion';
 import { extractPaletteFromUrl } from '@/lib/kinetic/extractPalette';
 import { FrameGovernor, type QualityLevel } from '@/lib/kinetic/governor';
 import { useUi } from '@/lib/ui-store';
-import { STYLES } from '@/lib/kinetic/styles';
+import { paletteWarmth } from '@/lib/theme/color';
+import { directionOf } from '@/lib/theme/directions';
+import type { CoverInfo } from '@/lib/theme/types';
+import { useSongLook } from './useSongLook';
 import { artworkFor } from '@/lib/artwork/forTrack';
-import { STYLE_IDS, type StyleId } from '@/lib/kinetic/types';
+import type { StyleId, VisualTimeline } from '@/lib/kinetic/types';
 import { usePlayer, player } from '@/lib/player/controller';
 import { useLyricClock } from './useLyricClock';
 import { Button, IconButton, Spinner } from '@/components/ui/bits';
 import { useLyrics } from './useLyrics';
 import { timingSummary } from '@/lib/lyrics/parse';
-import { LookControls } from './LookControls';
+import { Cover } from '@/components/ui/Cover';
+import { StagePanel, type PanelTab } from './StagePanel';
 
 type Props = {
   track: Track | null;
@@ -47,11 +52,21 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   const ui = useUi();
   const [albumPalette, setAlbumPalette] = useState<string[] | null>(null);
   const [coverCues, setCoverCues] = useState<{ light: number; focal: { x: number; y: number }; vibrance: number } | null>(null);
+  const [coverInfo, setCoverInfo] = useState<CoverInfo | null>(null);
   const governorRef = useRef(new FrameGovernor('high'));
   const [osReduced, setOsReduced] = useState(false);
   const [forceCalm, setForceCalm] = useState(false);
   const [readable, setReadable] = useState(false);
   const [controlsVisible, setControlsVisible] = useState(true);
+  // side panel (Look / Sync); the ref lets the auto-hide timer know not to hide the controls while it is open
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [panelTab, setPanelTab] = useState<PanelTab>('look');
+  const [toast, setToast] = useState<string | null>(null);
+  const panelOpenRef = useRef(false);
+  useEffect(() => {
+    panelOpenRef.current = panelOpen;
+    if (panelOpen) setControlsVisible(true);
+  }, [panelOpen]);
   const [isFs, setIsFs] = useState(false);
   const [ready, setReady] = useState(false);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -74,17 +89,21 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   useEffect(() => {
     clockRef.current = clock.now;
   }, [clock.now]);
+  // what the opt-in diagnostics (lib/player/syncDiag.ts) need from this render, read by the frame loop below
+  const diagRef = useRef<{ clock: ReturnType<typeof useLyricClock>; timeline: VisualTimeline | null; lyrics: ReturnType<typeof useLyrics> } | null>(null);
 
   // album colors: read a few dominant colors from the cover (the cover itself is never altered)
   useEffect(() => {
     let cancelled = false;
     setAlbumPalette(null);
     setCoverCues(null);
+    setCoverInfo(null);
     if (!artSrc) return;
     void extractPaletteFromUrl(artSrc).then((r) => {
       if (cancelled || !r) return;
       if (r.vibrance > 0.12) setAlbumPalette(r.palette);
       setCoverCues({ light: r.light, focal: r.focal, vibrance: r.vibrance });
+      setCoverInfo({ palette: r.palette, light: r.light, vibrance: r.vibrance, warmth: paletteWarmth(r.palette) });
     });
     return () => {
       cancelled = true;
@@ -98,14 +117,18 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     return ui.mood === 'auto' ? detected : overrideMood(detected, ui.mood);
   }, [track, lyrics.doc, ui.mood]);
 
+  // ---- the song's look: identity -> art direction -> one resolved Look (see useSongLook) ----
+  const sl = useSongLook({ track, doc: lyrics.doc, cover: coverInfo, fallbackStyle: style });
+  const { resolved } = sl;
+
   const timeline = useMemo(() => {
-    if (!track) return null;
+    if (!track || !sl.ready) return null;
     const doc = lyrics.doc ?? { source: 'manual' as const, licenseSource: 'none', lines: [] };
     return compileTimeline(doc, {
       trackId: track.id,
       durationMs: track.durationMs || 180000,
       palette: albumPalette ?? paletteForTrack(track),
-      style,
+      style: resolved.direction,
       bpm: track.bpm,
       beatTimesMs: track.beatTimesMs,
       mood: mood ?? undefined,
@@ -113,7 +136,11 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       label: `${track.title} • ${track.artists.join(', ')}`,
       estimateWords: ui.estimatedWords,
     });
-  }, [track, lyrics.doc, style, albumPalette, mood, coverCues, ui.estimatedWords]);
+  }, [track, sl.ready, lyrics.doc, resolved.direction, albumPalette, mood, coverCues, ui.estimatedWords]);
+
+  useEffect(() => {
+    diagRef.current = { clock, timeline, lyrics };
+  });
 
   // renderer lifecycle
   useEffect(() => {
@@ -143,19 +170,38 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     rendererRef.current?.setTimeline(timeline);
   }, [timeline, ready]);
 
+  // the art direction: colours, type, artwork treatment and motion for this song
+  useEffect(() => {
+    rendererRef.current?.setLook(resolved.look);
+  }, [resolved.look, ready]);
+
   // artwork
   useEffect(() => {
     const r = rendererRef.current;
     imgRef.current = null;
     r?.setArtwork(null);
     if (!artSrc) return;
-    const img = new Image();
-    img.decoding = 'async';
-    img.onload = () => {
-      imgRef.current = img;
-      rendererRef.current?.setArtwork(img);
+    // CORS first: it lets the renderer read the cover to choose each word's colour. Without it the cover still draws, words just
+    // fall back to white with an edge.
+    let dead = false;
+    const load = (cors: boolean) => {
+      const img = new Image();
+      img.decoding = 'async';
+      if (cors) img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        if (dead) return;
+        imgRef.current = img;
+        rendererRef.current?.setArtwork(img);
+      };
+      img.onerror = () => {
+        if (cors && !dead) load(false);
+      };
+      img.src = artSrc;
     };
-    img.src = artSrc;
+    load(true);
+    return () => {
+      dead = true;
+    };
   }, [artSrc, ready]);
 
   // options
@@ -187,10 +233,36 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   useEffect(() => {
     let raf = 0;
     let last = 0;
+    let lastDiag = 0;
     const loop = (now: number) => {
       const r = rendererRef.current;
       if (r && document.visibilityState === 'visible') {
-        r.render(Math.max(0, clockRef.current()));
+        const lyricTime = Math.max(0, clockRef.current());
+        r.render(lyricTime);
+        if (syncDiag.enabled() && now - lastDiag > 500 && diagRef.current) {
+          lastDiag = now;
+          const d = diagRef.current;
+          const sc = d.timeline ? sceneAt(d.timeline, lyricTime) : null;
+          const line = sc && d.lyrics.doc ? d.lyrics.doc.lines[sc.lineIndex] : null;
+          const active = sc?.words.find((w) => lyricTime >= w.startMs && lyricTime < w.endMs) ?? null;
+          syncDiag.frame({
+            wall: Date.now(),
+            positionMs: Math.round(player.getPositionMs()),
+            lyricTimeMs: Math.round(lyricTime),
+            deviceAdvanceMs: d.clock.device,
+            trackOffsetMs: d.clock.trackOffset,
+            outputLatencyMs: Math.round(player.getOutputLatencyMs()),
+            lyricSource: d.lyrics.source,
+            lyricVersionId: d.lyrics.versionId,
+            timingSource: d.lyrics.doc?.timing?.source ?? null,
+            lineIndex: sc?.lineIndex ?? -1,
+            lineStartMs: line?.startMs ?? null,
+            lineEndMs: line?.endMs ?? null,
+            wordTiming: line?.wordTiming ?? (line ? 'authored' : null),
+            activeWordStartMs: active?.startMs ?? null,
+            intoLineMs: line ? Math.round(lyricTime - line.startMs) : null,
+          });
+        }
         if (last && useUi.getState().quality === 'auto') {
           const next = governorRef.current.push(now - last, now);
           if (next) r.setQuality(next);
@@ -209,7 +281,9 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     const show = () => {
       setControlsVisible(true);
       if (hideTimer.current) clearTimeout(hideTimer.current);
-      hideTimer.current = setTimeout(() => setControlsVisible(false), 3200);
+      hideTimer.current = setTimeout(() => {
+        if (!panelOpenRef.current) setControlsVisible(false);
+      }, 3200);
     };
     show();
     window.addEventListener('mousemove', show);
@@ -235,6 +309,55 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   };
 
   const noLyrics = track && (lyrics.status === 'missing' || lyrics.status === 'error');
+
+  // ---- side panel (Look / Sync) -------------------------------------------------------------------------------
+  const openPanel = (t: PanelTab) => {
+    if (panelOpen && panelTab === t) setPanelOpen(false);
+    else {
+      setPanelTab(t);
+      setPanelOpen(true);
+    }
+  };
+  const say = (m: string) => {
+    setToast(m);
+    window.setTimeout(() => setToast((cur) => (cur === m ? null : cur)), 4500);
+  };
+
+  /**
+   * Tap to anchor: the line you are hearing begin is NOW. Sets this song's offset so that line's start lands on this
+   * moment (never edits the lyrics). 'this' = the line on screen; 'next' = the one after it (for lyrics that are late).
+   */
+  const anchor = (which: 'this' | 'next') => {
+    const doc = lyrics.doc;
+    if (!doc || !timeline) return say('No lyrics to anchor yet.');
+    const now = clock.now();
+    const sc = sceneAt(timeline, now) ?? timeline.scenes.find((x) => x.startMs > now) ?? null;
+    if (!sc) return say('No line to anchor to here.');
+    const target = doc.lines[sc.lineIndex + (which === 'next' ? 1 : 0)];
+    if (!target) return say('There is no next line.');
+    const next = Math.round(Math.max(-5000, Math.min(5000, clock.trackOffset + (target.startMs - now))));
+    clock.setTrackOffset(next);
+    say(`Song offset set to ${next > 0 ? '+' : ''}${next} ms. Fine-tune with the nudge buttons.`);
+  };
+
+  // keys: [ ] nudge this song by 100 ms (shift: 500), \ resets. Only while the stage is the chrome view.
+  useEffect(() => {
+    if (!chrome) return;
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+      const step = e.shiftKey ? 500 : 100;
+      if (e.key === '[' || e.key === '{') clock.setTrackOffset(Math.max(-5000, clock.trackOffset - step));
+      else if (e.key === ']' || e.key === '}') clock.setTrackOffset(Math.min(5000, clock.trackOffset + step));
+      else if (e.key === '\\') clock.setTrackOffset(0);
+      else return;
+      e.preventDefault();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [chrome, clock]);
+
+  const pill = (on: boolean) => clsx('inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold backdrop-blur transition', on ? 'border-signal bg-signal text-white' : 'border-white/15 bg-black/40 text-bone hover:border-white/40');
 
   return (
     <div
@@ -286,136 +409,73 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
         </div>
       )}
 
-      {/* corner badge: detected mood + lyric source */}
-      {track && mood && (
-        <div className="pointer-events-none absolute bottom-3 left-4 hidden items-center gap-2 font-mono text-[10px] tracking-wide text-white/60 uppercase sm:flex" data-testid="mood-chip">
-          <span className="rounded-full bg-black/50 px-2 py-1 text-xs normal-case backdrop-blur">
-            {EMOTION_DEFS[mood.overall.emotion].emoji} {EMOTION_DEFS[mood.overall.emotion].label}
-            <span className="ml-1 opacity-60">· {ui.mood === 'auto' ? mood.basis === 'none' ? 'guess' : mood.basis : 'your pick'}</span>
-          </span>
-          {lyrics.doc && (
-            <span>
-              Lyrics: {lyrics.source} · {timingSummary(lyrics.doc).label}
-            </span>
-          )}
-        </div>
-      )}
-      {track && lyrics.doc && lyrics.versionId != null && (
-        <div className={clsx('absolute right-4 bottom-20 z-10 transition-opacity duration-300', controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0')}>
-          <button
-            onClick={() => void lyrics.anotherVersion()}
-            disabled={lyrics.searching}
-            className="rounded-full border border-white/20 bg-black/55 px-3 py-1.5 text-xs font-semibold backdrop-blur transition hover:border-white/50 disabled:opacity-50"
-            title="Lyrics drifting against your copy? Try another recorded version of this song."
-          >
-            {lyrics.searching ? 'Looking…' : 'Lyrics off? Try another version'}
-          </button>
-          {lyrics.message && <p className="mt-1 max-w-56 text-right text-[11px] text-white/70">{lyrics.message}</p>}
-        </div>
-      )}
-
       {chrome && (
-        <div
-          className={clsx(
-            'absolute inset-x-0 top-0 flex flex-wrap items-center gap-2 bg-gradient-to-b from-black/80 to-transparent p-3 transition-opacity duration-300 sm:p-4',
-            controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0',
-          )}
-        >
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold">{track?.title ?? '—'}</p>
-            <p className="truncate text-xs text-ink-300">{track?.artists.join(', ')}</p>
-          </div>
-          <label className="sr-only" htmlFor="style-select">
-            Visual style
-          </label>
-          <select
-            id="style-select"
-            value={style}
-            onChange={(e) => onStyleChange?.(e.target.value as StyleId)}
-            className="h-9 rounded-full border border-ink-600 bg-ink-900/80 px-3 text-sm"
-          >
-            {STYLE_IDS.map((s) => (
-              <option key={s} value={s}>
-                {STYLES[s].label}
-              </option>
-            ))}
-          </select>
-          <LookControls compact />
-          <IconButton label={readable ? 'Readable lyrics: on' : 'Readable lyrics: off'} active={readable} onClick={() => setReadable((v) => !v)}>
-            <Type size={18} />
-          </IconButton>
-          <IconButton label={forceCalm || osReduced ? 'Reduced motion: on' : 'Reduced motion: off'} active={reduced} onClick={() => setForceCalm((v) => !v)} disabled={osReduced}>
-            <Eye size={18} />
-          </IconButton>
-          <IconButton label={isFs ? 'Exit fullscreen' : 'Fullscreen'} onClick={toggleFs}>
-            {isFs ? <Minimize size={18} /> : <Maximize size={18} />}
-          </IconButton>
-          {onClose && (
-            <IconButton label="Close" onClick={onClose}>
-              <X size={20} />
+        <>
+          {/* top: what is playing, the look, sync, window controls */}
+          <div className={clsx('absolute inset-x-0 top-0 z-10 flex items-center gap-3 bg-gradient-to-b from-black/75 via-black/30 to-transparent p-3 transition-opacity duration-300 sm:p-4', controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0')}>
+            {track && <Cover track={track} className="h-10 w-10 shrink-0 shadow-lg ring-1 ring-white/15" rounded="rounded-md" />}
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold">{track?.title ?? '—'}</p>
+              <p className="truncate text-xs text-ink-300">{track?.artists.join(', ')}</p>
+            </div>
+            {track && (
+              <>
+                <button onClick={() => openPanel('look')} className={pill(panelOpen && panelTab === 'look')} title={sl.described?.headline ?? 'Look'} data-testid="theme-pill">
+                  <Palette size={14} aria-hidden />
+                  <span className="hidden sm:inline">{sl.ready ? directionOf(resolved.direction).label : 'Look'}</span>
+                  <span className="text-[10px] text-ink-300 uppercase">{!sl.ready ? '' : resolved.basis === 'auto' ? 'auto' : resolved.basis === 'fixed' ? 'fixed' : 'pinned'}</span>
+                </button>
+                <button onClick={() => openPanel('sync')} className={pill(panelOpen && panelTab === 'sync')} title="Sync: nudge, anchor, try another version" data-testid="sync-pill">
+                  <Gauge size={14} aria-hidden />
+                  <span className="hidden sm:inline">Sync</span>
+                  {clock.trackOffset + clock.device !== 0 && <span className="font-mono text-[11px] text-signal tabular-nums">{clock.trackOffset + clock.device > 0 ? '+' : ''}{clock.trackOffset + clock.device}</span>}
+                </button>
+              </>
+            )}
+            <IconButton label={isFs ? 'Exit fullscreen' : 'Fullscreen'} onClick={toggleFs}>
+              {isFs ? <Minimize size={18} /> : <Maximize size={18} />}
             </IconButton>
-          )}
-        </div>
-      )}
-
-      {chrome && (
-        <div
-          className={clsx(
-            'absolute inset-x-0 bottom-0 flex items-center gap-3 bg-gradient-to-t from-black/85 to-transparent p-3 sm:p-4 transition-opacity duration-300',
-            controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0',
-          )}
-        >
-          <button
-            onClick={() => void player.toggle()}
-            className="rounded-full bg-bone px-5 py-2 text-sm font-bold text-ink-950"
-            aria-label={status === 'playing' ? 'Pause' : 'Play'}
-          >
-            {status === 'playing' ? 'Pause' : 'Play'}
-          </button>
-          <div className="ml-auto flex items-center gap-2 text-xs text-ink-200">
-            <Gauge size={14} aria-hidden />
-            <OffsetSlider
-              id="sync-device"
-              label="Device"
-              title={`How far this ${clock.family === 'spotify' ? 'Spotify device' : 'speaker / Bluetooth link'} is off. Same for every song, set it once. Positive = lyrics sooner.`}
-              value={clock.device}
-              onChange={clock.setDevice}
-            />
-            <OffsetSlider
-              id="sync-song"
-              label="This song"
-              title="Fixes THIS lyric version against THIS recording (saved for the song, not in the lyrics). Positive = lyrics sooner."
-              value={clock.trackOffset}
-              onChange={clock.setTrackOffset}
-            />
+            {onClose && (
+              <IconButton label="Close" onClick={onClose}>
+                <X size={20} />
+              </IconButton>
+            )}
           </div>
-        </div>
+
+          {/* bottom: transport only. Everything else lives in the panel so the lyrics stay the show. */}
+          <div className={clsx('absolute inset-x-0 bottom-0 z-10 flex items-center gap-3 bg-gradient-to-t from-black/70 to-transparent p-3 transition-opacity duration-300 sm:p-4', controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0')}>
+            <button onClick={() => void player.toggle()} className="grid h-11 w-11 place-items-center rounded-full bg-bone text-ink-950 shadow-lg transition hover:scale-105 active:scale-95" aria-label={status === 'playing' ? 'Pause' : 'Play'}>
+              {status === 'playing' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" className="ml-0.5" />}
+            </button>
+            {lyrics.doc && (
+              <span className="hidden font-mono text-[10px] tracking-wide text-white/60 uppercase sm:inline" data-testid="mood-chip">
+                {timingSummary(lyrics.doc).label}
+                {sl.described && sl.described.words.length ? ` · ${sl.described.headline}` : ''}
+              </span>
+            )}
+          </div>
+
+          {panelOpen && track && (
+            <StagePanel
+              tab={panelTab}
+              onTab={setPanelTab}
+              onClose={() => setPanelOpen(false)}
+              track={track}
+              lyrics={lyrics}
+              clock={clock}
+              sl={sl}
+              readable={readable}
+              onReadable={setReadable}
+              reduced={reduced}
+              osReduced={osReduced}
+              onForceCalm={setForceCalm}
+              onAnchor={anchor}
+              toast={toast}
+              onEditLyrics={onEditLyrics}
+            />
+          )}
+        </>
       )}
     </div>
-  );
-}
-
-function OffsetSlider({ id, label, title, value, onChange }: { id: string; label: string; title: string; value: number; onChange: (ms: number) => void }) {
-  return (
-    <span className="inline-flex items-center gap-1.5" title={title}>
-      <label htmlFor={id} className="whitespace-nowrap">
-        {label} {value > 0 ? '+' : ''}
-        {value} ms
-      </label>
-      <input
-        id={id}
-        type="range"
-        className="seek w-24"
-        min={-3000}
-        max={3000}
-        step={50}
-        value={value}
-        style={{ ['--pct' as string]: `${((value + 3000) / 6000) * 100}%` }}
-        onChange={(e) => onChange(Number(e.target.value))}
-      />
-      <button className="underline" onClick={() => onChange(0)} aria-label={`Reset ${label.toLowerCase()} offset`}>
-        reset
-      </button>
-    </span>
   );
 }

@@ -1,12 +1,12 @@
 // Turbo: a WebGL2 renderer for `Frame`s. Every layer is drawn by the GPU:
 //   backdrop (liquid light / god rays / bokeh / grid, a fragment shader) -> cover artwork -> slices -> marquee ->
-//   interlude -> doodles -> words -> icons -> caption -> a finishing pass (bloom, lens fringing, scrim, vignette,
+//   interlude -> doodles -> words -> icons -> a finishing pass (bloom, lens fringing, scrim, vignette,
 //   halftone, scanlines, grain, flash).
 // The CPU only decides WHAT to draw (computeFrame, pure) and rasterises text/sprites ONCE into textures. Drawing a frame is a
 // few hundred textured quads. Like the Canvas renderer it contains no timing logic: the same time always gives the same picture.
 
 import { computeFrame } from '../frame';
-import { REQUIRED_FONT_LOADS, STYLES, fontCss, fontLoadsFor } from '../styles';
+import { REQUIRED_FONT_LOADS, STYLES, fontCss, fontCssFor, fontLoadsFor, loadScriptFonts, spacingFor } from '../styles';
 import type { FontDef, StyleDef } from '../styleBase';
 import type { Look } from '../look';
 import { drawDoodle } from '../doodles';
@@ -46,7 +46,8 @@ type SpriteOpts = {
     maskScale?: number;
   };
 
-const MAX_GLYPHS = 240;
+/** glyph textures may use about this much GPU memory in total; the least recently used are dropped first */
+const GLYPH_BUDGET_BYTES = 192 * 1024 * 1024;
 const ICON_PX = 192;
 const DOODLE_PX = 192;
 const DOODLE_R = 80;
@@ -57,8 +58,11 @@ export class TurboRenderer {
   height = 0;
   /** export mode: exact pixel size, no DPR cap or pixel budget */
   exact = false;
-  /** why the GPU path is not running (context lost, or WebGL2 missing) */
+  /** the GPU context is gone (driver reset, GPU switch, too many contexts). The stage falls back to Clean if it does not come back. */
   lost = false;
+  /** told when the context is lost / comes back (the stage uses it to fall back to Clean) */
+  onContextChange?: (lost: boolean) => void;
+  private disposed = false;
   options: RendererOptions = { reducedMotion: false, motionScale: 1, quality: 'high', artworkPolicy: 'full', colorMode: 'blend', emojis: true, doodles: true, artwork: 'background', interlude: true, texture: true };
 
   private gl!: WebGL2RenderingContext;
@@ -87,6 +91,8 @@ export class TurboRenderer {
   private measureCtx: Ls;
   private widthCache = new Map<string, number>();
   private glyphs = new Map<string, Glyph>();
+  private glyphSize = new Map<string, number>();
+  private glyphBytes = 0;
   private marquees = new Map<string, { tex: Tex; w: number; h: number; unitW: number }>();
   private sprites = new Map<string, Sprite>();
   private layoutEpoch = 0;
@@ -125,6 +131,7 @@ export class TurboRenderer {
   private initGl() {
     const gl = this.canvas.getContext('webgl2', { antialias: false, alpha: false, depth: false, stencil: false, premultipliedAlpha: false, powerPreference: 'high-performance', preserveDrawingBuffer: !!this.opts.preserveDrawingBuffer }) as WebGL2RenderingContext | null;
     if (!gl) throw new Error('WebGL2 is not available in this browser');
+    if (gl.isContextLost()) throw new Error('the GPU context was lost; reload the page');
     this.gl = gl;
     this.programs = {
       sprite: new Program(gl, QUAD_VS, SPRITE_FS, 'sprite'),
@@ -174,8 +181,9 @@ export class TurboRenderer {
   }
 
   private onLost = (e: Event) => {
-    e.preventDefault();
+    e.preventDefault(); // lets the browser give the context back
     this.lost = true;
+    this.onContextChange?.(true);
   };
   private onRestored = () => {
     // every GPU object died with the context: rebuild and re-upload what the picture needs
@@ -188,12 +196,43 @@ export class TurboRenderer {
     this.initGl();
     if (this.artCanvas) this.uploadArtwork(this.artCanvas);
     this.allocTargets();
+    this.onContextChange?.(false);
   };
 
+  /**
+   * Free every GPU object this renderer made, but do NOT destroy the context: React (strict mode, fast refresh, a remount) will build a
+   * new renderer on the SAME canvas, and a context that was deliberately lost can never be used again (its shaders fail to compile).
+   */
   dispose() {
+    const gl = this.gl;
+    this.disposed = true;
     this.canvas.removeEventListener('webglcontextlost', this.onLost);
     this.canvas.removeEventListener('webglcontextrestored', this.onRestored);
-    this.gl.getExtension('WEBGL_lose_context')?.loseContext();
+    if (gl.isContextLost()) return;
+    this.clearGlyphs();
+    for (const m of this.marquees.values()) gl.deleteTexture(m.tex.tex);
+    for (const s of this.sprites.values()) gl.deleteTexture(s.tex.tex);
+    this.marquees.clear();
+    this.sprites.clear();
+    if (this.artTex) gl.deleteTexture(this.artTex.tex);
+    if (this.artLevels) {
+      freeTarget(gl, this.artLevels.l160);
+      freeTarget(gl, this.artLevels.l56);
+      freeTarget(gl, this.artLevels.l14);
+    }
+    this.artTex = null;
+    this.artLevels = null;
+    freeTarget(gl, this.sceneRT);
+    freeTarget(gl, this.stageRT);
+    freeTarget(gl, this.bloomA);
+    freeTarget(gl, this.bloomB);
+    this.sceneRT = this.stageRT = this.bloomA = this.bloomB = null;
+    for (const p of Object.values(this.programs)) gl.deleteProgram(p.prog);
+    gl.deleteVertexArray(this.quadVao);
+    gl.deleteVertexArray(this.pointVao);
+    gl.deleteVertexArray(this.stripVao);
+    gl.deleteBuffer(this.pointBuf);
+    gl.deleteBuffer(this.stripBuf);
   }
 
   async loadFonts(): Promise<void> {
@@ -217,6 +256,8 @@ export class TurboRenderer {
   private clearGlyphs() {
     for (const g of this.glyphs.values()) this.gl.deleteTexture(g.tex.tex);
     this.glyphs.clear();
+    this.glyphSize.clear();
+    this.glyphBytes = 0;
   }
 
   setLook(look: Look | null) {
@@ -243,6 +284,11 @@ export class TurboRenderer {
   setTimeline(tl: VisualTimeline | null) {
     this.timeline = tl;
     this.invalidateText();
+    if (tl) {
+      void loadScriptFonts(tl.cues.map((c) => c.text).join(' ')).then((used) => {
+        if (used && this.timeline === tl) this.invalidateText();
+      });
+    }
   }
 
   // ---- size ----------------------------------------------------------------------------------------------------------------------
@@ -307,7 +353,7 @@ export class TurboRenderer {
     const key = `${font}|${Math.round(sizePx * 4)}|${text}`;
     const hit = this.widthCache.get(key);
     if (hit !== undefined) return hit;
-    this.setMeasureFont(fontCss(def, sizePx), def.letterSpacingEm * sizePx);
+    this.setMeasureFont(fontCssFor(def, sizePx, text), spacingFor(def, sizePx, text));
     const w = this.measureCtx.measureText(text).width;
     if (this.widthCache.size > 4000) this.widthCache.clear();
     this.widthCache.set(key, w);
@@ -325,20 +371,21 @@ export class TurboRenderer {
       return hit;
     }
     const gl = this.gl;
-    this.setMeasureFont(fontCss(def, sizeB), def.letterSpacingEm * sizeB);
+    this.setMeasureFont(fontCssFor(def, sizeB, text), spacingFor(def, sizeB, text));
     const textW = this.measureCtx.measureText(text).width;
     const pad = Math.ceil(sizeB * 0.32 + stroke) + 6;
     const w = textW + pad * 2;
     const h = sizeB * 1.7 + pad * 2;
     const maxTex = Math.min(4096, gl.getParameter(gl.MAX_TEXTURE_SIZE) as number);
-    const rs = Math.max(0.5, Math.min(Math.max(1, Math.min(2, this.dpr)), (maxTex - 2) / w, (maxTex - 2) / h));
+    // 1.5-2x supersampled, so a word that is drawn a little larger than its bucket (a punch, a zoom) still has pixels to spare
+    const rs = Math.max(0.5, Math.min(Math.max(1.5, Math.min(2, this.dpr * 1.5)), (maxTex - 2) / w, (maxTex - 2) / h));
     const c = document.createElement('canvas');
     c.width = Math.max(2, Math.ceil(w * rs));
     c.height = Math.max(2, Math.ceil(h * rs));
     const cx = c.getContext('2d') as Ls;
     cx.setTransform(rs, 0, 0, rs, 0, 0);
-    cx.font = fontCss(def, sizeB);
-    cx.letterSpacing = `${def.letterSpacingEm * sizeB}px`;
+    cx.font = fontCssFor(def, sizeB, text);
+    cx.letterSpacing = `${spacingFor(def, sizeB, text)}px`;
     cx.textAlign = 'center';
     cx.textBaseline = 'middle';
     cx.fillStyle = '#fff';
@@ -350,16 +397,20 @@ export class TurboRenderer {
     } else cx.fillText(text, w / 2, h / 2);
     const g: Glyph = { tex: textureFrom(gl, c, c.width, c.height), w: c.width / rs, h: c.height / rs, textW, pad, sizeB };
     this.glyphs.set(key, g);
-    if (this.glyphs.size > MAX_GLYPHS) {
+    this.glyphBytes += c.width * c.height * 4 * 1.34; // + mip chain
+    this.glyphSize.set(key, c.width * c.height * 4 * 1.34);
+    while (this.glyphBytes > GLYPH_BUDGET_BYTES && this.glyphs.size > 8) {
       const oldest = this.glyphs.keys().next().value as string;
       const og = this.glyphs.get(oldest);
       if (og) gl.deleteTexture(og.tex.tex);
       this.glyphs.delete(oldest);
+      this.glyphBytes -= this.glyphSize.get(oldest) ?? 0;
+      this.glyphSize.delete(oldest);
     }
     return g;
   }
 
-  // ---- sprites (icons, doodles, caption, marquee) ------------------------------------------------------------------------------
+  // ---- sprites (icons, doodles, marquee) ------------------------------------------------------------------------------
   private sprite(key: string, w: number, h: number, paint: (cx: Ls) => void): Sprite {
     const hit = this.sprites.get(key);
     if (hit) return hit;
@@ -489,7 +540,7 @@ export class TurboRenderer {
   // ---- the frame ------------------------------------------------------------------------------------------------------------------
   render(tMs: number): Frame | null {
     const tl = this.timeline;
-    if (!tl || !this.width || this.lost || !this.sceneRT) return null;
+    if (!tl || !this.width || this.lost || this.disposed || !this.sceneRT) return null;
     const frame = computeFrame(tl, tMs, {
       width: this.width,
       height: this.height,
@@ -656,6 +707,7 @@ export class TurboRenderer {
     // 5) marquee, the interlude show, always-on particles
     this.drawMarquee(frame, style, prof.marqueeRows, W, H);
     if (frame.interlude.amount > 0.01) this.drawInterlude(frame, W, H);
+    if (frame.transition) this.drawLineTransition(frame.transition, W, H);
     this.drawSparks(frame, W, H, arousal, lightGround);
 
     // 6) doodles, words, icons (words are centred on the stage: stage coords = centre + offset)
@@ -665,15 +717,13 @@ export class TurboRenderer {
       const k = d.size / DOODLE_R;
       this.drawSprite({ tex: spr.tex, m: mul(translate(W / 2 + d.x, H / 2 + d.y), rotate((d.rotationDeg * Math.PI) / 180)), w: spr.w * k, h: spr.h * k, alpha: d.alpha });
     }
+    this.bloomPass(plan, lightGround); // the glow of everything behind the type, before the type
     for (const w of frame.words) this.drawWord(w, frame, style, prof.echo);
     for (const e of frame.icons) {
       if (e.alpha <= 0.01 || e.sizePx < 3) continue;
       const spr = this.iconSprite(e.icon, frame.tone.accent, frame.tone.ink);
       this.drawSprite({ tex: spr.tex, m: mul(translate(W / 2 + e.x, H / 2 + e.y), rotate((e.rotationDeg * Math.PI) / 180)), w: e.sizePx, h: e.sizePx, alpha: e.alpha });
     }
-
-    // 7) the quiet next-line preview (screen space)
-    if (frame.caption && frame.caption.alpha > 0.02) this.drawCaption(frame, style, W, H);
 
     // 8) bloom, then the finishing pass to the canvas
     this.finish(frame, plan, lightGround);
@@ -799,6 +849,32 @@ export class TurboRenderer {
     }
   }
 
+  /** One-shot shapes when a line begins (wipe, iris, bars), behind the words. */
+  private drawLineTransition(t: NonNullable<Frame['transition']>, W: number, H: number) {
+    const { p, color, angle } = t;
+    const eio = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    const eo = (x: number) => 1 - Math.pow(1 - x, 3);
+    if (t.kind === 'wipe') {
+      const bw = W * 0.35;
+      const e = eio(p);
+      const x = angle > 0 ? -bw * 1.4 + (W + bw * 1.8) * e : W + bw * 0.4 - (W + bw * 1.8) * e;
+      // a slanted band: a rotated rectangle covering the same area
+      this.drawShape({ kind: 0, m: mul(translate(x + bw / 2, H / 2), rotate(Math.atan2(H * 0.44, H) * (angle > 0 ? -1 : 1))), w: bw, h: H * 1.4, color, alpha: 0.3 * (1 - p * 0.5), soft: 0.5 });
+    } else if (t.kind === 'iris') {
+      const r = eo(p) * Math.max(W, H) * 0.78;
+      const width = Math.max(2, Math.min(W, H) * 0.03 * (1 - p));
+      this.drawShape({ kind: 1, m: translate(W / 2, H / 2), w: (r + width) * 2 + 4, h: (r + width) * 2 + 4, color, alpha: (1 - p) * 0.55, radius: r, width, soft: 1 });
+    } else {
+      const n = 6;
+      const bh = H / n;
+      for (let i = 0; i < n; i++) {
+        const w = W * (1 - eo(Math.min(1, Math.max(0, p * 1.5 - i * 0.1))));
+        if (w < 1) continue;
+        this.rect(angle > 0 ? 0 : W - w, i * bh, w, bh - 2, color, 0.28);
+      }
+    }
+  }
+
   private drawMarquee(frame: Frame, style: StyleDef, maxRows: number, W: number, H: number) {
     if (!frame.marquee.length || maxRows <= 0) return;
     const every = Math.max(1, Math.ceil(frame.marquee.length / maxRows));
@@ -810,15 +886,15 @@ export class TurboRenderer {
       let strip = this.marquees.get(key);
       if (!strip) {
         const unit = row.text.slice(0, Math.max(1, Math.floor(row.text.length / 4)));
-        this.setMeasureFont(fontCss(def, size), def.letterSpacingEm * size);
+        this.setMeasureFont(fontCssFor(def, size, unit), spacingFor(def, size, unit));
         const unitW = Math.max(40, this.measureCtx.measureText(unit).width);
         const repeats = Math.max(2, Math.ceil((W * 1.2) / unitW) + 1);
         const c = document.createElement('canvas');
         c.width = Math.min(8192, Math.ceil(unitW * repeats));
         c.height = Math.ceil(size * 1.4);
         const cx = c.getContext('2d') as Ls;
-        cx.font = fontCss(def, size);
-        cx.letterSpacing = `${def.letterSpacingEm * size}px`;
+        cx.font = fontCssFor(def, size, unit);
+        cx.letterSpacing = `${spacingFor(def, size, unit)}px`;
         cx.fillStyle = row.color;
         cx.textBaseline = 'middle';
         cx.fillText(unit.repeat(repeats), 0, c.height / 2);
@@ -1075,18 +1151,47 @@ export class TurboRenderer {
     } else drawAll(1);
   }
 
-  private drawCaption(frame: Frame, style: StyleDef, W: number, H: number) {
-    const cap = frame.caption!;
-    const S = Math.min(H, W * 0.9);
-    let size = Math.max(13, S * 0.04);
-    const def: FontDef = { ...style.fonts.body, weight: 600, uppercase: false };
-    this.setMeasureFont(fontCss(def, size), 0);
-    const limit = cap.maxW ?? W * 0.86;
-    const wide = this.measureCtx.measureText(cap.text).width;
-    if (wide > limit) size *= limit / wide;
-    const g = this.glyph(cap.text, { ...def, letterSpacingEm: 0 }, size);
-    const k = size / g.sizeB;
-    this.drawSprite({ tex: g.tex, m: translate(cap.cx ?? W / 2, H - Math.max(26, S * 0.075)), w: g.w * k, h: g.h * k, alpha: Math.min(1, cap.alpha) * 0.8, mode: 1, color: frame.tone.inkDim, camera: false });
+
+
+  /**
+   * The glow of the backdrop, cover and light show: bright parts blurred at quarter resolution. It is made BEFORE the words are drawn,
+   * so the type itself never gets a halo and stays crisp; the finishing pass adds this on top.
+   */
+  private bloomPass(plan: ReturnType<typeof planStage>, lightGround: boolean) {
+    const gl = this.gl;
+    const scene = this.sceneRT!;
+    const bloomOn = this.options.quality !== 'low' && !this.options.reducedMotion;
+    if (!bloomOn) return;
+    gl.disable(gl.BLEND);
+    const A = this.bloomA!;
+    const B = this.bloomB!;
+    gl.viewport(0, 0, A.w, A.h);
+    const br = this.programs.bright;
+    br.use();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, A.fbo);
+    this.bindTex(0, scene.tex);
+    br.i('u_tex', 0);
+    br.f('u_thr', lightGround ? 0.95 : 0.62);
+    gl.bindVertexArray(this.quadVao);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    const bl = this.programs.blur;
+    bl.use();
+    bl.i('u_tex', 0);
+    for (let i = 0; i < 2; i++) {
+      gl.bindFramebuffer(gl.FRAMEBUFFER, B.fbo);
+      this.bindTex(0, A.tex);
+      bl.v2('u_dir', (1.6 + i) / A.w, 0);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, A.fbo);
+      this.bindTex(0, B.tex);
+      bl.v2('u_dir', 0, (1.6 + i) / A.h);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+    gl.bindFramebuffer(gl.FRAMEBUFFER, scene.fbo);
+    gl.viewport(0, 0, scene.w, scene.h);
+    gl.enable(gl.BLEND);
+    void plan;
+    void lightGround;
   }
 
   // ---- finishing -------------------------------------------------------------------------------------------------------------------------
@@ -1096,32 +1201,6 @@ export class TurboRenderer {
     const bloomOn = this.options.quality !== 'low' && !this.options.reducedMotion;
     const bloomAmt = bloomOn ? plan.bloom * (lightGround ? 0.25 : 1) : 0;
     gl.disable(gl.BLEND);
-    if (bloomOn) {
-      const A = this.bloomA!;
-      const B = this.bloomB!;
-      gl.viewport(0, 0, A.w, A.h);
-      const br = this.programs.bright;
-      br.use();
-      gl.bindFramebuffer(gl.FRAMEBUFFER, A.fbo);
-      this.bindTex(0, scene.tex);
-      br.i('u_tex', 0);
-      br.f('u_thr', lightGround ? 0.92 : 0.58);
-      gl.bindVertexArray(this.quadVao);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      const bl = this.programs.blur;
-      bl.use();
-      bl.i('u_tex', 0);
-      for (let i = 0; i < 2; i++) {
-        gl.bindFramebuffer(gl.FRAMEBUFFER, B.fbo);
-        this.bindTex(0, A.tex);
-        bl.v2('u_dir', (1.6 + i) / A.w, 0);
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-        gl.bindFramebuffer(gl.FRAMEBUFFER, A.fbo);
-        this.bindTex(0, B.tex);
-        bl.v2('u_dir', 0, (1.6 + i) / A.h);
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      }
-    }
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.viewport(0, 0, this.canvas.width, this.canvas.height);
     const p = this.programs.post;

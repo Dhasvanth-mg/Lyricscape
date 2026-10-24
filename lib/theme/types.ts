@@ -1,7 +1,7 @@
 // The theme vocabulary: what an art direction is made of, and what a listener may change.
 
 import type { SongIdentity, GenreFamily } from '../identity/types';
-import type { ArtTreatment, Look, Transition } from '../kinetic/look';
+import type { ArtTreatment, ExitKind, LineTransition, Look, Transition } from '../kinetic/look';
 import type { SceneKind } from '../kinetic/styleBase';
 import type { StyleId } from '../kinetic/types';
 
@@ -65,7 +65,7 @@ export type Tweaks = {
   typography?: TypePairId;
   scene?: SceneKind | 'none';
   artwork?: ArtTreatment;
-  motion?: Partial<{ intensity: number; smooth: number; emphasis: number; beat: number; complexity: number; transition: Transition }>;
+  motion?: Partial<{ intensity: number; smooth: number; emphasis: number; beat: number; complexity: number; transition: Transition; exit: ExitKind; speed: number; lineTransition: LineTransition; lineOn: 'all' | 'hooks' }>;
   appearance?: Partial<{ textScale: number; textY: number; align: 'center' | 'left'; contrast: number; grain: number; glow: number; blur: number; brightness: number; density: number }>;
 };
 

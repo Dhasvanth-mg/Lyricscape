@@ -9,7 +9,7 @@
 // Quality level (high/medium/low) trades the remaining decoration for frame rate.
 
 import { computeFrame } from './frame';
-import { REQUIRED_FONT_LOADS, STYLES, fontCss, fontLoadsFor, type SceneKind } from './styles';
+import { REQUIRED_FONT_LOADS, STYLES, fontCss, fontCssFor, fontLoadsFor, loadScriptFonts, spacingFor, type SceneKind } from './styles';
 import type { Look } from './look';
 import { drawDoodle } from './doodles';
 import { PIXEL_BUDGET, QUALITY_PROFILE, type QualityLevel } from './governor';
@@ -125,6 +125,12 @@ export class KineticRenderer {
   setTimeline(tl: VisualTimeline | null) {
     this.timeline = tl;
     this.invalidateText();
+    if (tl) {
+      // Hindi / Tamil lyrics need their script faces fetched before the first frame is measured
+      void loadScriptFonts(tl.cues.map((c) => c.text).join(' ')).then((used) => {
+        if (used && this.timeline === tl) this.invalidateText();
+      });
+    }
   }
 
   setArtwork(source: CanvasImageSource | null) {
@@ -244,7 +250,7 @@ export class KineticRenderer {
     const key = `${font}|${Math.round(sizePx * 4)}|${text}`;
     const hit = this.widthCache.get(key);
     if (hit !== undefined) return hit;
-    this.setFont(fontCss(def, sizePx), def.letterSpacingEm * sizePx);
+    this.setFont(fontCssFor(def, sizePx, text), spacingFor(def, sizePx, text));
     const w = this.ctx.measureText(text).width;
     if (this.widthCache.size > 4000) this.widthCache.clear();
     this.widthCache.set(key, w);
@@ -341,6 +347,7 @@ export class KineticRenderer {
     if (frame.overlays.halftone > 0.01 && prof.halftone && this.options.texture) this.drawHalftone(frame, tl, W, H);
     this.drawMarquee(frame, style, prof.marqueeRows, W, H);
     if (frame.interlude.amount > 0.01) this.drawInterlude(frame, W, H);
+    if (frame.transition) this.drawLineTransition(frame.transition, W, H);
 
     // ---- readability scrim: a soft pool behind the words so they hold up over busy art and doodles ----------------
     if (frame.overlays.scrim > 0.01) {
@@ -382,10 +389,6 @@ export class KineticRenderer {
     }
     ctx.restore();
 
-    // ---- next-line preview (screen space, quiet) -----------------------------------------------------
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    if (frame.caption && frame.caption.alpha > 0.02) this.drawCaption(frame, style, W, H);
-
     // ---- overlays (screen space) ------------------------------------------------------------------
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     if (frame.overlays.vignette > 0) {
@@ -419,6 +422,50 @@ export class KineticRenderer {
       ctx.fillRect(0, 0, W, H);
     }
     if (frame.overlays.grain > 0 && prof.grain && this.options.texture) this.drawGrain(frame, W, H);
+  }
+
+  /** One-shot shapes when a line begins (wipe, iris, bars): plain fills and strokes in the accent colour, behind the words. */
+  private drawLineTransition(t: NonNullable<Frame['transition']>, W: number, H: number) {
+    const ctx = this.ctx;
+    const { p, color, angle } = t;
+    const eio = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    const eo = (x: number) => 1 - Math.pow(1 - x, 3);
+    ctx.save();
+    ctx.fillStyle = color;
+    ctx.strokeStyle = color;
+    if (t.kind === 'wipe') {
+      const bw = W * 0.35;
+      const e = eio(p);
+      const x = angle > 0 ? -bw * 1.4 + (W + bw * 1.8) * e : W + bw * 0.4 - (W + bw * 1.8) * e;
+      const lean = H * 0.22;
+      ctx.globalAlpha = 0.3 * (1 - p * 0.5);
+      ctx.beginPath();
+      ctx.moveTo(x + lean, 0);
+      ctx.lineTo(x + bw + lean, 0);
+      ctx.lineTo(x + bw - lean, H);
+      ctx.lineTo(x - lean, H);
+      ctx.closePath();
+      ctx.fill();
+    } else if (t.kind === 'iris') {
+      const r = eo(p) * Math.max(W, H) * 0.78;
+      ctx.globalAlpha = (1 - p) * 0.55;
+      ctx.lineWidth = Math.max(2, Math.min(W, H) * 0.03 * (1 - p));
+      ctx.beginPath();
+      ctx.arc(W / 2, H / 2, r, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.globalAlpha = (1 - p) * 0.1;
+      ctx.fill();
+    } else {
+      const n = 6;
+      const bh = H / n;
+      ctx.globalAlpha = 0.28;
+      for (let i = 0; i < n; i++) {
+        const w = W * (1 - eo(Math.min(1, Math.max(0, p * 1.5 - i * 0.1))));
+        if (w < 1) continue;
+        ctx.fillRect(angle > 0 ? 0 : W - w, i * bh, w, bh - 2);
+      }
+    }
+    ctx.restore();
   }
 
   /** The generative show for instrumental moments. Everything is a plain gradient / stroke / dot: cheap and deterministic. */
@@ -506,16 +553,16 @@ export class KineticRenderer {
       if (!strip) {
         const unit = row.text.slice(0, Math.max(1, Math.floor(row.text.length / 4))); // one phrase (the frame repeats it 4x)
         const probe = document.createElement('canvas').getContext('2d') as Ls;
-        probe.font = fontCss(def, size);
-        probe.letterSpacing = `${def.letterSpacingEm * size}px`;
+        probe.font = fontCssFor(def, size, unit);
+        probe.letterSpacing = `${spacingFor(def, size, unit)}px`;
         const unitW = Math.max(40, probe.measureText(unit).width);
         const repeats = Math.max(2, Math.ceil((W * 1.2) / unitW) + 1);
         const c = document.createElement('canvas');
         c.width = Math.min(8192, Math.ceil(unitW * repeats));
         c.height = Math.ceil(size * 1.4);
         const cx = c.getContext('2d') as Ls;
-        cx.font = fontCss(def, size);
-        cx.letterSpacing = `${def.letterSpacingEm * size}px`;
+        cx.font = fontCssFor(def, size, unit);
+        cx.letterSpacing = `${spacingFor(def, size, unit)}px`;
         cx.fillStyle = row.color;
         cx.textBaseline = 'middle';
         cx.fillText(unit.repeat(repeats), 0, c.height / 2);
@@ -594,7 +641,7 @@ export class KineticRenderer {
       size *= w.maxWidthPx / (textWidth * Math.abs(w.scaleX));
       textWidth = this.measure(w.text, w.font, size);
     }
-    this.setFont(fontCss(def, size), def.letterSpacingEm * size);
+    this.setFont(fontCssFor(def, size, w.text), spacingFor(def, size, w.text));
     const ink = this.adaptInk(w, size, textWidth, this.lastFrame);
 
     const drawGlyphs = (alpha: number, dy = 0, clip?: 'top' | 'bottom') => {
@@ -849,7 +896,7 @@ export class KineticRenderer {
     const cx = c.getContext('2d');
     if (!cx) return null;
     cx.font = this.ctx.font;
-    cx.letterSpacing = `${def.letterSpacingEm * s}px`;
+    cx.letterSpacing = `${spacingFor(def as never, s, text)}px`;
     cx.textAlign = 'center';
     cx.textBaseline = 'middle';
     cx.strokeStyle = color;
@@ -1223,28 +1270,6 @@ export class KineticRenderer {
     this.ctx.globalAlpha = frame.overlays.halftone * (frame.bg.invert ? 0.6 : 0.8);
     this.ctx.drawImage(c, 0, 0, W, H);
     this.ctx.restore();
-  }
-
-  private drawCaption(frame: Frame, style: (typeof STYLES)[keyof typeof STYLES], W: number, H: number) {
-    const ctx = this.ctx;
-    const cap = frame.caption!;
-    const S = Math.min(H, W * 0.9);
-    let size = Math.max(13, S * 0.04);
-    const def = { ...style.fonts.body, weight: 600, uppercase: false };
-    this.setFont(fontCss(def, size), 0);
-    ctx.save();
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    const limit = cap.maxW ?? W * 0.86;
-    const wide = ctx.measureText(cap.text).width;
-    if (wide > limit) {
-      size *= limit / wide;
-      this.setFont(fontCss(def, size), 0);
-    }
-    ctx.globalAlpha = Math.min(1, cap.alpha) * 0.8;
-    ctx.fillStyle = frame.tone.inkDim;
-    ctx.fillText(cap.text, cap.cx ?? W / 2, H - Math.max(26, S * 0.075));
-    ctx.restore();
   }
 
   /** Backdrop scenery for themes that have a place, not just a colour. All plain gradients/strokes, cached where static. */

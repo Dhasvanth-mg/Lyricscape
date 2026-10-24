@@ -22,6 +22,9 @@ import '@fontsource-variable/syne';
 import '@fontsource/special-elite';
 import '@fontsource/bebas-neue';
 import '@fontsource/nunito/900.css';
+// Hindi (Devanagari) and Tamil faces: the browser only downloads them when lyrics in those scripts are drawn
+import '@fontsource-variable/noto-sans-devanagari';
+import '@fontsource-variable/noto-sans-tamil';
 import '@fontsource/nunito/900-italic.css';
 import './globals.css';
 import { AppShell } from '@/components/shell/AppShell';

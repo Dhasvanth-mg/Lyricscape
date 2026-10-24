@@ -6,8 +6,15 @@ import type { SceneKind, StyleDef } from './styleBase';
 
 export type ArtTreatment = 'wash' | 'defocus' | 'tonal' | 'cinema' | 'card' | 'split' | 'collage' | 'bleed' | 'off';
 export const ART_TREATMENTS: ArtTreatment[] = ['wash', 'defocus', 'tonal', 'cinema', 'card', 'split', 'collage', 'bleed', 'off'];
-export type Transition = 'preset' | 'cut' | 'fade' | 'drift' | 'rise';
-export const TRANSITIONS: Transition[] = ['preset', 'cut', 'fade', 'drift', 'rise'];
+/** how words ENTER. 'preset' = the layout family's own entrance (the director's choice per line). */
+export type Transition = 'preset' | 'cut' | 'fade' | 'drift' | 'rise' | 'pop' | 'drop' | 'zoom' | 'blur' | 'unfold' | 'spin' | 'snap' | 'slide' | 'scatter' | 'bounce' | 'glitch' | 'elastic';
+export const TRANSITIONS: Transition[] = ['preset', 'cut', 'fade', 'drift', 'rise', 'pop', 'drop', 'zoom', 'blur', 'unfold', 'spin', 'snap', 'slide', 'scatter', 'bounce', 'glitch', 'elastic'];
+/** how words LEAVE ('auto' = matches the entrance family) */
+export type ExitKind = 'auto' | 'fade' | 'rise' | 'drop' | 'zoom' | 'shrink' | 'slide' | 'scatter' | 'spin' | 'blur' | 'cut';
+export const EXIT_KINDS: ExitKind[] = ['auto', 'fade', 'rise', 'drop', 'zoom', 'shrink', 'slide', 'scatter', 'spin', 'blur', 'cut'];
+/** a one-shot effect when a new line begins */
+export type LineTransition = 'none' | 'zoomPunch' | 'pan' | 'tilt' | 'wipe' | 'iris' | 'bars' | 'flash';
+export const LINE_TRANSITIONS: LineTransition[] = ['none', 'zoomPunch', 'pan', 'tilt', 'wipe', 'iris', 'bars', 'flash'];
 
 export type LookColors = {
   /** words that have been sung / the resting colour of lyrics */
@@ -45,6 +52,14 @@ export type Look = {
     complexity: number;
     reveal: 'word' | 'line';
     transition: Transition;
+    /** how words leave (default auto) */
+    exit?: ExitKind;
+    /** transition speed multiplier 0.5..2 (default 1) */
+    speed?: number;
+    /** a camera move or shape when each line begins (default none) */
+    lineTransition?: LineTransition;
+    /** every line, or only repeated hook lines */
+    lineOn?: 'all' | 'hooks';
     /** illumination travels through held words */
     progress: boolean;
     /** the chorus brightens and uses the accent (only where the lyrics themselves repeat) */

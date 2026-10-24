@@ -23,6 +23,7 @@ export const MAX_PLAIN_DURATION_DELTA_SEC = 10;
 
 import type { MatchInfo } from '../types';
 import { parseLrc } from './parse';
+import { soundsAlike } from './translit';
 
 export type Query = { title: string; artist: string; album?: string; duration?: number };
 
@@ -40,7 +41,7 @@ export function normalizeTitle(t: string): string {
     .replace(/\b(feat\.?|ft\.?|featuring)\s.*$/i, '')
     .toLowerCase()
     .replace(/&/g, ' and ')
-    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/[^\p{L}\p{M}\p{N}\s]/gu, ' ') // marks are kept: Devanagari / Tamil vowel signs are \p{M}
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -75,8 +76,11 @@ export function scoreCandidate(r: LrclibRecord, q: Query): number | null {
   else if (qt && rt && (qt.includes(rt) || rt.includes(qt)) && Math.min(qt.length, rt.length) >= 4) title = 24;
   else {
     const j = jaccard(qt, rt);
-    if (j < 0.5) return null;
-    title = j * 20;
+    // the same name in another script or spelling (Kesariya / केसरिया / Kesaria): compare by sound
+    const snd = qt && rt ? soundsAlike(qt, rt) : 0;
+    if (j >= 0.5) title = j * 20;
+    else if (snd >= 0.78 && Math.min(qt.length, rt.length) >= 3) title = 14 + snd * 12;
+    else return null;
   }
 
   const qa = primaryArtist(q.artist);
@@ -89,8 +93,10 @@ export function scoreCandidate(r: LrclibRecord, q: Query): number | null {
   else if (qaFull.includes(ra) || raFull.includes(qa) || qa.includes(ra) || ra.includes(qa)) artist = 22;
   else {
     const j = jaccard(qaFull, raFull);
-    if (j < 0.34) return null;
-    artist = j * 20;
+    const snd = soundsAlike(qa, ra);
+    if (j >= 0.34) artist = j * 20;
+    else if (snd >= 0.75) artist = 12 + snd * 10;
+    else return null;
   }
 
   let duration = 6; // unknown length on either side: neutral

@@ -36,7 +36,7 @@ export function planStage(opts: { arousal: number; scene: string | null; hasCove
     variant,
     amount: clamp(0.75 + arousal * 0.3 + (hook ? 0.12 : 0), 0.6, 1.1),
     coverMix: hasCover ? clamp(artAmount * 0.9, 0.12, 0.62) : 0,
-    bloom: clamp(0.38 + arousal * 0.3 + (hook ? 0.12 : 0), 0.3, 0.85),
-    aberration: clamp(0.0045 + arousal * 0.004 + (hook ? 0.002 : 0), 0.003, 0.012),
+    bloom: clamp(0.22 + arousal * 0.22 + (hook ? 0.1 : 0), 0.2, 0.6),
+    aberration: clamp(0.006 + arousal * 0.006 + (hook ? 0.004 : 0), 0.005, 0.02),
   };
 }

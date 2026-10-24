@@ -19,6 +19,8 @@ import type { CoverInfo } from '@/lib/theme/types';
 import { EXPORT_SIZES, downloadBlob, exportStill, exportVideo, frameCount, loadCorsImage, safeFilename, supportedFormats, webCodecsSupported, type ExportContent, type ExportFormat, type ExportJob, type ExportQuality, type ExportSizeId } from '@/lib/export/video';
 import { useUi } from '@/lib/ui-store';
 import { Button, Spinner } from '@/components/ui/bits';
+import { SyncStepper } from './SyncStepper';
+import { useLyricClock } from './useLyricClock';
 
 const PREFS_KEY = 'lyricscape.export.v1';
 type SavedPrefs = { size: ExportSizeId; fps: 30 | 60; format: ExportFormat; quality: ExportQuality };
@@ -57,6 +59,10 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
   const [fps, setFps] = useState<30 | 60>(saved.fps);
   const [format, setFormat] = useState<ExportFormat>(saved.format);
   const [quality, setQuality] = useState<ExportQuality>(saved.quality);
+  // the song's own sync offset (the one tuned on the stage) is applied to the video: lyric time = song time + offset
+  const clock = useLyricClock(track);
+  const [syncPick, setSyncPick] = useState<number | null>(null);
+  const syncMs = syncPick ?? clock.trackOffset;
   const [style, setStyle] = useState<StyleId>(direction);
   const [mode, setMode] = useState<StageMode>(ui.mode === 'turbo' && turboSupported() ? 'turbo' : 'clean');
   const canTurbo = turboSupported();
@@ -164,14 +170,14 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
     r.setTimeline(timeline);
     r.setLook(look);
     r.setArtwork(art ?? null);
-    r.render(previewMs);
+    r.render(previewMs + syncMs);
     // the look's faces arrive a moment later: draw again once they are in
-    void r.loadLookFonts().then(() => rendererRef.current === r && r.render(previewMs));
+    void r.loadLookFonts().then(() => rendererRef.current === r && r.render(previewMs + syncMs));
     // eslint-disable-next-line react-hooks/exhaustive-deps -- previewMs is drawn by the effect below
   }, [timeline, look, content, art, ready, mode]);
   useEffect(() => {
-    rendererRef.current?.render(previewMs);
-  }, [previewMs, sz.id]);
+    rendererRef.current?.render(previewMs + syncMs);
+  }, [previewMs, syncMs, sz.id]);
 
   // keep the preview time inside the chosen range
   useEffect(() => {
@@ -196,7 +202,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
   }, [playing, startMs, endMs]);
 
   // ---- actions -----------------------------------------------------------------------------------------------
-  const job = (): ExportJob => ({ mode, timeline, look, artwork: art ?? null, content, width: sz.width, height: sz.height, fps, startMs, endMs });
+  const job = (): ExportJob => ({ mode, offsetMs: syncMs, timeline, look, artwork: art ?? null, content, width: sz.width, height: sz.height, fps, startMs, endMs });
   const baseName = `${safeFilename(`${track.artists[0] ?? ''} ${track.title}`)}-lyrics`;
 
   const runVideo = async () => {
@@ -490,6 +496,16 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
                   <option value="max">Quality: maximum</option>
                 </select>
               </div>
+              <div className="flex flex-wrap items-center gap-2 text-sm" data-testid="export-sync">
+                <span className="text-ink-300">Sync</span>
+                <SyncStepper id="export-sync-offset" label="" title="Lyric timing for this video" value={syncMs} onChange={setSyncPick} />
+                {syncPick !== null && clock.trackOffset !== syncPick && (
+                  <button type="button" className="text-xs underline" onClick={() => setSyncPick(null)} disabled={lock}>
+                    use the stage&apos;s ({clock.trackOffset > 0 ? '+' : ''}{clock.trackOffset} ms)
+                  </button>
+                )}
+              </div>
+              <p className="text-xs text-ink-400">The video uses this song&apos;s own sync offset, so it lines up with the audio the way the stage did. Device delay is not included (it belongs to your speakers, not the song).</p>
               <p className="text-xs text-ink-400">
                 {frames.toLocaleString()} frames · {fmtTime((endMs - startMs) / 1000)} of video. MP4 plays everywhere; WebM is smaller for the web.
               </p>

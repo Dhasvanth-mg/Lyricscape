@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import { Bookmark, ChevronDown, RotateCcw, Sparkles, Trash2 } from 'lucide-react';
 import { CORRECTION_DEFS } from '@/lib/identity/corrections';
 import { GENRE_LABEL } from '@/lib/identity/types';
-import { ART_TREATMENTS, TRANSITIONS, type ArtTreatment, type Transition } from '@/lib/kinetic/look';
+import { ART_TREATMENTS, EXIT_KINDS, LINE_TRANSITIONS, TRANSITIONS, type ArtTreatment, type ExitKind, type LineTransition, type Transition } from '@/lib/kinetic/look';
 import { STYLES } from '@/lib/kinetic/styles';
 import type { SceneKind } from '@/lib/kinetic/styleBase';
 import { DIRECTIONS, DIRECTION_GROUPS, PALETTES } from '@/lib/theme/directions';
@@ -26,7 +26,9 @@ export type SongLookApi = ReturnType<typeof useSongLook>;
 
 const TREATMENT_LABEL: Record<ArtTreatment, string> = { wash: 'Soft wash', defocus: 'Defocused light', tonal: 'Re-toned to the palette', cinema: 'Full-bleed, cinematic', card: 'Framed cover', split: 'Split panel', collage: 'Paper collage', bleed: 'Full-bleed, undimmed', off: 'No artwork' };
 const SCENE_LABEL: Record<SceneKind | 'none', string> = { none: 'Plain', diffuse: 'Diffused light', leaks: 'Light leaks', bokeh: 'City bokeh', paper: 'Paper', structure: 'Structure & rules', poster: 'Poster keyline', halo: 'A single halo', graphic: 'Flat shapes', aurora: 'Aurora', sunset: 'Sunset grid', notebook: 'Ruled notebook' };
-const TRANSITION_LABEL: Record<Transition, string> = { preset: "Direction's own", cut: 'Cut', fade: 'Fade', drift: 'Drift', rise: 'Rise' };
+const TRANSITION_LABEL: Record<Transition, string> = { preset: "Direction's own", cut: 'Cut', fade: 'Fade', drift: 'Drift', rise: 'Rise', pop: 'Pop', drop: 'Drop with bounce', zoom: 'Zoom through', blur: 'Focus pull', unfold: 'Unfold', spin: 'Spin in', snap: 'Snap (instant)', slide: 'Slide in', scatter: 'Scatter in', bounce: 'Bounce', glitch: 'Glitch', elastic: 'Elastic' };
+const EXIT_LABEL: Record<ExitKind, string> = { auto: 'Matches the entrance', fade: 'Fade out', rise: 'Float away', drop: 'Fall away', zoom: 'Zoom past', shrink: 'Shrink', slide: 'Slide out', scatter: 'Scatter', spin: 'Spin out', blur: 'Blur out', cut: 'Hard cut' };
+const LINE_LABEL: Record<LineTransition, string> = { none: 'None', zoomPunch: 'Zoom punch', pan: 'Camera pan', tilt: 'Camera tilt', wipe: 'Colour wipe', iris: 'Iris ring', bars: 'Venetian bars', flash: 'Soft flash' };
 
 function Group({ title, hint, children, className }: { title: string; hint?: string; children: React.ReactNode; className?: string }) {
   return (
@@ -323,7 +325,11 @@ export function StudioTab({ sl, readable, onReadable, reduced, osReduced, onForc
           <Range id="m-emph" label="Word emphasis" value={m.emphasis} min={0} max={2} step={0.05} fmt={pct} onChange={(v) => setIn('motion', 'emphasis', v)} onReset={() => unsetIn('motion', 'emphasis')} overridden={tm.emphasis !== undefined} />
           <Range id="m-beat" label="Beat response" value={m.beat} min={0} max={2} step={0.05} fmt={pct} onChange={(v) => setIn('motion', 'beat', v)} onReset={() => unsetIn('motion', 'beat')} overridden={tm.beat !== undefined} />
           <Range id="m-cx" label="Visual complexity" value={m.complexity} min={0} max={1} step={0.05} fmt={pct} onChange={(v) => setIn('motion', 'complexity', v)} onReset={() => unsetIn('motion', 'complexity')} overridden={tm.complexity !== undefined} />
-          <Select id="m-tr" label="Transitions" value={m.transition} options={TRANSITIONS.map((k) => [k, TRANSITION_LABEL[k]])} onChange={(v) => setIn('motion', 'transition', v)} onReset={() => unsetIn('motion', 'transition')} overridden={tm.transition !== undefined} />
+          <Select id="m-tr" label="Words enter with" value={m.transition} options={TRANSITIONS.map((k) => [k, TRANSITION_LABEL[k]])} onChange={(v) => setIn('motion', 'transition', v)} onReset={() => unsetIn('motion', 'transition')} overridden={tm.transition !== undefined} />
+          <Select id="m-ex" label="Words leave with" value={m.exit ?? 'auto'} options={EXIT_KINDS.map((k) => [k, EXIT_LABEL[k]])} onChange={(v) => setIn('motion', 'exit', v)} onReset={() => unsetIn('motion', 'exit')} overridden={tm.exit !== undefined} />
+          <Range id="m-speed" label="Transition speed" value={m.speed ?? 1} min={0.5} max={2} step={0.05} fmt={(n) => `${n.toFixed(2)}×`} onChange={(v) => setIn('motion', 'speed', v)} onReset={() => unsetIn('motion', 'speed')} overridden={tm.speed !== undefined} />
+          <Select id="m-lt" label="When a line begins" value={m.lineTransition ?? 'none'} options={LINE_TRANSITIONS.map((k) => [k, LINE_LABEL[k]])} onChange={(v) => setIn('motion', 'lineTransition', v)} onReset={() => unsetIn('motion', 'lineTransition')} overridden={tm.lineTransition !== undefined} />
+          {(m.lineTransition ?? 'none') !== 'none' && <Select id="m-lo" label="Use it on" value={m.lineOn ?? 'all'} options={[['all', 'Every line'], ['hooks', 'Hooks only']]} onChange={(v) => setIn('motion', 'lineOn', v)} onReset={() => unsetIn('motion', 'lineOn')} overridden={tm.lineOn !== undefined} />}
           <p className="text-[11px] text-ink-400">Motion follows the playback timeline only. It never changes when a word is shown. Beat response needs a real beat grid (demo and imported audio); Spotify gives none, so nothing is faked.</p>
         </Group>
 

@@ -117,7 +117,7 @@ export function slugify(s: string): string {
   const base = s
     .toLowerCase()
     .normalize('NFKD')
-    .replace(/[^\p{L}\p{N}]+/gu, '-')
+    .replace(/[^\p{L}\p{M}\p{N}]+/gu, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 40);
   return base || 'party';

@@ -95,18 +95,31 @@ Removed: `Frame.caption` is always `null` and neither renderer draws it.
 Browser checks (Edge, headless): Turbo and Clean on Hindi, Tamil, Japanese, Korean, Arabic lyrics; persisted Turbo mode on a fresh stage mount; 24 mode toggles;
 MP4 export in Turbo (H.264, 120 frames) with a decoded frame inspected; no console errors or warnings.
 
-## 8. Turbo styles (drawn from your reference videos)
+## 8. Turbo styles (modelled on your five reference clips)
 
-Five reference clips set the direction; each became a GPU style, chosen in the Studio under Mode -> Turbo style (and in the export dialog). The first is the default liquid light.
+Each reference clip became a GPU scene, chosen in the Studio under Mode -> Turbo style (and in the export dialog). Liquid light is the default. The other five
+are **scenes** (`lib/kinetic/gl/scenes/*`): a scene is a pure function of time that draws its own whole picture through a small host (sprites, shapes,
+full-screen shaders, the ASCII pass) and returns the finishing-pass settings for that frame, so seeking and export stay exact. Each was built from a frame-by-frame
+study of its clip (a frame every half second, and full-size frames of the key moments), not from one overall impression.
 
-| Style | From the reference | How it is built (all GPU) |
+| Style | The clip | What the scene does |
 |---|---|---|
-| **Terminal** | typed code on a dark console, error panels, glitchy slices | monospace type typed letter by letter (a clip in the glyph shader driven by the word's age) with a blinking cursor; three parallax layers of scrolling code (a texture, tinted and blurred by mip level); CRT barrel curve, scanlines and horizontal glitch slices in the finishing pass; phosphor bloom |
-| **Sketchbook** | hand-drawn cards, marker highlights, dithered paper | marker typeface with "line boil" (the glyph sampling is jittered by noise that re-rolls ~9 times a second); a paper-and-frame backdrop shader whose tint follows the current line; a marker swipe (a warped rounded bar) behind the sung word; ordered dithering and coarse grain in the finishing pass |
-| **Nebula** | Apple Music-style gradient and purple space with streaks, pill on the emphasised word | flowing nebula shader in purples, shader light streaks that race across, 150 twinkling stars, the whole line tilted along the streaks, the sung word on a soft pill |
-| **Acid** | grainy colour blobs, RGB-split hand-drawn eyes, yellow subtitle at the top | hue-cycling blobs, procedural hand-drawn orbs with pupils whose red and blue channels are drawn apart (additive blending), fringing across the whole frame, heavy coarse grain, a small yellow condensed subtitle with a dark outline |
-| **ASCII** | a picture turned into characters that dissolve | a shader that replaces every screen cell with the glyph (from an atlas, dark to bright) matching its brightness, keeping the colour, dissolving back toward the picture on the beat; the cover is the stage; type stays crisp on top |
+| **Code screens** | the code-edit clip | every line is typed into a different screen the camera flies through, in the clip's order: a dark code editor (the lyric is a string literal that is typed, the camera racks focus onto it and pushes in), an IDE error list (the lyric is a row; the camera zooms in and pans along it as it types), huge pale words over blurred code with glitch blocks as each word is sung, a light login form (typed into the username field, selection highlight, underscore caret, the camera spins away), red error banners, and a green console (the line scrolls as it is typed, or wraps to two lines). Screens are painted once into textures; blur is the mip level; whips between shots are directional blur plus glitch |
+| **Sketch cards** | the pixel-scribble clip | a 4:3 card with a hatched window frame on black. Every line is laid out like a poster: the most important word huge, one or two on coloured blobs, the rest in thin hand lettering, a drawing in the corner (braided girl, eyes, chibi, flower, stars). Everything is painted at 360x270, blurred a little, then snapped to a few colours with noisy edges, which is what makes the edges stipple like the clip. Eight card themes cycle. Words scribble in as they are sung; cards cut hard |
+| **Lyrics app** | the Apple-style lyrics clip | a column of big rounded words: the word being sung large and white in the middle, the words before and after small and dim above and below (they slide as the song moves), a chip behind the key word. Every three lines it switches between an Apple-style colour mesh (orange, pink, blue) and a deep-space nebula with two racing neon streaks (each with a tiny ship), drifting rocks and stars, where the column tilts along the streaks and steps down to the right |
+| **Acid grain** | the grainy eyes clip | saturated colour blobs whose hues keep rolling under coarse colour grain; hand-drawn eyeballs with thick outlines whose red, green and blue copies are drawn apart loop through the clip's dance (five big eyes under a pyramid of small ones, a cluster of blank pale balls, a scatter with one huge ball, then everybody bobbing); the line is a small yellow condensed subtitle near the top, whole line at once |
+| **ASCII eye** | the ASCII clip | a window of characters in a dark room (code editor glowing at the left, taskbar, blue backlit keyboard), the lyric typed on the screen. **What it draws depends on the song** (below) |
 
-The Terminal and Sketchbook styles re-measure the layout in their own typeface, so words never overlap. The directions' cover cards and line-art doodles are hidden in the styled worlds
-(they have their own scenery); readable ink on the style's own ground is asserted in `tests/turbo-styles.test.ts`. Measured here (Intel Iris Xe, headless Edge): 2-7 ms per frame at 1280x720.
-The reference clips themselves are not copied: no footage, frames, art or text from them is used; only the techniques (typing, boil, streaks, channel split, character mosaics) were recreated from scratch.
+**ASCII: the picture comes from the song** (`scenes/subject.ts`, tested). A word in the **title** decides (a song called "E85" is a highway whatever the verses say);
+otherwise the lyrics' most frequent theme (at least three hits); otherwise the mood (a lively song gets flashing lights, a low sad one rain); otherwise the eye.
+Pictures: **highway** (perspective road, dashed lanes, posts with lamps, cars ahead with tail lights and oncoming headlights, a skyline at dusk, speed follows the song's energy),
+**flashing lights** (a grid of lamps that flick on and off in colours, sweeping beams, a strobe on the beat), **ocean** (moon and waves with a reflection), **fire**,
+**city** (skyline with lit windows), **space** (a banded, ringed planet), **rain** (with lightning), and the default **eye** (it looks around, blinks, then crumbles into a planet and back).
+The characters are made on the GPU by the shared ASCII pass; the picture is a fragment shader.
+
+Not copied: the Instagram and creator watermarks, the brand sign-off card, the real logos on the screens in the clip (a ministry's login page, law-enforcement seals), the artists' drawings and the song lyrics.
+The login form, the banners and the cards are drawn from scratch with the same layout and feel. Measured here (Intel Iris Xe, headless Edge): 1.5-3.3 ms a frame at 1280x720 (code screens 1.6-1.8, sketch cards 1.5, lyrics app 2-3, acid 2.4-3.1, ASCII 3.2-3.3);
+a sketch card costs one 360x270 canvas paint the first time a line is shown, then it is a handful of quads. **Not measured:** the RTX 5050, high refresh rates.
+Limits: the cards' lettering uses the app's bundled faces (Anton, Permanent Marker, Special Elite, Cormorant) so it resembles hand lettering without being it, and the clips' exact drawings,
+timings and per-word colours are not reproducible for arbitrary songs: the scenes reproduce their layouts, type, colours, effects and pacing. The scenes were checked with English lyrics; Hindi, Tamil and
+right-to-left lines in these five scenes were not checked (Liquid light and Clean handle them as before).

@@ -427,11 +427,38 @@ uniform float u_glitch;     // horizontal glitch slices
 uniform float u_dither;     // colour levels for ordered dithering, 0 = off
 uniform float u_grainCell;  // grain size in device px
 uniform float u_aberMode;   // 0 = fringing only toward the edges, 1 = across the whole frame
+uniform vec2 u_mblur;       // directional blur (uv units)
+uniform float u_zblur;      // radial (zoom) blur
+uniform float u_blocks;     // displaced, tinted macroblocks (digital glitch)
+uniform float u_chroma;     // coarse colour grain
+uniform float u_exposure;   // final brightness multiplier
 
 float hash(vec2 p) { p = fract(p * vec2(443.897, 441.423)); p += dot(p, p + 19.19); return fract(p.x * p.y); }
 
+vec3 samp(vec2 uv) {
+  vec3 c = texture(u_scene, uv).rgb;
+  if (u_mblur.x == 0.0 && u_mblur.y == 0.0 && u_zblur <= 0.0) return c;
+  vec3 acc = c;
+  for (int i = 1; i < 8; i++) {
+    float k = float(i) / 7.0 - 0.5;
+    acc += texture(u_scene, uv + u_mblur * k + (uv - 0.5) * u_zblur * k).rgb;
+  }
+  return acc / 8.0;
+}
+
 void main() {
   vec2 uv = v_tc;
+  vec3 blockTint = vec3(0.0);
+  if (u_blocks > 0.0) {
+    vec2 g = floor(uv * vec2(34.0, 19.0));
+    float st = floor(u_time * 12.0);
+    float hh = hash(g + st * 7.13);
+    if (hh > 1.0 - u_blocks * 0.14) {
+      uv += (vec2(hash(g + 1.7 + st), hash(g + 2.9 + st)) - 0.5) * 0.14 * vec2(1.0, 0.4);
+      float w = hash(g + 5.1 + st);
+      blockTint = w < 0.33 ? vec3(0.0, 0.35, 0.3) : w < 0.66 ? vec3(0.05, 0.2, 0.4) : vec3(0.3, 0.05, 0.3);
+    }
+  }
   if (u_curve > 0.0) {
     vec2 cc = uv * 2.0 - 1.0;
     cc *= 1.0 + u_curve * dot(cc, cc) * 0.28;
@@ -446,7 +473,7 @@ void main() {
   vec2 d = uv - 0.5;
   // lens fringing: none in the middle (where the words are, so they stay crisp), growing toward the edges (or everywhere, for acid)
   float ab = u_aber * mix(smoothstep(0.42, 0.72, length(d)) * 0.8, 0.4 + length(d) * 0.8, u_aberMode);
-  vec3 col = vec3(texture(u_scene, uv + d * ab).r, texture(u_scene, uv).g, texture(u_scene, uv - d * ab).b);
+  vec3 col = vec3(samp(uv + d * ab).r, samp(uv).g, samp(uv - d * ab).b) + blockTint;
   col += texture(u_bloom, uv).rgb * u_bloomAmt;
 
   float rr = length(d * vec2(u_res.x / u_res.y, 1.0));
@@ -470,11 +497,15 @@ void main() {
     float n = hash(floor(gl_FragCoord.xy / max(u_grainCell, 1.0)) + floor(u_time * 12.5) * 17.0);
     col += (n - 0.5) * u_grain * 0.9;
   }
+  if (u_chroma > 0.0) {
+    vec2 cell = floor(gl_FragCoord.xy / max(u_grainCell, 1.0)) + floor(u_time * 12.5) * 17.0;
+    col += (vec3(hash(cell), hash(cell + 11.3), hash(cell + 23.7)) - 0.5) * u_chroma;
+  }
   if (u_dither > 0.0) {
     // ordered dithering with interleaved gradient noise: the flat, printed look of low-colour art
     float t = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715)))) - 0.5;
     col = floor(col * u_dither + 0.5 + t * 0.9) / u_dither;
   }
-  col += u_flash;
+  col = col * u_exposure + u_flash;
   o = vec4(clamp(col, 0.0, 1.0), 1.0);
 }`;

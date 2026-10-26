@@ -2,13 +2,20 @@
 
 **A full music player with expressive kinetic lyrics, a location-based music diary, and collaborative parties with automatic music-driven recaps.**
 
-**Status:** product specification, ready for implementation. **Primary stack:** Next.js + Vercel + Supabase. **Philosophy:** free-first, mobile-first, real features, no AI-generated pictures required.
+**Status:** built and running **local-first** (no Supabase, no Vercel, no cloud; those are planned). The sections from 1 onward are the original product specification; the quick start below and [`AGENTS.md`](AGENTS.md) describe what exists today. **Target stack:** Next.js + Vercel + Supabase. **Philosophy:** free-first, mobile-first, real features, no AI-generated pictures required.
+
+**Working on this repo with an AI agent? Read [`AGENTS.md`](AGENTS.md) first.**
 
 ## Local quick start (what is built)
 
 Runs entirely on your machine: **no Supabase, no Vercel, no cloud**. Data lives in `.data/`.
 
+**One click:** double-click **`start.bat`** (Windows) or run **`pnpm go`**. It installs dependencies if they are missing, starts the app and opens your browser.
+Needs Node 20+ and pnpm (`start.bat` installs pnpm if it is missing).
+
 ```bash
+pnpm go               # install if needed, start, open the browser
+# or by hand:
 pnpm install
 pnpm dev:all          # web app (http://127.0.0.1:3000) + media worker
 # or: pnpm dev        # web app only (recaps need `pnpm worker` in a second terminal)
@@ -22,11 +29,28 @@ Play anything in the Spotify app/phone/speaker and press **L** (or "Lyrics stage
 
 | Command | What it does |
 |---|---|
-| `pnpm test` | 198 unit/integration tests (analysis vs. ground truth, security, privacy, jobs, real FFmpeg renders) |
+| `pnpm go` | one-click launcher: install if missing, start, open the browser (`start.bat` on Windows) |
+| `pnpm test` | about 790 unit/integration tests (analysis vs. ground truth, security, privacy, jobs, real FFmpeg renders, scene logic) |
 | `pnpm lint` / `pnpm typecheck` | ESLint / TypeScript |
 | `pnpm build && pnpm test:e2e` | production build + Playwright smoke tests (uses installed Edge) |
 | `pnpm smoke` | HTTP-level party smoke test against a running app |
 | `pnpm demo:generate` | regenerate the CC0 demo songs, lyrics and artwork |
+
+**Try it with no setup:** click **Try the demo songs**, press **L** for the lyrics stage, open the **Studio** and pick a mode.
+
+### What is built (visuals, languages, export)
+
+- **Two stage modes.** **Clean** (Canvas 2D) is the art-direction philosophy: one direction per song chosen from what the song is, type pairings, guaranteed readability, calm motion that never fights the words.
+  **Turbo** (WebGL2, every layer on the GPU) turns the same language up.
+- **Six Turbo styles.** *Liquid light* (the default: the song's palette as flowing light, rays and bokeh) and five scenes modelled on reference clips:
+  **Code screens** (each lyric typed into a different screen the camera flies through: code editor, error list, login form, error banners, green console),
+  **Sketch cards** (hand-lettered, dithered poster cards), **Lyrics app** (Apple-style rolling words over a colour mesh or a nebula with neon streaks),
+  **Acid grain** (rolling colour blobs, looping RGB-split eyeballs, yellow subtitle) and **ASCII** (a window of characters whose picture comes from the song:
+  a song called "E85" gets a highway with cars; flashing lights, ocean, fire, city, space, rain, or an eye otherwise).
+- **Customisation per song:** art direction, colours, type, artwork treatment, 17 entrances, 11 exits, transition speed, line-start effects (zoom punch, pan, tilt, wipe, iris, bars, flash), a sync stepper that goes beyond +-3000 ms in 50 ms steps.
+- **Songs in other languages:** Hindi, Tamil and nine more (script faces, no letter spacing for complex scripts, word segmentation, right-to-left mirroring, transliteration for lyric matching, mood word lists, honest limits).
+- **Lyric-video export, no audio:** MP4 or WebM, 720p to vertical 9:16, choose what is drawn (emoji, doodles, artwork, interlude), in either mode. Needs Chrome, Edge or Brave.
+- Details, measurements and limits: [`docs/stage-modes.md`](docs/stage-modes.md).
 
 Status, deviations from this spec, and known gaps: [`docs/implementation-log.md`](docs/implementation-log.md), [`docs/architecture.md`](docs/architecture.md),
 [`docs/spotify-compliance.md`](docs/spotify-compliance.md), [`docs/media-rights.md`](docs/media-rights.md).
@@ -476,6 +500,8 @@ supabase db reset
 
 ## 14. AI coding-agent instructions
 
+> **Current rules for agents live in [`AGENTS.md`](AGENTS.md) and take precedence over this section** (the app is now built local-first). The list below is the original brief.
+
 **You are building the actual Lyricscape application. Use this README as the source of truth.**
 
 1. Start with Phase 0 and complete a working vertical slice before adding another feature.
@@ -916,6 +942,8 @@ For a public OAuth PKCE client, never embed a client secret in the browser; use 
 10. **Complexity creep:** deliver vertical slices with shared schemas; avoid a monolithic 'AI agent' implementation.
 
 ## P. Instructions for coding agents
+
+> Current agent rules: [`AGENTS.md`](AGENTS.md) (takes precedence over this section).
 
 Implement the product as a working system, not a design-only demo. Follow milestone order and create one fully tested vertical slice before expanding. Do not remove features from the target scope merely because a provider integration is restricted; instead implement the underlying feature against a legitimate playable source and mark provider-specific limitations honestly. Never silently substitute mock tracks for user-requested real playback.
 

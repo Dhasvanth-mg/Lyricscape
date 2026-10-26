@@ -80,7 +80,7 @@ Do not leave a dev server or headless browser running when you finish, unless th
 - `lib/kinetic/*` the visual engine:
   - `frame.ts` pure `computeFrame` -> `Frame`. Entrances, exits, line effects, layout (including right-to-left mirroring) live here.
   - `render.ts` the **Clean** renderer (Canvas 2D). `gl/renderer.ts` the **Turbo** renderer (WebGL2). Both draw the same `Frame`. `stageRenderer.ts` is the interface and factory (Turbo falls back to Clean on a fresh canvas when WebGL2 is missing or the context is lost).
-  - `turbo.ts` the Turbo styles registry (`liquid` plus five scenes) and `turboLook`.
+  - `turbo.ts` the Turbo styles registry (`liquid` plus five scenes) and `turboLook`. **`docs/turbo-styles.md` explains every style in detail (what it looks like, how it is built, its timings and tunables, how to add one): read it before touching a scene.**
   - `gl/scenes/*` the five reference scenes: `terminal.ts` (code screens), `sketch.ts` (sketch cards), `nebula.ts` (lyrics app), `acid.ts` (acid grain), `ascii.ts` (ASCII window; picture chosen from the song by `subject.ts`). A scene is a pure function `(host) -> SceneFx`; the host (built in `gl/renderer.ts`) offers sprites, shapes, full-screen shader passes and the ASCII pass.
   - `gl/shaders.ts` and `gl/scenes/shaders.ts` GLSL ES 3.00 sources. `modes.ts` Clean/Turbo definitions and principles.
 - `lib/export/video.ts` lyric-video export (no audio) via WebCodecs; uses the song's own sync offset, not the device delay.
@@ -111,7 +111,7 @@ Do not leave a dev server or headless browser running when you finish, unless th
 ## 9. Tests and docs
 
 - Add tests with the change; put them in `tests/` next to similar ones (names describe behaviour). Test pure functions directly; keep GPU-dependent checks to the browser loop in section 6. Do not weaken or delete a test to make it pass; fix the cause, or say why the expectation was wrong.
-- **Docs to keep current:** `README.md` (quick start, what is built), `docs/implementation-log.md` (a section per milestone: what, measured numbers, known gaps), `docs/stage-modes.md` (modes, Turbo scenes, languages, export), `.env.example` for any new variable.
+- **Docs to keep current:** `README.md` (quick start, what is built), `docs/implementation-log.md` (a section per milestone: what, measured numbers, known gaps), `docs/stage-modes.md` (modes, Turbo scenes, languages, export), `docs/turbo-styles.md` (each Turbo style in detail), `.env.example` for any new variable.
 - Numbers in docs must be measured. If you did not measure something, write "not measured".
 
 ## 10. Known gaps (do not pretend these exist)

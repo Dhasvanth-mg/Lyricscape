@@ -50,7 +50,7 @@ Play anything in the Spotify app/phone/speaker and press **L** (or "Lyrics stage
 - **Customisation per song:** art direction, colours, type, artwork treatment, 17 entrances, 11 exits, transition speed, line-start effects (zoom punch, pan, tilt, wipe, iris, bars, flash), a sync stepper that goes beyond +-3000 ms in 50 ms steps.
 - **Songs in other languages:** Hindi, Tamil and nine more (script faces, no letter spacing for complex scripts, word segmentation, right-to-left mirroring, transliteration for lyric matching, mood word lists, honest limits).
 - **Lyric-video export, no audio:** MP4 or WebM, 720p to vertical 9:16, choose what is drawn (emoji, doodles, artwork, interlude), in either mode. Needs Chrome, Edge or Brave.
-- Details, measurements and limits: [`docs/stage-modes.md`](docs/stage-modes.md).
+- Details, measurements and limits: [`docs/stage-modes.md`](docs/stage-modes.md). Every Turbo style explained for developers (how it is built, timings, tunables, how to add one): [`docs/turbo-styles.md`](docs/turbo-styles.md).
 
 Status, deviations from this spec, and known gaps: [`docs/implementation-log.md`](docs/implementation-log.md), [`docs/architecture.md`](docs/architecture.md),
 [`docs/spotify-compliance.md`](docs/spotify-compliance.md), [`docs/media-rights.md`](docs/media-rights.md).

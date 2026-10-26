@@ -97,6 +97,8 @@ MP4 export in Turbo (H.264, 120 frames) with a decoded frame inspected; no conso
 
 ## 8. Turbo styles (modelled on your five reference clips)
 
+This section is the summary. **The developer reference for each style (structure, timings, constants, how to change or add one) is [`docs/turbo-styles.md`](turbo-styles.md).**
+
 Each reference clip became a GPU scene, chosen in the Studio under Mode -> Turbo style (and in the export dialog). Liquid light is the default. The other five
 are **scenes** (`lib/kinetic/gl/scenes/*`): a scene is a pure function of time that draws its own whole picture through a small host (sprites, shapes,
 full-screen shaders, the ASCII pass) and returns the finishing-pass settings for that frame, so seeking and export stay exact. Each was built from a frame-by-frame

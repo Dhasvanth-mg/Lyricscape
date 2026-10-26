@@ -118,3 +118,11 @@ The sync control is now − / + buttons (50 ms per step, hold to repeat) around 
 Clean (Canvas 2D, the art-direction philosophy) and Turbo (WebGL2, every layer on the GPU) share one pure `Frame`; Hindi, Tamil and nine more languages
 (script faces, no letter spacing, word segmentation, RTL mirroring, transliteration for matching, mood word lists, honest limits); 17 entrances,
 11 exits, speed and line-start effects in the Studio; export applies the song's sync offset; the next-line preview is gone.
+
+## Turbo scenes, launcher, agent rules
+
+- The five non-default Turbo styles were rebuilt as **scenes** (`lib/kinetic/gl/scenes/*`) from a frame-by-frame study of the owner's reference clips: code screens, sketch cards,
+  lyrics app, acid grain, ASCII. The ASCII scene chooses its picture from the song (`subject.ts`: title word, then lyric theme, then mood, then the eye). Details, measurements (1.5-3.3 ms per frame at 1280x720 on an Intel Iris Xe, headless Edge) and limits: `docs/stage-modes.md` section 8.
+- One-click launcher: `start.bat` / `pnpm go` (`scripts/launch.mjs`).
+- `AGENTS.md` holds the rules for AI agents (hard rules, conventions, how to verify visual work, architecture map); `README.md` quick start and "what is built" were updated.
+- Known gaps: the scenes were checked with English lyrics only; the RTX 5050 and high-refresh displays are not measured.

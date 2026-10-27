@@ -55,6 +55,9 @@ export class SpotifyBackend implements PlaybackBackend {
   private lastPlayingAt = 0;
   private loadedAt = 0;
   private activeDeviceId: string | undefined;
+  private browserSelected = false;
+  private volume = 0.85;
+  private muted = false;
   private pollTimer: ReturnType<typeof setTimeout> | null = null;
   private endTimer: ReturnType<typeof setTimeout> | null = null;
   private disposed = false;
@@ -66,6 +69,7 @@ export class SpotifyBackend implements PlaybackBackend {
       state: (s) => this.onSdkState(s),
       status: (s, d) => this.sdkListeners.forEach((l) => l(s, d)),
       autoplayFailed: () => this.ev?.error('Browser blocked autoplay. Press play.', 'autoplay'),
+      commandError: (message) => this.ev?.error(message, 'generic'),
     });
   }
 
@@ -102,6 +106,7 @@ export class SpotifyBackend implements PlaybackBackend {
     playing: boolean;
     durationMs: number;
     fromSdk: boolean;
+    pushed?: boolean;
     /** local clock time (performance.now base) at which positionMs was true */
     validAt?: number;
     /** the clock epoch when this report was requested; a mismatch means a seek/pause/load happened since */
@@ -148,18 +153,21 @@ export class SpotifyBackend implements PlaybackBackend {
       return;
     }
 
+    const result = this.clock.observe({ positionMs, playing, validAt: opts.validAt, epoch: opts.epoch, pushed: opts.fromSdk && opts.pushed !== false });
+    if (result === 'stale') return;
+    // A restored session may have queued this same song without starting it. Live telemetry confirms it is already loaded.
+    if (id === this.expectedId) this.pendingTrack = null;
     this.durationMs = durationMs || this.durationMs;
     this.playing = playing;
     this.lastPos = positionMs;
     if (playing) this.lastPlayingAt = now;
-    const result = this.clock.observe({ positionMs, playing, validAt: opts.validAt, epoch: opts.epoch, pushed: opts.fromSdk });
-    if (result === 'stale') return;
     this.emit();
     this.scheduleEndCheck();
   }
 
-  private onSdkState(s: SdkState | null) {
-    if (!s) return;
+  private onSdkState(s: SdkState | null, pushed = true) {
+    if (!s || this.disposed || this.commandsInFlight > 0) return;
+    if (!this.browserSelected && this.activeDeviceId && this.activeDeviceId !== this.sdk.deviceId) return;
     const cur = s.track_window.current_track;
     if (!cur?.id) return;
     const endedByPrev = s.paused && s.position === 0 && s.track_window.previous_tracks.some((t) => t.id === cur.id);
@@ -178,6 +186,7 @@ export class SpotifyBackend implements PlaybackBackend {
       playing: !s.paused,
       durationMs: s.duration || cur.duration_ms,
       fromSdk: true,
+      pushed,
     });
   }
 
@@ -200,9 +209,24 @@ export class SpotifyBackend implements PlaybackBackend {
     let next = hidden ? 10_000 : this.playing ? 3500 : 7000;
     try {
       const epoch = this.clock.epoch;
+      // The browser SDK reports its own position, without a server timestamp or PC clock skew.
+      if (this.browserSelected) {
+        const local = await this.sdk.getState();
+        if (this.disposed || epoch !== this.clock.epoch || this.commandsInFlight > 0) return this.schedulePoll(400);
+        if (local) {
+          this.onSdkState(local, false);
+        } else if (this.playing) {
+          this.playing = false;
+          this.clock.setPlaying(false);
+          this.emit();
+        }
+        this.schedulePoll(hidden ? 5000 : 1000);
+        return;
+      }
       const t0 = performance.now();
       const st = await getPlaybackState();
       const t1 = performance.now();
+      if (this.disposed || epoch !== this.clock.epoch || this.commandsInFlight > 0) return this.schedulePoll(400);
       this.failures = 0;
       if (!st || !st.item) {
         // nothing playing anywhere
@@ -248,7 +272,33 @@ export class SpotifyBackend implements PlaybackBackend {
   }
 
   // ---- commands --------------------------------------------------------------------------
+  async selectBrowser(volume = this.volume, muted = this.muted) {
+    // Invoke activation before awaiting network work, while still in the click's event path.
+    const activation = this.sdk.activate();
+    const id = this.sdk.deviceId ?? await this.sdk.start();
+    await activation;
+    if (!id) throw new SpotifyApiError('Browser player unavailable. Check Premium and reconnect Spotify in Settings.', 'no-device', 404);
+    this.clock.bump();
+    await this.command(() => transferPlayback(id, this.playing));
+    this.browserSelected = true;
+    this.activeDeviceId = id;
+    this.setVolume(volume, muted);
+    this.schedulePoll(100);
+  }
+
+  followActiveDevice() {
+    this.browserSelected = false;
+    this.activeDeviceId = undefined;
+    this.clock.bump();
+    this.schedulePoll(100);
+  }
+
   private async pickDevice(): Promise<string | undefined> {
+    if (this.browserSelected) {
+      const id = this.sdk.deviceId ?? await this.sdk.start();
+      if (!id) throw new SpotifyApiError('The browser player is offline. Reconnect in Settings.', 'no-device', 404);
+      return id;
+    }
     const devices: SpotifyDevice[] = await getDevices();
     const active = devices.find((d) => d.is_active && d.id && !d.is_restricted);
     if (active?.id) return active.id;
@@ -286,6 +336,7 @@ export class SpotifyBackend implements PlaybackBackend {
       await this.command(() => playTrackUri(track.providerTrackId!, device, startMs));
       this.pendingTrack = null;
       this.activeDeviceId = device;
+      this.setVolume(this.volume, this.muted);
       this.loadedAt = Date.now();
       this.playing = true;
       this.clock.reset(startMs, true);
@@ -341,10 +392,12 @@ export class SpotifyBackend implements PlaybackBackend {
   }
 
   setVolume(volume: number, muted: boolean) {
+    this.volume = volume;
+    this.muted = muted;
     const v = muted ? 0 : volume;
-    this.sdk.setVolume(v);
-    if (this.activeDeviceId && this.activeDeviceId !== this.sdk.deviceId) {
-      void setPlaybackVolume(v * 100, this.activeDeviceId).catch(() => undefined);
+    if (this.browserSelected || this.activeDeviceId === this.sdk.deviceId) this.sdk.setVolume(v);
+    else if (this.activeDeviceId) {
+      void setPlaybackVolume(v * 100, this.activeDeviceId).catch((e) => this.fail(e));
     }
   }
 

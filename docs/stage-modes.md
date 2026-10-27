@@ -81,6 +81,8 @@ Spotify gives no lyrics, so for those songs the language comes from lyrics you l
 
 ## 5. Export
 
+For Spotify playback in the browser, choose **Play on this browser** in Settings, Listen or Now Playing. The lyric clock then follows local SDK state without the remote-device timestamp-age correction. The Sync panel's device advance and per-song offset still apply, and line-synced lyrics still have estimated word timing. Real Spotify audio and audible sync with this path have not been measured.
+
 The video uses the **song's own sync offset** (lyric time = song time + offset), with a stepper in the dialog; the device delay is deliberately not included (it belongs to the speakers).
 A Mode switch (Clean / Turbo) is in the dialog; Turbo exports render on the GPU with `preserveDrawingBuffer` so the encoder reads what was drawn.
 Native-script titles are kept in file names.

@@ -11,6 +11,7 @@ import { listLocalTracks, deleteLocalTrack } from '@/lib/library/db';
 import { importFiles, type ImportResult } from '@/lib/library/import';
 import { SpotifyApiError } from '@/lib/spotify/api';
 import { TrackRow } from '@/components/player/TrackRow';
+import { SpotifyControls } from '@/components/player/SpotifyControls';
 import { Button, Chip, Empty, PageHeader, Spinner } from '@/components/ui/bits';
 import { useUi } from '@/lib/ui-store';
 import { Trash2 } from 'lucide-react';
@@ -194,9 +195,13 @@ export default function ListenPage() {
       )}
 
       {source === 'spotify' && spotifyConnected && (
+        <SpotifyControls />
+      )}
+
+      {source === 'spotify' && spotifyConnected && (
         <div className="mb-5 flex flex-wrap items-center gap-3 rounded-2xl border border-spotify/30 bg-spotify/5 p-4 text-sm">
-          <Chip tone="spotify">Following Spotify</Chip>
-          <span className="flex-1 text-ink-200">Play anything in the Spotify app or on any device and Lyricscape picks it up automatically for lyrics.</span>
+          <Chip tone="spotify">Spotify</Chip>
+          <span className="flex-1 text-ink-200">Search for a song to play on your selected output, or follow music already playing in Spotify.</span>
           <Button size="sm" onClick={openStage} disabled={!current}>
             Open lyrics stage
           </Button>

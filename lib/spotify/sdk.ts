@@ -38,6 +38,7 @@ export type SdkEvents = {
   state?: (s: SdkState | null) => void;
   status?: (s: SdkStatus, detail?: string) => void;
   autoplayFailed?: () => void;
+  commandError?: (message: string) => void;
 };
 
 let scriptPromise: Promise<void> | null = null;
@@ -64,6 +65,7 @@ export class SpotifySdk {
   detail = '';
   private player: SdkPlayer | null = null;
   private starting: Promise<string | null> | null = null;
+  private volume = 0.85;
 
   constructor(private events: SdkEvents = {}) {}
 
@@ -94,7 +96,7 @@ export class SpotifySdk {
     }
     const player = new window.Spotify.Player({
       name: 'Lyricscape',
-      volume: 0.8,
+      volume: this.volume,
       getOAuthToken: (cb) => {
         getAccessToken()
           .then(cb)
@@ -158,7 +160,8 @@ export class SpotifySdk {
   }
 
   setVolume(v: number) {
-    void this.player?.setVolume(Math.min(1, Math.max(0, v))).catch(() => undefined);
+    this.volume = Math.min(1, Math.max(0, v));
+    void this.player?.setVolume(this.volume).catch(() => this.events.commandError?.('Could not change Spotify volume. Try again.'));
   }
 
   getState() {

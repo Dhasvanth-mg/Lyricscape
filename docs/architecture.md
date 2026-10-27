@@ -31,7 +31,7 @@ and non-members get the same `404` as a missing event. When moving to Postgres, 
 ## Key decisions
 
 1. **Deterministic visuals.** `computeFrame` is pure; the renderer only draws. No animation state, no wall clock. Seeking = calling it with another `t`.
-2. **One clock.** `PlaybackClock` interpolates between authoritative reports (audio element, or Spotify polls/SDK events) and snaps on drift.
+2. **One clock.** `PlaybackClock` interpolates between authoritative reports (audio element, or Spotify polls/SDK events) and snaps on drift. Explicit browser output uses local SDK position reads, with epoch guards around asynchronous reads; remote-device follow mode keeps its existing API timestamp-age correction. Output selection is session-only and separate from device delay and per-song lyric offsets.
 3. **Spotify is a controller, not an audio source.** Its backend never touches audio data. It controls/follows a Connect device. Features that need PCM or redistribution are disabled with explanations.
 4. **Lyrics are provenance-tagged.** Each saved lyric records its source (`user-supplied`, `LRCLIB (community)`, `CC0 demo`).
 5. **Privacy by construction.** Map coordinates are quantized before storage; recap eligibility (approved + consent) is re-checked at claim time, so media hidden after planning cannot be rendered.

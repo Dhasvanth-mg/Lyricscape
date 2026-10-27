@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { player } from '@/lib/player/controller';
+import { player, usePlayer } from '@/lib/player/controller';
 
 /** Smooth playback position (ms), refreshed on a timer while `active`. */
 export function usePosition(active = true, fps = 12): number {
@@ -10,6 +10,10 @@ export function usePosition(active = true, fps = 12): number {
     if (!active) return;
     let raf = 0;
     let last = 0;
+    // Keep controlled seek sliders at a command's new position before the next animation tick.
+    const unsubscribe = usePlayer.subscribe((state, previous) => {
+      if (state.positionMs !== previous.positionMs) setPos(state.positionMs);
+    });
     const tick = (now: number) => {
       if (now - last > 1000 / fps) {
         last = now;
@@ -18,7 +22,10 @@ export function usePosition(active = true, fps = 12): number {
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      unsubscribe();
+      cancelAnimationFrame(raf);
+    };
   }, [active, fps]);
   return pos;
 }

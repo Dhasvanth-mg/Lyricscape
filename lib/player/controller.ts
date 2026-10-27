@@ -40,7 +40,7 @@ export type PlayerState = {
   notice: string | null;
   capabilities: PlaybackCapabilities;
   following: boolean;
-  spotify: { connected: boolean; sdk: string; sdkDetail: string };
+  spotify: { connected: boolean; sdk: string; sdkDetail: string; output: 'active' | 'browser' };
 };
 
 const NO_CAPS: PlaybackCapabilities = {
@@ -60,7 +60,7 @@ export const usePlayer = create<PlayerState>(() => ({
   notice: null,
   capabilities: NO_CAPS,
   following: false,
-  spotify: { connected: false, sdk: 'idle', sdkDetail: '' },
+  spotify: { connected: false, sdk: 'idle', sdkDetail: '', output: 'active' },
 }));
 
 const SESSION_KEY = 'lyricscape.session.v1';
@@ -161,9 +161,11 @@ class PlayerController {
     if (connected) {
       this.ensureSpotifyFollowing();
     } else if (this.spotify) {
+      if (this.active === this.spotify) this.active = null;
       this.spotify.dispose();
       this.spotify = null;
-      if (get().track?.provider === 'spotify') set({ following: false });
+      set((s) => ({ spotify: { ...s.spotify, output: 'active' } }));
+      if (get().track?.provider === 'spotify') set({ following: false, status: 'paused' });
     }
     if (get().track?.provider === 'spotify') set({ capabilities: spotifyCapabilities(connected, null) });
   }
@@ -173,6 +175,18 @@ class PlayerController {
     if (!isConnected()) return;
     const b = this.backendFor({ provider: 'spotify' } as Track) as SpotifyBackend;
     b.start({ webPlayer: true });
+  }
+
+  async playOnBrowser() {
+    if (!isConnected()) throw new Error('Connect Spotify in Settings first.');
+    const b = this.backendFor({ provider: 'spotify' } as Track) as SpotifyBackend;
+    await b.selectBrowser(get().volume, get().muted);
+    set((s) => ({ spotify: { ...s.spotify, output: 'browser' }, following: false, error: null }));
+  }
+
+  followSpotifyDevice() {
+    this.spotify?.followActiveDevice();
+    set((s) => ({ spotify: { ...s.spotify, output: 'active' }, following: s.track?.provider === 'spotify' }));
   }
 
   private followExternal(t: Track) {
@@ -192,7 +206,7 @@ class PlayerController {
       track: t,
       durationMs: t.durationMs,
       positionMs: this.spotify?.positionMs() ?? 0,
-      following: true,
+      following: get().spotify.output !== 'browser',
       error: null,
       capabilities: spotifyCapabilities(true, null),
     });
@@ -362,9 +376,12 @@ class PlayerController {
   }
 
   setVolume(v: number) {
+    if (!Number.isFinite(v)) return;
+    v = Math.max(0, Math.min(1, v));
     set({ volume: v, muted: v === 0 ? true : false });
     this.active?.setVolume(v, v === 0);
-    this.local?.setVolume(v, v === 0);
+    if (this.local !== this.active) this.local?.setVolume(v, v === 0);
+    if (this.spotify !== this.active && get().spotify.output === 'browser') this.spotify?.setVolume(v, v === 0);
     this.scheduleSave();
   }
 

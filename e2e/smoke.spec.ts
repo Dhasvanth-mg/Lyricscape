@@ -122,6 +122,8 @@ test.describe('player + kinetic lyrics', () => {
     await expect(page.getByTestId('gpu-card')).toHaveAttribute('data-kind', /dedicated|integrated|unified|software|unknown/);
     await expect(page.getByText('Not connected')).toBeVisible();
     await expect(page.getByText(/Redirect URI/i).first()).toBeVisible();
+    // A public client ID may be configured in .env.local; check the empty-input case explicitly.
+    await page.getByRole('textbox', { name: 'Client ID', exact: true }).fill('');
     await expect(page.getByRole('button', { name: 'Connect Spotify' })).toBeDisabled();
     await page.goto('/listen');
     await page.getByRole('tab', { name: 'Spotify' }).click();

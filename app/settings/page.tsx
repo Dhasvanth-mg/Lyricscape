@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Copy, Check, X } from 'lucide-react';
 import { GpuStatus } from '@/components/ui/GpuStatus';
+import { SpotifyControls } from '@/components/player/SpotifyControls';
 import { usePlayer, player } from '@/lib/player/controller';
 import { disconnect, getClientId, isLocalhostOrigin, redirectUri, setClientId, startLogin, SpotifyAuthError } from '@/lib/spotify/auth';
 import { getDevices, getMe, SpotifyApiError, type SpotifyDevice, type SpotifyMe } from '@/lib/spotify/api';
@@ -167,6 +168,7 @@ export default function SettingsPage() {
               </p>
             )}
             {spotify.sdkDetail && <p className="text-sm text-ink-300">{spotify.sdkDetail}</p>}
+            <SpotifyControls onOutputChange={() => void refreshSpotify()} />
             <div>
               <div className="mb-1.5 flex items-center gap-2 text-sm text-ink-300">
                 Devices {busy && <Spinner />}

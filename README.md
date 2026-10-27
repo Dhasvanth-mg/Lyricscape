@@ -27,6 +27,8 @@ Open **http://127.0.0.1:3000** (use `127.0.0.1`, not `localhost`: Spotify requir
 Play anything in the Spotify app/phone/speaker and press **L** (or "Lyrics stage"): lyrics follow along. Turn on *Automatically look up lyrics* in Settings
 (LRCLIB, an open lyrics API) or paste/import your own. Nudge timing with the sync slider. Spotify provides no lyrics itself, and nothing scrapes lyrics sites.
 
+**Play Spotify inside Lyricscape:** with Premium connected, wait for **Browser device ready**, then choose **Play on this browser** in Settings, Listen's Spotify tab, or Now Playing. Search for a song and press Play. This selects the Lyricscape browser device for subsequent tracks and controls, even if another Spotify device is active. Volume and mute are available in the same panel on desktop and mobile. **Follow Spotify device** returns to following the device selected in Spotify. The output choice resets when the page is reloaded. Browser playback uses the SDK's local position for lyrics, without the remote API's timestamp-age correction. Device and per-song sync offsets remain separate. Real Spotify audio and audible sync still need an owner-run check.
+
 | Command | What it does |
 |---|---|
 | `pnpm go` | one-click launcher: install if missing, start, open the browser (`start.bat` on Windows) |

@@ -20,6 +20,15 @@ HTTP; the Web Playback SDK and Connect polling have not been exercised against S
 
 ## Milestones
 
+### Spotify browser playback and sync position
+
+- Explicit browser output selection in Settings, Listen's Spotify tab and Now Playing. Transfers to the Lyricscape SDK device, keeps subsequent track starts and transport commands on that device, and offers a return to following the active Spotify device. A failed transfer does not change the output choice.
+- Volume, percentage and mute controls work at phone widths as well as desktop widths. The browser remembers the volume supplied before SDK initialization and reapplies the selected level after transfer or starting a track.
+- While browser output is selected, the playback clock reads local SDK state every second in the foreground, without using the Web API's server timestamp or changing the remote-device age formula. Missing local playback freezes the clock. Epoch guards reject requests that predate commands, including empty responses. No lyric timestamps, estimates or stored sync offsets changed.
+- Confirming live playback after a session restore clears the pending saved track, so Play resumes the live position. The seek slider updates immediately on player commands instead of restoring its old value and sending a second seek backward.
+- Verification: typecheck and lint pass; production build succeeds with the existing dynamic-filesystem tracing warning in `lib/server/config.ts`. Eleven new unit tests cover routing, transfer failure, volume/mute, local position under clock skew, delayed SDK responses after seeking, empty remote responses, session restore and missing browser playback. Final full unit run: 800 passed, 1 skipped, 1 failed (the already-documented same-millisecond social notification sort flake). All 15 Edge e2e tests pass, including browser output selection, volume/mute, pause/resume and seeking. Settings and Now Playing screenshots were inspected at desktop and phone widths with mocked Spotify state; no page errors or horizontal phone overflow. The disconnected setup test now explicitly clears the public Client ID field instead of assuming `.env.local` is unconfigured.
+- Real Spotify playback, Bluetooth output delay and audible lyric sync: not measured. Browser output selection resets on reload. Lyric source/version errors and estimated word timing still need song-specific review through the Sync panel.
+
 ### M0 Foundation
 - Next.js 16 App Router, TypeScript (strict), Tailwind 4, Zod, Zustand. Dark app shell, six-route nav, persistent mini-player.
 - Provider abstraction (`lib/types.ts`, `lib/player/providers.ts`) with a capability registry that *explains* disabled features.

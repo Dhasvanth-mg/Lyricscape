@@ -11,6 +11,7 @@ import type { CapabilityKey } from '@/lib/types';
 import { Cover } from '@/components/ui/Cover';
 import { Button, Chip, Empty, PageHeader } from '@/components/ui/bits';
 import { TrackRow } from '@/components/player/TrackRow';
+import { SpotifyControls } from '@/components/player/SpotifyControls';
 import { LyricStage } from '@/components/visualizer/LyricStage';
 
 const CAP_LABEL: Partial<Record<CapabilityKey, string>> = {
@@ -68,6 +69,7 @@ export default function NowPlaying() {
             <Mic2 size={16} /> Lyrics stage
           </Button>
           {error && <p className="mb-4 rounded-lg border border-red-500/30 bg-red-950/40 p-3 text-sm text-red-200">{error.message}</p>}
+          {track.provider === 'spotify' && <SpotifyControls />}
           <details className="rounded-xl border border-ink-700 p-3 text-sm">
             <summary className="cursor-pointer font-semibold">What this source can do</summary>
             <ul className="mt-2 space-y-1">

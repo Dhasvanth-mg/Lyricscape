@@ -1,7 +1,7 @@
 # AGENTS.md: rules for AI agents working on Lyricscape
 
 Read this before changing anything. It applies to every coding agent (Claude Code, Codex, Cursor, Copilot, others). Where it conflicts with the long
-product spec in `README.md` (sections 14 and P), **this file wins**: the spec was written before the app was built local-first.
+product spec in `docs/original-product-spec.md` (sections 14 and P), **this file wins**: the spec was written before the app was built local-first.
 
 ## 1. What this project is
 
@@ -27,6 +27,8 @@ Run it: `pnpm go` (installs if needed, starts, opens the browser) or `start.bat`
 7. **Do not delete or rewrite what you do not understand.** Look at a file before overwriting it. Never run destructive commands (`rm -rf`, `git reset --hard`, force-push, `git clean`) unless the owner asked for exactly that.
 
 ## 3. Working agreements with the owner
+
+- **Feature tracking:** maintain `docs/feature-tracker.md` as the separate record of requested features. At the start of every user request, before implementation, add or update its scope, status, acceptance criteria and remaining work. Before the final response, update it again with what was built, verification results, limitations and outstanding work. Preserve unfinished requests when new messages arrive. Do not mark implementation as verified without evidence. A message received during ongoing work also requires a start update and an outcome update when handled.
 
 - **Commits:** write clear messages describing what changed and why. **No attribution or "Co-authored-by" or "Generated with" lines** in commit messages or PR descriptions.
 - **Do not push** (or open PRs, or enable auto-merge) unless the owner asks. They sometimes say "commit and push"; that approval covers that moment only.

@@ -7,6 +7,7 @@ export type BackendState = {
   buffering: boolean;
   positionMs: number;
   durationMs: number;
+  positionSource?: 'sdk' | 'api' | 'waiting';
 };
 
 export type BackendEvents = {

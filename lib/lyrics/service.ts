@@ -3,7 +3,7 @@
 // Resolves timed lyrics for ANY track (demo, imported, Spotify):
 //   1. lyrics already saved on this machine (IndexedDB)  <- user-supplied / previously found
 //   2. bundled lyrics (demo tracks)
-//   3. optional online lookup (LRCLIB), only when the user enabled it or clicked "Find lyrics"
+//   3. optional online lookup (development Musixmatch, then LRCLIB), when enabled or explicitly requested
 // Spotify provides no lyrics API; Lyricscape never scrapes lyrics pages.
 
 import type { LyricDocument, MatchInfo, Track } from '../types';
@@ -17,7 +17,7 @@ export type LyricsOrigin = NonNullable<StoredLyrics['origin']>;
 export const originOf = (r: Pick<StoredLyrics, 'origin' | 'versionId'>): LyricsOrigin => r.origin ?? (r.versionId != null ? 'lrclib' : 'user');
 export const isUserOwned = (r: Pick<StoredLyrics, 'origin' | 'versionId'>): boolean => {
   const o = originOf(r);
-  return o !== 'lrclib' && o !== 'lyricsfile';
+  return o !== 'lrclib' && o !== 'musixmatch' && o !== 'lyricsfile';
 };
 
 export type LyricsResult =
@@ -81,6 +81,7 @@ export async function lookupOnline(track: Track, exclude: number[] = [], tried: 
     }
     const data = (await res.json()) as {
       found: boolean;
+      provider?: 'musixmatch';
       id?: number;
       otherVersions?: number;
       synced?: string | null;
@@ -95,7 +96,7 @@ export async function lookupOnline(track: Track, exclude: number[] = [], tried: 
 
     // best timing first: real word times (Lyricsfile) > line timestamps (LRC) > plain text (not synced)
     let doc: LyricDocument | null = null;
-    let origin: LyricsOrigin = 'lrclib';
+    let origin: LyricsOrigin = data.provider === 'musixmatch' ? 'musixmatch' : 'lrclib';
     let lrc = data.synced ?? data.plain ?? '';
     if (data.hasWordSync && data.lyricsfile) {
       try {
@@ -139,7 +140,7 @@ export async function lookupOnline(track: Track, exclude: number[] = [], tried: 
 export async function lookupAnotherVersion(track: Track): Promise<LyricsResult> {
   const stored = await getLyrics(track.id);
   if (stored && isUserOwned(stored)) return { status: 'error', message: 'These lyrics are yours (pasted, edited or aligned). Remove them first to look up another version.' };
-  const tried = stored?.tried ?? (stored?.versionId != null ? [stored.versionId] : []);
+  const tried = stored?.origin === 'musixmatch' ? [0] : stored?.tried ?? (stored?.versionId != null ? [stored.versionId] : []);
   const next = await lookupOnline(track, tried, tried);
   if (next.status === 'found') return next;
   if (next.status === 'missing' && tried.length > 1) return lookupOnline(track, [], []);

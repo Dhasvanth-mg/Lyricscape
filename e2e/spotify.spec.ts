@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test';
 declare global {
   interface Window {
     __spotifyPlaybackTest: { volume: number; position: number; playing: boolean; browser: boolean; at: number };
+    __releaseOldOffsets: () => void;
   }
 }
 
@@ -13,6 +14,22 @@ test('Spotify browser selection, volume, mute and transport at desktop and phone
   await page.addInitScript(() => {
     localStorage.setItem('lyricscape.spotify.tokens', JSON.stringify({ accessToken: 'mock-playback-test', expiresAt: Date.now() + 3600_000 }));
     localStorage.setItem('lyricscape.spotify.clientId', 'mock-playback-test');
+    // Hold old offset reads from the page and overlay until after a newer edit has been saved.
+    const get = IDBObjectStore.prototype.get;
+    const pending: { result: number; onsuccess: ((event: Event) => unknown) | null }[] = [];
+    let delayed = 0;
+    IDBObjectStore.prototype.get = function (key) {
+      if (key === 'offset:spotify:test-song' && delayed++ < 2) {
+        const request = { result: 3000, onsuccess: null as ((event: Event) => unknown) | null };
+        pending.push(request);
+        return request as unknown as IDBRequest;
+      }
+      return get.call(this, key);
+    };
+    window.__releaseOldOffsets = () => {
+      for (const request of pending) request.onsuccess?.(new Event('success'));
+      pending.length = 0;
+    };
   });
   await page.route('https://sdk.scdn.co/spotify-player.js', (route) => route.fulfill({ contentType: 'application/javascript', body: `
     window.__spotifyPlaybackTest = { volume: .85, position: 10000, playing: true, browser: false, at: performance.now() };
@@ -63,7 +80,7 @@ test('Spotify browser selection, volume, mute and transport at desktop and phone
     else if (suffix === '/search') json = { tracks: { items: [item] } };
     await route.fulfill({ json });
   });
-  await page.route('**/api/lyrics/lookup?**', (route) => route.fulfill({ json: { found: true, id: 1, synced: '[00:00.00]A browser plays a song\n[00:10.00]We hear the words in time\n[00:20.00]The music keeps on moving', source: 'Original test fixture' } }));
+  await page.route('**/api/lyrics/lookup?**', (route) => route.fulfill({ json: { found: true, provider: 'musixmatch', synced: '[00:00.00]A browser plays a song\n[00:10.00]We hear the words in time\n[00:20.00]The music keeps on moving', source: 'Original test fixture' } }));
   await page.route('**/api/meta/genres?**', (route) => route.fulfill({ json: { tags: [] } }));
 
   await page.goto('/settings');
@@ -96,5 +113,41 @@ test('Spotify browser selection, volume, mute and transport at desktop and phone
   await page.getByRole('slider', { name: 'Seek', exact: true }).fill('20000');
   await expect.poll(() => page.evaluate(() => window.__spotifyPlaybackTest.position)).toBe(20_000);
   expect(seekTargets).toEqual(['20000']);
+  await page.getByRole('button', { name: 'Lyrics stage', exact: true }).click();
+  await page.getByTestId('sync-pill').click();
+  await expect(page.getByTestId('sync-clock-source')).toHaveText('Spotify browser player');
+  await expect(page.getByTestId('stage-panel')).toContainText('reset at the next line');
+  const songOffset = page.locator('#sync-song');
+  await songOffset.fill('209');
+  await songOffset.press('Enter');
+  await expect(songOffset).toHaveValue('209');
+  await expect.poll(() => page.evaluate(async () => {
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('lyricscape');
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    try {
+      return await new Promise<number>((resolve, reject) => {
+        const request = database.transaction('kv').objectStore('kv').get('offset:spotify:test-song');
+        request.onsuccess = () => resolve(request.result as number);
+        request.onerror = () => reject(request.error);
+      });
+    } finally { database.close(); }
+  })).toBe(209);
+  await page.evaluate(() => {
+    window.__releaseOldOffsets();
+    return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  });
+  await expect(songOffset).toHaveValue('209');
+  const songSync = page.getByRole('group', { name: "This song's lyric timing offset", exact: true });
+  await expect(page.getByRole('button', { name: 'Try another version', exact: true })).toBeVisible();
+  await songSync.getByRole('button', { name: 'Lyrics earlier by 50 ms (hold to repeat)', exact: true }).click();
+  await expect(songOffset).toHaveValue('259');
+  await songSync.getByRole('button', { name: 'Lyrics later by 50 ms (hold to repeat)', exact: true }).click();
+  await expect(songOffset).toHaveValue('209');
+  await page.screenshot({ path: '.ref/spotify-sync-desktop.png' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: '.ref/spotify-sync-phone.png' });
   expect(errors).toEqual([]);
 });

@@ -40,7 +40,7 @@ export type PlayerState = {
   notice: string | null;
   capabilities: PlaybackCapabilities;
   following: boolean;
-  spotify: { connected: boolean; sdk: string; sdkDetail: string; output: 'active' | 'browser' };
+  spotify: { connected: boolean; sdk: string; sdkDetail: string; output: 'active' | 'browser'; positionSource: 'sdk' | 'api' | 'waiting' };
 };
 
 const NO_CAPS: PlaybackCapabilities = {
@@ -60,7 +60,7 @@ export const usePlayer = create<PlayerState>(() => ({
   notice: null,
   capabilities: NO_CAPS,
   following: false,
-  spotify: { connected: false, sdk: 'idle', sdkDetail: '', output: 'active' },
+  spotify: { connected: false, sdk: 'idle', sdkDetail: '', output: 'active', positionSource: 'waiting' },
 }));
 
 const SESSION_KEY = 'lyricscape.session.v1';
@@ -135,7 +135,7 @@ class PlayerController {
           if (cur.status === 'error' || cur.status === 'unavailable') status = cur.status;
           else status = s.buffering ? 'buffering' : s.playing ? 'playing' : 'paused';
         }
-        set({ status, positionMs: s.positionMs, durationMs: s.durationMs || cur.durationMs });
+        set({ status, positionMs: s.positionMs, durationMs: s.durationMs || cur.durationMs, ...(kind === 'spotify' ? { spotify: { ...cur.spotify, positionSource: s.positionSource ?? 'waiting' } } : {}) });
         if (s.playing && kind === 'local') this.channel?.postMessage({ type: 'playing', tab: this.tabId });
         this.scheduleSave();
         this.updateMediaSessionPosition();
@@ -164,7 +164,7 @@ class PlayerController {
       if (this.active === this.spotify) this.active = null;
       this.spotify.dispose();
       this.spotify = null;
-      set((s) => ({ spotify: { ...s.spotify, output: 'active' } }));
+      set((s) => ({ spotify: { ...s.spotify, output: 'active', positionSource: 'waiting' } }));
       if (get().track?.provider === 'spotify') set({ following: false, status: 'paused' });
     }
     if (get().track?.provider === 'spotify') set({ capabilities: spotifyCapabilities(connected, null) });

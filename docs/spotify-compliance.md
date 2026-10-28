@@ -17,7 +17,7 @@ Lyricscape follows the README's rules. This is engineering guidance, not legal a
 | Read, record, analyse or process Spotify audio | Not available and not permitted; beat analysis uses imported/CC0 audio only |
 | Mix/overlap Spotify recordings, or render them into video | Policy; the recap engine refuses `spotify` soundtracks (HTTP 422) |
 | Alter Spotify artwork (masks, tilt, recolour, blur) | Policy. **Waived in this personal-use build**: the cover is blurred/tinted as a background for every track. Restore an unmodified-art mode before any public deployment. |
-| Scrape Spotify or lyrics websites | Spec rule. Lyrics come from the user, bundled CC0 files, or the optional LRCLIB API |
+| Scrape Spotify or lyrics websites | Spec rule. Lyrics come from the user, bundled CC0 files, or the optional LRCLIB and development Musixmatch APIs |
 | Ingest Spotify content into AI | Policy; no AI features touch Spotify data |
 
 ## Lyrics next to Spotify playback
@@ -28,6 +28,10 @@ LRCLIB lookup (title, artist, length only). Whether showing synchronized lyrics 
 local display feature; keep it that way unless you obtain the rights.
 
 ## Development Mode limits
+
+Owner-requested development exception: the optional unofficial Musixmatch mobile JSON API now precedes LRCLIB. It sends title, artist, album and duration, preserves provenance and word timestamps, and falls back on rejection. It does not fetch website pages or establish licensed access. Replace it with licensed access before beta/production. It is disabled by default in production.
+
+Library browsing adds read-only playlist and saved-library scopes. Collection playback uses Lyricscape's app queue. Local smart library mix is distinct from Spotify Smart Shuffle.
 
 Up to five authorized users, listed under *User Management* in your Spotify app dashboard. Redirect URIs must use `127.0.0.1` (not `localhost`) for HTTP loopback; the Settings page shows the exact URI to register.
 

@@ -56,6 +56,7 @@ export class SpotifyBackend implements PlaybackBackend {
   private loadedAt = 0;
   private activeDeviceId: string | undefined;
   private browserSelected = false;
+  private positionSource: 'sdk' | 'api' | 'waiting' = 'waiting';
   private volume = 0.85;
   private muted = false;
   private pollTimer: ReturnType<typeof setTimeout> | null = null;
@@ -96,7 +97,7 @@ export class SpotifyBackend implements PlaybackBackend {
 
   // ---- state ingestion ------------------------------------------------------------------
   private emit(buffering = false) {
-    this.ev?.state({ playing: this.playing, buffering, positionMs: this.clock.position(), durationMs: this.durationMs });
+    this.ev?.state({ playing: this.playing, buffering, positionMs: this.clock.position(), durationMs: this.durationMs, positionSource: this.positionSource });
   }
 
   private apply(opts: {
@@ -134,6 +135,7 @@ export class SpotifyBackend implements PlaybackBackend {
         this.clock.reset(positionMs, playing);
         this.durationMs = durationMs;
         this.playing = playing;
+        this.positionSource = opts.fromSdk ? 'sdk' : 'api';
         this.lastPos = positionMs;
         this.ev?.external?.(mapped);
         this.emit();
@@ -155,6 +157,7 @@ export class SpotifyBackend implements PlaybackBackend {
 
     const result = this.clock.observe({ positionMs, playing, validAt: opts.validAt, epoch: opts.epoch, pushed: opts.fromSdk && opts.pushed !== false });
     if (result === 'stale') return;
+    this.positionSource = opts.fromSdk ? 'sdk' : 'api';
     // A restored session may have queued this same song without starting it. Live telemetry confirms it is already loaded.
     if (id === this.expectedId) this.pendingTrack = null;
     this.durationMs = durationMs || this.durationMs;
@@ -203,6 +206,23 @@ export class SpotifyBackend implements PlaybackBackend {
     if (remaining > 0 && remaining < 120_000) this.endTimer = setTimeout(() => void this.poll(), remaining + 500);
   }
 
+  private async readBrowserPosition(epoch: number, hidden: boolean) {
+    const local = await this.sdk.getState();
+    if (this.disposed || epoch !== this.clock.epoch || this.commandsInFlight > 0) return this.schedulePoll(400);
+    if (local) {
+      this.onSdkState(local, false);
+    } else {
+      if (!this.browserSelected) this.activeDeviceId = undefined;
+      if (this.playing || this.positionSource !== 'waiting') {
+        this.playing = false;
+        this.positionSource = 'waiting';
+        this.clock.setPlaying(false);
+        this.emit();
+      }
+    }
+    this.schedulePoll(hidden ? 5000 : 1000);
+  }
+
   private async poll() {
     if (this.disposed) return;
     const hidden = typeof document !== 'undefined' && document.visibilityState === 'hidden';
@@ -210,17 +230,8 @@ export class SpotifyBackend implements PlaybackBackend {
     try {
       const epoch = this.clock.epoch;
       // The browser SDK reports its own position, without a server timestamp or PC clock skew.
-      if (this.browserSelected) {
-        const local = await this.sdk.getState();
-        if (this.disposed || epoch !== this.clock.epoch || this.commandsInFlight > 0) return this.schedulePoll(400);
-        if (local) {
-          this.onSdkState(local, false);
-        } else if (this.playing) {
-          this.playing = false;
-          this.clock.setPlaying(false);
-          this.emit();
-        }
-        this.schedulePoll(hidden ? 5000 : 1000);
+      if (this.browserSelected || (this.sdk.deviceId && this.activeDeviceId === this.sdk.deviceId)) {
+        await this.readBrowserPosition(epoch, hidden);
         return;
       }
       const t0 = performance.now();
@@ -239,6 +250,12 @@ export class SpotifyBackend implements PlaybackBackend {
         this.ev?.external?.(null);
       } else {
         this.activeDeviceId = st.device?.id ?? this.activeDeviceId;
+        // Browser playback can also be selected in Spotify or survive a reload in follow mode.
+        // Do not alternate its local position with an API report aged against the PC's clock.
+        if (this.sdk.deviceId && this.activeDeviceId === this.sdk.deviceId) {
+          await this.readBrowserPosition(epoch, hidden);
+          return;
+        }
         // how long before receipt was progress_ms true? The formula real use was calibrated against (lib/player/telemetry.ts).
         const wall = Date.now();
         const age = telemetryAgeMs(st.timestamp, wall);

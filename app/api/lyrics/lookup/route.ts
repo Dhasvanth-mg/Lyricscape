@@ -1,5 +1,5 @@
-// Optional, user-triggered lyrics lookup against LRCLIB (https://lrclib.net), an open,
-// community-maintained lyrics API intended for programmatic use. This is NOT page scraping.
+// Optional online lookup: the development Musixmatch adapter, then LRCLIB's public API.
+// Neither provider fetches lyrics website pages.
 // Only title / artist / album / duration are sent. Responses are cached in memory.
 //
 // LRCLIB can hold several entries per song. We gather candidates (exact signature + fuzzy searches), rank them by
@@ -9,6 +9,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { matchInfoFor, normalizeTitle, primaryArtist, rankCandidates, type LrclibRecord } from '@/lib/lyrics/match';
+import { lookupMusixmatch } from '@/lib/server/musixmatch';
 
 export const dynamic = 'force-dynamic';
 
@@ -60,6 +61,10 @@ export async function GET(req: Request) {
   if (hit && Date.now() - hit.at < TTL) return NextResponse.json(hit.body);
 
   const q = { title, artist, album, duration };
+  if (!exclude.has(0)) {
+    const musixmatch = await lookupMusixmatch(q);
+    if (musixmatch) return NextResponse.json(musixmatch);
+  }
   try {
     const records: LrclibRecord[] = [];
     let upstreamFailures = 0;

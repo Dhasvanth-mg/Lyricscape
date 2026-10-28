@@ -50,7 +50,10 @@ export function SyncStepper({ value, onChange, id = 'sync-offset', label = 'Sync
   const commit = () => {
     if (draft === null) return;
     const n = Math.round(Number(draft));
-    if (Number.isFinite(n)) onChange(n);
+    if (Number.isFinite(n)) {
+      valueRef.current = n;
+      onChange(n);
+    }
     setDraft(null);
   };
 
@@ -59,7 +62,7 @@ export function SyncStepper({ value, onChange, id = 'sync-offset', label = 'Sync
     <div className="flex items-center gap-1.5" role="group" aria-label={title}>
       <Gauge size={14} aria-hidden />
       {label && <span className="whitespace-nowrap">{label}</span>}
-      <button type="button" className={btn} aria-label={`Lyrics earlier by ${STEP} ms (hold to repeat)`} title={`${STEP} ms earlier`} onPointerDown={(e) => down(e, -1)} onPointerUp={stop} onPointerLeave={stop} onPointerCancel={stop} onClick={(e) => key(e, -1)}>
+      <button type="button" className={btn} aria-label={`Lyrics later by ${STEP} ms (hold to repeat)`} title={`${STEP} ms later`} onPointerDown={(e) => down(e, -1)} onPointerUp={stop} onPointerLeave={stop} onPointerCancel={stop} onClick={(e) => key(e, -1)}>
         <Minus size={14} />
       </button>
       <label className="sr-only" htmlFor={id}>
@@ -79,7 +82,7 @@ export function SyncStepper({ value, onChange, id = 'sync-offset', label = 'Sync
         className="h-7 w-16 rounded-md border border-ink-600 bg-ink-900/80 px-1.5 text-center font-mono text-xs tabular-nums"
       />
       <span className="text-ink-400">ms</span>
-      <button type="button" className={btn} aria-label={`Lyrics later by ${STEP} ms (hold to repeat)`} title={`${STEP} ms later`} onPointerDown={(e) => down(e, 1)} onPointerUp={stop} onPointerLeave={stop} onPointerCancel={stop} onClick={(e) => key(e, 1)}>
+      <button type="button" className={btn} aria-label={`Lyrics earlier by ${STEP} ms (hold to repeat)`} title={`${STEP} ms earlier`} onPointerDown={(e) => down(e, 1)} onPointerUp={stop} onPointerLeave={stop} onPointerCancel={stop} onClick={(e) => key(e, 1)}>
         <Plus size={14} />
       </button>
       <button type="button" className="underline" onClick={() => onChange(0)}>

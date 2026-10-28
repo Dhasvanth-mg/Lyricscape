@@ -27,11 +27,11 @@ export type StoredLyrics = {
   versionId?: number;
   tried?: number[];
   /**
-   * Who made these timestamps. 'lrclib' / 'lyricsfile' came from a lookup and may be swapped for another version;
+   * Who made these timestamps. 'lrclib' / 'musixmatch' / 'lyricsfile' came from a lookup and may be swapped;
    * 'user' (pasted/imported), 'edited' (hand-timed) and 'auto-aligned' belong to the user and are never replaced
    * by a lookup. Absent on records saved before this field existed: treated as the user's (never overwritten).
    */
-  origin?: 'lrclib' | 'lyricsfile' | 'user' | 'edited' | 'auto-aligned';
+  origin?: 'lrclib' | 'musixmatch' | 'lyricsfile' | 'user' | 'edited' | 'auto-aligned';
   /** how well the looked-up recording matched the track, for the UI */
   match?: import('../types').MatchInfo;
 };

@@ -18,16 +18,19 @@ export function useLyricClock(track: Track | null) {
   const device = useUi((s) => s.syncGlobal[family]);
   const setSyncGlobal = useUi((s) => s.setSyncGlobal);
   const [trackOffset, setTrackOffsetState] = useState(0);
+  const offsetRevision = useRef(0);
   const trackId = track?.id ?? null;
 
   useEffect(() => {
     let cancelled = false;
     setTrackOffsetState(0);
     if (!trackId) return;
-    const load = () =>
+    const load = () => {
+      const revision = ++offsetRevision.current;
       void kvGet<number>(`offset:${trackId}`).then((v) => {
-        if (!cancelled) setTrackOffsetState(typeof v === 'number' ? v : 0);
+        if (!cancelled && revision === offsetRevision.current) setTrackOffsetState(typeof v === 'number' && Number.isFinite(v) ? v : 0);
       });
+    };
     load();
     const onChange = (e: Event) => {
       if ((e as CustomEvent).detail === trackId) load();
@@ -59,6 +62,10 @@ export function useLyricClock(track: Track | null) {
   const setDevice = useCallback((ms: number) => setSyncGlobal(family, ms), [family, setSyncGlobal]);
   const setTrackOffset = useCallback(
     (ms: number) => {
+      if (!Number.isFinite(ms)) return;
+      // An earlier read must not restore an old correction after the listener has just changed it.
+      offsetRevision.current++;
+      ref.current = { ...ref.current, trackOffset: ms };
       setTrackOffsetState(ms);
       if (!trackId) return;
       void kvSet(`offset:${trackId}`, ms).then(() => window.dispatchEvent(new CustomEvent('lyricscape:offset', { detail: trackId })));

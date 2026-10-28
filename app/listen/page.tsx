@@ -12,6 +12,7 @@ import { importFiles, type ImportResult } from '@/lib/library/import';
 import { SpotifyApiError } from '@/lib/spotify/api';
 import { TrackRow } from '@/components/player/TrackRow';
 import { SpotifyControls } from '@/components/player/SpotifyControls';
+import { SpotifyLibrary } from '@/components/player/SpotifyLibrary';
 import { Button, Chip, Empty, PageHeader, Spinner } from '@/components/ui/bits';
 import { useUi } from '@/lib/ui-store';
 import { Trash2 } from 'lucide-react';
@@ -197,6 +198,7 @@ export default function ListenPage() {
       {source === 'spotify' && spotifyConnected && (
         <SpotifyControls />
       )}
+      {source === 'spotify' && spotifyConnected && <SpotifyLibrary />}
 
       {source === 'spotify' && spotifyConnected && (
         <div className="mb-5 flex flex-wrap items-center gap-3 rounded-2xl border border-spotify/30 bg-spotify/5 p-4 text-sm">

@@ -12,6 +12,7 @@ export type LyricsState = {
   searching: boolean;
   /** set when the lyrics came from LRCLIB, so another recorded version can be tried */
   versionId: number | null;
+  origin?: Extract<LyricsResult, { status: 'found' }>['origin'];
 };
 
 const INITIAL: LyricsState = { status: 'idle', doc: null, source: null, message: null, searching: false, versionId: null };
@@ -28,7 +29,7 @@ export function useLyrics(track: Track | null) {
   const apply = useCallback((r: LyricsResult) => {
     setState(
       r.status === 'found'
-        ? { status: 'found', doc: r.doc, source: r.source, message: null, searching: false, versionId: r.versionId ?? null }
+        ? { status: 'found', doc: r.doc, source: r.source, message: null, searching: false, versionId: r.versionId ?? null, origin: r.origin }
         : r.status === 'error'
           ? { status: 'error', doc: null, source: null, message: r.message, searching: false, versionId: null }
           : { status: 'missing', doc: null, source: null, message: null, searching: false, versionId: null },

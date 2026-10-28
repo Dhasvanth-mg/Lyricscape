@@ -20,6 +20,20 @@ HTTP; the Web Playback SDK and Connect polling have not been exercised against S
 
 ## Milestones
 
+### Follow-up: saved sync offsets and direction labels
+
+- Song-offset reads now carry revisions so an older asynchronous read cannot overwrite a correction made since that read began. Editing the value also updates the lyric clock's correction immediately. Invalid stored or entered nonfinite values are ignored.
+- The stepper's earlier/later descriptions now match the clock equation: plus advances the lyrics, minus delays them. The numerical offset convention is unchanged. The song-offset hint states that zero is the default and saved values are corrections, not measured Spotify latency.
+- Edge regression check: save 209 ms, confirm it reached IndexedDB, release deliberately delayed reads containing 3000 ms, and verify that 209 remains. The same test checks that Earlier changes it to 259 and Later returns it to 209. This test passes at desktop/phone widths. It establishes the race fix, not the origin of the owner's particular saved value.
+- Typecheck, lint and production build pass, with the existing filesystem-tracing build warning. Full unit run: 802 passed, 1 skipped and the existing social notification sort flake failed. Live account offset storage was not inspected or modified by this check.
+
+### Follow-up: automatic browser clock selection and current documentation
+
+- Browser playback detected through the active Spotify device now uses local SDK position in follow mode as well as explicit browser-output mode. It does not first apply an aged API position and then snap back to the SDK position. When that automatically followed browser playback moves elsewhere, the backend returns to remote-device reports.
+- The Sync panel shows the actual clock source and explains why estimated word motion on line-synced files can lead or lag, then reset at the next line. No lyric estimates, source timestamps or saved offsets were changed. The owner's report on a line-synced song is evidence of a symptom, not a measured diagnosis of its cause.
+- README now documents the implemented local build. The original cloud-oriented specification is preserved in `docs/original-product-spec.md`. Architecture now covers browser/server storage, processes, clock selection, lyric provenance, scene/export boundaries and known audit gaps.
+- Verification: 46 focused clock/playback/regression tests pass. Full suite: 802 passed, 1 skipped and the documented social notification-ordering flake failed. Typecheck, lint and production build pass (the build retains its existing filesystem-tracing warning). The Spotify Edge e2e test passes, including the actual-clock label and line-timing explanation. Sync panel screenshots were inspected at 1280x900 and 390x844. All 23 local links in README, architecture and the archived spec resolve, and a comparison confirms that the original specification text was preserved apart from its relocated links. Live audible sync remains unmeasured in this review.
+
 ### Spotify browser playback and sync position
 
 - Explicit browser output selection in Settings, Listen's Spotify tab and Now Playing. Transfers to the Lyricscape SDK device, keeps subsequent track starts and transport commands on that device, and offers a return to following the active Spotify device. A failed transfer does not change the output choice.
@@ -135,3 +149,16 @@ Clean (Canvas 2D, the art-direction philosophy) and Turbo (WebGL2, every layer o
 - One-click launcher: `start.bat` / `pnpm go` (`scripts/launch.mjs`).
 - `AGENTS.md` holds the rules for AI agents (hard rules, conventions, how to verify visual work, architecture map); `README.md` quick start and "what is built" were updated.
 - Known gaps: the scenes were checked with English lyrics only; the RTX 5050 and high-refresh displays are not measured.
+
+
+## Development lyrics, Spotify library and feature tracking (2026-10-27)
+
+Added an owner-requested unofficial Musixmatch mobile API adapter with real richsync word offsets, explicit line ends, recording identity checks, in-memory anonymous tokens, request timeouts and failure backoff. It falls back to LRCLIB and defaults off in production. No plugin code, website scraper or analytics was imported. The paid/licensed provider migration remains required before beta/production. Live Flashing Lights lookup through the running app returned 50 line cues and 702 word/end timestamp tags. Initial token probes also returned internal 401 responses. Audible accuracy is not measured.
+
+Added read-only Spotify playlist and saved-library scopes, paginated playlists, liked songs and saved albums, and collection queues. Existing accounts must reconnect. Collection playback exposes existing app shuffle/repeat, optional autofill from up to 50 liked songs, and a local unique-song artist-spaced mix. Spotify recommendation-based Smart Shuffle is not exposed by this Web API shuffle endpoint. Development Mode can restrict playlist contents; local-file entries, unavailable tracks and episodes are skipped.
+
+Created docs/feature-tracker.md and added start/end request updates to repository and persistent owner instructions. Current and future work keeps built and verified statuses separate.
+
+Validation: a full unit run passed 817 tests with one skipped. Typecheck, lint and build passed. A later full run had one FFmpeg timeout during a multi-hour execution stall, with 816 tests passing; the tracker records the isolated rerun result. Production build passed with the existing dynamic-filesystem trace warning. The Spotify playback/209 ms offset browser regression passed. The library browser test passed pagination, collection playback, next-track progression through liked-song autofill, shuffle, repeat, saved albums and mobile layout. Desktop and phone screenshots were inspected. The first browser failure was a test text selector that included row numbering; the accessible play-button selector fixed it. Final validation results are recorded in the feature tracker.
+
+Final browser regression: both Spotify tests passed together after the final provider-switch control change. Complete collection playback also fetches pages the user has not loaded manually. Musixmatch results retain their origin in the lyric hook so Try another version remains available without inventing a provider record ID. Broader browser checks passed 14 of 16 initially; both failures (demo elapsed-time assertion and Settings timeout) passed unchanged when rerun. No claim of live Spotify account playback or audible sync is made.

@@ -166,4 +166,31 @@ describe('Spotify browser output and its lyric clock', () => {
     expect(mocks.resume).toHaveBeenCalledWith('browser');
     expect(mocks.play).not.toHaveBeenCalled();
   });
+
+  it('automatically uses SDK time when the active device is this browser, without applying API age first', async () => {
+    const states = vi.fn();
+    b.attach({ state: states, error: vi.fn(), ended: vi.fn(), external: vi.fn() });
+    mocks.state.mockResolvedValue({ device: { id: 'browser' }, item: local().track_window.current_track, progress_ms: 40_000, is_playing: true, timestamp: Date.now() - 2000 });
+    b.start({ webPlayer: false });
+    await vi.advanceTimersByTimeAsync(50);
+    expect(b.positionMs()).toBe(40_000);
+    expect(states).toHaveBeenLastCalledWith(expect.objectContaining({ positionSource: 'sdk' }));
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(mocks.state).toHaveBeenCalledOnce();
+    expect(b.positionMs()).toBe(40_000);
+  });
+
+  it('returns to remote reports when automatically detected browser playback moves to a phone', async () => {
+    const states = vi.fn();
+    b.attach({ state: states, error: vi.fn(), ended: vi.fn(), external: vi.fn() });
+    mocks.state.mockResolvedValueOnce({ device: { id: 'browser' }, item: local().track_window.current_track, progress_ms: 40_000, is_playing: true, timestamp: Date.now() });
+    b.start({ webPlayer: false });
+    await vi.advanceTimersByTimeAsync(50);
+    mocks.localState.mockResolvedValue(null);
+    await vi.advanceTimersByTimeAsync(1000);
+    mocks.state.mockResolvedValueOnce({ device: { id: 'phone' }, item: local().track_window.current_track, progress_ms: 60_000, is_playing: true, timestamp: Date.now() + 1000 });
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(b.positionMs()).toBe(60_000);
+    expect(states).toHaveBeenLastCalledWith(expect.objectContaining({ positionSource: 'api' }));
+  });
 });

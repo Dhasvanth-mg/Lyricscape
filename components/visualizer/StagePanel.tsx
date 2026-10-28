@@ -5,6 +5,7 @@ import { FilePen, RotateCcw, Target, Wand2, X } from 'lucide-react';
 import type { LyricDocument, Track } from '@/lib/types';
 import { timingSummary } from '@/lib/lyrics/parse';
 import { useUi } from '@/lib/ui-store';
+import { usePlayer } from '@/lib/player/controller';
 import { StudioTab, type SongLookApi } from './StudioTab';
 import { SyncStepper } from './SyncStepper';
 import type { useLyricClock } from './useLyricClock';
@@ -92,25 +93,32 @@ function Toggle({ on, onChange, label, hint, disabled }: { on: boolean; onChange
 // ---------------------------------------------------------------------------------------------------------------------
 function SyncTab(p: Props) {
   const ui = useUi();
+  const positionSource = usePlayer((s) => s.spotify.positionSource);
   const doc: LyricDocument | null = p.lyrics.doc;
   const sum = doc ? timingSummary(doc) : null;
   const m = doc?.timing?.match;
   const nudge = (d: number) => p.clock.setTrackOffset(p.clock.trackOffset + d);
   return (
     <>
+      {p.track.provider === 'spotify' && (
+        <Section title="Playback clock">
+          <p className="text-sm" data-testid="sync-clock-source">{positionSource === 'sdk' ? 'Spotify browser player' : positionSource === 'api' ? 'Spotify device reports' : 'Waiting for Spotify playback'}</p>
+          <p className="mt-1 text-xs text-ink-300">The playback clock places the song. Word-by-word accuracy also depends on the lyric file.</p>
+        </Section>
+      )}
       <Section title="These lyrics">
         {doc && sum ? (
           <div className="rounded-xl border border-white/10 p-3 text-sm">
             <p className="font-semibold">{sum.label}</p>
             <p className="mt-0.5 text-xs text-ink-300">
-              {sum.words === 'estimated' ? 'Only the start of each line is timed. Word timing inside a line is an estimate.' : sum.words === 'authored' ? 'Every word has its own time.' : sum.lines === 'unsynced' ? 'No timing: lines are spread across the song. Not really in sync.' : 'Some lines have word timing, the rest are estimated.'}
+              {sum.words === 'estimated' ? 'Only the start of each line is timed. Word timing inside a line is an estimate, so it can run early or late and reset at the next line. Turn off estimated word motion below to follow line timestamps.' : sum.words === 'authored' ? 'Every word has its own time.' : sum.lines === 'unsynced' ? 'No timing: lines are spread across the song. Not really in sync.' : 'Some lines have word timing, the rest are estimated.'}
             </p>
             <p className="mt-2 text-xs text-ink-400">
               Source: {p.lyrics.source ?? 'unknown'}
               {m ? ` · ${m.verdict === 'exact' ? 'same length as your track' : m.verdict === 'close' ? `length differs by ${m.durationDeltaSec}s` : 'length not checked'}` : ''}
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
-              {p.lyrics.versionId != null && (
+              {(p.lyrics.versionId != null || p.lyrics.origin === 'musixmatch') && (
                 <button onClick={() => void p.lyrics.anotherVersion()} disabled={p.lyrics.searching} className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold transition hover:border-white/40 disabled:opacity-50" title="Different recordings of a song can be timed differently">
                   {p.lyrics.searching ? 'Looking…' : 'Try another version'}
                 </button>
@@ -152,7 +160,7 @@ function SyncTab(p: Props) {
         <div className="mb-3">
           <p className="mb-1 text-sm font-semibold">This song</p>
           <SyncStepper id="sync-song" label="" title="This song's lyric timing offset" value={p.clock.trackOffset} onChange={p.clock.setTrackOffset} />
-          <p className="mt-1 text-[11px] text-ink-400">Saved for this song only, never written into the lyrics. Positive = lyrics sooner. Hold − / + to repeat, or type any value: there is no limit. Keys: [ ] nudge, \ reset.</p>
+          <p className="mt-1 text-[11px] text-ink-400">Saved for this song only, never written into the lyrics. Starts at 0 unless a saved correction is loaded; this is not an automatic latency measurement. Positive = lyrics sooner. Hold − / + to repeat, or type any value: there is no limit. Keys: [ ] nudge, \ reset.</p>
         </div>
         <div className="mb-3">
           <p className="mb-1 text-sm font-semibold">{p.clock.family === 'spotify' ? 'Spotify device' : 'Speakers / Bluetooth'}</p>

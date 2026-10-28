@@ -338,6 +338,7 @@ describe('who owns the lyrics', () => {
     expect(isUserOwned({ origin: 'edited' })).toBe(true);
     expect(isUserOwned({ origin: 'auto-aligned' })).toBe(true);
     expect(isUserOwned({ origin: 'lrclib' })).toBe(false);
+    expect(isUserOwned({ origin: 'musixmatch' })).toBe(false);
     expect(isUserOwned({ origin: 'lyricsfile' })).toBe(false);
   });
   it('records saved before provenance existed: a version id means they came from a lookup; otherwise they are the user\'s', () => {

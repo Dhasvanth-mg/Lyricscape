@@ -1,5 +1,10 @@
 # Feature tracker
 
+## Merge request (2026-10-27)
+
+- Start: owner requested merging all remaining code. Inspect open pull requests and branch ancestry, merge current implementation into the default branch, and preserve any distinct unfinished work.
+- Outcome: PR #2 is the only open pull request. Its feature branch contains all remote feature branches and the current remote main commit, so main can advance without conflicts or code changes. The separate local `wip/customize-panel` commit explicitly says it was superseded by `integration/all-features` and is kept for reference; it remains preserved. Existing implementation validation applies unchanged. No hosted checks are configured on the PR head. Publication uses the owner's configured Git identity; the final response records verified merge and remote status.
+
 ## Publication request (2026-10-27)
 
 - Start: owner requested commit and push of the completed local changes on `feat/turbo`.

@@ -4,6 +4,7 @@
 
 - Start: owner requested merging all remaining code. Inspect open pull requests and branch ancestry, merge current implementation into the default branch, and preserve any distinct unfinished work.
 - Outcome: PR #2 is the only open pull request. Its feature branch contains all remote feature branches and the current remote main commit, so main can advance without conflicts or code changes. The separate local `wip/customize-panel` commit explicitly says it was superseded by `integration/all-features` and is kept for reference; it remains preserved. Existing implementation validation applies unchanged. No hosted checks are configured on the PR head. Publication uses the owner's configured Git identity; the final response records verified merge and remote status.
+- Verified complete: main was fast-forwarded and pushed to `85c66eb5a6536da34d836ef1b3712e09d0ea1267`. GitHub reports PR #2 closed and merged. There are no open pull requests and no remote branches with commits outside main. The checkout is now on main. Local scratch folders and the explicitly superseded local WIP branch remain preserved.
 
 ## Publication request (2026-10-27)
 

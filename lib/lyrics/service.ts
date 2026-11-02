@@ -1,7 +1,7 @@
 'use client';
 
 // Resolves timed lyrics for ANY track (demo, imported, Spotify):
-//   1. lyrics already saved on this machine (IndexedDB)  <- user-supplied / previously found
+//   1. lyrics already saved on this machine (IndexedDB), then the song index's copy  <- user-supplied / previously found
 //   2. bundled lyrics (demo tracks)
 //   3. optional online lookup (development Musixmatch, then LRCLIB), when enabled or explicitly requested
 // Spotify provides no lyrics API; Lyricscape never scrapes lyrics pages.
@@ -10,6 +10,7 @@ import type { LyricDocument, MatchInfo, Track } from '../types';
 import { deleteLyrics, getLyrics, kvGet, kvSet, saveLyrics } from '../library/db';
 import { fromPlainText, parseLyrics, toEnhancedLrc } from './parse';
 import { parseLyricsfile } from './lyricsfile';
+import { entryFor, lyricsOf, removeFeature, saveFeature } from '../index/client';
 import type { StoredLyrics } from '../library/db';
 
 export type LyricsOrigin = NonNullable<StoredLyrics['origin']>;
@@ -35,8 +36,22 @@ export async function setAutoFind(on: boolean) {
   window.dispatchEvent(new CustomEvent('lyricscape:settings'));
 }
 
+/** Save lyrics in this browser and mirror a copy into the song index (so they survive a cleared browser and are shared between browsers). */
+async function persistLyrics(track: Track, rec: StoredLyrics): Promise<void> {
+  await saveLyrics(rec);
+  saveFeature(track, 'lyrics', { lrc: rec.lrc, source: rec.source, synced: rec.synced, versionId: rec.versionId, origin: rec.origin, savedAt: rec.savedAt });
+}
+
 export async function loadStoredLyrics(track: Track): Promise<LyricsResult> {
-  const stored = await getLyrics(track.id);
+  let stored = await getLyrics(track.id);
+  if (!stored) {
+    // not in this browser, but the index may remember them (another browser, or a cleared one)
+    const copy = lyricsOf(await entryFor(track));
+    if (copy) {
+      stored = { trackId: track.id, ...copy };
+      await saveLyrics(stored);
+    }
+  }
   if (stored) {
     const doc = parseLyrics(stored.lrc, { durationMs: track.durationMs, licenseSource: stored.source });
     if (doc.timing) {
@@ -116,7 +131,7 @@ export async function lookupOnline(track: Track, exclude: number[] = [], tried: 
         : fromPlainText(data.plain ?? '', track.durationMs, data.source);
     }
     if (doc.timing && data.match) doc.timing.match = data.match;
-    await saveLyrics({
+    await persistLyrics(track, {
       trackId: track.id,
       lrc,
       source: `${data.source}${data.synced || origin === 'lyricsfile' ? '' : ' (not synced)'}`,
@@ -159,7 +174,7 @@ export async function resolveLyrics(track: Track, opts: { allowOnline: boolean }
 export async function saveUserLyrics(track: Track, text: string, source = 'user-supplied'): Promise<LyricDocument> {
   const doc = parseLyrics(text, { durationMs: track.durationMs, licenseSource: source });
   if (!doc.lines.length) throw new Error('No lyric lines found in that text.');
-  await saveLyrics({
+  await persistLyrics(track, {
     trackId: track.id,
     lrc: doc.source === 'plain' ? text : toEnhancedLrc(doc),
     source,
@@ -173,9 +188,10 @@ export async function saveUserLyrics(track: Track, text: string, source = 'user-
 export async function saveEditedDocument(track: Track, doc: LyricDocument, source = 'user-supplied (edited)') {
   // a reviewed-and-saved aligner result stays marked as auto-aligned: a person looked at it, a person did not time it
   const aligned = doc.timing?.source === 'auto-aligned';
-  await saveLyrics({ trackId: track.id, lrc: toEnhancedLrc(doc), source: aligned ? 'auto-aligned (reviewed)' : source, synced: true, savedAt: Date.now(), origin: aligned ? 'auto-aligned' : 'edited' });
+  await persistLyrics(track, { trackId: track.id, lrc: toEnhancedLrc(doc), source: aligned ? 'auto-aligned (reviewed)' : source, synced: true, savedAt: Date.now(), origin: aligned ? 'auto-aligned' : 'edited' });
 }
 
 export async function removeLyrics(track: Track) {
   await deleteLyrics(track.id);
+  await removeFeature(track, 'lyrics'); // or the index would hand them straight back
 }

@@ -142,6 +142,15 @@ Clean (Canvas 2D, the art-direction philosophy) and Turbo (WebGL2, every layer o
 (script faces, no letter spacing, word segmentation, RTL mirroring, transliteration for matching, mood word lists, honest limits); 17 entrances,
 11 exits, speed and line-start effects in the Studio; export applies the song's sync offset; the next-line preview is gone.
 
+## Song index and audio analysis (2026-11-02)
+
+- **Analysis** (`lib/analysis/*`, tests/audio-analysis.test.ts, 13 tests): radix-2 FFT; spectral-flux onset strength weighted toward the bass; tempo by comb-style self-similarity with a preference for 80-160 BPM and a regression refinement; beats by dynamic programming (Ellis) that keeps the pulse through gaps; a streaming `FeatureTrack` that accepts pieces tagged with their song position, tolerates gaps and merges later plays; a gain stage for quiet captures. Recovers 90, 120, 128 and 140 BPM synthetic pulses within 1.2 BPM and 35 ms median phase, at 44.1 and 48 kHz, and invents no tempo from noise or silence.
+- **Index** (`lib/server/songIndex.ts`, `app/api/index/*`, tests/song-index.test.ts, 12 tests): SQLite via `node:sqlite` in `~/.lyricscape`; round trip, restart, fingerprint sharing, schema and size rejections, cross-site rejection.
+- **Use:** cover colours read from the index (no re-extraction), lyrics mirrored in and restored from the index when the browser has none, the learned beat grid feeds the stage and export; `AudioIndexer` learns songs in the background; Settings -> Song index shows stats, the local-import switch, the listening control and clearing.
+- **Measured in Edge:** analysing the 53 s demo song took 2.7 s; the stored record is 4.4 KB; a second play reads "Already indexed" and writes nothing; the stage timeline carried the learned grid (111.91 BPM, 98 beats); palette and lyrics round-tripped through the index.
+- **Found the hard way:** a SQLite file inside the project folder made `next dev` rebuild and reload the page in a loop, hence `~/.lyricscape`. `process.getBuiltinModule` is needed to load `node:sqlite` inside the Next server bundle.
+- **Not verified / known gaps:** listening to real Spotify audio (see `docs/visuals.md` P1); the learned grid is not shifted by the per-song lyric offset; index lyrics copies do not keep the match info; no tap tempo yet; no background indexing of the whole local library in one go (songs are learned when played). `tests/social.test.ts` (recommendations visibility) failed in 2 of 4 isolated runs and passed in the full suite: it looks like a pre-existing ordering flake, unrelated to this work, not investigated.
+
 ## Turbo scenes, launcher, agent rules
 
 - The five non-default Turbo styles were rebuilt as **scenes** (`lib/kinetic/gl/scenes/*`) from a frame-by-frame study of the owner's reference clips: code screens, sketch cards,

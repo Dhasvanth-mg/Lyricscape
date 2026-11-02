@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Copy, Check, X } from 'lucide-react';
 import { GpuStatus } from '@/components/ui/GpuStatus';
 import { SpotifyControls } from '@/components/player/SpotifyControls';
+import { SongIndexSection } from '@/components/settings/SongIndexSection';
 import { usePlayer, player } from '@/lib/player/controller';
 import { disconnect, getClientId, isLocalhostOrigin, redirectUri, setClientId, startLogin, SpotifyAuthError } from '@/lib/spotify/auth';
 import { getDevices, getMe, SpotifyApiError, type SpotifyDevice, type SpotifyMe } from '@/lib/spotify/api';
@@ -310,6 +311,10 @@ export default function SettingsPage() {
       <Section title="Graphics">
         <p className="mb-3 text-sm text-ink-300">Which processor draws the lyrics. The dedicated GPU is used whenever the browser is running on it; the page itself cannot choose.</p>
         <GpuStatus />
+      </Section>
+
+      <Section title="Song index" id="index">
+        <SongIndexSection />
       </Section>
 
       <Section title="Your data">

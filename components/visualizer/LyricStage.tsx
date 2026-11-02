@@ -10,6 +10,8 @@ import { compileForTrack, moodFor } from '@/lib/kinetic/forTrack';
 import { syncDiag } from '@/lib/player/syncDiag';
 import { createStageRenderer, type StageRenderer } from '@/lib/kinetic/stageRenderer';
 import { extractPaletteFromUrl } from '@/lib/kinetic/extractPalette';
+import { paletteOf, saveFeature } from '@/lib/index/client';
+import { useSongIndex, withIndexedTempo } from './useSongIndex';
 import { FrameGovernor, type QualityLevel } from '@/lib/kinetic/governor';
 import { useUi } from '@/lib/ui-store';
 import { paletteWarmth } from '@/lib/theme/color';
@@ -51,6 +53,13 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   // the track's cover, or an original generated one: always something to take colors from and wash the background with
   const artSrc = track ? artworkFor(track) : null;
   const ui = useUi();
+  // what the song index remembers (cover colours, a beat grid learned from the audio); the stage never waits for it for long
+  const idx = useSongIndex(track);
+  const idxRef = useRef(idx);
+  useEffect(() => {
+    idxRef.current = idx;
+  }, [idx]);
+  const timingTrack = useMemo(() => withIndexedTempo(track, idx.audio), [track, idx.audio]);
   // Turbo needs WebGL2; if the GPU path fails the stage drops back to Clean (on a fresh canvas) and says so
   const [turboFailed, setTurboFailed] = useState<string | null>(null);
   const mode = ui.mode === 'turbo' && !turboFailed ? 'turbo' : 'clean';
@@ -110,17 +119,28 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     setAlbumPalette(null);
     setCoverCues(null);
     setCoverInfo(null);
-    if (!artSrc) return;
-    void extractPaletteFromUrl(artSrc).then((r) => {
-      if (cancelled || !r) return;
+    if (!artSrc || !idx.ready) return;
+    const apply = (r: { palette: [string, string, string, string]; vibrance: number; light: number; focal: { x: number; y: number } }) => {
       if (r.vibrance > 0.12) setAlbumPalette(r.palette);
       setCoverCues({ light: r.light, focal: r.focal, vibrance: r.vibrance });
       setCoverInfo({ palette: r.palette, light: r.light, vibrance: r.vibrance, warmth: paletteWarmth(r.palette) });
+    };
+    // read before: the index has the colours of this exact cover
+    const cached = paletteOf(idxRef.current.entry, artSrc);
+    if (cached) {
+      apply(cached);
+      return;
+    }
+    void extractPaletteFromUrl(artSrc).then((r) => {
+      if (cancelled || !r) return;
+      apply(r);
+      if (track) saveFeature(track, 'palette', { artworkUrl: artSrc, palette: r.palette, vibrance: r.vibrance, light: r.light, focal: r.focal });
     });
     return () => {
       cancelled = true;
     };
-  }, [artSrc]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [artSrc, idx.ready]);
 
   // mood from lyrics + tempo (a transparent heuristic), or the one the user picked
   const mood = useMemo(() => (track ? moodFor(track, lyrics.doc, ui.mood) : null), [track, lyrics.doc, ui.mood]);
@@ -131,8 +151,8 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
 
   const timeline = useMemo(() => {
     if (!track || !sl.ready) return null;
-    return compileForTrack({ track, doc: lyrics.doc, style: resolved.direction, albumPalette, cover: coverCues, mood, estimateWords: ui.estimatedWords });
-  }, [track, sl.ready, lyrics.doc, resolved.direction, albumPalette, mood, coverCues, ui.estimatedWords]);
+    return compileForTrack({ track: timingTrack ?? track, doc: lyrics.doc, style: resolved.direction, albumPalette, cover: coverCues, mood, estimateWords: ui.estimatedWords });
+  }, [track, timingTrack, sl.ready, lyrics.doc, resolved.direction, albumPalette, mood, coverCues, ui.estimatedWords]);
 
   useEffect(() => {
     diagRef.current = { clock, timeline, lyrics };
@@ -521,7 +541,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       )}
 
       {exportShown && track && (
-        <ExportDialog track={track} doc={lyrics.doc} direction={resolved.direction} look={resolved.look} identity={sl.identity} coverInfo={coverInfo} albumPalette={albumPalette} cover={coverCues} onClose={() => setExportShown(false)} />
+        <ExportDialog track={timingTrack ?? track} doc={lyrics.doc} direction={resolved.direction} look={resolved.look} identity={sl.identity} coverInfo={coverInfo} albumPalette={albumPalette} cover={coverCues} onClose={() => setExportShown(false)} />
       )}
     </div>
   );

@@ -1,0 +1,28 @@
+const { chromium } = require('@playwright/test');
+(async () => {
+  const browser = await chromium.launch({ channel: 'msedge', headless: true, args: ['--use-angle=d3d11', '--autoplay-policy=no-user-gesture-required'] });
+  const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+  const errs = [];
+  page.on('pageerror', (e) => errs.push(e.message));
+  const imgReqs = [];
+  page.on('request', (r) => /\.(jpg|jpeg|png|webp|svg)(\?|$)/.test(r.url()) && !/_next|icon/.test(r.url()) && imgReqs.push(r.url().replace('http://127.0.0.1:3000', '')));
+  await page.goto('http://127.0.0.1:3000/');
+  await page.getByRole('button', { name: 'Try the demo songs' }).click();
+  await page.getByRole('region', { name: 'Player' }).getByText('Neon Static').waitFor();
+  await page.keyboard.press('l');
+  await page.waitForTimeout(3500);
+  const s1 = await (await page.request.get('http://127.0.0.1:3000/api/index')).json();
+  console.log('after first stage open: palette entries =', s1.byKind.palette.count, ' cover requests =', imgReqs.length);
+  const e = await (await page.request.get('http://127.0.0.1:3000/api/index/demo%3Aneon-static')).json();
+  console.log('stored palette:', JSON.stringify(e.entry && e.entry.features.palette && e.entry.features.palette.palette));
+  imgReqs.length = 0;
+  await page.reload();
+  await page.getByRole('button', { name: 'Try the demo songs' }).click().catch(() => {});
+  await page.getByRole('region', { name: 'Player' }).getByText('Neon Static').waitFor();
+  await page.keyboard.press('l');
+  await page.waitForTimeout(3000);
+  const info = await page.evaluate(() => ({ palette: window.__ls.r.timeline.palette }));
+  console.log('timeline palette after reload (from the index):', JSON.stringify(info.palette));
+  console.log('errors:', JSON.stringify(errs.slice(0, 3)));
+  await browser.close();
+})();

@@ -1,5 +1,11 @@
 # Feature tracker
 
+## Playback and visuals improvement plan (2026-11-02)
+
+- Start: owner asked for a minimum of 20-25 points of improvement for playback and visuals, with a plan to address them, as a proper game plan in a visuals markdown file. Scope: audit the current playback chain (PlaybackClock, Spotify backend, lyric clock, stage render loop) and the visuals (Clean, Turbo, the five scenes, Studio, export), rank findings by evidence, and write `docs/visuals.md`. No application code changes in this request. Acceptance: at least 25 numbered points, each with evidence from the code, impact, fix, effort and a way to verify; phased plan with exit criteria; risks; what needs the owner (hardware/accounts). Status: complete (plan written, not implemented).
+- Outcome: `docs/visuals.md` created with 32 numbered points (8 playback and sync, 20 visuals, 4 tooling and tests), each with code evidence, impact, fix, effort and verification; a priority table; a five-phase plan with exit criteria and session estimates (about 66 sessions in total, about 21 for Phases 0-1); success measures; a tick-list for tracking; risks and rules. Findings were grounded by reading the clock, Spotify backend, stage loop, governor, renderer and scenes; items that could not be confirmed from code are marked "to verify" or "not measured" (P8, V9, V14, V19). No application code changed, nothing run or measured for this request, nothing pushed. Needs the owner: RTX 5050 and 144 Hz measurements, audible sync on two outputs, a Spotify Premium session, native readers for Hindi and Tamil (T4).
+- Pending from before and unchanged: audible Spotify sync and live library access (owner account), replacing the unofficial lyrics provider before beta (planned), scenes checked with English lyrics only.
+
 ## Merge request (2026-10-27)
 
 - Start: owner requested merging all remaining code. Inspect open pull requests and branch ancestry, merge current implementation into the default branch, and preserve any distinct unfinished work.

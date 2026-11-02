@@ -36,7 +36,7 @@ const set = (p: Partial<IndexerState>) => useIndexer.setState(p);
 const capture = typeof window !== 'undefined' ? new AudioCapture() : null;
 const clock = new ChunkClock();
 
-type Session = { track: Track; ft: FeatureTrack; heardAtSave: number; lastEmitBeats: number; startedAt: number; silentSince: number | null };
+type Session = { track: Track; ft: FeatureTrack; heardAtSave: number; lastEmitBeats: number; startedAt: number; silentSince: number | null; peak: number };
 let session: Session | null = null;
 let fileJob: AbortController | null = null;
 let started = false;
@@ -89,7 +89,7 @@ function beginSession(track: Track, have: AudioFeatures | null) {
     ft.merge(prev);
   }
   clock.reset();
-  session = { track, ft, heardAtSave: ft.heardMs(), lastEmitBeats: have?.beatTimesMs.length ?? 0, startedAt: performance.now(), silentSince: null };
+  session = { track, ft, heardAtSave: ft.heardMs(), lastEmitBeats: have?.beatTimesMs.length ?? 0, startedAt: performance.now(), silentSince: null, peak: 0 };
   set({ phase: 'listening', message: 'Listening…', progress: coverage({ covered: ft.coveredRuns(), durationMs: ft.durationMs }), bpm: have?.bpm ?? null });
 }
 
@@ -112,6 +112,9 @@ function onBlock(samples: Float32Array, sampleRate: number) {
   const start = clock.place(samples.length, sampleRate, player.getPositionMs());
   if (start === null) return;
   const before = s.ft.heardMs();
+  let pk = 0;
+  for (let i = 0; i < samples.length; i += 16) pk = Math.max(pk, Math.abs(samples[i]!));
+  s.peak = Math.max(pk, s.peak * 0.995); // the recent loudest sample: tells a quiet capture from a clear one
   s.ft.pushPcm(samples, sampleRate, start);
   const heard = s.ft.heardMs();
   // nothing but silence for a while: this tab is not the one playing the song
@@ -127,7 +130,7 @@ function onBlock(samples: Float32Array, sampleRate: number) {
     const grew = f.beatTimesMs.length - s.lastEmitBeats;
     save(s.track, f);
     if (hasTempo(f) && grew > 0) s.lastEmitBeats = f.beatTimesMs.length;
-    set({ progress: coverage(f), bpm: f.bpm, message: hasTempo(f) ? `Learning: ${Math.round(f.bpm!)} BPM so far (${Math.round(coverage(f) * 100)}% heard).` : heard >= 30_000 ? `Heard ${Math.round(heard / 1000)} s but no steady beat yet (confidence ${f.bpmConfidence.toFixed(2)}). Keep it playing, and check the volume is not very low.` : 'Listening…' });
+    set({ progress: coverage(f), bpm: f.bpm, message: hasTempo(f) ? `Learning: ${Math.round(f.bpm!)} BPM so far (${Math.round(coverage(f) * 100)}% heard).` : heard >= 30_000 ? `Heard ${Math.round(heard / 1000)} s but no steady beat yet (confidence ${f.bpmConfidence.toFixed(2)}). Sound level ${s.peak < 0.03 ? 'very low' : s.peak < 0.1 ? 'low' : 'fine'}${s.peak < 0.1 ? ': raise the volume of this tab or of Spotify' : ''}. Keep it playing.` : 'Listening…' });
   }
 }
 

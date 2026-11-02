@@ -6,7 +6,7 @@ The app uses Next.js 16, React 19, TypeScript 6, Tailwind 4, Zustand and Zod. Br
 
 ## Run locally
 
-Install Node.js 20.9 or newer and pnpm. On Windows, double-click **start.bat**, or run:
+Install Node.js 20.9 or newer (22.5 or newer for the song index, which the app can do without) and pnpm. On Windows, double-click **start.bat**, or run:
 
 ```bash
 pnpm go

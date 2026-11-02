@@ -14,7 +14,7 @@ Lyricscape follows the README's rules. This is engineering guidance, not legal a
 
 | Not done | Why |
 |---|---|
-| Read, record, analyse or process Spotify audio | Not available and not permitted; beat analysis uses imported/CC0 audio only |
+| Read, record, analyse or process Spotify audio | Not available through any Spotify API and not permitted by Spotify's developer terms. **Owner decision, 2026-11-02:** for personal local use the app may *listen* to the audio of the song playing in its own Spotify player (the person shares this browser tab with its audio; opt-in, per session) **to derive numbers only** (tempo, beats, loudness). The audio is never stored, exported, uploaded or mixed; only the numbers go into the local song index. This is outside Spotify's terms: the risk (to the developer app or account) is the owner's, and a public release must remove it |
 | Mix/overlap Spotify recordings, or render them into video | Policy; the recap engine refuses `spotify` soundtracks (HTTP 422) |
 | Alter Spotify artwork (masks, tilt, recolour, blur) | Policy. **Waived in this personal-use build**: the cover is blurred/tinted as a background for every track. Restore an unmodified-art mode before any public deployment. |
 | Scrape Spotify or lyrics websites | Spec rule. Lyrics come from the user, bundled CC0 files, or the optional LRCLIB and development Musixmatch APIs |

@@ -8,6 +8,7 @@ import { Headphones, Library, Map as MapIcon, PartyPopper, Settings, Sparkles, C
 import { player, usePlayer } from '@/lib/player/controller';
 import { useUi } from '@/lib/ui-store';
 import { MiniPlayer } from '@/components/player/MiniPlayer';
+import { AudioIndexer } from '@/components/player/AudioIndexer';
 import { QueueDrawer } from '@/components/player/QueueDrawer';
 import { StageOverlay } from './StageOverlay';
 import { ListeningLogger } from '@/components/map/ListeningLogger';
@@ -147,6 +148,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </main>
 
           <MiniPlayer />
+          <AudioIndexer />
 
           {/* mobile bottom nav */}
           <nav

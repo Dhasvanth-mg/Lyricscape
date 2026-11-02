@@ -8,6 +8,7 @@ import { useUi } from '@/lib/ui-store';
 import { usePlayer } from '@/lib/player/controller';
 import { StudioTab, type SongLookApi } from './StudioTab';
 import { SyncStepper } from './SyncStepper';
+import { BeatPanel, type BeatApi } from './BeatPanel';
 import type { useLyricClock } from './useLyricClock';
 import type { useLyrics } from './useLyrics';
 
@@ -30,6 +31,8 @@ type Props = {
   onAnchor: (which: 'this' | 'next') => void;
   toast: string | null;
   onEditLyrics?: () => void;
+  /** this song's beat (where it came from) and the tap-to-set tools */
+  beat: BeatApi;
 };
 
 const fmt = (n: number) => `${n > 0 ? '+' : ''}${n} ms`;
@@ -170,6 +173,10 @@ function SyncTab(p: Props) {
         <button onClick={() => { p.clock.setTrackOffset(0); p.clock.setDevice(0); }} className="inline-flex items-center gap-1.5 text-xs text-ink-300 underline-offset-2 hover:underline">
           <RotateCcw size={12} aria-hidden /> Reset both
         </button>
+      </Section>
+
+      <Section title="Beat" hint="What the pulses and the energy of the visuals follow.">
+        <BeatPanel beat={p.beat} />
       </Section>
 
       <Section title="Word motion">

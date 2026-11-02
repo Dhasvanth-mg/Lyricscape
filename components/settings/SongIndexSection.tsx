@@ -14,6 +14,7 @@ export function SongIndexSection() {
   const [stats, setStats] = useState<IndexStats | null>(null);
   const ix = useIndexer();
   const indexLocal = useUi((s) => s.indexLocal);
+  const onlineTempo = useUi((s) => s.onlineTempo);
   const setUi = useUi((s) => s.set);
 
   const refresh = useCallback(async () => setStats(await fetchStats()), []);
@@ -60,12 +61,19 @@ export function SongIndexSection() {
         </span>
       </label>
 
+      <label className="mb-4 flex cursor-pointer items-start gap-3">
+        <input type="checkbox" checked={onlineTempo} onChange={(e) => setUi({ onlineTempo: e.target.checked })} className="mt-1 h-4 w-4 accent-[var(--color-signal)]" data-testid="online-tempo" />
+        <span className="text-sm">
+          <span className="font-semibold">Look up a song&apos;s tempo online</span>
+          <span className="block text-ink-300">For songs with no beat yet, asks Deezer&apos;s public data for the tempo (sends only the title, artist and length), then finds where the beats fall in the lyric timing. You can always tap the beat yourself in the stage&apos;s Sync tab.</span>
+        </span>
+      </label>
+
       <div className="mb-4 rounded-xl border border-ink-700 bg-ink-850 p-4">
         <h3 className="mb-1 text-sm font-semibold">Listening (for Spotify songs)</h3>
         <p className="mb-3 text-sm text-ink-300">
           Spotify does not give out its audio, so the tempo of a Spotify song can only be learned by listening while it plays in this tab. Your browser asks you to share <em>this tab</em> with its audio; the sound is analysed on the spot and thrown away, only the
-          numbers are kept. Each time you play a song it learns a bit more, and once it has the beat it never listens to that song again. Works in Chrome, Edge and Brave, for songs playing in Lyricscape&apos;s own Spotify player. It is off until you switch it on, and
-          asks again after a reload.
+          numbers are kept. Each time you play a song it learns a bit more, and once it has the beat it never listens to that song again. Two ways: this tab (for songs playing in Lyricscape&apos;s own Spotify player), or the computer&apos;s whole sound (Windows, Chrome or Edge: you share the screen with its sound; it also hears the Spotify app or other tabs, so play only the song). It is off until you switch it on, and asks again after a reload.
         </p>
         <p className="mb-3 text-xs text-ink-400">Note: analysing Spotify audio is outside Spotify&apos;s developer terms. This is a personal, local setting you chose to turn on.</p>
         <div className="flex flex-wrap items-center gap-3">
@@ -74,9 +82,14 @@ export function SongIndexSection() {
               Stop listening
             </Button>
           ) : (
-            <Button variant="primary" onClick={() => void enableListening()} disabled={!ix.captureSupported || ix.capture === 'asking'} data-testid="listening-start">
-              Start listening to this tab
-            </Button>
+            <>
+              <Button variant="primary" onClick={() => void enableListening('tab')} disabled={!ix.captureSupported || ix.capture === 'asking'} data-testid="listening-start">
+                Listen to this tab
+              </Button>
+              <Button variant="outline" onClick={() => void enableListening('system')} disabled={!ix.captureSupported || ix.capture === 'asking'} data-testid="listening-start-system" title="Windows, Chrome or Edge: share the screen with its sound">
+                Listen to the computer&apos;s sound
+              </Button>
+            </>
           )}
           <span className="text-sm text-ink-300" role="status" data-testid="indexer-status">
             {!ix.captureSupported ? 'This browser cannot share tab audio.' : ix.message}

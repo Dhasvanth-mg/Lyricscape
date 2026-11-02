@@ -214,7 +214,7 @@ export const songIndex = {
 
   stats(): IndexStats {
     const s = open();
-    const empty: IndexStats = { available: false, songs: 0, bytes: 0, byKind: { audio: { count: 0, bytes: 0 }, palette: { count: 0, bytes: 0 }, lyrics: { count: 0, bytes: 0 } }, withTempo: 0, file: null };
+    const empty: IndexStats = { available: false, songs: 0, bytes: 0, byKind: { audio: { count: 0, bytes: 0 }, palette: { count: 0, bytes: 0 }, lyrics: { count: 0, bytes: 0 }, tempo: { count: 0, bytes: 0 }, tap: { count: 0, bytes: 0 } }, withTempo: 0, file: null };
     if (!s) return empty;
     const songs = (s.db.prepare('SELECT COUNT(*) AS n FROM songs').get() as { n: number }).n;
     const out: IndexStats = { ...empty, available: true, songs, file: s.file };

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { Track } from '@/lib/types';
 import type { IndexEntry } from '@/lib/index/types';
 import { INDEX_EVENT, audioOf, entryFor } from '@/lib/index/client';
-import { hasTempo, type AudioFeatures } from '@/lib/analysis/types';
+import { resolveBeatGrid, type BeatGrid } from '@/lib/analysis/tempoSources';
 
 /** What the song index remembers about the track, kept current while the indexer learns more (see lib/analysis/indexer.ts). */
 export function useSongIndex(track: Track | null) {
@@ -36,14 +36,18 @@ export function useSongIndex(track: Track | null) {
   }, [id]);
 
   const audio = useMemo(() => audioOf(entry), [entry]);
-  return { entry, ready, audio };
+  const tempo = entry?.features.tempo ?? null;
+  const tap = entry?.features.tap ?? null;
+  // the best beat grid we know for this song (tapped > heard > looked up and aligned by the lyrics > estimated from the lyrics)
+  const grid = useMemo(() => (track ? resolveBeatGrid({ durationMs: track.durationMs || audio?.durationMs || 180_000, audio, tempo, tap }) : null), [track, audio, tempo, tap]);
+  return { entry, ready, audio, tempo, tap, grid };
 }
 
 /**
  * The track with a beat grid from the index when it has none of its own. A grid the track already carries (the demo songs ship one)
- * is ground truth and wins. Only a trusted tempo is used (see hasTempo).
+ * is ground truth and wins.
  */
-export function withIndexedTempo(track: Track | null, audio: AudioFeatures | null): Track | null {
-  if (!track || track.beatTimesMs?.length || !hasTempo(audio)) return track;
-  return { ...track, bpm: audio.bpm, beatTimesMs: audio.beatTimesMs };
+export function withIndexedTempo(track: Track | null, grid: BeatGrid | null): Track | null {
+  if (!track || track.beatTimesMs?.length || !grid) return track;
+  return { ...track, bpm: grid.bpm, beatTimesMs: grid.beatTimesMs };
 }

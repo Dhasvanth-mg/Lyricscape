@@ -12,7 +12,7 @@ import { player, usePlayer } from '../player/controller';
 import { INDEX_EVENT, audioOf, countPlay, entryFor, flushAll, saveFeature } from '../index/client';
 import { useUi } from '../ui-store';
 import type { Track } from '../types';
-import { AudioCapture, ChunkClock } from './capture';
+import { AudioCapture, CAPTURE_LATENCY_MS, ChunkClock, type CaptureMode } from './capture';
 import { FeatureTrack } from './features';
 import { analyseTrackFile, hasReadableAudio } from './local';
 import { coverage, hasTempo, type AudioFeatures } from './types';
@@ -27,10 +27,11 @@ export type IndexerState = {
   progress: number;
   bpm: number | null;
   capture: 'off' | 'asking' | 'on' | 'error';
+  captureMode: CaptureMode;
   captureSupported: boolean;
 };
 
-export const useIndexer = create<IndexerState>(() => ({ phase: 'off', trackId: null, message: 'Not started', progress: 0, bpm: null, capture: 'off', captureSupported: false }));
+export const useIndexer = create<IndexerState>(() => ({ phase: 'off', trackId: null, message: 'Not started', progress: 0, bpm: null, capture: 'off', captureMode: 'tab', captureSupported: false }));
 const set = (p: Partial<IndexerState>) => useIndexer.setState(p);
 
 const capture = typeof window !== 'undefined' ? new AudioCapture() : null;
@@ -115,13 +116,13 @@ function onBlock(samples: Float32Array, sampleRate: number) {
   let pk = 0;
   for (let i = 0; i < samples.length; i += 16) pk = Math.max(pk, Math.abs(samples[i]!));
   s.peak = Math.max(pk, s.peak * 0.995); // the recent loudest sample: tells a quiet capture from a clear one
-  s.ft.pushPcm(samples, sampleRate, start);
+  s.ft.pushPcm(samples, sampleRate, start - CAPTURE_LATENCY_MS);
   const heard = s.ft.heardMs();
   // nothing but silence for a while: this tab is not the one playing the song
   const now = performance.now();
   if (heard <= before + 1) {
     s.silentSince ??= now;
-    if (now - s.silentSince > 8000) set({ message: 'No sound heard from this tab. Is the song playing in Lyricscape’s own player (not another device)?' });
+    if (now - s.silentSince > 8000) set({ message: capture?.mode === 'system' ? 'No sound heard from this computer. Is the song playing on this computer, with its volume up?' : 'No sound heard from this tab. Is the song playing in Lyricscape’s own player (not another device)? Listening to the whole computer’s sound can hear other apps too.' });
   } else s.silentSince = null;
   if (heard - s.heardAtSave >= 12_000) {
     const f = s.ft.toFeatures('capture');
@@ -167,12 +168,12 @@ export function startIndexer(): () => void {
 }
 
 /** Switch listening on (call from a click). The browser asks the person to share this tab with its audio. */
-export async function enableListening(): Promise<void> {
+export async function enableListening(mode: CaptureMode = 'tab'): Promise<void> {
   if (!capture) return;
-  set({ capture: 'asking', message: 'Choose this tab and tick “Share tab audio”…' });
+  set({ capture: 'asking', captureMode: mode, message: mode === 'tab' ? 'Choose this tab and tick “Share tab audio”…' : 'Choose “Entire screen” and tick “Also share system audio”…' });
   try {
-    await capture.start();
-    set({ capture: 'on', message: 'Listening is on.' });
+    await capture.start(mode);
+    set({ capture: 'on', message: mode === 'tab' ? 'Listening to this tab.' : 'Listening to this computer’s sound: play only the song.' });
     const st = usePlayer.getState();
     if (st.track && st.track.provider === 'spotify' && !hasReadableAudio(st.track)) {
       const e = await entryFor(st.track);

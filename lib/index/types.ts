@@ -4,7 +4,7 @@
 import { z } from 'zod';
 import { audioFeaturesSchema } from '../analysis/types';
 
-export const FEATURE_KINDS = ['audio', 'palette', 'lyrics'] as const;
+export const FEATURE_KINDS = ['audio', 'palette', 'lyrics', 'tempo', 'tap'] as const;
 export type FeatureKind = (typeof FEATURE_KINDS)[number];
 
 export const songMetaSchema = z.object({
@@ -36,18 +36,36 @@ export const lyricsFeatureSchema = z.object({
 });
 export type LyricsFeature = z.infer<typeof lyricsFeatureSchema>;
 
-export const featureSchemas = { audio: audioFeaturesSchema, palette: paletteFeatureSchema, lyrics: lyricsFeatureSchema } as const;
+/**
+ * A tempo that did not come from listening: tapped by the person, estimated from the timing of the lyrics, or looked up online.
+ * `phaseMs` is the time of one beat (null when only the tempo is known, which is not enough for a beat grid).
+ */
+export const tempoFeatureSchema = z.object({
+  source: z.enum(['tapped', 'lyrics', 'lookup', 'lookup+lyrics']),
+  bpm: z.number().min(40).max(260),
+  phaseMs: z.number().min(0).max(20_000).nullable(),
+  /** 0..1 */
+  confidence: z.number().min(0).max(1),
+  /** how many taps it was made from (tapped only) */
+  taps: z.number().int().min(0).max(500).optional(),
+  /** which lyrics the estimate was made from, so a changed version triggers a new one */
+  lyricsKey: z.string().max(80).optional(),
+  savedAt: z.number().int().nonnegative(),
+});
+export type TempoFeature = z.infer<typeof tempoFeatureSchema>;
+
+export const featureSchemas = { audio: audioFeaturesSchema, palette: paletteFeatureSchema, lyrics: lyricsFeatureSchema, tempo: tempoFeatureSchema, tap: tempoFeatureSchema } as const;
 
 export const putBodySchema = z.object({
   song: songMetaSchema,
-  features: z.object({ audio: audioFeaturesSchema.optional(), palette: paletteFeatureSchema.optional(), lyrics: lyricsFeatureSchema.optional() }).strict(),
+  features: z.object({ audio: audioFeaturesSchema.optional(), palette: paletteFeatureSchema.optional(), lyrics: lyricsFeatureSchema.optional(), tempo: tempoFeatureSchema.optional(), tap: tempoFeatureSchema.optional() }).strict(),
 });
 export type PutBody = z.infer<typeof putBodySchema>;
 
 export type IndexEntry = {
   key: string;
   song: SongMeta & { plays: number; firstSeen: number; lastSeen: number };
-  features: { audio?: z.infer<typeof audioFeaturesSchema>; palette?: PaletteFeature; lyrics?: LyricsFeature };
+  features: { audio?: z.infer<typeof audioFeaturesSchema>; palette?: PaletteFeature; lyrics?: LyricsFeature; tempo?: TempoFeature; /** the person's own taps (kept apart so forgetting them restores the estimate) */ tap?: TempoFeature };
   /** the audio features came from another copy of the same recording (matched by title, artist and length), not from this exact id */
   audioVia?: 'fingerprint';
 };

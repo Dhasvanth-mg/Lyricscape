@@ -113,7 +113,7 @@ Do not leave a dev server or headless browser running when you finish, unless th
 ## 9. Tests and docs
 
 - Add tests with the change; put them in `tests/` next to similar ones (names describe behaviour). Test pure functions directly; keep GPU-dependent checks to the browser loop in section 6. Do not weaken or delete a test to make it pass; fix the cause, or say why the expectation was wrong.
-- **Docs to keep current:** `README.md` (quick start, what is built), `docs/implementation-log.md` (a section per milestone: what, measured numbers, known gaps), `docs/stage-modes.md` (modes, Turbo scenes, languages, export), `docs/turbo-styles.md` (each Turbo style in detail), `.env.example` for any new variable.
+- **Docs to keep current:** `README.md` (quick start, what is built), `docs/implementation-log.md` (a section per milestone: what, measured numbers, known gaps), `docs/stage-modes.md` (modes, Turbo scenes, languages, export), `docs/turbo-styles.md` (each Turbo style in detail), `docs/visuals.md` (the playback and visuals improvement game plan: tick items off and record measured results there), `.env.example` for any new variable.
 - Numbers in docs must be measured. If you did not measure something, write "not measured".
 
 ## 10. Known gaps (do not pretend these exist)

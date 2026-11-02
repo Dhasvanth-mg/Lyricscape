@@ -52,7 +52,7 @@ For a consistent offset, use the device advance or per-song offset, or tap to an
 - Recap analysis, planning, versioned timeline editing and FFmpeg rendering in a separate worker, using eligible local/demo soundtracks.
 - Opt-in foreground listening locations, coarse cells, privacy zones, retention, memories and trips. Local social profiles, friends, recommendations, posts, reactions and blocking.
 
-See [stage modes](docs/stage-modes.md), [Turbo scene implementation](docs/turbo-styles.md) and the [implementation log](docs/implementation-log.md) for details and verification history.
+See [stage modes](docs/stage-modes.md), [Turbo scene implementation](docs/turbo-styles.md), the [playback and visuals improvement plan](docs/visuals.md) and the [implementation log](docs/implementation-log.md) for details and verification history.
 
 ## Data and configuration
 

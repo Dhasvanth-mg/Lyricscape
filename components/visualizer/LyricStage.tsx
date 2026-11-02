@@ -10,8 +10,11 @@ import { compileForTrack, moodFor } from '@/lib/kinetic/forTrack';
 import { syncDiag } from '@/lib/player/syncDiag';
 import { createStageRenderer, type StageRenderer } from '@/lib/kinetic/stageRenderer';
 import { extractPaletteFromUrl } from '@/lib/kinetic/extractPalette';
-import { paletteOf, saveFeature } from '@/lib/index/client';
+import { paletteOf, removeFeature, saveFeature } from '@/lib/index/client';
+import { announceIndex } from '@/lib/analysis/tempoClient';
 import { useSongIndex, withIndexedTempo } from './useSongIndex';
+import { useTempoSources } from './useTempoSources';
+import type { BeatApi } from './BeatPanel';
 import { FrameGovernor, type QualityLevel } from '@/lib/kinetic/governor';
 import { useUi } from '@/lib/ui-store';
 import { paletteWarmth } from '@/lib/theme/color';
@@ -59,7 +62,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   useEffect(() => {
     idxRef.current = idx;
   }, [idx]);
-  const timingTrack = useMemo(() => withIndexedTempo(track, idx.audio), [track, idx.audio]);
+  const timingTrack = useMemo(() => withIndexedTempo(track, idx.grid), [track, idx.grid]);
   // Turbo needs WebGL2; if the GPU path fails the stage drops back to Clean (on a fresh canvas) and says so
   const [turboFailed, setTurboFailed] = useState<string | null>(null);
   const mode = ui.mode === 'turbo' && !turboFailed ? 'turbo' : 'clean';
@@ -141,6 +144,26 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artSrc, idx.ready]);
+
+  // a song with no beat of its own: look its tempo up and find the beats in the lyric timing (saved in the index)
+  useTempoSources(track, lyrics.doc, idx);
+  const beat = useMemo<BeatApi>(
+    () => ({
+      grid: idx.grid,
+      tempo: idx.tempo,
+      tap: idx.tap,
+      saveTapped: (bpm, phaseMs, taps) => {
+        if (!track) return;
+        saveFeature(track, 'tap', { source: 'tapped', bpm, phaseMs, confidence: 1, taps, savedAt: Date.now() });
+        announceIndex(track.id);
+      },
+      forgetTapped: () => {
+        if (!track) return;
+        void removeFeature(track, 'tap').then(() => announceIndex(track.id));
+      },
+    }),
+    [track, idx.grid, idx.tempo, idx.tap],
+  );
 
   // mood from lyrics + tempo (a transparent heuristic), or the one the user picked
   const mood = useMemo(() => (track ? moodFor(track, lyrics.doc, ui.mood) : null), [track, lyrics.doc, ui.mood]);
@@ -525,6 +548,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
               onAnchor={anchor}
               toast={toast}
               onEditLyrics={onEditLyrics}
+              beat={beat}
             />
           )}
         </>

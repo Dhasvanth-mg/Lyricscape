@@ -41,9 +41,11 @@ export type Prefs = {
   onlineGenres: boolean;
   /** learn the tempo of songs whose audio the app holds (imported files, bundled songs) and remember it in the song index */
   indexLocal: boolean;
+  /** look a song's tempo up online (sends title, artist and length to Deezer) when nothing else knows it */
+  onlineTempo: boolean;
 };
 
-const DEFAULTS: Prefs = { mode: 'clean', turboStyle: 'liquid', style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, interlude: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true, indexLocal: true };
+const DEFAULTS: Prefs = { mode: 'clean', turboStyle: 'liquid', style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, interlude: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true, indexLocal: true, onlineTempo: true };
 
 function readPrefs(): Prefs {
   try {
@@ -79,9 +81,9 @@ type UiState = Prefs & {
 
 export const useUi = create<UiState>((set, get) => {
   const persist = () => {
-    const { mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal } = get();
+    const { mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo } = get();
     try {
-      localStorage.setItem(PREFS_KEY, JSON.stringify({ mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, splitV: 2 }));
+      localStorage.setItem(PREFS_KEY, JSON.stringify({ mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, splitV: 2 }));
     } catch {
       /* storage unavailable */
     }

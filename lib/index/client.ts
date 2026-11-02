@@ -4,7 +4,7 @@
 
 import { audioFeaturesSchema, type AudioFeatures } from '../analysis/types';
 import type { Track } from '../types';
-import type { IndexEntry, IndexStats, LyricsFeature, PaletteFeature, PutBody, SongMeta } from './types';
+import type { IndexEntry, IndexStats, LyricsFeature, PaletteFeature, PutBody, SongMeta, TempoFeature } from './types';
 
 /** fired on window when the indexer has learned something new about a song (detail: { trackId }) */
 export const INDEX_EVENT = 'lyricscape:index';
@@ -88,7 +88,7 @@ export async function removeSong(track: Track): Promise<void> {
 }
 
 /** Forget one kind of data about a song (the user removed its lyrics, say). */
-export async function removeFeature(track: Track, kind: 'audio' | 'palette' | 'lyrics'): Promise<void> {
+export async function removeFeature(track: Track, kind: 'audio' | 'palette' | 'lyrics' | 'tempo' | 'tap'): Promise<void> {
   entries.delete(track.id);
   if (!unavailable) await fetch(`${urlFor(track.id)}?kind=${kind}`, { method: 'DELETE' }).catch(() => undefined);
 }
@@ -122,3 +122,4 @@ export const paletteOf = (e: IndexEntry | null, artworkUrl: string | null): Pale
   return p && artworkUrl && p.artworkUrl === artworkUrl ? p : null;
 };
 export const lyricsOf = (e: IndexEntry | null): LyricsFeature | null => e?.features.lyrics ?? null;
+export const tempoOf = (e: IndexEntry | null): TempoFeature | null => e?.features.tempo ?? null;

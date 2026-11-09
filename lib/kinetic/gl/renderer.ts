@@ -526,9 +526,20 @@ export class TurboRenderer {
         this.artGrid = gx.getImageData(0, 0, 48, 48).data;
       }
     } catch {
-      this.artGrid = null; // tainted cover: words fall back to white with an edge
+      // A cover served without CORS taints the canvas: WebGL may not read it at all (texImage2D throws a SecurityError). Turbo then
+      // draws without the cover instead of crashing the stage; the words fall back to white with an edge.
+      this.artGrid = null;
+      this.artCanvas = null;
+      return;
     }
-    this.uploadArtwork(c);
+    try {
+      this.uploadArtwork(c);
+    } catch {
+      const t = this.artTex as Tex | null;
+      if (t) gl.deleteTexture(t.tex);
+      this.artTex = null;
+      this.artCanvas = null;
+    }
   }
 
   /** The cover goes up once; its soft versions are made on the GPU (box down-scale, then a few separable blurs). */

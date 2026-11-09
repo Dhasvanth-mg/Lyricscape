@@ -24,6 +24,9 @@ import { SCENE_FONT_LOADS } from './scenes/fonts';
 import { IDENTITY, Program, cameraMatrix, createTarget, freeTarget, mul, parseColor, rotate, scale, skewX, textureFrom, toClip, translate, type Affine, type Target, type Tex } from './gpu';
 import { ASCII_FS, BLIT_FS, BLUR_FS, BRIGHT_FS, FULL_VS, POINT_FS, POINT_VS, POST_FS, QUAD_VS, SHAPE_FS, SPRITE_FS, STAGE_FS, STRIP_FS, STRIP_VS } from './shaders';
 
+/** the ASCII pass's character ramp, dark to bright, unless a scene asks for another */
+const DEFAULT_RAMP = ' .:;i1tfLCG08@';
+
 type Ls = CanvasRenderingContext2D & { letterSpacing?: string };
 type Glyph = { tex: Tex; /** quad size in css px at the bucketed font size */ w: number; h: number; textW: number; pad: number; sizeB: number };
 type Sprite = { tex: Tex; w: number; h: number };
@@ -90,7 +93,7 @@ export class TurboRenderer {
   private bloomA: Target | null = null;
   private bloomB: Target | null = null;
   private asciiRT: Target | null = null;
-  private asciiAtlas: { tex: Tex; n: number } | null = null;
+  private asciiAtlas: { tex: Tex; n: number; ramp: string } | null = null;
   private sceneProgs = new Map<string, Program>();
   private lastTurboStyle: TurboStyleId = 'liquid';
 
@@ -1362,9 +1365,10 @@ export class TurboRenderer {
 
   // ---- Turbo styles -------------------------------------------------------------------------------------------------------------------
   /** ASCII: the picture so far becomes characters (brightness picks the glyph, the colour stays), dissolving back on the beat. */
-  private ensureAtlas(): { tex: Tex; n: number } {
-    if (this.asciiAtlas) return this.asciiAtlas;
-    const RAMP = ' .:;i1tfLCG08@';
+  private ensureAtlas(ramp = DEFAULT_RAMP): { tex: Tex; n: number } {
+    if (this.asciiAtlas?.ramp === ramp) return this.asciiAtlas;
+    if (this.asciiAtlas) this.gl.deleteTexture(this.asciiAtlas.tex.tex);
+    const RAMP = ramp.length >= 2 ? ramp : DEFAULT_RAMP;
     const CELL = 24;
     const c = document.createElement('canvas');
     c.width = CELL * RAMP.length;
@@ -1375,16 +1379,16 @@ export class TurboRenderer {
     cx.textAlign = 'center';
     cx.textBaseline = 'middle';
     [...RAMP].forEach((ch, i) => ch !== ' ' && cx.fillText(ch, CELL * i + CELL / 2, CELL / 2 + 1));
-    this.asciiAtlas = { tex: textureFrom(this.gl, c, c.width, c.height, { mips: false }), n: RAMP.length };
+    this.asciiAtlas = { tex: textureFrom(this.gl, c, c.width, c.height, { mips: false }), n: RAMP.length, ramp };
     return this.asciiAtlas;
   }
 
-  private asciiPass(frame: Frame, W: number, H: number, o: { cell?: number; mix?: number; boost?: number } = {}) {
+  private asciiPass(frame: Frame, W: number, H: number, o: { cell?: number; mix?: number; boost?: number; ramp?: string } = {}) {
     const gl = this.gl;
     const scene = this.sceneRT!;
     if (!this.asciiRT) this.asciiRT = createTarget(gl, this.canvas.width, this.canvas.height);
     const out = this.asciiRT;
-    const atlas = this.ensureAtlas();
+    const atlas = this.ensureAtlas(o.ramp);
     void W;
     void H;
     gl.disable(gl.BLEND);

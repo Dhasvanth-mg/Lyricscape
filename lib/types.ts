@@ -90,7 +90,9 @@ export type TimedWord = { text: string; startMs: number; endMs: number; confiden
 export type WordTiming = 'authored' | 'estimated' | 'none';
 /** Where a line's endMs came from: the file said so, the next cue is the best bound, or it is a guess. */
 export type EndSource = 'explicit' | 'next-line' | 'estimated';
-export type TimedLine = { startMs: number; endMs: number; words: TimedWord[]; wordTiming?: WordTiming; endSource?: EndSource };
+/** Who sings a line, from singer tags in the file (enhanced LRC `v1:` / `v2:`): the lead, the featured voice, or both. */
+export type LineVoice = 'lead' | 'feat' | 'both';
+export type TimedLine = { startMs: number; endMs: number; words: TimedWord[]; wordTiming?: WordTiming; endSource?: EndSource; voice?: LineVoice };
 
 export type TimingSource = 'lyricsfile' | 'enhanced-lrc' | 'lrc' | 'vtt' | 'json' | 'plain' | 'edited' | 'auto-aligned';
 /** How well the chosen recording matches the track that is playing (set by retrieval; absent for user files). */

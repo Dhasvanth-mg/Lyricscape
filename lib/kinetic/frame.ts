@@ -82,6 +82,7 @@ function applyCase(def: FontDef, text: string): string {
 type Measure = (text: string, font: FontKey, sizePx: number) => number;
 
 function pickFont(style: StyleDef, cue: WordCue, custom: VisualTimeline['custom']): FontKey {
+  if (cue.adlib) return style.displayFont;
   if (style.id === 'custom' && custom?.font) return custom.font;
   if (style.fontMix) {
     // about one word in three speaks in another face; emphasised words keep the accent face so the hierarchy still reads
@@ -93,8 +94,57 @@ function pickFont(style: StyleDef, cue: WordCue, custom: VisualTimeline['custom'
   return (cue.emphasis ?? 0) > 0.62 ? style.accentFont : style.displayFont;
 }
 
+const duetCache = new WeakMap<VisualTimeline, boolean>();
+/** the song has lines tagged for a second singer: only then does the lead step aside to make room */
+function isDuet(tl: VisualTimeline): boolean {
+  let d = duetCache.get(tl);
+  if (d === undefined) {
+    d = tl.scenes.some((s) => s.voice === 'feat');
+    duetCache.set(tl, d);
+  }
+  return d;
+}
+
+/**
+ * Background vocals (words in parentheses) are laid out apart from the main words: a small row under them, offset to the side,
+ * so "(yeah)" reads as an echo instead of breaking the line. Duet lines step left (lead) or right (featured voice).
+ */
+function layoutVoices(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: StyleDef): SceneLayout {
+  const main = scene.words.filter((w) => !w.adlib);
+  const extra = scene.words.filter((w) => w.adlib);
+  let out: SceneLayout;
+  if (extra.length && main.length) {
+    out = layoutSceneRaw(tl, { ...scene, words: main }, env, style);
+    const side = layoutSceneRaw(tl, { ...scene, preset: 'ticker', words: extra }, env, style);
+    const items = [...out.values()];
+    const avg = items.reduce((a, it) => a + it.size, 0) / Math.max(1, items.length);
+    const bottom = Math.max(...items.map((it) => it.y + it.size * 0.55));
+    const right = Math.max(...items.map((it) => it.x + it.widthPx / 2));
+    const sideItems = [...side.values()];
+    const k = (avg * 0.42) / Math.max(1, sideItems[0]?.size ?? 1);
+    const sideW = (Math.max(...sideItems.map((it) => it.x + it.widthPx / 2)) - Math.min(...sideItems.map((it) => it.x - it.widthPx / 2))) * k;
+    const maxX = env.width * 0.45;
+    const cx = Math.min(right - sideW / 2, maxX - sideW / 2);
+    for (const [id, it] of side) out.set(id, { ...it, x: cx + it.x * k, y: bottom + avg * 0.42 * 0.7 + it.y * k, size: it.size * k, widthPx: it.widthPx * k, room: (it.room ?? 0) * k, rot: 0 });
+  } else {
+    out = layoutSceneRaw(tl, scene, env, style);
+  }
+  const shift = scene.voice === 'feat' ? 1 : scene.voice === 'lead' && isDuet(tl) ? -1 : 0;
+  if (shift && out.size) {
+    // as far to the side as the line's own width allows, at most an eighth of the screen
+    const all = [...out.values()];
+    const minX = Math.min(...all.map((it) => it.x - it.widthPx / 2));
+    const maxX = Math.max(...all.map((it) => it.x + it.widthPx / 2));
+    const half = env.width * 0.47;
+    const room = shift > 0 ? half - maxX : minX + half;
+    const dx = shift * Math.max(0, Math.min(env.width * 0.125, room));
+    for (const it of all) it.x += dx;
+  }
+  return out;
+}
+
 function layoutScene(tl: VisualTimeline, scene: Scene, env: FrameEnv, style: StyleDef): SceneLayout {
-  const out = layoutSceneRaw(tl, scene, env, style);
+  const out = layoutVoices(tl, scene, env, style);
   const box = layoutBox(env.look, env.width, env.height);
   // right-to-left text (Arabic, Hebrew): the first word of a line sits at the RIGHT, so the whole arrangement is mirrored
   if (scene.words.length > 1 && hasRtl(scene.words.map((w) => w.text).join(' '))) for (const it of out.values()) it.x = -it.x;
@@ -1307,7 +1357,8 @@ function poseWord(a: PoseArgs): DrawWord | null {
     scaleY: sy,
     rotationDeg: rot,
     skewX: skew,
-    alpha: clamp(alpha),
+    // background vocals sit back: an echo of the line, not part of it
+    alpha: clamp(alpha) * (cue.adlib ? 0.72 : 1),
     fill,
     stroke: outline ? '#111018' : style.chromeText ? bgInfo.accent : undefined,
     strokeWidth: outline ? Math.max(3, item.size * 0.075) : style.chromeText ? Math.max(2, item.size * 0.03) : undefined,

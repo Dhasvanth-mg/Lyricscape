@@ -21,6 +21,8 @@ export const wordCueSchema = z.object({
   effect: z.enum(EFFECT_IDS).optional(),
   /** where this word's times came from: 'none' = shown with its line, not individually timed */
   timing: z.enum(['authored', 'estimated', 'none']).optional(),
+  /** a background vocal or ad-lib (sung in parentheses in the lyrics): drawn small, beside the main words */
+  adlib: z.boolean().optional(),
 });
 export type WordCue = z.infer<typeof wordCueSchema>;
 
@@ -35,6 +37,8 @@ export const sceneSchema = z.object({
   seed: z.number().int(),
   preset: z.enum(PRESET_IDS),
   hook: z.boolean(),
+  /** who sings this line, when the lyrics say (duets, features): the lead sits left, the featured voice right */
+  voice: z.enum(['lead', 'feat', 'both']).optional(),
   mood: moodSchema.optional(),
   intensity: z.number().min(0).max(2),
   words: z.array(wordCueSchema),

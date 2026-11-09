@@ -9,6 +9,7 @@ import { compileForTrack, moodFor, type CoverCues } from '@/lib/kinetic/forTrack
 import { KineticRenderer } from '@/lib/kinetic/render';
 import { createStageRenderer, turboSupported, type StageRenderer } from '@/lib/kinetic/stageRenderer';
 import { MODES, STAGE_MODES, type StageMode } from '@/lib/kinetic/modes';
+import { planDirector } from '@/lib/kinetic/director';
 import { TURBO_STYLES, TURBO_STYLE_IDS, type TurboStyleId } from '@/lib/kinetic/turbo';
 import { STYLES } from '@/lib/kinetic/styles';
 import { STYLE_IDS, type StyleId } from '@/lib/kinetic/types';
@@ -68,6 +69,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
   const [mode, setMode] = useState<StageMode>(ui.mode === 'turbo' && turboSupported() ? 'turbo' : 'clean');
   const canTurbo = turboSupported();
   const [turboStyle, setTurboStyle] = useState<TurboStyleId>(ui.turboStyle);
+  const [directed, setDirected] = useState(ui.director);
   const [colorMode, setColorMode] = useState<ColorMode>(ui.colorMode);
   const [moodPick, setMoodPick] = useState<EmotionId | 'auto'>(ui.mood);
   const [emojis, setEmojis] = useState(ui.emojis);
@@ -101,7 +103,8 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
   const timeline = useMemo(() => compileForTrack({ track, doc, style, albumPalette, cover, mood: moodFor(track, doc, moodPick), estimateWords: ui.estimatedWords }), [track, doc, style, albumPalette, cover, moodPick, ui.estimatedWords]);
   // the stage's own Look when the style is unchanged, otherwise the chosen direction composed for this song
   const look = useMemo(() => (style === direction ? stageLook : composeLook({ direction: directionOf(style), identity, cover: coverInfo }).look), [style, direction, stageLook, identity, coverInfo]);
-  const content: ExportContent = useMemo(() => ({ colorMode, emojis, doodles, artwork, interlude, texture, reducedMotion: calm, turboStyle }), [colorMode, emojis, doodles, artwork, interlude, texture, calm, turboStyle]);
+  const director = useMemo(() => (mode === 'turbo' && directed && !calm ? planDirector(timeline, turboStyle) : null), [mode, directed, calm, timeline, turboStyle]);
+  const content: ExportContent = useMemo(() => ({ colorMode, emojis, doodles, artwork, interlude, texture, reducedMotion: calm, turboStyle, director }), [colorMode, emojis, doodles, artwork, interlude, texture, calm, turboStyle, director]);
 
   // the cover must be loaded with CORS or the encoder would refuse the tainted canvas
   useEffect(() => {
@@ -375,6 +378,10 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
                     ))}
                   </select>
                   <p className="text-xs text-ink-400">{TURBO_STYLES[turboStyle].tagline}</p>
+                  <label className="flex items-center gap-2 text-xs">
+                    <input type="checkbox" checked={directed} onChange={(e) => setDirected(e.target.checked)} disabled={lock || calm} className="h-3.5 w-3.5 accent-[var(--color-signal)]" data-testid="export-director" />
+                    Auto director (scene changes with verse and chorus)
+                  </label>
                 </>
               )}
             </fieldset>

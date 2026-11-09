@@ -17,6 +17,7 @@ import { drawIcon, iconColors, type IconId } from '../icons';
 import { EMOTION_DEFS } from '../emotion';
 import type { RendererOptions } from '../render';
 import { isSceneStyle, planStage, turboLook, type TurboStyleId } from '../turbo';
+import { styleAt } from '../director';
 import { drawScene } from './scenes';
 import type { SceneFx, SceneHost } from './scenes/types';
 import { SCENE_FONT_LOADS } from './scenes/fonts';
@@ -311,8 +312,10 @@ export class TurboRenderer {
   private currentStyle(): StyleDef {
     return this.look?.style ?? (this.timeline ? STYLES[this.timeline.style] : STYLES.maximalist);
   }
+  /** the scene of the frame being drawn (the auto director may change it with time) */
+  private frameStyle: TurboStyleId | null = null;
   private styleId(): TurboStyleId {
-    return this.options.turboStyle ?? 'liquid';
+    return this.frameStyle ?? this.options.turboStyle ?? 'liquid';
   }
   setTimeline(tl: VisualTimeline | null) {
     this.timeline = tl;
@@ -523,9 +526,20 @@ export class TurboRenderer {
         this.artGrid = gx.getImageData(0, 0, 48, 48).data;
       }
     } catch {
-      this.artGrid = null; // tainted cover: words fall back to white with an edge
+      // A cover served without CORS taints the canvas: WebGL may not read it at all (texImage2D throws a SecurityError). Turbo then
+      // draws without the cover instead of crashing the stage; the words fall back to white with an edge.
+      this.artGrid = null;
+      this.artCanvas = null;
+      return;
     }
-    this.uploadArtwork(c);
+    try {
+      this.uploadArtwork(c);
+    } catch {
+      const t = this.artTex as Tex | null;
+      if (t) gl.deleteTexture(t.tex);
+      this.artTex = null;
+      this.artCanvas = null;
+    }
   }
 
   /** The cover goes up once; its soft versions are made on the GPU (box down-scale, then a few separable blurs). */
@@ -584,6 +598,8 @@ export class TurboRenderer {
   render(tMs: number): Frame | null {
     const tl = this.timeline;
     if (!tl || !this.width || this.lost || this.disposed || !this.sceneRT) return null;
+    const dir = this.options.director;
+    this.frameStyle = dir ? styleAt(dir, tMs) : null;
     const ts = this.styleId();
     if (ts !== this.lastTurboStyle) {
       this.lastTurboStyle = ts;

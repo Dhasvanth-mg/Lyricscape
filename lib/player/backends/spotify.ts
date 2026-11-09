@@ -48,6 +48,7 @@ export class SpotifyBackend implements PlaybackBackend {
   readonly sdk: SpotifySdk;
   private ev: BackendEvents | null = null;
   private expectedId: string | null = null;
+  private context: string[] | undefined;
   private pendingTrack: Track | null = null;
   private durationMs = 0;
   private playing = false;
@@ -333,6 +334,7 @@ export class SpotifyBackend implements PlaybackBackend {
   async load(track: Track, opts: LoadOptions) {
     if (!track.providerTrackId) return;
     this.expectedId = track.providerTrackId;
+    this.context = opts.spotifyContext;
     this.durationMs = track.durationMs;
     this.loadedAt = Date.now();
     this.clock.reset(opts.startMs ?? 0, false);
@@ -350,7 +352,7 @@ export class SpotifyBackend implements PlaybackBackend {
     try {
       await this.sdk.activate();
       const device = await this.pickDevice();
-      await this.command(() => playTrackUri(track.providerTrackId!, device, startMs));
+      await this.command(() => playTrackUri(track.providerTrackId!, device, startMs, this.context));
       this.pendingTrack = null;
       this.activeDeviceId = device;
       this.setVolume(this.volume, this.muted);
@@ -420,6 +422,11 @@ export class SpotifyBackend implements PlaybackBackend {
 
   positionMs() {
     return this.clock.position();
+  }
+
+  /** true when the sound comes out of this browser tab (the in-browser Spotify player), not a phone or the desktop app */
+  playsHere() {
+    return this.browserSelected || (!!this.sdk.deviceId && this.activeDeviceId === this.sdk.deviceId);
   }
 
   stop() {

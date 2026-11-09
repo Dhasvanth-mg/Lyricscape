@@ -36,6 +36,8 @@ export type RendererOptions = {
   texture: boolean;
   /** Turbo only: which of the six GPU styles to draw (default liquid light) */
   turboStyle?: import('./turbo').TurboStyleId;
+  /** Turbo only: the auto director's plan. When set, the scene follows the song's sections instead of `turboStyle`. */
+  director?: import('./director').DirectorPlan | null;
 };
 
 type Ls = CanvasRenderingContext2D & { letterSpacing?: string };

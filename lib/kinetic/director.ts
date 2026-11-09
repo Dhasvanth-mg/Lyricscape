@@ -1,5 +1,7 @@
-// The auto director: Turbo changes scene with the song's structure, like a VJ. Verses keep the person's chosen scene,
-// choruses cut to a partner scene, long instrumental breaks to a third. Each cut lands on the beat nearest the section's start.
+// The auto director: Turbo changes scene with the song's structure, like a VJ. The song opens on the person's chosen scene; every
+// new section (chorus, verse, instrumental break, or a long stretch cut in two) moves to a different scene, going through all six
+// before any comes back and never repeating the one just shown, in an order of its own for each song. Each cut lands on the beat
+// nearest the section's start.
 //
 // Pure and deterministic: the plan comes from the timeline alone, and the scene at a moment is a lookup by time, so a seek,
 // a replay and an export all show the same scene at the same moment (AGENTS.md rule 3).
@@ -8,7 +10,8 @@
 // the lyrics, not a structural analysis of the audio; songs whose chorus never repeats a line get no chorus cuts.
 
 import type { VisualTimeline } from './types';
-import type { TurboStyleId } from './turbo';
+import { TURBO_STYLE_IDS, type TurboStyleId } from './turbo';
+import { hashKey, seeded } from './variety';
 
 export type SectionRole = 'verse' | 'chorus' | 'break';
 export type DirectorCut = { atMs: number; style: TurboStyleId; role: SectionRole };
@@ -16,11 +19,11 @@ export type DirectorPlan = { home: TurboStyleId; cuts: DirectorCut[] };
 
 /** Chorus partner for each home scene: chosen for contrast (calm vs loud, text-led vs picture-led). */
 export const CHORUS_PARTNER: Record<TurboStyleId, TurboStyleId> = { liquid: 'nebula', terminal: 'ascii', sketch: 'acid', nebula: 'liquid', acid: 'sketch', ascii: 'terminal' };
-/** Instrumental breaks: a scene that carries no lyrics well. */
-const BREAK_SCENE: Record<TurboStyleId, TurboStyleId> = { liquid: 'acid', terminal: 'liquid', sketch: 'liquid', nebula: 'acid', acid: 'liquid', ascii: 'liquid' };
 
 /** A section shorter than this is folded into its neighbour: cutting more often than this reads as flicker, not direction. */
 export const MIN_SECTION_MS = 8000;
+/** A section longer than this is cut in two (at a line start), so a song without a repeating chorus still moves. */
+export const MAX_SECTION_MS = 26000;
 /** A gap in the vocals at least this long is a break of its own. */
 export const MIN_BREAK_MS = 6000;
 
@@ -83,11 +86,51 @@ export function snapToBeat(t: number, beats: number[] | undefined): number {
   return Math.abs(best - t) <= period / 2 ? best : t;
 }
 
-export function planDirector(tl: Pick<VisualTimeline, 'scenes' | 'gaps' | 'durationMs' | 'beatTimesMs'>, home: TurboStyleId): DirectorPlan {
-  const styleFor = (r: SectionRole): TurboStyleId => (r === 'verse' ? home : r === 'chorus' ? CHORUS_PARTNER[home] : BREAK_SCENE[home]);
+/** Long sections cut at the line start nearest their middle (repeatedly), never into pieces shorter than the minimum. */
+function splitLong(segs: Seg[], tl: Pick<VisualTimeline, 'scenes'>): Seg[] {
+  const out: Seg[] = [];
+  const starts = tl.scenes.map((s) => s.startMs);
+  const split = (s: Seg) => {
+    if (s.endMs - s.startMs <= MAX_SECTION_MS || s.role === 'break') return void out.push(s);
+    const mid = (s.startMs + s.endMs) / 2;
+    let best = -1;
+    for (const t of starts) if (t - s.startMs >= MIN_SECTION_MS && s.endMs - t >= MIN_SECTION_MS && (best < 0 || Math.abs(t - mid) < Math.abs(best - mid))) best = t;
+    if (best < 0) return void out.push(s);
+    split({ ...s, endMs: best });
+    split({ ...s, startMs: best });
+  };
+  segs.forEach(split);
+  return out;
+}
+
+/**
+ * The scenes in the order a song visits them: home first, then the other five shuffled, then fresh shuffles of all six (never
+ * the scene just shown). `key` (the track id and seed) gives every song its own order; the same song always gets the same one.
+ */
+export function sceneOrder(home: TurboStyleId, key: string, n: number): TurboStyleId[] {
+  const r = seeded(hashKey(`director|${key}|${home}`));
+  const shuffle = (xs: TurboStyleId[]) => {
+    for (let i = xs.length - 1; i > 0; i--) {
+      const j = Math.floor(r() * (i + 1));
+      [xs[i], xs[j]] = [xs[j]!, xs[i]!];
+    }
+    return xs;
+  };
+  const out: TurboStyleId[] = [home, ...shuffle(TURBO_STYLE_IDS.filter((s) => s !== home))];
+  while (out.length < n) {
+    const deck = shuffle([...TURBO_STYLE_IDS]);
+    if (deck[0] === out[out.length - 1]) deck.push(deck.shift()!);
+    out.push(...deck);
+  }
+  return out.slice(0, Math.max(1, n));
+}
+
+export function planDirector(tl: Pick<VisualTimeline, 'scenes' | 'gaps' | 'durationMs' | 'beatTimesMs'> & { trackId?: string; seed?: number }, home: TurboStyleId): DirectorPlan {
+  const segs = splitLong(sectionsOf(tl), tl);
+  const order = sceneOrder(home, `${tl.trackId ?? ''}|${tl.seed ?? 0}`, segs.length);
   const cuts: DirectorCut[] = [];
-  for (const s of sectionsOf(tl)) {
-    const style = styleFor(s.role);
+  for (const s of segs) {
+    const style = order[cuts.length] ?? home;
     if (cuts.length && cuts[cuts.length - 1]!.style === style) continue;
     const at = cuts.length ? Math.round(snapToBeat(s.startMs, tl.beatTimesMs)) : 0;
     // snapping must never reorder cuts

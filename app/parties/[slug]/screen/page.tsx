@@ -58,7 +58,7 @@ function Slideshow({ media }: { media: MediaDto[] }) {
     return (
       <div className="flex h-full items-center justify-center text-center">
         <div>
-          <p className="font-display text-6xl uppercase">Scan to add photos</p>
+          <p className="text-5xl font-extrabold tracking-tight">Scan to add photos</p>
           <p className="mt-3 text-2xl text-ink-300">Approved photos and videos show up here live.</p>
         </div>
       </div>
@@ -118,14 +118,14 @@ function Screen({ slug }: { slug: string }) {
     <div className={clsx('fixed inset-0 grid grid-cols-[1fr_minmax(340px,28vw)] bg-ink-950 text-bone', chromeHidden && 'cursor-none')} data-testid="big-screen">
       <div className="relative min-w-0">
         <Slideshow media={snap.media.filter((m) => m.status === 'approved')} />
-        <div className="absolute top-6 left-6 rounded-full bg-black/60 px-5 py-2 font-display text-3xl tracking-wide uppercase backdrop-blur">{snap.event.title}</div>
+        <div className="absolute top-6 left-6 rounded-full bg-black/60 px-5 py-2 text-2xl backdrop-blur font-bold tracking-tight">{snap.event.title}</div>
       </div>
       <aside className="flex min-h-0 flex-col gap-6 border-l border-ink-800 bg-ink-900 p-6">
         <section>
           <p className="mb-1 font-mono text-xs tracking-[0.2em] text-signal uppercase">Now playing</p>
           {snap.nowPlaying ? (
             <>
-              <p className="font-display text-5xl leading-none tracking-wide uppercase">{snap.nowPlaying.track.title}</p>
+              <p className="text-4xl leading-tight font-extrabold tracking-tight">{snap.nowPlaying.track.title}</p>
               <p className="mt-2 text-xl text-ink-200">{snap.nowPlaying.track.artists.join(', ')}</p>
             </>
           ) : (
@@ -138,7 +138,7 @@ function Screen({ slug }: { slug: string }) {
             {upNext.length === 0 && <li className="text-ink-400">Scan the code to suggest a song</li>}
             {upNext.map((r, i) => (
               <li key={r!.id} className="flex items-baseline gap-3">
-                <span className="font-display text-2xl text-ink-500">{i + 1}</span>
+                <span className="text-xl text-ink-500 font-bold tracking-tight">{i + 1}</span>
                 <span className="min-w-0">
                   <span className="block truncate text-xl font-semibold">{r!.track.title}</span>
                   <span className="block truncate text-sm text-ink-300">
@@ -178,7 +178,7 @@ function Message({ title, body }: { title: string; body: string }) {
   return (
     <div className="flex min-h-dvh items-center justify-center p-8 text-center">
       <div>
-        <p className="font-display text-5xl uppercase">{title}</p>
+        <p className="text-4xl font-extrabold tracking-tight">{title}</p>
         <p className="mt-3 text-ink-300">{body}</p>
       </div>
     </div>

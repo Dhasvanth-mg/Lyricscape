@@ -92,9 +92,9 @@ export function PrivacyPanel({ settings, onChange, onWipe }: { settings: MapSett
   };
 
   return (
-    <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5" aria-label="Privacy and capture">
+    <section className="rounded-2xl bg-ink-850 p-5" aria-label="Privacy and capture">
       <div className="mb-3 flex items-center gap-2">
-        <h3 className="font-display text-2xl tracking-wide uppercase">Listening log</h3>
+        <h3 className="text-xl font-bold tracking-tight">Listening log</h3>
         {settings.enabled ? <Chip tone={settings.paused ? 'warn' : 'good'}>{settings.paused ? 'paused' : 'on'}</Chip> : <Chip>off</Chip>}
       </div>
 
@@ -241,8 +241,8 @@ export function MemoriesPanel({ memories, onChange, sessionForPlace }: { memorie
   };
 
   return (
-    <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5" aria-label="Song memories">
-      <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Song memories</h3>
+    <section className="rounded-2xl bg-ink-850 p-5" aria-label="Song memories">
+      <h3 className="mb-3 text-xl font-bold tracking-tight">Song memories</h3>
       <form onSubmit={save} className="mb-4 space-y-2">
         <p className="text-sm text-ink-300">{track ? <>Attach a note to <strong>{track.title}</strong>, the song playing now.</> : 'Play a song to attach a memory to it.'}</p>
         <textarea value={caption} onChange={(e) => setCaption(e.target.value)} maxLength={1000} rows={2} placeholder="Where were you? What did it feel like?" disabled={!track} className="w-full rounded-lg border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-aqua" />
@@ -352,8 +352,8 @@ export function TripsPanel({ trips, onChange }: { trips: TripDto[]; onChange: ()
   };
 
   return (
-    <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5" aria-label="Trips">
-      <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Trips & soundtracks</h3>
+    <section className="rounded-2xl bg-ink-850 p-5" aria-label="Trips">
+      <h3 className="mb-3 text-xl font-bold tracking-tight">Trips & soundtracks</h3>
       <form onSubmit={create} className="mb-4 grid gap-2 sm:grid-cols-2">
         <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Trip name" required maxLength={80} className={field + ' sm:col-span-2'} aria-label="Trip name" />
         <input type="datetime-local" value={from} onChange={(e) => setFrom(e.target.value)} required className={field} aria-label="Trip start" />

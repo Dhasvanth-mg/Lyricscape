@@ -53,8 +53,8 @@ export function SongSuggest({ eventId, onAdded, extraSearch }: Props) {
   const typed = q.split(/\s[-–—]\s/);
 
   return (
-    <div className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
-      <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Suggest a song</h3>
+    <div className="rounded-2xl bg-ink-850 p-4">
+      <h3 className="mb-3 text-xl font-bold tracking-tight">Suggest a song</h3>
       <div className="relative mb-3">
         <Search size={16} className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-ink-400" />
         <input

@@ -25,7 +25,7 @@ export function QueueDrawer() {
     >
       <header className="flex items-center justify-between border-b border-ink-700 p-4">
         <div>
-          <h2 className="font-display text-2xl tracking-wide uppercase">Queue</h2>
+          <h2 className="text-xl font-bold tracking-tight">Queue</h2>
           <p className="text-xs text-ink-400">
             {queue.entries.length} tracks {queue.shuffle && '· shuffled'}
           </p>

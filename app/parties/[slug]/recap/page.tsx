@@ -137,8 +137,8 @@ function RecapSetup({ eventId, onCreated, hasPrevious, onBack }: { eventId: stri
   if (!tracks) return <Spinner />;
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <section className="space-y-4 rounded-2xl border border-ink-700 bg-ink-900 p-5">
-        <h2 className="font-display text-3xl tracking-wide uppercase">New recap</h2>
+      <section className="space-y-4 rounded-2xl bg-ink-850 p-5">
+        <h2 className="text-2xl font-bold tracking-tight">New recap</h2>
         <div>
           <p className="mb-1.5 text-sm text-ink-300">Length</p>
           <div className="flex flex-wrap gap-2">
@@ -181,8 +181,8 @@ function RecapSetup({ eventId, onCreated, hasPrevious, onBack }: { eventId: stri
         )}
       </section>
 
-      <section className="space-y-4 rounded-2xl border border-ink-700 bg-ink-900 p-5">
-        <h2 className="font-display text-3xl tracking-wide uppercase">Soundtrack</h2>
+      <section className="space-y-4 rounded-2xl bg-ink-850 p-5">
+        <h2 className="text-2xl font-bold tracking-tight">Soundtrack</h2>
         <fieldset className="space-y-1.5">
           <legend className="sr-only">Choose a soundtrack</legend>
           {tracks.demo.map((d) => (
@@ -344,7 +344,7 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
       )}
 
       {runningPlan && planJob && (
-        <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5" aria-live="polite">
+        <section className="rounded-2xl bg-ink-850 p-5" aria-live="polite">
           <p className="mb-2 font-semibold">
             {planJob.status === 'queued' ? (d.workerOnline ? 'Waiting for the worker…' : 'Waiting for the media worker. Run `pnpm worker`.') : planJob.status === 'analyzing' ? 'Analysing the music and checking your media…' : 'Planning the edit…'}
           </p>
@@ -365,16 +365,16 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
       {tl && (
         <>
           {tl.notes.length > 0 && (
-            <ul className="space-y-1 rounded-xl border border-ink-700 bg-ink-900 p-4 text-sm text-ink-300">
+            <ul className="space-y-1 rounded-xl bg-ink-850 p-4 text-sm text-ink-300">
               {tl.notes.map((n, i) => (
                 <li key={i}>• {n}</li>
               ))}
             </ul>
           )}
 
-          <section className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
+          <section className="rounded-2xl bg-ink-850 p-4">
             <div className="mb-3 flex flex-wrap items-center gap-2">
-              <h3 className="font-display text-2xl tracking-wide uppercase">Timeline · {fmt(tl.durationMs)}</h3>
+              <h3 className="text-xl font-bold tracking-tight">Timeline · {fmt(tl.durationMs)}</h3>
               <span className="text-xs text-ink-400">
                 {tl.audio.title ?? 'soundtrack'} · {tl.audio.license}
               </span>
@@ -444,7 +444,7 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
           {selected && (
             <section className="rounded-2xl border border-signal/40 bg-ink-900 p-4" aria-label="Selected clip">
               <div className="mb-3 flex flex-wrap items-center gap-2">
-                <h3 className="font-display text-xl tracking-wide uppercase">
+                <h3 className="text-lg font-bold tracking-tight">
                   Clip {tl.clips.findIndex((c) => c.id === selected.id) + 1} · {fmt(selected.timelineStartMs)} · {(selected.durationMs / 1000).toFixed(1)}s
                 </h3>
                 <span className="text-xs text-ink-400">by {selected.contributor}</span>
@@ -515,8 +515,8 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
           )}
 
           <section className="grid gap-4 lg:grid-cols-2">
-            <div className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
-              <h3 className="mb-2 font-display text-2xl tracking-wide uppercase">Render</h3>
+            <div className="rounded-2xl bg-ink-850 p-4">
+              <h3 className="mb-2 text-xl font-bold tracking-tight">Render</h3>
               {dirty && <p className="mb-2 text-sm text-sun">Save your edits first. Renders use the saved version.</p>}
               <div className="flex flex-wrap gap-2">
                 <Button onClick={() => void render('preview')} disabled={busy || dirty}>
@@ -550,8 +550,8 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
                   </p>
                 ))}
             </div>
-            <div className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
-              <h3 className="mb-2 font-display text-2xl tracking-wide uppercase">Result</h3>
+            <div className="rounded-2xl bg-ink-850 p-4">
+              <h3 className="mb-2 text-xl font-bold tracking-tight">Result</h3>
               {!latestPreview && !latestFinal && <p className="text-sm text-ink-400">Render a preview to watch it here.</p>}
               {(latestFinal ?? latestPreview) && (
                 <>

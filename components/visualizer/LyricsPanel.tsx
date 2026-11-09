@@ -59,7 +59,7 @@ export function LyricsPanel({ track, lyrics }: { track: Track; lyrics: L }) {
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-center gap-2">
-        <h2 className="font-display text-2xl tracking-wide uppercase">Lyrics</h2>
+        <h2 className="text-xl font-bold tracking-tight">Lyrics</h2>
         {lyrics.source && <Chip tone="good">{lyrics.source}</Chip>}
         {lyrics.doc && <TimingChips doc={lyrics.doc} />}
         <div className="ml-auto flex gap-1 rounded-full bg-ink-800 p-1 text-sm">

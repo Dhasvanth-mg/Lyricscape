@@ -175,7 +175,7 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
   };
 
   return (
-    <div className="rounded-2xl border border-ink-700 bg-ink-900">
+    <div className="rounded-2xl bg-ink-850">
       <div className="flex flex-wrap items-center gap-1 border-b border-ink-700 p-2">
         <IconButton label="Undo" onClick={doUndo} disabled={!undo.length}>
           <Undo2 size={16} />

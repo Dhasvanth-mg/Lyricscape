@@ -61,7 +61,7 @@ function Room({ slug, children }: { slug: string; children: React.ReactNode }) {
             {connected ? 'live' : 'offline'}
           </span>
         </div>
-        <h1 className="font-display text-5xl leading-none tracking-wide uppercase sm:text-6xl">{snap.event.title}</h1>
+        <h1 className="text-4xl leading-tight sm:text-5xl font-extrabold tracking-tight">{snap.event.title}</h1>
         {snap.event.description && <p className="mt-2 max-w-2xl text-ink-300">{snap.event.description}</p>}
       </header>
       <nav aria-label="Party sections" className="mb-6 flex flex-wrap items-center gap-1 border-b border-ink-800 pb-3">

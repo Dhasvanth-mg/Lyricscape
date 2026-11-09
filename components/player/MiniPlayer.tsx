@@ -27,18 +27,18 @@ export function MiniPlayer() {
     <div
       role="region"
       aria-label="Player"
-      className="fixed inset-x-0 bottom-[var(--nav-h)] z-40 border-t border-ink-700 bg-ink-900/95 backdrop-blur-xl md:bottom-0 md:left-[220px]"
+      className="fixed inset-x-2 bottom-[calc(var(--nav-h)+4px)] z-40 overflow-hidden rounded-lg bg-ink-800 shadow-menu md:inset-x-0 md:bottom-0 md:rounded-none md:bg-ink-950 md:shadow-none"
     >
-      <div className="relative mx-auto flex h-[var(--player-h)] max-w-[1600px] items-center gap-3 px-3 sm:px-5">
+      <div className="relative flex h-[var(--player-h)] items-center gap-3 px-3 sm:px-4">
         {/* track */}
         <div className="flex min-w-0 flex-1 items-center gap-3 md:flex-none md:basis-[30%]">
           <Link href="/listen/now-playing" aria-label="Open now playing" className="shrink-0">
-            <Cover track={track} className="h-12 w-12 text-lg" />
+            <Cover track={track} className="h-14 w-14 text-lg" rounded="rounded-md" />
           </Link>
           <div className="min-w-0">
             {track ? (
               <>
-                <p className="truncate text-sm font-semibold">{track.title}</p>
+                <p className="truncate text-sm font-semibold hover:underline">{track.title}</p>
                 <p className="flex items-center gap-2 truncate text-xs text-ink-300">
                   <span className="truncate">{track.artists.join(', ')}</span>
                   <Chip tone={track.provider === 'spotify' ? 'spotify' : 'default'} className="hidden shrink-0 sm:inline-flex">
@@ -49,16 +49,16 @@ export function MiniPlayer() {
               </>
             ) : (
               <>
-                <p className="text-sm font-semibold text-ink-200">Nothing playing</p>
-                <p className="text-xs text-ink-400">Pick a song in Listen</p>
+                <p className="truncate text-sm font-semibold text-bone">Nothing playing</p>
+                <p className="truncate text-xs text-ink-300">Pick a song in Listen</p>
               </>
             )}
           </div>
         </div>
 
         {/* transport */}
-        <div className="flex flex-col items-center gap-0.5 md:flex-1">
-          <div className="flex items-center gap-1">
+        <div className="flex flex-col items-center gap-1 md:flex-1">
+          <div className="flex items-center gap-2">
             <IconButton label={queue.shuffle ? 'Shuffle on' : 'Shuffle off'} active={queue.shuffle} onClick={() => player.toggleShuffle()} className="hidden sm:inline-flex">
               <Shuffle size={17} />
             </IconButton>
@@ -69,9 +69,9 @@ export function MiniPlayer() {
               onClick={() => void player.toggle()}
               disabled={!track && queue.entries.length === 0}
               aria-label={playing ? 'Pause' : 'Play'}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-bone text-ink-950 transition hover:scale-105 active:scale-95 disabled:opacity-30"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-bone text-ink-950 transition hover:scale-105 active:scale-95 disabled:opacity-30"
             >
-              {busy && status === 'loading' ? <Spinner className="border-ink-600 border-t-ink-950" /> : playing ? <Pause size={19} fill="currentColor" /> : <Play size={19} fill="currentColor" className="translate-x-px" />}
+              {busy && status === 'loading' ? <Spinner className="border-ink-600 border-t-ink-950" /> : playing ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="translate-x-px" />}
             </button>
             <IconButton label="Next" onClick={() => void player.next()} disabled={!track}>
               <SkipForward size={19} fill="currentColor" />
@@ -80,8 +80,8 @@ export function MiniPlayer() {
               {queue.repeat === 'one' ? <Repeat1 size={17} /> : <Repeat size={17} />}
             </IconButton>
           </div>
-          <div className="hidden w-full max-w-xl items-center gap-2 font-mono text-[11px] text-ink-400 md:flex">
-            <span className="w-9 text-right tabular-nums">{fmtTime(pos)}</span>
+          <div className="hidden w-full max-w-xl items-center gap-2 text-xs text-ink-300 md:flex">
+            <span className="w-10 text-right tabular-nums">{fmtTime(pos)}</span>
             <input
               type="range"
               className="seek"
@@ -94,7 +94,7 @@ export function MiniPlayer() {
               style={{ ['--pct' as string]: `${pct}%` }}
               onChange={(e) => void player.seek(Number(e.target.value))}
             />
-            <span className="w-9 tabular-nums">{fmtTime(dur)}</span>
+            <span className="w-10 tabular-nums">{fmtTime(dur)}</span>
           </div>
         </div>
 
@@ -122,14 +122,14 @@ export function MiniPlayer() {
               onChange={(e) => player.setVolume(Number(e.target.value))}
             />
           </div>
-          <Link href="/visuals" aria-label="Open visuals" className="hidden h-9 w-9 items-center justify-center rounded-full text-ink-300 hover:text-bone xl:inline-flex">
+          <Link href="/visuals" aria-label="Open visuals" className="hidden h-8 w-8 items-center justify-center rounded-full text-ink-300 hover:text-bone xl:inline-flex">
             <Maximize2 size={17} />
           </Link>
         </div>
 
         {/* thin progress on mobile */}
-        <div className="absolute inset-x-0 top-0 h-0.5 bg-ink-700 md:hidden">
-          <div className={clsx('h-full bg-signal')} style={{ width: `${pct}%` }} />
+        <div className="absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-ink-600 md:hidden">
+          <div className={clsx('h-full rounded-full bg-bone')} style={{ width: `${pct}%` }} />
         </div>
       </div>
 

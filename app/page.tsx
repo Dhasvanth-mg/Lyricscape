@@ -28,49 +28,51 @@ export default function Home() {
 
   return (
     <div>
-      <section className="grain relative mb-10 overflow-hidden rounded-3xl border border-ink-700 bg-gradient-to-br from-ink-850 via-ink-900 to-[#1b0d16] px-6 py-12 sm:px-12 sm:py-16">
-        <p className="mb-3 font-mono text-[11px] tracking-[0.2em] text-signal uppercase">Lyrics, alive</p>
-        <h1 className="max-w-3xl font-display text-6xl leading-[0.95] tracking-wide uppercase sm:text-8xl">
-          Put the words <span className="text-signal">on the beat</span>
-        </h1>
-        <p className="mt-5 max-w-xl text-lg text-ink-200">
+      <section className="relative -mx-4 -mt-6 mb-8 overflow-hidden bg-[linear-gradient(to_bottom,var(--color-signal-dim),transparent)] px-4 pt-16 pb-8 sm:-mx-6 sm:px-6 md:-mx-8 md:-mt-8 md:rounded-t-xl md:px-8 md:pt-24">
+        <p className="mb-2 text-sm font-semibold">Lyrics, alive</p>
+        <h1 className="max-w-3xl text-5xl leading-[1.05] font-extrabold tracking-tighter sm:text-7xl">Put the words on the beat</h1>
+        <p className="mt-4 max-w-xl text-base text-ink-200">
           Play a song, or just leave Spotify running, and watch the lyrics turn into motion. Built to chill with.
         </p>
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <Button variant="primary" size="lg" onClick={() => demo.length && void player.playQueue(demo, 0)} disabled={!demo.length}>
+            <Play size={18} fill="currentColor" /> Try the demo songs
+          </Button>
           {spotify.connected ? (
-            <Button variant="spotify" size="lg" onClick={openStage} disabled={!track}>
+            <Button size="lg" onClick={openStage} disabled={!track}>
               <Mic2 size={18} /> {track ? 'Open lyrics for what’s playing' : 'Play something on Spotify'}
             </Button>
           ) : (
-            <Link href="/settings#spotify" className="inline-flex h-12 items-center gap-2 rounded-full bg-spotify px-7 text-base font-semibold text-black hover:brightness-110">
+            <Link href="/settings#spotify" className="inline-flex h-12 items-center gap-2 rounded-full border border-ink-400 px-8 text-base font-bold text-bone transition hover:scale-[1.04] hover:border-bone">
               Connect Spotify <ArrowRight size={18} />
             </Link>
           )}
-          <Button size="lg" onClick={() => demo.length && void player.playQueue(demo, 0)} disabled={!demo.length}>
-            <Play size={18} fill="currentColor" /> Try the demo songs
-          </Button>
         </div>
-        <div className="mt-6 flex flex-wrap gap-2">
+        <div className="mt-5 flex flex-wrap gap-2">
           <Chip tone={spotify.connected ? 'spotify' : 'default'}>{spotify.connected ? 'Spotify connected' : 'Spotify: not connected'}</Chip>
           <Chip>Runs locally · no cloud</Chip>
         </div>
       </section>
 
       <section className="mb-10">
-        <h2 className="mb-4 font-display text-3xl tracking-wide uppercase">Start with a demo</h2>
-        <ul className="grid gap-4 sm:grid-cols-3">
+        <h2 className="mb-3 text-2xl font-bold tracking-tight">Start with a demo</h2>
+        <ul className="-mx-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
           {demo.map((t, i) => (
             <li key={t.id}>
               <button
                 onClick={() => void player.playQueue(demo, i)}
-                className="group block w-full overflow-hidden rounded-2xl border border-ink-700 bg-ink-900 text-left transition hover:border-ink-400"
+                aria-label={`Play ${t.title}`}
+                className="group block w-full rounded-lg p-3 text-left transition-colors hover:bg-ink-850"
               >
-                <Cover track={t} rounded="rounded-none" className="aspect-square w-full" />
-                <span className="block p-4">
-                  <span className="block font-semibold">{t.title}</span>
-                  <span className="block text-sm text-ink-300">
-                    {t.artists[0]} · {t.bpm} BPM
+                <span className="relative mb-3 block">
+                  <Cover track={t} rounded="rounded-md" className="aspect-square w-full shadow-menu" />
+                  <span className="absolute right-2 bottom-2 flex h-12 w-12 translate-y-2 items-center justify-center rounded-full bg-signal text-white opacity-0 shadow-card transition duration-300 ease-spring group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+                    <Play size={20} fill="currentColor" className="translate-x-px" />
                   </span>
+                </span>
+                <span className="block truncate font-semibold text-base">{t.title}</span>
+                <span className="block truncate text-sm text-ink-300">
+                  {t.artists[0]} · {t.bpm} BPM
                 </span>
               </button>
             </li>
@@ -78,17 +80,20 @@ export default function Home() {
         </ul>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-3">
-        {FEATURES.map((f) => (
-          <Link key={f.href} href={f.href} className="group rounded-2xl border border-ink-700 bg-ink-900 p-6 transition hover:border-ink-400">
-            <span className={`mb-4 block h-1.5 w-10 rounded-full ${f.accent}`} />
-            <h3 className="mb-2 font-display text-2xl tracking-wide uppercase">{f.title}</h3>
-            <p className="text-sm text-ink-300">{f.body}</p>
-            <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-bone group-hover:gap-2">
-              Open <ArrowRight size={14} />
-            </span>
-          </Link>
-        ))}
+      <section>
+        <h2 className="mb-3 text-2xl font-bold tracking-tight">Explore Lyricscape</h2>
+        <div className="grid gap-3 md:grid-cols-3">
+          {FEATURES.map((f) => (
+            <Link key={f.href} href={f.href} className="group flex flex-col rounded-lg bg-ink-850 p-5 transition-colors hover:bg-ink-800">
+              <span className={`mb-4 block h-1 w-8 rounded-full ${f.accent}`} />
+              <h3 className="mb-1 text-lg font-bold tracking-tight">{f.title}</h3>
+              <p className="text-sm text-ink-300">{f.body}</p>
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-bone group-hover:underline">
+                Open <ArrowRight size={14} />
+              </span>
+            </Link>
+          ))}
+        </div>
       </section>
     </div>
   );

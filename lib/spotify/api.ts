@@ -172,12 +172,20 @@ export type PlaybackState = {
 export const getPlaybackState = () => spFetch<PlaybackState>('/me/player', { query: { additional_types: 'track' } });
 export const getDevices = async () => (await spFetch<{ devices: SpotifyDevice[] }>('/me/player/devices'))?.devices ?? [];
 
-export const playTrackUri = (trackId: string, deviceId?: string, positionMs = 0) =>
-  spFetch('/me/player/play', {
+/**
+ * Start `trackId`. `context` is the app queue's Spotify songs in play order (it must contain trackId): Spotify gets them all, so
+ * skip and previous also work from the phone, the desktop app or a headset while Lyricscape is playing, and Spotify moves on by
+ * itself when a song ends. Without it Spotify only knows this one song and has nothing to skip to.
+ */
+export const playTrackUri = (trackId: string, deviceId?: string, positionMs = 0, context?: string[]) => {
+  const at = context ? context.indexOf(trackId) : -1;
+  const ids = at >= 0 ? context! : [trackId];
+  return spFetch('/me/player/play', {
     method: 'PUT',
     query: { device_id: deviceId },
-    body: { uris: [`spotify:track:${trackId}`], position_ms: Math.max(0, Math.round(positionMs)) },
+    body: { uris: ids.map((id) => `spotify:track:${id}`), offset: { position: Math.max(0, at) }, position_ms: Math.max(0, Math.round(positionMs)) },
   });
+};
 export const resumePlayback = (deviceId?: string) => spFetch('/me/player/play', { method: 'PUT', query: { device_id: deviceId } });
 export const pausePlayback = (deviceId?: string) => spFetch('/me/player/pause', { method: 'PUT', query: { device_id: deviceId } });
 export const seekPlayback = (ms: number, deviceId?: string) =>

@@ -23,9 +23,28 @@ import {
   setRepeat,
   setShuffle,
   type QueueState,
+  playOrder,
 } from './queue';
 import { bindController, providers, spotifyCapabilities } from './providers';
 import { isConnected } from '../spotify/auth';
+
+/**
+ * The queue's Spotify songs around `qid`, in play order, for Spotify's own queue (it takes up to 100). Other devices then skip
+ * through the same songs the app would, and the app follows them.
+ */
+export function spotifyContextOf(q: QueueState, qid: string, before = 20, max = 100): string[] {
+  const byQid = new Map(q.entries.map((e) => [e.qid, e.track]));
+  const order = playOrder(q);
+  const at = order.indexOf(qid);
+  if (at < 0) return [];
+  const ids = (qids: string[]) => qids.map((x) => byQid.get(x)).filter((t): t is Track => t?.provider === 'spotify' && !!t.providerTrackId).map((t) => t.providerTrackId!);
+  const head = ids(order.slice(0, at)).slice(-before);
+  const cur = ids([qid]);
+  const tail = ids(order.slice(at + 1)).slice(0, max - head.length - cur.length);
+  // the current song must be unique in the list (Spotify starts at its position); drop repeats of it
+  const c = cur[0];
+  return [...head.filter((x) => x !== c), ...cur, ...tail.filter((x) => x !== c)];
+}
 
 export type PlayerState = {
   status: PlayerStatus;
@@ -250,7 +269,7 @@ class PlayerController {
     });
     backend.setVolume(get().volume, get().muted);
     this.updateMediaSession();
-    await backend.load(track, { autoplay, startMs });
+    await backend.load(track, { autoplay, startMs, spotifyContext: track.provider === 'spotify' ? spotifyContextOf(get().queue, entry.qid) : undefined });
     if (seq !== this.loadSeq) return;
     if (!autoplay && get().status === 'loading') set({ status: 'paused' });
     this.scheduleSave();
@@ -484,7 +503,33 @@ class PlayerController {
     }
     usePlayer.subscribe((s, prev) => {
       if (s.status !== prev.status) ms.playbackState = s.status === 'playing' ? 'playing' : s.track ? 'paused' : 'none';
+      if (s.status !== prev.status || s.spotify.output !== prev.spotify.output || s.track?.provider !== prev.track?.provider) this.syncAnchor();
     });
+  }
+
+  /**
+   * The in-browser Spotify player plays from Spotify's own hidden frame, and the browser shows the media info of whichever frame
+   * is playing: Windows' media popup (and the lock screen, headsets, Bluetooth cars) then showed just "Lyricscape" with no song.
+   * A silent loop on our own page while Spotify plays in this tab makes this page the media owner, so the title, artist and cover
+   * set in updateMediaSession are what the system shows. It plays silence only: no Spotify audio is touched.
+   */
+  private anchor: HTMLAudioElement | null = null;
+  private syncAnchor() {
+    if (typeof window === 'undefined') return;
+    const s = get();
+    const want = s.status === 'playing' && s.track?.provider === 'spotify' && (s.spotify.output === 'browser' || !!this.spotify?.playsHere());
+    if (want && !this.anchor) {
+      const a = new Audio(silentWavUrl());
+      a.loop = true;
+      a.preload = 'auto';
+      this.anchor = a;
+    }
+    if (!this.anchor) return;
+    if (want && this.anchor.paused) {
+      void this.anchor.play().then(() => this.updateMediaSession()).catch(() => undefined);
+    } else if (!want && !this.anchor.paused) {
+      this.anchor.pause();
+    }
   }
 
   private updateMediaSession() {
@@ -519,3 +564,27 @@ class PlayerController {
 }
 
 export const player = new PlayerController();
+
+let silentUrl: string | null = null;
+/** One second of 8 kHz 8-bit mono silence as a WAV blob URL. */
+function silentWavUrl(): string {
+  if (silentUrl) return silentUrl;
+  const n = 8000;
+  const b = new DataView(new ArrayBuffer(44 + n));
+  const str = (o: number, t: string) => [...t].forEach((c, i) => b.setUint8(o + i, c.charCodeAt(0)));
+  str(0, 'RIFF');
+  b.setUint32(4, 36 + n, true);
+  str(8, 'WAVEfmt ');
+  b.setUint32(16, 16, true);
+  b.setUint16(20, 1, true);
+  b.setUint16(22, 1, true);
+  b.setUint32(24, 8000, true);
+  b.setUint32(28, 8000, true);
+  b.setUint16(32, 1, true);
+  b.setUint16(34, 8, true);
+  str(36, 'data');
+  b.setUint32(40, n, true);
+  for (let i = 0; i < n; i++) b.setUint8(44 + i, 128);
+  silentUrl = URL.createObjectURL(new Blob([b.buffer], { type: 'audio/wav' }));
+  return silentUrl;
+}

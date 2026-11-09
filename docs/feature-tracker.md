@@ -12,6 +12,10 @@ Ideas the owner has asked to keep for later. Not started; nothing here is built.
   5. Optional: aligner on in-memory audio with a multilingual forced-alignment model (Hindi, Tamil). Stretches the listening rule; owner to decide.
   - Not recommended without an explicit owner decision: a Spicetify bridge (modifies the Spotify client) or librespot as the player (unofficial client, account risk).
 
+## Playback fixes from testing on the owner's PC (2026-11-09)
+- Request: Turbo crashed on some covers ("Tainted canvases"); skip/previous showed "not valid JSON"; skip on the phone did nothing while Lyricscape played; Windows' media popup showed only "Lyricscape".
+- Outcome: covers that block pixel reads are skipped by Turbo; Spotify's bare-id replies count as success; songs started in the app now hand Spotify the queue's Spotify songs around them (up to 100), so other devices can skip and the app follows; while the in-browser Spotify player plays, a silent loop on our page makes the browser show our title, artist and cover. Needs a check on the owner's machine (phone skip, Windows popup).
+
 ## Build the top three feature ideas (2026-11-09)
 
 - Start: owner said "do allat" for the ten ideas, then narrowed it to the top three (not Hue lights, not sing mode; the rest stay ideas). Scope: (1) lyrics outside the app: a floating always-on-top window (Document Picture-in-Picture), an OBS overlay page and a desktop-wallpaper page fed by a local "now playing" stream; (2) Turbo auto director: scenes follow verse, chorus and instrumental breaks, cutting on the nearest beat, live and in export; (3) a second line under the lyrics: display romanisation for Hindi and Tamil, or a translation (browser on-device translator first, the configured AI gateway only if allowed). Acceptance: each works on the demo songs in a browser here; pure parts tested; nothing changes lyric timing or the deterministic renderer contract; privacy defaults off. Status: built; checked in Chromium here except where noted.

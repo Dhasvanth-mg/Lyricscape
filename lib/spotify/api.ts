@@ -67,7 +67,13 @@ export async function spFetch<T = unknown>(path: string, opts: FetchOpts = {}, a
   if (res.status === 204 || (res.status === 202 && !(res.headers.get('content-type') ?? '').includes('json'))) return null;
   if (res.ok) {
     const text = await res.text();
-    return text ? (JSON.parse(text) as T) : null;
+    if (!text) return null;
+    // some commands (skip, previous, play) answer 200 with a bare id, not JSON: that is success, there is just nothing to read
+    try {
+      return JSON.parse(text) as T;
+    } catch {
+      return null;
+    }
   }
 
   if (res.status === 401 && attempt === 0) {

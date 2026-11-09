@@ -6,7 +6,7 @@
 
 import { clamp, cursorOn, drawText, easeInOut, hash01, lerp, lineAt, prefixPx, smooth, textTex, typedChars, wrapText } from './common';
 import { EYE_FS } from './shaders';
-import { pickSubject, subjectIndex, type Subject } from './subject';
+import { pickSubject, SUBJECTS, subjectIndex, type Subject } from './subject';
 import type { SceneFx, SceneHost, TexEntry } from './types';
 import { hashKey, hsl, pick, seeded, songHues } from '../../variety';
 
@@ -28,7 +28,7 @@ const IRISES: readonly [number, number, number][] = [
 ];
 const DENSITY = [70, 56, 84, 100, 64] as const;
 
-export type AsciiVariant = { ramp: string; iris: [number, number, number]; text: string; pool: string; keys: number; cells: number };
+export type AsciiVariant = { ramp: string; iris: [number, number, number]; text: string; pool: string; keys: number; cells: number; linesPer: number };
 
 /** The song's ASCII look: a character set, an iris colour, the colour the lyric is typed in, the room's glow and the keyboard's backlight. */
 export function asciiVariant(trackId: string, seed: number, palette: readonly string[] | undefined): AsciiVariant {
@@ -50,8 +50,65 @@ export function asciiVariant(trackId: string, seed: number, palette: readonly st
     pool: hsl(r() < 0.4 ? 0.33 : pick(r, hues), 0.6, 0.14),
     keys: r() < 0.4 ? 0.64 : pick(r, hues),
     cells: pick(r, DENSITY),
+    linesPer: pick(r, [2, 3, 3, 4]),
   };
 }
+export const ASCII_FRAMES = ['window', 'full', 'wide'] as const;
+export type AsciiFrame = (typeof ASCII_FRAMES)[number];
+export type AsciiSection = { subject: Subject; frame: AsciiFrame; tint: string | null; tintAmt: number };
+
+/**
+ * What a stretch of the song shows. The song changes picture every few lines: its own picture (from a title or lyric word) opens,
+ * then pictures picked from all 18, never the same twice running. The eye is one picture among many, not the default for everything.
+ */
+export function asciiSection(trackId: string, seed: number, palette: readonly string[] | undefined, lead: Subject, k: number): AsciiSection {
+  const r = seeded(hashKey(`${trackId}|${seed}|ascii-sec|${k}`));
+  const hues = songHues(palette, seed);
+  const subject = asciiSubjectAt(trackId, seed, lead, k);
+  const frame: AsciiFrame = k === 0 ? 'window' : r() < 0.45 ? 'window' : r() < 0.55 ? 'full' : 'wide';
+  const tinted = r() < 0.4;
+  return { subject, frame, tint: tinted ? hsl(pick(r, hues) + (r() < 0.5 ? 0 : 0.5), 0.8, 0.6) : null, tintAmt: tinted ? 0.5 + r() * 0.35 : 0 };
+}
+function asciiSubjectAt(trackId: string, seed: number, lead: Subject, k: number): Subject {
+  if (k === 0) {
+    // a song with no picture of its own opens on the eye only some of the time
+    if (lead !== 'eye') return lead;
+    return seeded(hashKey(`${trackId}|${seed}|lead`))() < 0.3 ? 'eye' : pick(seeded(hashKey(`${trackId}|${seed}|lead2`)), SUBJECTS.filter((x) => x !== 'eye'));
+  }
+  const prev = asciiSubjectAt(trackId, seed, lead, k - 1);
+  const r = seeded(hashKey(`${trackId}|${seed}|ascii-sub|${k}`));
+  // the song's own picture comes back now and then; the eye is rarer than the rest
+  if (lead !== 'eye' && prev !== lead && r() < 0.25) return lead;
+  const pool = SUBJECTS.filter((x) => x !== prev && (x !== 'eye' || r() < 0.4));
+  return pick(r, pool);
+}
+const secMemo = new Map<string, AsciiSection>();
+function sectionOf(tl: SceneHost['tl'], lead: Subject, k: number): AsciiSection {
+  const key = `${tl.trackId}|${tl.seed}|${lead}|${k}`;
+  let v = secMemo.get(key);
+  if (!v) {
+    if (secMemo.size > 400) secMemo.clear();
+    v = asciiSection(tl.trackId, tl.seed, tl.palette, lead, k);
+    secMemo.set(key, v);
+  }
+  return v;
+}
+/** the index of the last line that has started (-1 before the first) */
+function lineIndexAt(tl: SceneHost['tl'], t: number): number {
+  const sc = tl.scenes;
+  let lo = 0;
+  let hi = sc.length - 1;
+  let found = -1;
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    if (sc[mid]!.startMs - 30 <= t) {
+      found = mid;
+      lo = mid + 1;
+    } else hi = mid - 1;
+  }
+  return found;
+}
+
 let memo: { key: string; v: AsciiVariant } | null = null;
 function variantOf(tl: SceneHost['tl']): AsciiVariant {
   const key = `${tl.trackId}|${tl.seed}|${(tl.palette ?? []).join(',')}`;
@@ -150,12 +207,20 @@ export function drawAsciiScene(h: SceneHost): SceneFx {
   const ts = ct / 1000;
   h.clear('#010301');
   const V = variantOf(tl);
+  const li = lineIndexAt(tl, t);
+  const k = Math.max(0, Math.floor(li / V.linesPer));
+  const sec = sectionOf(tl, subjectOf(tl), k);
+  const secStart = li >= 0 ? (tl.scenes[k * V.linesPer]?.startMs ?? 0) : 0;
+  const cutAge = t - secStart;
 
   // ---- the picture ---------------------------------------------------------------------------------------------------------------
-  const S = Math.min(W * (H > W ? 0.86 : 0.62), H * 0.62);
+  const layout = sec.frame;
+  const S = layout === 'full' ? Math.min(W, H) : layout === 'wide' ? Math.min(W * 0.9, H * 0.58) : Math.min(W * (H > W ? 0.86 : 0.62), H * 0.62);
   const cx = W / 2;
-  const cy = H * (H > W ? 0.33 : 0.4);
-  const rect: [number, number, number, number] = [(cx - S / 2) / W, (cy - S / 2) / H, (cx + S / 2) / W, (cy + S / 2) / H];
+  const cy = layout === 'full' ? H / 2 : H * (H > W ? 0.33 : 0.4);
+  const halfW = layout === 'full' ? W / 2 : layout === 'wide' ? Math.min(W * 0.45, S * 0.9) : S / 2;
+  const halfH = layout === 'full' ? H / 2 : S / 2;
+  const rect: [number, number, number, number] = [(cx - halfW) / W, (cy - halfH) / H, (cx + halfW) / W, (cy + halfH) / H];
   // blinks, a look that jumps every second and a half, a pupil that breathes
   const blinkAt = [4.4, 7.7, 9.0, 16.2, 19.6];
   let open = 1;
@@ -176,7 +241,7 @@ export function drawAsciiScene(h: SceneHost): SceneFx {
   const toPlanet = smooth(11.2, 14.6, ts);
   const back = smooth(22.0, 25.2, ts);
   const morph = clamp(toPlanet - back);
-  const subject = subjectOf(tl);
+  const subject = sec.subject;
   h.fullscreen('eye', EYE_FS, 1, (p) => {
     p.f('u_time', ts);
     p.f('u_open', open);
@@ -189,26 +254,32 @@ export function drawAsciiScene(h: SceneHost): SceneFx {
     p.f('u_beat', frame.beat.pulse);
     p.f('u_energy', tl.emotion?.overall.arousal ?? 0.5);
     p.v3('u_iris', V.iris[0], V.iris[1], V.iris[2]);
+    const tc = sec.tint ? parseInt(sec.tint.slice(1), 16) : 0;
+    p.v3('u_tint', ((tc >> 16) & 255) / 255, ((tc >> 8) & 255) / 255, (tc & 255) / 255);
+    p.f('u_tintAmt', sec.tintAmt);
   });
   h.ascii({ cell: Math.max(6, Math.round(S / V.cells)), mix: 1, boost: 2.1, ramp: V.ramp });
 
   // ---- the room --------------------------------------------------------------------------------------------------------------------
   h.pool(W / 2, -H * 0.05, Math.max(W, H) * 0.7, V.pool, 0.35);
-  const left = cx - S / 2 - 10;
-  if (left > 50) {
+  const room = layout !== 'full';
+  const left = cx - halfW - 10;
+  if (room && left > 50) {
     const cs = codeStrip(h);
     h.sprite({ tex: cs.tex, m: [1, 0, 0, 1, left / 2, cy], w: left, h: S, mode: 0, camera: false, alpha: 0.75, lod: 0.5, fade: [0, 0.4, 0, 0] });
   }
-  const tb = taskbar(h);
-  h.sprite({ tex: tb.tex, m: [1, 0, 0, 1, cx, cy + S / 2 + S * 0.035], w: S * 1.0, h: S * 0.07, mode: 0, camera: false });
-  const kb = keyboard(h, V.keys);
-  const kh = H * (H > W ? 0.2 : 0.26);
-  h.sprite({ tex: kb.tex, m: [1, 0, 0, 1, W / 2, H - kh / 2], w: W * 1.02, h: kh, mode: 0, camera: false, alpha: 0.95, fade: [0, 0, 0.55, 0] });
+  if (room) {
+    const tb = taskbar(h);
+    h.sprite({ tex: tb.tex, m: [1, 0, 0, 1, cx, cy + halfH + S * 0.035], w: halfW * 2, h: S * 0.07, mode: 0, camera: false });
+    const kb = keyboard(h, V.keys);
+    const kh = H * (H > W ? 0.2 : 0.26);
+    h.sprite({ tex: kb.tex, m: [1, 0, 0, 1, W / 2, H - kh / 2], w: W * 1.02, h: kh, mode: 0, camera: false, alpha: 0.95, fade: [0, 0, 0.55, 0] });
+  }
 
   // ---- the lyric, typed on the screen --------------------------------------------------------------------------------------------------
   const line = lineAt(tl, t);
   const size = Math.min(W * 0.034, H * 0.05);
-  const y0 = cy + S / 2 + S * 0.16;
+  const y0 = layout === 'full' ? H * 0.8 : cy + halfH + S * 0.16;
   if (line) {
     const font = MONO(Math.round(size * 2));
     const rows = wrapText(h, line.text, font, W * 0.8 * 2);
@@ -229,5 +300,7 @@ export function drawAsciiScene(h: SceneHost): SceneFx {
     h.rect(W / 2, y0 - size * 0.55, Math.max(3, size * 0.5), size * 1.1, V.text, 0.9);
   }
 
-  return { scan: 0.05, curve: 0.04, vignette: 0.55, grain: 0.05, bloom: 1.3, aber: 0.4, exposure: 1 };
+  // a short glitch where the picture changes
+  const cut = k > 0 && !h.reduced ? Math.max(0, 1 - cutAge / 260) : 0;
+  return { scan: 0.05, curve: 0.04, vignette: 0.55, grain: 0.05, bloom: 1.3, aber: 0.4 + cut * 1.5, exposure: 1, glitch: cut * 0.9, blocks: cut * 0.6 };
 }

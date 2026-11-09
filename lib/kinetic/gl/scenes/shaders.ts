@@ -119,7 +119,10 @@ uniform float u_zoom;     // 1 = the whole eye
 uniform float u_morph;    // 0 eye .. 1 planet (through a dissolve)
 uniform float u_win;      // 1 inside the window the picture lives in (set by the vertex of the scene: window rect in uv)
 uniform vec4 u_rect;      // window in uv: x0, y0, x1, y1
-uniform int u_subject;    // 0 eye (and planet), 1 highway, 2 flashing lights, 3 ocean, 4 fire, 5 city, 6 space, 7 rain
+uniform int u_subject;    // 0 eye (and planet), 1 highway, 2 flashing lights, 3 ocean, 4 fire, 5 city, 6 space, 7 rain,
+                          // 8 tunnel, 9 heart, 10 flower, 11 mountains, 12 equalizer, 13 vortex, 14 globe, 15 sun grid, 16 helix, 17 butterfly
+uniform vec3 u_tint;      // a colour wash over the picture
+uniform float u_tintAmt;  // 0 = the picture's own colours
 uniform float u_beat;     // 0..1 pulse on the beat
 uniform float u_energy;   // 0..1 how lively the song is
 uniform vec3 u_iris;      // the iris colour (amber by default)
@@ -347,6 +350,137 @@ vec3 planet(vec2 p) {
   if (front) col = mix(col, ringC, ring * (1.0 - 0.0));
   return col;
 }
+vec3 tunnel(vec2 p) {
+  float t = u_time * (0.6 + u_energy);
+  float r = length(p) + 1e-3;
+  float a = atan(p.y, p.x);
+  float z = 0.35 / r + t;
+  float rings = smoothstep(0.35, 0.5, abs(fract(z * 2.0) - 0.5) * 2.0);
+  float spokes = smoothstep(0.8, 0.95, abs(sin(a * 6.0 + t * 0.3)));
+  vec3 col = hsv(fract(z * 0.08 + 0.55), 0.7, 1.0) * max(rings, spokes * 0.6);
+  col *= smoothstep(0.02, 0.4, r) * (1.0 + u_beat * 0.6);
+  return col;
+}
+vec3 heart(vec2 p) {
+  float beat = 1.0 + 0.12 * u_beat + 0.05 * sin(u_time * 6.0);
+  vec2 q = p / (0.62 * beat);
+  q.y = -q.y + 0.25;
+  float x = q.x, y = q.y - sqrt(abs(q.x)) * 0.62;
+  float d = x * x + y * y - 0.55;
+  float inside = smoothstep(0.03, -0.03, d);
+  float sh = clamp(1.0 - length(q - vec2(-0.25, 0.35)) * 0.9, 0.0, 1.0);
+  vec3 col = mix(vec3(0.5, 0.02, 0.08), vec3(1.0, 0.35, 0.45), sh) * inside;
+  col += vec3(1.0, 0.2, 0.35) * exp(-max(d, 0.0) * 6.0) * 0.35 * (1.0 - inside);
+  return col;
+}
+vec3 flower(vec2 p) {
+  float t = u_time * 0.3;
+  float r = length(p);
+  float a = atan(p.y, p.x);
+  float k = 5.0 + floor(hash(vec2(3.0, 9.0)) * 3.0);
+  float petal = 0.55 + 0.25 * cos(a * k + t) + 0.05 * u_beat;
+  float inside = smoothstep(petal + 0.02, petal - 0.02, r);
+  vec3 col = mix(vec3(1.0, 0.85, 0.3), hsv(0.92 + 0.08 * sin(t), 0.7, 1.0), smoothstep(0.08, 0.3, r)) * inside;
+  col *= 0.6 + 0.4 * cos(a * k * 2.0 + t);
+  float stem = smoothstep(0.03, 0.0, abs(p.x + sin(p.y * 2.0) * 0.05)) * step(0.0, -p.y - 0.4) ;
+  col += vec3(0.2, 0.7, 0.3) * stem * (1.0 - inside);
+  return col;
+}
+vec3 mountains(vec2 p) {
+  float t = u_time;
+  vec3 col = mix(vec3(0.9, 0.5, 0.35), vec3(0.08, 0.06, 0.2), smoothstep(-0.2, -1.0, p.y));
+  col += vec3(1.0, 0.85, 0.6) * smoothstep(0.24, 0.2, length(p - vec2(0.0, -0.1)));
+  for (int i = 0; i < 4; i++) {
+    float fi = float(i);
+    float h = 0.05 + fi * 0.18 + fbm(vec2(p.x * (1.5 + fi * 0.7) + t * 0.02 * (fi + 1.0) + fi * 9.0, fi)) * (0.5 - fi * 0.06);
+    if (-p.y < 0.6 - h) col = mix(vec3(0.12, 0.06, 0.18), vec3(0.02, 0.01, 0.05), fi / 3.0) + vec3(0.25, 0.1, 0.2) * (1.0 - fi / 3.0) * 0.4;
+  }
+  return col;
+}
+vec3 equalizer(vec2 p) {
+  float t = u_time;
+  float n = 18.0;
+  float bx = floor((p.x + 1.2) / 2.4 * n);
+  float fx = fract((p.x + 1.2) / 2.4 * n);
+  float h = 0.15 + 0.75 * noise(vec2(bx * 0.7, t * (1.5 + 2.0 * u_energy))) + u_beat * 0.25 * hash(vec2(bx, 2.0));
+  float y = (-p.y + 0.85) / 1.7;
+  float bar = step(0.12, fx) * step(fx, 0.88) * step(y, h) * step(0.0, y);
+  float seg = step(0.25, fract(y * 16.0));
+  vec3 col = mix(vec3(0.2, 1.0, 0.4), vec3(1.0, 0.2, 0.2), smoothstep(0.4, 0.9, y));
+  col = mix(col, vec3(1.0, 0.9, 0.2), smoothstep(0.35, 0.6, y) * (1.0 - smoothstep(0.6, 0.85, y)));
+  float peak = step(0.12, fx) * step(fx, 0.88) * smoothstep(0.02, 0.0, abs(y - h - 0.04));
+  return col * bar * seg + vec3(1.0) * peak;
+}
+vec3 vortex(vec2 p) {
+  float t = u_time * (0.5 + u_energy * 0.8);
+  float r = length(p);
+  float a = atan(p.y, p.x) + r * 4.0 - t;
+  float arms = 0.5 + 0.5 * sin(a * 4.0);
+  vec3 col = hsv(fract(r * 0.4 - t * 0.05), 0.75, 1.0) * pow(arms, 3.0) * smoothstep(1.3, 0.1, r);
+  col += vec3(1.0) * smoothstep(0.12, 0.0, r) * (0.6 + u_beat);
+  return col;
+}
+vec3 globe(vec2 p) {
+  float t = u_time * 0.15;
+  vec2 q = p / 0.72;
+  float r = length(q);
+  if (r > 1.0) return vec3(0.4, 0.6, 1.0) * exp(-(r - 1.0) * 12.0) * 0.5 + vec3(0.7) * step(0.997, hash(floor(p * 90.0))) * 0.5;
+  float z = sqrt(1.0 - r * r);
+  float lon = atan(q.x, z) + t * 6.2832;
+  float lat = asin(q.y);
+  float land = smoothstep(0.52, 0.56, fbm(vec2(lon * 1.6, lat * 2.2) + 4.0));
+  vec3 col = mix(vec3(0.03, 0.15, 0.4), vec3(0.2, 0.55, 0.25), land);
+  float grid = max(smoothstep(0.03, 0.0, abs(fract(lon * 12.0 / 6.2832) - 0.5) - 0.47), smoothstep(0.03, 0.0, abs(fract(lat * 8.0 / 3.1416) - 0.5) - 0.47));
+  col += vec3(0.4, 0.8, 1.0) * grid * 0.25;
+  col *= 0.25 + 0.85 * clamp(dot(normalize(vec3(q, z)), normalize(vec3(-0.5, -0.4, 0.8))), 0.0, 1.0);
+  return col;
+}
+vec3 sungrid(vec2 p) {
+  float t = u_time;
+  vec3 col;
+  float hy = 0.12;
+  if (p.y < hy) {
+    col = mix(vec3(0.35, 0.05, 0.4), vec3(0.03, 0.0, 0.1), smoothstep(hy, -1.0, p.y));
+    vec2 sp = p - vec2(0.0, -0.22);
+    float sun = smoothstep(0.43, 0.41, length(sp));
+    float bands = step(0.0, sin((sp.y) * 60.0 - t * 2.0) + (sp.y + 0.4) * 2.2);
+    col = mix(col, mix(vec3(1.0, 0.85, 0.2), vec3(1.0, 0.2, 0.55), smoothstep(-0.4, 0.4, sp.y)), sun * bands);
+    return col;
+  }
+  float d = p.y - hy + 0.02;
+  vec2 g = vec2(p.x / d, 1.0 / d + t * (1.5 + u_energy * 2.0));
+  float lines = max(smoothstep(0.06, 0.0, abs(fract(g.x * 0.5) - 0.5) - 0.45), smoothstep(0.08, 0.0, abs(fract(g.y * 0.5) - 0.5) - 0.44));
+  col = vec3(0.02, 0.0, 0.06) + vec3(1.0, 0.2, 0.8) * lines * smoothstep(0.0, 0.25, d);
+  return col;
+}
+vec3 helix(vec2 p) {
+  float t = u_time * (0.8 + u_energy);
+  vec3 col = vec3(0.0);
+  for (int i = 0; i < 2; i++) {
+    float ph = float(i) * 3.1416;
+    float x = sin(p.y * 4.0 + t + ph) * 0.45;
+    float z = cos(p.y * 4.0 + t + ph);
+    float dot_ = smoothstep(0.07, 0.04, abs(p.x - x)) * (0.55 + 0.45 * z);
+    col += mix(vec3(0.2, 0.7, 1.0), vec3(1.0, 0.35, 0.7), float(i)) * dot_;
+  }
+  float rx = sin(p.y * 4.0 + t) * 0.45;
+  float bar = step(abs(p.x), abs(rx)) * step(0.82, fract((p.y * 4.0 + t) / 0.6)) ;
+  col += vec3(0.6, 0.7, 0.9) * bar * 0.6;
+  return col;
+}
+vec3 butterfly(vec2 p) {
+  float t = u_time;
+  float flap = 0.55 + 0.45 * abs(sin(t * (2.0 + u_energy * 3.0)));
+  vec2 q = vec2(abs(p.x) / max(0.2, flap), -p.y);
+  float a = atan(q.y, q.x);
+  float r = length(q);
+  float wing = exp(sin(a)) - 2.0 * cos(4.0 * a) + pow(sin((2.0 * a - 3.1416) / 24.0), 5.0);
+  float inside = smoothstep(0.02, -0.02, r - wing * 0.22);
+  vec3 col = mix(hsv(fract(0.08 + t * 0.02), 0.85, 1.0), hsv(fract(0.6 + t * 0.02), 0.7, 0.9), smoothstep(0.1, 0.7, r)) * inside;
+  col *= 0.65 + 0.35 * sin(r * 30.0);
+  col += vec3(0.1, 0.06, 0.04) * smoothstep(0.035, 0.0, abs(p.x)) * step(abs(p.y), 0.38);
+  return col;
+}
 void main() {
   vec2 uv = v_uv;
   vec2 wsz = u_rect.zw - u_rect.xy;
@@ -363,7 +497,19 @@ void main() {
     else if (u_subject == 4) sc = fire(p);
     else if (u_subject == 5) sc = city(p);
     else if (u_subject == 6) sc = planet(p * 1.3);
-    else sc = rain(p);
+    else if (u_subject == 7) sc = rain(p);
+    else if (u_subject == 8) sc = tunnel(p);
+    else if (u_subject == 9) sc = heart(p);
+    else if (u_subject == 10) sc = flower(p);
+    else if (u_subject == 11) sc = mountains(p);
+    else if (u_subject == 12) sc = equalizer(p);
+    else if (u_subject == 13) sc = vortex(p);
+    else if (u_subject == 14) sc = globe(p);
+    else if (u_subject == 15) sc = sungrid(p);
+    else if (u_subject == 16) sc = helix(p);
+    else sc = butterfly(p);
+    float lum = dot(sc, vec3(0.3, 0.55, 0.15));
+    sc = mix(sc, u_tint * lum * 1.6, u_tintAmt);
     float rim2 = smoothstep(0.0, 0.03, min(min(q.x, 1.0 - q.x), min(q.y, 1.0 - q.y)));
     o = vec4(clamp(sc, 0.0, 1.0) * rim2, 1.0);
     return;
@@ -381,5 +527,7 @@ void main() {
   col = mix(col, col * fleck, grit * 0.95);
   // dark rim of the window
   float rim = smoothstep(0.0, 0.03, min(min(q.x, 1.0 - q.x), min(q.y, 1.0 - q.y)));
+  float lum0 = dot(col, vec3(0.3, 0.55, 0.15));
+  col = mix(col, u_tint * lum0 * 1.6, u_tintAmt);
   o = vec4(col * rim, 1.0);
 }`;

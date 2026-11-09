@@ -47,9 +47,15 @@ export type Prefs = {
   liveShare: boolean;
   /** Turbo: the auto director changes scene with the song's sections (verse, chorus, break). Off: one scene all song. */
   director: boolean;
+  /** a second line under each lyric: off, the lyric romanised (Hindi, Tamil), or a translation */
+  secondLine: 'off' | 'roman' | 'translate';
+  /** translation target language code; '' = the browser's language */
+  translateTo: string;
+  /** when the browser has no translator, ask the configured AI gateway (sends the lyric lines). Off by default. */
+  aiTranslate: boolean;
 };
 
-const DEFAULTS: Prefs = { mode: 'clean', turboStyle: 'liquid', style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, interlude: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true, indexLocal: true, onlineTempo: true, liveShare: false, director: false };
+const DEFAULTS: Prefs = { mode: 'clean', turboStyle: 'liquid', style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, interlude: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true, indexLocal: true, onlineTempo: true, liveShare: false, director: false, secondLine: 'off', translateTo: '', aiTranslate: false };
 
 function readPrefs(): Prefs {
   try {
@@ -85,9 +91,9 @@ type UiState = Prefs & {
 
 export const useUi = create<UiState>((set, get) => {
   const persist = () => {
-    const { mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare, director } = get();
+    const { mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare, director, secondLine, translateTo, aiTranslate } = get();
     try {
-      localStorage.setItem(PREFS_KEY, JSON.stringify({ mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare, director, splitV: 2 }));
+      localStorage.setItem(PREFS_KEY, JSON.stringify({ mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare, director, secondLine, translateTo, aiTranslate, splitV: 2 }));
     } catch {
       /* storage unavailable */
     }

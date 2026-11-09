@@ -3,7 +3,7 @@ import { CHORUS_PARTNER, MIN_SECTION_MS, planDirector, sectionsOf, snapToBeat, s
 
 type Sc = { startMs: number; endMs: number; hook: boolean };
 const run = (from: number, n: number, hook: boolean, len = 3000): Sc[] => Array.from({ length: n }, (_, i) => ({ startMs: from + i * len, endMs: from + (i + 1) * len - 200, hook }));
-const tl = (scenes: Sc[], gaps: { startMs: number; endMs: number }[] = [], durationMs = 200_000, beatTimesMs?: number[]) => ({ scenes: scenes as never, gaps, durationMs, beatTimesMs });
+const tl = (scenes: Sc[], gaps: { startMs: number; endMs: number }[] = [], durationMs = 200_000, beatTimesMs: number[] = []) => ({ scenes: scenes as never, gaps, durationMs, beatTimesMs });
 // verse 0-24 s, chorus 24-42 s, verse 42-66 s, chorus 66-84 s
 const song = [...run(0, 8, false), ...run(24_000, 6, true), ...run(42_000, 8, false), ...run(66_000, 6, true)];
 

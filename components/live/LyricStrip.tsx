@@ -35,6 +35,8 @@ type Props = {
   artist?: string | null;
   artworkUrl?: string | null;
   accent?: string | null;
+  /** a second line under each lyric line (romanised or translated) */
+  sub?: (string | null)[] | null;
   /** shown when there are no lyrics; null shows nothing (OBS) */
   emptyText?: string | null;
 };
@@ -43,7 +45,7 @@ type Props = {
  * One or two lyric lines, big and readable, for small and borrowed surfaces (floating window, stream overlay, wallpaper).
  * React re-renders only when the line changes; word progress is written straight to CSS variables every frame.
  */
-export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl, accent, emptyText = 'No lyrics for this song' }: Props) {
+export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl, accent, sub, emptyText = 'No lyrics for this song' }: Props) {
   const [pos, setPos] = useState({ current: -1, next: -1 });
   const wordEls = useRef<(HTMLSpanElement | null)[]>([]);
   const lineEl = useRef<HTMLParagraphElement | null>(null);
@@ -117,8 +119,9 @@ export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl
         ) : ls.length === 0 && emptyText ? (
           <p className={clsx('font-display text-white/60', sz.nxt)}>{emptyText}</p>
         ) : ls.length > 0 && !nxt ? (
-          <p aria-label="Instrumental" className={clsx('font-display text-white/50', sz.cur)}>♪</p>
+          <p aria-label="Instrumental" className={clsx('font-display tracking-[0.4em] text-white/50', sz.cur)}>• • •</p>
         ) : null}
+        {cur && sub?.[pos.current] && <p data-testid="strip-sub" className={clsx('leading-snug font-semibold text-white/85 italic [text-wrap:balance]', sz.nxt)}>{sub[pos.current]}</p>}
         {nxt && <p className={clsx('leading-snug font-semibold text-white/55 [text-wrap:balance]', sz.nxt)}>{nxt.words.map((w) => w.text).join(' ')}</p>}
       </div>
       {options.meta && title && (

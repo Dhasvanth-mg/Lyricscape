@@ -11,6 +11,7 @@ import { disconnect, getClientId, isLocalhostOrigin, redirectUri, setClientId, s
 import { getDevices, getMe, SpotifyApiError, type SpotifyDevice, type SpotifyMe } from '@/lib/spotify/api';
 import { explainSpotifyCapability, spotifyCapabilities } from '@/lib/player/providers';
 import { getAutoFind, setAutoFind } from '@/lib/lyrics/service';
+import { LANGUAGES } from '@/lib/lyrics/translate';
 import { clearAllLocalData } from '@/lib/library/db';
 import { STYLES } from '@/lib/kinetic/styles';
 import { STYLE_IDS } from '@/lib/kinetic/types';
@@ -45,6 +46,9 @@ export default function SettingsPage() {
   const onlineGenres = useUi((s) => s.onlineGenres);
   const aiInterpret = useUi((s) => s.aiInterpret);
   const setUi = useUi((s) => s.set);
+  const secondLine = useUi((s) => s.secondLine);
+  const translateTo = useUi((s) => s.translateTo);
+  const aiTranslate = useUi((s) => s.aiTranslate);
 
   useEffect(() => {
     setCid(getClientId() ?? '');
@@ -259,6 +263,36 @@ export default function SettingsPage() {
             </span>
           </span>
         </label>
+        <div className="mt-4" data-testid="second-line-settings">
+          <span className="block font-semibold">Second line under the lyrics</span>
+          <span className="block text-sm text-ink-300">
+            Romanised: Hindi and Tamil lyrics spelled in Latin letters, the way people type them (a rule-based spelling, not checked by native readers yet). Translation: each line translated by your browser&apos;s on-device translator (Chrome 138 or newer; nothing leaves this computer). Line by line, so wordplay can get lost. The stage&apos;s <em>Aa</em> button switches it too.
+          </span>
+          <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
+            <select value={secondLine} onChange={(e) => setUi({ secondLine: e.target.value as typeof secondLine })} className="h-9 rounded-lg border border-ink-600 bg-ink-850 px-2" data-testid="second-line-select">
+              <option value="off">Off</option>
+              <option value="roman">Romanised</option>
+              <option value="translate">Translation</option>
+            </select>
+            <label className="flex items-center gap-1.5">
+              Translate to
+              <select value={translateTo} onChange={(e) => setUi({ translateTo: e.target.value })} className="h-9 rounded-lg border border-ink-600 bg-ink-850 px-2">
+                <option value="">My browser&apos;s language</option>
+                {LANGUAGES.map((l) => (
+                  <option key={l.code} value={l.code}>
+                    {l.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <label className="mt-2 flex cursor-pointer items-start gap-3">
+            <input type="checkbox" checked={aiTranslate} onChange={(e) => setUi({ aiTranslate: e.target.checked })} className="mt-1 h-4 w-4 accent-[var(--color-signal)]" />
+            <span className="text-sm text-ink-300">
+              When the browser cannot translate, ask the AI gateway (<code>OMNIROUTE_API_KEY</code>). This sends the song&apos;s lyric lines to that gateway. Off by default.
+            </span>
+          </label>
+        </div>
         <label className="mt-4 flex cursor-pointer items-start gap-3">
           <input type="checkbox" checked={onlineGenres} onChange={(e) => setUi({ onlineGenres: e.target.checked })} className="mt-1 h-4 w-4 accent-[var(--color-signal)]" />
           <span>

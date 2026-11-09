@@ -49,7 +49,8 @@ export default function OverlayPage() {
   return (
     <div className="h-dvh w-screen text-white" data-testid="overlay">
       {song.track ? (
-        <LyricStrip lines={song.lines} now={now} options={opts} title={song.track.title} artist={song.track.artists.join(', ')} artworkUrl={song.track.artworkUrl} emptyText={opts.bg === 'transparent' ? null : 'No lyrics for this song'} />
+        <LyricStrip lines={song.lines} now={now} options={opts} sub={song.sub}
+          title={song.track.title} artist={song.track.artists.join(', ')} artworkUrl={song.track.artworkUrl} emptyText={opts.bg === 'transparent' ? null : 'No lyrics for this song'} />
       ) : opts.bg !== 'transparent' ? (
         <div className="grid h-full place-items-center bg-[#0b0a12] p-6 text-center text-sm text-white/50">{connected ? 'Waiting for Lyricscape to play something…' : 'Connecting to Lyricscape…'}</div>
       ) : null}

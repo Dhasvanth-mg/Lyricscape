@@ -42,6 +42,8 @@ export const liveSong = z.object({
   palette: z.array(z.string().max(32)).max(8).nullable(),
   /** beat times (ms of lyric time), when a beat grid is known */
   beatsMs: z.array(z.number()).max(5000).nullable(),
+  /** the second line under each lyric line (romanised or translated), when the person turned it on */
+  sub: z.array(z.string().max(1000).nullable()).max(2000).nullable().default(null),
 });
 export type LiveSong = z.infer<typeof liveSong>;
 
@@ -50,7 +52,7 @@ export type LivePost = z.infer<typeof livePost>;
 
 export type LiveState = { song: LiveSong; clock: LiveClock; seq: number };
 
-export const EMPTY_SONG: LiveSong = { track: null, docKey: null, lines: null, palette: null, beatsMs: null };
+export const EMPTY_SONG: LiveSong = { track: null, docKey: null, lines: null, palette: null, beatsMs: null, sub: null };
 
 /** lyric time now, from a clock sample */
 export function liveNow(c: LiveClock, nowMs: number): number {

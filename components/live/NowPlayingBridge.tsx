@@ -9,6 +9,7 @@ import type { LiveClock, LivePost, LiveSong } from '@/lib/live/types';
 import { useLyrics } from '@/components/visualizer/useLyrics';
 import { useLyricClock } from '@/components/visualizer/useLyricClock';
 import { useSongIndex, withIndexedTempo } from '@/components/visualizer/useSongIndex';
+import { useSecondLine } from '@/components/visualizer/useSecondLine';
 import { LyricStrip, DEFAULT_STRIP } from './LyricStrip';
 
 /** Only plain web URLs leave the tab (a generated cover is a large data URL that overlays can do without). */
@@ -38,6 +39,7 @@ export function NowPlayingBridge() {
   const clock = useLyricClock(track);
   const idx = useSongIndex(track);
   const timed = useMemo(() => withIndexedTempo(track, idx.grid), [track, idx.grid]);
+  const second = useSecondLine(track, lyrics.doc);
 
   const lines = useMemo(() => lyrics.doc?.lines.map((l) => ({ startMs: l.startMs, endMs: l.endMs, words: l.words.map((w) => ({ text: w.text, startMs: w.startMs, endMs: w.endMs })), wordTiming: l.wordTiming })) ?? null, [lyrics.doc]);
 
@@ -49,8 +51,9 @@ export function NowPlayingBridge() {
       lines,
       palette: track.palette?.slice(0, 8) ?? null,
       beatsMs: timed?.beatTimesMs?.slice(0, 5000) ?? null,
+      sub: second.lines,
     };
-  }, [track, lyrics.doc, lyrics.source, lyrics.versionId, lines, timed]);
+  }, [track, lyrics.doc, lyrics.source, lyrics.versionId, lines, timed, second.lines]);
 
   const clockRef = useRef(clock);
   useEffect(() => {
@@ -64,7 +67,7 @@ export function NowPlayingBridge() {
     if (!share) return;
     const c = sample();
     lastSent.current = c;
-    void post({ kind: 'song', song: song ?? { track: null, docKey: null, lines: null, palette: null, beatsMs: null }, clock: c });
+    void post({ kind: 'song', song: song ?? { track: null, docKey: null, lines: null, palette: null, beatsMs: null, sub: null }, clock: c });
   }, [share, song]);
 
   // the clock: on play/pause, on a jump (seek, a sync nudge), and every few seconds so readers never drift far
@@ -91,6 +94,7 @@ export function NowPlayingBridge() {
         now={clock.now}
         win={pipWin}
         options={{ ...DEFAULT_STRIP, size: 'm' }}
+        sub={second.lines}
         title={playing?.title ?? null}
         artist={playing?.artists.join(', ') ?? null}
         emptyText={!playing ? 'Nothing playing' : lyrics.status === 'loading' || lyrics.searching ? 'Finding lyrics…' : 'No lyrics for this song'}

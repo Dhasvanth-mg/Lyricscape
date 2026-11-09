@@ -121,6 +121,9 @@ uniform float u_win;      // 1 inside the window the picture lives in (set by th
 uniform vec4 u_rect;      // window in uv: x0, y0, x1, y1
 uniform int u_subject;    // 0 eye (and planet), 1 highway, 2 flashing lights, 3 ocean, 4 fire, 5 city, 6 space, 7 rain,
                           // 8 tunnel, 9 heart, 10 flower, 11 mountains, 12 equalizer, 13 vortex, 14 globe, 15 sun grid, 16 helix, 17 butterfly
+// 18 plasma, 19 warp, 20 ridges, 21 lissajous, 22 code rain, 23 clouds, 24 aurora, 25 lava, 26 ripples, 27 checker tunnel,
+                          // 28 sunburst, 29 dark (a plain ground for drawings drawn on top)
+uniform vec4 u_param;     // per-picture variation (count, speed, shape, hue), 0..1 each
 uniform vec3 u_tint;      // a colour wash over the picture
 uniform float u_tintAmt;  // 0 = the picture's own colours
 uniform float u_beat;     // 0..1 pulse on the beat
@@ -481,6 +484,125 @@ vec3 butterfly(vec2 p) {
   col += vec3(0.1, 0.06, 0.04) * smoothstep(0.035, 0.0, abs(p.x)) * step(abs(p.y), 0.38);
   return col;
 }
+vec3 plasma(vec2 p) {
+  float t = u_time * (0.4 + u_param.y);
+  float f = 2.0 + u_param.x * 6.0;
+  float v = sin(p.x * f + t) + sin(p.y * f * 0.8 - t * 1.3) + sin((p.x + p.y) * f * 0.6 + t * 0.7) + sin(length(p) * f * 1.4 - t * 1.7);
+  return hsv(fract(v * 0.12 + u_param.w + t * 0.03), 0.75, 0.55 + 0.45 * sin(v * 1.5));
+}
+vec3 warp(vec2 p) {
+  float t = u_time * (0.5 + u_param.y * 1.5 + u_energy);
+  vec3 col = vec3(0.0);
+  for (int i = 0; i < 3; i++) {
+    float fi = float(i);
+    vec2 g = p * (10.0 + fi * 8.0);
+    float a = atan(p.y, p.x);
+    float r = length(p);
+    vec2 cell = vec2(floor(a * (14.0 + fi * 9.0)), fi);
+    float z = fract(hash(cell) + t * (0.2 + 0.1 * fi));
+    float streak = smoothstep(0.05, 0.0, abs(r - z * 1.4)) * smoothstep(0.0, 0.4, z) * step(0.6, hash(cell + 3.0));
+    col += mix(vec3(0.6, 0.8, 1.0), hsv(u_param.w, 0.6, 1.0), fi / 2.0) * streak * 1.4;
+    g += 0.0;
+  }
+  return col;
+}
+vec3 ridges(vec2 p) {
+  float t = u_time * (0.3 + u_param.y);
+  float rows = 14.0 + floor(u_param.x * 18.0);
+  vec3 col = vec3(0.0);
+  for (int i = 0; i < 32; i++) {
+    float fi = float(i);
+    if (fi >= rows) break;
+    float y0 = -0.9 + fi * 1.8 / rows;
+    float bump = exp(-p.x * p.x * 6.0) * (fbm(vec2(p.x * 4.0, fi * 1.7 + t)) * 0.9 + u_beat * 0.3);
+    float ly = y0 - bump * 0.35;
+    float d = abs(p.y - ly);
+    col += vec3(1.0) * smoothstep(0.012, 0.0, d) * step(p.y, ly + 0.012);
+  }
+  return col * mix(vec3(1.0), hsv(u_param.w, 0.5, 1.0), u_param.z);
+}
+vec3 lissajous(vec2 p) {
+  float t = u_time * (0.2 + u_param.y * 0.5);
+  float a = 1.0 + floor(u_param.x * 5.0);
+  float b = a + 1.0 + floor(u_param.z * 3.0);
+  float best = 9.0;
+  for (int i = 0; i < 110; i++) {
+    float s = float(i) / 110.0 * 6.2832;
+    vec2 q = vec2(sin(a * s + t), sin(b * s)) * 0.85;
+    best = min(best, length(p - q));
+  }
+  return hsv(fract(u_param.w + best), 0.6, 1.0) * smoothstep(0.035, 0.0, best) + vec3(0.2, 0.4, 1.0) * exp(-best * 12.0) * 0.3;
+}
+vec3 coderain(vec2 p) {
+  float t = u_time * (1.0 + u_param.y * 2.0);
+  float cols = 30.0 + floor(u_param.x * 30.0);
+  float cx = floor((p.x + 1.5) * cols * 0.4);
+  float sp = 0.4 + hash(vec2(cx, 1.0)) * 0.8;
+  float head = fract(hash(vec2(cx, 2.0)) - t * sp * 0.25) * 2.6 - 1.3;
+  float d = p.y - head;
+  float trail = d < 0.0 ? exp(d * 3.0) : 0.0;
+  float flick = step(0.3, hash(vec2(cx, floor(p.y * 30.0) + floor(t * 6.0))));
+  vec3 c = hsv(0.33 + u_param.w * (u_param.z > 0.5 ? 1.0 : 0.0), 0.8, 1.0);
+  return c * trail * flick + vec3(0.9, 1.0, 0.9) * smoothstep(0.03, 0.0, abs(d));
+}
+vec3 clouds(vec2 p) {
+  float t = u_time * (0.05 + u_param.y * 0.1);
+  float n = fbm(p * (1.5 + u_param.x * 2.0) + vec2(t, t * 0.3));
+  float n2 = fbm(p * 3.0 - vec2(t * 1.3, 0.0) + n);
+  vec3 sky = mix(hsv(u_param.w, 0.5, 0.25), hsv(u_param.w + 0.1, 0.4, 0.7), smoothstep(-1.0, 1.0, -p.y));
+  return mix(sky, vec3(1.0), smoothstep(0.45, 0.8, n2));
+}
+vec3 aurora(vec2 p) {
+  float t = u_time * (0.2 + u_param.y * 0.3);
+  vec3 col = vec3(0.01, 0.02, 0.05) + vec3(0.7) * step(0.996, hash(floor(p * 90.0)));
+  for (int i = 0; i < 4; i++) {
+    float fi = float(i);
+    float y = -0.3 + fi * 0.12 + sin(p.x * (2.0 + fi) + t + fi) * 0.15 + fbm(vec2(p.x * 2.0, t + fi)) * 0.2;
+    float band = exp(-pow((p.y - y) * (8.0 + u_param.x * 8.0), 2.0)) * smoothstep(-0.6, 0.3, y - p.y + 0.4);
+    col += hsv(fract(0.35 + u_param.w + fi * 0.08), 0.8, 1.0) * band * 0.7;
+  }
+  return col;
+}
+vec3 lava(vec2 p) {
+  float t = u_time * (0.3 + u_param.y * 0.6);
+  float f = 0.0;
+  float n = 4.0 + floor(u_param.x * 5.0);
+  for (int i = 0; i < 9; i++) {
+    float fi = float(i);
+    if (fi >= n) break;
+    vec2 c = vec2(sin(t * (0.5 + fi * 0.13) + fi * 2.0) * 0.6, sin(t * (0.4 + fi * 0.11) + fi) * 0.8);
+    f += 0.06 / dot(p - c, p - c);
+  }
+  float m = smoothstep(0.9, 1.1, f);
+  return mix(hsv(u_param.w + 0.6, 0.6, 0.15), hsv(u_param.w, 0.85, 1.0), m) + vec3(1.0, 0.9, 0.6) * smoothstep(1.6, 3.0, f) * 0.4;
+}
+vec3 ripples(vec2 p) {
+  float t = u_time * (1.0 + u_param.y * 2.0);
+  float v = 0.0;
+  for (int i = 0; i < 3; i++) {
+    float fi = float(i);
+    vec2 c = vec2(hash(vec2(fi, 1.0)) - 0.5, hash(vec2(fi, 2.0)) - 0.5) * 1.2;
+    v += sin(length(p - c) * (18.0 + u_param.x * 20.0) - t * 3.0);
+  }
+  v = v / 3.0 + u_beat * 0.4;
+  return hsv(fract(u_param.w + 0.55), 0.6, 1.0) * smoothstep(0.2, 0.9, v);
+}
+vec3 checkertunnel(vec2 p) {
+  float t = u_time * (0.5 + u_param.y);
+  float r = length(p) + 1e-3;
+  float a = atan(p.y, p.x) / 6.2832;
+  float n = 6.0 + floor(u_param.x * 10.0);
+  float c = mod(floor(0.5 / r + t * 2.0) + floor(a * n * 2.0 + t * u_param.z * 2.0), 2.0);
+  return mix(hsv(u_param.w, 0.8, 0.2), hsv(u_param.w + 0.5, 0.7, 1.0), c) * smoothstep(0.02, 0.35, r);
+}
+vec3 sunburst(vec2 p) {
+  float t = u_time * (0.1 + u_param.y * 0.4);
+  float a = atan(p.y, p.x);
+  float n = 8.0 + floor(u_param.x * 16.0);
+  float ray = step(0.5, fract(a / 6.2832 * n + t));
+  vec3 col = mix(hsv(u_param.w, 0.75, 0.9), hsv(u_param.w + 0.08, 0.8, 0.5), ray);
+  return col * (0.6 + 0.4 * smoothstep(1.4, 0.0, length(p))) + vec3(1.0) * smoothstep(0.2, 0.15, length(p)) * (0.6 + u_beat);
+}
 void main() {
   vec2 uv = v_uv;
   vec2 wsz = u_rect.zw - u_rect.xy;
@@ -507,7 +629,19 @@ void main() {
     else if (u_subject == 14) sc = globe(p);
     else if (u_subject == 15) sc = sungrid(p);
     else if (u_subject == 16) sc = helix(p);
-    else sc = butterfly(p);
+    else if (u_subject == 17) sc = butterfly(p);
+    else if (u_subject == 18) sc = plasma(p);
+    else if (u_subject == 19) sc = warp(p);
+    else if (u_subject == 20) sc = ridges(p);
+    else if (u_subject == 21) sc = lissajous(p);
+    else if (u_subject == 22) sc = coderain(p);
+    else if (u_subject == 23) sc = clouds(p);
+    else if (u_subject == 24) sc = aurora(p);
+    else if (u_subject == 25) sc = lava(p);
+    else if (u_subject == 26) sc = ripples(p);
+    else if (u_subject == 27) sc = checkertunnel(p);
+    else if (u_subject == 28) sc = sunburst(p);
+    else sc = vec3(0.01, 0.012, 0.02) + vec3(0.04) * fbm(p * 3.0 + u_time * 0.05);
     float lum = dot(sc, vec3(0.3, 0.55, 0.15));
     sc = mix(sc, u_tint * lum * 1.6, u_tintAmt);
     float rim2 = smoothstep(0.0, 0.03, min(min(q.x, 1.0 - q.x), min(q.y, 1.0 - q.y)));

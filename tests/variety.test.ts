@@ -86,3 +86,14 @@ describe('shared art library', () => {
     expect(doodleArt('star', 9)).toBe(doodleArt('star', 9));
   });
 });
+
+describe('ASCII has hundreds of pictures', () => {
+  it('counts 100+ and uses library drawings in some sections', async () => {
+    const { ASCII_PICTURES, asciiSection } = await import('@/lib/kinetic/gl/scenes/ascii');
+    expect(ASCII_PICTURES).toBeGreaterThan(100);
+    const secs = Array.from({ length: 40 }, (_, k) => asciiSection('song-y', 2, undefined, 'eye', k));
+    expect(secs.filter((s) => s.overlay).length).toBeGreaterThan(5);
+    expect(secs.filter((s) => !s.overlay).every((s) => s.subject !== 'dark')).toBe(true);
+    expect(new Set(secs.map((s) => s.param.join())).size).toBeGreaterThan(10);
+  });
+});

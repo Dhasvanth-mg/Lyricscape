@@ -35,13 +35,14 @@ type Prepared = {
   delKind: StatementSync;
 };
 
-type State = { db: DatabaseSync; file: string; st: Prepared; fts: boolean };
+type State = { db: DatabaseSync; file: string; st: Prepared; fts: boolean; schema: number };
 const g = globalThis as unknown as { __lyricscapeSongIndex?: State | null | 'unavailable'; __lyricscapeSongIndexDir?: string };
 
 function open(): State | null {
   const dir = indexDir();
   const cached = g.__lyricscapeSongIndex;
-  if (cached && cached !== 'unavailable' && g.__lyricscapeSongIndexDir === dir) return cached;
+  // a handle opened by an older copy of this module (hot reload) may predate the current schema: reopen so the migration runs
+  if (cached && cached !== 'unavailable' && g.__lyricscapeSongIndexDir === dir && (cached as Partial<State>).schema === SCHEMA_VERSION) return cached;
   if (cached && cached !== 'unavailable') closeIndex();
   let Database: typeof DatabaseSync;
   try {
@@ -132,7 +133,7 @@ function open(): State | null {
     delFeatures: db.prepare('DELETE FROM features WHERE key = ?'),
     delKind: db.prepare('DELETE FROM features WHERE key = ? AND kind = ?'),
   };
-  const state = { db, file, st, fts };
+  const state = { db, file, st, fts, schema: SCHEMA_VERSION };
   g.__lyricscapeSongIndex = state;
   g.__lyricscapeSongIndexDir = dir;
   return state;

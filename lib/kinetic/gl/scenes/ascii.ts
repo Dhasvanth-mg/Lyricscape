@@ -4,11 +4,13 @@
 // taskbar runs under the window and a blue backlit keyboard fills the bottom. The lyric is typed on the screen below the window.
 // The picture is a fragment shader (shaders.ts EYE_FS); the GPU turns it into characters with the shared ASCII pass.
 
-import { clamp, cursorOn, drawText, easeInOut, hash01, lerp, lineAt, prefixPx, smooth, textTex, typedChars, wrapText } from './common';
+import { mul, rotate, translate } from '../gpu';
+import { clamp, cursorOn, drawText, drawTextC, easeInOut, hash01, lerp, lineAt, prefixPx, smooth, textTex, typedChars, wrapText } from './common';
 import { EYE_FS } from './shaders';
 import { pickSubject, SUBJECTS, subjectIndex, type Subject } from './subject';
 import type { SceneFx, SceneHost, TexEntry } from './types';
 import { hashKey, hsl, pick, seeded, songHues } from '../../variety';
+import { ART_IDS, drawArt } from '../../art/library';
 
 const LOOP = 26000;
 
@@ -55,7 +57,14 @@ export function asciiVariant(trackId: string, seed: number, palette: readonly st
 }
 export const ASCII_FRAMES = ['window', 'full', 'wide'] as const;
 export type AsciiFrame = (typeof ASCII_FRAMES)[number];
-export type AsciiSection = { subject: Subject; frame: AsciiFrame; tint: string | null; tintAmt: number };
+/** drawings put into the picture before it turns into characters: one big library drawing, a swarm of them, a kaleidoscope, or the word being sung */
+export const ASCII_OVERLAYS = ['art', 'swarm', 'kaleido', 'word'] as const;
+export type AsciiOverlay = { kind: (typeof ASCII_OVERLAYS)[number]; ids: string[] };
+export type AsciiSection = { subject: Subject; frame: AsciiFrame; tint: string | null; tintAmt: number; param: [number, number, number, number]; overlay: AsciiOverlay | null };
+/** grounds that sit well behind a drawing */
+const OVERLAY_GROUNDS: Subject[] = ['dark', 'dark', 'dark', 'space', 'vortex', 'tunnel', 'warp', 'aurora', 'sunburst', 'ripples', 'checker'];
+/** pictures the ASCII scene can show: 28 animated scenes x 3 variations, 346 library drawings alone or as swarms and kaleidoscopes, and the sung word */
+export const ASCII_PICTURES = (SUBJECTS.length - 1) * 3 + ART_IDS.length * 3 + 1;
 
 /**
  * What a stretch of the song shows. The song changes picture every few lines: its own picture (from a title or lyric word) opens,
@@ -67,19 +76,32 @@ export function asciiSection(trackId: string, seed: number, palette: readonly st
   const subject = asciiSubjectAt(trackId, seed, lead, k);
   const frame: AsciiFrame = k === 0 ? 'window' : r() < 0.45 ? 'window' : r() < 0.55 ? 'full' : 'wide';
   const tinted = r() < 0.4;
-  return { subject, frame, tint: tinted ? hsl(pick(r, hues) + (r() < 0.5 ? 0 : 0.5), 0.8, 0.6) : null, tintAmt: tinted ? 0.5 + r() * 0.35 : 0 };
+  // three variations of each animated picture (counts, speed, shape, colour)
+  const vi = Math.floor(r() * 3);
+  const vr = seeded(hashKey(`${subject}|var|${vi}`));
+  const param: [number, number, number, number] = [vr(), vr(), vr(), vr()];
+  // about two sections in five draw from the art library instead (never the song's own opening picture)
+  const overlay: AsciiOverlay | null = k > 0 && r() < 0.42 ? { kind: pick(r, ASCII_OVERLAYS), ids: Array.from({ length: 8 }, () => pick(r, ART_IDS)) } : null;
+  return {
+    subject: overlay ? pick(r, OVERLAY_GROUNDS) : subject,
+    frame,
+    tint: tinted ? hsl(pick(r, hues) + (r() < 0.5 ? 0 : 0.5), 0.8, 0.6) : null,
+    tintAmt: tinted ? 0.5 + r() * 0.35 : 0,
+    param,
+    overlay,
+  };
 }
 function asciiSubjectAt(trackId: string, seed: number, lead: Subject, k: number): Subject {
   if (k === 0) {
     // a song with no picture of its own opens on the eye only some of the time
     if (lead !== 'eye') return lead;
-    return seeded(hashKey(`${trackId}|${seed}|lead`))() < 0.3 ? 'eye' : pick(seeded(hashKey(`${trackId}|${seed}|lead2`)), SUBJECTS.filter((x) => x !== 'eye'));
+    return seeded(hashKey(`${trackId}|${seed}|lead`))() < 0.2 ? 'eye' : pick(seeded(hashKey(`${trackId}|${seed}|lead2`)), SUBJECTS.filter((x) => x !== 'eye' && x !== 'dark'));
   }
   const prev = asciiSubjectAt(trackId, seed, lead, k - 1);
   const r = seeded(hashKey(`${trackId}|${seed}|ascii-sub|${k}`));
   // the song's own picture comes back now and then; the eye is rarer than the rest
   if (lead !== 'eye' && prev !== lead && r() < 0.25) return lead;
-  const pool = SUBJECTS.filter((x) => x !== prev && (x !== 'eye' || r() < 0.4));
+  const pool = SUBJECTS.filter((x) => x !== prev && x !== 'dark' && (x !== 'eye' || r() < 0.3));
   return pick(r, pool);
 }
 const secMemo = new Map<string, AsciiSection>();
@@ -257,7 +279,9 @@ export function drawAsciiScene(h: SceneHost): SceneFx {
     const tc = sec.tint ? parseInt(sec.tint.slice(1), 16) : 0;
     p.v3('u_tint', ((tc >> 16) & 255) / 255, ((tc >> 8) & 255) / 255, (tc & 255) / 255);
     p.f('u_tintAmt', sec.tintAmt);
+    p.v4('u_param', sec.param[0], sec.param[1], sec.param[2], sec.param[3]);
   });
+  if (sec.overlay) drawOverlay(h, sec.overlay, cx, cy, Math.min(halfW, halfH), t, V, lineAt(tl, t));
   h.ascii({ cell: Math.max(6, Math.round(S / V.cells)), mix: 1, boost: 2.1, ramp: V.ramp });
 
   // ---- the room --------------------------------------------------------------------------------------------------------------------
@@ -303,4 +327,45 @@ export function drawAsciiScene(h: SceneHost): SceneFx {
   // a short glitch where the picture changes
   const cut = k > 0 && !h.reduced ? Math.max(0, 1 - cutAge / 260) : 0;
   return { scan: 0.05, curve: 0.04, vignette: 0.55, grain: 0.05, bloom: 1.3, aber: 0.4 + cut * 1.5, exposure: 1, glitch: cut * 0.9, blocks: cut * 0.6 };
+}
+
+const BRIGHT = ['#ffd84a', '#ff5d8f', '#5ce1ff', '#9dff6a', '#ff9a3c', '#c69bff', '#ffffff'];
+function artTex(h: SceneHost, id: string, i: number) {
+  return h.tex(`ascii|art|${id}|${i % BRIGHT.length}`, 256, 256, (c) => {
+    c.translate(128, 128);
+    drawArt(c, id, 104, { fill: BRIGHT[i % BRIGHT.length]!, stroke: '#ffffff', lineWidth: 9, accent: BRIGHT[(i + 3) % BRIGHT.length]! });
+  });
+}
+/** library drawings (or the sung word) put into the window before the ASCII pass turns everything into characters */
+function drawOverlay(h: SceneHost, o: AsciiOverlay, cx: number, cy: number, R: number, t: number, V: AsciiVariant, line: ReturnType<typeof lineAt>) {
+  const beat = h.frame.beat.pulse;
+  const put = (id: string, i: number, x: number, y: number, size: number, rot: number) => {
+    const tex = artTex(h, id, i);
+    h.sprite({ tex: tex.tex, m: mul(translate(x, y), rotate(rot)), w: size, h: size, mode: 0, camera: false });
+  };
+  if (o.kind === 'art') {
+    put(o.ids[0]!, 0, cx, cy + Math.sin(t / 900) * R * 0.04, R * 1.7 * (1 + beat * 0.06), Math.sin(t / 1400) * 0.18);
+  } else if (o.kind === 'swarm') {
+    o.ids.forEach((id, i) => {
+      const a = (i / o.ids.length) * Math.PI * 2 + t / 2600;
+      const rr = R * (0.45 + 0.25 * Math.sin(t / 1700 + i));
+      put(id, i, cx + Math.cos(a) * rr, cy + Math.sin(a) * rr * 0.85, R * 0.55 * (1 + beat * 0.1), a);
+    });
+  } else if (o.kind === 'kaleido') {
+    const n = 8;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + t / 4000;
+      put(o.ids[0]!, i % 2, cx + Math.cos(a) * R * 0.5, cy + Math.sin(a) * R * 0.5, R * 0.62, a + Math.PI / 2);
+    }
+    put(o.ids[1]!, 2, cx, cy, R * 0.6 * (1 + beat * 0.12), -t / 3000);
+  } else {
+    // the word being sung, huge; between lines a drawing holds the frame
+    const words = line?.words ?? [];
+    let w = words[0];
+    for (const x of words) if (t >= x.startMs - 30) w = x;
+    if (!w) return put(o.ids[0]!, 0, cx, cy, R * 1.6, 0);
+    const tt = textTex(h, w.text, MONO, R * 0.5, V.text, { hi: 1 });
+    const fit = Math.min(1, (R * 1.8) / Math.max(1, tt.textW * tt.k));
+    drawTextC(h, tt, [1, 0, 0, 1, 0, 0], cx, cy, { s: fit * (1 + beat * 0.08) });
+  }
 }

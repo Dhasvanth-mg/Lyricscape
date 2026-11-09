@@ -2,7 +2,7 @@
 // cars give a highway with cars on it; flashing lights give flashing lights; the sea, fire, a city at night, space or rain have their
 // own picture. Nothing matched: the eye (and, for a lively song, strobing lights; for a low, sad one, rain). Pure, so it is tested.
 
-export const SUBJECTS = ['eye', 'highway', 'lights', 'ocean', 'fire', 'city', 'space', 'rain', 'tunnel', 'heart', 'flower', 'mountains', 'equalizer', 'vortex', 'globe', 'sungrid', 'helix', 'butterfly'] as const;
+export const SUBJECTS = ['eye', 'highway', 'lights', 'ocean', 'fire', 'city', 'space', 'rain', 'tunnel', 'heart', 'flower', 'mountains', 'equalizer', 'vortex', 'globe', 'sungrid', 'helix', 'butterfly', 'plasma', 'warp', 'ridges', 'lissajous', 'coderain', 'clouds', 'aurora', 'lava', 'ripples', 'checker', 'sunburst', 'dark'] as const;
 export type Subject = (typeof SUBJECTS)[number];
 /** the index the shader uses */
 export const subjectIndex = (s: Subject) => SUBJECTS.indexOf(s);
@@ -25,6 +25,18 @@ const WORDS: Record<Exclude<Subject, 'eye'>, string> = {
   sungrid: 'retro eighties 80s synth sunset vhs arcade cassette nostalgia miami',
   helix: 'dna blood veins genes chemistry science alive born',
   butterfly: 'butterfly butterflies wings wing fly flying flew moth',
+  plasma: 'acid trippy melt melting colours colors kaleidoscope',
+  warp: 'warp lightspeed faster fast hyperspace zoom zooming',
+  ridges: 'pulse pulses signal static frequency',
+  lissajous: 'loop loops orbit orbiting circles circling',
+  coderain: 'code matrix hacker glitch computer digital system',
+  clouds: 'sky skies floating float cloud9 heavenly',
+  aurora: 'aurora northern glow glowing lights-up',
+  lava: 'lava hot heat melting warm burning-up',
+  ripples: 'ripple ripples pond lake echo echoes',
+  checker: 'checker maze dizzy-room',
+  sunburst: 'sunshine sunny summer bright brighter golden',
+  dark: '',
 };
 
 const LOOKUP = new Map<string, Exclude<Subject, 'eye'>>();

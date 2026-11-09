@@ -4,6 +4,7 @@
 // everybody scatters and bobs about with one huge ball rolling in from below. The lyric is a small yellow condensed subtitle near
 // the top, whole line at once, outlined in dark brown.
 
+import { ART_IDS, drawArt } from '../../art/library';
 import { clamp, easeInOut, hash01, lerp, lineAt, smooth, textTex } from './common';
 import { ACID_FS } from './shaders';
 import type { SceneFx, SceneHost } from './types';
@@ -14,7 +15,8 @@ import { hashKey, hsl, pick, seeded, songHues } from '../../variety';
 // stars, hearts, smileys, planets, mushrooms, drops, suns, blobs), its colours, how the outline splits, and the subtitle's colour,
 // face and place. 10 creatures x 6 splits x 8 subtitle colours x 6 faces x 2 places x 2 mirrors on a continuous palette: thousands.
 export const CREATURES = ['eye', 'flower', 'star', 'heart', 'smiley', 'planet', 'mushroom', 'drop', 'sun', 'blob'] as const;
-type Creature = (typeof CREATURES)[number];
+/** a hand-made creature, or `art:<id>`: any drawing from the shared art library */
+type Creature = (typeof CREATURES)[number] | `art:${string}`;
 const SPLITS: [number, number, number][][] = [
   [[1, 0.1, 0.2], [0.1, 0.45, 1], [0.1, 1, 0.3]],
   [[1, 0.2, 0.8], [0.2, 1, 0.9], [1, 0.9, 0.1]],
@@ -64,7 +66,7 @@ export function acidVariant(seed: number, hues: number[]): AcidVariant {
     sat: 0.55 + r() * 0.35,
     val: 0.7 + r() * 0.2,
     speed: 0.6 + r() * 0.9,
-    creature: r() < 0.25 ? 'eye' : pick(r, CREATURES),
+    creature: ((u) => (u < 0.2 ? 'eye' : u < 0.45 ? pick(r, CREATURES) : (`art:${pick(r, ART_IDS)}` as const)))(r()),
     colors,
     split: pick(r, SPLITS),
     sub: pick(r, SUB_COLORS),
@@ -175,6 +177,14 @@ function featurePath(c: CanvasRenderingContext2D, kind: Creature, v: number, par
 }
 
 function fillTex(h: SceneHost, v: number, iris: boolean, kind: Creature = 'eye', cols?: [string, string, string]) {
+  if (kind.startsWith('art:')) {
+    const [body, ring, mid] = cols ?? ['#ffffff', '#9b4fe0', '#1a0d2a'];
+    return h.tex(`acid|fill|${kind}|${body}${ring}${mid}|${iris ? 1 : 0}`, S, S, (c) => {
+      c.translate(S / 2, S / 2);
+      // blank balls are the drawing's silhouette; the dancers get their details
+      drawArt(c, kind.slice(4), 106, iris ? { fill: body, stroke: mid, lineWidth: 7, accent: ring } : { fill: ring, stroke: ring, lineWidth: 7, accent: ring });
+    });
+  }
   if (kind !== 'eye') {
     const [body, ring, mid] = cols ?? ['#ffffff', '#9b4fe0', '#1a0d2a'];
     return h.tex(`acid|fill|${kind}|${v}|${body}${ring}${mid}|${iris ? 1 : 0}`, S, S, (c) => {
@@ -226,6 +236,12 @@ function fillTex(h: SceneHost, v: number, iris: boolean, kind: Creature = 'eye',
   });
 }
 function lineTex(h: SceneHost, v: number, iris: boolean, kind: Creature = 'eye') {
+  if (kind.startsWith('art:')) {
+    return h.tex(`acid|line|${kind}|${iris ? 1 : 0}`, S, S, (c) => {
+      c.translate(S / 2, S / 2);
+      drawArt(c, kind.slice(4), 106, { fill: null, stroke: '#fff', lineWidth: iris ? 9 : 14, accent: '#fff' });
+    });
+  }
   if (kind !== 'eye') {
     return h.tex(`acid|line|${kind}|${v}|${iris ? 1 : 0}`, S, S, (c) => {
       c.translate(S / 2, S / 2);

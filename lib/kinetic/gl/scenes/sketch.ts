@@ -4,6 +4,7 @@
 // looks drawn in a paint program. Cards cut hard from one to the next; the words scribble in as they are sung.
 // The card is painted once per line (CPU canvas, 360x270) and shown with nearest-neighbour filtering: the GPU only draws quads.
 
+import { ART_IDS, drawArt } from '../../art/library';
 import { mul, translate } from '../gpu';
 import { clamp, hashStr, lerp, lineAt } from './common';
 import type { SceneFx, SceneHost, TexEntry } from './types';
@@ -16,7 +17,8 @@ const CH = 270;
 export const BORDER_KINDS = ['hatch', 'dots', 'scribble', 'stripe', 'crosshatch', 'zigzag', 'checker', 'tape', 'double', 'stitch', 'waves', 'confetti'] as const;
 type BorderKind = (typeof BORDER_KINDS)[number];
 export const DOODLE_KINDS = ['face', 'eyes', 'chibi', 'flower', 'cat', 'stars', 'heart', 'sun', 'moon', 'cloud', 'bolt', 'note', 'planet', 'ghost', 'smile', 'mushroom', 'wave', 'mountain', 'rainbow', 'sparkle', 'eye', 'drop', 'cactus', 'rocket'] as const;
-type DoodleKind = 'none' | (typeof DOODLE_KINDS)[number];
+/** a hand-made sketch drawing, or `art:<id>`: one of the shared art library's drawings */
+type DoodleKind = 'none' | (typeof DOODLE_KINDS)[number] | `art:${string}`;
 /** big, mid, thin faces: only fonts the app ships */
 export const FONT_SETS: [string, string, string][] = [
   ['Anton', 'Permanent Marker', 'Special Elite'],
@@ -73,12 +75,19 @@ export function themeFor(seed: number, hues: number[]): Theme {
   return {
     ...set,
     border: pick(r, BORDER_KINDS),
-    doodle: r() < 0.15 ? 'none' : pick(r, DOODLE_KINDS),
+    doodle: sketchDoodle(r),
     fonts: pick(r, FONT_SETS),
     corner: Math.floor(r() * 4) as 0 | 1 | 2 | 3,
     pill: pick(r, PILL_KINDS),
     big: pick(r, BIG_KINDS),
   };
+}
+
+function sketchDoodle(r: () => number): DoodleKind {
+  const u = r();
+  if (u < 0.12) return 'none';
+  if (u < 0.4) return pick(r, DOODLE_KINDS);
+  return `art:${pick(r, ART_IDS)}`;
 }
 
 function rng(seed: number) {
@@ -190,6 +199,15 @@ function doodle(c: CanvasRenderingContext2D, t: Theme, kind: Theme['doodle'], R:
   const cx = R.x + R.w / 2;
   const cy = R.y + R.h / 2;
   const S = Math.min(R.w, R.h);
+  if (kind.startsWith('art:')) {
+    // a library drawing, inked in the card's colours with a slight tilt, like a sticker stuck on
+    c.save();
+    c.translate(cx, cy);
+    c.rotate((r() - 0.5) * 0.4);
+    drawArt(c, kind.slice(4), S * 0.4, { fill: pick(r, t.accents), stroke: t.ink, lineWidth: Math.max(2, S * 0.018), accent: pick(r, t.accents) });
+    c.restore();
+    return;
+  }
   if (kind === 'face') {
     // a girl with two braids and bows
     wobble(c, cx, cy - S * 0.08, S * 0.36, S * 0.4, r, 0.04);

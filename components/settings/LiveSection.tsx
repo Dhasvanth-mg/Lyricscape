@@ -5,7 +5,7 @@ import { Check, Copy, Download, PictureInPicture2 } from 'lucide-react';
 import { useUi } from '@/lib/ui-store';
 import { pipSupported, usePip } from '@/lib/live/pip';
 import { overlayUrl } from '@/lib/live/overlayParams';
-import { DEFAULT_STRIP, type StripOptions } from '@/components/live/LyricStrip';
+import { DEFAULT_STRIP, STRIP_FONTS, STRIP_FONT_LABEL, type StripOptions } from '@/components/live/LyricStrip';
 import { Button } from '@/components/ui/bits';
 
 /** A tiny web wallpaper for Wallpaper Engine (Create Wallpaper -> Web): a full-page frame showing the overlay. */
@@ -112,6 +112,16 @@ export function LiveSection() {
               <option value="m">Medium</option>
               <option value="l">Large</option>
               <option value="xl">Huge</option>
+            </select>
+          </label>
+          <label className="flex items-center gap-1.5">
+            Font
+            <select className={sel} value={o.font} onChange={(e) => setO({ ...o, font: e.target.value as StripOptions['font'] })}>
+              {STRIP_FONTS.map((f) => (
+                <option key={f} value={f}>
+                  {STRIP_FONT_LABEL[f]}
+                </option>
+              ))}
             </select>
           </label>
           <label className="flex items-center gap-1.5">

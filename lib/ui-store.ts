@@ -53,9 +53,14 @@ export type Prefs = {
   translateTo: string;
   /** when the browser has no translator, ask the configured AI gateway (sends the lyric lines). Off by default. */
   aiTranslate: boolean;
+  /** how the floating lyrics window looks (background, size, font, next line, title); changed from the window's own bar */
+  pipLook: PipLook;
 };
 
-const DEFAULTS: Prefs = { mode: 'clean', turboStyle: 'liquid', style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, interlude: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true, indexLocal: true, onlineTempo: true, liveShare: false, director: false, secondLine: 'off', translateTo: '', aiTranslate: false };
+export type PipLook = { bg: 'transparent' | 'solid' | 'cover'; size: 's' | 'm' | 'l' | 'xl'; font: 'clean' | 'grotesk' | 'serif' | 'poster'; next: boolean; meta: boolean };
+export const DEFAULT_PIP_LOOK: PipLook = { bg: 'solid', size: 'm', font: 'clean', next: true, meta: true };
+
+const DEFAULTS: Prefs = { mode: 'clean', turboStyle: 'liquid', style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, interlude: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true, indexLocal: true, onlineTempo: true, liveShare: false, director: false, secondLine: 'off', translateTo: '', aiTranslate: false, pipLook: DEFAULT_PIP_LOOK };
 
 function readPrefs(): Prefs {
   try {
@@ -67,7 +72,7 @@ function readPrefs(): Prefs {
     // off by starting their device delay at 0. Prefs written by this version carry splitV and are taken as they are.
     const legacyOff = parsed.splitV === undefined && parsed.syncShared === false;
     const syncGlobal = legacyOff ? DEFAULTS.syncGlobal : { ...DEFAULTS.syncGlobal, ...(parsed.syncGlobal ?? {}) };
-    return { ...DEFAULTS, ...(legacyStyle ? { style: legacyStyle } : {}), ...parsed, mode: isStageMode(parsed.mode) ? parsed.mode : DEFAULTS.mode, turboStyle: isTurboStyle(parsed.turboStyle) ? parsed.turboStyle : DEFAULTS.turboStyle, syncGlobal };
+    return { ...DEFAULTS, ...(legacyStyle ? { style: legacyStyle } : {}), ...parsed, mode: isStageMode(parsed.mode) ? parsed.mode : DEFAULTS.mode, turboStyle: isTurboStyle(parsed.turboStyle) ? parsed.turboStyle : DEFAULTS.turboStyle, syncGlobal, pipLook: { ...DEFAULT_PIP_LOOK, ...(parsed.pipLook ?? {}) } };
   } catch {
     return DEFAULTS;
   }
@@ -91,9 +96,9 @@ type UiState = Prefs & {
 
 export const useUi = create<UiState>((set, get) => {
   const persist = () => {
-    const { mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare, director, secondLine, translateTo, aiTranslate } = get();
+    const { mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare, director, secondLine, translateTo, aiTranslate, pipLook } = get();
     try {
-      localStorage.setItem(PREFS_KEY, JSON.stringify({ mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare, director, secondLine, translateTo, aiTranslate, splitV: 2 }));
+      localStorage.setItem(PREFS_KEY, JSON.stringify({ mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare, director, secondLine, translateTo, aiTranslate, pipLook, splitV: 2 }));
     } catch {
       /* storage unavailable */
     }

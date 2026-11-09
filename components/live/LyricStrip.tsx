@@ -136,7 +136,7 @@ export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl
     <div
       data-testid="lyric-strip"
       className={clsx('relative isolate flex h-full w-full flex-col justify-center overflow-hidden px-[6%] py-4', options.align === 'center' ? 'items-center text-center' : 'items-start text-left')}
-      style={{ ['--hi' as string]: '#ffffff', ['--acc' as string]: accent, ['--lo' as string]: clear ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.34)' }}
+      style={{ ['--hi' as string]: '#ffffff', ['--acc' as string]: accent, ['--lo' as string]: clear ? 'rgba(255,255,255,0.78)' : 'rgba(255,255,255,0.34)' }}
     >
       <style>{CSS}</style>
       {options.bg === 'solid' && (
@@ -190,7 +190,7 @@ export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl
           </p>
         )}
         {nxt && (
-          <p key={`n${pos.next}`} className="ls-strip-next font-semibold text-white/45 [text-wrap:balance]" style={{ fontFamily: f.family, fontSize: sz.nxt, lineHeight: 1.2, fontWeight: Math.min(f.weight, 600) }}>
+          <p key={`n${pos.next}`} className={clsx('ls-strip-next font-semibold [text-wrap:balance]', clear ? 'text-white/85' : 'text-white/45')} style={{ fontFamily: f.family, fontSize: sz.nxt, lineHeight: 1.2, fontWeight: Math.min(f.weight, 600) }}>
             {nxt.words.map((w) => w.text).join(' ')}
           </p>
         )}

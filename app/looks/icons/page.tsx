@@ -5,9 +5,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Icon } from '@/components/ui/Icon';
-import { drawIcon, ICON_IDS, iconColors, type IconId } from '@/lib/kinetic/icons';
+import { drawIcon, ICON_IDS, ICON_TREATMENTS, iconColors, type IconId, type IconTreatment } from '@/lib/kinetic/icons';
 
-function Sprite({ id, accent, size = 72, edge }: { id: IconId; accent: string; size?: number; edge: string | null }) {
+function Sprite({ id, accent, size = 72, edge, treatment = 'sticker' }: { id: IconId; accent: string; size?: number; edge: string | null; treatment?: IconTreatment }) {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const c = ref.current;
@@ -16,9 +16,9 @@ function Sprite({ id, accent, size = 72, edge }: { id: IconId; accent: string; s
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.save();
     ctx.translate(c.width / 2, c.height / 2);
-    drawIcon(ctx, id, size - 8, iconColors(id, accent), edge);
+    drawIcon(ctx, id, size - 8, iconColors(id, accent), edge, treatment);
     ctx.restore();
-  }, [id, accent, size, edge]);
+  }, [id, accent, size, edge, treatment]);
   return <canvas ref={ref} width={size} height={size} style={{ width: size, height: size }} />;
 }
 
@@ -30,7 +30,7 @@ export default function IconSheet() {
   return (
     <div className="p-4" data-testid="icon-sheet">
       <h1 className="font-display mb-1 text-3xl uppercase">Icon set</h1>
-      <p className="mb-4 text-sm text-ink-300">{ICON_IDS.length} custom vector icons. Top row of each cell: inline SVG on dark / light. Bottom: the canvas sticker sprite in three accents.</p>
+      <p className="mb-4 text-sm text-ink-300">{ICON_IDS.length} custom vector icons. Top row of each cell: inline SVG on dark / light. Then the {ICON_TREATMENTS.length} ways the stage may draw it ({ICON_IDS.length * ICON_TREATMENTS.length} in all), and the sticker sprite in three accents.</p>
       <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))' }}>
         {ICON_IDS.map((id) => (
           <div key={id} className="rounded-xl border border-white/10 p-2" data-icon={id}>
@@ -42,6 +42,13 @@ export default function IconSheet() {
               <div className="grid h-[72px] w-[72px] place-items-center rounded-lg bg-[#efe8da]">
                 <Icon id={id} size={56} edge />
               </div>
+            </div>
+            <div className="mt-1 flex flex-wrap gap-0.5" data-testid="icon-treatments">
+              {ICON_TREATMENTS.map((t, i) => (
+                <div key={t} className="rounded-md bg-[#14121f]" title={t}>
+                  <Sprite id={id} accent={['#ff3d6e', '#38c7ff', '#ffc21a'][i % 3]!} size={30} edge="#ffffff" treatment={t} />
+                </div>
+              ))}
             </div>
             <div className="mt-1 flex gap-1">
               {['#ff3d6e', '#38c7ff', '#ffc21a'].map((a, i) => (

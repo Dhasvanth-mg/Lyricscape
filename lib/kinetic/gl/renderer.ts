@@ -13,7 +13,7 @@ import { drawDoodle } from '../doodles';
 import { PIXEL_BUDGET, QUALITY_PROFILE, type QualityLevel } from '../governor';
 import type { DrawWord, FontKey, Frame, VisualTimeline } from '../types';
 import { contrastRatio, mix, rgbToHex } from '../util';
-import { drawIcon, iconColors, type IconId } from '../icons';
+import { drawIcon, iconColors, iconVariant, type IconId, type IconTreatment } from '../icons';
 import { EMOTION_DEFS } from '../emotion';
 import type { RendererOptions } from '../render';
 import { isSceneStyle, planStage, turboLook, type TurboStyleId } from '../turbo';
@@ -473,12 +473,12 @@ export class TurboRenderer {
     }
     return spr;
   }
-  private iconSprite(id: IconId, accent: string, ink: string): Sprite {
+  private iconSprite(id: IconId, accent: string, ink: string, treatment: IconTreatment = 'sticker'): Sprite {
     const darkStage = contrastRatio(ink, '#000000') > contrastRatio(ink, '#ffffff');
     const edge = darkStage ? '#ffffff' : '#2a2433';
-    return this.sprite(`i|${id}|${accent}|${edge}`, ICON_PX, ICON_PX, (c) => {
+    return this.sprite(`i|${id}|${accent}|${edge}|${treatment}`, ICON_PX, ICON_PX, (c) => {
       c.translate(ICON_PX / 2, ICON_PX / 2);
-      drawIcon(c, id, ICON_PX - 8, iconColors(id, accent), edge);
+      drawIcon(c, id, ICON_PX - 8, iconColors(id, accent), edge, treatment);
     });
   }
   private doodleSprite(d: Frame['doodles'][number]): Sprite {
@@ -798,7 +798,7 @@ export class TurboRenderer {
     for (const w of frame.words) this.drawWord(w, frame, style, prof.echo);
     for (const e of frame.icons) {
       if (e.alpha <= 0.01 || e.sizePx < 3) continue;
-      const spr = this.iconSprite(e.icon, frame.tone.accent, frame.tone.ink);
+      const spr = this.iconSprite(e.icon, frame.tone.accent, frame.tone.ink, iconVariant(e.id));
       this.drawSprite({ tex: spr.tex, m: mul(translate(W / 2 + e.x, H / 2 + e.y), rotate((e.rotationDeg * Math.PI) / 180)), w: e.sizePx, h: e.sizePx, alpha: e.alpha });
     }
 

@@ -431,22 +431,72 @@ const p2d = (d: string) => {
  * Draw an icon centred at (0,0) at `size` px, as a sticker: a thick pale edge underneath, then the shapes. Sprite-friendly: call it once
  * into a canvas and blit (see render.ts).
  */
-export function drawIcon(ctx: CanvasRenderingContext2D, id: IconId, size: number, colors: IconColors, edge: string | null = '#ffffff') {
+// Ten ways to draw any icon, picked per placement (see iconVariant): 45 icons x 10 = 450 stickers.
+export const ICON_TREATMENTS = ['sticker', 'flat', 'outline', 'duotone', 'inverse', 'shadow', 'badge', 'mono', 'thick', 'pop'] as const;
+export type IconTreatment = (typeof ICON_TREATMENTS)[number];
+export function iconVariant(placementId: string): IconTreatment {
+  let h = 2166136261;
+  for (let i = 0; i < placementId.length; i++) h = Math.imul(h ^ placementId.charCodeAt(i), 16777619);
+  return ICON_TREATMENTS[(h >>> 0) % ICON_TREATMENTS.length]!;
+}
+
+export function drawIcon(ctx: CanvasRenderingContext2D, id: IconId, size: number, colorsIn: IconColors, edgeIn: string | null = '#ffffff', treatment: IconTreatment = 'sticker') {
   const def = ICONS[id];
-  const k = size / 24;
+  let colors = colorsIn;
+  let edge = edgeIn;
+  if (treatment === 'duotone') colors = { ...colorsIn, main: colorsIn.light, light: colorsIn.main };
+  else if (treatment === 'inverse') colors = { ...colorsIn, main: colorsIn.dark, dark: colorsIn.main };
+  else if (treatment === 'mono') colors = { main: colorsIn.ink, dark: colorsIn.ink, light: colorsIn.white, white: colorsIn.white, ink: colorsIn.main };
+  else if (treatment === 'pop') colors = { ...colorsIn, main: colorsIn.light, dark: colorsIn.main, light: colorsIn.white };
+  if (treatment === 'flat' || treatment === 'outline') edge = null;
+  const k0 = size / 24;
+  const k = treatment === 'badge' ? k0 * 0.72 : k0;
+  if (treatment === 'badge') {
+    ctx.save();
+    ctx.fillStyle = colorsIn.main;
+    ctx.beginPath();
+    ctx.arc(0, 0, size * 0.48, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.lineWidth = size * 0.05;
+    ctx.strokeStyle = edgeIn ?? '#ffffff';
+    ctx.stroke();
+    ctx.restore();
+    colors = { ...colors, main: colorsIn.white, light: colorsIn.light, dark: colorsIn.dark };
+    edge = null;
+  }
+  if (treatment === 'shadow') {
+    ctx.save();
+    ctx.translate(size * 0.06, size * 0.08);
+    ctx.globalAlpha *= 0.35;
+    drawIcon(ctx, id, size, { main: '#000000', dark: '#000000', light: '#000000', white: '#000000', ink: '#000000' }, null, 'flat');
+    ctx.restore();
+  }
   ctx.save();
-  ctx.translate(-size / 2, -size / 2);
+  ctx.translate(-(24 * k) / 2, -(24 * k) / 2);
+  ctx.scale(k, k);
+  if (treatment === 'outline') {
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = colors.main;
+    ctx.lineWidth = 1.4;
+    for (const part of def.parts) ctx.stroke(p2d(part.d));
+    ctx.restore();
+    return;
+  }
+  ctx.restore();
+  ctx.save();
+  ctx.translate(-(24 * k) / 2, -(24 * k) / 2);
   ctx.scale(k, k);
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
+  const rim = treatment === 'thick' ? 4.4 : 2.6;
   if (edge) {
     ctx.strokeStyle = edge;
     ctx.fillStyle = edge;
-    ctx.lineWidth = 2.6;
+    ctx.lineWidth = rim;
     for (const part of def.parts) {
       if (part.o !== undefined && part.o < 0.5 && !part.s) continue;
       const p = p2d(part.d);
-      ctx.lineWidth = part.s ? part.s + 2.6 : 2.6;
+      ctx.lineWidth = part.s ? part.s + rim : rim;
       ctx.stroke(p);
       if (!part.s) ctx.fill(p);
     }

@@ -100,7 +100,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
   const endMs = Math.max(endSec, startSec + 1) * 1000;
   const frames = frameCount(startMs, endMs, fps);
 
-  const timeline = useMemo(() => compileForTrack({ track, doc, style, albumPalette, cover, mood: moodFor(track, doc, moodPick), estimateWords: ui.estimatedWords }), [track, doc, style, albumPalette, cover, moodPick, ui.estimatedWords]);
+  const timeline = useMemo(() => compileForTrack({ track, doc, style, albumPalette, cover, mood: moodFor(track, doc, moodPick), estimateWords: ui.estimatedWords, lively: mode === 'turbo' }), [track, doc, style, albumPalette, cover, moodPick, ui.estimatedWords, mode]);
   // the stage's own Look when the style is unchanged, otherwise the chosen direction composed for this song
   const look = useMemo(() => (style === direction ? stageLook : composeLook({ direction: directionOf(style), identity, cover: coverInfo }).look), [style, direction, stageLook, identity, coverInfo]);
   const director = useMemo(() => (mode === 'turbo' && directed && !calm ? planDirector(timeline, turboStyle) : null), [mode, directed, calm, timeline, turboStyle]);

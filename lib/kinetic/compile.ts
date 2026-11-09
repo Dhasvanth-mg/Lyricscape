@@ -30,7 +30,12 @@ export type CompileOptions = {
   cover?: VisualTimeline['cover'];
   /** Animate word by word on line-synced lyrics using ESTIMATED word times. Off by default: a guess is not sync. */
   estimateWords?: boolean;
+  /** Turbo: every line gets word-by-word motion (estimated word times when only lines are timed) and the full mix of presets,
+   *  even when the direction is a calm one that would otherwise show whole lines */
+  lively?: boolean;
 };
+
+const LIVELY_PRESETS: PresetId[] = ['drop', 'stack', 'wave', 'ticker', 'burst', 'drop', 'wave'];
 
 /** Presentation only (not a timing claim): words of an untimed line enter a beat apart, then all stay until the line ends. */
 const STAGGER_MS = 40;
@@ -75,7 +80,9 @@ export function gridFromBpm(bpm: number, durationMs: number, offsetMs = 0): numb
  */
 export function compileTimeline(doc: LyricDocument, opts: CompileOptions): VisualTimeline {
   const styleId = opts.style ?? 'maximalist';
-  const style = STYLES[styleId];
+  const base = STYLES[styleId];
+  // Turbo is the lively mode: calm directions keep their colours and type, but lines move with the full set of presets
+  const style = opts.lively ? { ...base, presetPolicy: undefined, calmPresets: LIVELY_PRESETS, hookPreset: base.presetPolicy ? 'burst' : base.hookPreset } : base;
   const seed = opts.seed ?? hashString(opts.trackId);
   const palette = opts.palette.length >= 2 ? opts.palette : ['#ff2e63', '#14121f'];
   const beatTimesMs =
@@ -107,7 +114,7 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
     const wt = line.wordTiming ?? 'authored';
     // Real word times drive word-level motion. Without them the line is shown as a unit (see STAGGER_MS) unless the
     // user opted in to estimated word timing.
-    const wordLevel = wt === 'authored' || (wt === 'estimated' && !!opts.estimateWords);
+    const wordLevel = wt === 'authored' || (wt === 'estimated' && (!!opts.estimateWords || !!opts.lively));
     // calm directions never turn a quick passage into single-word cuts (that is what makes fast singing unreadable)
     const fast = wordLevel && wps > 3.6 && line.words.length >= 4 && !style.presetPolicy;
 

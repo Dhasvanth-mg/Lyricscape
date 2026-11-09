@@ -182,8 +182,8 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
 
   const timeline = useMemo(() => {
     if (!track || !sl.ready) return null;
-    return compileForTrack({ track: timingTrack ?? track, doc: lyrics.doc, style: resolved.direction, albumPalette, cover: coverCues, mood, estimateWords: ui.estimatedWords });
-  }, [track, timingTrack, sl.ready, lyrics.doc, resolved.direction, albumPalette, mood, coverCues, ui.estimatedWords]);
+    return compileForTrack({ track: timingTrack ?? track, doc: lyrics.doc, style: resolved.direction, albumPalette, cover: coverCues, mood, estimateWords: ui.estimatedWords, lively: mode === 'turbo' });
+  }, [track, timingTrack, sl.ready, lyrics.doc, resolved.direction, albumPalette, mood, coverCues, ui.estimatedWords, mode]);
 
   useEffect(() => {
     diagRef.current = { clock, timeline, lyrics };

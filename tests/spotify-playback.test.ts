@@ -56,7 +56,7 @@ describe('Spotify browser output and its lyric clock', () => {
     expect(mocks.activate).toHaveBeenCalledOnce();
     expect(mocks.transfer).toHaveBeenCalledWith('browser', false);
     await b.load(track, { autoplay: true });
-    expect(mocks.play).toHaveBeenCalledWith('song', 'browser', 0);
+    expect(mocks.play).toHaveBeenCalledWith('song', 'browser', 0, undefined);
     expect(mocks.devices).not.toHaveBeenCalled();
     await b.pause();
     await b.play();
@@ -70,7 +70,7 @@ describe('Spotify browser output and its lyric clock', () => {
     mocks.transfer.mockRejectedValueOnce(new Error('Transfer refused'));
     await expect(b.selectBrowser()).rejects.toThrow('Transfer refused');
     await b.load(track, { autoplay: true });
-    expect(mocks.play).toHaveBeenCalledWith('song', 'phone', 0);
+    expect(mocks.play).toHaveBeenCalledWith('song', 'phone', 0, undefined);
   });
 
   it('refuses browser playback when the SDK has no device', async () => {
@@ -83,7 +83,7 @@ describe('Spotify browser output and its lyric clock', () => {
     await b.selectBrowser();
     b.followActiveDevice();
     await b.load(track, { autoplay: true });
-    expect(mocks.play).toHaveBeenCalledWith('song', 'phone', 0);
+    expect(mocks.play).toHaveBeenCalledWith('song', 'phone', 0, undefined);
   });
 
   it('restores volume on the browser and sends mute only to the selected output', async () => {

@@ -18,7 +18,12 @@ export type BackendEvents = {
   external?(track: Track | null): void;
 };
 
-export type LoadOptions = { autoplay: boolean; startMs?: number };
+export type LoadOptions = {
+  autoplay: boolean;
+  startMs?: number;
+  /** Spotify only: the queue's Spotify song ids around this one, in play order, so other devices can skip through them */
+  spotifyContext?: string[];
+};
 
 /** What the PlayerController drives. One instance per audio source family. */
 export interface PlaybackBackend {

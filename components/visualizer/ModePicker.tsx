@@ -6,6 +6,7 @@ import { Cpu, Gem, Zap } from 'lucide-react';
 import { MODES, STAGE_MODES, type StageMode } from '@/lib/kinetic/modes';
 import { turboSupported } from '@/lib/kinetic/stageRenderer';
 import { TURBO_STYLES, TURBO_STYLE_IDS } from '@/lib/kinetic/turbo';
+import { CHORUS_PARTNER } from '@/lib/kinetic/director';
 import { useUi } from '@/lib/ui-store';
 import { GpuStatus } from '@/components/ui/GpuStatus';
 
@@ -16,6 +17,7 @@ export function ModePicker() {
   const mode = useUi((s) => s.mode);
   const set = useUi((s) => s.set);
   const turboStyle = useUi((s) => s.turboStyle);
+  const director = useUi((s) => s.director);
   const [gl, setGl] = useState<boolean | null>(null);
   useEffect(() => setGl(turboSupported()), []);
   return (
@@ -65,6 +67,15 @@ export function ModePicker() {
             ))}
           </div>
           <p className="mt-1.5 text-[11px] leading-snug text-ink-300">{TURBO_STYLES[turboStyle].tagline}</p>
+          <label className="mt-2.5 flex cursor-pointer items-start gap-2 text-xs">
+            <input type="checkbox" checked={director} onChange={(e) => set({ director: e.target.checked })} className="mt-0.5 h-3.5 w-3.5 accent-[var(--color-signal)]" data-testid="turbo-director" />
+            <span>
+              <span className="font-semibold">Auto director</span>
+              <span className="block text-[11px] leading-snug text-ink-300">
+                Cuts to {TURBO_STYLES[CHORUS_PARTNER[turboStyle]].label} for choruses and back to {TURBO_STYLES[turboStyle].label} for verses, on the beat. Choruses are found from repeated lines, so a song that never repeats one stays in one scene. Off with reduced motion.
+              </span>
+            </span>
+          </label>
           <div className="mt-2">
             <GpuStatus compact />
           </div>

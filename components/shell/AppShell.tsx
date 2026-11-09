@@ -12,6 +12,7 @@ import { AudioIndexer } from '@/components/player/AudioIndexer';
 import { QueueDrawer } from '@/components/player/QueueDrawer';
 import { StageOverlay } from './StageOverlay';
 import { ListeningLogger } from '@/components/map/ListeningLogger';
+import { NowPlayingBridge } from '@/components/live/NowPlayingBridge';
 
 const NAV = [
   { href: '/listen', label: 'Listen', icon: Headphones },
@@ -24,7 +25,7 @@ const NAV = [
 
 /** Routes that render without the app chrome (guest join + big-screen display). */
 function isBare(pathname: string) {
-  return pathname.startsWith('/join/') || pathname.startsWith('/p/') || /^\/parties\/[^/]+\/screen/.test(pathname) || pathname.startsWith('/spotify/callback') || pathname === '/looks' || pathname.startsWith('/looks/');
+  return pathname.startsWith('/join/') || pathname.startsWith('/p/') || /^\/parties\/[^/]+\/screen/.test(pathname) || pathname.startsWith('/spotify/callback') || pathname === '/overlay' || pathname === '/looks' || pathname.startsWith('/looks/');
 }
 
 function useShortcuts() {
@@ -84,10 +85,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const notice = usePlayer((s) => s.notice);
   useShortcuts();
 
+  // the overlay is read-only: it must not start a player of its own (it may run in the same browser as the app)
+  const overlay = pathname === '/overlay';
   useEffect(() => {
+    if (overlay) return;
     player.init();
     useUi.getState().hydrate();
-  }, []);
+  }, [overlay]);
 
   useEffect(() => {
     if (!notice) return;
@@ -96,6 +100,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [notice]);
 
   const bare = isBare(pathname);
+  if (overlay) return <main id="main">{children}</main>;
 
   return (
     <>
@@ -180,6 +185,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       )}
       <StageOverlay />
       <ListeningLogger />
+      <NowPlayingBridge />
       {notice && (
         <div
           role="status"

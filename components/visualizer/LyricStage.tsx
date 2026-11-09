@@ -3,9 +3,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { Download, Gauge, Maximize, Minimize, Palette, Pause, Play, Search, X, Zap } from 'lucide-react';
+import { Download, Gauge, Languages, Maximize, Minimize, Palette, Pause, PictureInPicture2, Play, Search, X, Zap } from 'lucide-react';
+import { useSecondLine } from './useSecondLine';
+import { SubLine } from './SubLine';
+import { pipSupported, usePip } from '@/lib/live/pip';
 import type { Track } from '@/lib/types';
 import { sceneAt } from '@/lib/kinetic/compile';
+import { planDirector } from '@/lib/kinetic/director';
 import { compileForTrack, moodFor } from '@/lib/kinetic/forTrack';
 import { syncDiag } from '@/lib/player/syncDiag';
 import { createStageRenderer, type StageRenderer } from '@/lib/kinetic/stageRenderer';
@@ -87,6 +91,9 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   const [ready, setReady] = useState(false);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [exportShown, setExportShown] = useState(false);
+  const pipWin = usePip((s) => s.win);
+  const [pipOk, setPipOk] = useState(false);
+  useEffect(() => setPipOk(pipSupported()), []);
   const barHover = useRef(false);
   // while this stage's export dialog is open, the live stage stops drawing so the exporter has the machine to itself
   useEffect(() => {
@@ -180,6 +187,17 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   useEffect(() => {
     diagRef.current = { clock, timeline, lyrics };
   });
+
+  // a second line under the lyrics: romanised (Hindi, Tamil) or translated
+  const second = useSecondLine(track, lyrics.doc);
+  const cycleSecond = () => {
+    const order: ('off' | 'roman' | 'translate')[] = second.romanizable ? ['off', 'roman', 'translate'] : ['off', 'translate'];
+    const next = order[(order.indexOf(ui.secondLine) + 1) % order.length] ?? 'off';
+    ui.set({ secondLine: next });
+  };
+
+  // Turbo's auto director: which scene for which section (a pure plan from the timeline; never with reduced motion)
+  const director = useMemo(() => (ui.director && !reduced && timeline ? planDirector(timeline, ui.turboStyle) : null), [ui.director, reduced, timeline, ui.turboStyle]);
 
   // renderer lifecycle
   useEffect(() => {
@@ -276,8 +294,9 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       interlude: ui.interlude,
       texture: true,
       turboStyle: ui.turboStyle,
+      director,
     };
-  }, [reduced, readable, track?.provider, ready, mode, ui.colorMode, ui.emojis, ui.doodles, ui.artwork, ui.interlude, ui.turboStyle]);
+  }, [reduced, readable, track?.provider, ready, mode, ui.colorMode, ui.emojis, ui.doodles, ui.artwork, ui.interlude, ui.turboStyle, director]);
 
   // quality: pinned by the user, or adapted live from real frame intervals
   useEffect(() => {
@@ -504,6 +523,17 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
                 </button>
               </>
             )}
+            {track && lyrics.doc && (
+              <button onClick={cycleSecond} className={pill(ui.secondLine !== 'off')} title={ui.secondLine === 'off' ? 'Show a second line: romanised or translated' : (second.note ?? 'Second line')} data-testid="second-line-pill">
+                <Languages size={14} aria-hidden />
+                <span className="hidden sm:inline">{ui.secondLine === 'roman' ? 'Roman' : ui.secondLine === 'translate' ? (second.busy ? `${Math.round(second.progress * 100)}%` : second.target.toUpperCase()) : 'Aa'}</span>
+              </button>
+            )}
+            {pipOk && (
+              <IconButton label={pipWin ? 'Close floating lyrics' : 'Floating lyrics (stays on top of other windows)'} onClick={() => void (pipWin ? usePip.getState().close() : usePip.getState().open())}>
+                <PictureInPicture2 size={18} />
+              </IconButton>
+            )}
             <IconButton label="Export lyric video" onClick={() => setExportShown(true)} disabled={!canExport}>
               <Download size={18} />
             </IconButton>
@@ -552,6 +582,13 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
             />
           )}
         </>
+      )}
+
+      {second.lines && <SubLine lines={lyrics.doc?.lines ?? null} sub={second.lines} now={clock.now} />}
+      {track && lyrics.doc && second.kind !== 'off' && !second.lines && (second.busy || second.note) && (
+        <p role="status" data-testid="second-line-status" className="absolute inset-x-0 bottom-[84px] z-[5] mx-auto w-fit max-w-[86%] rounded-full bg-black/60 px-3 py-1.5 text-center text-xs text-white/80 backdrop-blur sm:bottom-[96px]">
+          {second.busy ? `Translating the lyrics… ${Math.round(second.progress * 100)}%` : second.note}
+        </p>
       )}
 
       {!chrome && canExport && (

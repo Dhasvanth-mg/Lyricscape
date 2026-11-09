@@ -76,6 +76,10 @@ in vec2 v_uv;
 out vec4 o;
 uniform vec2 u_res;
 uniform float u_time;
+uniform float u_hue;    // base hue of the field (turns)
+uniform float u_spread; // how far the blobs' hues wander from it
+uniform float u_sat;
+uniform float u_val;
 ${NOISE}
 void main() {
   float aspect = u_res.x / u_res.y;
@@ -89,8 +93,8 @@ void main() {
     vec2 pos = vec2(0.5 + 0.55 * sin(t * (0.34 + fi * 0.07) + fi * 2.1), 0.5 + 0.6 * cos(t * (0.29 + fi * 0.05) + fi * 1.3));
     vec2 d = (uv - pos) * vec2(aspect, 1.0);
     float w = exp(-dot(d, d) * (4.2 + fi * 0.5)) + 0.0002;
-    float hue = fract(0.02 + fi * 0.21 + t * 0.075 + 0.06 * sin(t * 0.7 + fi));
-    acc += hsv(hue, 0.7, 0.8) * w;
+    float hue = fract(u_hue + (fi - 2.0) * u_spread + t * 0.075 + 0.06 * sin(t * 0.7 + fi));
+    acc += hsv(hue, u_sat, u_val) * w;
     wsum += w;
   }
   vec3 col = acc / wsum;

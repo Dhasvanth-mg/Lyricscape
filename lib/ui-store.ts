@@ -45,9 +45,11 @@ export type Prefs = {
   onlineTempo: boolean;
   /** publish what is playing (title, lyric lines, clock, beats) to this computer's local server for overlays (OBS, wallpaper). Off by default. */
   liveShare: boolean;
+  /** Turbo: the auto director changes scene with the song's sections (verse, chorus, break). Off: one scene all song. */
+  director: boolean;
 };
 
-const DEFAULTS: Prefs = { mode: 'clean', turboStyle: 'liquid', style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, interlude: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true, indexLocal: true, onlineTempo: true, liveShare: false };
+const DEFAULTS: Prefs = { mode: 'clean', turboStyle: 'liquid', style: 'maximalist', colorMode: 'blend', emojis: true, doodles: true, interlude: true, artwork: 'background', quality: 'auto', mood: 'auto', syncShared: true, syncGlobal: { spotify: 0, local: 0 }, estimatedWords: true, autoTheme: true, aiInterpret: false, onlineGenres: true, indexLocal: true, onlineTempo: true, liveShare: false, director: false };
 
 function readPrefs(): Prefs {
   try {
@@ -83,9 +85,9 @@ type UiState = Prefs & {
 
 export const useUi = create<UiState>((set, get) => {
   const persist = () => {
-    const { mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare } = get();
+    const { mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare, director } = get();
     try {
-      localStorage.setItem(PREFS_KEY, JSON.stringify({ mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare, splitV: 2 }));
+      localStorage.setItem(PREFS_KEY, JSON.stringify({ mode, turboStyle, style, colorMode, emojis, doodles, interlude, artwork, quality, mood, syncShared, syncGlobal, estimatedWords, autoTheme, aiInterpret, onlineGenres, indexLocal, onlineTempo, liveShare, director, splitV: 2 }));
     } catch {
       /* storage unavailable */
     }

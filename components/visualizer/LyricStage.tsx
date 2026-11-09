@@ -7,6 +7,7 @@ import { Download, Gauge, Maximize, Minimize, Palette, Pause, PictureInPicture2,
 import { pipSupported, usePip } from '@/lib/live/pip';
 import type { Track } from '@/lib/types';
 import { sceneAt } from '@/lib/kinetic/compile';
+import { planDirector } from '@/lib/kinetic/director';
 import { compileForTrack, moodFor } from '@/lib/kinetic/forTrack';
 import { syncDiag } from '@/lib/player/syncDiag';
 import { createStageRenderer, type StageRenderer } from '@/lib/kinetic/stageRenderer';
@@ -185,6 +186,9 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     diagRef.current = { clock, timeline, lyrics };
   });
 
+  // Turbo's auto director: which scene for which section (a pure plan from the timeline; never with reduced motion)
+  const director = useMemo(() => (ui.director && !reduced && timeline ? planDirector(timeline, ui.turboStyle) : null), [ui.director, reduced, timeline, ui.turboStyle]);
+
   // renderer lifecycle
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -280,8 +284,9 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       interlude: ui.interlude,
       texture: true,
       turboStyle: ui.turboStyle,
+      director,
     };
-  }, [reduced, readable, track?.provider, ready, mode, ui.colorMode, ui.emojis, ui.doodles, ui.artwork, ui.interlude, ui.turboStyle]);
+  }, [reduced, readable, track?.provider, ready, mode, ui.colorMode, ui.emojis, ui.doodles, ui.artwork, ui.interlude, ui.turboStyle, director]);
 
   // quality: pinned by the user, or adapted live from real frame intervals
   useEffect(() => {

@@ -17,6 +17,7 @@ import { drawIcon, iconColors, type IconId } from '../icons';
 import { EMOTION_DEFS } from '../emotion';
 import type { RendererOptions } from '../render';
 import { isSceneStyle, planStage, turboLook, type TurboStyleId } from '../turbo';
+import { styleAt } from '../director';
 import { drawScene } from './scenes';
 import type { SceneFx, SceneHost } from './scenes/types';
 import { SCENE_FONT_LOADS } from './scenes/fonts';
@@ -311,8 +312,10 @@ export class TurboRenderer {
   private currentStyle(): StyleDef {
     return this.look?.style ?? (this.timeline ? STYLES[this.timeline.style] : STYLES.maximalist);
   }
+  /** the scene of the frame being drawn (the auto director may change it with time) */
+  private frameStyle: TurboStyleId | null = null;
   private styleId(): TurboStyleId {
-    return this.options.turboStyle ?? 'liquid';
+    return this.frameStyle ?? this.options.turboStyle ?? 'liquid';
   }
   setTimeline(tl: VisualTimeline | null) {
     this.timeline = tl;
@@ -584,6 +587,8 @@ export class TurboRenderer {
   render(tMs: number): Frame | null {
     const tl = this.timeline;
     if (!tl || !this.width || this.lost || this.disposed || !this.sceneRT) return null;
+    const dir = this.options.director;
+    this.frameStyle = dir ? styleAt(dir, tMs) : null;
     const ts = this.styleId();
     if (ts !== this.lastTurboStyle) {
       this.lastTurboStyle = ts;

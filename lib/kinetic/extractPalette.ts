@@ -1,3 +1,4 @@
+import { readableArt } from '../artwork/sameOrigin';
 import { colorDistance } from './emotion';
 import { contrastRatio, hexToRgb, mix, rgbToHex, rotateHue } from './util';
 
@@ -150,7 +151,7 @@ export async function extractPaletteFromUrl(url: string): Promise<ExtractedPalet
       }
     };
     img.onerror = () => resolve(null);
-    img.src = url;
+    img.src = readableArt(url);
   });
   if (cache.size > 100) cache.clear();
   cache.set(url, result);

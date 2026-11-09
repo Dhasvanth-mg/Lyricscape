@@ -1,5 +1,21 @@
 # Feature tracker
 
+## Future work (backlog)
+
+Ideas the owner has asked to keep for later. Not started; nothing here is built.
+
+- **Live Spotify sync, "listen and lock"** (researched 2026-11-09, report: https://claude.ai/artifact/XctmkFppZFk5nZsiuV6z23). Spotify's Audio Features and Audio Analysis are closed to apps created after 2024-11-27, and the desktop client's internal audio-analysis resolver was reported gone in Oct 2026, so the music itself is the only dependable beat source. Planned phases:
+  1. Audio position lock: cross-correlate the live onset envelope with the song index's stored envelope and feed the result to `PlaybackClock` as a high-trust observation; measure capture latency per machine and route instead of the fixed 140 ms. Done when an indexed song's lyric and beat error is under 30 ms after a seek.
+  2. Streaming beat tracker for a song's first listen (sliding autocorrelation plus a phase-locked loop, Deezer BPM as a prior), handing off to the offline grid once indexed. Done when a new song shows a correct grid within 8 s.
+  3. Windows helper that captures only `Spotify.exe` (process loopback, no share prompt) and reads Windows media-control track events, streaming to the app over localhost.
+  4. Lyric offset auto-correction against vocal activity in the audio, stored as a per-song offset (saved timestamps untouched).
+  5. Optional: aligner on in-memory audio with a multilingual forced-alignment model (Hindi, Tamil). Stretches the listening rule; owner to decide.
+  - Not recommended without an explicit owner decision: a Spicetify bridge (modifies the Spotify client) or librespot as the player (unofficial client, account risk).
+
+## Ten feature ideas, compared (2026-11-09)
+
+- Start: owner asked for ten features that could be added, compared against each other and against what comparable apps offer, and for the live-sync research to go on the future list. Scope: research and a written comparison only; no application code. Acceptance: ten features that do not duplicate what is already built, each with what it is, who does it best today, effort, risk and fit with Lyricscape's rules; a ranked shortlist. Status: in progress.
+
 ## Tempo without audio: tap, lyrics, lookup, system audio (2026-11-02)
 
 - Start: owner chose options 1, 2, 3 and 6 from the list of other ways to get a beat for Spotify songs. Scope: (1) **tap tempo** (tap along, saved per song, nudge the phase); (2) **tempo and phase estimated from synced lyric timing** (pure function, confidence, tested on the demo song and on real LRCLIB lyrics of the reference songs); (3) **online BPM lookup** by title and artist (Deezer's public track data), combined with the lyric phase, behind a Settings switch; (6) **system-audio listening** as a second capture route next to the tab. One resolver picks the best source (tapped, learned from audio, lookup plus lyrics, lyrics, lookup) and labels it; everything is stored in the song index as a new `tempo` feature. Acceptance: tap estimate recovers a known tempo and phase from simulated taps; the lyric estimate gets the known tempo of at least the demo song and the real reference songs within 3% (or reports low confidence); the lookup returns the right BPM for a known song or reports none; the stage uses the chosen grid and shows which source it is; system-audio capture is tried on real music here and compared with tab capture. Status: complete.

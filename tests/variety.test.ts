@@ -6,6 +6,7 @@ import { acidVariant, CREATURES } from '@/lib/kinetic/gl/scenes/acid';
 import { BORDER_KINDS, DOODLE_KINDS, FONT_SETS, themeFor } from '@/lib/kinetic/gl/scenes/sketch';
 import { CODE_THEMES, SHOT_ORDER, SHOT_ORDERS, shotFor, terminalVariant } from '@/lib/kinetic/gl/scenes/terminal';
 import { ASCII_RAMPS, asciiVariant } from '@/lib/kinetic/gl/scenes/ascii';
+import { APP_SCREEN_LOOKS, APP_SCREENS } from '@/lib/kinetic/gl/scenes/screens';
 
 const songs = Array.from({ length: 60 }, (_, i) => `track-${i}`);
 
@@ -43,6 +44,9 @@ describe('generated-graphics variety', () => {
       expect(o[0]).toBe('code');
       for (const s of SHOT_ORDER) expect(o).toContain(s);
     }
+    const v = terminalVariant('any', 0, undefined);
+    for (const s of [...SHOT_ORDER, ...APP_SCREENS]) expect(v.order).toContain(s);
+    expect(APP_SCREEN_LOOKS).toBeGreaterThan(100);
     const line = { i: 1, text: 'hi' } as Parameters<typeof shotFor>[0];
     expect(shotFor(line, SHOT_ORDERS[1])).toBe('errors');
   });

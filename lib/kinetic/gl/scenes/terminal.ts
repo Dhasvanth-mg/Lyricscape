@@ -8,15 +8,18 @@ import { mul, translate, type Affine } from '../gpu';
 import { camera, clamp, cursorOn, drawText, easeInOut, easeOut, easeOutExpo, hash01, lerp, lineAt, noise1, prefixPx, smooth, textTex, typedChars, wrapText, type Line } from './common';
 import type { SceneFx, SceneHost, TexEntry } from './types';
 import { hashKey, hsl, pick, seeded, songHues } from '../../variety';
+import { APP_SCREENS, CAMERA_MOVES, drawAppShot, type AppScreen } from './screens';
 
 const MONO = (px: number) => `600 ${px}px "JetBrains Mono Variable", ui-monospace, monospace`;
 const MONO_B = (px: number) => `700 ${px}px "JetBrains Mono Variable", ui-monospace, monospace`;
 const UI = (px: number) => `500 ${px}px "Inter Variable", "Segoe UI", system-ui, sans-serif`;
 
 export const SHOT_ORDER = ['code', 'code', 'errors', 'big', 'form', 'banner', 'console', 'big'] as const;
-export type Shot = (typeof SHOT_ORDER)[number];
+export type ClassicShot = (typeof SHOT_ORDER)[number];
+/** the six original screens, or one of the app screens (chat, search, notes, ...) from screens.ts */
+export type Shot = ClassicShot | AppScreen;
 /** a song plays its screens in one of these orders (the first is the original cut) */
-export const SHOT_ORDERS: readonly (readonly Shot[])[] = [
+export const SHOT_ORDERS: readonly (readonly ClassicShot[])[] = [
   SHOT_ORDER,
   ['code', 'errors', 'code', 'big', 'console', 'form', 'big', 'banner'],
   ['code', 'big', 'errors', 'code', 'banner', 'big', 'console', 'form'],
@@ -67,14 +70,26 @@ const PHOSPHORS = ['#43ff3c', '#ffb000', '#3cf2ff', '#ff4fd8', '#e8f0ff', '#9dff
 const ALERT_HUES = [0.99, 0.07, 0.6, 0.76, 0.48, 0.9] as const;
 const FORM_HUES = [0.38, 0.6, 0.75, 0.02, 0.08, 0.5] as const;
 
-export type TerminalVariant = { theme: CodeTheme; order: readonly Shot[]; phosphor: string; alertHue: number; formHue: number };
+export type TerminalVariant = { theme: CodeTheme; order: readonly Shot[]; phosphor: string; alertHue: number; formHue: number; hues: number[] };
 
 /** The song's look for the code screens: an editor theme, a cut order, a console colour, an alert colour and a form accent. */
 export function terminalVariant(trackId: string, seed: number, palette: readonly string[] | undefined): TerminalVariant {
   const r = seeded(hashKey(`${trackId}|${seed}|code`));
   const hues = songHues(palette, seed);
   const theme = r() < 0.25 ? coverTheme(pick(r, hues), r) : pick(r, CODE_THEMES);
-  return { theme, order: pick(r, SHOT_ORDERS), phosphor: pick(r, PHOSPHORS), alertHue: pick(r, ALERT_HUES), formHue: pick(r, FORM_HUES) };
+  // the song's cut: one of the classic orders with every app screen woven in, in a shuffled order
+  const classic = pick(r, SHOT_ORDERS);
+  const apps = [...APP_SCREENS];
+  for (let i = apps.length - 1; i > 0; i--) {
+    const j = Math.floor(r() * (i + 1));
+    [apps[i], apps[j]] = [apps[j]!, apps[i]!];
+  }
+  const order: Shot[] = [];
+  for (let i = 0; i < Math.max(classic.length, apps.length); i++) {
+    if (i < classic.length) order.push(classic[i]!);
+    if (i < apps.length) order.push(apps[i]!);
+  }
+  return { theme, order, phosphor: pick(r, PHOSPHORS), alertHue: pick(r, ALERT_HUES), formHue: pick(r, FORM_HUES), hues };
 }
 let varMemo: { key: string; v: TerminalVariant } | null = null;
 function variantOf(tl: { trackId: string; seed: number; palette?: readonly string[] }): TerminalVariant {
@@ -519,6 +534,11 @@ export function drawTerminalScene(h: SceneHost): SceneFx {
     fx.mblur = [whip * 0.05 * (reduced ? 0 : 1), 0];
     fx.vignette = 0.65;
     fx.bloom = 0.3;
+  } else if ((APP_SCREENS as readonly string[]).includes(shot)) {
+    // an app screen: its own colours, light or dark, and a camera move, per line
+    const lr = seeded(hashKey(`${tl.trackId}|${tl.seed}|app|${line.i}`));
+    const hue = pick(lr, V.hues) + (lr() < 0.5 ? 0 : (lr() - 0.5) * 0.6);
+    drawAppShot(h, line, fx, shot as AppScreen, (Math.round((((hue % 1) + 1) % 1) * 12) % 12) / 12, lr() < 0.45, pick(lr, CAMERA_MOVES)); // 12 accent hues, so sheets are reused
   } else if (shot === 'console') {
     consoleShot(h, line, fx, line.i % 3 === 2 ? pick(seeded(hashKey(`${tl.trackId}|${line.i}`)), PHOSPHORS) : V.phosphor);
   } else {

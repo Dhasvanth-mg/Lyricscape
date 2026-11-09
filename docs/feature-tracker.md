@@ -1,5 +1,10 @@
 # Feature tracker
 
+## Agent rule: push as often as possible (2026-11-09)
+
+- Start: owner asked for an AGENTS.md rule that pushes happen as frequently as possible. Scope: replace the old "do not push unless asked" rule in section 3.
+- Outcome: done. AGENTS.md section 3 now says to commit and push working steps to the feature branch early and often and open a draft PR, while never pushing to `main`, force-pushing or auto-merging; merging stays with the owner. Documentation only; nothing to run.
+
 ## Better home page with song recommendations (2026-11-09)
 
 - Start: owner asked to make the home page better and add song recommendations ("and all that"). Scope: a home page in the style of the new UI with a greeting and quick-pick tiles, a now-playing spotlight, "Recommended for you", "Jump back in" and "Your playlists" shelves. Recommendations must come only from songs the person can play here (demo songs, their files, playlist songs, Spotify saved songs when connected), be computed on this device, and say why each song was picked. Acceptance: a pure, tested ranking; plays recorded locally; works with no history; checked in a browser at desktop and phone width.

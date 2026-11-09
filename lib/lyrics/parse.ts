@@ -1,4 +1,4 @@
-import type { EndSource, LyricDocument, TimedLine, TimedWord, WordTiming } from '../types';
+import type { EndSource, LineVoice, LyricDocument, TimedLine, TimedWord, WordTiming } from '../types';
 import { cleanLyricRows, expectedSungMs, sungShareOfGap, tokenize, wordWeight } from './words';
 
 // ---------------------------------------------------------------------------
@@ -62,7 +62,7 @@ const HAS_WORD_TAG = new RegExp(WORD_TAG_SRC);
 
 export function parseLrc(input: string, licenseSource = 'user-supplied'): LyricDocument {
   const meta: Record<string, string> = {};
-  const raw: { startMs: number; text: string }[] = [];
+  const raw: { startMs: number; text: string; voice?: LineVoice }[] = [];
   let enhanced = false;
 
   for (const rawLine of input.replace(/\r/g, '').split('\n')) {
@@ -84,7 +84,8 @@ export function parseLrc(input: string, licenseSource = 'user-supplied'): LyricD
     }
     if (stamps.length === 0) continue;
     if (HAS_WORD_TAG.test(rest)) enhanced = true;
-    for (const t of stamps) raw.push({ startMs: t, text: rest });
+    const { voice, text } = takeVoice(rest);
+    for (const t of stamps) raw.push({ startMs: t, text, voice });
   }
 
   // [offset:+500] = the lyrics should appear 500 ms sooner (LRC convention). Applied once, here, and recorded so it is
@@ -111,6 +112,7 @@ export function parseLrc(input: string, licenseSource = 'user-supplied'): LyricD
       break;
     }
     const line = buildLine(shiftText(cur.text), cur.startMs, blankNext, nextText);
+    if (cur.voice) line.voice = cur.voice;
     if (line.words.length > 0) lines.push(line);
   }
 
@@ -121,6 +123,17 @@ export function parseLrc(input: string, licenseSource = 'user-supplied'): LyricD
     meta,
     timing: { source: enhanced ? 'enhanced-lrc' : 'lrc', ...(shift ? { offsetAppliedMs: -shift } : {}) },
   };
+}
+
+// Singer tags of enhanced LRC: `v1:` lead, `v2:` the featured voice, `v3:` and up (and `v1000:`, used by some apps) both.
+// They sit right after the line stamp, sometimes after the first word stamp.
+const VOICE_TAG = /^(\s*(?:<[^>]+>\s*)?)v(\d{1,4})\s*:\s*/i;
+export function takeVoice(text: string): { voice?: LineVoice; text: string } {
+  const m = VOICE_TAG.exec(text);
+  if (!m) return { text };
+  const n = Number(m[2]);
+  const voice: LineVoice = n === 1 ? 'lead' : n === 2 ? 'feat' : 'both';
+  return { voice, text: m[1]! + text.slice(m[0].length) };
 }
 
 function buildLine(text: string, lineStart: number, blankEnd: number | undefined, nextLineStart: number | undefined): TimedLine {
@@ -343,10 +356,11 @@ export function toEnhancedLrc(doc: LyricDocument, meta: Record<string, string> =
   const body: string[] = [];
   doc.lines.forEach((l, i) => {
     const wt: WordTiming = l.wordTiming ?? 'authored';
+    const v = l.voice === 'lead' ? 'v1: ' : l.voice === 'feat' ? 'v2: ' : l.voice === 'both' ? 'v3: ' : '';
     if (wt === 'authored') {
-      body.push(`[${formatTimestamp(l.startMs)}] ${l.words.map((w) => `<${formatTimestamp(w.startMs)}>${w.text}`).join(' ')} <${formatTimestamp(l.endMs)}>`);
+      body.push(`[${formatTimestamp(l.startMs)}] ${v}${l.words.map((w) => `<${formatTimestamp(w.startMs)}>${w.text}`).join(' ')} <${formatTimestamp(l.endMs)}>`);
     } else {
-      body.push(`[${formatTimestamp(l.startMs)}] ${l.words.map((w) => w.text).join(' ')}`);
+      body.push(`[${formatTimestamp(l.startMs)}] ${v}${l.words.map((w) => w.text).join(' ')}`);
       const next = doc.lines[i + 1];
       if (l.endSource === 'explicit' && (!next || next.startMs - l.endMs > 20)) body.push(`[${formatTimestamp(l.endMs)}]`);
     }

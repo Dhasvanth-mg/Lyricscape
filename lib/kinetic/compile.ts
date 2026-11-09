@@ -94,6 +94,8 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
 
   const cues: WordCue[] = [];
   const scenes: Scene[] = [];
+  // background vocals: words inside parentheses, unless the parentheses wrap the whole line (then it is just that line)
+  const adlibOf = adlibMarks(doc.lines);
   let prevPreset: PresetId | null = null;
   let calmRotation = hashString(String(seed)) % 7;
 
@@ -144,6 +146,14 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
       }
       return { id: `${li}:${wi}`, text: w.text, startMs: w.startMs, endMs: w.endMs, emphasis: round(emphasis), effect, timing: wt as 'authored' | 'estimated' };
     });
+    adlibOf[li]?.forEach((on, wi) => {
+      const c = lineCues[wi];
+      if (!on || !c) return;
+      c.adlib = true;
+      c.text = c.text.replace(/[()]/g, '') || c.text;
+      c.effect = 'pop';
+      c.emphasis = 0;
+    });
     cues.push(...lineCues);
 
     // phrase mode: a line with real or estimated word times becomes a run of short scenes (1 to 3 big words each); a line with
@@ -171,6 +181,7 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
         seed: Math.floor(rng() * 2 ** 31),
         preset: groupPreset,
         hook,
+        ...(line.voice ? { voice: line.voice } : {}),
         mood: opts.mood?.perLine[li] as Mood | undefined,
         intensity: round(Math.min(2, style.motion * (hook ? 1.25 : 1) * (fast ? 1.1 : 1))),
         words: g,
@@ -226,6 +237,27 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
 }
 
 const round = (n: number) => Math.round(n * 100) / 100;
+
+/**
+ * Per line, per word: is it a background vocal? Words between "(" and ")" are, when the line also has words outside them.
+ * A line that is all parentheses is left alone (it is the line being sung, often a whole backing line). Presentation only.
+ */
+export function adlibMarks(lines: { words: { text: string }[] }[]): (boolean[] | null)[] {
+  return lines.map((line) => {
+    let depth = 0;
+    let any = false;
+    const marks = line.words.map((w) => {
+      const opens = (w.text.match(/\(/g) ?? []).length;
+      const closes = (w.text.match(/\)/g) ?? []).length;
+      const inside = depth > 0 || opens > 0;
+      depth = Math.max(0, depth + opens - closes);
+      if (inside) any = true;
+      return inside;
+    });
+    if (!any || marks.every(Boolean)) return null;
+    return marks;
+  });
+}
 
 /** Find the scene that is "current" at time t (last scene whose start <= t, within its window). */
 export function sceneAt(tl: VisualTimeline, tMs: number): Scene | null {

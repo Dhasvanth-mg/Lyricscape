@@ -12,4 +12,9 @@ export const SCENE_FONT_LOADS = [
   '400 64px "Anton"',
   '400 64px "Permanent Marker"',
   '400 64px "Bangers"',
+  '400 64px "DM Serif Display"',
+  '800 64px "Syne Variable"',
+  '800 64px "Archivo Variable"',
+  '800 64px "Playfair Display Variable"',
+  '800 64px "Space Grotesk Variable"',
 ];

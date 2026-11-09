@@ -14,7 +14,8 @@ Ideas the owner has asked to keep for later. Not started; nothing here is built.
 
 ## Ten feature ideas, compared (2026-11-09)
 
-- Start: owner asked for ten features that could be added, compared against each other and against what comparable apps offer, and for the live-sync research to go on the future list. Scope: research and a written comparison only; no application code. Acceptance: ten features that do not duplicate what is already built, each with what it is, who does it best today, effort, risk and fit with Lyricscape's rules; a ranked shortlist. Status: in progress.
+- Start: owner asked for ten features that could be added, compared against each other and against what comparable apps offer, and for the live-sync research to go on the future list. Scope: research and a written comparison only; no application code. Acceptance: ten features that do not duplicate what is already built, each with what it is, who does it best today, effort, risk and fit with Lyricscape's rules; a ranked shortlist. Status: complete (research only).
+- Outcome: comparison written (https://claude.ai/artifact/Ue8xHne4huK28BBEjgxuVh). Scored on daily use, wow, effort and edge over the best existing product. Ranked: (1) lyrics everywhere: Picture-in-Picture window, OBS overlay, desktop wallpaper (18); (2) auto director: scene changes on sections and downbeats (16); (3) translation and display-grade romanisation lines, Tamil and Hindi first (15); then smart lights on the beat, lyric search and saved lines, Discord/Last.fm presence (14 each); duet and background-vocal layout, lyrics-first personal Wrapped (13); line meanings (12); sing mode (11). Dropped as already built: share cards/clips, phone remote and big screen. Scores are judgement, not measurements; no competitor was tested live. Nothing built; the owner picks what to start.
 
 ## Tempo without audio: tap, lyrics, lookup, system audio (2026-11-02)
 

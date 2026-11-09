@@ -13,6 +13,7 @@ import { QueueDrawer } from '@/components/player/QueueDrawer';
 import { StageOverlay } from './StageOverlay';
 import { ListeningLogger } from '@/components/map/ListeningLogger';
 import { NowPlayingBridge } from '@/components/live/NowPlayingBridge';
+import { PlayHistoryRecorder } from '@/components/home/PlayHistoryRecorder';
 
 const NAV = [
   { href: '/listen', label: 'Listen', icon: Headphones },
@@ -186,6 +187,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <StageOverlay />
       <ListeningLogger />
       <NowPlayingBridge />
+      <PlayHistoryRecorder />
       {notice && (
         <div
           role="status"

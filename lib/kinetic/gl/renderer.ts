@@ -59,7 +59,7 @@ export type SpriteOpts = {
 /** glyph textures may use about this much GPU memory in total; the least recently used are dropped first */
 const GLYPH_BUDGET_BYTES = 192 * 1024 * 1024;
 const ICON_PX = 192;
-const DOODLE_PX = 192;
+const DOODLE_PX = 256; // room for the ornaments (up to 1.5 r) around a doodle
 const DOODLE_R = 80;
 
 export class TurboRenderer {

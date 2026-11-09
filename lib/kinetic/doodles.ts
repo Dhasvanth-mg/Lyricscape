@@ -2,6 +2,7 @@
 // Every shape is centred on (0,0) and fits roughly inside a circle of radius `r`.
 
 import type { MotifId } from './emotion';
+import { drawArt, pickArt, type ArtTag } from './art/library';
 
 export type DoodlePaint = { fill: string | null; stroke: string | null; lineWidth: number; accent?: string };
 
@@ -338,8 +339,24 @@ function ornament(ctx: CanvasRenderingContext2D, kind: DoodleOrnament, r: number
   ctx.restore();
 }
 
+/** what kind of drawing from the shared art library suits each motif */
+const MOTIF_TAG: Record<MotifId, ArtTag> = {
+  sparkle: 'party', heart: 'love', star: 'night', bolt: 'energy', ring: 'dream', wave: 'calm', cloud: 'calm', sun: 'nature', rain: 'sad',
+  flame: 'energy', spiral: 'dream', zigzag: 'energy', burst: 'party', flower: 'nature', moon: 'night', note: 'party', blob: 'cute', squiggle: 'fun',
+};
+
+/**
+ * The drawing a doodle shows: about two in three come from the shared art library (346 drawings, picked to suit the motif),
+ * the rest are the motif itself. Fixed by the doodle's seed, so a replay or an export matches.
+ */
+export function doodleArt(kind: MotifId, seed: number): string | null {
+  const h = Math.imul((seed | 0) ^ 0x2c1b3c6d, 0x297a2d39) >>> 0;
+  return h % 3 === 0 ? null : pickArt(h, MOTIF_TAG[kind] ?? null);
+}
+
 export function drawDoodle(ctx: CanvasRenderingContext2D, kind: MotifId, r: number, p: DoodlePaint, seed = 1) {
-  const draw = DRAWERS[kind];
+  const art = doodleArt(kind, seed);
+  const draw = art ? (c: CanvasRenderingContext2D, rr: number, pp: DoodlePaint) => drawArt(c, art, rr, pp) : DRAWERS[kind];
   const v = doodleVariant(seed);
   const color = p.fill ?? p.stroke ?? '#ffffff';
   ctx.save();

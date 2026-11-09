@@ -64,3 +64,21 @@ describe('ASCII pictures through a song', () => {
     expect(asciiSection('a', 1, undefined, 'highway', 0).subject).toBe('highway');
   });
 });
+
+describe('shared art library', () => {
+  it('holds 300+ distinct drawings in many families, picked by tag', async () => {
+    const { ART_IDS, ART_FAMILIES, artWithTag, pickArt, artFamily } = await import('@/lib/kinetic/art/library');
+    expect(ART_IDS.length).toBeGreaterThanOrEqual(300);
+    expect(new Set(ART_IDS).size).toBe(ART_IDS.length);
+    expect(Object.keys(ART_FAMILIES).length).toBeGreaterThanOrEqual(12);
+    for (const id of artWithTag('love')) expect(['flower', 'heart']).toContain(artFamily(id));
+    expect(pickArt(5, 'night')).toBe(pickArt(5, 'night'));
+    expect(new Set(Array.from({ length: 400 }, (_, i) => pickArt(hashKey(String(i))))).size).toBeGreaterThan(150);
+  });
+  it('doodles mostly come from the library, fixed by their seed', async () => {
+    const { doodleArt } = await import('@/lib/kinetic/doodles');
+    const picks = Array.from({ length: 300 }, (_, i) => doodleArt('heart', i));
+    expect(picks.filter(Boolean).length).toBeGreaterThan(150);
+    expect(doodleArt('star', 9)).toBe(doodleArt('star', 9));
+  });
+});

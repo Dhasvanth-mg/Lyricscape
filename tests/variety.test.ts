@@ -52,3 +52,15 @@ describe('generated-graphics variety', () => {
     expect(seen.size).toBe(ICON_TREATMENTS.length);
   });
 });
+
+describe('ASCII pictures through a song', () => {
+  it('changes picture every few lines, never the same twice running, and not always the eye', async () => {
+    const { asciiSection } = await import('@/lib/kinetic/gl/scenes/ascii');
+    const subs = Array.from({ length: 20 }, (_, k) => asciiSection('song-x', 3, ['#ff8800'], 'eye', k).subject);
+    for (let k = 1; k < subs.length; k++) expect(subs[k]).not.toBe(subs[k - 1]);
+    expect(new Set(subs).size).toBeGreaterThan(8);
+    const openers = new Set(songs.map((s) => asciiSection(s, 0, undefined, 'eye', 0).subject));
+    expect(openers.size).toBeGreaterThan(6);
+    expect(asciiSection('a', 1, undefined, 'highway', 0).subject).toBe('highway');
+  });
+});

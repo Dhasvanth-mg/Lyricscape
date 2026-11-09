@@ -277,6 +277,119 @@ export const DRAWERS: Record<MotifId, (ctx: CanvasRenderingContext2D, r: number,
   },
 };
 
+// ---- variants -------------------------------------------------------------------------------------------------------------------
+// Each doodle is drawn in one of 10 treatments with one of 6 ornaments, picked from its seed: 18 motifs x 10 x 6 = 1080 looks,
+// the same one every time for the same seed (layout and export stay deterministic).
+export const DOODLE_TREATMENTS = ['solid', 'outline', 'sticker', 'echo', 'sketchy', 'shadow', 'squash', 'dotted', 'mono', 'tall'] as const;
+export const DOODLE_ORNAMENTS = ['none', 'orbit', 'sparkles', 'motion', 'halo', 'confetti'] as const;
+export type DoodleTreatment = (typeof DOODLE_TREATMENTS)[number];
+export type DoodleOrnament = (typeof DOODLE_ORNAMENTS)[number];
+
+export function doodleVariant(seed: number): { treatment: DoodleTreatment; ornament: DoodleOrnament } {
+  const h = Math.imul((seed | 0) ^ 0x5bd1e995, 0x27d4eb2d) >>> 0;
+  return { treatment: DOODLE_TREATMENTS[h % DOODLE_TREATMENTS.length]!, ornament: DOODLE_ORNAMENTS[(h >>> 8) % DOODLE_ORNAMENTS.length]! };
+}
+
+function ornament(ctx: CanvasRenderingContext2D, kind: DoodleOrnament, r: number, color: string, seed: number) {
+  if (kind === 'none') return;
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.strokeStyle = color;
+  ctx.lineCap = 'round';
+  ctx.lineWidth = Math.max(1.2, r * 0.06);
+  const a0 = wob(1, seed) * TAU;
+  if (kind === 'orbit') {
+    for (let i = 0; i < 3; i++) {
+      const a = a0 + (i * TAU) / 3;
+      ctx.beginPath();
+      ctx.arc(Math.cos(a) * r * 1.22, Math.sin(a) * r * 1.22, r * (0.07 + i * 0.025), 0, TAU);
+      ctx.fill();
+    }
+  } else if (kind === 'sparkles') {
+    for (let i = 0; i < 2; i++) {
+      const a = a0 + i * 2.4;
+      ctx.save();
+      ctx.translate(Math.cos(a) * r * 1.2, Math.sin(a) * r * 1.2);
+      DRAWERS.sparkle(ctx, r * (0.2 - i * 0.06), { fill: color, stroke: null, lineWidth: 0 }, seed);
+      ctx.restore();
+    }
+  } else if (kind === 'motion') {
+    for (let i = -1; i <= 1; i++) {
+      ctx.beginPath();
+      ctx.moveTo(-r * 1.15, i * r * 0.35);
+      ctx.lineTo(-r * (1.5 + Math.abs(i) * -0.15), i * r * 0.35);
+      ctx.stroke();
+    }
+  } else if (kind === 'halo') {
+    ctx.globalAlpha *= 0.6;
+    ctx.beginPath();
+    ctx.arc(0, 0, r * 1.3, 0, TAU);
+    ctx.stroke();
+  } else if (kind === 'confetti') {
+    for (let i = 0; i < 5; i++) {
+      const a = a0 + i * 1.3;
+      ctx.save();
+      ctx.translate(Math.cos(a) * r * (1.15 + wob(i, seed) * 0.2), Math.sin(a) * r * (1.15 + wob(i + 3, seed) * 0.2));
+      ctx.rotate(a);
+      ctx.fillRect(-r * 0.06, -r * 0.03, r * 0.12, r * 0.06);
+      ctx.restore();
+    }
+  }
+  ctx.restore();
+}
+
 export function drawDoodle(ctx: CanvasRenderingContext2D, kind: MotifId, r: number, p: DoodlePaint, seed = 1) {
-  DRAWERS[kind](ctx, r, p, seed);
+  const draw = DRAWERS[kind];
+  const v = doodleVariant(seed);
+  const color = p.fill ?? p.stroke ?? '#ffffff';
+  ctx.save();
+  switch (v.treatment) {
+    case 'outline':
+      draw(ctx, r, { ...p, fill: null, stroke: color, lineWidth: Math.max(p.lineWidth, r * 0.09) }, seed);
+      break;
+    case 'sticker':
+      draw(ctx, r, { fill: '#ffffff', stroke: '#ffffff', lineWidth: Math.max(4, r * 0.22) }, seed);
+      draw(ctx, r, p, seed);
+      break;
+    case 'echo':
+      ctx.save();
+      ctx.translate(r * 0.14, r * 0.12);
+      ctx.globalAlpha *= 0.45;
+      draw(ctx, r, { ...p, fill: p.accent ?? color, stroke: null }, seed);
+      ctx.restore();
+      draw(ctx, r, p, seed);
+      break;
+    case 'sketchy':
+      draw(ctx, r, p, seed);
+      ctx.rotate(0.06);
+      ctx.translate(r * 0.04, -r * 0.03);
+      draw(ctx, r * 1.02, { fill: null, stroke: p.stroke ?? color, lineWidth: Math.max(1, p.lineWidth * 0.6) }, seed + 1);
+      break;
+    case 'shadow':
+      ctx.save();
+      ctx.translate(r * 0.1, r * 0.14);
+      draw(ctx, r, { fill: 'rgba(0,0,0,0.32)', stroke: null, lineWidth: 0 }, seed);
+      ctx.restore();
+      draw(ctx, r, p, seed);
+      break;
+    case 'squash':
+      ctx.scale(1.18, 0.84);
+      draw(ctx, r, p, seed);
+      break;
+    case 'tall':
+      ctx.scale(0.86, 1.16);
+      draw(ctx, r, p, seed);
+      break;
+    case 'dotted':
+      ctx.setLineDash([Math.max(2, r * 0.12), Math.max(2, r * 0.1)]);
+      draw(ctx, r, { ...p, fill: null, stroke: color, lineWidth: Math.max(p.lineWidth, r * 0.08) }, seed);
+      break;
+    case 'mono':
+      draw(ctx, r, { ...p, fill: p.stroke ?? color, stroke: p.fill ?? null }, seed);
+      break;
+    default:
+      draw(ctx, r, p, seed);
+  }
+  ctx.restore();
+  ornament(ctx, v.ornament, r, p.accent ?? color, seed);
 }

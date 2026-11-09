@@ -20,7 +20,8 @@
     "open:gpu": "node scripts/open-gpu.mjs",
     "worker": "tsx workers/media/worker.ts",
     "dev:all": "node scripts/dev-all.mjs",
-    "aligner": "node scripts/aligner.mjs"
+    "aligner": "node scripts/aligner.mjs",
+    "lyrics:desktop": "npx --yes electron@33.2.1 tools/desktop-lyrics/main.cjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",

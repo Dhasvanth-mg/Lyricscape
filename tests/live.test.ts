@@ -47,7 +47,7 @@ describe('lyric strip timing', () => {
 
 describe('overlay address', () => {
   it('round-trips its options and ignores junk', () => {
-    const o = { bg: 'cover', size: 'xl', align: 'left', next: false, meta: true } as const;
+    const o = { bg: 'cover', size: 'xl', align: 'left', next: false, meta: true, font: 'serif' } as const;
     const u = overlayUrl('http://127.0.0.1:3000', o);
     expect(parseOverlayParams(new URL(u).search)).toEqual(o);
     expect(parseOverlayParams('?bg=evil&size=9')).toMatchObject({ bg: 'transparent', size: 'l' });

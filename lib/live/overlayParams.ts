@@ -1,6 +1,6 @@
 // The overlay page's options live in its URL, so OBS and wallpaper apps can be set up by pasting one address.
 
-import { DEFAULT_STRIP, type StripOptions } from '@/components/live/LyricStrip';
+import { DEFAULT_STRIP, STRIP_FONTS, type StripOptions } from '@/components/live/LyricStrip';
 
 export function parseOverlayParams(search: string): StripOptions {
   const q = new URLSearchParams(search);
@@ -15,10 +15,11 @@ export function parseOverlayParams(search: string): StripOptions {
     align: pick('align', ['left', 'center'] as const, DEFAULT_STRIP.align),
     next: flag('next', true),
     meta: flag('meta', false),
+    font: pick('font', STRIP_FONTS, DEFAULT_STRIP.font),
   };
 }
 
 export function overlayUrl(origin: string, o: StripOptions): string {
-  const q = new URLSearchParams({ bg: o.bg, size: o.size, align: o.align, next: o.next ? '1' : '0', meta: o.meta ? '1' : '0' });
+  const q = new URLSearchParams({ bg: o.bg, size: o.size, align: o.align, next: o.next ? '1' : '0', meta: o.meta ? '1' : '0', font: o.font });
   return `${origin}/overlay?${q.toString()}`;
 }

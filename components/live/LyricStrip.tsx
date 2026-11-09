@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { hasRealWordTimes, stripAt, wordProgress, type StripLine } from '@/lib/live/strip';
 
+export type StripFont = 'clean' | 'grotesk' | 'serif' | 'poster';
 export type StripOptions = {
-  /** transparent: for OBS; solid: dark panel; cover: the cover blurred behind (wallpaper) */
+  /** transparent: only the lyrics (OBS, the see-through desktop window); solid: a dark wash in the song's colours; cover: the cover blurred behind */
   bg: 'transparent' | 'solid' | 'cover';
   size: 's' | 'm' | 'l' | 'xl';
   align: 'left' | 'center';
@@ -13,16 +14,37 @@ export type StripOptions = {
   next: boolean;
   /** show title and artist */
   meta: boolean;
+  font: StripFont;
 };
 
-export const DEFAULT_STRIP: StripOptions = { bg: 'solid', size: 'm', align: 'center', next: true, meta: true };
+export const DEFAULT_STRIP: StripOptions = { bg: 'solid', size: 'm', align: 'center', next: true, meta: true, font: 'clean' };
+export const STRIP_FONTS: StripFont[] = ['clean', 'grotesk', 'serif', 'poster'];
+export const STRIP_FONT_LABEL: Record<StripFont, string> = { clean: 'Clean', grotesk: 'Grotesk', serif: 'Serif', poster: 'Poster' };
 
+const INDIC = '"Noto Sans Devanagari Variable", "Noto Sans Tamil Variable", "Nirmala UI"';
+const FONT: Record<StripFont, { family: string; weight: number; tracking: string; leading: number }> = {
+  clean: { family: `"Inter Variable", ${INDIC}, system-ui, sans-serif`, weight: 800, tracking: '-0.025em', leading: 1.12 },
+  grotesk: { family: `"Space Grotesk Variable", ${INDIC}, sans-serif`, weight: 700, tracking: '-0.02em', leading: 1.1 },
+  serif: { family: `"Instrument Serif", ${INDIC}, Georgia, serif`, weight: 400, tracking: '-0.01em', leading: 1.05 },
+  poster: { family: `"Anton", ${INDIC}, Impact, sans-serif`, weight: 400, tracking: '0.01em', leading: 1.04 },
+};
+
+// sizes scale with the window, so the floating window, a 300 px OBS strip and a 4K wallpaper all read well
 const SIZE: Record<StripOptions['size'], { cur: string; nxt: string }> = {
-  s: { cur: 'text-[clamp(16px,4.5vw,22px)]', nxt: 'text-[clamp(12px,3vw,15px)]' },
-  m: { cur: 'text-[clamp(20px,6vw,34px)]', nxt: 'text-[clamp(13px,3.6vw,19px)]' },
-  l: { cur: 'text-[clamp(26px,7vw,56px)]', nxt: 'text-[clamp(15px,4vw,28px)]' },
-  xl: { cur: 'text-[clamp(32px,6.5vw,96px)]', nxt: 'text-[clamp(18px,3.4vw,44px)]' },
+  s: { cur: 'clamp(16px, 5.2vw, 26px)', nxt: 'clamp(12px, 3.2vw, 16px)' },
+  m: { cur: 'clamp(20px, 6.6vw, 40px)', nxt: 'clamp(13px, 3.6vw, 20px)' },
+  l: { cur: 'clamp(26px, 7.4vw, 64px)', nxt: 'clamp(15px, 3.8vw, 30px)' },
+  xl: { cur: 'clamp(32px, 7vw, 108px)', nxt: 'clamp(18px, 3.4vw, 46px)' },
 };
+
+// line changes slide up and fade in (also inside the floating window, which has its own document)
+const CSS = `
+@keyframes ls-strip-in { from { opacity: 0; transform: translateY(0.35em); filter: blur(4px) } to { opacity: 1; transform: none; filter: none } }
+@keyframes ls-strip-next { from { opacity: 0 } to { opacity: 1 } }
+.ls-strip-in { animation: ls-strip-in 380ms cubic-bezier(.2,.7,.2,1) both }
+.ls-strip-next { animation: ls-strip-next 500ms ease-out both }
+@media (prefers-reduced-motion: reduce) { .ls-strip-in, .ls-strip-next { animation: none } }
+`;
 
 type Props = {
   lines: StripLine[] | null;
@@ -34,21 +56,45 @@ type Props = {
   title?: string | null;
   artist?: string | null;
   artworkUrl?: string | null;
-  accent?: string | null;
+  /** the song's colours (from its cover): the sung part of a word takes the brightest one */
+  palette?: string[] | null;
   /** a second line under each lyric line (romanised or translated) */
   sub?: (string | null)[] | null;
   /** shown when there are no lyrics; null shows nothing (OBS) */
   emptyText?: string | null;
 };
 
+/** The brightest, most colourful of the song's colours, for the sung part of a word; white when there is none worth using. */
+export function accentOf(palette: string[] | null | undefined): string {
+  let best = '#ffffff';
+  let score = 0;
+  for (const hex of palette ?? []) {
+    const m = /^#?([0-9a-f]{6})$/i.exec(hex);
+    if (!m) continue;
+    const n = parseInt(m[1]!, 16);
+    const r = (n >> 16) / 255;
+    const g = ((n >> 8) & 255) / 255;
+    const b = (n & 255) / 255;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const sat = max === 0 ? 0 : (max - min) / max;
+    const s = sat * 0.6 + max * 0.4;
+    // only light, colourful colours stay readable over dark or transparent backgrounds
+    if (max >= 0.6 && sat >= 0.35 && s > score) {
+      score = s;
+      best = `#${m[1]}`;
+    }
+  }
+  return best;
+}
+
 /**
- * One or two lyric lines, big and readable, for small and borrowed surfaces (floating window, stream overlay, wallpaper).
- * React re-renders only when the line changes; word progress is written straight to CSS variables every frame.
+ * One or two lyric lines, big and readable, for small and borrowed surfaces (floating window, stream overlay, wallpaper, the
+ * see-through desktop window). React re-renders only when the line changes; word progress goes straight to CSS variables per frame.
  */
-export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl, accent, sub, emptyText = 'No lyrics for this song' }: Props) {
+export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl, palette, sub, emptyText = 'No lyrics for this song' }: Props) {
   const [pos, setPos] = useState({ current: -1, next: -1 });
   const wordEls = useRef<(HTMLSpanElement | null)[]>([]);
-  const lineEl = useRef<HTMLParagraphElement | null>(null);
   const nowRef = useRef(now);
   useEffect(() => {
     nowRef.current = now;
@@ -67,10 +113,7 @@ export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl
         setPos(shown);
       }
       const l = s.current >= 0 ? ls[s.current] : null;
-      if (l && hasRealWordTimes(l)) {
-        l.words.forEach((wd, i) => wordEls.current[i]?.style.setProperty('--p', String(wordProgress(wd, t))));
-      }
-      lineEl.current?.style.setProperty('--p', String(s.lineProgress));
+      if (l && hasRealWordTimes(l)) l.words.forEach((wd, i) => wordEls.current[i]?.style.setProperty('--p', String(wordProgress(wd, t))));
       raf = w.requestAnimationFrame(loop);
     };
     raf = w.requestAnimationFrame(loop);
@@ -81,25 +124,41 @@ export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl
   const cur = pos.current >= 0 ? ls[pos.current] : null;
   const nxt = options.next && pos.next >= 0 ? ls[pos.next] : null;
   const karaoke = !!cur && hasRealWordTimes(cur);
+  const f = FONT[options.font] ?? FONT.clean;
   const sz = SIZE[options.size];
-  const hi = accent ?? '#ffffff';
+  const accent = accentOf(palette);
+  const clear = options.bg === 'transparent';
+  const subText = cur ? sub?.[pos.current] : null;
+  // over a desktop or a game nothing behind the words can be assumed: a tight dark edge plus a soft halo keeps them readable anywhere
+  const legible = clear ? '[filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.95))_drop-shadow(0_0_14px_rgba(0,0,0,0.55))]' : '';
 
   return (
     <div
       data-testid="lyric-strip"
-      className={clsx('relative flex h-full w-full flex-col justify-center overflow-hidden px-[5%] py-3', options.align === 'center' ? 'items-center text-center' : 'items-start text-left', options.bg === 'solid' && 'bg-[#0b0a12]')}
-      style={{ ['--hi' as string]: hi, ['--lo' as string]: 'rgba(255,255,255,0.42)' }}
+      className={clsx('relative isolate flex h-full w-full flex-col justify-center overflow-hidden px-[6%] py-4', options.align === 'center' ? 'items-center text-center' : 'items-start text-left')}
+      style={{ ['--hi' as string]: '#ffffff', ['--acc' as string]: accent, ['--lo' as string]: clear ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.34)' }}
     >
-      {options.bg === 'cover' && artworkUrl && (
-        <>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={artworkUrl} alt="" aria-hidden className="absolute inset-0 -z-10 h-full w-full scale-110 object-cover blur-2xl brightness-[0.45]" />
-          <div className="absolute inset-0 -z-10 bg-black/25" />
-        </>
+      <style>{CSS}</style>
+      {options.bg === 'solid' && (
+        <div aria-hidden className="absolute inset-0 -z-10" style={{ background: `radial-gradient(120% 140% at 15% 0%, color-mix(in srgb, ${accent} 30%, #0b0a12) 0%, #0b0a12 55%), #0b0a12` }} />
       )}
-      <div className={clsx('flex w-full flex-col gap-[0.35em]', options.bg === 'transparent' && '[filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.85))]')}>
+      {options.bg === 'cover' && (
+        <div aria-hidden className="absolute inset-0 -z-10 bg-[#0b0a12]">
+          {artworkUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={artworkUrl} alt="" className="h-full w-full scale-125 object-cover opacity-70 blur-3xl saturate-150" />
+          )}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.25),rgba(0,0,0,0.7))]" />
+        </div>
+      )}
+
+      <div className={clsx('flex w-full flex-col gap-[0.4em]', legible)}>
         {cur ? (
-          <p ref={lineEl} key={pos.current} className={clsx('font-display leading-[1.08] font-bold tracking-tight [text-wrap:balance]', sz.cur, !karaoke && 'text-[var(--hi)]')}>
+          <p
+            key={pos.current}
+            className="ls-strip-in [text-wrap:balance]"
+            style={{ fontFamily: f.family, fontWeight: f.weight, letterSpacing: f.tracking, lineHeight: f.leading, fontSize: sz.cur, color: karaoke ? undefined : 'var(--hi)' }}
+          >
             {karaoke
               ? cur.words.map((w, i) => (
                   <span
@@ -108,7 +167,7 @@ export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl
                       wordEls.current[i] = el;
                     }}
                     className="bg-clip-text text-transparent"
-                    style={{ backgroundImage: 'linear-gradient(90deg, var(--hi) calc(var(--p, 0) * 100%), var(--lo) calc(var(--p, 0) * 100%))' }}
+                    style={{ backgroundImage: 'linear-gradient(90deg, var(--hi) 0%, var(--acc) calc(var(--p, 0) * 100%), var(--lo) calc(var(--p, 0) * 100%))' }}
                   >
                     {w.text}
                     {i < cur.words.length - 1 ? ' ' : ''}
@@ -117,18 +176,37 @@ export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl
               : cur.words.map((w) => w.text).join(' ')}
           </p>
         ) : ls.length === 0 && emptyText ? (
-          <p className={clsx('font-display text-white/60', sz.nxt)}>{emptyText}</p>
+          <p className="text-white/60" style={{ fontFamily: f.family, fontSize: sz.nxt }}>
+            {emptyText}
+          </p>
         ) : ls.length > 0 && !nxt ? (
-          <p aria-label="Instrumental" className={clsx('font-display tracking-[0.4em] text-white/50', sz.cur)}>• • •</p>
+          <p aria-label="Instrumental" className="tracking-[0.4em] text-white/50" style={{ fontSize: sz.nxt }}>
+            • • •
+          </p>
         ) : null}
-        {cur && sub?.[pos.current] && <p data-testid="strip-sub" className={clsx('leading-snug font-semibold text-white/85 italic [text-wrap:balance]', sz.nxt)}>{sub[pos.current]}</p>}
-        {nxt && <p className={clsx('leading-snug font-semibold text-white/55 [text-wrap:balance]', sz.nxt)}>{nxt.words.map((w) => w.text).join(' ')}</p>}
+        {subText && (
+          <p key={`s${pos.current}`} data-testid="strip-sub" className="ls-strip-next font-medium text-white/85 italic [text-wrap:balance]" style={{ fontSize: sz.nxt, lineHeight: 1.25 }}>
+            {subText}
+          </p>
+        )}
+        {nxt && (
+          <p key={`n${pos.next}`} className="ls-strip-next font-semibold text-white/45 [text-wrap:balance]" style={{ fontFamily: f.family, fontSize: sz.nxt, lineHeight: 1.2, fontWeight: Math.min(f.weight, 600) }}>
+            {nxt.words.map((w) => w.text).join(' ')}
+          </p>
+        )}
       </div>
+
       {options.meta && title && (
-        <p className={clsx('absolute bottom-1.5 max-w-[90%] truncate text-[11px] tracking-wide text-white/55', options.align === 'center' ? 'left-1/2 -translate-x-1/2' : 'left-[5%]', options.bg === 'transparent' && '[text-shadow:0_1px_3px_rgba(0,0,0,0.9)]')}>
-          {title}
-          {artist ? ` · ${artist}` : ''}
-        </p>
+        <div className={clsx('absolute bottom-2.5 flex max-w-[88%] items-center gap-2 text-[11px] text-white/60', options.align === 'center' ? 'left-1/2 -translate-x-1/2' : 'left-[6%]', legible)}>
+          {artworkUrl && options.bg !== 'transparent' && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={artworkUrl} alt="" className="h-5 w-5 rounded-[4px] object-cover" />
+          )}
+          <span className="truncate">
+            <span className="font-semibold text-white/80">{title}</span>
+            {artist ? ` · ${artist}` : ''}
+          </span>
+        </div>
       )}
     </div>
   );

@@ -8,10 +8,38 @@ import { rotate, translate } from '../gpu';
 import { clamp, easeOut, easeOutExpo, hash01, lerp, lineAt, textTex, drawTextC } from './common';
 import { MESH_FS, NEBULA_FS } from './shaders';
 import type { SceneFx, SceneHost } from './types';
+import { SCHEME_IDS, SCHEMES, hashKey, hsl, pick, seeded, songHues } from '../../variety';
 
 const NUNITO = (px: number) => `900 ${px}px "Nunito", "Inter Variable", system-ui, sans-serif`;
 
 const MESH = ['#ff7a3d', '#ff3d7a', '#5560f0', '#ff9a4d'];
+
+// ---- variants: every three lines a new look from the song's hues ---------------------------------------------------------------
+// mesh and nebula colours (8 harmony schemes on a continuous hue), 8 faces, chip colour, tilt, spacing and which sections go to
+// space: thousands of combinations, the same for the same song.
+const FACES: ((px: number) => string)[] = [
+  NUNITO_F,
+  (px) => `800 ${px}px "Inter Variable", system-ui, sans-serif`,
+  (px) => `700 ${px}px "Space Grotesk Variable", sans-serif`,
+  (px) => `800 ${px}px "Syne Variable", sans-serif`,
+  (px) => `400 ${px}px "Anton", Impact, sans-serif`,
+  (px) => `400 ${px}px "DM Serif Display", serif`,
+  (px) => `800 ${px}px "Playfair Display Variable", serif`,
+  (px) => `400 ${px}px "Bangers", sans-serif`,
+];
+function NUNITO_F(px: number) {
+  return `900 ${px}px "Nunito", "Inter Variable", system-ui, sans-serif`;
+}
+type NebulaVariant = { mesh: string[]; neb: string[]; face: (px: number) => string; chip: string; tilt: number; pitch: number; space: boolean };
+function nebulaVariant(seed: number, hues: number[], section: number): NebulaVariant {
+  const r = seeded(seed);
+  if (r() < 0.15) return { mesh: MESH, neb: NEBULA, face: NUNITO_F, chip: '#7aa6ff', tilt: -7, pitch: 1, space: section % 2 === 1 };
+  const hue = pick(r, hues) + (r() - 0.5) * 0.1;
+  const sch = SCHEMES[pick(r, SCHEME_IDS)];
+  const mesh = [0, 1, 2, 0].map((i, k) => hsl(hue + sch[i]! + k * 0.02, 0.7 + r() * 0.25, 0.5 + r() * 0.15));
+  const neb = [hsl(hue + 0.7, 0.8, 0.5), hsl(hue + 0.8, 0.85, 0.55), hsl(hue + 0.6, 0.8, 0.5), hsl(hue + 0.7, 0.7, 0.08)];
+  return { mesh, neb, face: pick(r, FACES), chip: hsl(hue + sch[1]!, 0.75, 0.62), tilt: (r() - 0.5) * 20, pitch: 0.85 + r() * 0.35, space: r() < 0.4 };
+}
 const NEBULA = ['#7a46ff', '#d03cff', '#4a6bff', '#0e0630'];
 
 function rgbArr(cols: string[]): Float32Array {
@@ -38,25 +66,27 @@ export function drawNebulaScene(h: SceneHost): SceneFx {
   const { W, H, frame, tl } = h;
   const t = frame.tMs;
   const line = lineAt(tl, t);
-  const space = line ? Math.floor(line.i / 3) % 2 === 1 : false;
+  const section = line ? Math.floor(line.i / 3) : 0;
+  const V = nebulaVariant(hashKey(`${tl.trackId}|${tl.seed}|neb|${section}`), songHues(tl.palette, tl.seed), section);
+  const space = line ? V.space : false;
   const k = Math.min(W / 1280, H / 720);
 
   if (!space) {
     h.fullscreen('mesh', MESH_FS, 0.5, (p) => {
-      p.v3arr('u_c', rgbArr(MESH));
+      p.v3arr('u_c', rgbArr(V.mesh));
       p.f('u_time', t / 1000);
       p.f('u_pulse', frame.beat.pulse);
     });
   } else {
     h.fullscreen('nebula', NEBULA_FS, 0.5, (p) => {
-      p.v3arr('u_c', rgbArr(NEBULA));
+      p.v3arr('u_c', rgbArr(V.neb));
       p.f('u_time', t / 1000);
       p.f('u_pulse', frame.beat.pulse);
     });
     spaceFurniture(h, t, k);
   }
 
-  if (line) drawColumn(h, line, space, k);
+  if (line) drawColumn(h, line, space, k, V);
 
   return space ? { grain: 0.05, vignette: 0.3, bloom: 1.2, aber: 0.35 } : { grain: 0.03, chroma: 0.035, grainCell: 1.5, vignette: 0.12, bloom: 0.6, aber: 0.2 };
 }
@@ -153,7 +183,7 @@ function mulR(x: number, y: number, ang: number) {
   return mulT(x, y, ang);
 }
 
-function drawColumn(h: SceneHost, line: NonNullable<ReturnType<typeof lineAt>>, space: boolean, k: number) {
+function drawColumn(h: SceneHost, line: NonNullable<ReturnType<typeof lineAt>>, space: boolean, k: number, V: NebulaVariant) {
   const { W, H } = h;
   const a = line.age;
   const words = line.words;
@@ -168,7 +198,7 @@ function drawColumn(h: SceneHost, line: NonNullable<ReturnType<typeof lineAt>>, 
   const cursor = act === 0 ? 0 : lerp(prev, act, easeOut(since / 220));
   const B = clamp(H * 0.2, 60, 220);
   const maxW = W * (space ? 0.74 : 0.84);
-  const tilt = space ? -7 : 0;
+  const tilt = space ? V.tilt : 0;
   const base = [1, 0, 0, 1, 0, 0] as [number, number, number, number, number, number];
   const stack = space ? mulM(translate(W / 2, H / 2), mulM(rotate((tilt * Math.PI) / 180), translate(-W / 2, -H / 2))) : base;
   // longest word decides nothing: each word fits itself
@@ -176,19 +206,19 @@ function drawColumn(h: SceneHost, line: NonNullable<ReturnType<typeof lineAt>>, 
     const d = i - cursor;
     const ad = Math.abs(d);
     if (ad > 3.2) continue;
-    const tt = textTex(h, words[i]!.text, NUNITO, B, '#ffffff', { hi: 2 });
+    const tt = textTex(h, words[i]!.text, V.face, B, '#ffffff', { hi: 2 });
     const w0 = tt.textW * tt.k;
     let s = interp(SIZE, ad);
     s = Math.min(s, maxW / Math.max(1, w0));
     const pop = i === act ? 0.9 + 0.1 * easeOutExpo(since / 160) : 1;
     const alpha = interp(ALPHA, ad) * (i === act ? clamp(since / 90 + 0.25) : 1);
-    const y = H * 0.5 + Math.sign(d) * interp(PITCH, ad) * B * (space ? 0.95 : 1) * 1.0;
+    const y = H * 0.5 + Math.sign(d) * interp(PITCH, ad) * B * (space ? 0.95 : 1) * V.pitch;
     const x = W / 2 + d * (space ? W * 0.085 : 0);
     const key = i === act && (words[i]!.emphasis ?? 0) > 0.5 ? true : i === act && words[i]!.text.replace(/\W/g, '').length >= 7;
     if (key) {
       const chipW = w0 * s * pop + B * 0.5 * s;
       const chipH = B * 0.98 * s * pop;
-      h.shape({ kind: 0, m: mulM(stack, translate(x, y)), w: chipW, h: chipH, color: space ? '#6a5cf0' : '#7aa6ff', alpha: alpha * (space ? 0.95 : 0.6), radius: chipH * 0.28, soft: 0.8, camera: false });
+      h.shape({ kind: 0, m: mulM(stack, translate(x, y)), w: chipW, h: chipH, color: V.chip, alpha: alpha * (space ? 0.95 : 0.6), radius: chipH * 0.28, soft: 0.8, camera: false });
     }
     drawTextC(h, tt, stack, x, y, { alpha, s: s * pop, color: ad < 0.5 ? [1, 1, 1, 1] : space ? [0.86, 0.82, 1, 1] : [1, 0.95, 0.97, 1] });
   }

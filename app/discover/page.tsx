@@ -142,7 +142,7 @@ export default function DiscoverPage() {
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="min-w-0 space-y-5">
-          <section className="rounded-2xl border border-ink-700 bg-ink-900 p-4" aria-label="Share a song">
+          <section className="rounded-2xl bg-ink-850 p-4" aria-label="Share a song">
             <div className="mb-3 flex gap-2">
               {(
                 [
@@ -219,8 +219,8 @@ export default function DiscoverPage() {
         </div>
 
         <aside className="space-y-5">
-          <section className="rounded-2xl border border-ink-700 bg-ink-900 p-4" aria-label="Friends">
-            <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Friends</h3>
+          <section className="rounded-2xl bg-ink-850 p-4" aria-label="Friends">
+            <h3 className="mb-3 text-xl font-bold tracking-tight">Friends</h3>
             <form
               className="mb-3 flex gap-2"
               onSubmit={(e) => {

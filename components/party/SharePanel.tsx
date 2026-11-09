@@ -84,8 +84,8 @@ export function SharePanel({ eventId, slug }: { eventId: string; slug: string })
   const active = invites.filter((i) => !i.revokedAt && Date.parse(i.expiresAt) > nowTs);
 
   return (
-    <div className="rounded-2xl border border-ink-700 bg-ink-900 p-5">
-      <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Invite guests</h3>
+    <div className="rounded-2xl bg-ink-850 p-5">
+      <h3 className="mb-3 text-xl font-bold tracking-tight">Invite guests</h3>
       {url ? (
         <div className="flex flex-col items-center gap-4 xl:flex-row xl:items-start">
           <div className="rounded-xl bg-white p-2">

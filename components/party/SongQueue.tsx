@@ -44,14 +44,14 @@ export function SongQueue({ snap, role, refresh }: Props) {
       {snap.nowPlaying && (
         <div className="rounded-2xl border border-signal/40 bg-signal/10 p-4">
           <p className="mb-1 font-mono text-[11px] tracking-[0.18em] text-signal uppercase">Now playing</p>
-          <p className="font-display text-3xl tracking-wide uppercase">{snap.nowPlaying.track.title}</p>
+          <p className="text-2xl font-bold tracking-tight">{snap.nowPlaying.track.title}</p>
           <p className="text-sm text-ink-200">{snap.nowPlaying.track.artists.join(', ')}</p>
         </div>
       )}
 
       {mod && pending.length > 0 && (
         <section aria-label="Waiting for approval">
-          <h3 className="mb-2 font-display text-2xl tracking-wide uppercase">Needs approval ({pending.length})</h3>
+          <h3 className="mb-2 text-xl font-bold tracking-tight">Needs approval ({pending.length})</h3>
           <ul className="space-y-1.5">
             {pending.map((r) => (
               <li key={r.id} className="flex items-center gap-3 rounded-xl border border-sun/30 bg-sun/5 p-3">
@@ -75,7 +75,7 @@ export function SongQueue({ snap, role, refresh }: Props) {
 
       <section aria-label="Queue">
         <div className="mb-2 flex items-center gap-2">
-          <h3 className="font-display text-2xl tracking-wide uppercase">Up next</h3>
+          <h3 className="text-xl font-bold tracking-tight">Up next</h3>
           <Chip>{snap.event.settings.queueOrder === 'fair' ? 'fair order' : 'host order'}</Chip>
           {mod && snap.event.settings.queueOrder === 'manual' && (
             <button className="text-xs text-ink-300 underline" onClick={() => void act(() => api('PATCH', `/api/events/${eventId}`, { settings: { queueOrder: 'fair' } }))}>
@@ -228,10 +228,10 @@ export function HostPlayback({ snap, refresh }: { snap: PartySnapshot; refresh: 
   };
 
   return (
-    <div className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
+    <div className="rounded-2xl bg-ink-850 p-4">
       <div className="flex flex-wrap items-center gap-3">
         <div className="min-w-0 flex-1">
-          <h3 className="font-display text-2xl tracking-wide uppercase">Host playback</h3>
+          <h3 className="text-xl font-bold tracking-tight">Host playback</h3>
           <p className="text-sm text-ink-300">
             Plays from <strong>this device</strong>. Guests suggest and vote; they don&apos;t stream.
           </p>

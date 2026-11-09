@@ -305,7 +305,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
         <header className="flex items-center gap-3 border-b border-ink-700 px-5 py-3">
           <Film size={18} aria-hidden />
           <div className="min-w-0 flex-1">
-            <h2 className="font-display text-xl uppercase leading-none">Export lyric video</h2>
+            <h2 className="text-lg leading-tight font-bold tracking-tight">Export lyric video</h2>
             <p className="truncate text-xs text-ink-300">
               {track.title} · {track.artists.join(', ')} · no audio, just the visuals
             </p>

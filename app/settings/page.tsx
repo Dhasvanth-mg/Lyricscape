@@ -21,8 +21,8 @@ import type { CapabilityKey } from '@/lib/types';
 
 function Section({ title, children, id }: { title: string; children: React.ReactNode; id?: string }) {
   return (
-    <section id={id} className="mb-6 rounded-2xl border border-ink-700 bg-ink-900 p-5 sm:p-6">
-      <h2 className="mb-4 font-display text-2xl tracking-wide uppercase">{title}</h2>
+    <section id={id} className="mb-6 rounded-2xl bg-ink-850 p-5 sm:p-6">
+      <h2 className="mb-4 text-xl font-bold tracking-tight">{title}</h2>
       {children}
     </section>
   );

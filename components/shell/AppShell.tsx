@@ -107,15 +107,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {bare ? (
         <main id="main">{children}</main>
       ) : (
-        <div className="min-h-dvh">
+        <div className="min-h-dvh bg-ink-950">
           {/* desktop sidebar */}
-          <aside className="fixed inset-y-0 left-0 z-30 hidden w-[220px] flex-col border-r border-ink-800 bg-ink-950 px-4 py-6 md:flex">
-            <Link href="/" className="mb-8 block px-2">
+          <aside className="panel fixed top-[var(--gutter)] bottom-[calc(var(--player-h)+var(--gutter))] left-[var(--gutter)] z-30 hidden w-[var(--sidebar-w)] flex-col px-3 pt-5 pb-4 md:flex">
+            <Link href="/" className="mb-6 block px-3">
               <span className="font-display text-[28px] leading-none tracking-wide uppercase">
                 Lyric<span className="text-signal">scape</span>
               </span>
             </Link>
-            <nav aria-label="Primary" className="flex flex-1 flex-col gap-1">
+            <nav aria-label="Primary" className="flex flex-1 flex-col gap-0.5">
               {NAV.map(({ href, label, icon: Icon }) => {
                 const active = pathname === href || pathname.startsWith(href + '/');
                 return (
@@ -124,11 +124,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     href={href}
                     aria-current={active ? 'page' : undefined}
                     className={clsx(
-                      'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition',
-                      active ? 'bg-ink-800 text-bone' : 'text-ink-300 hover:bg-ink-850 hover:text-bone',
+                      'flex items-center gap-4 rounded-md px-3 py-2.5 text-[15px] font-bold transition-colors',
+                      active ? 'bg-ink-850 text-bone' : 'text-ink-300 hover:text-bone',
                     )}
                   >
-                    <Icon size={18} className={active ? 'text-signal' : ''} />
+                    <Icon size={22} strokeWidth={active ? 2.4 : 2} className={active ? 'text-signal' : ''} />
                     {label}
                   </Link>
                 );
@@ -137,17 +137,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <Link
               href="/settings"
               className={clsx(
-                'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition',
-                pathname.startsWith('/settings') ? 'bg-ink-800 text-bone' : 'text-ink-300 hover:bg-ink-850 hover:text-bone',
+                'flex items-center gap-4 rounded-md px-3 py-2.5 text-[15px] font-bold transition-colors',
+                pathname.startsWith('/settings') ? 'bg-ink-850 text-bone' : 'text-ink-300 hover:text-bone',
               )}
             >
-              <Settings size={18} /> Settings
+              <Settings size={22} /> Settings
             </Link>
           </aside>
 
           <main
             id="main"
-            className="px-4 pt-6 pb-[calc(var(--player-h)+var(--nav-h)+32px)] sm:px-8 md:ml-[220px] md:pt-10 md:pb-[calc(var(--player-h)+40px)]"
+            className="bg-ink-900 px-4 pt-6 pb-[calc(var(--player-h)+var(--nav-h)+32px)] sm:px-6 md:mt-[var(--gutter)] md:mr-[var(--gutter)] md:mb-[calc(var(--player-h)+var(--gutter))] md:ml-[calc(var(--sidebar-w)+var(--gutter)*2)] md:min-h-[calc(100dvh-var(--player-h)-var(--gutter)*2)] md:rounded-xl md:bg-[linear-gradient(to_bottom,var(--color-ink-850),var(--color-ink-900)_280px)] md:px-8 md:pt-8 md:pb-12"
           >
             <div className="mx-auto max-w-[1200px]">{children}</div>
           </main>
@@ -158,7 +158,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {/* mobile bottom nav */}
           <nav
             aria-label="Primary mobile"
-            className="fixed inset-x-0 bottom-0 z-40 flex h-[var(--nav-h)] items-center justify-around border-t border-ink-800 bg-ink-950/95 backdrop-blur md:hidden"
+            className="fixed inset-x-0 bottom-0 z-40 flex h-[var(--nav-h)] items-center justify-around bg-gradient-to-t from-ink-950 via-ink-950/95 to-ink-950/80 backdrop-blur md:hidden"
           >
             {NAV.slice(0, 5).map(({ href, label, icon: Icon }) => {
               const active = pathname === href || pathname.startsWith(href + '/');
@@ -167,15 +167,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   key={href}
                   href={href}
                   aria-current={active ? 'page' : undefined}
-                  className={clsx('flex flex-col items-center gap-0.5 px-2 text-[10px] font-semibold', active ? 'text-bone' : 'text-ink-400')}
+                  className={clsx('flex flex-col items-center gap-1 px-2 text-[11px] font-semibold', active ? 'text-bone' : 'text-ink-300')}
                 >
-                  <Icon size={20} className={active ? 'text-signal' : ''} />
+                  <Icon size={22} className={active ? 'text-signal' : ''} />
                   {label}
                 </Link>
               );
             })}
-            <Link href="/settings" aria-label="Settings" className={clsx('flex flex-col items-center gap-0.5 px-2 text-[10px] font-semibold', pathname.startsWith('/settings') ? 'text-bone' : 'text-ink-400')}>
-              <Settings size={20} />
+            <Link href="/settings" aria-label="Settings" className={clsx('flex flex-col items-center gap-1 px-2 text-[11px] font-semibold', pathname.startsWith('/settings') ? 'text-bone' : 'text-ink-300')}>
+              <Settings size={22} />
               More
             </Link>
           </nav>
@@ -189,10 +189,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {notice && (
         <div
           role="status"
-          className="fixed top-4 left-1/2 z-[120] flex max-w-[92vw] -translate-x-1/2 items-center gap-3 rounded-full border border-ink-600 bg-ink-850/95 py-2 pr-2 pl-5 text-sm shadow-2xl backdrop-blur animate-rise"
+          className="fixed bottom-[calc(var(--player-h)+var(--nav-h)+16px)] left-1/2 z-[120] flex max-w-[92vw] -translate-x-1/2 items-center gap-3 rounded-lg bg-bone py-2 pr-2 pl-4 text-sm font-semibold text-ink-950 shadow-menu animate-rise md:bottom-[calc(var(--player-h)+24px)]"
         >
           <span>{notice}</span>
-          <button onClick={() => player.dismissNotice()} aria-label="Dismiss" className="rounded-full p-1.5 text-ink-300 hover:bg-ink-700">
+          <button onClick={() => player.dismissNotice()} aria-label="Dismiss" className="rounded-full p-1.5 text-ink-500 hover:bg-black/10 hover:text-ink-950">
             <X size={14} />
           </button>
         </div>

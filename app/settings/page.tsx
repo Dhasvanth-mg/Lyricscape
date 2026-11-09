@@ -5,6 +5,7 @@ import { Copy, Check, X } from 'lucide-react';
 import { GpuStatus } from '@/components/ui/GpuStatus';
 import { SpotifyControls } from '@/components/player/SpotifyControls';
 import { SongIndexSection } from '@/components/settings/SongIndexSection';
+import { LiveSection } from '@/components/settings/LiveSection';
 import { usePlayer, player } from '@/lib/player/controller';
 import { disconnect, getClientId, isLocalhostOrigin, redirectUri, setClientId, startLogin, SpotifyAuthError } from '@/lib/spotify/auth';
 import { getDevices, getMe, SpotifyApiError, type SpotifyDevice, type SpotifyMe } from '@/lib/spotify/api';
@@ -276,6 +277,10 @@ export default function SettingsPage() {
             </span>
           </span>
         </label>
+      </Section>
+
+      <Section title="Lyrics outside the app" id="outside">
+        <LiveSection />
       </Section>
 
       <Section title="Default look">

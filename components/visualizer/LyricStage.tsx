@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { Download, Gauge, Maximize, Minimize, Palette, Pause, Play, Search, X, Zap } from 'lucide-react';
+import { Download, Gauge, Maximize, Minimize, Palette, Pause, PictureInPicture2, Play, Search, X, Zap } from 'lucide-react';
+import { pipSupported, usePip } from '@/lib/live/pip';
 import type { Track } from '@/lib/types';
 import { sceneAt } from '@/lib/kinetic/compile';
 import { compileForTrack, moodFor } from '@/lib/kinetic/forTrack';
@@ -87,6 +88,9 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
   const [ready, setReady] = useState(false);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [exportShown, setExportShown] = useState(false);
+  const pipWin = usePip((s) => s.win);
+  const [pipOk, setPipOk] = useState(false);
+  useEffect(() => setPipOk(pipSupported()), []);
   const barHover = useRef(false);
   // while this stage's export dialog is open, the live stage stops drawing so the exporter has the machine to itself
   useEffect(() => {
@@ -503,6 +507,11 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
                   {clock.trackOffset + clock.device !== 0 && <span className="font-mono text-[11px] text-signal tabular-nums">{clock.trackOffset + clock.device > 0 ? '+' : ''}{clock.trackOffset + clock.device}</span>}
                 </button>
               </>
+            )}
+            {pipOk && (
+              <IconButton label={pipWin ? 'Close floating lyrics' : 'Floating lyrics (stays on top of other windows)'} onClick={() => void (pipWin ? usePip.getState().close() : usePip.getState().open())}>
+                <PictureInPicture2 size={18} />
+              </IconButton>
             )}
             <IconButton label="Export lyric video" onClick={() => setExportShown(true)} disabled={!canExport}>
               <Download size={18} />

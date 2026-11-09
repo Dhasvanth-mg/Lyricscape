@@ -8,8 +8,56 @@ import { clamp, cursorOn, drawText, easeInOut, hash01, lerp, lineAt, prefixPx, s
 import { EYE_FS } from './shaders';
 import { pickSubject, subjectIndex, type Subject } from './subject';
 import type { SceneFx, SceneHost, TexEntry } from './types';
+import { hashKey, hsl, pick, seeded, songHues } from '../../variety';
 
 const LOOP = 26000;
+
+/** character ramps, dark to bright: the glyphs the picture is made of */
+export const ASCII_RAMPS = [' .:;i1tfLCG08@', ' .:-=+*#%@', ' .,:;irsXA253hMHGS#9B&@', ' ░▒▓█', ' 01', ' .oO@', ' ·•●', ' .:+x#', ' -=≡■', " `'^*%&@", ' ./|\\#', ' .:ox%#@'] as const;
+/** iris colours (0..1 rgb); the last slot is filled from the cover */
+const IRISES: readonly [number, number, number][] = [
+  [0.86, 0.55, 0.16],
+  [0.35, 0.62, 0.95],
+  [0.36, 0.78, 0.36],
+  [0.62, 0.42, 0.92],
+  [0.92, 0.3, 0.24],
+  [0.95, 0.8, 0.25],
+  [0.2, 0.8, 0.75],
+  [0.7, 0.72, 0.76],
+  [0.95, 0.45, 0.7],
+];
+const DENSITY = [70, 56, 84, 100, 64] as const;
+
+export type AsciiVariant = { ramp: string; iris: [number, number, number]; text: string; pool: string; keys: number; cells: number };
+
+/** The song's ASCII look: a character set, an iris colour, the colour the lyric is typed in, the room's glow and the keyboard's backlight. */
+export function asciiVariant(trackId: string, seed: number, palette: readonly string[] | undefined): AsciiVariant {
+  const r = seeded(hashKey(`${trackId}|${seed}|ascii`));
+  const hues = songHues(palette, seed);
+  const ramp = r() < 0.4 ? ASCII_RAMPS[0] : pick(r, ASCII_RAMPS);
+  let iris = pick(r, IRISES);
+  if (r() < 0.3) {
+    // the cover's own colour
+    const hx = hsl(pick(r, hues), 0.75, 0.55);
+    const n = parseInt(hx.slice(1), 16);
+    iris = [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+  }
+  const textHue = r() < 0.5 ? 0.1 : pick(r, hues) + (r() < 0.5 ? 0 : 0.5);
+  return {
+    ramp,
+    iris,
+    text: hsl(textHue, 0.95, 0.78),
+    pool: hsl(r() < 0.4 ? 0.33 : pick(r, hues), 0.6, 0.14),
+    keys: r() < 0.4 ? 0.64 : pick(r, hues),
+    cells: pick(r, DENSITY),
+  };
+}
+let memo: { key: string; v: AsciiVariant } | null = null;
+function variantOf(tl: SceneHost['tl']): AsciiVariant {
+  const key = `${tl.trackId}|${tl.seed}|${(tl.palette ?? []).join(',')}`;
+  if (memo?.key !== key) memo = { key, v: asciiVariant(tl.trackId, tl.seed, tl.palette) };
+  return memo.v;
+}
 const MONO = (px: number) => `600 ${px}px "JetBrains Mono Variable", ui-monospace, monospace`;
 
 function codeStrip(h: SceneHost): TexEntry {
@@ -57,8 +105,8 @@ function taskbar(h: SceneHost): TexEntry {
     c.fillText('12:41', 940, 28);
   });
 }
-function keyboard(h: SceneHost): TexEntry {
-  return h.tex('ascii|keys', 1200, 300, (c) => {
+function keyboard(h: SceneHost, hue: number): TexEntry {
+  return h.tex(`ascii|keys|${hue}`, 1200, 300, (c) => {
     c.fillStyle = '#030308';
     c.fillRect(0, 0, 1200, 300);
     c.textAlign = 'center';
@@ -69,11 +117,13 @@ function keyboard(h: SceneHost): TexEntry {
       for (let k = 0; k < n; k++) {
         const x = 40 + (k + 0.5) * (1120 / n);
         const lit = 0.35 + hash01(r * 40 + k) * 0.65;
-        c.fillStyle = `rgba(${60 + lit * 50}, ${80 + lit * 60}, 255, ${0.08 + lit * 0.16})`;
+        c.globalAlpha = 0.08 + lit * 0.16;
+        c.fillStyle = hsl(hue, 1, 0.6 + lit * 0.1);
         c.beginPath();
         c.roundRect(x - 26, y - 14, 52, 28, 5);
         c.fill();
-        c.fillStyle = `rgba(150,170,255,${0.55 + lit * 0.45})`;
+        c.globalAlpha = 0.55 + lit * 0.45;
+        c.fillStyle = hsl(hue, 1, 0.8);
         c.font = '700 20px "JetBrains Mono Variable", monospace';
         c.fillText('QWERTYUIOPASDFGH'[(k + r * 3) % 16]!, x, y);
       }
@@ -99,6 +149,7 @@ export function drawAsciiScene(h: SceneHost): SceneFx {
   const ct = ((t % LOOP) + LOOP) % LOOP;
   const ts = ct / 1000;
   h.clear('#010301');
+  const V = variantOf(tl);
 
   // ---- the picture ---------------------------------------------------------------------------------------------------------------
   const S = Math.min(W * (H > W ? 0.86 : 0.62), H * 0.62);
@@ -137,11 +188,12 @@ export function drawAsciiScene(h: SceneHost): SceneFx {
     p.i('u_subject', subjectIndex(subject));
     p.f('u_beat', frame.beat.pulse);
     p.f('u_energy', tl.emotion?.overall.arousal ?? 0.5);
+    p.v3('u_iris', V.iris[0], V.iris[1], V.iris[2]);
   });
-  h.ascii({ cell: Math.max(6, Math.round(S / 70)), mix: 1, boost: 2.1 });
+  h.ascii({ cell: Math.max(6, Math.round(S / V.cells)), mix: 1, boost: 2.1, ramp: V.ramp });
 
   // ---- the room --------------------------------------------------------------------------------------------------------------------
-  h.pool(W / 2, -H * 0.05, Math.max(W, H) * 0.7, '#0f3a10', 0.35);
+  h.pool(W / 2, -H * 0.05, Math.max(W, H) * 0.7, V.pool, 0.35);
   const left = cx - S / 2 - 10;
   if (left > 50) {
     const cs = codeStrip(h);
@@ -149,7 +201,7 @@ export function drawAsciiScene(h: SceneHost): SceneFx {
   }
   const tb = taskbar(h);
   h.sprite({ tex: tb.tex, m: [1, 0, 0, 1, cx, cy + S / 2 + S * 0.035], w: S * 1.0, h: S * 0.07, mode: 0, camera: false });
-  const kb = keyboard(h);
+  const kb = keyboard(h, V.keys);
   const kh = H * (H > W ? 0.2 : 0.26);
   h.sprite({ tex: kb.tex, m: [1, 0, 0, 1, W / 2, H - kh / 2], w: W * 1.02, h: kh, mode: 0, camera: false, alpha: 0.95, fade: [0, 0, 0.55, 0] });
 
@@ -163,7 +215,7 @@ export function drawAsciiScene(h: SceneHost): SceneFx {
     const n = typedChars(line.text, line.age, 80, line.dur * 0.62, 24, 70);
     let remaining = n;
     rows.forEach((r, i) => {
-      const tt = textTex(h, r, MONO, size, '#ffd28a', { hi: 2, shadow: { color: 'rgba(255,190,90,0.7)', blur: size * 0.25 } });
+      const tt = textTex(h, r, MONO, size, V.text, { hi: 2, shadow: { color: `${V.text}b3`, blur: size * 0.25 } });
       const take = clamp(remaining, 0, r.length);
       remaining -= r.length + 1;
       if (take <= 0) return;
@@ -171,10 +223,10 @@ export function drawAsciiScene(h: SceneHost): SceneFx {
       const x = (W - tt.textW * tt.k) / 2;
       drawText(h, tt, [1, 0, 0, 1, 0, 0], x, y0 + i * size * 1.7, { clipPx: pre });
       const lastRow = i === rows.length - 1;
-      if ((take < r.length || lastRow) && (take < r.length || cursorOn(t))) h.rect(x + pre + 3, y0 + i * size * 1.7 - size * 0.55, Math.max(3, size * 0.5), size * 1.1, '#ffd28a', 0.9);
+      if ((take < r.length || lastRow) && (take < r.length || cursorOn(t))) h.rect(x + pre + 3, y0 + i * size * 1.7 - size * 0.55, Math.max(3, size * 0.5), size * 1.1, V.text, 0.9);
     });
   } else if (cursorOn(t)) {
-    h.rect(W / 2, y0 - size * 0.55, Math.max(3, size * 0.5), size * 1.1, '#ffd28a', 0.9);
+    h.rect(W / 2, y0 - size * 0.55, Math.max(3, size * 0.5), size * 1.1, V.text, 0.9);
   }
 
   return { scan: 0.05, curve: 0.04, vignette: 0.55, grain: 0.05, bloom: 1.3, aber: 0.4, exposure: 1 };

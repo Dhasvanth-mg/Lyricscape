@@ -122,6 +122,7 @@ uniform vec4 u_rect;      // window in uv: x0, y0, x1, y1
 uniform int u_subject;    // 0 eye (and planet), 1 highway, 2 flashing lights, 3 ocean, 4 fire, 5 city, 6 space, 7 rain
 uniform float u_beat;     // 0..1 pulse on the beat
 uniform float u_energy;   // 0..1 how lively the song is
+uniform vec3 u_iris;      // the iris colour (amber by default)
 ${NOISE}
 vec3 eye(vec2 p) {
   // p: -1..1 in the window, x across
@@ -148,8 +149,8 @@ vec3 eye(vec2 p) {
   scl *= 0.65 + 0.35 * smoothstep(lid, 0.0, abs(p.y)) ; // shaded toward the lids
   scl -= vec3(0.0, 0.1, 0.1) * noise(p * 14.0) * smoothstep(0.35, 0.95, ax);
   float fib = noise(vec2(ang * 11.0, r * 14.0)) * 0.6 + noise(vec2(ang * 29.0, r * 6.0)) * 0.4;
-  vec3 irisC = mix(vec3(0.34, 0.17, 0.04), vec3(0.86, 0.55, 0.16), smoothstep(pupilR, irisR * 0.9, r) * (0.55 + 0.55 * fib));
-  irisC = mix(irisC, vec3(0.95, 0.75, 0.3), smoothstep(0.6, 0.9, fib) * smoothstep(pupilR * 1.3, irisR, r) * 0.5);
+  vec3 irisC = mix(u_iris * 0.4, u_iris, smoothstep(pupilR, irisR * 0.9, r) * (0.55 + 0.55 * fib));
+  irisC = mix(irisC, min(u_iris * 1.1 + 0.15, vec3(1.0)), smoothstep(0.6, 0.9, fib) * smoothstep(pupilR * 1.3, irisR, r) * 0.5);
   irisC *= mix(1.0, 0.25, smoothstep(irisR * 0.78, irisR, r)); // limbal ring
   vec3 ball = scl;
   ball = mix(ball, irisC, 1.0 - smoothstep(irisR - 0.012, irisR + 0.012, r));

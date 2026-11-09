@@ -1,0 +1,54 @@
+import { describe, expect, it } from 'vitest';
+import { combos, hashKey, paperSet, seeded } from '@/lib/kinetic/variety';
+import { doodleVariant, DOODLE_ORNAMENTS, DOODLE_TREATMENTS } from '@/lib/kinetic/doodles';
+import { iconVariant, ICON_TREATMENTS } from '@/lib/kinetic/icons';
+import { acidVariant, CREATURES } from '@/lib/kinetic/gl/scenes/acid';
+import { BORDER_KINDS, DOODLE_KINDS, FONT_SETS, themeFor } from '@/lib/kinetic/gl/scenes/sketch';
+import { CODE_THEMES, SHOT_ORDER, SHOT_ORDERS, shotFor, terminalVariant } from '@/lib/kinetic/gl/scenes/terminal';
+import { ASCII_RAMPS, asciiVariant } from '@/lib/kinetic/gl/scenes/ascii';
+
+const songs = Array.from({ length: 60 }, (_, i) => `track-${i}`);
+
+describe('generated-graphics variety', () => {
+  it('every pick is a pure function of its seed (replays and exports match the screen)', () => {
+    expect(JSON.stringify(paperSet(seeded(42), 0.3))).toBe(JSON.stringify(paperSet(seeded(42), 0.3)));
+    expect(acidVariant(7, [0.2])).toEqual(acidVariant(7, [0.2]));
+    expect(themeFor(9, [0.6])).toEqual(themeFor(9, [0.6]));
+    expect(doodleVariant(5)).toEqual(doodleVariant(5));
+    expect(iconVariant('a|3')).toBe(iconVariant('a|3'));
+    expect(terminalVariant('t', 1, ['#ff0000'])).toEqual(terminalVariant('t', 1, ['#ff0000']));
+    expect(asciiVariant('t', 1, ['#ff0000'])).toEqual(asciiVariant('t', 1, ['#ff0000']));
+  });
+
+  it('offers hundreds of options per family', () => {
+    expect(combos(BORDER_KINDS.length, DOODLE_KINDS.length, FONT_SETS.length)).toBeGreaterThan(1000);
+    expect(CREATURES.length).toBeGreaterThanOrEqual(10);
+    expect(combos(DOODLE_TREATMENTS.length, DOODLE_ORNAMENTS.length)).toBeGreaterThanOrEqual(60);
+    expect(ICON_TREATMENTS.length).toBeGreaterThanOrEqual(10);
+    expect(combos(CODE_THEMES.length, SHOT_ORDERS.length)).toBeGreaterThan(100);
+    expect(ASCII_RAMPS.length).toBeGreaterThanOrEqual(10);
+  });
+
+  it('different songs get different code screens and ASCII looks', () => {
+    const themes = new Set(songs.map((s) => terminalVariant(s, 0, ['#3366ff']).theme.id));
+    const orders = new Set(songs.map((s) => terminalVariant(s, 0, undefined).order));
+    const ramps = new Set(songs.map((s) => asciiVariant(s, 0, ['#3366ff']).ramp));
+    expect(themes.size).toBeGreaterThan(6);
+    expect(orders.size).toBeGreaterThan(3);
+    expect(ramps.size).toBeGreaterThan(4);
+  });
+
+  it('every cut order opens on the code editor and still uses every screen', () => {
+    for (const o of SHOT_ORDERS) {
+      expect(o[0]).toBe('code');
+      for (const s of SHOT_ORDER) expect(o).toContain(s);
+    }
+    const line = { i: 1, text: 'hi' } as Parameters<typeof shotFor>[0];
+    expect(shotFor(line, SHOT_ORDERS[1])).toBe('errors');
+  });
+
+  it('a seed spreads across a family', () => {
+    const seen = new Set(Array.from({ length: 200 }, (_, i) => iconVariant(`x|${hashKey(String(i))}`)));
+    expect(seen.size).toBe(ICON_TREATMENTS.length);
+  });
+});

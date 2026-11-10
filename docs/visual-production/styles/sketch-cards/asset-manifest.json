@@ -438,6 +438,68 @@
    "gate": null
   },
   {
+   "id": "SKC-FRM-CRD-015",
+   "name": "Business card",
+   "style": [
+    "Sketch Cards"
+   ],
+   "category": "FRM",
+   "kind": "source",
+   "family": "SKC-FRM-CRD Card types",
+   "description": "small printed card",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Too small for the type hierarchy.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
+   "id": "SKC-FRM-CRD-016",
+   "name": "Greeting card with printed motif",
+   "style": [
+    "Sketch Cards"
+   ],
+   "category": "FRM",
+   "kind": "source",
+   "family": "SKC-FRM-CRD Card types",
+   "description": "store greeting card",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Printed commercial art; cards are hand-made.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "SKC-SRF-GRD-001",
    "name": "Wooden desk",
    "style": [
@@ -777,6 +839,37 @@
    "origin": "new",
    "variations_not_counted": "",
    "gate": null
+  },
+  {
+   "id": "SKC-SRF-GRD-012",
+   "name": "School desk with graffiti",
+   "style": [
+    "Sketch Cards"
+   ],
+   "category": "SRF",
+   "kind": "source",
+   "family": "SKC-SRF-GRD Grounds",
+   "description": "carved desk with words",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Invented text competes with the lyric.",
+   "merged_into": null,
+   "origin": "candidate"
   },
   {
    "id": "SKC-OBJ-DOD-001",
@@ -2609,7 +2702,7 @@
   },
   {
    "id": "SKC-OBJ-DRK-022",
-   "name": "Skull-free gravestone-free memorial candle",
+   "name": "Memorial candle",
    "style": [
     "Sketch Cards"
    ],
@@ -3043,7 +3136,7 @@
   },
   {
    "id": "SKC-OBJ-DRK-036",
-   "name": "Ashtray-free coffee cup gone cold",
+   "name": "Coffee cup gone cold",
    "style": [
     "Sketch Cards"
    ],
@@ -3195,6 +3288,99 @@
    "origin": "new",
    "variations_not_counted": "",
    "gate": null
+  },
+  {
+   "id": "SKC-OBJ-DRK-041",
+   "name": "Skull",
+   "style": [
+    "Sketch Cards"
+   ],
+   "category": "OBJ",
+   "kind": "source",
+   "family": "SKC-OBJ-DRK Dark register drawings",
+   "description": "skull drawing",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Too strong a symbol for most dark songs; the register expresses loss with objects.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
+   "id": "SKC-OBJ-DRK-042",
+   "name": "Gun",
+   "style": [
+    "Sketch Cards"
+   ],
+   "category": "OBJ",
+   "kind": "source",
+   "family": "SKC-OBJ-DRK Dark register drawings",
+   "description": "handgun drawing",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Violence imagery outside the style.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
+   "id": "SKC-OBJ-DRK-043",
+   "name": "Noose",
+   "style": [
+    "Sketch Cards"
+   ],
+   "category": "OBJ",
+   "kind": "source",
+   "family": "SKC-OBJ-DRK Dark register drawings",
+   "description": "rope drawing",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Self-harm imagery: refused.",
+   "merged_into": null,
+   "origin": "candidate"
   },
   {
    "id": "SKC-OBJ-EVD-001",
@@ -4437,6 +4623,68 @@
    "gate": null
   },
   {
+   "id": "SKC-OBJ-EVD-041",
+   "name": "Branded sneaker",
+   "style": [
+    "Sketch Cards"
+   ],
+   "category": "OBJ",
+   "kind": "source",
+   "family": "SKC-OBJ-EVD Everyday object drawings",
+   "description": "shoe with a recognisable logo",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Brand likeness.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
+   "id": "SKC-OBJ-EVD-042",
+   "name": "Second coffee cup",
+   "style": [
+    "Sketch Cards"
+   ],
+   "category": "OBJ",
+   "kind": "source",
+   "family": "SKC-OBJ-EVD Everyday object drawings",
+   "description": "takeaway coffee cup",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "merged",
+   "review_reason": "Duplicate of Coffee cup with steam.",
+   "merged_into": "Coffee cup with steam",
+   "origin": "candidate"
+  },
+  {
    "id": "SKC-MOT-CRE-001",
    "name": "Bounce in place",
    "style": [
@@ -4783,7 +5031,7 @@
    "dimensions": "1024.",
    "layer_structure": "Over the card edge.",
    "animation": "Sway, swap.",
-   "colour_behaviour": "Neutral skin-free (ink silhouette) or flat colour from the set.",
+   "colour_behaviour": "Neutral ink silhouette (no skin tones) or flat colour from the set.",
    "scene_compatibility": [
     "SKC-SCN-06"
    ],
@@ -4816,7 +5064,7 @@
    "dimensions": "1024.",
    "layer_structure": "Over the card edge.",
    "animation": "Sway, swap.",
-   "colour_behaviour": "Neutral skin-free (ink silhouette) or flat colour from the set.",
+   "colour_behaviour": "Neutral ink silhouette (no skin tones) or flat colour from the set.",
    "scene_compatibility": [
     "SKC-SCN-06"
    ],
@@ -4849,7 +5097,7 @@
    "dimensions": "1024.",
    "layer_structure": "Over the card edge.",
    "animation": "Sway, swap.",
-   "colour_behaviour": "Neutral skin-free (ink silhouette) or flat colour from the set.",
+   "colour_behaviour": "Neutral ink silhouette (no skin tones) or flat colour from the set.",
    "scene_compatibility": [
     "SKC-SCN-06"
    ],
@@ -4882,7 +5130,7 @@
    "dimensions": "1024.",
    "layer_structure": "Over the card edge.",
    "animation": "Sway, swap.",
-   "colour_behaviour": "Neutral skin-free (ink silhouette) or flat colour from the set.",
+   "colour_behaviour": "Neutral ink silhouette (no skin tones) or flat colour from the set.",
    "scene_compatibility": [
     "SKC-SCN-06"
    ],
@@ -4915,7 +5163,7 @@
    "dimensions": "1024.",
    "layer_structure": "Over the card edge.",
    "animation": "Sway, swap.",
-   "colour_behaviour": "Neutral skin-free (ink silhouette) or flat colour from the set.",
+   "colour_behaviour": "Neutral ink silhouette (no skin tones) or flat colour from the set.",
    "scene_compatibility": [
     "SKC-SCN-06"
    ],
@@ -6423,6 +6671,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Card text inside central 84%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -6454,6 +6703,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Card text central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -6488,6 +6738,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Top card inside central 84%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -6499,7 +6750,7 @@
    "category": "CMP",
    "kind": "composition",
    "family": "SKC-CMP Composition families",
-   "description": "Focal point: The newest pinned card, highlighted. Lyric placement: Cards in a loose grid on a wall. Background: Wall surface (cork, plaster, brick-free painted wall). Foreground: Pins and tape. Negative space: Wall gaps.",
+   "description": "Focal point: The newest pinned card, highlighted. Lyric placement: Cards in a loose grid on a wall. Background: Wall surface (cork, plaster, painted wall). Foreground: Pins and tape. Negative space: Wall gaps.",
    "purpose": "Structural layout. Use when: Choruses (hook cards pinned), list songs.",
    "references": "Phase 1 dossier C.9",
    "production_method": "authored-data",
@@ -6521,6 +6772,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Newest card text central 80% after framing.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -6556,6 +6808,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 90%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -6587,6 +6840,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Notes central 84%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -6626,6 +6880,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "desk",
@@ -6673,6 +6928,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "table",
@@ -6719,6 +6975,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "wall",
@@ -6765,6 +7022,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "street wall",
@@ -6810,6 +7068,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "notebook",
@@ -6854,6 +7113,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "street blur",
@@ -6898,6 +7158,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "cork",
@@ -6941,6 +7202,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "wall",
@@ -6986,6 +7248,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "drying line",
@@ -7030,6 +7293,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "desk",
@@ -7074,6 +7338,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "floor",
@@ -7120,6 +7385,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "ground": "black paper",
@@ -7219,6 +7485,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cut.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cut."
   },
@@ -7249,6 +7516,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cut.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cut."
   },
@@ -7279,6 +7547,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Same.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Same."
   },
@@ -7309,6 +7578,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cut to the wide.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cut to the wide."
   },
@@ -7339,6 +7609,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cut.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cut."
   }

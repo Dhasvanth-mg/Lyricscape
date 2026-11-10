@@ -9,13 +9,13 @@ Style 7 of 15. Phase 2 planning (generated from planning data).
 | NOC-SCN-01 | Lamp room | A lamp in a dark room; dust in the light. | verse, quiet | home, room, alone, night | C1, C2, C3 | NOC-LGT-LIT, NOC-SIL-SIL | NOC-ATM-WEA |
 | NOC-SCN-02 | Window rain | Rain on a window, city bokeh beyond. | verse, chorus | rain, tears, cold, city at night | C4, C1 | NOC-ATM-BOK, NOC-ATM-WEA, NOC-SIL-SIL | NOC-LGT-LIT |
 | NOC-SCN-03 | Night street | A street of out-of-focus lights; a lamp post near. | verse, chorus, high | city, walking, night out, energetic slow jams | C5, C1 | NOC-ATM-BOK, NOC-LGT-LIT | NOC-ATM-WEA, NOC-SIL-SIL |
-| NOC-SCN-04 | Candle | A single candle flame, flickering gently (under flash limits). | quiet, verse | love, prayer-free intimacy, very calm | C2, C1 | NOC-LGT-LIT | NOC-ATM-WEA |
+| NOC-SCN-04 | Candle | A single candle flame, flickering gently (under flash limits). | quiet, verse | love, quiet intimacy, very calm | C2, C1 | NOC-LGT-LIT | NOC-ATM-WEA |
 | NOC-SCN-05 | Dawn window | Blue-grey dawn through a window, light growing. | outro, verse, quiet | morning, hope, new day, waking | C1, C5 | NOC-LGT-LIT, NOC-SIL-SIL | NOC-ATM-WEA |
 | NOC-SCN-06 | Moonlight on water | A moon path on dark water. | verse, bridge | sea, moon, night, longing | C5, C2 | NOC-LGT-LIT, NOC-ATM-BOK | NOC-ATM-WEA |
 | NOC-SCN-07 | Car at night | Inside a car; streetlights sweep across. | verse, bridge | drive, road, leave | C1, C4 | NOC-LGT-LIT, NOC-SIL-SIL, NOC-ATM-BOK | NOC-ATM-WEA |
 | NOC-SCN-08 | Train window | Lights streak past a train window. | verse, bridge | travel, distance, leaving | C4, C1 | NOC-ATM-BOK, NOC-SIL-SIL | NOC-ATM-WEA, NOC-LGT-LIT |
 | NOC-SCN-09 | Snow under a streetlight | Snow falling through a lamp's cone. | verse, quiet, outro | winter, cold, alone, quiet | C1, C2 | NOC-LGT-LIT, NOC-ATM-WEA | NOC-SIL-SIL |
-| NOC-SCN-10 | Screen glow | A face-free glow from below in darkness (no interface). | verse, quiet | late night, messages, insomnia | C6 | NOC-LGT-LIT | NOC-ATM-WEA |
+| NOC-SCN-10 | Screen glow | A glow from below in darkness (no face, no interface). | verse, quiet | late night, messages, insomnia | C6 | NOC-LGT-LIT | NOC-ATM-WEA |
 | NOC-SCN-11 | Reading room | The rolling column on darkness: the reading mode. | verse, chorus, break | untimed lyrics, dense lyrics, reading mode | C3 | NOC-LAY-LAY, NOC-LGT-LIT | none |
 
 ### Structural attributes (used for the similarity check)

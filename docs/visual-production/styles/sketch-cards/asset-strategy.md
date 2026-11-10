@@ -12,7 +12,7 @@ Style 9 of 15. Phase 2 planning (generated from planning data). Manifest status:
 | generator | 14 | Procedural generator: code or shader that draws a family of outputs from parameters |
 | source | 140 | Original source asset: a designed drawing, plate, texture, lettering set or kit made by hand or authored by a person |
 
-Live entries: **228** (approved 168, revised 60, deferred 0). Rejected 2, merged 0 (kept in the manifest and the review register).
+Live entries: **228** (approved 168, revised 60, deferred 0). Rejected 9, merged 1 (kept in the manifest and the review register).
 
 Production methods: authored-data 45, handcrafted-vector 115, hybrid 14, photographed 11, procedural-code 36, shader 7. Priority: essential 53, high 147, medium 22, optional 6. Complexity: M 48, S 180.
 
@@ -164,4 +164,19 @@ Phase 1 estimated about 550 originals with about 350 existing. Phase 2 corrects 
 
 ## Shared assets this style depends on
 
-- none
+14 shared entries (counted once in the shared manifest, not in this style's total):
+
+- `SHR-PRC-GEN-001` Film grain (generator)
+- `SHR-PRC-GEN-002` Ordered and blue-noise dither (generator)
+- `SHR-PRC-GEN-003` Halftone and screentone (generator)
+- `SHR-PRC-GEN-004` Paper fibre and tooth (generator)
+- `SHR-PRC-GEN-005` Overprint multiply (generator)
+- `SHR-PRC-GEN-009` Seeded noise fields (generator)
+- `SHR-PRC-GEN-011` Distance-along-stroke reveal (generator)
+- `SHR-TYP-FNT-012` Permanent Marker (dependency)
+- `SHR-TYP-FNT-013` Bangers (dependency)
+- `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
+- `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-024` Caveat (dependency)
+- `SHR-TYP-FNT-025` Kalam (dependency)
+- `SHR-TYP-FNT-026` Kavivanar (dependency)

@@ -532,7 +532,7 @@
    "category": "TEX",
    "kind": "source",
    "family": "CEL-TEX-PLT Film damage plates",
-   "description": "punched holes and handwritten-free leader stripes. Real film damage captured or authored at film scale.",
+   "description": "punched holes and plain printed leader stripes. Real film damage captured or authored at film scale.",
    "purpose": "Physical texture of film, the style's richness.",
    "references": "Optical-printer distress and scratchboard title work (Phase 1 B.3), backlit title drift (B.4), step printing (B.7), direct-on-film scratch animation (B.8), tamed title-sequence energy (B.5). Method only: no studio marks, no copied title cards or colour schemes.",
    "production_method": "photographed",
@@ -762,6 +762,68 @@
    "origin": "new",
    "variations_not_counted": "",
    "gate": null
+  },
+  {
+   "id": "CEL-TEX-PLT-020",
+   "name": "Burning film frame",
+   "style": [
+    "Celluloid"
+   ],
+   "category": "TEX",
+   "kind": "source",
+   "family": "CEL-TEX-PLT Film damage plates",
+   "description": "film melting in the gate",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Too violent a visual for most songs, and it reads as a stock video effect; kept out of the plate set.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
+   "id": "CEL-TEX-PLT-021",
+   "name": "Digital glitch plate",
+   "style": [
+    "Celluloid"
+   ],
+   "category": "TEX",
+   "kind": "source",
+   "family": "CEL-TEX-PLT Film damage plates",
+   "description": "datamosh blocks",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Digital artefacts are not film; belongs to no style in this set.",
+   "merged_into": null,
+   "origin": "candidate"
   },
   {
    "id": "CEL-TEX-LEK-001",
@@ -1643,6 +1705,37 @@
    "gate": null
   },
   {
+   "id": "CEL-PAL-GRD-007",
+   "name": "Teal and orange blockbuster grade",
+   "style": [
+    "Celluloid"
+   ],
+   "category": "PAL",
+   "kind": "configuration",
+   "family": "CEL-PAL-GRD Grades",
+   "description": "modern cinema grade",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Not a film stock look; reads as digital.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "CEL-MOT-GAT-001",
    "name": "Gate weave 35 mm",
    "style": [
@@ -2263,6 +2356,37 @@
    "gate": null
   },
   {
+   "id": "CEL-LAY-TTL-013",
+   "name": "Silent-film actor card",
+   "style": [
+    "Celluloid"
+   ],
+   "category": "LAY",
+   "kind": "component",
+   "family": "CEL-LAY-TTL Title layouts",
+   "description": "intertitle with a period character drawing",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Character imagery and pastiche.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "CEL-TYP-REG-001",
    "name": "Backlit hollow serif",
    "style": [
@@ -2612,6 +2736,37 @@
    "origin": "new",
    "variations_not_counted": "",
    "gate": null
+  },
+  {
+   "id": "CEL-OBJ-CNT-006",
+   "name": "Studio logo countdown",
+   "style": [
+    "Celluloid"
+   ],
+   "category": "OBJ",
+   "kind": "source",
+   "family": "CEL-OBJ-CNT Countdown designs",
+   "description": "countdown with a studio emblem",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Brand likeness.",
+   "merged_into": null,
+   "origin": "candidate"
   },
   {
    "id": "CEL-FRM-BRD-001",
@@ -3248,6 +3403,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Subtitle box inside the image area's action-safe 90% and above the bottom 14% app zone (subtitle moves into the image area in the app stage).) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3285,6 +3441,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Title inside central 70%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3317,6 +3474,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 70%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3349,6 +3507,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Projected rectangle 60% of the frame; text in its centre 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3381,6 +3540,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Current frame inside central 70%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3413,6 +3573,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3444,6 +3605,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Countdown inside central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3483,6 +3645,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "stock": "colour negative",
@@ -3528,6 +3691,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "stock": "bw reversal",
@@ -3575,6 +3739,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "stock": "warm reversal",
@@ -3619,6 +3784,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "stock": "tape",
@@ -3665,6 +3831,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "stock": "lith",
@@ -3709,6 +3876,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "stock": "black leader",
@@ -3754,6 +3922,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "stock": "colour negative soft",
@@ -3798,6 +3967,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "stock": "any",
@@ -3843,6 +4013,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "stock": "toned",
@@ -3888,6 +4059,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "stock": "varies per cut",
@@ -3931,6 +4103,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "stock": "leader",
@@ -3999,6 +4172,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (6-frame fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "6-frame fade."
   },
@@ -4029,6 +4203,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Fade to white and back.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Fade to white and back."
   },
@@ -4059,6 +4234,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Same.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Same."
   },
@@ -4089,6 +4265,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Removed.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Removed."
   },
@@ -4119,6 +4296,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cue static.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cue static."
   },
@@ -4149,6 +4327,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Fade to white then black.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Fade to white then black."
   },
@@ -4179,6 +4358,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Removed.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Removed."
   }

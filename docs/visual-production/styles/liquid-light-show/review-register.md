@@ -81,7 +81,7 @@ Style 8 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | LLS-PAL-PAL-007 | Cover three | approved | Distinct: Transparent dye sets. |
 | LLS-PAL-PAL-008 | Cover two plus clear | approved | Distinct: Transparent dye sets. |
 | LLS-PAL-PAL-009 | Pastel dream | approved | Distinct: Transparent dye sets. |
-| LLS-PAL-PAL-010 | Monochrome-free warm trio | approved | Distinct: Transparent dye sets. |
+| LLS-PAL-PAL-010 | Warm trio | approved | Distinct: Transparent dye sets. |
 | LLS-PAL-PAL-011 | Festival rainbow (four) | approved | Distinct: Transparent dye sets. |
 | LLS-PAL-PAL-012 | Night violet and cyan | approved | Distinct: Transparent dye sets. |
 | LLS-OBJ-WHL-001 | Four segment | approved | Distinct: Segmented gel wheels. |

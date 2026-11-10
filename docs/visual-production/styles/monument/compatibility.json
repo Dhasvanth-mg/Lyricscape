@@ -1,0 +1,457 @@
+{
+ "style": "Monument",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "MON-CMP-C1": {
+   "name": "Façade ahead",
+   "layers": "sky, fog, city, active façade, light, dust",
+   "safe_area": "Façade text central 84% at reading moment.",
+   "assets": "EXT, ARC, MAT"
+  },
+  "MON-CMP-C2": {
+   "name": "Wall walk",
+   "layers": "sky, wall, ground",
+   "safe_area": "Current word inside central 80%.",
+   "assets": "ARC canyon"
+  },
+  "MON-CMP-C3": {
+   "name": "Look up",
+   "layers": "sky, façade, light",
+   "safe_area": "Hook central 84%.",
+   "assets": "EXT, LGT"
+  },
+  "MON-CMP-C4": {
+   "name": "Aerial",
+   "layers": "ground, city, fog",
+   "safe_area": "Title text central if shown.",
+   "assets": "CTY"
+  }
+ },
+ "scene_families": {
+  "MON-SCN-01": {
+   "name": "Canyon of walls",
+   "roles": [
+    "verse"
+   ],
+   "compositions": [
+    "MON-CMP-C2",
+    "MON-CMP-C1"
+   ],
+   "required": [
+    "MON-ENV-ARC",
+    "MON-PRC-EXT",
+    "MON-SRF-MAT"
+   ],
+   "optional": [
+    "MON-ATM-FOG"
+   ],
+   "attributes": {
+    "template": "canyon",
+    "material": "concrete",
+    "light": "overcast",
+    "camera": "walk",
+    "fog": "grey",
+    "mood": "steady"
+   }
+  },
+  "MON-SCN-02": {
+   "name": "Spiral stair",
+   "roles": [
+    "bridge",
+    "chorus"
+   ],
+   "compositions": [
+    "MON-CMP-C1",
+    "MON-CMP-C3"
+   ],
+   "required": [
+    "MON-ENV-ARC",
+    "MON-PRC-EXT",
+    "MON-SRF-MAT"
+   ],
+   "optional": [
+    "MON-MOT-PRJ"
+   ],
+   "attributes": {
+    "template": "stair",
+    "material": "plaster",
+    "light": "golden hour",
+    "camera": "climb",
+    "fog": "warm",
+    "mood": "rising"
+   }
+  },
+  "MON-SCN-03": {
+   "name": "Bridge",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "MON-CMP-C1",
+    "MON-CMP-C2"
+   ],
+   "required": [
+    "MON-ENV-ARC",
+    "MON-PRC-EXT"
+   ],
+   "optional": [
+    "MON-PLT-GRD",
+    "MON-ATM-FOG"
+   ],
+   "attributes": {
+    "template": "bridge",
+    "material": "steel and concrete",
+    "light": "dawn",
+    "camera": "walk across",
+    "fog": "blue",
+    "mood": "crossing"
+   }
+  },
+  "MON-SCN-04": {
+   "name": "Plaza",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "MON-CMP-C3"
+   ],
+   "required": [
+    "MON-ENV-ARC",
+    "MON-PRC-EXT",
+    "MON-LGT-LGT"
+   ],
+   "optional": [
+    "MON-MOT-PRJ"
+   ],
+   "attributes": {
+    "template": "plaza",
+    "material": "stone",
+    "light": "night projection",
+    "camera": "stop and look up",
+    "fog": "cover hue",
+    "mood": "triumphant"
+   }
+  },
+  "MON-SCN-05": {
+   "name": "Tunnel",
+   "roles": [
+    "bridge",
+    "high"
+   ],
+   "compositions": [
+    "MON-CMP-C1"
+   ],
+   "required": [
+    "MON-ENV-ARC",
+    "MON-PRC-EXT",
+    "MON-LGT-LGT"
+   ],
+   "optional": [
+    "MON-MOT-PRJ"
+   ],
+   "attributes": {
+    "template": "tunnel",
+    "material": "light",
+    "light": "emissive",
+    "camera": "fly through",
+    "fog": "dark",
+    "mood": "rushing"
+   }
+  },
+  "MON-SCN-06": {
+   "name": "Glass city night",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "MON-CMP-C1",
+    "MON-CMP-C2"
+   ],
+   "required": [
+    "MON-ENV-ARC",
+    "MON-SRF-MAT"
+   ],
+   "optional": [
+    "MON-ATM-FOG"
+   ],
+   "attributes": {
+    "template": "skyline",
+    "material": "glass",
+    "light": "night",
+    "camera": "slow walk",
+    "fog": "blue-black",
+    "mood": "alone"
+   }
+  },
+  "MON-SCN-07": {
+   "name": "Paper town",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "MON-CMP-C1"
+   ],
+   "required": [
+    "MON-ENV-ARC",
+    "MON-SRF-MAT"
+   ],
+   "optional": [
+    "MON-LGT-LGT"
+   ],
+   "attributes": {
+    "template": "village",
+    "material": "paper",
+    "light": "soft day",
+    "camera": "walk",
+    "fog": "white",
+    "mood": "gentle"
+   }
+  },
+  "MON-SCN-08": {
+   "name": "Pier into the sea",
+   "roles": [
+    "outro",
+    "quiet"
+   ],
+   "compositions": [
+    "MON-CMP-C1",
+    "MON-CMP-C4"
+   ],
+   "required": [
+    "MON-ENV-ARC",
+    "MON-PLT-GRD"
+   ],
+   "optional": [
+    "MON-ATM-FOG"
+   ],
+   "attributes": {
+    "template": "pier",
+    "material": "wood",
+    "light": "dusk",
+    "camera": "walk out",
+    "fog": "sea mist",
+    "mood": "letting go"
+   }
+  },
+  "MON-SCN-09": {
+   "name": "The song city",
+   "roles": [
+    "outro",
+    "break"
+   ],
+   "compositions": [
+    "MON-CMP-C4"
+   ],
+   "required": [
+    "MON-CMP-CTY"
+   ],
+   "optional": [
+    "MON-ATM-FOG",
+    "MON-LGT-LGT"
+   ],
+   "attributes": {
+    "template": "city",
+    "material": "as built",
+    "light": "as section",
+    "camera": "aerial",
+    "fog": "cover hue",
+    "mood": "summary"
+   }
+  }
+ },
+ "global_families": [
+  "MON-PRC-EXT",
+  "MON-SRF-MAT",
+  "MON-LGT-LGT",
+  "MON-ATM-FOG",
+  "MON-CMP-CTY",
+  "MON-TYP-TYF",
+  "MON-CMP-RIS",
+  "MON-CAM-CAM"
+ ],
+ "asset_families": {
+  "MON-PRC-EXT": {
+   "name": "Extrusion methods",
+   "category": "PRC",
+   "kind": "generator",
+   "compatible_with": "Per script (see typography).",
+   "exclusions": "Mesh extrusion Latin only.",
+   "scenes": [
+    "MON-SCN-01",
+    "MON-SCN-02",
+    "MON-SCN-03",
+    "MON-SCN-04",
+    "MON-SCN-05"
+   ]
+  },
+  "MON-ENV-ARC": {
+   "name": "Architectural templates",
+   "category": "ENV",
+   "kind": "configuration",
+   "compatible_with": "All templates.",
+   "exclusions": "See grammar.",
+   "scenes": [
+    "MON-SCN-01",
+    "MON-SCN-02",
+    "MON-SCN-03",
+    "MON-SCN-04",
+    "MON-SCN-05",
+    "MON-SCN-06",
+    "MON-SCN-07",
+    "MON-SCN-08"
+   ]
+  },
+  "MON-SRF-MAT": {
+   "name": "Materials",
+   "category": "SRF",
+   "kind": "configuration",
+   "compatible_with": "All templates.",
+   "exclusions": "Light only in tunnel.",
+   "scenes": [
+    "MON-SCN-01",
+    "MON-SCN-02",
+    "MON-SCN-06",
+    "MON-SCN-07"
+   ]
+  },
+  "MON-LGT-LGT": {
+   "name": "Lighting rigs",
+   "category": "LGT",
+   "kind": "configuration",
+   "compatible_with": "All templates.",
+   "exclusions": "See grammar.",
+   "scenes": [
+    "MON-SCN-04",
+    "MON-SCN-05",
+    "MON-SCN-07",
+    "MON-SCN-09"
+   ]
+  },
+  "MON-MOT-PRJ": {
+   "name": "Projection sweeps",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "All templates.",
+   "exclusions": "See grammar.",
+   "scenes": [
+    "MON-SCN-02",
+    "MON-SCN-04",
+    "MON-SCN-05"
+   ]
+  },
+  "MON-CAM-CAM": {
+   "name": "Camera paths",
+   "category": "CAM",
+   "kind": "configuration",
+   "compatible_with": "All templates.",
+   "exclusions": "See grammar.",
+   "scenes": []
+  },
+  "MON-ATM-FOG": {
+   "name": "Fog and sky",
+   "category": "ATM",
+   "kind": "configuration",
+   "compatible_with": "All templates.",
+   "exclusions": "See grammar.",
+   "scenes": [
+    "MON-SCN-01",
+    "MON-SCN-03",
+    "MON-SCN-06",
+    "MON-SCN-08",
+    "MON-SCN-09"
+   ]
+  },
+  "MON-PLT-GRD": {
+   "name": "Ground planes",
+   "category": "PLT",
+   "kind": "configuration",
+   "compatible_with": "All templates.",
+   "exclusions": "See grammar.",
+   "scenes": [
+    "MON-SCN-03",
+    "MON-SCN-08"
+   ]
+  },
+  "MON-CMP-CTY": {
+   "name": "City layout rules",
+   "category": "CMP",
+   "kind": "configuration",
+   "compatible_with": "All templates.",
+   "exclusions": "See grammar.",
+   "scenes": [
+    "MON-SCN-09"
+   ]
+  },
+  "MON-TYP-TYF": {
+   "name": "Façade type settings",
+   "category": "TYP",
+   "kind": "configuration",
+   "compatible_with": "All templates.",
+   "exclusions": "See grammar.",
+   "scenes": []
+  },
+  "MON-CMP-RIS": {
+   "name": "Reserve: Riso Riot outline",
+   "category": "CMP",
+   "kind": "configuration",
+   "compatible_with": "All templates.",
+   "exclusions": "See grammar.",
+   "scenes": []
+  }
+ },
+ "layer_order": [
+  "sky gradient",
+  "distant fog",
+  "ground plane",
+  "city (instanced past façades)",
+  "active façade",
+  "lighting and shadow",
+  "projection sweep",
+  "dust",
+  "post: fog, grain"
+ ],
+ "invalid": [
+  {
+   "this": "Mesh extrusion",
+   "never_with": "complex scripts",
+   "because": "Shaping: use sprite stack."
+  },
+  {
+   "this": "Camera travel",
+   "never_with": "reduced motion",
+   "because": "Motion rule."
+  },
+  {
+   "this": "Façade angle over 15 degrees",
+   "never_with": "reading moment",
+   "because": "Readability."
+  },
+  {
+   "this": "Glossy chrome",
+   "never_with": "any",
+   "because": "Cliché."
+  },
+  {
+   "this": "Fast swoop",
+   "never_with": "any",
+   "because": "Motion language."
+  },
+  {
+   "this": "Real buildings",
+   "never_with": "any",
+   "because": "Likeness."
+  }
+ ],
+ "limits": {
+  "scale": "Active façade text cap height at least 8% at reading moment.",
+  "safe": "Façade within 15 degrees of camera-facing when read.",
+  "complexity": "Max 120 façades; older lines merge into a baked city layer.",
+  "colour": "One material family per section.",
+  "motion": "One camera move at a time.",
+  "material": "Light material only in tunnel template."
+ }
+}

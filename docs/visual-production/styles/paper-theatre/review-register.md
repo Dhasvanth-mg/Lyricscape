@@ -22,6 +22,7 @@ Style 3 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | PTR-SIL-CTY-012 | Paper moon on a stick | approved | Distinct: hand-held moon |
 | PTR-SIL-CTY-013 | Window with curtains flapping | approved | Distinct: hinged curtain pieces |
 | PTR-SIL-CTY-014 | Skyline seam piece | approved | Distinct: joins to the night road panorama |
+| PTR-SIL-CTY-015 | Famous tower | rejected | Real place likeness. |
 | PTR-SIL-HRB-001 | Wave row A | approved | Distinct: tall pointed waves on pins |
 | PTR-SIL-HRB-002 | Wave row B | approved | Distinct: low rolling waves |
 | PTR-SIL-HRB-003 | Wave row C | approved | Distinct: breaking crest |
@@ -110,7 +111,7 @@ Style 3 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | PTR-SIL-GAR-010 | Picket fence | approved | Distinct: near |
 | PTR-SIL-TRV-001 | Steam train with carriages | approved | Distinct: moving on a rail, smoke puffs |
 | PTR-SIL-TRV-002 | Field strip with haystacks | approved | Distinct: panorama segment |
-| PTR-SIL-TRV-003 | Village strip with church-free steeple | approved | Distinct: generic tower, no religious symbol |
+| PTR-SIL-TRV-003 | Village strip with a clock tower | approved | Distinct: generic tower, no religious symbol |
 | PTR-SIL-TRV-004 | River bridge strip | approved | Distinct: segment |
 | PTR-SIL-TRV-005 | Station platform strip | approved | Distinct: segment |
 | PTR-SIL-TRV-006 | Tunnel mouth | approved | Distinct: segment that hides the train |
@@ -161,6 +162,8 @@ Style 3 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | PTR-OBJ-FIG-022 | Bicycle (riderless) | approved | Distinct: prop with turning wheels |
 | PTR-OBJ-FIG-023 | Steam train | approved | Distinct: railway |
 | PTR-OBJ-FIG-024 | Hot-air balloon | approved | Distinct: sky |
+| PTR-OBJ-FIG-025 | Puppet of a famous character | rejected | Character likeness. |
+| PTR-OBJ-FIG-026 | Realistic human with a face | rejected | Paper theatre figures stay silhouettes; faces add likeness risk and break the material language. |
 | PTR-FRM-FRM-001 | Simple card arch | approved | Distinct: plain rounded arch |
 | PTR-FRM-FRM-002 | Carved folk arch | approved | Distinct: scalloped edges with leaf cut-outs |
 | PTR-FRM-FRM-003 | Art deco arch | approved | Distinct: stepped geometric |
@@ -179,6 +182,7 @@ Style 3 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | PTR-SRF-PAP-006 | Handmade fibre paper (ground) | approved | Distinct: Photographed real papers under even light. |
 | PTR-SRF-PAP-007 | Corrugated card edge (frames) | approved | Distinct: Photographed real papers under even light. |
 | PTR-SRF-PAP-008 | Printed card stock (cards and banners) | approved | Distinct: Photographed real papers under even light. |
+| PTR-SRF-PAP-009 | Glossy photo paper | rejected | Glossy reflections fight the matte cut-paper look. |
 | PTR-LGT-LGT-001 | Dusk orange | approved | Distinct: Backlight gradients with a glow centre, hue and animation. |
 | PTR-LGT-LGT-002 | Night blue with warm windows | approved | Distinct: Backlight gradients with a glow centre, hue and animation. |
 | PTR-LGT-LGT-003 | Cold morning | approved | Distinct: Backlight gradients with a glow centre, hue and animation. |
@@ -189,6 +193,7 @@ Style 3 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | PTR-LGT-LGT-008 | Coloured gel cycle (fairground) | approved | Distinct: Backlight gradients with a glow centre, hue and animation. |
 | PTR-LGT-LGT-009 | Moonlight silver | approved | Distinct: Backlight gradients with a glow centre, hue and animation. |
 | PTR-LGT-LGT-010 | Firelight flicker (gentle, 0.5 Hz, under flash limits) | approved | Distinct: Backlight gradients with a glow centre, hue and animation. |
+| PTR-LGT-LGT-011 | Strobe rig | rejected | Flash guard (V5); a candle-scale theatre never strobes. |
 | PTR-TYP-TYP-001 | Cut letters (light through paper) | approved | Distinct: The three type treatments of the style. |
 | PTR-TYP-TYP-002 | Printed card on strings | approved | Distinct: The three type treatments of the style. |
 | PTR-TYP-TYP-003 | Hung cloth banner (rigid card with a fold) | approved | Distinct: The three type treatments of the style. |
@@ -222,6 +227,8 @@ Style 3 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | PTR-PRP-PRP-008 | Large branch (close-up cut) | approved | Distinct: Same cut language; props hang on strings or sticks. |
 | PTR-PRP-PRP-009 | Large crescent moon (close-up cut) | approved | Distinct: Same cut language; props hang on strings or sticks. |
 | PTR-PRP-PRP-010 | Large heart leaf (close-up cut) | approved | Distinct: Same cut language; props hang on strings or sticks. |
+| PTR-PRP-PRP-011 | Smartphone prop | rejected | Screenlife territory; breaks the toy-theatre period feel. |
+| PTR-PRP-PRP-012 | Flag of a country | rejected | Political meaning outside the song. |
 | PTR-CMP-C1 | Proscenium stage | approved | Distinct: Focal point: The stage centre where the light is brightest |
 | PTR-CMP-C2 | Window stage | approved | Distinct: Focal point: The scene seen through a window |
 | PTR-CMP-C3 | Pop-up book | approved | Distinct: Focal point: Pieces rising from the fold |

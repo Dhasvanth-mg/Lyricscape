@@ -51,7 +51,7 @@ Style 4 of 15. Phase 2 planning document (no production code or assets). Generat
 | Tamil | As Hindi; long words get the block layout. |
 | Mixed | Runs share the block; weight emphasis per word. |
 | RTL | Grid mirrors; flush right; column stack reads right to left by row; rotated layout reads top to bottom on the right edge (Hebrew only; Arabic stays horizontal). |
-| CJK | Column stack can be true vertical text (CSS-free canvas vertical layout by character), proposed for Japanese; otherwise horizontal. |
+| CJK | Column stack can be true vertical text (canvas vertical layout by character), proposed for Japanese; otherwise horizontal. |
 
 **Fallback when a face lacks a script.** No Archivo glyph: falls back to Noto Sans of the script at the nearest weight.
 

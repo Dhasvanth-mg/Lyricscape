@@ -2268,7 +2268,7 @@
   },
   {
    "id": "LLS-PAL-PAL-010",
-   "name": "Monochrome-free warm trio",
+   "name": "Warm trio",
    "style": [
     "Liquid Light Show"
    ],
@@ -2807,6 +2807,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Band text inside central 84%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -2841,6 +2842,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -2877,6 +2879,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Slide inside the dish and central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -2910,6 +2913,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -2941,6 +2945,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 84%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -2979,6 +2984,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "fluid": "oil cells",
@@ -3024,6 +3030,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "fluid": "dye plumes",
@@ -3070,6 +3077,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "fluid": "bubbles",
@@ -3114,6 +3122,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "fluid": "colour blooms",
@@ -3159,6 +3168,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "fluid": "drips",
@@ -3203,6 +3213,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "fluid": "oil edge",
@@ -3247,6 +3258,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "fluid": "marbled lines",
@@ -3292,6 +3304,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "fluid": "any",
@@ -3336,6 +3349,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "fluid": "veils",
@@ -3381,6 +3395,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "fluid": "spiral swirl",
@@ -3480,6 +3495,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cross-fade 600 ms.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cross-fade 600 ms."
   },
@@ -3510,6 +3526,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Slow fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Slow fade."
   },
@@ -3540,6 +3557,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Tint fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Tint fade."
   },
@@ -3570,6 +3588,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Same.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Same."
   },
@@ -3600,6 +3619,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cut.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cut."
   }

@@ -183,4 +183,19 @@ Phase 1 estimated about 150 originals with very many compositions. This plan app
 
 ## Shared assets this style depends on
 
-- none
+14 shared entries (counted once in the shared manifest, not in this style's total):
+
+- `SHR-PRC-GEN-001` Film grain (generator)
+- `SHR-PRC-GEN-003` Halftone and screentone (generator)
+- `SHR-PRC-GEN-004` Paper fibre and tooth (generator)
+- `SHR-PRC-GEN-005` Overprint multiply (generator)
+- `SHR-PRC-GEN-009` Seeded noise fields (generator)
+- `SHR-PRC-GEN-014` Cover derivation (generator)
+- `SHR-PRC-GEN-016` Thick line renderer (generator)
+- `SHR-TYP-FNT-003` Archivo Variable (dependency)
+- `SHR-TYP-FNT-004` Space Grotesk Variable (dependency)
+- `SHR-TYP-FNT-005` Anton (dependency)
+- `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
+- `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-020` Noto Sans Arabic (dependency)
+- `SHR-TYP-FNT-022` Noto Sans Hebrew (dependency)

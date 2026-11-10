@@ -11,7 +11,7 @@ Style 3 of 15. Phase 2 planning (generated from planning data). Manifest status:
 | configuration | 33 | Generator configuration or preset: an approved, tuned parameter set for a generator, choreography, camera or grade |
 | source | 181 | Original source asset: a designed drawing, plate, texture, lettering set or kit made by hand or authored by a person |
 
-Live entries: **241** (approved 241, revised 0, deferred 0). Rejected 2, merged 0 (kept in the manifest and the review register).
+Live entries: **241** (approved 241, revised 0, deferred 0). Rejected 9, merged 0 (kept in the manifest and the review register).
 
 Production methods: authored-data 53, handcrafted-vector 173, photographed 8, procedural-code 7. Priority: essential 115, high 67, medium 59. Complexity: L 24, M 174, S 43.
 
@@ -233,4 +233,17 @@ Phase 1 estimated 500-700 originals; this plan approves about 250, because Phase
 
 ## Shared assets this style depends on
 
-- none
+12 shared entries (counted once in the shared manifest, not in this style's total):
+
+- `SHR-PRC-GEN-001` Film grain (generator)
+- `SHR-PRC-GEN-004` Paper fibre and tooth (generator)
+- `SHR-PRC-GEN-009` Seeded noise fields (generator)
+- `SHR-PRC-GEN-012` Depth fog and haze (generator)
+- `SHR-TYP-FNT-010` DM Serif Display (dependency)
+- `SHR-TYP-FNT-011` Special Elite (dependency)
+- `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
+- `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-018` Noto Serif Devanagari (dependency)
+- `SHR-TYP-FNT-019` Noto Serif Tamil (dependency)
+- `SHR-TYP-FNT-021` Noto Naskh Arabic (dependency)
+- `SHR-TYP-FNT-023` Frank Ruhl Libre (dependency)

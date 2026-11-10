@@ -52,4 +52,4 @@ The count is what the scene families need, not a target. See the review register
 
 ## Shared assets this style depends on
 
-- none
+Not applicable: this is the shared library. Each style lists the shared entries it uses in its own strategy file.

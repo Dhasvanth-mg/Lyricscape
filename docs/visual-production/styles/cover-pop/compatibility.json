@@ -1,0 +1,431 @@
+{
+ "style": "Cover Pop",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "CVP-CMP-C1": {
+   "name": "Full cover phrase",
+   "layers": "cover, burst, phrase, chip, stickers",
+   "safe_area": "Phrase central 84%.",
+   "assets": "Cover, PHL, CHP"
+  },
+  "CVP-CMP-C2": {
+   "name": "Crop detail",
+   "layers": "cover crop, phrase",
+   "safe_area": "Central 84%.",
+   "assets": "CRP, SAL"
+  },
+  "CVP-CMP-C3": {
+   "name": "Giant word",
+   "layers": "cover, word",
+   "safe_area": "Central 90%.",
+   "assets": "VOI"
+  },
+  "CVP-CMP-C4": {
+   "name": "Colour field and cover",
+   "layers": "field, cover, phrase",
+   "safe_area": "Phrase in the field.",
+   "assets": "COL, PHL"
+  },
+  "CVP-CMP-C5": {
+   "name": "Sticker collage",
+   "layers": "cover, cut-outs, phrase, stickers",
+   "safe_area": "Central 84%.",
+   "assets": "CUT, STK"
+  }
+ },
+ "scene_families": {
+  "CVP-SCN-01": {
+   "name": "Full stage",
+   "roles": [
+    "chorus",
+    "intro"
+   ],
+   "compositions": [
+    "CVP-CMP-C1",
+    "CVP-CMP-C3"
+   ],
+   "required": [
+    "CVP-TYP-VOI",
+    "CVP-LAY-PHL",
+    "CVP-TYP-CHP"
+   ],
+   "optional": [
+    "CVP-GEO-BST",
+    "CVP-PRP-STK"
+   ],
+   "attributes": {
+    "cover": "full",
+    "voice": "rounded",
+    "layout": "saliency",
+    "stickers": "few",
+    "motion": "pop",
+    "mood": "bright"
+   }
+  },
+  "CVP-SCN-02": {
+   "name": "Detail tour",
+   "roles": [
+    "verse"
+   ],
+   "compositions": [
+    "CVP-CMP-C2"
+   ],
+   "required": [
+    "CVP-CAM-CRP",
+    "CVP-PRC-SAL",
+    "CVP-LAY-PHL"
+   ],
+   "optional": [
+    "CVP-PRP-STK"
+   ],
+   "attributes": {
+    "cover": "crop",
+    "voice": "as section",
+    "layout": "crop region",
+    "stickers": "one",
+    "motion": "pan",
+    "mood": "exploring"
+   }
+  },
+  "CVP-SCN-03": {
+   "name": "Burst hook",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "CVP-CMP-C1",
+    "CVP-CMP-C3"
+   ],
+   "required": [
+    "CVP-GEO-BST",
+    "CVP-TYP-VOI"
+   ],
+   "optional": [
+    "CVP-PRP-STK"
+   ],
+   "attributes": {
+    "cover": "full",
+    "voice": "condensed",
+    "layout": "giant word",
+    "stickers": "none",
+    "motion": "punch",
+    "mood": "explosive"
+   }
+  },
+  "CVP-SCN-04": {
+   "name": "Side field",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "CVP-CMP-C4"
+   ],
+   "required": [
+    "CVP-PAL-COL",
+    "CVP-LAY-PHL"
+   ],
+   "optional": [
+    "CVP-PRP-STK"
+   ],
+   "attributes": {
+    "cover": "inset",
+    "voice": "serif",
+    "layout": "field column",
+    "stickers": "one",
+    "motion": "slide",
+    "mood": "calm"
+   }
+  },
+  "CVP-SCN-05": {
+   "name": "Collage",
+   "roles": [
+    "bridge",
+    "verse"
+   ],
+   "compositions": [
+    "CVP-CMP-C5"
+   ],
+   "required": [
+    "CVP-PRC-CUT",
+    "CVP-PRP-STK",
+    "CVP-LAY-PHL"
+   ],
+   "optional": [],
+   "attributes": {
+    "cover": "full and cut-outs",
+    "voice": "script",
+    "layout": "centre",
+    "stickers": "many",
+    "motion": "pop",
+    "mood": "playful"
+   }
+  },
+  "CVP-SCN-06": {
+   "name": "Slow breathe",
+   "roles": [
+    "quiet",
+    "break"
+   ],
+   "compositions": [
+    "CVP-CMP-C1",
+    "CVP-CMP-C2"
+   ],
+   "required": [
+    "CVP-CAM-CRP"
+   ],
+   "optional": [
+    "CVP-LAY-PHL"
+   ],
+   "attributes": {
+    "cover": "slow push",
+    "voice": "serif",
+    "layout": "single word",
+    "stickers": "none",
+    "motion": "fade",
+    "mood": "tender"
+   }
+  },
+  "CVP-SCN-07": {
+   "name": "No-cover stage",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "CVP-CMP-C3",
+    "CVP-CMP-C1"
+   ],
+   "required": [
+    "CVP-ENV-FBK",
+    "CVP-TYP-VOI",
+    "CVP-LAY-PHL"
+   ],
+   "optional": [
+    "CVP-GEO-BST",
+    "CVP-PRP-STK"
+   ],
+   "attributes": {
+    "cover": "generated",
+    "voice": "wide",
+    "layout": "giant word",
+    "stickers": "few",
+    "motion": "pop",
+    "mood": "bright"
+   }
+  },
+  "CVP-SCN-08": {
+   "name": "Framed ending",
+   "roles": [
+    "outro"
+   ],
+   "compositions": [
+    "CVP-CMP-C4"
+   ],
+   "required": [
+    "CVP-PAL-COL"
+   ],
+   "optional": [],
+   "attributes": {
+    "cover": "framed",
+    "voice": "as section",
+    "layout": "none",
+    "stickers": "none",
+    "motion": "recede",
+    "mood": "ending"
+   }
+  }
+ },
+ "global_families": [
+  "CVP-TYP-VOI",
+  "CVP-TYP-CHP",
+  "CVP-PAL-COL",
+  "CVP-PRC-SAL",
+  "CVP-MOT-PHM",
+  "CVP-OBJ-ICN"
+ ],
+ "asset_families": {
+  "CVP-TYP-VOI": {
+   "name": "Type voices",
+   "category": "TYP",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "Italic only for Latin.",
+   "scenes": [
+    "CVP-SCN-01",
+    "CVP-SCN-03",
+    "CVP-SCN-07"
+   ]
+  },
+  "CVP-OBJ-ICN": {
+   "name": "Icons (existing)",
+   "category": "OBJ",
+   "kind": "source",
+   "compatible_with": "All voices.",
+   "exclusions": "Max one per phrase.",
+   "scenes": []
+  },
+  "CVP-PRP-STK": {
+   "name": "Annotation stickers",
+   "category": "PRP",
+   "kind": "source",
+   "compatible_with": "All type voices; max two stickers per phrase.",
+   "exclusions": "Never over a word; never more than two on screen; never on grief identity with playful stickers.",
+   "scenes": [
+    "CVP-SCN-01",
+    "CVP-SCN-02",
+    "CVP-SCN-03",
+    "CVP-SCN-04",
+    "CVP-SCN-05",
+    "CVP-SCN-07"
+   ]
+  },
+  "CVP-PRC-CUT": {
+   "name": "Cover cut-out generator",
+   "category": "PRC",
+   "kind": "generator",
+   "compatible_with": "Covers 600 px or larger.",
+   "exclusions": "Max three cut-outs.",
+   "scenes": [
+    "CVP-SCN-05"
+   ]
+  },
+  "CVP-CAM-CRP": {
+   "name": "Crop and pan paths",
+   "category": "CAM",
+   "kind": "configuration",
+   "compatible_with": "Covers 600 px or larger for deep crops.",
+   "exclusions": "Max zoom so cover pixels never upscale beyond 2x.",
+   "scenes": [
+    "CVP-SCN-02",
+    "CVP-SCN-06"
+   ]
+  },
+  "CVP-GEO-BST": {
+   "name": "Burst shapes",
+   "category": "GEO",
+   "kind": "component",
+   "compatible_with": "All.",
+   "exclusions": "Off in reduced motion.",
+   "scenes": [
+    "CVP-SCN-01",
+    "CVP-SCN-03",
+    "CVP-SCN-07"
+   ]
+  },
+  "CVP-LAY-PHL": {
+   "name": "Phrase layouts",
+   "category": "LAY",
+   "kind": "configuration",
+   "compatible_with": "Voices.",
+   "exclusions": "Mirrors are parameters.",
+   "scenes": [
+    "CVP-SCN-01",
+    "CVP-SCN-02",
+    "CVP-SCN-04",
+    "CVP-SCN-05",
+    "CVP-SCN-06",
+    "CVP-SCN-07"
+   ]
+  },
+  "CVP-TYP-CHP": {
+   "name": "Chip styles",
+   "category": "TYP",
+   "kind": "component",
+   "compatible_with": "All voices.",
+   "exclusions": "One per phrase.",
+   "scenes": [
+    "CVP-SCN-01"
+   ]
+  },
+  "CVP-PAL-COL": {
+   "name": "Colour pickers",
+   "category": "PAL",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "n/a",
+   "scenes": [
+    "CVP-SCN-04",
+    "CVP-SCN-08"
+   ]
+  },
+  "CVP-PRC-SAL": {
+   "name": "Cover analysis",
+   "category": "PRC",
+   "kind": "generator",
+   "compatible_with": "All covers.",
+   "exclusions": "No face recognition; detail density only.",
+   "scenes": [
+    "CVP-SCN-02"
+   ]
+  },
+  "CVP-ENV-FBK": {
+   "name": "Fallback stages",
+   "category": "ENV",
+   "kind": "generator",
+   "compatible_with": "All.",
+   "exclusions": "Only when the cover is missing, under 300 px or text-only (busy-ness and colour checks).",
+   "scenes": [
+    "CVP-SCN-07"
+   ]
+  },
+  "CVP-MOT-PHM": {
+   "name": "Phrase motions",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "Reduced motion: fade only.",
+   "scenes": []
+  }
+ },
+ "layer_order": [
+  "colour field (where the cover does not fill)",
+  "cover (unmodified, cropped and scaled only)",
+  "burst",
+  "cut-out stickers",
+  "phrase",
+  "chip",
+  "annotation stickers"
+ ],
+ "invalid": [
+  {
+   "this": "Cover blur or dim",
+   "never_with": "any",
+   "because": "Artwork rule."
+  },
+  {
+   "this": "Italic",
+   "never_with": "complex scripts",
+   "because": "Shaping."
+  },
+  {
+   "this": "Playful stickers",
+   "never_with": "grief identity",
+   "because": "Tone."
+  },
+  {
+   "this": "Burst",
+   "never_with": "reduced motion",
+   "because": "Motion rule."
+  },
+  {
+   "this": "Phrase over 4 words",
+   "never_with": "any",
+   "because": "Readability: split."
+  },
+  {
+   "this": "Cut-out stickers",
+   "never_with": "covers under 600 px",
+   "because": "Quality."
+  }
+ ],
+ "limits": {
+  "scale": "Phrase cap height 7-14%.",
+  "safe": "Phrase central 84%; never over detected high-detail regions where an empty one exists.",
+  "complexity": "Max two stickers plus one burst.",
+  "colour": "Per word from the pixels behind (existing).",
+  "motion": "One phrase at a time.",
+  "material": "Cover untouched."
+ }
+}

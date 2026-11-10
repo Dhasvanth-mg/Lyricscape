@@ -161,7 +161,7 @@ Plate review (no source footage, no seams); flash audit with the shared flash gu
 
 **8. Why does each asset exist?** Each family's purpose: Film damage plates: Physical texture of film, the style's richness. Light leaks: Warmth and section punctuation. Tape plates: The tape stock's texture (replaces Retro VHS). Stock profiles: Each section is a stock: the main variation axis. Grades: Song adaptation without leaving the stock's character. Gate and projector behaviours: Film physics. The rest in asset-strategy.md; each manifest entry carries its own purpose.
 
-**9. Which assets are redundant?** 1 candidates were rejected or merged during review: Silent comedy pastiche (rejected: Pastiche risk; intertitles keep only the card format.)
+**9. Which assets are redundant?** 6 candidates were rejected or merged during review: Burning film frame (rejected: Too violent a visual for most songs, and it reads as a stock video effect; kept out of the plate set.); Digital glitch plate (rejected: Digital artefacts are not film; belongs to no style in this set.); Teal and orange blockbuster grade (rejected: Not a film stock look; reads as digital.); Silent-film actor card (rejected: Character imagery and pastiche.); Studio logo countdown (rejected: Brand likeness.); Silent comedy pastiche (rejected: Pastiche risk; intertitles keep only the card format.)
 
 **10. How do assets combine?** Layer order: stock base (colour, exposure) > image plates (light falloff, light leaks) > environment (projection room only) > title (register) > damage plates (dust, hair, scratches) > gate (frame edges, sprockets, letterbox bars) > post: grain, flicker, weave, vignette. Required: One stock; one title register (except leader); grain; gate weave.
 

@@ -16,7 +16,7 @@ Style 3 of 15. Phase 2 planning (generated from planning data).
 | PTR-SCN-08 | Fairground | Ferris wheel on a pin, carousel, bunting, dancers. | chorus, high | party, dance, night out, celebration, fun | C1, C5 | PTR-SIL-FAR, PTR-SRF-PAP, PTR-LGT-LGT | PTR-OBJ-FIG, PTR-PRP-PRP |
 | PTR-SCN-09 | Garden | Hedges, a gate, tall flowers that open on pins, butterflies. | verse, chorus | flower, garden, spring, love, bloom | C1, C3, C6 | PTR-SIL-GAR, PTR-SRF-PAP, PTR-LGT-LGT | PTR-OBJ-FIG, PTR-PRP-PRP |
 | PTR-SCN-10 | Train journey | A train crossing a continuous panorama of fields, bridges and towns. | verse, bridge | train, travel, leave, journey, miles | C5, C1 | PTR-SIL-TRV, PTR-SRF-PAP, PTR-LGT-LGT | PTR-OBJ-FIG |
-| PTR-SCN-11 | Snow village | Small houses with lit windows, pines, cut snowflakes falling, skaters. | verse, quiet, outro | winter, cold, snow, Christmas-free (no religious symbols), alone | C1, C4, C7 | PTR-SIL-SNW, PTR-SRF-PAP, PTR-LGT-LGT | PTR-OBJ-FIG, PTR-PRP-PRP |
+| PTR-SCN-11 | Snow village | Small houses with lit windows, pines, cut snowflakes falling, skaters. | verse, quiet, outro | winter, cold, snow, winter holidays (no religious symbols), alone | C1, C4, C7 | PTR-SIL-SNW, PTR-SRF-PAP, PTR-LGT-LGT | PTR-OBJ-FIG, PTR-PRP-PRP |
 | PTR-SCN-12 | Night road | Telegraph poles, a car with tissue headlight beams, a motel sign silhouette. | verse, bridge | drive, road, car, night, run away | C5, C1, C7 | PTR-SIL-RDS, PTR-SRF-PAP, PTR-LGT-LGT | PTR-OBJ-FIG |
 | PTR-SCN-13 | Sea depths | Kelp layers, a whale on a slow rail, fish schools, light from the surface. | bridge, quiet | drown, deep, under, ocean, dream | C1, C4, C6 | PTR-SIL-DEP, PTR-SRF-PAP, PTR-LGT-LGT | PTR-OBJ-FIG |
 

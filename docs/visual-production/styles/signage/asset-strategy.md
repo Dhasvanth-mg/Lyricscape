@@ -125,4 +125,22 @@ Phase 1 estimated about 250 assets. Phase 2 approves 157 live entries: 9 hardwar
 
 ## Shared assets this style depends on
 
-- none
+17 shared entries (counted once in the shared manifest, not in this style's total):
+
+- `SHR-PRC-GEN-001` Film grain (generator)
+- `SHR-PRC-GEN-006` Bokeh discs (generator)
+- `SHR-PRC-GEN-007` Rain on glass (generator)
+- `SHR-PRC-GEN-008` Glow and bloom (generator)
+- `SHR-PRC-GEN-009` Seeded noise fields (generator)
+- `SHR-PRC-GEN-013` Wet ground reflection (generator)
+- `SHR-PRC-GEN-015` Character-cell pass (generator)
+- `SHR-PRC-GEN-016` Thick line renderer (generator)
+- `SHR-TYP-FNT-003` Archivo Variable (dependency)
+- `SHR-TYP-FNT-006` Bebas Neue (dependency)
+- `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
+- `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-020` Noto Sans Arabic (dependency)
+- `SHR-TYP-FNT-022` Noto Sans Hebrew (dependency)
+- `SHR-TYP-FNT-032` VT323 (dependency)
+- `SHR-TYP-FNT-034` GNU Unifont (dependency)
+- `SHR-TYP-FNT-035` Silkscreen (dependency)

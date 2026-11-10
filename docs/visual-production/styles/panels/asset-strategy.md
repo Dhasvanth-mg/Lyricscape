@@ -224,4 +224,19 @@ Phase 1 estimated about 380 originals. Phase 2 approves 286 live entries. 162 ar
 
 ## Shared assets this style depends on
 
-- none
+14 shared entries (counted once in the shared manifest, not in this style's total):
+
+- `SHR-PRC-GEN-001` Film grain (generator)
+- `SHR-PRC-GEN-002` Ordered and blue-noise dither (generator)
+- `SHR-PRC-GEN-003` Halftone and screentone (generator)
+- `SHR-PRC-GEN-004` Paper fibre and tooth (generator)
+- `SHR-PRC-GEN-009` Seeded noise fields (generator)
+- `SHR-PRC-GEN-016` Thick line renderer (generator)
+- `SHR-TYP-FNT-013` Bangers (dependency)
+- `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
+- `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-020` Noto Sans Arabic (dependency)
+- `SHR-TYP-FNT-022` Noto Sans Hebrew (dependency)
+- `SHR-TYP-FNT-025` Kalam (dependency)
+- `SHR-TYP-FNT-026` Kavivanar (dependency)
+- `SHR-TYP-FNT-027` Comic Neue (dependency)

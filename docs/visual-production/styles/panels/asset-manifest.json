@@ -925,7 +925,7 @@
   },
   {
    "id": "PAN-ENV-PLC-024",
-   "name": "Temple-free old city lane",
+   "name": "Old city lane",
    "style": [
     "Panels"
    ],
@@ -1652,7 +1652,7 @@
   },
   {
    "id": "PAN-OBJ-CLU-012",
-   "name": "Lips-free mouth silhouette singing (side profile shadow)",
+   "name": "Singer in side-profile shadow",
    "style": [
     "Panels"
    ],
@@ -3341,7 +3341,7 @@
   },
   {
    "id": "PAN-PRP-OBJ-018",
-   "name": "Pill-free medicine cabinet",
+   "name": "Bathroom cabinet",
    "style": [
     "Panels"
    ],
@@ -5108,7 +5108,7 @@
   },
   {
    "id": "PAN-ENV-NAT-002",
-   "name": "Cherry-free blossom branch",
+   "name": "Blossom branch",
    "style": [
     "Panels"
    ],
@@ -5318,7 +5318,7 @@
   },
   {
    "id": "PAN-ENV-NAT-008",
-   "name": "Cicada-free summer trees",
+   "name": "Summer trees in heat",
    "style": [
     "Panels"
    ],
@@ -5867,7 +5867,7 @@
   },
   {
    "id": "PAN-ENV-INT-012",
-   "name": "Classroom-free empty desk",
+   "name": "Empty desk by a window",
    "style": [
     "Panels"
    ],
@@ -9427,6 +9427,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Active balloon inside central 84% after the camera frames it.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -9462,6 +9463,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (SFX and balloon central 88%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -9494,6 +9496,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Captions central.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -9526,6 +9529,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Caption central.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -9560,6 +9564,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Captions central 84%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -9591,6 +9596,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Title central 88%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -9628,6 +9634,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "ink noir",
@@ -9647,7 +9654,7 @@
    "category": "SCN",
    "kind": "composition",
    "family": "PAN-SCN Scene families",
-   "description": "Phones, hearts, lips-free close-ups and pop objects in Ben-Day dots.",
+   "description": "Phones, hearts, close-ups and pop objects in Ben-Day dots.",
    "purpose": "Roles: chorus, verse. Chosen by: pop, love, fun.",
    "references": "Phase 1 dossier C.12",
    "production_method": "authored-data",
@@ -9674,6 +9681,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "halftone pop",
@@ -9719,6 +9727,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "screentone",
@@ -9763,6 +9772,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "halftone pop",
@@ -9808,6 +9818,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "flat colour",
@@ -9853,6 +9864,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "flat colour",
@@ -9897,6 +9909,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "flat colour",
@@ -9942,6 +9955,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "ink noir",
@@ -9987,6 +10001,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "newsprint",
@@ -10031,6 +10046,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "as section",
@@ -10077,6 +10093,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "flat colour",
@@ -10121,6 +10138,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "register": "as section",
@@ -10220,6 +10238,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cut.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cut."
   },
@@ -10250,6 +10269,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cut.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cut."
   },
@@ -10280,6 +10300,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cross-fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cross-fade."
   },
@@ -10310,6 +10331,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cut.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cut."
   },
@@ -10340,6 +10362,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Same (cuts).); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Same (cuts)."
   }

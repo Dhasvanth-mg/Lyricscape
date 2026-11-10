@@ -1554,6 +1554,37 @@
    "gate": null
   },
   {
+   "id": "FOL-TYP-PAIR-013",
+   "name": "Script plus slab",
+   "style": [
+    "Folio"
+   ],
+   "category": "TYP",
+   "kind": "configuration",
+   "family": "FOL-TYP-PAIR Type pairings",
+   "description": "brush script with a slab serif",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Clashes with the editorial restraint; script faces live in Cover Pop.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "FOL-SRF-PAPR-001",
    "name": "Cream uncoated",
    "style": [
@@ -2236,6 +2267,37 @@
    "gate": null
   },
   {
+   "id": "FOL-PRP-RUL-015",
+   "name": "Art nouveau vine border",
+   "style": [
+    "Folio"
+   ],
+   "category": "PRP",
+   "kind": "source",
+   "family": "FOL-PRP-RUL Rules and ornaments",
+   "description": "ornate floral frame",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Period ornament overload; the style uses rules, not borders.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "FOL-PRC-PLT-001",
    "name": "Cover unmodified",
    "style": [
@@ -2454,7 +2516,7 @@
   },
   {
    "id": "FOL-PRC-PLT-008",
-   "name": "Waveform-free structure diagram (sections as bars)",
+   "name": "Song structure diagram (sections as bars, no waveform)",
    "style": [
     "Folio"
    ],
@@ -2670,6 +2732,37 @@
    "gate": null
   },
   {
+   "id": "FOL-TYP-MST-007",
+   "name": "Real magazine masthead pastiche",
+   "style": [
+    "Folio"
+   ],
+   "category": "TYP",
+   "kind": "component",
+   "family": "FOL-TYP-MST Masthead systems",
+   "description": "a masthead imitating a known magazine",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Brand likeness.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "FOL-FRM-FRM-001",
    "name": "Hairline frame",
    "style": [
@@ -2733,7 +2826,7 @@
   },
   {
    "id": "FOL-FRM-FRM-003",
-   "name": "White border with shadow-free mount",
+   "name": "White border with flat mount",
    "style": [
     "Folio"
    ],
@@ -3104,6 +3197,37 @@
    "gate": null
   },
   {
+   "id": "FOL-LAY-MARG-009",
+   "name": "Fake page numbers and citations",
+   "style": [
+    "Folio"
+   ],
+   "category": "LAY",
+   "kind": "component",
+   "family": "FOL-LAY-MARG Marginalia",
+   "description": "invented references in margins",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Invented data presented as fact.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "FOL-MOT-MOT-001",
    "name": "Slide into slot",
    "style": [
@@ -3355,6 +3479,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Quote inside central 80% of the frame after framing.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3388,6 +3513,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Headline inside central 90%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3420,6 +3546,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3454,6 +3581,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Caption central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3485,6 +3613,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Both columns inside central 90%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3517,6 +3646,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3548,6 +3678,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Lyric clear zone central 70%; nothing overlaps it.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3579,6 +3710,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -3619,6 +3751,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "publication": "quarterly",
@@ -3667,6 +3800,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "publication": "newspaper",
@@ -3714,6 +3848,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "publication": "programme",
@@ -3760,6 +3895,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "publication": "art book",
@@ -3805,6 +3941,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "publication": "letters",
@@ -3850,6 +3987,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "publication": "loud",
@@ -3895,6 +4033,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "publication": "chapbook",
@@ -3941,6 +4080,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "publication": "bilingual",
@@ -3987,6 +4127,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "publication": "almanac",
@@ -4086,6 +4227,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (200 ms fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "200 ms fade."
   },
@@ -4116,6 +4258,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cut.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cut."
   },
@@ -4146,6 +4289,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cut.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cut."
   },
@@ -4176,6 +4320,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Cut.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Cut."
   },
@@ -4206,6 +4351,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Fade."
   }

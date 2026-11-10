@@ -21,12 +21,14 @@ Style 5 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | CEL-TEX-PLT-011 | Splice tape | approved | Distinct: tape edge and bubbles |
 | CEL-TEX-PLT-012 | Frame line and sprocket edge | approved | Distinct: 35 mm style edge |
 | CEL-TEX-PLT-013 | Rounded gate | approved | Distinct: small-gauge rounded corners |
-| CEL-TEX-PLT-014 | Leader marks | approved | Distinct: punched holes and handwritten-free leader stripes |
+| CEL-TEX-PLT-014 | Leader marks | approved | Distinct: punched holes and plain printed leader stripes |
 | CEL-TEX-PLT-015 | Burn A | approved | Distinct: radial emulsion burn |
 | CEL-TEX-PLT-016 | Burn B | approved | Distinct: edge burn creeping in |
 | CEL-TEX-PLT-017 | Emulsion bubble | approved | Distinct: chemical blemish |
 | CEL-TEX-PLT-018 | Water stain | approved | Distinct: dried spot |
 | CEL-TEX-PLT-019 | Fingerprint on film | approved | Distinct: faint print |
+| CEL-TEX-PLT-020 | Burning film frame | rejected | Too violent a visual for most songs, and it reads as a stock video effect; kept out of the plate set. |
+| CEL-TEX-PLT-021 | Digital glitch plate | rejected | Digital artefacts are not film; belongs to no style in this set. |
 | CEL-TEX-LEK-001 | Warm edge leak left | approved | Distinct: Soft coloured light entering from the frame edges, captured with a phone or a camera through coloured gels (owner shoots), or authored as gradients. |
 | CEL-TEX-LEK-002 | Warm edge leak right | approved | Distinct: Soft coloured light entering from the frame edges, captured with a phone or a camera through coloured gels (owner shoots), or authored as gradients. |
 | CEL-TEX-LEK-003 | Red corner flare | approved | Distinct: Soft coloured light entering from the frame edges, captured with a phone or a camera through coloured gels (owner shoots), or authored as gradients. |
@@ -54,6 +56,7 @@ Style 5 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | CEL-PAL-GRD-004 | Split tone cover pair | approved | Distinct: Cover-aware tints within each stock. |
 | CEL-PAL-GRD-005 | Faded print (lifted blacks) | approved | Distinct: Cover-aware tints within each stock. |
 | CEL-PAL-GRD-006 | Bleach bypass (low saturation, high contrast) | approved | Distinct: Cover-aware tints within each stock. |
+| CEL-PAL-GRD-007 | Teal and orange blockbuster grade | rejected | Not a film stock look; reads as digital. |
 | CEL-MOT-GAT-001 | Gate weave 35 mm | approved | Distinct: small, steady |
 | CEL-MOT-GAT-002 | Gate weave small gauge | approved | Distinct: larger, looser |
 | CEL-MOT-GAT-003 | Flicker 24 fps | approved | Distinct: 1-3% |
@@ -74,6 +77,7 @@ Style 5 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | CEL-LAY-TTL-010 | Typewriter card | approved | Distinct: Cinema title conventions. |
 | CEL-LAY-TTL-011 | Burst word | approved | Distinct: Cinema title conventions. |
 | CEL-LAY-TTL-012 | Film strip frame word | approved | Distinct: Cinema title conventions. |
+| CEL-LAY-TTL-013 | Silent-film actor card | rejected | Character imagery and pastiche. |
 | CEL-TYP-REG-001 | Backlit hollow serif | approved | Distinct: Typographic treatments. |
 | CEL-TYP-REG-002 | Cinema subtitle | approved | Distinct: Typographic treatments. |
 | CEL-TYP-REG-003 | Typewriter title card | approved | Distinct: Typographic treatments. |
@@ -85,6 +89,7 @@ Style 5 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | CEL-OBJ-CNT-003 | Square frame countdown | approved | Distinct: Original countdown leaders: geometric, not copies of real studio leaders. |
 | CEL-OBJ-CNT-004 | Numerals only on black | approved | Distinct: Original countdown leaders: geometric, not copies of real studio leaders. |
 | CEL-OBJ-CNT-005 | Dotted ring countdown | approved | Distinct: Original countdown leaders: geometric, not copies of real studio leaders. |
+| CEL-OBJ-CNT-006 | Studio logo countdown | rejected | Brand likeness. |
 | CEL-FRM-BRD-001 | Double rule | approved | Distinct: Original decorative borders for intertitle cards. |
 | CEL-FRM-BRD-002 | Corner flourishes | approved | Distinct: Original decorative borders for intertitle cards. |
 | CEL-FRM-BRD-003 | Geometric deco | approved | Distinct: Original decorative borders for intertitle cards. |

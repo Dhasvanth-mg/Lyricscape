@@ -114,4 +114,13 @@ Phase 1 estimated about 160 assets. Phase 2 approves 131 live entries. This is a
 
 ## Shared assets this style depends on
 
-- none
+8 shared entries (counted once in the shared manifest, not in this style's total):
+
+- `SHR-PRC-GEN-001` Film grain (generator)
+- `SHR-PRC-GEN-008` Glow and bloom (generator)
+- `SHR-PRC-GEN-009` Seeded noise fields (generator)
+- `SHR-PRC-GEN-016` Thick line renderer (generator)
+- `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
+- `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-030` Relief SingleLine (dependency)
+- `SHR-TYP-FNT-031` Hershey vector fonts (dependency)

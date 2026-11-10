@@ -7,7 +7,7 @@ Style 12 of 15. Phase 2 planning (generated from planning data).
 | ID | Scene family | What it is | Roles | Chosen by (signals) | Compositions | Required families | Optional families |
 |---|---|---|---|---|---|---|---|
 | PAN-SCN-01 | City night noir | Rainy streets, hands, a lit window, captions in noir ink. | verse, bridge | dark, crime-tinged, rain, regret | C1, C5 | PAN-ENV-PLC, PAN-OBJ-CLU, PAN-TYP-BAL | PAN-ATM-WTH |
-| PAN-SCN-02 | Bright pop page | Phones, hearts, lips-free close-ups and pop objects in Ben-Day dots. | chorus, verse | pop, love, fun | C1, C2 | PAN-PRP-OBJ, PAN-OBJ-CLU, PAN-TYP-BAL, PAN-TYP-SFX | PAN-PRC-SPD |
+| PAN-SCN-02 | Bright pop page | Phones, hearts, close-ups and pop objects in Ben-Day dots. | chorus, verse | pop, love, fun | C1, C2 | PAN-PRP-OBJ, PAN-OBJ-CLU, PAN-TYP-BAL, PAN-TYP-SFX | PAN-PRC-SPD |
 | PAN-SCN-03 | Screentone evening | Trains, power lines, sunsets and sky in screentone. | verse, quiet | anime-adjacent, longing, school, summer | C1, C3 | PAN-ENV-PLC, PAN-ENV-NAT, PAN-TYP-BAL | PAN-ATM-WTH |
 | PAN-SCN-04 | Action splash | Splash page with speed lines, impact and SFX lettering. | chorus, high | energetic hooks, rock, rap | C2 | PAN-TYP-SFX, PAN-PRC-SPD, PAN-OBJ-VEH | PAN-PRP-OBJ |
 | PAN-SCN-05 | Road trip | Cars, roads, petrol stops and skies in flat colour. | verse, chorus | travel, freedom, cars | C1, C4 | PAN-OBJ-VEH, PAN-ENV-PLC, PAN-TYP-BAL | PAN-ENV-NAT |

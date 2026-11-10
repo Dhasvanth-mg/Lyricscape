@@ -123,4 +123,18 @@ About 70 subjects were considered; 61 approved (15 existing reworked). Subjects 
 
 ## Shared assets this style depends on
 
-- none
+13 shared entries (counted once in the shared manifest, not in this style's total):
+
+- `SHR-PRC-GEN-001` Film grain (generator)
+- `SHR-PRC-GEN-002` Ordered and blue-noise dither (generator)
+- `SHR-PRC-GEN-009` Seeded noise fields (generator)
+- `SHR-PRC-GEN-015` Character-cell pass (generator)
+- `SHR-TYP-FNT-002` JetBrains Mono Variable (dependency)
+- `SHR-TYP-FNT-011` Special Elite (dependency)
+- `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
+- `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-020` Noto Sans Arabic (dependency)
+- `SHR-TYP-FNT-022` Noto Sans Hebrew (dependency)
+- `SHR-TYP-FNT-032` VT323 (dependency)
+- `SHR-TYP-FNT-033` Bedstead (dependency)
+- `SHR-TYP-FNT-034` GNU Unifont (dependency)

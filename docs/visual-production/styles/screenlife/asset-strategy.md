@@ -163,4 +163,18 @@ The count is what the scene families need, not a target. See the review register
 
 ## Shared assets this style depends on
 
-- none
+13 shared entries (counted once in the shared manifest, not in this style's total):
+
+- `SHR-PRC-GEN-001` Film grain (generator)
+- `SHR-PRC-GEN-006` Bokeh discs (generator)
+- `SHR-PRC-GEN-007` Rain on glass (generator)
+- `SHR-PRC-GEN-009` Seeded noise fields (generator)
+- `SHR-PRC-GEN-014` Cover derivation (generator)
+- `SHR-TYP-FNT-001` Inter Variable (dependency)
+- `SHR-TYP-FNT-002` JetBrains Mono Variable (dependency)
+- `SHR-TYP-FNT-008` Instrument Serif (dependency)
+- `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
+- `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-020` Noto Sans Arabic (dependency)
+- `SHR-TYP-FNT-022` Noto Sans Hebrew (dependency)
+- `SHR-TYP-FNT-024` Caveat (dependency)

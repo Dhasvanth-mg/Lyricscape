@@ -480,6 +480,37 @@
    "gate": null
   },
   {
+   "id": "PTR-SIL-CTY-015",
+   "name": "Famous tower",
+   "style": [
+    "Paper Theatre"
+   ],
+   "category": "SIL",
+   "kind": "source",
+   "family": "PTR-SIL-CTY City pieces",
+   "description": "a recognisable landmark tower",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Real place likeness.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "PTR-SIL-HRB-001",
    "name": "Wave row A",
    "style": [
@@ -3397,7 +3428,7 @@
   },
   {
    "id": "PTR-SIL-TRV-003",
-   "name": "Village strip with church-free steeple",
+   "name": "Village strip with a clock tower",
    "style": [
     "Paper Theatre"
    ],
@@ -5031,6 +5062,68 @@
    "gate": null
   },
   {
+   "id": "PTR-OBJ-FIG-025",
+   "name": "Puppet of a famous character",
+   "style": [
+    "Paper Theatre"
+   ],
+   "category": "OBJ",
+   "kind": "source",
+   "family": "PTR-OBJ-FIG Hinged figures and animals",
+   "description": "a recognisable cartoon or film character",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Character likeness.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
+   "id": "PTR-OBJ-FIG-026",
+   "name": "Realistic human with a face",
+   "style": [
+    "Paper Theatre"
+   ],
+   "category": "OBJ",
+   "kind": "source",
+   "family": "PTR-OBJ-FIG Hinged figures and animals",
+   "description": "detailed facial features on a hinged figure",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Paper theatre figures stay silhouettes; faces add likeness risk and break the material language.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "PTR-FRM-FRM-001",
    "name": "Simple card arch",
    "style": [
@@ -5589,6 +5682,37 @@
    "gate": null
   },
   {
+   "id": "PTR-SRF-PAP-009",
+   "name": "Glossy photo paper",
+   "style": [
+    "Paper Theatre"
+   ],
+   "category": "SRF",
+   "kind": "source",
+   "family": "PTR-SRF-PAP Paper surfaces",
+   "description": "shiny coated stock",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Glossy reflections fight the matte cut-paper look.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "PTR-LGT-LGT-001",
    "name": "Dusk orange",
    "style": [
@@ -5897,6 +6021,37 @@
    "origin": "new",
    "variations_not_counted": "",
    "gate": null
+  },
+  {
+   "id": "PTR-LGT-LGT-011",
+   "name": "Strobe rig",
+   "style": [
+    "Paper Theatre"
+   ],
+   "category": "LGT",
+   "kind": "configuration",
+   "family": "PTR-LGT-LGT Light rigs",
+   "description": "fast flashing lamp",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Flash guard (V5); a candle-scale theatre never strobes.",
+   "merged_into": null,
+   "origin": "candidate"
   },
   {
    "id": "PTR-TYP-TYP-001",
@@ -6922,6 +7077,68 @@
    "gate": null
   },
   {
+   "id": "PTR-PRP-PRP-011",
+   "name": "Smartphone prop",
+   "style": [
+    "Paper Theatre"
+   ],
+   "category": "PRP",
+   "kind": "source",
+   "family": "PTR-PRP-PRP Props and large pieces",
+   "description": "a modern phone cut-out",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Screenlife territory; breaks the toy-theatre period feel.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
+   "id": "PTR-PRP-PRP-012",
+   "name": "Flag of a country",
+   "style": [
+    "Paper Theatre"
+   ],
+   "category": "PRP",
+   "kind": "source",
+   "family": "PTR-PRP-PRP Props and large pieces",
+   "description": "national flag cut-out",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Political meaning outside the song.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "PTR-CMP-C1",
    "name": "Proscenium stage",
    "style": [
@@ -6961,6 +7178,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Lyric inside the arch opening's central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -6993,6 +7211,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Card inside central 80% x lower 40%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -7026,6 +7245,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Text inside its page margins.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -7061,6 +7281,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Ring text inside the frame with 6% margin; card below disc.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -7098,6 +7319,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Banner inside central 84% width.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -7132,6 +7354,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Letters inside the piece and the central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -7167,6 +7390,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Card central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -7208,6 +7432,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "city",
@@ -7255,6 +7480,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "harbour",
@@ -7302,6 +7528,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "forest",
@@ -7348,6 +7575,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "desert",
@@ -7395,6 +7623,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "mountains",
@@ -7442,6 +7671,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "interior",
@@ -7489,6 +7719,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "sky",
@@ -7535,6 +7766,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "fairground",
@@ -7582,6 +7814,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "garden",
@@ -7627,6 +7860,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "railway",
@@ -7647,7 +7881,7 @@
    "kind": "composition",
    "family": "PTR-SCN Scene families",
    "description": "Small houses with lit windows, pines, cut snowflakes falling, skaters.",
-   "purpose": "Roles: verse, quiet, outro. Chosen by: winter, cold, snow, Christmas-free (no religious symbols), alone.",
+   "purpose": "Roles: verse, quiet, outro. Chosen by: winter, cold, snow, winter holidays (no religious symbols), alone.",
    "references": "Phase 1 dossier C.3",
    "production_method": "authored-data",
    "format": "JSON scene-family spec, see scene-composition-system.md",
@@ -7674,6 +7908,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "village",
@@ -7720,6 +7955,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "road",
@@ -7766,6 +8002,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "set": "underwater",
@@ -7865,6 +8102,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Fade through the curtain colour.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Fade through the curtain colour."
   },
@@ -7895,6 +8133,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Fade."
   },
@@ -7925,6 +8164,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Fade."
   },
@@ -7955,6 +8195,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Fade."
   },
@@ -7985,6 +8226,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Same (non-motion).); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Same (non-motion)."
   },
@@ -8015,6 +8257,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Fade."
   },
@@ -8045,6 +8288,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Fade."
   }

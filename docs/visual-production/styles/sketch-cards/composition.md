@@ -69,7 +69,7 @@ Style 9 of 15. Phase 2 planning (generated from planning data).
 
 - **Focal point:** The newest pinned card, highlighted.
 - **Lyric placement:** Cards in a loose grid on a wall.
-- **Background structure:** Wall surface (cork, plaster, brick-free painted wall).
+- **Background structure:** Wall surface (cork, plaster, painted wall).
 - **Foreground:** Pins and tape.
 - **Negative space:** Wall gaps.
 - **Visual hierarchy:** Newest card > wall.

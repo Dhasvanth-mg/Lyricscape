@@ -11,7 +11,7 @@ Style 6 of 15. Phase 2 planning (generated from planning data). Manifest status:
 | configuration | 32 | Generator configuration or preset: an approved, tuned parameter set for a generator, choreography, camera or grade |
 | source | 22 | Original source asset: a designed drawing, plate, texture, lettering set or kit made by hand or authored by a person |
 
-Live entries: **127** (approved 127, revised 0, deferred 0). Rejected 3, merged 1 (kept in the manifest and the review register).
+Live entries: **127** (approved 127, revised 0, deferred 0). Rejected 7, merged 1 (kept in the manifest and the review register).
 
 Production methods: authored-data 91, handcrafted-vector 14, photographed 8, procedural-code 14. Priority: essential 71, medium 28, high 28. Complexity: M 61, S 66.
 
@@ -113,4 +113,22 @@ Phase 1 estimated about 220 originals. This plan approves 127 live entries, with
 
 ## Shared assets this style depends on
 
-- none
+17 shared entries (counted once in the shared manifest, not in this style's total):
+
+- `SHR-PRC-GEN-001` Film grain (generator)
+- `SHR-PRC-GEN-004` Paper fibre and tooth (generator)
+- `SHR-PRC-GEN-005` Overprint multiply (generator)
+- `SHR-PRC-GEN-009` Seeded noise fields (generator)
+- `SHR-PRC-GEN-014` Cover derivation (generator)
+- `SHR-TYP-FNT-001` Inter Variable (dependency)
+- `SHR-TYP-FNT-007` Cormorant Garamond (dependency)
+- `SHR-TYP-FNT-008` Instrument Serif (dependency)
+- `SHR-TYP-FNT-009` Playfair Display Variable (dependency)
+- `SHR-TYP-FNT-015` Syne Variable (dependency)
+- `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
+- `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-018` Noto Serif Devanagari (dependency)
+- `SHR-TYP-FNT-019` Noto Serif Tamil (dependency)
+- `SHR-TYP-FNT-021` Noto Naskh Arabic (dependency)
+- `SHR-TYP-FNT-023` Frank Ruhl Libre (dependency)
+- `SHR-TYP-FNT-028` Newsreader (dependency)

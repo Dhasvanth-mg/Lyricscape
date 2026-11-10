@@ -1,6 +1,6 @@
 {
 "schema": "lyricscape.index/1.0.0",
-"total": 2314,
+"total": 2620,
 "assets": [
 {
 "id": "SHR-PRC-GEN-001",
@@ -7220,6 +7220,21 @@
 "origin": "new"
 },
 {
+"id": "PTR-SIL-CTY-015",
+"name": "Famous tower",
+"style": [
+"Paper Theatre"
+],
+"category": "SIL",
+"kind": "source",
+"family": "PTR-SIL-CTY City pieces",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "PTR-SIL-HRB-001",
 "name": "Wave row A",
 "style": [
@@ -8541,7 +8556,7 @@
 },
 {
 "id": "PTR-SIL-TRV-003",
-"name": "Village strip with church-free steeple",
+"name": "Village strip with a clock tower",
 "style": [
 "Paper Theatre"
 ],
@@ -9305,6 +9320,36 @@
 "origin": "new"
 },
 {
+"id": "PTR-OBJ-FIG-025",
+"name": "Puppet of a famous character",
+"style": [
+"Paper Theatre"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "PTR-OBJ-FIG Hinged figures and animals",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "PTR-OBJ-FIG-026",
+"name": "Realistic human with a face",
+"style": [
+"Paper Theatre"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "PTR-OBJ-FIG Hinged figures and animals",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "PTR-FRM-FRM-001",
 "name": "Simple card arch",
 "style": [
@@ -9575,6 +9620,21 @@
 "origin": "new"
 },
 {
+"id": "PTR-SRF-PAP-009",
+"name": "Glossy photo paper",
+"style": [
+"Paper Theatre"
+],
+"category": "SRF",
+"kind": "source",
+"family": "PTR-SRF-PAP Paper surfaces",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "PTR-LGT-LGT-001",
 "name": "Dusk orange",
 "style": [
@@ -9723,6 +9783,21 @@
 "complexity": "S",
 "status": "approved",
 "origin": "new"
+},
+{
+"id": "PTR-LGT-LGT-011",
+"name": "Strobe rig",
+"style": [
+"Paper Theatre"
+],
+"category": "LGT",
+"kind": "configuration",
+"family": "PTR-LGT-LGT Light rigs",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
 },
 {
 "id": "PTR-TYP-TYP-001",
@@ -10218,6 +10293,36 @@
 "complexity": "S",
 "status": "approved",
 "origin": "new"
+},
+{
+"id": "PTR-PRP-PRP-011",
+"name": "Smartphone prop",
+"style": [
+"Paper Theatre"
+],
+"category": "PRP",
+"kind": "source",
+"family": "PTR-PRP-PRP Props and large pieces",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "PTR-PRP-PRP-012",
+"name": "Flag of a country",
+"style": [
+"Paper Theatre"
+],
+"category": "PRP",
+"kind": "source",
+"family": "PTR-PRP-PRP Props and large pieces",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
 },
 {
 "id": "PTR-CMP-C1",
@@ -12980,6 +13085,36 @@
 "origin": "new"
 },
 {
+"id": "CEL-TEX-PLT-020",
+"name": "Burning film frame",
+"style": [
+"Celluloid"
+],
+"category": "TEX",
+"kind": "source",
+"family": "CEL-TEX-PLT Film damage plates",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "CEL-TEX-PLT-021",
+"name": "Digital glitch plate",
+"style": [
+"Celluloid"
+],
+"category": "TEX",
+"kind": "source",
+"family": "CEL-TEX-PLT Film damage plates",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "CEL-TEX-LEK-001",
 "name": "Warm edge leak left",
 "style": [
@@ -13385,6 +13520,21 @@
 "origin": "new"
 },
 {
+"id": "CEL-PAL-GRD-007",
+"name": "Teal and orange blockbuster grade",
+"style": [
+"Celluloid"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "CEL-PAL-GRD Grades",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "CEL-MOT-GAT-001",
 "name": "Gate weave 35 mm",
 "style": [
@@ -13685,6 +13835,21 @@
 "origin": "new"
 },
 {
+"id": "CEL-LAY-TTL-013",
+"name": "Silent-film actor card",
+"style": [
+"Celluloid"
+],
+"category": "LAY",
+"kind": "component",
+"family": "CEL-LAY-TTL Title layouts",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "CEL-TYP-REG-001",
 "name": "Backlit hollow serif",
 "style": [
@@ -13848,6 +14013,21 @@
 "complexity": "M",
 "status": "approved",
 "origin": "new"
+},
+{
+"id": "CEL-OBJ-CNT-006",
+"name": "Studio logo countdown",
+"style": [
+"Celluloid"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CEL-OBJ-CNT Countdown designs",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
 },
 {
 "id": "CEL-FRM-BRD-001",
@@ -15260,6 +15440,21 @@
 "origin": "new"
 },
 {
+"id": "FOL-TYP-PAIR-013",
+"name": "Script plus slab",
+"style": [
+"Folio"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "FOL-TYP-PAIR Type pairings",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "FOL-SRF-PAPR-001",
 "name": "Cream uncoated",
 "style": [
@@ -15590,6 +15785,21 @@
 "origin": "new"
 },
 {
+"id": "FOL-PRP-RUL-015",
+"name": "Art nouveau vine border",
+"style": [
+"Folio"
+],
+"category": "PRP",
+"kind": "source",
+"family": "FOL-PRP-RUL Rules and ornaments",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "FOL-PRC-PLT-001",
 "name": "Cover unmodified",
 "style": [
@@ -15696,7 +15906,7 @@
 },
 {
 "id": "FOL-PRC-PLT-008",
-"name": "Waveform-free structure diagram (sections as bars)",
+"name": "Song structure diagram (sections as bars, no waveform)",
 "style": [
 "Folio"
 ],
@@ -15800,6 +16010,21 @@
 "origin": "new"
 },
 {
+"id": "FOL-TYP-MST-007",
+"name": "Real magazine masthead pastiche",
+"style": [
+"Folio"
+],
+"category": "TYP",
+"kind": "component",
+"family": "FOL-TYP-MST Masthead systems",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "FOL-FRM-FRM-001",
 "name": "Hairline frame",
 "style": [
@@ -15831,7 +16056,7 @@
 },
 {
 "id": "FOL-FRM-FRM-003",
-"name": "White border with shadow-free mount",
+"name": "White border with flat mount",
 "style": [
 "Folio"
 ],
@@ -16008,6 +16233,21 @@
 "complexity": "S",
 "status": "approved",
 "origin": "new"
+},
+{
+"id": "FOL-LAY-MARG-009",
+"name": "Fake page numbers and citations",
+"style": [
+"Folio"
+],
+"category": "LAY",
+"kind": "component",
+"family": "FOL-LAY-MARG Marginalia",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
 },
 {
 "id": "FOL-MOT-MOT-001",
@@ -16625,6 +16865,36 @@
 "origin": "new"
 },
 {
+"id": "NOC-LGT-LIT-011",
+"name": "Police lights",
+"style": [
+"Nocturne"
+],
+"category": "LGT",
+"kind": "configuration",
+"family": "NOC-LGT-LIT Light sources",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "NOC-LGT-LIT-012",
+"name": "Disco ball",
+"style": [
+"Nocturne"
+],
+"category": "LGT",
+"kind": "configuration",
+"family": "NOC-LGT-LIT Light sources",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "NOC-ATM-WEA-001",
 "name": "Light drizzle on glass",
 "style": [
@@ -16730,6 +17000,21 @@
 "origin": "new"
 },
 {
+"id": "NOC-ATM-WEA-008",
+"name": "Lightning flashes",
+"style": [
+"Nocturne"
+],
+"category": "ATM",
+"kind": "configuration",
+"family": "NOC-ATM-WEA Weather and air layers",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "NOC-ATM-BOK-001",
 "name": "City lights warm",
 "style": [
@@ -16833,6 +17118,21 @@
 "complexity": "S",
 "status": "approved",
 "origin": "new"
+},
+{
+"id": "NOC-ATM-BOK-008",
+"name": "Heart-shaped bokeh",
+"style": [
+"Nocturne"
+],
+"category": "ATM",
+"kind": "configuration",
+"family": "NOC-ATM-BOK Bokeh arrangements",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
 },
 {
 "id": "NOC-SIL-SIL-001",
@@ -17013,6 +17313,21 @@
 "complexity": "S",
 "status": "approved",
 "origin": "new"
+},
+{
+"id": "NOC-SIL-SIL-013",
+"name": "Figure in a window",
+"style": [
+"Nocturne"
+],
+"category": "SIL",
+"kind": "source",
+"family": "NOC-SIL-SIL Room and place silhouettes",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
 },
 {
 "id": "NOC-PAL-GRN-001",
@@ -18816,7 +19131,7 @@
 },
 {
 "id": "LLS-PAL-PAL-010",
-"name": "Monochrome-free warm trio",
+"name": "Warm trio",
 "style": [
 "Liquid Light Show"
 ],
@@ -19595,6 +19910,36 @@
 "origin": "new"
 },
 {
+"id": "SKC-FRM-CRD-015",
+"name": "Business card",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SKC-FRM-CRD-016",
+"name": "Greeting card with printed motif",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
 "id": "SKC-SRF-GRD-001",
 "name": "Wooden desk",
 "style": [
@@ -19758,6 +20103,21 @@
 "complexity": "M",
 "status": "approved",
 "origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-012",
+"name": "School desk with graffiti",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
 },
 {
 "id": "SKC-OBJ-DOD-001",
@@ -20646,7 +21006,7 @@
 },
 {
 "id": "SKC-OBJ-DRK-022",
-"name": "Skull-free gravestone-free memorial candle",
+"name": "Memorial candle",
 "style": [
 "Sketch Cards"
 ],
@@ -20856,7 +21216,7 @@
 },
 {
 "id": "SKC-OBJ-DRK-036",
-"name": "Ashtray-free coffee cup gone cold",
+"name": "Coffee cup gone cold",
 "style": [
 "Sketch Cards"
 ],
@@ -20928,6 +21288,51 @@
 "complexity": "S",
 "status": "approved",
 "origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-041",
+"name": "Skull",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SKC-OBJ-DRK-042",
+"name": "Gun",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SKC-OBJ-DRK-043",
+"name": "Noose",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
 },
 {
 "id": "SKC-OBJ-EVD-001",
@@ -21528,6 +21933,36 @@
 "complexity": "S",
 "status": "approved",
 "origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-041",
+"name": "Branded sneaker",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SKC-OBJ-EVD-042",
+"name": "Second coffee cup",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "merged",
+"origin": "candidate"
 },
 {
 "id": "SKC-MOT-CRE-001",
@@ -28716,7 +29151,7 @@
 },
 {
 "id": "PAN-ENV-PLC-024",
-"name": "Temple-free old city lane",
+"name": "Old city lane",
 "style": [
 "Panels"
 ],
@@ -29016,7 +29451,7 @@
 },
 {
 "id": "PAN-OBJ-CLU-012",
-"name": "Lips-free mouth silhouette singing (side profile shadow)",
+"name": "Singer in side-profile shadow",
 "style": [
 "Panels"
 ],
@@ -29736,7 +30171,7 @@
 },
 {
 "id": "PAN-PRP-OBJ-018",
-"name": "Pill-free medicine cabinet",
+"name": "Bathroom cabinet",
 "style": [
 "Panels"
 ],
@@ -30486,7 +30921,7 @@
 },
 {
 "id": "PAN-ENV-NAT-002",
-"name": "Cherry-free blossom branch",
+"name": "Blossom branch",
 "style": [
 "Panels"
 ],
@@ -30576,7 +31011,7 @@
 },
 {
 "id": "PAN-ENV-NAT-008",
-"name": "Cicada-free summer trees",
+"name": "Summer trees in heat",
 "style": [
 "Panels"
 ],
@@ -30816,7 +31251,7 @@
 },
 {
 "id": "PAN-ENV-INT-012",
-"name": "Classroom-free empty desk",
+"name": "Empty desk by a window",
 "style": [
 "Panels"
 ],
@@ -34907,6 +35342,4161 @@
 "priority": "high",
 "complexity": "S",
 "status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TYP-VOI-001",
+"name": "Rounded heavy italic (Nunito 900, existing)",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "CVP-TYP-VOI Type voices",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TYP-VOI-002",
+"name": "Condensed grotesk (Bebas Neue)",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "CVP-TYP-VOI Type voices",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TYP-VOI-003",
+"name": "Heavy grotesk (Archivo Black)",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "CVP-TYP-VOI Type voices",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TYP-VOI-004",
+"name": "Serif display (DM Serif Display)",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "CVP-TYP-VOI Type voices",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TYP-VOI-005",
+"name": "Wide display (Syne 800)",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "CVP-TYP-VOI Type voices",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TYP-VOI-006",
+"name": "Retro script (Shrikhand)",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "CVP-TYP-VOI Type voices",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TYP-VOI-007",
+"name": "Devanagari heavy",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "CVP-TYP-VOI Type voices",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TYP-VOI-008",
+"name": "Tamil heavy",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "CVP-TYP-VOI Type voices",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TYP-VOI-009",
+"name": "Arabic and Hebrew heavy",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "CVP-TYP-VOI Type voices",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TYP-VOI-010",
+"name": "Graffiti voice",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "CVP-TYP-VOI Type voices",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "CVP-OBJ-ICN-001",
+"name": "heart",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-002",
+"name": "heartbreak",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-003",
+"name": "flame",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-004",
+"name": "sun",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-005",
+"name": "moon",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-006",
+"name": "star",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-007",
+"name": "sparkle",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-008",
+"name": "cloud",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-009",
+"name": "rain",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-010",
+"name": "wave",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-011",
+"name": "bolt",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-012",
+"name": "eye",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-013",
+"name": "wing",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-014",
+"name": "crown",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-015",
+"name": "diamond",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-016",
+"name": "car",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-017",
+"name": "road",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-018",
+"name": "clock",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-019",
+"name": "note",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-020",
+"name": "mic",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-021",
+"name": "flower",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-022",
+"name": "ghost",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-023",
+"name": "skull",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-024",
+"name": "cash",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-025",
+"name": "glass",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-026",
+"name": "city",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-027",
+"name": "signal",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-028",
+"name": "snowflake",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-029",
+"name": "wind",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-030",
+"name": "storm",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-031",
+"name": "hand",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-032",
+"name": "house",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-033",
+"name": "planet",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-034",
+"name": "link",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-035",
+"name": "tear",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-036",
+"name": "cassette",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-037",
+"name": "camera",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-038",
+"name": "leaf",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-039",
+"name": "key",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-040",
+"name": "rocket",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-041",
+"name": "party",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-042",
+"name": "bulb",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-043",
+"name": "tv",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-044",
+"name": "page",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-OBJ-ICN-045",
+"name": "burst",
+"style": [
+"Cover Pop"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "CVP-OBJ-ICN Icons (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "CVP-PRP-STK-001",
+"name": "Arrow (curved)",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-002",
+"name": "Arrow (straight, hand-drawn)",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-003",
+"name": "Double arrow",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-004",
+"name": "Circle scribble",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-005",
+"name": "Underline swoosh",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-006",
+"name": "Double underline",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-007",
+"name": "Bracket pair",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-008",
+"name": "Asterisk",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-009",
+"name": "Starburst badge (blank)",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-010",
+"name": "Exclamation mark",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-011",
+"name": "Question mark",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-012",
+"name": "Quotation marks",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-013",
+"name": "Tape strip",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-014",
+"name": "Ticket stub (blank)",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-015",
+"name": "Crown doodle",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-016",
+"name": "Halo ring",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-017",
+"name": "Sparkle cluster",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-018",
+"name": "Motion lines",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-019",
+"name": "Speech tail",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-020",
+"name": "Cursor pointer",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-021",
+"name": "Check mark",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-022",
+"name": "Cross mark",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-023",
+"name": "Plus signs",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-024",
+"name": "Zigzag",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-025",
+"name": "Squiggle",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-026",
+"name": "Heart outline doodle",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-027",
+"name": "Smile mark",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-028",
+"name": "Lightning stroke",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-029",
+"name": "Wavy line",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-030",
+"name": "Dotted loop",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-031",
+"name": "Sun rays",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-032",
+"name": "Music notes pair",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-033",
+"name": "Tiny stars",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-034",
+"name": "Confetti trio",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-035",
+"name": "Ribbon banner (blank)",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-036",
+"name": "Speed swoosh",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRP-STK-037",
+"name": "Emoji faces",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "CVP-PRP-STK-038",
+"name": "Second heart",
+"style": [
+"Cover Pop"
+],
+"category": "PRP",
+"kind": "source",
+"family": "CVP-PRP-STK Annotation stickers",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "merged",
+"origin": "candidate"
+},
+{
+"id": "CVP-PRC-CUT-001",
+"name": "Rounded rectangle cut",
+"style": [
+"Cover Pop"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "CVP-PRC-CUT Cover cut-out generator",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRC-CUT-002",
+"name": "Circle cut",
+"style": [
+"Cover Pop"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "CVP-PRC-CUT Cover cut-out generator",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRC-CUT-003",
+"name": "Torn edge cut",
+"style": [
+"Cover Pop"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "CVP-PRC-CUT Cover cut-out generator",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRC-CUT-004",
+"name": "Star cut",
+"style": [
+"Cover Pop"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "CVP-PRC-CUT Cover cut-out generator",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-001",
+"name": "Slow push to centre",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-002",
+"name": "Push to the brightest region",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-003",
+"name": "Pan left to right",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-004",
+"name": "Pan top to bottom",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-005",
+"name": "Diagonal drift",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-006",
+"name": "Saliency hop (cut between regions)",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-007",
+"name": "Pull back from detail",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-008",
+"name": "Edge crawl along the border",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-009",
+"name": "Zoom to the emptiest region",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-010",
+"name": "Two-region cut",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-011",
+"name": "Arc pan",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-012",
+"name": "Tilt up",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CAM-CRP-013",
+"name": "Rotation",
+"style": [
+"Cover Pop"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "CVP-CAM-CRP Crop and pan paths",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "CVP-GEO-BST-001",
+"name": "Starburst",
+"style": [
+"Cover Pop"
+],
+"category": "GEO",
+"kind": "component",
+"family": "CVP-GEO-BST Burst shapes",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-GEO-BST-002",
+"name": "Ray burst",
+"style": [
+"Cover Pop"
+],
+"category": "GEO",
+"kind": "component",
+"family": "CVP-GEO-BST Burst shapes",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-GEO-BST-003",
+"name": "Confetti burst",
+"style": [
+"Cover Pop"
+],
+"category": "GEO",
+"kind": "component",
+"family": "CVP-GEO-BST Burst shapes",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-GEO-BST-004",
+"name": "Ring pulse",
+"style": [
+"Cover Pop"
+],
+"category": "GEO",
+"kind": "component",
+"family": "CVP-GEO-BST Burst shapes",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-GEO-BST-005",
+"name": "Scribble burst",
+"style": [
+"Cover Pop"
+],
+"category": "GEO",
+"kind": "component",
+"family": "CVP-GEO-BST Burst shapes",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-GEO-BST-006",
+"name": "Shard burst",
+"style": [
+"Cover Pop"
+],
+"category": "GEO",
+"kind": "component",
+"family": "CVP-GEO-BST Burst shapes",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-GEO-BST-007",
+"name": "Halftone burst",
+"style": [
+"Cover Pop"
+],
+"category": "GEO",
+"kind": "component",
+"family": "CVP-GEO-BST Burst shapes",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-GEO-BST-008",
+"name": "Blob splash",
+"style": [
+"Cover Pop"
+],
+"category": "GEO",
+"kind": "component",
+"family": "CVP-GEO-BST Burst shapes",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-LAY-PHL-001",
+"name": "Single line",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-002",
+"name": "Stacked left",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-003",
+"name": "Stacked centre",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-004",
+"name": "Staggered steps",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-005",
+"name": "Giant word with small rest",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-006",
+"name": "Two words in opposite corners",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-007",
+"name": "Word ladder (one per row, growing)",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-008",
+"name": "Bottom band",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-009",
+"name": "Top band",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-010",
+"name": "Diagonal step",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-011",
+"name": "Chip word large, rest small",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-012",
+"name": "Around the focal region (split above and below)",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-013",
+"name": "Column in a field",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-014",
+"name": "Tight block (justified)",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-LAY-PHL-015",
+"name": "Words on an arc",
+"style": [
+"Cover Pop"
+],
+"category": "LAY",
+"kind": "configuration",
+"family": "CVP-LAY-PHL Phrase layouts",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "CVP-TYP-CHP-001",
+"name": "White chip (existing)",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "component",
+"family": "CVP-TYP-CHP Chip styles",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-TYP-CHP-002",
+"name": "Inverted block",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "component",
+"family": "CVP-TYP-CHP Chip styles",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-TYP-CHP-003",
+"name": "Outline chip",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "component",
+"family": "CVP-TYP-CHP Chip styles",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-TYP-CHP-004",
+"name": "Highlighter swipe",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "component",
+"family": "CVP-TYP-CHP Chip styles",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-TYP-CHP-005",
+"name": "Tape chip",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "component",
+"family": "CVP-TYP-CHP Chip styles",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-TYP-CHP-006",
+"name": "Rounded pill in hot colour",
+"style": [
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "component",
+"family": "CVP-TYP-CHP Chip styles",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-PAL-COL-001",
+"name": "Per-word from behind (existing)",
+"style": [
+"Cover Pop"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "CVP-PAL-COL Colour pickers",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-PAL-COL-002",
+"name": "Hot family lock per section",
+"style": [
+"Cover Pop"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "CVP-PAL-COL Colour pickers",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-PAL-COL-003",
+"name": "Complement of the region",
+"style": [
+"Cover Pop"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "CVP-PAL-COL Colour pickers",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-PAL-COL-004",
+"name": "White with outline (fallback)",
+"style": [
+"Cover Pop"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "CVP-PAL-COL Colour pickers",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-PAL-COL-005",
+"name": "Duotone from cover",
+"style": [
+"Cover Pop"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "CVP-PAL-COL Colour pickers",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-PRC-SAL-001",
+"name": "Emptiness map (existing 48x48 sample, extended)",
+"style": [
+"Cover Pop"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "CVP-PRC-SAL Cover analysis",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRC-SAL-002",
+"name": "Edge density map",
+"style": [
+"Cover Pop"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "CVP-PRC-SAL Cover analysis",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRC-SAL-003",
+"name": "Colour variance map",
+"style": [
+"Cover Pop"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "CVP-PRC-SAL Cover analysis",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-PRC-SAL-004",
+"name": "Busy-ness score (chooses composition)",
+"style": [
+"Cover Pop"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "CVP-PRC-SAL Cover analysis",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-ENV-FBK-001",
+"name": "Gradient mesh",
+"style": [
+"Cover Pop"
+],
+"category": "ENV",
+"kind": "generator",
+"family": "CVP-ENV-FBK Fallback stages",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-ENV-FBK-002",
+"name": "Duotone grain field",
+"style": [
+"Cover Pop"
+],
+"category": "ENV",
+"kind": "generator",
+"family": "CVP-ENV-FBK Fallback stages",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-ENV-FBK-003",
+"name": "Colour blocks",
+"style": [
+"Cover Pop"
+],
+"category": "ENV",
+"kind": "generator",
+"family": "CVP-ENV-FBK Fallback stages",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-ENV-FBK-004",
+"name": "Halftone field",
+"style": [
+"Cover Pop"
+],
+"category": "ENV",
+"kind": "generator",
+"family": "CVP-ENV-FBK Fallback stages",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-ENV-FBK-005",
+"name": "Big type pattern of the title",
+"style": [
+"Cover Pop"
+],
+"category": "ENV",
+"kind": "generator",
+"family": "CVP-ENV-FBK Fallback stages",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-MOT-PHM-001",
+"name": "Pop and settle (existing)",
+"style": [
+"Cover Pop"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "CVP-MOT-PHM Phrase motions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-MOT-PHM-002",
+"name": "Hand-off (existing)",
+"style": [
+"Cover Pop"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "CVP-MOT-PHM Phrase motions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-MOT-PHM-003",
+"name": "Slide in",
+"style": [
+"Cover Pop"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "CVP-MOT-PHM Phrase motions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-MOT-PHM-004",
+"name": "Scale punch",
+"style": [
+"Cover Pop"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "CVP-MOT-PHM Phrase motions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-MOT-PHM-005",
+"name": "Drop with settle",
+"style": [
+"Cover Pop"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "CVP-MOT-PHM Phrase motions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-MOT-PHM-006",
+"name": "Word-by-word build",
+"style": [
+"Cover Pop"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "CVP-MOT-PHM Phrase motions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-MOT-PHM-007",
+"name": "Fade (reduced motion)",
+"style": [
+"Cover Pop"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "CVP-MOT-PHM Phrase motions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "CVP-CMP-C1",
+"name": "Full cover phrase",
+"style": [
+"Cover Pop"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "CVP-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CMP-C2",
+"name": "Crop detail",
+"style": [
+"Cover Pop"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "CVP-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CMP-C3",
+"name": "Giant word",
+"style": [
+"Cover Pop"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "CVP-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CMP-C4",
+"name": "Colour field and cover",
+"style": [
+"Cover Pop"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "CVP-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-CMP-C5",
+"name": "Sticker collage",
+"style": [
+"Cover Pop"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "CVP-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-SCN-01",
+"name": "Full stage",
+"style": [
+"Cover Pop"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "CVP-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-SCN-02",
+"name": "Detail tour",
+"style": [
+"Cover Pop"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "CVP-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-SCN-03",
+"name": "Burst hook",
+"style": [
+"Cover Pop"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "CVP-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-SCN-04",
+"name": "Side field",
+"style": [
+"Cover Pop"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "CVP-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-SCN-05",
+"name": "Collage",
+"style": [
+"Cover Pop"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "CVP-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-SCN-06",
+"name": "Slow breathe",
+"style": [
+"Cover Pop"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "CVP-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-SCN-07",
+"name": "No-cover stage",
+"style": [
+"Cover Pop"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "CVP-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-SCN-08",
+"name": "Framed ending",
+"style": [
+"Cover Pop"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "CVP-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-SCN-X01",
+"name": "Mirror tiles",
+"style": [
+"Cover Pop"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "CVP-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "CVP-SCN-X02",
+"name": "Blurred cover backdrop",
+"style": [
+"Cover Pop"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "CVP-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "CVP-TRN-CROP-JUMP",
+"name": "Crop jump",
+"style": [
+"Cover Pop"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "CVP-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TRN-FULL-OUT",
+"name": "Zoom out to full",
+"style": [
+"Cover Pop"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "CVP-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TRN-BURST",
+"name": "Burst",
+"style": [
+"Cover Pop"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "CVP-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "CVP-TRN-RECEDE",
+"name": "Recede",
+"style": [
+"Cover Pop"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "CVP-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "MON-PRC-EXT-001",
+"name": "Sprite stack (layered text textures, any script)",
+"style": [
+"Monument"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "MON-PRC-EXT Extrusion methods",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "XL",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-PRC-EXT-002",
+"name": "Mesh extrusion from font outlines (Latin)",
+"style": [
+"Monument"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "MON-PRC-EXT Extrusion methods",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "XL",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-PRC-EXT-003",
+"name": "SDF raymarch of text texture (evaluation only)",
+"style": [
+"Monument"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "MON-PRC-EXT Extrusion methods",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "XL",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-PRC-EXT-004",
+"name": "Façade renderer (face lit, sides shaded contract)",
+"style": [
+"Monument"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "MON-PRC-EXT Extrusion methods",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "XL",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-PRC-EXT-005",
+"name": "Rise animator (blocks from the ground)",
+"style": [
+"Monument"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "MON-PRC-EXT Extrusion methods",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "XL",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-001",
+"name": "Canyon of walls",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-002",
+"name": "Spiral stair",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-003",
+"name": "Bridge",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-004",
+"name": "Plaza",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-005",
+"name": "Tunnel of ribs",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-006",
+"name": "Skyline street",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-007",
+"name": "Village of small blocks",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-008",
+"name": "Pier",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-009",
+"name": "Colonnade",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-010",
+"name": "Amphitheatre steps",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-011",
+"name": "Tower (words as floors)",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-012",
+"name": "Ramp",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-013",
+"name": "Arch gate",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-014",
+"name": "Terraces",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ENV-ARC-015",
+"name": "Maze",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "MON-ENV-ARC-016",
+"name": "Pyramid",
+"style": [
+"Monument"
+],
+"category": "ENV",
+"kind": "configuration",
+"family": "MON-ENV-ARC Architectural templates",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "MON-SRF-MAT-001",
+"name": "Raw concrete",
+"style": [
+"Monument"
+],
+"category": "SRF",
+"kind": "configuration",
+"family": "MON-SRF-MAT Materials",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SRF-MAT-002",
+"name": "Warm plaster",
+"style": [
+"Monument"
+],
+"category": "SRF",
+"kind": "configuration",
+"family": "MON-SRF-MAT Materials",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SRF-MAT-003",
+"name": "Glass",
+"style": [
+"Monument"
+],
+"category": "SRF",
+"kind": "configuration",
+"family": "MON-SRF-MAT Materials",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SRF-MAT-004",
+"name": "Paper",
+"style": [
+"Monument"
+],
+"category": "SRF",
+"kind": "configuration",
+"family": "MON-SRF-MAT Materials",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SRF-MAT-005",
+"name": "Light (emissive)",
+"style": [
+"Monument"
+],
+"category": "SRF",
+"kind": "configuration",
+"family": "MON-SRF-MAT Materials",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SRF-MAT-006",
+"name": "Sandstone",
+"style": [
+"Monument"
+],
+"category": "SRF",
+"kind": "configuration",
+"family": "MON-SRF-MAT Materials",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SRF-MAT-007",
+"name": "Weathered steel",
+"style": [
+"Monument"
+],
+"category": "SRF",
+"kind": "configuration",
+"family": "MON-SRF-MAT Materials",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SRF-MAT-008",
+"name": "Wood planks",
+"style": [
+"Monument"
+],
+"category": "SRF",
+"kind": "configuration",
+"family": "MON-SRF-MAT Materials",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SRF-MAT-009",
+"name": "Marble",
+"style": [
+"Monument"
+],
+"category": "SRF",
+"kind": "configuration",
+"family": "MON-SRF-MAT Materials",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SRF-MAT-010",
+"name": "Ice",
+"style": [
+"Monument"
+],
+"category": "SRF",
+"kind": "configuration",
+"family": "MON-SRF-MAT Materials",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SRF-MAT-011",
+"name": "Chrome",
+"style": [
+"Monument"
+],
+"category": "SRF",
+"kind": "configuration",
+"family": "MON-SRF-MAT Materials",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "MON-LGT-LGT-001",
+"name": "Overcast",
+"style": [
+"Monument"
+],
+"category": "LGT",
+"kind": "configuration",
+"family": "MON-LGT-LGT Lighting rigs",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-LGT-LGT-002",
+"name": "Golden hour",
+"style": [
+"Monument"
+],
+"category": "LGT",
+"kind": "configuration",
+"family": "MON-LGT-LGT Lighting rigs",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-LGT-LGT-003",
+"name": "Dawn",
+"style": [
+"Monument"
+],
+"category": "LGT",
+"kind": "configuration",
+"family": "MON-LGT-LGT Lighting rigs",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-LGT-LGT-004",
+"name": "Night projection",
+"style": [
+"Monument"
+],
+"category": "LGT",
+"kind": "configuration",
+"family": "MON-LGT-LGT Lighting rigs",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-LGT-LGT-005",
+"name": "Moonlight",
+"style": [
+"Monument"
+],
+"category": "LGT",
+"kind": "configuration",
+"family": "MON-LGT-LGT Lighting rigs",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-LGT-LGT-006",
+"name": "Soft day",
+"style": [
+"Monument"
+],
+"category": "LGT",
+"kind": "configuration",
+"family": "MON-LGT-LGT Lighting rigs",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-LGT-LGT-007",
+"name": "Dusk",
+"style": [
+"Monument"
+],
+"category": "LGT",
+"kind": "configuration",
+"family": "MON-LGT-LGT Lighting rigs",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-LGT-LGT-008",
+"name": "Emissive only",
+"style": [
+"Monument"
+],
+"category": "LGT",
+"kind": "configuration",
+"family": "MON-LGT-LGT Lighting rigs",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-MOT-PRJ-001",
+"name": "Line sweep",
+"style": [
+"Monument"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "MON-MOT-PRJ Projection sweeps",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-MOT-PRJ-002",
+"name": "Grid sweep",
+"style": [
+"Monument"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "MON-MOT-PRJ Projection sweeps",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-MOT-PRJ-003",
+"name": "Wipe",
+"style": [
+"Monument"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "MON-MOT-PRJ Projection sweeps",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-MOT-PRJ-004",
+"name": "Scanline",
+"style": [
+"Monument"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "MON-MOT-PRJ Projection sweeps",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-MOT-PRJ-005",
+"name": "Outline trace",
+"style": [
+"Monument"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "MON-MOT-PRJ Projection sweeps",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-MOT-PRJ-006",
+"name": "Flood",
+"style": [
+"Monument"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "MON-MOT-PRJ Projection sweeps",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CAM-CAM-001",
+"name": "Walk toward",
+"style": [
+"Monument"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "MON-CAM-CAM Camera paths",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CAM-CAM-002",
+"name": "Walk beside a wall",
+"style": [
+"Monument"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "MON-CAM-CAM Camera paths",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CAM-CAM-003",
+"name": "Climb",
+"style": [
+"Monument"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "MON-CAM-CAM Camera paths",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CAM-CAM-004",
+"name": "Walk across",
+"style": [
+"Monument"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "MON-CAM-CAM Camera paths",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CAM-CAM-005",
+"name": "Stop and look up",
+"style": [
+"Monument"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "MON-CAM-CAM Camera paths",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CAM-CAM-006",
+"name": "Fly through",
+"style": [
+"Monument"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "MON-CAM-CAM Camera paths",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CAM-CAM-007",
+"name": "Corner turn",
+"style": [
+"Monument"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "MON-CAM-CAM Camera paths",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CAM-CAM-008",
+"name": "Rise above",
+"style": [
+"Monument"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "MON-CAM-CAM Camera paths",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CAM-CAM-009",
+"name": "Aerial pull-back",
+"style": [
+"Monument"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "MON-CAM-CAM Camera paths",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CAM-CAM-010",
+"name": "Orbit swoop",
+"style": [
+"Monument"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "MON-CAM-CAM Camera paths",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "MON-ATM-FOG-001",
+"name": "Grey",
+"style": [
+"Monument"
+],
+"category": "ATM",
+"kind": "configuration",
+"family": "MON-ATM-FOG Fog and sky",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ATM-FOG-002",
+"name": "Warm",
+"style": [
+"Monument"
+],
+"category": "ATM",
+"kind": "configuration",
+"family": "MON-ATM-FOG Fog and sky",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ATM-FOG-003",
+"name": "Blue",
+"style": [
+"Monument"
+],
+"category": "ATM",
+"kind": "configuration",
+"family": "MON-ATM-FOG Fog and sky",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ATM-FOG-004",
+"name": "Cover hue",
+"style": [
+"Monument"
+],
+"category": "ATM",
+"kind": "configuration",
+"family": "MON-ATM-FOG Fog and sky",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ATM-FOG-005",
+"name": "Dark",
+"style": [
+"Monument"
+],
+"category": "ATM",
+"kind": "configuration",
+"family": "MON-ATM-FOG Fog and sky",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ATM-FOG-006",
+"name": "Sea mist",
+"style": [
+"Monument"
+],
+"category": "ATM",
+"kind": "configuration",
+"family": "MON-ATM-FOG Fog and sky",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-ATM-FOG-007",
+"name": "White",
+"style": [
+"Monument"
+],
+"category": "ATM",
+"kind": "configuration",
+"family": "MON-ATM-FOG Fog and sky",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-PLT-GRD-001",
+"name": "Plain concrete",
+"style": [
+"Monument"
+],
+"category": "PLT",
+"kind": "configuration",
+"family": "MON-PLT-GRD Ground planes",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-PLT-GRD-002",
+"name": "Water mirror",
+"style": [
+"Monument"
+],
+"category": "PLT",
+"kind": "configuration",
+"family": "MON-PLT-GRD Ground planes",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-PLT-GRD-003",
+"name": "Sand",
+"style": [
+"Monument"
+],
+"category": "PLT",
+"kind": "configuration",
+"family": "MON-PLT-GRD Ground planes",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-PLT-GRD-004",
+"name": "Salt flat",
+"style": [
+"Monument"
+],
+"category": "PLT",
+"kind": "configuration",
+"family": "MON-PLT-GRD Ground planes",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-PLT-GRD-005",
+"name": "Reflective tile",
+"style": [
+"Monument"
+],
+"category": "PLT",
+"kind": "configuration",
+"family": "MON-PLT-GRD Ground planes",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CMP-CTY-001",
+"name": "Grid city (sections as blocks)",
+"style": [
+"Monument"
+],
+"category": "CMP",
+"kind": "configuration",
+"family": "MON-CMP-CTY City layout rules",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CMP-CTY-002",
+"name": "Avenue (linear)",
+"style": [
+"Monument"
+],
+"category": "CMP",
+"kind": "configuration",
+"family": "MON-CMP-CTY City layout rules",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CMP-CTY-003",
+"name": "Radial (hooks at the centre)",
+"style": [
+"Monument"
+],
+"category": "CMP",
+"kind": "configuration",
+"family": "MON-CMP-CTY City layout rules",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CMP-CTY-004",
+"name": "Spiral",
+"style": [
+"Monument"
+],
+"category": "CMP",
+"kind": "configuration",
+"family": "MON-CMP-CTY City layout rules",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CMP-CTY-005",
+"name": "River split (verses and choruses on two banks)",
+"style": [
+"Monument"
+],
+"category": "CMP",
+"kind": "configuration",
+"family": "MON-CMP-CTY City layout rules",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-TYP-TYF-001",
+"name": "Latin heavy (Archivo Black)",
+"style": [
+"Monument"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "MON-TYP-TYF Façade type settings",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-TYP-TYF-002",
+"name": "Latin condensed (Anton)",
+"style": [
+"Monument"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "MON-TYP-TYF Façade type settings",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-TYP-TYF-003",
+"name": "Devanagari sprite stack",
+"style": [
+"Monument"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "MON-TYP-TYF Façade type settings",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-TYP-TYF-004",
+"name": "Tamil sprite stack",
+"style": [
+"Monument"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "MON-TYP-TYF Façade type settings",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-TYP-TYF-005",
+"name": "Arabic and Hebrew sprite stack",
+"style": [
+"Monument"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "MON-TYP-TYF Façade type settings",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CMP-RIS-001",
+"name": "Riso Riot style outline (identity, assets reused from Sketch Cards print processes and Konstrukt overprint)",
+"style": [
+"Monument"
+],
+"category": "CMP",
+"kind": "configuration",
+"family": "MON-CMP-RIS Reserve: Riso Riot outline",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CMP-C1",
+"name": "Façade ahead",
+"style": [
+"Monument"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "MON-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CMP-C2",
+"name": "Wall walk",
+"style": [
+"Monument"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "MON-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CMP-C3",
+"name": "Look up",
+"style": [
+"Monument"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "MON-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-CMP-C4",
+"name": "Aerial",
+"style": [
+"Monument"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "MON-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SCN-01",
+"name": "Canyon of walls",
+"style": [
+"Monument"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "MON-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SCN-02",
+"name": "Spiral stair",
+"style": [
+"Monument"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "MON-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SCN-03",
+"name": "Bridge",
+"style": [
+"Monument"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "MON-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SCN-04",
+"name": "Plaza",
+"style": [
+"Monument"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "MON-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SCN-05",
+"name": "Tunnel",
+"style": [
+"Monument"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "MON-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SCN-06",
+"name": "Glass city night",
+"style": [
+"Monument"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "MON-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SCN-07",
+"name": "Paper town",
+"style": [
+"Monument"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "MON-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SCN-08",
+"name": "Pier into the sea",
+"style": [
+"Monument"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "MON-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SCN-09",
+"name": "The song city",
+"style": [
+"Monument"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "MON-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-SCN-X01",
+"name": "Famous skyline",
+"style": [
+"Monument"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "MON-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "MON-SCN-X02",
+"name": "Space station",
+"style": [
+"Monument"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "MON-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "MON-TRN-CORNER",
+"name": "Corner turn",
+"style": [
+"Monument"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "MON-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-TRN-RISE-ABOVE",
+"name": "Rise above",
+"style": [
+"Monument"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "MON-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-TRN-FOG-OUT",
+"name": "Fog out",
+"style": [
+"Monument"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "MON-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
+"origin": "new"
+},
+{
+"id": "MON-TRN-AERIAL",
+"name": "Aerial city",
+"style": [
+"Monument"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "MON-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "deferred",
 "origin": "new"
 }
 ]

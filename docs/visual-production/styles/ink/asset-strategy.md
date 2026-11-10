@@ -174,4 +174,15 @@ Phase 1 estimated about 250 assets. Phase 2 approves 188 live entries: about 80 
 
 ## Shared assets this style depends on
 
-- none
+10 shared entries (counted once in the shared manifest, not in this style's total):
+
+- `SHR-PRC-GEN-001` Film grain (generator)
+- `SHR-PRC-GEN-004` Paper fibre and tooth (generator)
+- `SHR-PRC-GEN-009` Seeded noise fields (generator)
+- `SHR-PRC-GEN-010` Baked flow-field sampler (generator)
+- `SHR-PRC-GEN-011` Distance-along-stroke reveal (generator)
+- `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
+- `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-021` Noto Naskh Arabic (dependency)
+- `SHR-TYP-FNT-025` Kalam (dependency)
+- `SHR-TYP-FNT-026` Kavivanar (dependency)

@@ -159,7 +159,7 @@ Readability is the main check (7:1 active line); monotony review over a full 5-m
 
 **8. Why does each asset exist?** Each family's purpose: Light sources: The light is the style. Weather and air layers: Life in the dark without action. Bokeh arrangements: Distance and place without detail. Room and place silhouettes: Place the light in a space. Grain profiles: Keeps darkness alive without texture. Light palettes: Song adaptation by temperature. The rest in asset-strategy.md; each manifest entry carries its own purpose.
 
-**9. Which assets are redundant?** 2 candidates were rejected or merged during review: Fireplace (merged: Too close to Candle and to Glyph Cinema's fire; a second flame scene adds no new structure.); Neon reflection street (rejected: Signage territory.)
+**9. Which assets are redundant?** 7 candidates were rejected or merged during review: Police lights (rejected: Flash risk and a crime connotation.); Disco ball (rejected: Party energy outside the style; Signage and Cover Pop serve showy songs.); Lightning flashes (rejected: Flash guard (V5).); Heart-shaped bokeh (rejected: Cliché; ordinary bokeh carries the mood.); Figure in a window (rejected: People silhouettes are Panels and Paper Theatre territory; Nocturne stays unpeopled.); Fireplace (merged: Too close to Candle and to Glyph Cinema's fire; a second flame scene adds no new structure.); Neon reflection street (rejected: Signage territory.)
 
 **10. How do assets combine?** Layer order: darkness ground (tinted) > far plane (bokeh, horizon) > room or window silhouettes > light source and pool > weather (rain plane, dust, snow, fog) > text > grain whisper. Required: One light; darkness; text.
 

@@ -78,7 +78,7 @@ Companion files: [typography](typography.md), [composition](composition.md), [mo
 | 3. Estimated word timing | Left-to-right scribble across the first 40% of the line, no per-word timing claims. |
 | 4. No reliable timestamps | Cards change every 4 s with the lyric split into card-sized phrases; the pile grows. |
 | 5. Instrumental sections | Drawings animate: creatures dance on the desk (Acid choreography absorbed), tied to line rate or beat; after 10 s a "break card" with the song title. |
-| 6. Missing audio analysis (no beat grid, no energy) | Creatures dance on a fixed slow tempo-free loop; complete without beats. |
+| 6. Missing audio analysis (no beat grid, no energy) | Creatures dance on a fixed slow loop; complete without beats. |
 
 **Beat (only when present).** Beat grid: creatures dance on beats; the held card sways on bars.
 
@@ -154,13 +154,13 @@ Card hierarchy review on 50 random lines; dark register review on 5 dark songs; 
 
 **5. How does it animate?** Hard cuts and card drops: a new card lands on top, the old one slides under. Drops 280-420 ms; scribble 120-250 ms per word; cuts on line starts.
 
-**6. How does it respond to lyrics and music?** Authored words: Authored words scribble in on cue (marker stroke reveal per word, 120-250 ms). Lines: The card drops on the line start with all words present, or words scribble in evenly across the first 40% of the line. No beat grid: Creatures dance on a fixed slow tempo-free loop; complete without beats.
+**6. How does it respond to lyrics and music?** Authored words: Authored words scribble in on cue (marker stroke reveal per word, 120-250 ms). Lines: The card drops on the line start with all words present, or words scribble in evenly across the first 40% of the line. No beat grid: Creatures dance on a fixed slow loop; complete without beats.
 
 **7. What exact assets must be produced?** 228 entries in asset-manifest.json across 14 asset families plus composition, scene and transition specs: Card types (14); Grounds (11); Sketch doodles (existing) (24); Art library generators (existing) (14); Dark register drawings (40); Everyday object drawings (40); Creature choreographies (from Acid) (10); Hands (5); Print processes (7); Font sets (existing) (12); Pill kinds (existing) (5); Big word treatments (existing) (5); Borders (existing) (12); Desk tools (6).
 
 **8. Why does each asset exist?** Each family's purpose: Card types: The card type changes the object and the layout space. Grounds: Place and the pile's home. Sketch doodles (existing): The existing hand-made sketch drawings kept as the cute register. Art library generators (existing): Variety of small drawings; reclassified in Phase 2 as 14 generators, not 346 originals. Dark register drawings: Lets the style serve grief, anger and rawness (Phase 1 risk: cuteness ceiling). Everyday object drawings: Personal, specific objects that make cards feel like a life (new; the art library is mostly generic). The rest in asset-strategy.md; each manifest entry carries its own purpose.
 
-**9. Which assets are redundant?** 2 candidates were rejected or merged during review: Chalkboard (rejected: School cliché; overlaps the dark sketchbook register.); Phone notes app (rejected: Screenlife territory.)
+**9. Which assets are redundant?** 10 candidates were rejected or merged during review: Business card (rejected: Too small for the type hierarchy.); Greeting card with printed motif (rejected: Printed commercial art; cards are hand-made.); School desk with graffiti (rejected: Invented text competes with the lyric.); Skull (rejected: Too strong a symbol for most dark songs; the register expresses loss with objects.); Gun (rejected: Violence imagery outside the style.); Noose (rejected: Self-harm imagery: refused.); Branded sneaker (rejected: Brand likeness.); Second coffee cup (merged: Duplicate of Coffee cup with steam.) ...see review-register.md.
 
 **10. How do assets combine?** Layer order: ground surface > tools and props at the edges > pile (baked) > top card paper (card type) > print process texture > doodle drawing > lettering (big, pill, thin) > tape and pins > hand (held scenes) > post: soft shadow, light gradient. Required: Ground, card type, print process, lettering roles.
 

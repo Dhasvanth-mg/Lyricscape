@@ -2,77 +2,78 @@
  "schema": "lyricscape.counts/1.0.0",
  "note": "Live = not rejected or merged. Kinds are reported separately; generated variations, colour variations, animation frames and runtime combinations are never counted.",
  "total": {
-  "total_entries": 2314,
-  "approved": 2135,
-  "revised": 81,
-  "deferred": 16,
-  "rejected": 66,
-  "merged": 16,
+  "total_entries": 2620,
+  "approved": 2281,
+  "revised": 107,
+  "deferred": 108,
+  "rejected": 106,
+  "merged": 18,
   "by_kind": {
-   "generator": 74,
-   "source": 986,
+   "generator": 92,
+   "source": 1067,
    "dependency": 35,
-   "component": 285,
-   "configuration": 624,
-   "composition": 228
+   "component": 299,
+   "configuration": 749,
+   "composition": 254
   },
   "by_category": {
-   "PRC": 143,
+   "PRC": 156,
    "TEX": 88,
-   "TYP": 185,
+   "TYP": 205,
    "UIK": 74,
    "FRM": 59,
-   "ENV": 172,
-   "PRP": 122,
+   "ENV": 191,
+   "PRP": 158,
    "REV": 10,
-   "MOT": 127,
-   "CAM": 22,
-   "LAY": 152,
-   "CMP": 81,
-   "SCN": 147,
-   "TRN": 87,
-   "SRF": 43,
-   "PAL": 90,
+   "MOT": 140,
+   "CAM": 43,
+   "LAY": 166,
+   "CMP": 96,
+   "SCN": 164,
+   "TRN": 95,
+   "SRF": 53,
+   "PAL": 95,
    "SIL": 169,
-   "OBJ": 263,
-   "LGT": 20,
-   "GEO": 67,
+   "OBJ": 308,
+   "LGT": 28,
+   "GEO": 75,
    "PTH": 58,
-   "ATM": 47,
-   "MSK": 6
+   "ATM": 54,
+   "MSK": 6,
+   "PLT": 5
   },
   "by_method": {
-   "shader": 74,
-   "procedural-code": 208,
+   "shader": 84,
+   "procedural-code": 240,
    "licensed-font": 35,
-   "authored-data": 966,
-   "handcrafted-vector": 637,
+   "authored-data": 1107,
+   "handcrafted-vector": 718,
    "hybrid": 140,
    "photographed": 102,
    "handcrafted-raster": 70
   },
   "by_priority": {
-   "essential": 843,
-   "high": 1138,
-   "medium": 245,
+   "essential": 907,
+   "high": 1298,
+   "medium": 285,
    "optional": 6
   },
   "by_complexity": {
    "L": 83,
-   "S": 1017,
-   "M": 1118,
-   "XL": 14
+   "S": 1242,
+   "M": 1152,
+   "XL": 19
   },
   "by_origin": {
-   "existing-reuse": 54,
-   "existing-rework": 66,
-   "new": 2112
+   "existing-reuse": 99,
+   "existing-rework": 92,
+   "new": 2305
   },
-  "live": 2232
+  "live": 2496
  },
  "shared_vs_exclusive": {
   "shared": 57,
-  "exclusive": 2175
+  "exclusive": 2439
  },
  "per_style": {
   "Shared": {
@@ -209,11 +210,11 @@
    "live": 159
   },
   "Paper Theatre": {
-   "total_entries": 243,
+   "total_entries": 250,
    "approved": 241,
    "revised": 0,
    "deferred": 0,
-   "rejected": 2,
+   "rejected": 9,
    "merged": 0,
    "by_kind": {
     "source": 181,
@@ -300,11 +301,11 @@
    "live": 131
   },
   "Celluloid": {
-   "total_entries": 121,
+   "total_entries": 126,
    "approved": 120,
    "revised": 0,
    "deferred": 0,
-   "rejected": 1,
+   "rejected": 6,
    "merged": 0,
    "by_kind": {
     "source": 55,
@@ -349,11 +350,11 @@
    "live": 120
   },
   "Folio": {
-   "total_entries": 131,
+   "total_entries": 135,
    "approved": 127,
    "revised": 0,
    "deferred": 0,
-   "rejected": 3,
+   "rejected": 7,
    "merged": 1,
    "by_kind": {
     "component": 56,
@@ -394,11 +395,11 @@
    "live": 127
   },
   "Nocturne": {
-   "total_entries": 83,
+   "total_entries": 88,
    "approved": 81,
    "revised": 0,
    "deferred": 0,
-   "rejected": 1,
+   "rejected": 6,
    "merged": 1,
    "by_kind": {
     "configuration": 45,
@@ -481,12 +482,12 @@
    "live": 107
   },
   "Sketch Cards": {
-   "total_entries": 230,
+   "total_entries": 238,
    "approved": 168,
    "revised": 60,
    "deferred": 0,
-   "rejected": 2,
-   "merged": 0,
+   "rejected": 9,
+   "merged": 1,
    "by_kind": {
     "source": 140,
     "generator": 14,
@@ -728,6 +729,101 @@
     "new": 131
    },
    "live": 131
+  },
+  "Cover Pop": {
+   "total_entries": 179,
+   "approved": 146,
+   "revised": 26,
+   "deferred": 0,
+   "rejected": 6,
+   "merged": 1,
+   "by_kind": {
+    "configuration": 51,
+    "source": 81,
+    "generator": 13,
+    "component": 14,
+    "composition": 13
+   },
+   "by_category": {
+    "TYP": 15,
+    "OBJ": 45,
+    "PRP": 36,
+    "PRC": 8,
+    "CAM": 12,
+    "GEO": 8,
+    "LAY": 14,
+    "PAL": 5,
+    "ENV": 5,
+    "MOT": 7,
+    "CMP": 5,
+    "SCN": 8,
+    "TRN": 4
+   },
+   "by_method": {
+    "authored-data": 64,
+    "handcrafted-vector": 81,
+    "procedural-code": 27
+   },
+   "by_priority": {
+    "essential": 55,
+    "high": 77,
+    "medium": 40
+   },
+   "by_complexity": {
+    "S": 151,
+    "M": 21
+   },
+   "by_origin": {
+    "new": 101,
+    "existing-reuse": 45,
+    "existing-rework": 26
+   },
+   "live": 172
+  },
+  "Monument": {
+   "total_entries": 98,
+   "approved": 0,
+   "revised": 0,
+   "deferred": 92,
+   "rejected": 6,
+   "merged": 0,
+   "by_kind": {
+    "generator": 5,
+    "configuration": 74,
+    "composition": 13
+   },
+   "by_category": {
+    "PRC": 5,
+    "ENV": 14,
+    "SRF": 10,
+    "LGT": 8,
+    "MOT": 6,
+    "CAM": 9,
+    "ATM": 7,
+    "PLT": 5,
+    "CMP": 10,
+    "TYP": 5,
+    "SCN": 9,
+    "TRN": 4
+   },
+   "by_method": {
+    "procedural-code": 5,
+    "authored-data": 77,
+    "shader": 10
+   },
+   "by_priority": {
+    "essential": 9,
+    "high": 83
+   },
+   "by_complexity": {
+    "XL": 5,
+    "S": 74,
+    "M": 13
+   },
+   "by_origin": {
+    "new": 92
+   },
+   "live": 92
   }
  },
  "by_family": {
@@ -746,6 +842,21 @@
   "CEL-TEX-TAP Tape plates": 5,
   "CEL-TRN Transitions": 7,
   "CEL-TYP-REG Title registers": 6,
+  "CVP-CAM-CRP Crop and pan paths": 12,
+  "CVP-CMP Composition families": 5,
+  "CVP-ENV-FBK Fallback stages": 5,
+  "CVP-GEO-BST Burst shapes": 8,
+  "CVP-LAY-PHL Phrase layouts": 14,
+  "CVP-MOT-PHM Phrase motions": 7,
+  "CVP-OBJ-ICN Icons (existing)": 45,
+  "CVP-PAL-COL Colour pickers": 5,
+  "CVP-PRC-CUT Cover cut-out generator": 4,
+  "CVP-PRC-SAL Cover analysis": 4,
+  "CVP-PRP-STK Annotation stickers": 36,
+  "CVP-SCN Scene families": 8,
+  "CVP-TRN Transitions": 4,
+  "CVP-TYP-CHP Chip styles": 6,
+  "CVP-TYP-VOI Type voices": 9,
   "FOL-CMP Composition families": 8,
   "FOL-FRM-FRM Plate frames": 6,
   "FOL-LAY-LAY Page templates": 36,
@@ -818,6 +929,20 @@
   "LLS-TEX-FLW Baked flow fields": 10,
   "LLS-TRN Transitions": 5,
   "LLS-TYP-SLD Slide treatments": 6,
+  "MON-ATM-FOG Fog and sky": 7,
+  "MON-CAM-CAM Camera paths": 9,
+  "MON-CMP Composition families": 4,
+  "MON-CMP-CTY City layout rules": 5,
+  "MON-CMP-RIS Reserve: Riso Riot outline": 1,
+  "MON-ENV-ARC Architectural templates": 14,
+  "MON-LGT-LGT Lighting rigs": 8,
+  "MON-MOT-PRJ Projection sweeps": 6,
+  "MON-PLT-GRD Ground planes": 5,
+  "MON-PRC-EXT Extrusion methods": 5,
+  "MON-SCN Scene families": 9,
+  "MON-SRF-MAT Materials": 10,
+  "MON-TRN Transitions": 4,
+  "MON-TYP-TYF Façade type settings": 5,
   "NOC-ATM-BOK Bokeh arrangements": 7,
   "NOC-ATM-WEA Weather and air layers": 7,
   "NOC-CMP Composition families": 6,
@@ -952,7 +1077,9 @@
   "Signage": 12,
   "Ink": 11,
   "Panels": 12,
-  "Phosphor": 10
+  "Phosphor": 10,
+  "Cover Pop": 8,
+  "Monument": 9
  },
  "composition_families": {
   "Screenlife": 7,
@@ -967,6 +1094,8 @@
   "Signage": 6,
   "Ink": 5,
   "Panels": 6,
-  "Phosphor": 5
+  "Phosphor": 5,
+  "Cover Pop": 5,
+  "Monument": 4
  }
 }

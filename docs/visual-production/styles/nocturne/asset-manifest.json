@@ -314,6 +314,68 @@
    "gate": null
   },
   {
+   "id": "NOC-LGT-LIT-011",
+   "name": "Police lights",
+   "style": [
+    "Nocturne"
+   ],
+   "category": "LGT",
+   "kind": "configuration",
+   "family": "NOC-LGT-LIT Light sources",
+   "description": "red and blue flashing",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Flash risk and a crime connotation.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
+   "id": "NOC-LGT-LIT-012",
+   "name": "Disco ball",
+   "style": [
+    "Nocturne"
+   ],
+   "category": "LGT",
+   "kind": "configuration",
+   "family": "NOC-LGT-LIT Light sources",
+   "description": "rotating mirror ball",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Party energy outside the style; Signage and Cover Pop serve showy songs.",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "NOC-ATM-WEA-001",
    "name": "Light drizzle on glass",
    "style": [
@@ -531,6 +593,37 @@
    "gate": null
   },
   {
+   "id": "NOC-ATM-WEA-008",
+   "name": "Lightning flashes",
+   "style": [
+    "Nocturne"
+   ],
+   "category": "ATM",
+   "kind": "configuration",
+   "family": "NOC-ATM-WEA Weather and air layers",
+   "description": "full-frame lightning",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Flash guard (V5).",
+   "merged_into": null,
+   "origin": "candidate"
+  },
+  {
    "id": "NOC-ATM-BOK-001",
    "name": "City lights warm",
    "style": [
@@ -746,6 +839,37 @@
    "origin": "new",
    "variations_not_counted": "",
    "gate": null
+  },
+  {
+   "id": "NOC-ATM-BOK-008",
+   "name": "Heart-shaped bokeh",
+   "style": [
+    "Nocturne"
+   ],
+   "category": "ATM",
+   "kind": "configuration",
+   "family": "NOC-ATM-BOK Bokeh arrangements",
+   "description": "shaped aperture hearts",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "Cliché; ordinary bokeh carries the mood.",
+   "merged_into": null,
+   "origin": "candidate"
   },
   {
    "id": "NOC-SIL-SIL-001",
@@ -1118,6 +1242,37 @@
    "origin": "new",
    "variations_not_counted": "",
    "gate": null
+  },
+  {
+   "id": "NOC-SIL-SIL-013",
+   "name": "Figure in a window",
+   "style": [
+    "Nocturne"
+   ],
+   "category": "SIL",
+   "kind": "source",
+   "family": "NOC-SIL-SIL Room and place silhouettes",
+   "description": "a person silhouette at a window",
+   "purpose": null,
+   "references": null,
+   "production_method": null,
+   "format": null,
+   "dimensions": null,
+   "layer_structure": null,
+   "animation": null,
+   "colour_behaviour": null,
+   "scene_compatibility": null,
+   "asset_compatibility": null,
+   "exclusion_rules": null,
+   "responsive_behaviour": null,
+   "performance": null,
+   "priority": null,
+   "complexity": null,
+   "acceptance_criteria": null,
+   "status": "rejected",
+   "review_reason": "People silhouettes are Panels and Paper Theatre territory; Nocturne stays unpeopled.",
+   "merged_into": null,
+   "origin": "candidate"
   },
   {
    "id": "NOC-PAL-GRN-001",
@@ -1868,6 +2023,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Text inside central 80% and inside the light pool.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -1902,6 +2058,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 60%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -1934,6 +2091,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Column inside 8% margins.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -1967,6 +2125,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 80%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -2000,6 +2159,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Text above the bottom 20%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -2031,6 +2191,7 @@
    "complexity": "M",
    "acceptance_criteria": "Lyric box stays in the safe area (Central 70%.) at 1280x720, 720x1280, 1080x1080 and 390x844; focal hierarchy reads in a 160 px thumbnail; differs from sibling families in at least focal type or depth structure.",
    "status": "approved",
+   "gate": null,
    "origin": "new"
   },
   {
@@ -2068,6 +2229,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "light": "lamp",
@@ -2113,6 +2275,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "light": "streetlight beyond",
@@ -2158,6 +2321,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "light": "streetlights",
@@ -2178,7 +2342,7 @@
    "kind": "composition",
    "family": "NOC-SCN Scene families",
    "description": "A single candle flame, flickering gently (under flash limits).",
-   "purpose": "Roles: quiet, verse. Chosen by: love, prayer-free intimacy, very calm.",
+   "purpose": "Roles: quiet, verse. Chosen by: love, quiet intimacy, very calm.",
    "references": "Phase 1 dossier C.7",
    "production_method": "authored-data",
    "format": "JSON scene-family spec, see scene-composition-system.md",
@@ -2201,6 +2365,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "light": "candle",
@@ -2245,6 +2410,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "light": "daylight",
@@ -2289,6 +2455,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "light": "moon",
@@ -2334,6 +2501,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "light": "passing streetlights",
@@ -2379,6 +2547,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "light": "passing lights",
@@ -2423,6 +2592,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "light": "streetlight cone",
@@ -2442,7 +2612,7 @@
    "category": "SCN",
    "kind": "composition",
    "family": "NOC-SCN Scene families",
-   "description": "A face-free glow from below in darkness (no interface).",
+   "description": "A glow from below in darkness (no face, no interface).",
    "purpose": "Roles: verse, quiet. Chosen by: late night, messages, insomnia.",
    "references": "Phase 1 dossier C.7",
    "production_method": "authored-data",
@@ -2465,6 +2635,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "light": "screen glow",
@@ -2507,6 +2678,7 @@
    "complexity": "M",
    "acceptance_criteria": "A viewer can describe it differently from every other scene family of the style; holds a full section (8-26 s) without looking static; passes readability at all test sizes; golden frames recorded for intro, line, hook and break states.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "attributes": {
     "light": "soft strip",
@@ -2606,6 +2778,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (1 s fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "1 s fade."
   },
@@ -2636,6 +2809,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (1 s fade.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "1 s fade."
   },
@@ -2666,6 +2840,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Light dims and returns in place.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Light dims and returns in place."
   },
@@ -2696,6 +2871,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Same.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Same."
   },
@@ -2726,6 +2902,7 @@
    "complexity": "S",
    "acceptance_criteria": "Never overlaps an active lyric unless the spec says so; reduced-motion variant reviewed (Off.); deterministic in export (pure function of t); flash limits respected.",
    "status": "approved",
+   "gate": null,
    "origin": "new",
    "reduced_motion": "Off."
   }

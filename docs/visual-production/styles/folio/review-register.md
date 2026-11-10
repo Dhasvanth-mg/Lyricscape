@@ -58,6 +58,7 @@ Style 6 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | FOL-TYP-PAIR-010 | Noto Serif Tamil + Noto Sans Tamil | approved | Distinct: Display and text pairings per publication. |
 | FOL-TYP-PAIR-011 | Noto Naskh Arabic + Noto Sans Arabic | approved | Distinct: Display and text pairings per publication. |
 | FOL-TYP-PAIR-012 | Frank Ruhl Libre + Noto Sans Hebrew | approved | Distinct: Display and text pairings per publication. |
+| FOL-TYP-PAIR-013 | Script plus slab | rejected | Clashes with the editorial restraint; script faces live in Cover Pop. |
 | FOL-SRF-PAPR-001 | Cream uncoated | approved | Distinct: Photographed papers. |
 | FOL-SRF-PAPR-002 | Newsprint | approved | Distinct: Photographed papers. |
 | FOL-SRF-PAPR-003 | White coated | approved | Distinct: Photographed papers. |
@@ -80,6 +81,7 @@ Style 6 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | FOL-PRP-RUL-012 | Corner brackets | approved | Distinct: Original typographic ornaments and rules. |
 | FOL-PRP-RUL-013 | Column end mark | approved | Distinct: Original typographic ornaments and rules. |
 | FOL-PRP-RUL-014 | Programme star rule | approved | Distinct: Original typographic ornaments and rules. |
+| FOL-PRP-RUL-015 | Art nouveau vine border | rejected | Period ornament overload; the style uses rules, not borders. |
 | FOL-PRC-PLT-001 | Cover unmodified | approved | Distinct: How images enter the page. |
 | FOL-PRC-PLT-002 | Cover detail crop (unmodified pixels) | approved | Distinct: How images enter the page. |
 | FOL-PRC-PLT-003 | Newsprint halftone of the cover | approved | Distinct: How images enter the page. |
@@ -87,16 +89,17 @@ Style 6 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | FOL-PRC-PLT-005 | Typographic plate (the hook set as an image) | approved | Distinct: How images enter the page. |
 | FOL-PRC-PLT-006 | Ink blot plate (procedural symmetric blot) | approved | Distinct: How images enter the page. |
 | FOL-PRC-PLT-007 | Contour plate (procedural map-like lines) | approved | Distinct: How images enter the page. |
-| FOL-PRC-PLT-008 | Waveform-free structure diagram (sections as bars) | approved | Distinct: How images enter the page. |
+| FOL-PRC-PLT-008 | Song structure diagram (sections as bars, no waveform) | approved | Distinct: How images enter the page. |
 | FOL-TYP-MST-001 | The [Title] Gazette pattern | approved | Distinct: Rules that build an original masthead from the song title. |
 | FOL-TYP-MST-002 | [Title] Quarterly pattern | approved | Distinct: Rules that build an original masthead from the song title. |
 | FOL-TYP-MST-003 | Programme title from album | approved | Distinct: Rules that build an original masthead from the song title. |
 | FOL-TYP-MST-004 | Issue line (year and number) | approved | Distinct: Rules that build an original masthead from the song title. |
 | FOL-TYP-MST-005 | Dateline from song duration | approved | Distinct: Rules that build an original masthead from the song title. |
 | FOL-TYP-MST-006 | Edition label (morning, evening, late) from mood | approved | Distinct: Rules that build an original masthead from the song title. |
+| FOL-TYP-MST-007 | Real magazine masthead pastiche | rejected | Brand likeness. |
 | FOL-FRM-FRM-001 | Hairline frame | approved | Distinct: Editorial frames for plates. |
 | FOL-FRM-FRM-002 | Thick black frame | approved | Distinct: Editorial frames for plates. |
-| FOL-FRM-FRM-003 | White border with shadow-free mount | approved | Distinct: Editorial frames for plates. |
+| FOL-FRM-FRM-003 | White border with flat mount | approved | Distinct: Editorial frames for plates. |
 | FOL-FRM-FRM-004 | Rounded corner frame (programme) | approved | Distinct: Editorial frames for plates. |
 | FOL-FRM-FRM-005 | Torn edge (loud) | approved | Distinct: Editorial frames for plates. |
 | FOL-FRM-FRM-006 | Postcard border | approved | Distinct: Editorial frames for plates. |
@@ -108,6 +111,7 @@ Style 6 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | FOL-LAY-MARG-006 | Repeat count mark | approved | Distinct: Small editorial elements made from song data. |
 | FOL-LAY-MARG-007 | Line numbers (every fifth line) | approved | Distinct: Small editorial elements made from song data. |
 | FOL-LAY-MARG-008 | Byline (artist) | approved | Distinct: Small editorial elements made from song data. |
+| FOL-LAY-MARG-009 | Fake page numbers and citations | rejected | Invented data presented as fact. |
 | FOL-MOT-MOT-001 | Slide into slot | approved | Distinct: Restrained text and page motions. |
 | FOL-MOT-MOT-002 | Ink darkening per word | approved | Distinct: Restrained text and page motions. |
 | FOL-MOT-MOT-003 | Flow into body column | approved | Distinct: Restrained text and page motions. |

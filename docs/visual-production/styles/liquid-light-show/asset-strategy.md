@@ -93,4 +93,16 @@ Phase 1 estimated about 140 originals. This plan approves 107 live entries; the 
 
 ## Shared assets this style depends on
 
-- none
+11 shared entries (counted once in the shared manifest, not in this style's total):
+
+- `SHR-PRC-GEN-001` Film grain (generator)
+- `SHR-PRC-GEN-008` Glow and bloom (generator)
+- `SHR-PRC-GEN-009` Seeded noise fields (generator)
+- `SHR-PRC-GEN-010` Baked flow-field sampler (generator)
+- `SHR-PRC-GEN-014` Cover derivation (generator)
+- `SHR-TYP-FNT-006` Bebas Neue (dependency)
+- `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
+- `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-020` Noto Sans Arabic (dependency)
+- `SHR-TYP-FNT-022` Noto Sans Hebrew (dependency)
+- `SHR-TYP-FNT-029` Shrikhand (dependency)

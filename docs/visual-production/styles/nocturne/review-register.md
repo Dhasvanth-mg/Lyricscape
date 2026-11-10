@@ -18,6 +18,8 @@ Style 7 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | NOC-LGT-LIT-008 | Halo | approved | Distinct: abstract round glow for single words |
 | NOC-LGT-LIT-009 | Soft strip | approved | Distinct: vertical light behind the column |
 | NOC-LGT-LIT-010 | Distant city glow | approved | Distinct: horizon glow |
+| NOC-LGT-LIT-011 | Police lights | rejected | Flash risk and a crime connotation. |
+| NOC-LGT-LIT-012 | Disco ball | rejected | Party energy outside the style; Signage and Cover Pop serve showy songs. |
 | NOC-ATM-WEA-001 | Light drizzle on glass | approved | Distinct: Slow atmospheric layers. |
 | NOC-ATM-WEA-002 | Heavy rain on glass with runnels | approved | Distinct: Slow atmospheric layers. |
 | NOC-ATM-WEA-003 | Condensation and wiped streak | approved | Distinct: Slow atmospheric layers. |
@@ -25,6 +27,7 @@ Style 7 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | NOC-ATM-WEA-005 | Low fog | approved | Distinct: Slow atmospheric layers. |
 | NOC-ATM-WEA-006 | Snowfall | approved | Distinct: Slow atmospheric layers. |
 | NOC-ATM-WEA-007 | Mist breath on cold glass | approved | Distinct: Slow atmospheric layers. |
+| NOC-ATM-WEA-008 | Lightning flashes | rejected | Flash guard (V5). |
 | NOC-ATM-BOK-001 | City lights warm | approved | Distinct: Out-of-focus light fields. |
 | NOC-ATM-BOK-002 | Traffic red and white | approved | Distinct: Out-of-focus light fields. |
 | NOC-ATM-BOK-003 | Harbour lights on water | approved | Distinct: Out-of-focus light fields. |
@@ -32,6 +35,7 @@ Style 7 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | NOC-ATM-BOK-005 | Distant windows | approved | Distinct: Out-of-focus light fields. |
 | NOC-ATM-BOK-006 | Passing train lights streaks | approved | Distinct: Out-of-focus light fields. |
 | NOC-ATM-BOK-007 | Stars | approved | Distinct: Out-of-focus light fields. |
+| NOC-ATM-BOK-008 | Heart-shaped bokeh | rejected | Cliché; ordinary bokeh carries the mood. |
 | NOC-SIL-SIL-001 | Window frame with mullions | approved | Distinct: Soft dark silhouettes at frame edges, slightly out of focus. |
 | NOC-SIL-SIL-002 | Curtain edge | approved | Distinct: Soft dark silhouettes at frame edges, slightly out of focus. |
 | NOC-SIL-SIL-003 | Lamp shade | approved | Distinct: Soft dark silhouettes at frame edges, slightly out of focus. |
@@ -44,6 +48,7 @@ Style 7 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | NOC-SIL-SIL-010 | Street lamp post | approved | Distinct: Soft dark silhouettes at frame edges, slightly out of focus. |
 | NOC-SIL-SIL-011 | Pier posts | approved | Distinct: Soft dark silhouettes at frame edges, slightly out of focus. |
 | NOC-SIL-SIL-012 | Bare branches | approved | Distinct: Soft dark silhouettes at frame edges, slightly out of focus. |
+| NOC-SIL-SIL-013 | Figure in a window | rejected | People silhouettes are Panels and Paper Theatre territory; Nocturne stays unpeopled. |
 | NOC-PAL-GRN-001 | Fine dark grain | approved | Distinct: Whisper grain. |
 | NOC-PAL-GRN-002 | Warm grain (lamp scenes) | approved | Distinct: Whisper grain. |
 | NOC-PAL-GRN-003 | Cool grain (moon scenes) | approved | Distinct: Whisper grain. |
@@ -82,7 +87,7 @@ Style 7 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | NOC-SCN-07 | Car at night | approved | Distinct: Inside a car; streetlights sweep across. |
 | NOC-SCN-08 | Train window | approved | Distinct: Lights streak past a train window. |
 | NOC-SCN-09 | Snow under a streetlight | approved | Distinct: Snow falling through a lamp's cone. |
-| NOC-SCN-10 | Screen glow | approved | Distinct: A face-free glow from below in darkness (no interface). |
+| NOC-SCN-10 | Screen glow | approved | Distinct: A glow from below in darkness (no face, no interface). |
 | NOC-SCN-11 | Reading room | approved | Distinct: The rolling column on darkness: the reading mode. |
 | NOC-SCN-X01 | Fireplace | merged | Too close to Candle and to Glyph Cinema's fire; a second flame scene adds no new structure. |
 | NOC-SCN-X02 | Neon reflection street | rejected | Signage territory. |

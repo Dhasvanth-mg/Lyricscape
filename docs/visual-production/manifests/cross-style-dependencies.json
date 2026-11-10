@@ -1,0 +1,949 @@
+{
+ "schema": "lyricscape.deps/1",
+ "note": "Shared assets are counted once (in the shared manifest). Systems are code modules one style builds first and others reuse; the production order in production-batches.json follows them.",
+ "systems": [
+  {
+   "system": "Character-cell pass",
+   "built_by": "Glyph Cinema",
+   "used_by": [
+    "Signage",
+    "Screenlife"
+   ],
+   "note": "Signage cell hardware and Screenlife terminals render through it."
+  },
+  {
+   "system": "Layout solver (roles in a box)",
+   "built_by": "Sketch Cards (existing card solver)",
+   "used_by": [
+    "Folio",
+    "Cover Pop",
+    "Panels"
+   ],
+   "note": "Folio page templates, Cover Pop phrase layouts and Panels balloons extend the same role solver."
+  },
+  {
+   "system": "Balloon solver",
+   "built_by": "Panels",
+   "used_by": [
+    "Screenlife"
+   ],
+   "note": "Screenlife chat bubbles can reuse balloon fitting."
+  },
+  {
+   "system": "Camera grammar (cuts, pushes, handheld)",
+   "built_by": "Screenlife",
+   "used_by": [
+    "Celluloid",
+    "Panels",
+    "Signage",
+    "Monument"
+   ],
+   "note": "One camera module with per-style limits."
+  },
+  {
+   "system": "Beat choreography steps",
+   "built_by": "Konstrukt",
+   "used_by": [
+    "Phosphor",
+    "Signage",
+    "Sketch Cards"
+   ],
+   "note": "Bar and beat stepping with confidence fallback."
+  },
+  {
+   "system": "Parallax layer system with hinged sprites",
+   "built_by": "Paper Theatre",
+   "used_by": [
+    "Nocturne",
+    "Panels"
+   ],
+   "note": "Nocturne silhouettes and Panels splash parallax."
+  },
+  {
+   "system": "Weather and air layers",
+   "built_by": "Nocturne",
+   "used_by": [
+    "Signage",
+    "Ink",
+    "Panels"
+   ],
+   "note": "Rain, fog and haze configurations over shared generators."
+  },
+  {
+   "system": "Persistence buffer",
+   "built_by": "Phosphor",
+   "used_by": [
+    "Glyph Cinema",
+    "Liquid Light Show"
+   ],
+   "note": "Trails for glyph persistence and fluid afterglow."
+  },
+  {
+   "system": "Stroke reveal",
+   "built_by": "Ink (gated)",
+   "used_by": [
+    "Sketch Cards",
+    "Phosphor"
+   ],
+   "note": "Sketch Cards scribble reveal uses the generic wipe until INK-G1; Phosphor writes along paths with the same timing model."
+  },
+  {
+   "system": "Cover analysis (saliency)",
+   "built_by": "Cover Pop",
+   "used_by": [
+    "Folio",
+    "Nocturne",
+    "Monument"
+   ],
+   "note": "Folio plate crops, Nocturne colour, Monument fog."
+  },
+  {
+   "system": "Film stock and grain profiles",
+   "built_by": "Celluloid",
+   "used_by": [
+    "Nocturne",
+    "Paper Theatre"
+   ],
+   "note": "Shared grain profiles over SHR film grain."
+  },
+  {
+   "system": "Print processes (riso, photocopy, dither)",
+   "built_by": "Sketch Cards",
+   "used_by": [
+    "Panels",
+    "Konstrukt",
+    "Riso Riot (reserve)"
+   ],
+   "note": "Over shared halftone, dither and overprint generators."
+  }
+ ],
+ "shared_by_style": {
+  "Screenlife": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-006",
+   "SHR-PRC-GEN-007",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-014",
+   "SHR-TYP-FNT-001",
+   "SHR-TYP-FNT-002",
+   "SHR-TYP-FNT-008",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-020",
+   "SHR-TYP-FNT-022",
+   "SHR-TYP-FNT-024"
+  ],
+  "Glyph Cinema": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-002",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-015",
+   "SHR-TYP-FNT-002",
+   "SHR-TYP-FNT-011",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-020",
+   "SHR-TYP-FNT-022",
+   "SHR-TYP-FNT-032",
+   "SHR-TYP-FNT-033",
+   "SHR-TYP-FNT-034"
+  ],
+  "Paper Theatre": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-004",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-012",
+   "SHR-TYP-FNT-010",
+   "SHR-TYP-FNT-011",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-018",
+   "SHR-TYP-FNT-019",
+   "SHR-TYP-FNT-021",
+   "SHR-TYP-FNT-023"
+  ],
+  "Konstrukt": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-003",
+   "SHR-PRC-GEN-004",
+   "SHR-PRC-GEN-005",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-014",
+   "SHR-PRC-GEN-016",
+   "SHR-TYP-FNT-003",
+   "SHR-TYP-FNT-004",
+   "SHR-TYP-FNT-005",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-020",
+   "SHR-TYP-FNT-022"
+  ],
+  "Celluloid": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-008",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-011",
+   "SHR-PRC-GEN-014",
+   "SHR-TYP-FNT-001",
+   "SHR-TYP-FNT-007",
+   "SHR-TYP-FNT-011",
+   "SHR-TYP-FNT-012",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-018",
+   "SHR-TYP-FNT-019",
+   "SHR-TYP-FNT-021",
+   "SHR-TYP-FNT-023"
+  ],
+  "Folio": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-004",
+   "SHR-PRC-GEN-005",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-014",
+   "SHR-TYP-FNT-001",
+   "SHR-TYP-FNT-007",
+   "SHR-TYP-FNT-008",
+   "SHR-TYP-FNT-009",
+   "SHR-TYP-FNT-015",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-018",
+   "SHR-TYP-FNT-019",
+   "SHR-TYP-FNT-021",
+   "SHR-TYP-FNT-023",
+   "SHR-TYP-FNT-028"
+  ],
+  "Nocturne": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-006",
+   "SHR-PRC-GEN-007",
+   "SHR-PRC-GEN-008",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-012",
+   "SHR-PRC-GEN-013",
+   "SHR-PRC-GEN-014",
+   "SHR-TYP-FNT-001",
+   "SHR-TYP-FNT-007",
+   "SHR-TYP-FNT-008",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-018",
+   "SHR-TYP-FNT-019",
+   "SHR-TYP-FNT-021",
+   "SHR-TYP-FNT-023"
+  ],
+  "Liquid Light Show": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-008",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-010",
+   "SHR-PRC-GEN-014",
+   "SHR-TYP-FNT-006",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-020",
+   "SHR-TYP-FNT-022",
+   "SHR-TYP-FNT-029"
+  ],
+  "Sketch Cards": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-002",
+   "SHR-PRC-GEN-003",
+   "SHR-PRC-GEN-004",
+   "SHR-PRC-GEN-005",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-011",
+   "SHR-TYP-FNT-012",
+   "SHR-TYP-FNT-013",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-024",
+   "SHR-TYP-FNT-025",
+   "SHR-TYP-FNT-026"
+  ],
+  "Signage": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-006",
+   "SHR-PRC-GEN-007",
+   "SHR-PRC-GEN-008",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-013",
+   "SHR-PRC-GEN-015",
+   "SHR-PRC-GEN-016",
+   "SHR-TYP-FNT-003",
+   "SHR-TYP-FNT-006",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-020",
+   "SHR-TYP-FNT-022",
+   "SHR-TYP-FNT-032",
+   "SHR-TYP-FNT-034",
+   "SHR-TYP-FNT-035"
+  ],
+  "Ink": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-004",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-010",
+   "SHR-PRC-GEN-011",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-021",
+   "SHR-TYP-FNT-025",
+   "SHR-TYP-FNT-026"
+  ],
+  "Panels": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-002",
+   "SHR-PRC-GEN-003",
+   "SHR-PRC-GEN-004",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-016",
+   "SHR-TYP-FNT-013",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-020",
+   "SHR-TYP-FNT-022",
+   "SHR-TYP-FNT-025",
+   "SHR-TYP-FNT-026",
+   "SHR-TYP-FNT-027"
+  ],
+  "Phosphor": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-008",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-016",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-030",
+   "SHR-TYP-FNT-031"
+  ],
+  "Cover Pop": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-003",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-014",
+   "SHR-TYP-FNT-001",
+   "SHR-TYP-FNT-005",
+   "SHR-TYP-FNT-010",
+   "SHR-TYP-FNT-014",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-020",
+   "SHR-TYP-FNT-022"
+  ],
+  "Monument": [
+   "SHR-PRC-GEN-001",
+   "SHR-PRC-GEN-009",
+   "SHR-PRC-GEN-012",
+   "SHR-PRC-GEN-013",
+   "SHR-TYP-FNT-003",
+   "SHR-TYP-FNT-005",
+   "SHR-TYP-FNT-016",
+   "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-020",
+   "SHR-TYP-FNT-022"
+  ]
+ },
+ "shared_assets": [
+  {
+   "id": "SHR-PRC-GEN-001",
+   "name": "Film grain",
+   "kind": "generator",
+   "used_by": [
+    "Screenlife",
+    "Glyph Cinema",
+    "Paper Theatre",
+    "Konstrukt",
+    "Celluloid",
+    "Folio",
+    "Nocturne",
+    "Liquid Light Show",
+    "Sketch Cards",
+    "Signage",
+    "Ink",
+    "Panels",
+    "Phosphor",
+    "Cover Pop",
+    "Monument"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-002",
+   "name": "Ordered and blue-noise dither",
+   "kind": "generator",
+   "used_by": [
+    "Glyph Cinema",
+    "Sketch Cards",
+    "Panels"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-003",
+   "name": "Halftone and screentone",
+   "kind": "generator",
+   "used_by": [
+    "Panels",
+    "Sketch Cards",
+    "Konstrukt",
+    "Cover Pop"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-004",
+   "name": "Paper fibre and tooth",
+   "kind": "generator",
+   "used_by": [
+    "Folio",
+    "Ink",
+    "Sketch Cards",
+    "Paper Theatre",
+    "Konstrukt",
+    "Panels"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-005",
+   "name": "Overprint multiply",
+   "kind": "generator",
+   "used_by": [
+    "Konstrukt",
+    "Sketch Cards",
+    "Folio"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-006",
+   "name": "Bokeh discs",
+   "kind": "generator",
+   "used_by": [
+    "Nocturne",
+    "Screenlife",
+    "Signage"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-007",
+   "name": "Rain on glass",
+   "kind": "generator",
+   "used_by": [
+    "Nocturne",
+    "Signage",
+    "Screenlife"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-008",
+   "name": "Glow and bloom",
+   "kind": "generator",
+   "used_by": [
+    "Signage",
+    "Phosphor",
+    "Liquid Light Show",
+    "Nocturne",
+    "Celluloid"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-009",
+   "name": "Seeded noise fields",
+   "kind": "generator",
+   "used_by": [
+    "Screenlife",
+    "Glyph Cinema",
+    "Paper Theatre",
+    "Konstrukt",
+    "Celluloid",
+    "Folio",
+    "Nocturne",
+    "Liquid Light Show",
+    "Sketch Cards",
+    "Signage",
+    "Ink",
+    "Panels",
+    "Phosphor",
+    "Cover Pop",
+    "Monument"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-010",
+   "name": "Baked flow-field sampler",
+   "kind": "generator",
+   "used_by": [
+    "Liquid Light Show",
+    "Ink"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-011",
+   "name": "Distance-along-stroke reveal",
+   "kind": "generator",
+   "used_by": [
+    "Ink",
+    "Sketch Cards",
+    "Celluloid"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-012",
+   "name": "Depth fog and haze",
+   "kind": "generator",
+   "used_by": [
+    "Monument",
+    "Paper Theatre",
+    "Nocturne"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-013",
+   "name": "Wet ground reflection",
+   "kind": "generator",
+   "used_by": [
+    "Signage",
+    "Nocturne",
+    "Monument"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-014",
+   "name": "Cover derivation",
+   "kind": "generator",
+   "used_by": [
+    "Cover Pop",
+    "Screenlife",
+    "Folio",
+    "Konstrukt",
+    "Liquid Light Show",
+    "Celluloid",
+    "Nocturne"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-015",
+   "name": "Character-cell pass",
+   "kind": "generator",
+   "used_by": [
+    "Glyph Cinema",
+    "Signage"
+   ]
+  },
+  {
+   "id": "SHR-PRC-GEN-016",
+   "name": "Thick line renderer",
+   "kind": "generator",
+   "used_by": [
+    "Phosphor",
+    "Signage",
+    "Konstrukt",
+    "Panels"
+   ]
+  },
+  {
+   "id": "SHR-TEX-NOI-001",
+   "name": "Blue noise 64",
+   "kind": "source",
+   "used_by": []
+  },
+  {
+   "id": "SHR-TEX-NOI-002",
+   "name": "Blue noise 128 RGBA",
+   "kind": "source",
+   "used_by": []
+  },
+  {
+   "id": "SHR-TEX-NOI-003",
+   "name": "Value noise 256",
+   "kind": "source",
+   "used_by": []
+  },
+  {
+   "id": "SHR-TEX-NOI-004",
+   "name": "Curl noise 256",
+   "kind": "source",
+   "used_by": []
+  },
+  {
+   "id": "SHR-TEX-NOI-005",
+   "name": "Paper tooth 512",
+   "kind": "source",
+   "used_by": []
+  },
+  {
+   "id": "SHR-TEX-NOI-006",
+   "name": "Fibre direction 512",
+   "kind": "source",
+   "used_by": []
+  },
+  {
+   "id": "SHR-TYP-FNT-001",
+   "name": "Inter Variable",
+   "kind": "dependency",
+   "used_by": [
+    "Screenlife",
+    "Folio",
+    "Celluloid",
+    "Nocturne",
+    "Cover Pop"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-002",
+   "name": "JetBrains Mono Variable",
+   "kind": "dependency",
+   "used_by": [
+    "Screenlife",
+    "Glyph Cinema"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-003",
+   "name": "Archivo Variable",
+   "kind": "dependency",
+   "used_by": [
+    "Konstrukt",
+    "Monument",
+    "Signage"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-004",
+   "name": "Space Grotesk Variable",
+   "kind": "dependency",
+   "used_by": [
+    "Konstrukt"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-005",
+   "name": "Anton",
+   "kind": "dependency",
+   "used_by": [
+    "Monument",
+    "Konstrukt",
+    "Cover Pop"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-006",
+   "name": "Bebas Neue",
+   "kind": "dependency",
+   "used_by": [
+    "Signage",
+    "Liquid Light Show"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-007",
+   "name": "Cormorant Garamond",
+   "kind": "dependency",
+   "used_by": [
+    "Nocturne",
+    "Celluloid",
+    "Folio"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-008",
+   "name": "Instrument Serif",
+   "kind": "dependency",
+   "used_by": [
+    "Folio",
+    "Screenlife",
+    "Nocturne"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-009",
+   "name": "Playfair Display Variable",
+   "kind": "dependency",
+   "used_by": [
+    "Folio"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-010",
+   "name": "DM Serif Display",
+   "kind": "dependency",
+   "used_by": [
+    "Paper Theatre",
+    "Cover Pop"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-011",
+   "name": "Special Elite",
+   "kind": "dependency",
+   "used_by": [
+    "Celluloid",
+    "Glyph Cinema",
+    "Paper Theatre"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-012",
+   "name": "Permanent Marker",
+   "kind": "dependency",
+   "used_by": [
+    "Sketch Cards",
+    "Celluloid"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-013",
+   "name": "Bangers",
+   "kind": "dependency",
+   "used_by": [
+    "Panels",
+    "Sketch Cards"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-014",
+   "name": "Nunito 900 and 900 italic",
+   "kind": "dependency",
+   "used_by": [
+    "Cover Pop"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-015",
+   "name": "Syne Variable",
+   "kind": "dependency",
+   "used_by": [
+    "Folio"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-016",
+   "name": "Noto Sans Devanagari Variable",
+   "kind": "dependency",
+   "used_by": [
+    "Screenlife",
+    "Glyph Cinema",
+    "Paper Theatre",
+    "Konstrukt",
+    "Celluloid",
+    "Folio",
+    "Nocturne",
+    "Liquid Light Show",
+    "Sketch Cards",
+    "Signage",
+    "Ink",
+    "Panels",
+    "Phosphor",
+    "Cover Pop",
+    "Monument"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-017",
+   "name": "Noto Sans Tamil Variable",
+   "kind": "dependency",
+   "used_by": [
+    "Screenlife",
+    "Glyph Cinema",
+    "Paper Theatre",
+    "Konstrukt",
+    "Celluloid",
+    "Folio",
+    "Nocturne",
+    "Liquid Light Show",
+    "Sketch Cards",
+    "Signage",
+    "Ink",
+    "Panels",
+    "Phosphor",
+    "Cover Pop",
+    "Monument"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-018",
+   "name": "Noto Serif Devanagari",
+   "kind": "dependency",
+   "used_by": [
+    "Folio",
+    "Nocturne",
+    "Celluloid",
+    "Paper Theatre"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-019",
+   "name": "Noto Serif Tamil",
+   "kind": "dependency",
+   "used_by": [
+    "Folio",
+    "Nocturne",
+    "Celluloid",
+    "Paper Theatre"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-020",
+   "name": "Noto Sans Arabic",
+   "kind": "dependency",
+   "used_by": [
+    "Screenlife",
+    "Konstrukt",
+    "Signage",
+    "Panels",
+    "Cover Pop",
+    "Monument",
+    "Liquid Light Show",
+    "Glyph Cinema"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-021",
+   "name": "Noto Naskh Arabic",
+   "kind": "dependency",
+   "used_by": [
+    "Folio",
+    "Nocturne",
+    "Celluloid",
+    "Paper Theatre",
+    "Ink"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-022",
+   "name": "Noto Sans Hebrew",
+   "kind": "dependency",
+   "used_by": [
+    "Screenlife",
+    "Konstrukt",
+    "Signage",
+    "Panels",
+    "Cover Pop",
+    "Monument",
+    "Liquid Light Show",
+    "Glyph Cinema"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-023",
+   "name": "Frank Ruhl Libre",
+   "kind": "dependency",
+   "used_by": [
+    "Folio",
+    "Nocturne",
+    "Celluloid",
+    "Paper Theatre"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-024",
+   "name": "Caveat",
+   "kind": "dependency",
+   "used_by": [
+    "Screenlife",
+    "Sketch Cards"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-025",
+   "name": "Kalam",
+   "kind": "dependency",
+   "used_by": [
+    "Sketch Cards",
+    "Ink",
+    "Panels"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-026",
+   "name": "Kavivanar",
+   "kind": "dependency",
+   "used_by": [
+    "Sketch Cards",
+    "Ink",
+    "Panels"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-027",
+   "name": "Comic Neue",
+   "kind": "dependency",
+   "used_by": [
+    "Panels"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-028",
+   "name": "Newsreader",
+   "kind": "dependency",
+   "used_by": [
+    "Folio"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-029",
+   "name": "Shrikhand",
+   "kind": "dependency",
+   "used_by": [
+    "Liquid Light Show"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-030",
+   "name": "Relief SingleLine",
+   "kind": "dependency",
+   "used_by": [
+    "Phosphor"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-031",
+   "name": "Hershey vector fonts",
+   "kind": "dependency",
+   "used_by": [
+    "Phosphor"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-032",
+   "name": "VT323",
+   "kind": "dependency",
+   "used_by": [
+    "Glyph Cinema",
+    "Signage"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-033",
+   "name": "Bedstead",
+   "kind": "dependency",
+   "used_by": [
+    "Glyph Cinema"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-034",
+   "name": "GNU Unifont",
+   "kind": "dependency",
+   "used_by": [
+    "Signage",
+    "Glyph Cinema"
+   ]
+  },
+  {
+   "id": "SHR-TYP-FNT-035",
+   "name": "Silkscreen",
+   "kind": "dependency",
+   "used_by": [
+    "Signage"
+   ]
+  }
+ ],
+ "used_only_through_shared_generators": [
+  "SHR-TEX-NOI-001",
+  "SHR-TEX-NOI-002",
+  "SHR-TEX-NOI-003",
+  "SHR-TEX-NOI-004",
+  "SHR-TEX-NOI-005",
+  "SHR-TEX-NOI-006"
+ ]
+}

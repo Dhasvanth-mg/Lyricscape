@@ -17,7 +17,7 @@ Production methods: authored-data 91, handcrafted-vector 14, photographed 8, pro
 
 ## Why this scale
 
-Phase 1 estimated about 220 originals. This plan approves about 130 entries plus 36 page templates as its core: each template is a different page. Folio's richness is typographic; adding more ornaments would not add variety.
+Phase 1 estimated about 220 originals. This plan approves 127 live entries, with the 36 page templates as its core: each template is a different page. Folio's richness is typographic; adding more ornaments would not add variety.
 
 ## Families
 

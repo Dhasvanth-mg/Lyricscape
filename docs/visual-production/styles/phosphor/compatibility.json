@@ -1,0 +1,457 @@
+{
+ "style": "Phosphor",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "PHO-CMP-C1": {
+   "name": "Centre writing",
+   "layers": "field, graticule, beam, trail, bloom",
+   "safe_area": "Central 84%.",
+   "assets": "SFN, BCL"
+  },
+  "PHO-CMP-C2": {
+   "name": "Figure",
+   "layers": "field, beam",
+   "safe_area": "Central.",
+   "assets": "PTH, CRV"
+  },
+  "PHO-CMP-C3": {
+   "name": "Word and figure",
+   "layers": "field, figure, beam",
+   "safe_area": "Word central 84%.",
+   "assets": "PTH, SFN"
+  },
+  "PHO-CMP-C4": {
+   "name": "Symmetry",
+   "layers": "field, curve, word",
+   "safe_area": "Word central 80%.",
+   "assets": "CRV, SYM"
+  },
+  "PHO-CMP-C5": {
+   "name": "Light painting room",
+   "layers": "room plate, trail, dust",
+   "safe_area": "Central 84%.",
+   "assets": "FUR rooms, BCL warm"
+  }
+ },
+ "scene_families": {
+  "PHO-SCN-01": {
+   "name": "Green scope",
+   "roles": [
+    "verse"
+   ],
+   "compositions": [
+    "PHO-CMP-C1",
+    "PHO-CMP-C3"
+   ],
+   "required": [
+    "PHO-TYP-SFN",
+    "PHO-FRM-FUR",
+    "PHO-PTH-PTH"
+   ],
+   "optional": [
+    "PHO-GEO-CRV"
+   ],
+   "attributes": {
+    "register": "scope",
+    "phosphor": "green",
+    "furniture": "graticule",
+    "curves": "simple",
+    "symmetry": "none",
+    "mood": "cool"
+   }
+  },
+  "PHO-SCN-02": {
+   "name": "Lissajous chorus",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "PHO-CMP-C4"
+   ],
+   "required": [
+    "PHO-GEO-CRV",
+    "PHO-GEO-SYM"
+   ],
+   "optional": [
+    "PHO-FRM-FUR"
+   ],
+   "attributes": {
+    "register": "scope",
+    "phosphor": "blue-white",
+    "furniture": "bezel",
+    "curves": "Lissajous",
+    "symmetry": "rotational",
+    "mood": "hypnotic"
+   }
+  },
+  "PHO-SCN-03": {
+   "name": "Amber terminal",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "PHO-CMP-C1",
+    "PHO-CMP-C2"
+   ],
+   "required": [
+    "PHO-TYP-SFN",
+    "PHO-FRM-FUR"
+   ],
+   "optional": [
+    "PHO-PTH-PTH"
+   ],
+   "attributes": {
+    "register": "scope",
+    "phosphor": "amber",
+    "furniture": "curved glass",
+    "curves": "figures",
+    "symmetry": "none",
+    "mood": "warm retro"
+   }
+  },
+  "PHO-SCN-04": {
+   "name": "Light painting",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "PHO-CMP-C5",
+    "PHO-CMP-C3"
+   ],
+   "required": [
+    "PHO-FRM-FUR",
+    "PHO-PTH-PTH",
+    "PHO-TYP-SFN"
+   ],
+   "optional": [
+    "PHO-GEO-CRV"
+   ],
+   "attributes": {
+    "register": "light painting",
+    "phosphor": "gold",
+    "furniture": "dark room",
+    "curves": "figures",
+    "symmetry": "none",
+    "mood": "tender"
+   }
+  },
+  "PHO-SCN-05": {
+   "name": "Sparkler night",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "PHO-CMP-C5",
+    "PHO-CMP-C4"
+   ],
+   "required": [
+    "PHO-FRM-FUR",
+    "PHO-GEO-CRV"
+   ],
+   "optional": [
+    "PHO-PTH-PTH"
+   ],
+   "attributes": {
+    "register": "light painting",
+    "phosphor": "sparkler",
+    "furniture": "night yard",
+    "curves": "spirals",
+    "symmetry": "mirror",
+    "mood": "festive"
+   }
+  },
+  "PHO-SCN-06": {
+   "name": "Vector horizon",
+   "roles": [
+    "bridge",
+    "break"
+   ],
+   "compositions": [
+    "PHO-CMP-C2"
+   ],
+   "required": [
+    "PHO-PTH-PTH",
+    "PHO-GEO-CRV"
+   ],
+   "optional": [
+    "PHO-FRM-FUR"
+   ],
+   "attributes": {
+    "register": "vector display",
+    "phosphor": "white",
+    "furniture": "none",
+    "curves": "perspective grid lines",
+    "symmetry": "mirror",
+    "mood": "vast"
+   }
+  },
+  "PHO-SCN-07": {
+   "name": "Heartline",
+   "roles": [
+    "quiet",
+    "verse"
+   ],
+   "compositions": [
+    "PHO-CMP-C3",
+    "PHO-CMP-C1"
+   ],
+   "required": [
+    "PHO-PTH-PTH",
+    "PHO-TYP-SFN"
+   ],
+   "optional": [],
+   "attributes": {
+    "register": "scope",
+    "phosphor": "red",
+    "furniture": "none",
+    "curves": "pulse line",
+    "symmetry": "none",
+    "mood": "intimate"
+   }
+  },
+  "PHO-SCN-08": {
+   "name": "Harmonograph",
+   "roles": [
+    "break",
+    "bridge"
+   ],
+   "compositions": [
+    "PHO-CMP-C2",
+    "PHO-CMP-C4"
+   ],
+   "required": [
+    "PHO-GEO-CRV"
+   ],
+   "optional": [
+    "PHO-GEO-SYM"
+   ],
+   "attributes": {
+    "register": "scope",
+    "phosphor": "P7 decay",
+    "furniture": "none",
+    "curves": "harmonograph",
+    "symmetry": "decaying",
+    "mood": "meditative"
+   }
+  },
+  "PHO-SCN-09": {
+   "name": "City line",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "PHO-CMP-C3",
+    "PHO-CMP-C2"
+   ],
+   "required": [
+    "PHO-PTH-PTH",
+    "PHO-TYP-SFN"
+   ],
+   "optional": [
+    "PHO-FRM-FUR"
+   ],
+   "attributes": {
+    "register": "light painting",
+    "phosphor": "white torch",
+    "furniture": "rooftop",
+    "curves": "skyline",
+    "symmetry": "none",
+    "mood": "urban"
+   }
+  },
+  "PHO-SCN-10": {
+   "name": "Last dot",
+   "roles": [
+    "outro"
+   ],
+   "compositions": [
+    "PHO-CMP-C2",
+    "PHO-CMP-C1"
+   ],
+   "required": [
+    "PHO-TYP-SFN"
+   ],
+   "optional": [
+    "PHO-FRM-FUR"
+   ],
+   "attributes": {
+    "register": "as section",
+    "phosphor": "as section",
+    "furniture": "as section",
+    "curves": "collapse",
+    "symmetry": "none",
+    "mood": "ending"
+   }
+  }
+ },
+ "global_families": [
+  "PHO-TYP-SFN",
+  "PHO-PAL-BCL",
+  "PHO-MOT-PER",
+  "PHO-MOT-BMB",
+  "PHO-TRN-MRP",
+  "PHO-GEO-SYM"
+ ],
+ "asset_families": {
+  "PHO-PTH-PTH": {
+   "name": "Single-line figures",
+   "category": "PTH",
+   "kind": "source",
+   "compatible_with": "Morph rules (entry and exit points near the left and right so words connect).",
+   "exclusions": "Max one figure on screen; never during a word being written.",
+   "scenes": [
+    "PHO-SCN-01",
+    "PHO-SCN-03",
+    "PHO-SCN-04",
+    "PHO-SCN-05",
+    "PHO-SCN-06",
+    "PHO-SCN-07",
+    "PHO-SCN-09"
+   ]
+  },
+  "PHO-GEO-CRV": {
+   "name": "Curve generators",
+   "category": "GEO",
+   "kind": "generator",
+   "compatible_with": "Symmetry rules.",
+   "exclusions": "Max one curve on screen.",
+   "scenes": [
+    "PHO-SCN-01",
+    "PHO-SCN-02",
+    "PHO-SCN-04",
+    "PHO-SCN-05",
+    "PHO-SCN-06",
+    "PHO-SCN-08"
+   ]
+  },
+  "PHO-TYP-SFN": {
+   "name": "Stroke font configurations",
+   "category": "TYP",
+   "kind": "configuration",
+   "compatible_with": "Scripts per member.",
+   "exclusions": "Outline trace only where gate passed.",
+   "scenes": [
+    "PHO-SCN-01",
+    "PHO-SCN-03",
+    "PHO-SCN-04",
+    "PHO-SCN-07",
+    "PHO-SCN-09",
+    "PHO-SCN-10"
+   ]
+  },
+  "PHO-FRM-FUR": {
+   "name": "Scope furniture and rooms",
+   "category": "FRM",
+   "kind": "source",
+   "compatible_with": "Registers listed.",
+   "exclusions": "Graticule only in scope register.",
+   "scenes": [
+    "PHO-SCN-01",
+    "PHO-SCN-02",
+    "PHO-SCN-03",
+    "PHO-SCN-04",
+    "PHO-SCN-05",
+    "PHO-SCN-06",
+    "PHO-SCN-09",
+    "PHO-SCN-10"
+   ]
+  },
+  "PHO-PAL-BCL": {
+   "name": "Beam colours",
+   "category": "PAL",
+   "kind": "configuration",
+   "compatible_with": "Registers.",
+   "exclusions": "One at a time.",
+   "scenes": []
+  },
+  "PHO-MOT-PER": {
+   "name": "Persistence profiles",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "Off in reduced motion.",
+   "scenes": []
+  },
+  "PHO-MOT-BMB": {
+   "name": "Beam behaviours",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "No jitter in reduced motion.",
+   "scenes": []
+  },
+  "PHO-TRN-MRP": {
+   "name": "Morph rules",
+   "category": "TRN",
+   "kind": "configuration",
+   "compatible_with": "Figures with entry and exit points.",
+   "exclusions": "No morph shorter than 300 ms.",
+   "scenes": []
+  },
+  "PHO-GEO-SYM": {
+   "name": "Symmetry rules",
+   "category": "GEO",
+   "kind": "configuration",
+   "compatible_with": "Curves and figures (not words).",
+   "exclusions": "Never applied to words.",
+   "scenes": [
+    "PHO-SCN-02",
+    "PHO-SCN-08"
+   ]
+  }
+ },
+ "layer_order": [
+  "field (black)",
+  "furniture (graticule, bezel, room plate)",
+  "trail (persistence buffer)",
+  "beam line",
+  "beam head",
+  "bloom",
+  "post: grain, curvature"
+ ],
+ "invalid": [
+  {
+   "this": "Two beams",
+   "never_with": "any",
+   "because": "Identity."
+  },
+  {
+   "this": "Symmetry spin",
+   "never_with": "reduced motion",
+   "because": "Motion rule."
+  },
+  {
+   "this": "Fast flicker of the whole trace",
+   "never_with": "any",
+   "because": "Flash guard."
+  },
+  {
+   "this": "Outline trace",
+   "never_with": "scripts failing the readability gate",
+   "because": "Use declared fallback."
+  },
+  {
+   "this": "Figures",
+   "never_with": "while a word is being written",
+   "because": "Hierarchy."
+  },
+  {
+   "this": "Sparkler sparks",
+   "never_with": "grief identity",
+   "because": "Tone."
+  }
+ ],
+ "limits": {
+  "scale": "Writing cap height at least 5% of frame height; figures 40-60% of short side.",
+  "safe": "Writing central 84%.",
+  "complexity": "One figure or curve at a time.",
+  "colour": "One beam colour.",
+  "motion": "One beam.",
+  "material": "Graticule only in scope register; room plates only in light painting."
+ }
+}

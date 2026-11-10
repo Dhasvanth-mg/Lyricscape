@@ -18,7 +18,7 @@ Production methods: authored-data 45, handcrafted-vector 115, hybrid 14, photogr
 
 ## Why this scale
 
-Phase 1 estimated about 550 originals with about 350 existing. Phase 2 corrects that: the 346 art library drawings are seed variations of 14 generators, so they count as 14 generator entries. The plan approves about 230 live entries, including 80 new hand-designed drawings (40 dark, 40 everyday) and the 24 existing sketch doodles.
+Phase 1 estimated about 550 originals with about 350 existing. Phase 2 corrects that: the 346 art library drawings are seed variations of 14 generators, so they count as 14 generator entries. The plan approves 228 live entries, including 80 new hand-designed drawings (40 dark, 40 everyday) and the 24 existing sketch doodles.
 
 ## Families
 

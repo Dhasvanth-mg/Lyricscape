@@ -1,0 +1,543 @@
+{
+ "style": "Signage",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "SIG-CMP-C1": {
+   "name": "Hero sign in a place",
+   "layers": "plate, sign, reflection, weather",
+   "safe_area": "Panel inside central 84%.",
+   "assets": "SGN, SET, HWR"
+  },
+  "SIG-CMP-C2": {
+   "name": "The board",
+   "layers": "board, glass",
+   "safe_area": "Rows central 90%.",
+   "assets": "HWR split-flap and dot"
+  },
+  "SIG-CMP-C3": {
+   "name": "Window sign",
+   "layers": "interior, neon, glass, rain",
+   "safe_area": "Neon central 80%.",
+   "assets": "SGN window signs, NEO alphabets"
+  },
+  "SIG-CMP-C4": {
+   "name": "Marquee front",
+   "layers": "building, marquee, bulbs, bloom",
+   "safe_area": "Letters central 88%.",
+   "assets": "SGN marquee, BLB"
+  },
+  "SIG-CMP-C5": {
+   "name": "Ticker on a structure",
+   "layers": "plate, ticker, light trails",
+   "safe_area": "Ticker band at 40-60% height.",
+   "assets": "HWR ticker, SET"
+  },
+  "SIG-CMP-C6": {
+   "name": "Wall of signs",
+   "layers": "plate, signs, wires, weather",
+   "safe_area": "Lit sign inside central 80% after framing.",
+   "assets": "SGN many, SET dense street"
+  }
+ },
+ "scene_families": {
+  "SIG-SCN-01": {
+   "name": "Station hall",
+   "roles": [
+    "verse"
+   ],
+   "compositions": [
+    "SIG-CMP-C2",
+    "SIG-CMP-C1"
+   ],
+   "required": [
+    "SIG-PRC-HWR",
+    "SIG-OBJ-SGN",
+    "SIG-ENV-SET"
+   ],
+   "optional": [
+    "SIG-ATM-WEA"
+   ],
+   "attributes": {
+    "hardware": "split-flap",
+    "place": "hall",
+    "light": "white and amber",
+    "weather": "none",
+    "camera": "push",
+    "mood": "waiting"
+   }
+  },
+  "SIG-SCN-02": {
+   "name": "Roadside motel",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "SIG-CMP-C1"
+   ],
+   "required": [
+    "SIG-OBJ-SGN",
+    "SIG-ENV-SET",
+    "SIG-TYP-NEO"
+   ],
+   "optional": [
+    "SIG-ATM-WEA"
+   ],
+   "attributes": {
+    "hardware": "neon",
+    "place": "roadside",
+    "light": "warm neon",
+    "weather": "dust",
+    "camera": "locked",
+    "mood": "lonely"
+   }
+  },
+  "SIG-SCN-03": {
+   "name": "Theatre front",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "SIG-CMP-C4"
+   ],
+   "required": [
+    "SIG-OBJ-SGN",
+    "SIG-TYP-BLB",
+    "SIG-ENV-SET"
+   ],
+   "optional": [
+    "SIG-ATM-WEA"
+   ],
+   "attributes": {
+    "hardware": "marquee",
+    "place": "theatre",
+    "light": "warm bulbs",
+    "weather": "none",
+    "camera": "low angle",
+    "mood": "showy"
+   }
+  },
+  "SIG-SCN-04": {
+   "name": "Diner window",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "SIG-CMP-C3"
+   ],
+   "required": [
+    "SIG-OBJ-SGN",
+    "SIG-TYP-NEO",
+    "SIG-ENV-SET"
+   ],
+   "optional": [
+    "SIG-ATM-WEA"
+   ],
+   "attributes": {
+    "hardware": "neon",
+    "place": "window",
+    "light": "pink and blue neon",
+    "weather": "rain",
+    "camera": "locked",
+    "mood": "intimate"
+   }
+  },
+  "SIG-SCN-05": {
+   "name": "Night bus",
+   "roles": [
+    "verse"
+   ],
+   "compositions": [
+    "SIG-CMP-C1",
+    "SIG-CMP-C2"
+   ],
+   "required": [
+    "SIG-PRC-HWR",
+    "SIG-OBJ-SGN"
+   ],
+   "optional": [
+    "SIG-ATM-WEA"
+   ],
+   "attributes": {
+    "hardware": "flip-dot",
+    "place": "bus front",
+    "light": "yellow dots",
+    "weather": "rain",
+    "camera": "handheld",
+    "mood": "moving"
+   }
+  },
+  "SIG-SCN-06": {
+   "name": "Overpass ticker",
+   "roles": [
+    "verse",
+    "high"
+   ],
+   "compositions": [
+    "SIG-CMP-C5"
+   ],
+   "required": [
+    "SIG-PRC-HWR",
+    "SIG-ENV-SET"
+   ],
+   "optional": [
+    "SIG-ATM-WEA"
+   ],
+   "attributes": {
+    "hardware": "LED ticker",
+    "place": "overpass",
+    "light": "amber LED",
+    "weather": "haze",
+    "camera": "locked",
+    "mood": "fast"
+   }
+  },
+  "SIG-SCN-07": {
+   "name": "Stadium board",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "SIG-CMP-C2",
+    "SIG-CMP-C5"
+   ],
+   "required": [
+    "SIG-PRC-HWR",
+    "SIG-OBJ-SGN",
+    "SIG-ENV-SET"
+   ],
+   "optional": [],
+   "attributes": {
+    "hardware": "RGB matrix",
+    "place": "stadium",
+    "light": "full colour",
+    "weather": "floodlight haze",
+    "camera": "slow push",
+    "mood": "anthemic"
+   }
+  },
+  "SIG-SCN-08": {
+   "name": "Bazaar lane",
+   "roles": [
+    "chorus",
+    "verse"
+   ],
+   "compositions": [
+    "SIG-CMP-C6",
+    "SIG-CMP-C1"
+   ],
+   "required": [
+    "SIG-OBJ-SGN",
+    "SIG-ENV-SET",
+    "SIG-TYP-NEO"
+   ],
+   "optional": [
+    "SIG-ATM-WEA"
+   ],
+   "attributes": {
+    "hardware": "LED sign and neon",
+    "place": "bazaar",
+    "light": "multicolour",
+    "weather": "heat haze",
+    "camera": "pan",
+    "mood": "busy"
+   }
+  },
+  "SIG-SCN-09": {
+   "name": "Airport gate",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "SIG-CMP-C2"
+   ],
+   "required": [
+    "SIG-PRC-HWR",
+    "SIG-OBJ-SGN",
+    "SIG-ENV-SET"
+   ],
+   "optional": [],
+   "attributes": {
+    "hardware": "LCD dot board",
+    "place": "gate",
+    "light": "cool white",
+    "weather": "none",
+    "camera": "push",
+    "mood": "distant"
+   }
+  },
+  "SIG-SCN-10": {
+   "name": "Harbour",
+   "roles": [
+    "bridge",
+    "quiet"
+   ],
+   "compositions": [
+    "SIG-CMP-C1"
+   ],
+   "required": [
+    "SIG-OBJ-SGN",
+    "SIG-ENV-SET"
+   ],
+   "optional": [
+    "SIG-ATM-WEA",
+    "SIG-TYP-NEO"
+   ],
+   "attributes": {
+    "hardware": "lightbox",
+    "place": "harbour",
+    "light": "cold white",
+    "weather": "fog",
+    "camera": "slow dolly",
+    "mood": "calm"
+   }
+  },
+  "SIG-SCN-11": {
+   "name": "Arcade alley",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "SIG-CMP-C6",
+    "SIG-CMP-C3"
+   ],
+   "required": [
+    "SIG-OBJ-SGN",
+    "SIG-ENV-SET",
+    "SIG-PRC-HWR"
+   ],
+   "optional": [
+    "SIG-ATM-WEA"
+   ],
+   "attributes": {
+    "hardware": "seven-segment and neon",
+    "place": "alley",
+    "light": "magenta and cyan",
+    "weather": "rain",
+    "camera": "pan",
+    "mood": "electric"
+   }
+  },
+  "SIG-SCN-12": {
+   "name": "Last lights",
+   "roles": [
+    "outro"
+   ],
+   "compositions": [
+    "SIG-CMP-C1",
+    "SIG-CMP-C6"
+   ],
+   "required": [
+    "SIG-OBJ-SGN",
+    "SIG-ENV-SET"
+   ],
+   "optional": [
+    "SIG-ATM-WEA"
+   ],
+   "attributes": {
+    "hardware": "mixed",
+    "place": "street",
+    "light": "fading",
+    "weather": "pre-dawn mist",
+    "camera": "slow pull",
+    "mood": "ending"
+   }
+  }
+ },
+ "global_families": [
+  "SIG-PRC-HWR",
+  "SIG-PAL-LPL",
+  "SIG-MOT-RHY",
+  "SIG-ATM-WEA",
+  "SIG-TYP-DOT",
+  "SIG-UIK-BRK"
+ ],
+ "asset_families": {
+  "SIG-PRC-HWR": {
+   "name": "Hardware renderers",
+   "category": "PRC",
+   "kind": "generator",
+   "compatible_with": "Signs that declare it.",
+   "exclusions": "One hardware per sign.",
+   "scenes": [
+    "SIG-SCN-01",
+    "SIG-SCN-05",
+    "SIG-SCN-06",
+    "SIG-SCN-07",
+    "SIG-SCN-09",
+    "SIG-SCN-11"
+   ]
+  },
+  "SIG-OBJ-SGN": {
+   "name": "Sign designs",
+   "category": "OBJ",
+   "kind": "source",
+   "compatible_with": "Hardware listed per sign (a split-flap sign only holds flaps).",
+   "exclusions": "A sign appears once per section; only one hero sign per frame.",
+   "scenes": [
+    "SIG-SCN-01",
+    "SIG-SCN-02",
+    "SIG-SCN-03",
+    "SIG-SCN-04",
+    "SIG-SCN-05",
+    "SIG-SCN-07",
+    "SIG-SCN-08",
+    "SIG-SCN-09",
+    "SIG-SCN-10",
+    "SIG-SCN-11",
+    "SIG-SCN-12"
+   ]
+  },
+  "SIG-ENV-SET": {
+   "name": "Settings",
+   "category": "ENV",
+   "kind": "source",
+   "compatible_with": "Sign mounts listed per setting.",
+   "exclusions": "One setting per section.",
+   "scenes": [
+    "SIG-SCN-01",
+    "SIG-SCN-02",
+    "SIG-SCN-03",
+    "SIG-SCN-04",
+    "SIG-SCN-06",
+    "SIG-SCN-07",
+    "SIG-SCN-08",
+    "SIG-SCN-09",
+    "SIG-SCN-10",
+    "SIG-SCN-11",
+    "SIG-SCN-12"
+   ]
+  },
+  "SIG-TYP-NEO": {
+   "name": "Neon tube alphabets",
+   "category": "TYP",
+   "kind": "source",
+   "compatible_with": "Neon hardware.",
+   "exclusions": "No per-letter jitter.",
+   "scenes": [
+    "SIG-SCN-02",
+    "SIG-SCN-04",
+    "SIG-SCN-08",
+    "SIG-SCN-10"
+   ]
+  },
+  "SIG-TYP-BLB": {
+   "name": "Bulb and marquee letters",
+   "category": "TYP",
+   "kind": "source",
+   "compatible_with": "Marquee hardware.",
+   "exclusions": "Latin only (others route to LED).",
+   "scenes": [
+    "SIG-SCN-03"
+   ]
+  },
+  "SIG-TYP-DOT": {
+   "name": "Dot and cell font atlases",
+   "category": "TYP",
+   "kind": "configuration",
+   "compatible_with": "Per hardware.",
+   "exclusions": "Devanagari and Tamil excluded (fallback).",
+   "scenes": []
+  },
+  "SIG-PAL-LPL": {
+   "name": "Light palettes",
+   "category": "PAL",
+   "kind": "configuration",
+   "compatible_with": "Hardware listed.",
+   "exclusions": "Neon max 2 tubes per sign.",
+   "scenes": []
+  },
+  "SIG-MOT-RHY": {
+   "name": "Hardware rhythms",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "Per hardware.",
+   "exclusions": "No pattern above 3 Hz full-panel flashing.",
+   "scenes": []
+  },
+  "SIG-ATM-WEA": {
+   "name": "Weather and street light layers",
+   "category": "ATM",
+   "kind": "configuration",
+   "compatible_with": "Settings flagged outdoor.",
+   "exclusions": "Rain never indoors (station hall, airport).",
+   "scenes": [
+    "SIG-SCN-01",
+    "SIG-SCN-02",
+    "SIG-SCN-03",
+    "SIG-SCN-04",
+    "SIG-SCN-05",
+    "SIG-SCN-06",
+    "SIG-SCN-08",
+    "SIG-SCN-10",
+    "SIG-SCN-11",
+    "SIG-SCN-12"
+   ]
+  },
+  "SIG-UIK-BRK": {
+   "name": "Break boards",
+   "category": "UIK",
+   "kind": "component",
+   "compatible_with": "Cell hardware.",
+   "exclusions": "Only song title and timing information (no invented data).",
+   "scenes": []
+  }
+ },
+ "layer_order": [
+  "setting plate",
+  "depth fog",
+  "secondary unlit signs",
+  "hero sign housing",
+  "hardware panel (cells)",
+  "trim lights",
+  "glass",
+  "wet reflection",
+  "weather",
+  "post: bloom, grain"
+ ],
+ "invalid": [
+  {
+   "this": "Dot matrix",
+   "never_with": "Devanagari or Tamil lines",
+   "because": "No quality open dot font: falls back to LED sign."
+  },
+  {
+   "this": "Bulb chase",
+   "never_with": "reduced motion",
+   "because": "Motion rule."
+  },
+  {
+   "this": "Neon flicker faster than 3 Hz",
+   "never_with": "any",
+   "because": "Flash guard."
+  },
+  {
+   "this": "Daylight",
+   "never_with": "any",
+   "because": "Identity."
+  },
+  {
+   "this": "Two hero signs",
+   "never_with": "any",
+   "because": "Hierarchy."
+  },
+  {
+   "this": "Split-flap",
+   "never_with": "lines over 4 rows of 24 at chosen size",
+   "because": "Switch to ticker."
+  }
+ ],
+ "limits": {
+  "scale": "Hero sign panel 30-70% of frame width.",
+  "safe": "Panel inside central 84%.",
+  "complexity": "Max 1 hero sign and 4 secondary signs.",
+  "colour": "One light family per sign.",
+  "motion": "Hardware motion only; camera slow.",
+  "material": "Rain only on rain-capable settings."
+ }
+}

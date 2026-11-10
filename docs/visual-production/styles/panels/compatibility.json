@@ -1,0 +1,648 @@
+{
+ "style": "Panels",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "PAN-CMP-C1": {
+   "name": "Grid page",
+   "layers": "paper, panels (art, tone), borders, balloons, SFX",
+   "safe_area": "Active balloon inside central 84% after the camera frames it.",
+   "assets": "PGL, illustrations, BAL"
+  },
+  "PAN-CMP-C2": {
+   "name": "Splash page",
+   "layers": "art, tone, SFX, balloon",
+   "safe_area": "SFX and balloon central 88%.",
+   "assets": "Illustrations, SFX, SPD"
+  },
+  "PAN-CMP-C3": {
+   "name": "Close-up strip",
+   "layers": "panels, captions",
+   "safe_area": "Captions central.",
+   "assets": "CLU illustrations"
+  },
+  "PAN-CMP-C4": {
+   "name": "Wordless establishing",
+   "layers": "art, tone",
+   "safe_area": "Caption central.",
+   "assets": "PLC illustrations"
+  },
+  "PAN-CMP-C5": {
+   "name": "Caption narrative",
+   "layers": "art, captions",
+   "safe_area": "Captions central 84%.",
+   "assets": "BAL captions, illustrations"
+  },
+  "PAN-CMP-C6": {
+   "name": "Cover page",
+   "layers": "art, title, cover furniture",
+   "safe_area": "Title central 88%.",
+   "assets": "CVR, illustrations"
+  }
+ },
+ "scene_families": {
+  "PAN-SCN-01": {
+   "name": "City night noir",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C5"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-OBJ-CLU",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-ATM-WTH"
+   ],
+   "attributes": {
+    "register": "ink noir",
+    "subject": "city",
+    "layout": "grid",
+    "balloons": "captions",
+    "pace": "slow",
+    "mood": "noir"
+   }
+  },
+  "PAN-SCN-02": {
+   "name": "Bright pop page",
+   "roles": [
+    "chorus",
+    "verse"
+   ],
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C2"
+   ],
+   "required": [
+    "PAN-PRP-OBJ",
+    "PAN-OBJ-CLU",
+    "PAN-TYP-BAL",
+    "PAN-TYP-SFX"
+   ],
+   "optional": [
+    "PAN-PRC-SPD"
+   ],
+   "attributes": {
+    "register": "halftone pop",
+    "subject": "objects",
+    "layout": "grid",
+    "balloons": "speech",
+    "pace": "normal",
+    "mood": "bright"
+   }
+  },
+  "PAN-SCN-03": {
+   "name": "Screentone evening",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C3"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-ENV-NAT",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-ATM-WTH"
+   ],
+   "attributes": {
+    "register": "screentone",
+    "subject": "seasons",
+    "layout": "tall panels",
+    "balloons": "thought",
+    "pace": "slow",
+    "mood": "wistful"
+   }
+  },
+  "PAN-SCN-04": {
+   "name": "Action splash",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "PAN-CMP-C2"
+   ],
+   "required": [
+    "PAN-TYP-SFX",
+    "PAN-PRC-SPD",
+    "PAN-OBJ-VEH"
+   ],
+   "optional": [
+    "PAN-PRP-OBJ"
+   ],
+   "attributes": {
+    "register": "halftone pop",
+    "subject": "impact",
+    "layout": "splash",
+    "balloons": "shout",
+    "pace": "fast",
+    "mood": "explosive"
+   }
+  },
+  "PAN-SCN-05": {
+   "name": "Road trip",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C4"
+   ],
+   "required": [
+    "PAN-OBJ-VEH",
+    "PAN-ENV-PLC",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-ENV-NAT"
+   ],
+   "attributes": {
+    "register": "flat colour",
+    "subject": "road",
+    "layout": "wide tiers",
+    "balloons": "speech",
+    "pace": "normal",
+    "mood": "free"
+   }
+  },
+  "PAN-SCN-06": {
+   "name": "Rooms",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "PAN-CMP-C3",
+    "PAN-CMP-C5"
+   ],
+   "required": [
+    "PAN-ENV-INT",
+    "PAN-OBJ-CLU",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-PRP-OBJ"
+   ],
+   "attributes": {
+    "register": "flat colour",
+    "subject": "interiors",
+    "layout": "strip",
+    "balloons": "thought",
+    "pace": "slow",
+    "mood": "intimate"
+   }
+  },
+  "PAN-SCN-07": {
+   "name": "Crowd and stage",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "PAN-CMP-C2",
+    "PAN-CMP-C1"
+   ],
+   "required": [
+    "PAN-SIL-CRW",
+    "PAN-TYP-SFX"
+   ],
+   "optional": [
+    "PAN-PRC-SPD"
+   ],
+   "attributes": {
+    "register": "flat colour",
+    "subject": "crowd",
+    "layout": "inset over splash",
+    "balloons": "song",
+    "pace": "fast",
+    "mood": "euphoric"
+   }
+  },
+  "PAN-SCN-08": {
+   "name": "Storm",
+   "roles": [
+    "bridge",
+    "high"
+   ],
+   "compositions": [
+    "PAN-CMP-C2",
+    "PAN-CMP-C1"
+   ],
+   "required": [
+    "PAN-ATM-WTH",
+    "PAN-ENV-PLC"
+   ],
+   "optional": [
+    "PAN-PRC-SPD",
+    "PAN-TYP-SFX"
+   ],
+   "attributes": {
+    "register": "ink noir",
+    "subject": "weather",
+    "layout": "diagonal",
+    "balloons": "caption",
+    "pace": "fast",
+    "mood": "dramatic"
+   }
+  },
+  "PAN-SCN-09": {
+   "name": "Newsprint memory",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "PAN-CMP-C5",
+    "PAN-CMP-C1"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-PRP-OBJ",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-ENV-INT"
+   ],
+   "attributes": {
+    "register": "newsprint",
+    "subject": "memory",
+    "layout": "grid",
+    "balloons": "captions",
+    "pace": "slow",
+    "mood": "nostalgic"
+   }
+  },
+  "PAN-SCN-10": {
+   "name": "Wordless break",
+   "roles": [
+    "break",
+    "intro"
+   ],
+   "compositions": [
+    "PAN-CMP-C4",
+    "PAN-CMP-C6"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-ENV-NAT"
+   ],
+   "optional": [
+    "PAN-ATM-WTH"
+   ],
+   "attributes": {
+    "register": "as section",
+    "subject": "establishing",
+    "layout": "wide",
+    "balloons": "none",
+    "pace": "slow",
+    "mood": "open"
+   }
+  },
+  "PAN-SCN-11": {
+   "name": "Bazaar and monsoon",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C2"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-OBJ-VEH",
+    "PAN-ATM-WTH",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-SIL-CRW"
+   ],
+   "attributes": {
+    "register": "flat colour",
+    "subject": "monsoon city",
+    "layout": "grid",
+    "balloons": "speech",
+    "pace": "normal",
+    "mood": "lively"
+   }
+  },
+  "PAN-SCN-12": {
+   "name": "Last page",
+   "roles": [
+    "outro"
+   ],
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C5"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-ENV-NAT"
+   ],
+   "attributes": {
+    "register": "as section",
+    "subject": "closing",
+    "layout": "last panel",
+    "balloons": "caption",
+    "pace": "slow",
+    "mood": "ending"
+   }
+  }
+ },
+ "global_families": [
+  "PAN-PRC-REG",
+  "PAN-TEX-TON",
+  "PAN-PAL-PAL",
+  "PAN-TYP-LTR",
+  "PAN-FRM-BDR",
+  "PAN-TRN-PGT",
+  "PAN-MOT-ANM",
+  "PAN-LAY-PGL",
+  "PAN-LAY-CVR"
+ ],
+ "asset_families": {
+  "PAN-ENV-PLC": {
+   "name": "Place panels",
+   "category": "ENV",
+   "kind": "source",
+   "compatible_with": "All registers; balloon zone must fit a balloon of 8 words at panel size.",
+   "exclusions": "No recurring characters; figures only as anonymous silhouettes, hands, backs or crowds; no identifiable people, brands or real landmarks.",
+   "scenes": [
+    "PAN-SCN-01",
+    "PAN-SCN-03",
+    "PAN-SCN-05",
+    "PAN-SCN-08",
+    "PAN-SCN-09",
+    "PAN-SCN-10",
+    "PAN-SCN-11",
+    "PAN-SCN-12"
+   ]
+  },
+  "PAN-OBJ-CLU": {
+   "name": "Close-up panels",
+   "category": "OBJ",
+   "kind": "source",
+   "compatible_with": "All registers; balloon zone must fit a balloon of 8 words at panel size.",
+   "exclusions": "No recurring characters; figures only as anonymous silhouettes, hands, backs or crowds; no identifiable people, brands or real landmarks.",
+   "scenes": [
+    "PAN-SCN-01",
+    "PAN-SCN-02",
+    "PAN-SCN-06"
+   ]
+  },
+  "PAN-PRP-OBJ": {
+   "name": "Object panels",
+   "category": "PRP",
+   "kind": "source",
+   "compatible_with": "All registers; balloon zone must fit a balloon of 8 words at panel size.",
+   "exclusions": "No recurring characters; figures only as anonymous silhouettes, hands, backs or crowds; no identifiable people, brands or real landmarks.",
+   "scenes": [
+    "PAN-SCN-02",
+    "PAN-SCN-04",
+    "PAN-SCN-06",
+    "PAN-SCN-09"
+   ]
+  },
+  "PAN-ATM-WTH": {
+   "name": "Weather panels",
+   "category": "ATM",
+   "kind": "source",
+   "compatible_with": "All registers; balloon zone must fit a balloon of 8 words at panel size.",
+   "exclusions": "No recurring characters; figures only as anonymous silhouettes, hands, backs or crowds; no identifiable people, brands or real landmarks.",
+   "scenes": [
+    "PAN-SCN-01",
+    "PAN-SCN-03",
+    "PAN-SCN-08",
+    "PAN-SCN-10",
+    "PAN-SCN-11"
+   ]
+  },
+  "PAN-OBJ-VEH": {
+   "name": "Vehicle panels",
+   "category": "OBJ",
+   "kind": "source",
+   "compatible_with": "All registers; balloon zone must fit a balloon of 8 words at panel size.",
+   "exclusions": "No recurring characters; figures only as anonymous silhouettes, hands, backs or crowds; no identifiable people, brands or real landmarks.",
+   "scenes": [
+    "PAN-SCN-04",
+    "PAN-SCN-05",
+    "PAN-SCN-11"
+   ]
+  },
+  "PAN-SIL-CRW": {
+   "name": "Crowd and silhouette panels",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "All registers; balloon zone must fit a balloon of 8 words at panel size.",
+   "exclusions": "No recurring characters; figures only as anonymous silhouettes, hands, backs or crowds; no identifiable people, brands or real landmarks.",
+   "scenes": [
+    "PAN-SCN-07",
+    "PAN-SCN-11"
+   ]
+  },
+  "PAN-ENV-NAT": {
+   "name": "Nature panels",
+   "category": "ENV",
+   "kind": "source",
+   "compatible_with": "All registers; balloon zone must fit a balloon of 8 words at panel size.",
+   "exclusions": "No recurring characters; figures only as anonymous silhouettes, hands, backs or crowds; no identifiable people, brands or real landmarks.",
+   "scenes": [
+    "PAN-SCN-03",
+    "PAN-SCN-05",
+    "PAN-SCN-10",
+    "PAN-SCN-12"
+   ]
+  },
+  "PAN-ENV-INT": {
+   "name": "Interior panels",
+   "category": "ENV",
+   "kind": "source",
+   "compatible_with": "All registers; balloon zone must fit a balloon of 8 words at panel size.",
+   "exclusions": "No recurring characters; figures only as anonymous silhouettes, hands, backs or crowds; no identifiable people, brands or real landmarks.",
+   "scenes": [
+    "PAN-SCN-06",
+    "PAN-SCN-09"
+   ]
+  },
+  "PAN-LAY-PGL": {
+   "name": "Page layouts",
+   "category": "LAY",
+   "kind": "configuration",
+   "compatible_with": "Crop rects of illustrations (wide, square, tall).",
+   "exclusions": "Mirrors are parameters (RTL mirrors automatically).",
+   "scenes": []
+  },
+  "PAN-TYP-BAL": {
+   "name": "Balloons and captions",
+   "category": "TYP",
+   "kind": "component",
+   "compatible_with": "All illustrations (balloon zone).",
+   "exclusions": "No balloon covers the focal point.",
+   "scenes": [
+    "PAN-SCN-01",
+    "PAN-SCN-02",
+    "PAN-SCN-03",
+    "PAN-SCN-05",
+    "PAN-SCN-06",
+    "PAN-SCN-09",
+    "PAN-SCN-11",
+    "PAN-SCN-12"
+   ]
+  },
+  "PAN-TYP-SFX": {
+   "name": "SFX lettering treatments",
+   "category": "TYP",
+   "kind": "component",
+   "compatible_with": "Latin full; complex scripts only undistorted treatments.",
+   "exclusions": "Max one SFX per page; never on quiet identity.",
+   "scenes": [
+    "PAN-SCN-02",
+    "PAN-SCN-04",
+    "PAN-SCN-07",
+    "PAN-SCN-08"
+   ]
+  },
+  "PAN-PRC-SPD": {
+   "name": "Speed lines and focus lines",
+   "category": "PRC",
+   "kind": "generator",
+   "compatible_with": "All registers.",
+   "exclusions": "Not in quiet scenes.",
+   "scenes": [
+    "PAN-SCN-02",
+    "PAN-SCN-04",
+    "PAN-SCN-07",
+    "PAN-SCN-08"
+   ]
+  },
+  "PAN-PRC-REG": {
+   "name": "Art registers",
+   "category": "PRC",
+   "kind": "configuration",
+   "compatible_with": "All illustrations.",
+   "exclusions": "One per page.",
+   "scenes": []
+  },
+  "PAN-TEX-TON": {
+   "name": "Tone patterns",
+   "category": "TEX",
+   "kind": "configuration",
+   "compatible_with": "Registers listed.",
+   "exclusions": "Moiré check at 720p.",
+   "scenes": []
+  },
+  "PAN-PAL-PAL": {
+   "name": "Register palettes",
+   "category": "PAL",
+   "kind": "configuration",
+   "compatible_with": "Registers.",
+   "exclusions": "n/a",
+   "scenes": []
+  },
+  "PAN-TYP-LTR": {
+   "name": "Lettering configurations",
+   "category": "TYP",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "n/a",
+   "scenes": []
+  },
+  "PAN-FRM-BDR": {
+   "name": "Panel borders",
+   "category": "FRM",
+   "kind": "component",
+   "compatible_with": "All.",
+   "exclusions": "Wavy only for dream or memory lines.",
+   "scenes": []
+  },
+  "PAN-LAY-CVR": {
+   "name": "Cover page templates",
+   "category": "LAY",
+   "kind": "configuration",
+   "compatible_with": "Place and nature illustrations.",
+   "exclusions": "No real publisher marks.",
+   "scenes": []
+  },
+  "PAN-MOT-ANM": {
+   "name": "Limited animation loops",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "Illustrations that mark a loop mask.",
+   "exclusions": "Off in reduced motion; one per panel.",
+   "scenes": []
+  },
+  "PAN-TRN-PGT": {
+   "name": "Page transitions",
+   "category": "TRN",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "n/a",
+   "scenes": []
+  }
+ },
+ "layer_order": [
+  "paper",
+  "page layout",
+  "panel art (line, fill, shadow)",
+  "register treatment (tone, dots)",
+  "panel borders",
+  "speed lines",
+  "SFX lettering",
+  "balloons and captions",
+  "active-panel highlight",
+  "post: paper grain"
+ ],
+ "invalid": [
+  {
+   "this": "SFX distortion",
+   "never_with": "complex scripts",
+   "because": "Shaping."
+  },
+  {
+   "this": "Speed lines",
+   "never_with": "quiet identity",
+   "because": "Tone."
+  },
+  {
+   "this": "Faces",
+   "never_with": "any",
+   "because": "No characters (likeness)."
+  },
+  {
+   "this": "Halftone pop",
+   "never_with": "grief identity",
+   "because": "Tone: use ink noir or screentone."
+  },
+  {
+   "this": "Shakes",
+   "never_with": "reduced motion",
+   "because": "Motion rule."
+  },
+  {
+   "this": "Two active panels",
+   "never_with": "any",
+   "because": "Hierarchy."
+  }
+ ],
+ "limits": {
+  "scale": "Active panel at least 35% of frame after camera framing.",
+  "safe": "Active balloon central 84%.",
+  "complexity": "Max 6 panels; one active.",
+  "colour": "One register per page.",
+  "motion": "Camera moves between panels only.",
+  "material": "Dots fixed to page."
+ }
+}

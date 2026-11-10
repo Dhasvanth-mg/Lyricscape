@@ -17,7 +17,7 @@ Production methods: authored-data 59, handcrafted-raster 8, handcrafted-vector 1
 
 ## Why this scale
 
-Phase 1 estimated about 250 originals. This plan approves about 130: film damage is best served by fewer, excellent plates and well-tuned stocks; the style's variety is the stock x register x composition matrix. More plates can be shot later without changing the system.
+Phase 1 estimated about 250 originals. This plan approves 120 live entries: film damage is best served by fewer, excellent plates and well-tuned stocks; the style's variety is the stock x register x composition matrix. More plates can be shot later without changing the system.
 
 ## Families
 

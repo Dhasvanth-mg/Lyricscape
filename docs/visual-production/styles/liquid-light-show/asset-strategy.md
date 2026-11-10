@@ -17,7 +17,7 @@ Production methods: authored-data 80, handcrafted-vector 11, procedural-code 16.
 
 ## Why this scale
 
-Phase 1 estimated about 140 originals. This plan approves about 110; the presets are the core (40, each tuned), with flow fields as baked source data. Adding presets beyond 4 per family would mostly add recolours.
+Phase 1 estimated about 140 originals. This plan approves 107 live entries; the presets are the core (40, each tuned), with flow fields as baked source data. Adding presets beyond 4 per family would mostly add recolours.
 
 ## Families
 

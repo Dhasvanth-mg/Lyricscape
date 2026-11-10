@@ -1,0 +1,246 @@
+{
+ "schema": "lyricscape.counts/1.0.0",
+ "note": "Live = not rejected or merged. Kinds are reported separately; generated variations, colour variations, animation frames and runtime combinations are never counted.",
+ "total": {
+  "total_entries": 454,
+  "approved": 414,
+  "revised": 21,
+  "deferred": 0,
+  "rejected": 16,
+  "merged": 3,
+  "by_kind": {
+   "generator": 16,
+   "source": 135,
+   "dependency": 35,
+   "component": 103,
+   "configuration": 108,
+   "composition": 38
+  },
+  "by_category": {
+   "PRC": 37,
+   "TEX": 12,
+   "TYP": 49,
+   "UIK": 69,
+   "FRM": 10,
+   "ENV": 73,
+   "PRP": 32,
+   "REV": 10,
+   "MOT": 33,
+   "CAM": 17,
+   "LAY": 26,
+   "CMP": 13,
+   "SCN": 25,
+   "TRN": 15,
+   "SRF": 6,
+   "PAL": 8
+  },
+  "by_method": {
+   "shader": 21,
+   "procedural-code": 38,
+   "licensed-font": 35,
+   "authored-data": 228,
+   "handcrafted-vector": 28,
+   "hybrid": 11,
+   "photographed": 12,
+   "handcrafted-raster": 62
+  },
+  "by_priority": {
+   "essential": 295,
+   "high": 110,
+   "medium": 30
+  },
+  "by_complexity": {
+   "L": 32,
+   "S": 196,
+   "M": 207
+  },
+  "by_origin": {
+   "existing-reuse": 18,
+   "existing-rework": 20,
+   "new": 397
+  },
+  "live": 435
+ },
+ "shared_vs_exclusive": {
+  "shared": 57,
+  "exclusive": 378
+ },
+ "per_style": {
+  "Shared": {
+   "total_entries": 60,
+   "approved": 51,
+   "revised": 6,
+   "deferred": 0,
+   "rejected": 3,
+   "merged": 0,
+   "by_kind": {
+    "generator": 16,
+    "source": 6,
+    "dependency": 35
+   },
+   "by_category": {
+    "PRC": 16,
+    "TEX": 6,
+    "TYP": 35
+   },
+   "by_method": {
+    "shader": 16,
+    "procedural-code": 6,
+    "licensed-font": 35
+   },
+   "by_priority": {
+    "essential": 57
+   },
+   "by_complexity": {
+    "L": 16,
+    "S": 41
+   },
+   "by_origin": {
+    "existing-reuse": 18,
+    "existing-rework": 5,
+    "new": 34
+   },
+   "live": 57
+  },
+  "Screenlife": {
+   "total_entries": 228,
+   "approved": 219,
+   "revised": 0,
+   "deferred": 0,
+   "rejected": 7,
+   "merged": 2,
+   "by_kind": {
+    "source": 61,
+    "component": 87,
+    "configuration": 52,
+    "composition": 19
+   },
+   "by_category": {
+    "UIK": 69,
+    "FRM": 10,
+    "ENV": 11,
+    "PRC": 16,
+    "PRP": 32,
+    "REV": 10,
+    "MOT": 16,
+    "CAM": 12,
+    "LAY": 10,
+    "TEX": 6,
+    "CMP": 7,
+    "SCN": 12,
+    "TRN": 8
+   },
+   "by_method": {
+    "authored-data": 148,
+    "handcrafted-vector": 28,
+    "hybrid": 11,
+    "procedural-code": 26,
+    "photographed": 6
+   },
+   "by_priority": {
+    "essential": 136,
+    "high": 53,
+    "medium": 30
+   },
+   "by_complexity": {
+    "L": 16,
+    "M": 109,
+    "S": 94
+   },
+   "by_origin": {
+    "new": 219
+   },
+   "live": 219
+  },
+  "Glyph Cinema": {
+   "total_entries": 166,
+   "approved": 144,
+   "revised": 15,
+   "deferred": 0,
+   "rejected": 6,
+   "merged": 1,
+   "by_kind": {
+    "source": 68,
+    "configuration": 56,
+    "component": 16,
+    "composition": 19
+   },
+   "by_category": {
+    "ENV": 62,
+    "MOT": 17,
+    "TYP": 14,
+    "PRC": 5,
+    "LAY": 16,
+    "SRF": 6,
+    "PAL": 8,
+    "CAM": 5,
+    "CMP": 6,
+    "SCN": 13,
+    "TRN": 7
+   },
+   "by_method": {
+    "handcrafted-raster": 62,
+    "authored-data": 80,
+    "shader": 5,
+    "photographed": 6,
+    "procedural-code": 6
+   },
+   "by_priority": {
+    "essential": 102,
+    "high": 57
+   },
+   "by_complexity": {
+    "M": 98,
+    "S": 61
+   },
+   "by_origin": {
+    "existing-rework": 15,
+    "new": 144
+   },
+   "live": 159
+  }
+ },
+ "by_family": {
+  "GLY-CAM-CAM Grid-snapped camera moves": 5,
+  "GLY-CMP Composition families": 6,
+  "GLY-ENV-SUB Subject pictures": 62,
+  "GLY-LAY-LAY Band layouts": 7,
+  "GLY-LAY-PAG Teletext page templates": 9,
+  "GLY-MOT-ANI Subject motion loops": 11,
+  "GLY-MOT-CAL Calligram routing rules": 6,
+  "GLY-PAL-PAL Register palettes": 8,
+  "GLY-PRC-REG Registers": 5,
+  "GLY-SCN Scene families": 13,
+  "GLY-SRF-PAP Typewriter papers": 6,
+  "GLY-TRN Transitions": 7,
+  "GLY-TYP-RMP Glyph ramps": 14,
+  "SCR-CAM-CAM Camera moves": 12,
+  "SCR-CMP Composition families": 7,
+  "SCR-ENV-ROM Room plates": 11,
+  "SCR-FRM-DEV Device frames": 10,
+  "SCR-LAY-FLD Lyric field treatments": 10,
+  "SCR-MOT-TPO Typo models": 6,
+  "SCR-MOT-TYP Typing behaviour profiles": 10,
+  "SCR-PRC-META Metadata content rules": 8,
+  "SCR-PRC-WAL Wallpaper generators": 8,
+  "SCR-PRP-NTF Notifications and system overlays": 14,
+  "SCR-PRP-STK Original reaction stickers": 18,
+  "SCR-REV-CAR Caret, selection and correction overlays": 10,
+  "SCR-SCN Scene families": 12,
+  "SCR-TEX-GLS Glass and CRT surface plates": 6,
+  "SCR-TRN Transitions": 8,
+  "SCR-UIK-APP Fictional app kits": 16,
+  "SCR-UIK-STA Kit states": 53,
+  "SHR-PRC-GEN Shared procedural generators": 16,
+  "SHR-TEX-NOI Shared noise and utility textures": 6,
+  "SHR-TYP-FNT Typefaces (open licence)": 35
+ },
+ "scene_families": {
+  "Screenlife": 12,
+  "Glyph Cinema": 13
+ },
+ "composition_families": {
+  "Screenlife": 7,
+  "Glyph Cinema": 6
+ }
+}

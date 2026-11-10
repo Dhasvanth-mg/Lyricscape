@@ -1,0 +1,617 @@
+{
+ "style": "Glyph Cinema",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "GLY-CMP-C1": {
+   "name": "Picture with lyric band",
+   "layers": "background cells, subject cells, band mask, band text, persistence, post (scan or paper)",
+   "safe_area": "Band fully inside 4-cell margins and above the bottom 14% player zone.",
+   "assets": "SUB, RMP, REG, PAL, LAY band layouts"
+  },
+  "GLY-CMP-C2": {
+   "name": "Calligram",
+   "layers": "background, subject dimmed, routed letters, band",
+   "safe_area": "As C1.",
+   "assets": "SUB with routing targets, CAL rules"
+  },
+  "GLY-CMP-C3": {
+   "name": "Teletext page",
+   "layers": "page background, mosaic picture, header, lyric rows, footer",
+   "safe_area": "Page fitted inside the frame with 4% margins; 40x24 cells fixed (letterboxed in portrait).",
+   "assets": "PAG templates, teletext REG, subject mosaics"
+  },
+  "GLY-CMP-C4": {
+   "name": "Typewriter sheet",
+   "layers": "ground, paper sheet, overstrike picture, typed lines, ink spread, sheet shadow",
+   "safe_area": "Typed line inside the sheet margins and the frame's central 80%.",
+   "assets": "PAP papers, typewriter REG, SUB as overstrike maps"
+  },
+  "GLY-CMP-C5": {
+   "name": "Split field",
+   "layers": "subject region, divider, column background, column text",
+   "safe_area": "Column text inside 4-cell margins.",
+   "assets": "SUB, LAY column, RMP"
+  },
+  "GLY-CMP-C6": {
+   "name": "Macro cell zoom",
+   "layers": "detail cells, band",
+   "safe_area": "Band inside 2-cell margins.",
+   "assets": "SUB detail crops, RMP coarse"
+  }
+ },
+ "scene_families": {
+  "GLY-SCN-01": {
+   "name": "Night sky",
+   "roles": [
+    "verse",
+    "chorus",
+    "intro"
+   ],
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C2",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-PAL-PAL"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "sky objects",
+    "register": "phosphor",
+    "motion": "twinkle and orbit",
+    "density": "sparse",
+    "focal": "upper centre"
+   }
+  },
+  "GLY-SCN-02": {
+   "name": "Roads and travel",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C2",
+    "GLY-CMP-C5"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "vehicles and roads",
+    "register": "phosphor",
+    "motion": "forward scroll",
+    "density": "medium",
+    "focal": "vanishing point"
+   }
+  },
+  "GLY-SCN-03": {
+   "name": "Weather",
+   "roles": [
+    "verse",
+    "break",
+    "quiet"
+   ],
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C4",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-SRF-PAP"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "weather",
+    "register": "paper or phosphor",
+    "motion": "falling in place",
+    "density": "full field",
+    "focal": "whole field"
+   }
+  },
+  "GLY-SCN-04": {
+   "name": "Sea and shore",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C2",
+    "GLY-CMP-C5"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "sea",
+    "register": "phosphor",
+    "motion": "rolling waves",
+    "density": "lower half",
+    "focal": "horizon"
+   }
+  },
+  "GLY-SCN-05": {
+   "name": "City at night",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C5",
+    "GLY-CMP-C3"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-LAY-PAG"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "architecture",
+    "register": "phosphor or teletext",
+    "motion": "windows lighting",
+    "density": "dense lower",
+    "focal": "skyline"
+   }
+  },
+  "GLY-SCN-06": {
+   "name": "Nature",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C4",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-SRF-PAP"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "plants and land",
+    "register": "paper",
+    "motion": "wind sway",
+    "density": "medium",
+    "focal": "single specimen"
+   }
+  },
+  "GLY-SCN-07": {
+   "name": "Heart and hands",
+   "roles": [
+    "chorus",
+    "verse"
+   ],
+   "compositions": [
+    "GLY-CMP-C2",
+    "GLY-CMP-C1",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI"
+   ],
+   "attributes": {
+    "structure": "calligram",
+    "subject": "body symbols",
+    "register": "phosphor",
+    "motion": "slow beat",
+    "density": "centred",
+    "focal": "centre"
+   }
+  },
+  "GLY-SCN-08": {
+   "name": "Machines and music",
+   "roles": [
+    "verse",
+    "chorus",
+    "break"
+   ],
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C5",
+    "GLY-CMP-C3"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-LAY-PAG"
+   ],
+   "attributes": {
+    "structure": "band or split",
+    "subject": "objects",
+    "register": "teletext or phosphor",
+    "motion": "spinning parts",
+    "density": "centred",
+    "focal": "object centre"
+   }
+  },
+  "GLY-SCN-09": {
+   "name": "Fire and light",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C2",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "light sources",
+    "register": "phosphor",
+    "motion": "flicker within limits",
+    "density": "bright centre",
+    "focal": "flame"
+   }
+  },
+  "GLY-SCN-10": {
+   "name": "Creatures",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C4",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-SRF-PAP"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "animals",
+    "register": "paper or 1-bit",
+    "motion": "wing and tail loops",
+    "density": "sparse",
+    "focal": "creature"
+   }
+  },
+  "GLY-SCN-11": {
+   "name": "Teletext service",
+   "roles": [
+    "break",
+    "intro",
+    "outro",
+    "chorus"
+   ],
+   "compositions": [
+    "GLY-CMP-C3"
+   ],
+   "required": [
+    "GLY-LAY-PAG",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-ENV-SUB"
+   ],
+   "attributes": {
+    "structure": "page",
+    "subject": "information pages",
+    "register": "teletext",
+    "motion": "page updates",
+    "density": "structured",
+    "focal": "lyric rows"
+   }
+  },
+  "GLY-SCN-12": {
+   "name": "Typed letter",
+   "roles": [
+    "verse",
+    "quiet",
+    "outro"
+   ],
+   "compositions": [
+    "GLY-CMP-C4"
+   ],
+   "required": [
+    "GLY-SRF-PAP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-ENV-SUB"
+   ],
+   "attributes": {
+    "structure": "sheet",
+    "subject": "a letter",
+    "register": "typewriter",
+    "motion": "typing and carriage",
+    "density": "low",
+    "focal": "typed line"
+   }
+  },
+  "GLY-SCN-13": {
+   "name": "Symbols and objects of fortune",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C2",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI"
+   ],
+   "attributes": {
+    "structure": "calligram",
+    "subject": "symbolic objects",
+    "register": "1-bit",
+    "motion": "glint",
+    "density": "centred",
+    "focal": "object"
+   }
+  }
+ },
+ "global_families": [
+  "GLY-TYP-RMP",
+  "GLY-PAL-PAL",
+  "GLY-LAY-LAY",
+  "GLY-CAM-CAM",
+  "GLY-MOT-CAL",
+  "GLY-PRC-REG"
+ ],
+ "asset_families": {
+  "GLY-ENV-SUB": {
+   "name": "Subject pictures",
+   "category": "ENV",
+   "kind": "source",
+   "compatible_with": "All registers; ramps; calligram rules.",
+   "exclusions": "Fire and light subjects never with density pulse; sky subjects never with the 1-bit register at fine grid (stars vanish).",
+   "scenes": [
+    "GLY-SCN-01",
+    "GLY-SCN-02",
+    "GLY-SCN-03",
+    "GLY-SCN-04",
+    "GLY-SCN-05",
+    "GLY-SCN-06",
+    "GLY-SCN-07",
+    "GLY-SCN-08",
+    "GLY-SCN-09",
+    "GLY-SCN-10",
+    "GLY-SCN-11",
+    "GLY-SCN-12",
+    "GLY-SCN-13"
+   ]
+  },
+  "GLY-MOT-ANI": {
+   "name": "Subject motion loops",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "Subjects that declare the loop id.",
+   "exclusions": "Max one loop group animated at full amplitude at once.",
+   "scenes": [
+    "GLY-SCN-01",
+    "GLY-SCN-02",
+    "GLY-SCN-03",
+    "GLY-SCN-04",
+    "GLY-SCN-05",
+    "GLY-SCN-06",
+    "GLY-SCN-07",
+    "GLY-SCN-08",
+    "GLY-SCN-09",
+    "GLY-SCN-10",
+    "GLY-SCN-13"
+   ]
+  },
+  "GLY-TYP-RMP": {
+   "name": "Glyph ramps",
+   "category": "TYP",
+   "kind": "configuration",
+   "compatible_with": "Registers state allowed ramps.",
+   "exclusions": "No ramp uses letters of a complex script.",
+   "scenes": [
+    "GLY-SCN-01",
+    "GLY-SCN-02",
+    "GLY-SCN-03",
+    "GLY-SCN-04",
+    "GLY-SCN-05",
+    "GLY-SCN-06",
+    "GLY-SCN-07",
+    "GLY-SCN-08",
+    "GLY-SCN-09",
+    "GLY-SCN-10",
+    "GLY-SCN-13"
+   ]
+  },
+  "GLY-PRC-REG": {
+   "name": "Registers",
+   "category": "PRC",
+   "kind": "configuration",
+   "compatible_with": "Ramps and palettes per register.",
+   "exclusions": "See grammar.",
+   "scenes": [
+    "GLY-SCN-01",
+    "GLY-SCN-02",
+    "GLY-SCN-03",
+    "GLY-SCN-04",
+    "GLY-SCN-05",
+    "GLY-SCN-06",
+    "GLY-SCN-07",
+    "GLY-SCN-08",
+    "GLY-SCN-09",
+    "GLY-SCN-10",
+    "GLY-SCN-11",
+    "GLY-SCN-12",
+    "GLY-SCN-13"
+   ]
+  },
+  "GLY-LAY-PAG": {
+   "name": "Teletext page templates",
+   "category": "LAY",
+   "kind": "component",
+   "compatible_with": "Teletext register only.",
+   "exclusions": "No real broadcaster names or page designs.",
+   "scenes": [
+    "GLY-SCN-05",
+    "GLY-SCN-08",
+    "GLY-SCN-11"
+   ]
+  },
+  "GLY-SRF-PAP": {
+   "name": "Typewriter papers",
+   "category": "SRF",
+   "kind": "source",
+   "compatible_with": "Typewriter and 1-bit registers.",
+   "exclusions": "Never with phosphor.",
+   "scenes": [
+    "GLY-SCN-03",
+    "GLY-SCN-06",
+    "GLY-SCN-10",
+    "GLY-SCN-12"
+   ]
+  },
+  "GLY-PAL-PAL": {
+   "name": "Register palettes",
+   "category": "PAL",
+   "kind": "configuration",
+   "compatible_with": "Per register.",
+   "exclusions": "Teletext palette fixed.",
+   "scenes": [
+    "GLY-SCN-01"
+   ]
+  },
+  "GLY-LAY-LAY": {
+   "name": "Band layouts",
+   "category": "LAY",
+   "kind": "component",
+   "compatible_with": "All compositions.",
+   "exclusions": "Band never inside the subject focal box.",
+   "scenes": []
+  },
+  "GLY-MOT-CAL": {
+   "name": "Calligram routing rules",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "Subjects with routing target masks.",
+   "exclusions": "Latin and CJK only (per-cell scripts).",
+   "scenes": []
+  },
+  "GLY-CAM-CAM": {
+   "name": "Grid-snapped camera moves",
+   "category": "CAM",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "Never during migration.",
+   "scenes": []
+  }
+ },
+ "layer_order": [
+  "grid background (register ground: black, page black, or paper)",
+  "subject cells (character pass over a subject map)",
+  "subject motion channel",
+  "routed calligram letters",
+  "band mask",
+  "band text and cursor",
+  "persistence / ink spread",
+  "post: scan and curve (ASCII), raster (teletext), paper fibre (typewriter)"
+ ],
+ "invalid": [
+  {
+   "this": "Teletext register",
+   "never_with": "cover-derived hues",
+   "because": "Breaks the eight-colour medium."
+  },
+  {
+   "this": "Fine grid",
+   "never_with": "outputs under 600 px tall",
+   "because": "Unreadable on phones."
+  },
+  {
+   "this": "Devanagari, Tamil, Arabic",
+   "never_with": "per-cell migration",
+   "because": "Clusters cannot be split."
+  },
+  {
+   "this": "Fire subject",
+   "never_with": "density pulse",
+   "because": "Two flicker sources exceed the flash budget."
+  },
+  {
+   "this": "Calligram",
+   "never_with": "estimated word timing",
+   "because": "Hook migration would claim a timing that is a guess (it starts at line end instead)."
+  },
+  {
+   "this": "Typewriter register",
+   "never_with": "phosphor bloom",
+   "because": "Paper does not glow."
+  }
+ ],
+ "limits": {
+  "scale": "Cell size from the three grid resolutions only; band rows 1-3; subject occupies 50-80% of the grid area.",
+  "safe": "Band inside 4-cell margins and out of the subject's declared focal box; bottom 14% kept clear in the app stage.",
+  "complexity": "One subject per scene; max 24 routed letters at once.",
+  "colour": "One palette per register; teletext only the eight colours; 1-bit only two.",
+  "motion": "One moving subject part at a time; migration and density pulse never in the same second.",
+  "material": "Paper only with typewriter and 1-bit; scanlines only with ASCII; raster only with teletext."
+ }
+}

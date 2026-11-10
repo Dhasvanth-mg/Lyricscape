@@ -1,0 +1,7013 @@
+{
+"schema": "lyricscape.index/1.0.0",
+"total": 454,
+"assets": [
+{
+"id": "SHR-PRC-GEN-001",
+"name": "Film grain",
+"style": [
+"Shared",
+"Screenlife",
+"Glyph Cinema",
+"Paper Theatre",
+"Konstrukt",
+"Celluloid",
+"Folio",
+"Nocturne",
+"Liquid Light Show",
+"Sketch Cards",
+"Signage",
+"Ink",
+"Panels",
+"Phosphor",
+"Cover Pop",
+"Monument"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-PRC-GEN-002",
+"name": "Ordered and blue-noise dither",
+"style": [
+"Shared",
+"Glyph Cinema",
+"Sketch Cards",
+"Panels"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SHR-PRC-GEN-003",
+"name": "Halftone and screentone",
+"style": [
+"Shared",
+"Panels",
+"Sketch Cards",
+"Konstrukt",
+"Cover Pop"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SHR-PRC-GEN-004",
+"name": "Paper fibre and tooth",
+"style": [
+"Shared",
+"Folio",
+"Ink",
+"Sketch Cards",
+"Paper Theatre",
+"Konstrukt",
+"Panels"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-PRC-GEN-005",
+"name": "Overprint multiply",
+"style": [
+"Shared",
+"Konstrukt",
+"Sketch Cards",
+"Folio"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-PRC-GEN-006",
+"name": "Bokeh discs",
+"style": [
+"Shared",
+"Nocturne",
+"Screenlife",
+"Signage"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-PRC-GEN-007",
+"name": "Rain on glass",
+"style": [
+"Shared",
+"Nocturne",
+"Signage",
+"Screenlife"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-PRC-GEN-008",
+"name": "Glow and bloom",
+"style": [
+"Shared",
+"Signage",
+"Phosphor",
+"Liquid Light Show",
+"Nocturne",
+"Celluloid"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SHR-PRC-GEN-009",
+"name": "Seeded noise fields",
+"style": [
+"Shared",
+"Screenlife",
+"Glyph Cinema",
+"Paper Theatre",
+"Konstrukt",
+"Celluloid",
+"Folio",
+"Nocturne",
+"Liquid Light Show",
+"Sketch Cards",
+"Signage",
+"Ink",
+"Panels",
+"Phosphor",
+"Cover Pop",
+"Monument"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-PRC-GEN-010",
+"name": "Baked flow-field sampler",
+"style": [
+"Shared",
+"Liquid Light Show",
+"Ink"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-PRC-GEN-011",
+"name": "Distance-along-stroke reveal",
+"style": [
+"Shared",
+"Ink",
+"Sketch Cards",
+"Celluloid"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-PRC-GEN-012",
+"name": "Depth fog and haze",
+"style": [
+"Shared",
+"Monument",
+"Paper Theatre",
+"Nocturne"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-PRC-GEN-013",
+"name": "Wet ground reflection",
+"style": [
+"Shared",
+"Signage",
+"Nocturne",
+"Monument"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-PRC-GEN-014",
+"name": "Cover derivation",
+"style": [
+"Shared",
+"Cover Pop",
+"Screenlife",
+"Folio",
+"Konstrukt",
+"Liquid Light Show",
+"Celluloid",
+"Nocturne"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SHR-PRC-GEN-015",
+"name": "Character-cell pass",
+"style": [
+"Shared",
+"Glyph Cinema",
+"Signage"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SHR-PRC-GEN-016",
+"name": "Thick line renderer",
+"style": [
+"Shared",
+"Phosphor",
+"Signage",
+"Konstrukt",
+"Panels"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SHR-PRC-GEN Shared procedural generators",
+"method": "shader",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TEX-NOI-001",
+"name": "Blue noise 64",
+"style": [
+"Shared"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SHR-TEX-NOI Shared noise and utility textures",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TEX-NOI-002",
+"name": "Blue noise 128 RGBA",
+"style": [
+"Shared"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SHR-TEX-NOI Shared noise and utility textures",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TEX-NOI-003",
+"name": "Value noise 256",
+"style": [
+"Shared"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SHR-TEX-NOI Shared noise and utility textures",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TEX-NOI-004",
+"name": "Curl noise 256",
+"style": [
+"Shared"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SHR-TEX-NOI Shared noise and utility textures",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TEX-NOI-005",
+"name": "Paper tooth 512",
+"style": [
+"Shared"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SHR-TEX-NOI Shared noise and utility textures",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TEX-NOI-006",
+"name": "Fibre direction 512",
+"style": [
+"Shared"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SHR-TEX-NOI Shared noise and utility textures",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-001",
+"name": "Inter Variable",
+"style": [
+"Shared",
+"Screenlife",
+"Folio",
+"Celluloid",
+"Nocturne",
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-002",
+"name": "JetBrains Mono Variable",
+"style": [
+"Shared",
+"Screenlife",
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-003",
+"name": "Archivo Variable",
+"style": [
+"Shared",
+"Konstrukt",
+"Monument",
+"Signage"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-004",
+"name": "Space Grotesk Variable",
+"style": [
+"Shared",
+"Konstrukt"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-005",
+"name": "Anton",
+"style": [
+"Shared",
+"Monument",
+"Konstrukt",
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-006",
+"name": "Bebas Neue",
+"style": [
+"Shared",
+"Signage",
+"Liquid Light Show"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-007",
+"name": "Cormorant Garamond",
+"style": [
+"Shared",
+"Nocturne",
+"Celluloid",
+"Folio"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-008",
+"name": "Instrument Serif",
+"style": [
+"Shared",
+"Folio",
+"Screenlife",
+"Nocturne"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-009",
+"name": "Playfair Display Variable",
+"style": [
+"Shared",
+"Folio"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-010",
+"name": "DM Serif Display",
+"style": [
+"Shared",
+"Paper Theatre",
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-011",
+"name": "Special Elite",
+"style": [
+"Shared",
+"Celluloid",
+"Glyph Cinema",
+"Paper Theatre"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-012",
+"name": "Permanent Marker",
+"style": [
+"Shared",
+"Sketch Cards",
+"Celluloid"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-013",
+"name": "Bangers",
+"style": [
+"Shared",
+"Panels",
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-014",
+"name": "Nunito 900 and 900 italic",
+"style": [
+"Shared",
+"Cover Pop"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-015",
+"name": "Syne Variable",
+"style": [
+"Shared",
+"Folio"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-016",
+"name": "Noto Sans Devanagari Variable",
+"style": [
+"Shared",
+"Screenlife",
+"Glyph Cinema",
+"Paper Theatre",
+"Konstrukt",
+"Celluloid",
+"Folio",
+"Nocturne",
+"Liquid Light Show",
+"Sketch Cards",
+"Signage",
+"Ink",
+"Panels",
+"Phosphor",
+"Cover Pop",
+"Monument"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-017",
+"name": "Noto Sans Tamil Variable",
+"style": [
+"Shared",
+"Screenlife",
+"Glyph Cinema",
+"Paper Theatre",
+"Konstrukt",
+"Celluloid",
+"Folio",
+"Nocturne",
+"Liquid Light Show",
+"Sketch Cards",
+"Signage",
+"Ink",
+"Panels",
+"Phosphor",
+"Cover Pop",
+"Monument"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SHR-TYP-FNT-018",
+"name": "Noto Serif Devanagari",
+"style": [
+"Shared",
+"Folio",
+"Nocturne",
+"Celluloid",
+"Paper Theatre"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-019",
+"name": "Noto Serif Tamil",
+"style": [
+"Shared",
+"Folio",
+"Nocturne",
+"Celluloid",
+"Paper Theatre"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-020",
+"name": "Noto Sans Arabic",
+"style": [
+"Shared",
+"Screenlife",
+"Konstrukt",
+"Signage",
+"Panels",
+"Cover Pop",
+"Monument",
+"Liquid Light Show",
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-021",
+"name": "Noto Naskh Arabic",
+"style": [
+"Shared",
+"Folio",
+"Nocturne",
+"Celluloid",
+"Paper Theatre",
+"Ink"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-022",
+"name": "Noto Sans Hebrew",
+"style": [
+"Shared",
+"Screenlife",
+"Konstrukt",
+"Signage",
+"Panels",
+"Cover Pop",
+"Monument",
+"Liquid Light Show",
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-023",
+"name": "Frank Ruhl Libre",
+"style": [
+"Shared",
+"Folio",
+"Nocturne",
+"Celluloid",
+"Paper Theatre"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-024",
+"name": "Caveat",
+"style": [
+"Shared",
+"Screenlife",
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-025",
+"name": "Kalam",
+"style": [
+"Shared",
+"Sketch Cards",
+"Ink",
+"Panels"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-026",
+"name": "Kavivanar",
+"style": [
+"Shared",
+"Sketch Cards",
+"Ink",
+"Panels"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-027",
+"name": "Comic Neue",
+"style": [
+"Shared",
+"Panels"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-028",
+"name": "Newsreader",
+"style": [
+"Shared",
+"Folio"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-029",
+"name": "Shrikhand",
+"style": [
+"Shared",
+"Liquid Light Show"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-030",
+"name": "Relief SingleLine",
+"style": [
+"Shared",
+"Phosphor"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-031",
+"name": "Hershey vector fonts",
+"style": [
+"Shared",
+"Phosphor"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-032",
+"name": "VT323",
+"style": [
+"Shared",
+"Glyph Cinema",
+"Signage"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-033",
+"name": "Bedstead",
+"style": [
+"Shared",
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-034",
+"name": "GNU Unifont",
+"style": [
+"Shared",
+"Signage",
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-035",
+"name": "Silkscreen",
+"style": [
+"Shared",
+"Signage"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": "licensed-font",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SHR-TYP-FNT-036",
+"name": "Monoton",
+"style": [
+"Shared"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SHR-TYP-FNT-037",
+"name": "Comic Sans-like system fallback",
+"style": [
+"Shared"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SHR-TYP-FNT-038",
+"name": "Lobster",
+"style": [
+"Shared"
+],
+"category": "TYP",
+"kind": "dependency",
+"family": "SHR-TYP-FNT Typefaces (open licence)",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SCR-UIK-APP-001",
+"name": "Murmur messenger",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-002",
+"name": "Margin notes",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-003",
+"name": "Lantern search",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-004",
+"name": "Quire documents",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-005",
+"name": "Frame composer",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-006",
+"name": "tty terminal",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-007",
+"name": "Lattice code editor",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-008",
+"name": "Halo lock screen",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-009",
+"name": "Echo voice memo",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-010",
+"name": "Tick checklist",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-011",
+"name": "Almanac calendar",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-012",
+"name": "Wayfinder car display",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-013",
+"name": "Plaid desktop",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-014",
+"name": "Post mail",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-015",
+"name": "Tongue translator",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-016",
+"name": "Sign-up form",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "L",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-APP-017",
+"name": "Real-brand lookalike messenger",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SCR-UIK-APP-018",
+"name": "Social feed with comments",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SCR-UIK-APP-019",
+"name": "Spreadsheet",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SCR-UIK-APP-020",
+"name": "Second messenger in a different style",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "source",
+"family": "SCR-UIK-APP Fictional app kits",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "merged",
+"origin": "candidate"
+},
+{
+"id": "SCR-UIK-STA-001",
+"name": "Murmur: empty thread",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-002",
+"name": "Murmur: typing indicator",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-003",
+"name": "Murmur: sent and delivered",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-004",
+"name": "Murmur: read",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-005",
+"name": "Murmur: edited bubble",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-006",
+"name": "Murmur: sent again stack",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-007",
+"name": "Murmur: draft restored",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-008",
+"name": "Murmur: reply-quote",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-009",
+"name": "Margin: blank note",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-010",
+"name": "Margin: list mode",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-011",
+"name": "Margin: paragraph mode",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-012",
+"name": "Margin: strikethrough edit",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-013",
+"name": "Margin: pinned note",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-014",
+"name": "Lantern: empty field",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-015",
+"name": "Lantern: suggestions open",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-016",
+"name": "Lantern: results page",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-017",
+"name": "Quire: blank page",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-018",
+"name": "Quire: letter layout",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-019",
+"name": "Quire: tracked changes",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-020",
+"name": "Quire: margin comment",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-021",
+"name": "Frame: photo and empty caption",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-022",
+"name": "Frame: caption typed",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-023",
+"name": "Frame: posted with reactions",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-024",
+"name": "tty: prompt",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-025",
+"name": "tty: output scroll",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-026",
+"name": "tty: two-user chat",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-027",
+"name": "tty: progress bar",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-028",
+"name": "Lattice: comment line",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-029",
+"name": "Lattice: string literal",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-030",
+"name": "Lattice: diff view",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-031",
+"name": "Halo: clock only",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-032",
+"name": "Halo: one notification",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-033",
+"name": "Halo: stack",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-034",
+"name": "Halo: low battery",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-035",
+"name": "Echo: recording",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-036",
+"name": "Echo: transcript",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-037",
+"name": "Echo: saved list",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-038",
+"name": "Tick: list",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-039",
+"name": "Tick: ticked",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-040",
+"name": "Tick: all done",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-041",
+"name": "Almanac: day view",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-042",
+"name": "Almanac: invite",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-043",
+"name": "Wayfinder: route",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-044",
+"name": "Wayfinder: arrival",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-045",
+"name": "Plaid: chat window",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-046",
+"name": "Plaid: notepad",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-047",
+"name": "Plaid: dialog box",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-048",
+"name": "Post: inbox",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-049",
+"name": "Post: compose",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-050",
+"name": "Tongue: two fields",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-051",
+"name": "Tongue: swap",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-052",
+"name": "Sign-up: fields",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-UIK-STA-053",
+"name": "Sign-up: password reveal",
+"style": [
+"Screenlife"
+],
+"category": "UIK",
+"kind": "component",
+"family": "SCR-UIK-STA Kit states",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-FRM-DEV-001",
+"name": "Phone, slim",
+"style": [
+"Screenlife"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SCR-FRM-DEV Device frames",
+"method": "handcrafted-vector",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-FRM-DEV-002",
+"name": "Phone, older",
+"style": [
+"Screenlife"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SCR-FRM-DEV Device frames",
+"method": "handcrafted-vector",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-FRM-DEV-003",
+"name": "Phone, cracked",
+"style": [
+"Screenlife"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SCR-FRM-DEV Device frames",
+"method": "handcrafted-vector",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-FRM-DEV-004",
+"name": "Tablet",
+"style": [
+"Screenlife"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SCR-FRM-DEV Device frames",
+"method": "handcrafted-vector",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-FRM-DEV-005",
+"name": "Laptop",
+"style": [
+"Screenlife"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SCR-FRM-DEV Device frames",
+"method": "handcrafted-vector",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-FRM-DEV-006",
+"name": "Desktop monitor",
+"style": [
+"Screenlife"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SCR-FRM-DEV Device frames",
+"method": "handcrafted-vector",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-FRM-DEV-007",
+"name": "CRT monitor",
+"style": [
+"Screenlife"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SCR-FRM-DEV Device frames",
+"method": "handcrafted-vector",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-FRM-DEV-008",
+"name": "Car centre display",
+"style": [
+"Screenlife"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SCR-FRM-DEV Device frames",
+"method": "handcrafted-vector",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-FRM-DEV-009",
+"name": "Watch",
+"style": [
+"Screenlife"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SCR-FRM-DEV Device frames",
+"method": "handcrafted-vector",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-FRM-DEV-010",
+"name": "Hand-held phone",
+"style": [
+"Screenlife"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SCR-FRM-DEV Device frames",
+"method": "handcrafted-vector",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-ENV-ROM-001",
+"name": "Bedroom at night",
+"style": [
+"Screenlife"
+],
+"category": "ENV",
+"kind": "source",
+"family": "SCR-ENV-ROM Room plates",
+"method": "hybrid",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-ENV-ROM-002",
+"name": "Morning kitchen",
+"style": [
+"Screenlife"
+],
+"category": "ENV",
+"kind": "source",
+"family": "SCR-ENV-ROM Room plates",
+"method": "hybrid",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-ENV-ROM-003",
+"name": "Train window at dusk",
+"style": [
+"Screenlife"
+],
+"category": "ENV",
+"kind": "source",
+"family": "SCR-ENV-ROM Room plates",
+"method": "hybrid",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-ENV-ROM-004",
+"name": "Desk under a lamp",
+"style": [
+"Screenlife"
+],
+"category": "ENV",
+"kind": "source",
+"family": "SCR-ENV-ROM Room plates",
+"method": "hybrid",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-ENV-ROM-005",
+"name": "Bus stop in rain",
+"style": [
+"Screenlife"
+],
+"category": "ENV",
+"kind": "source",
+"family": "SCR-ENV-ROM Room plates",
+"method": "hybrid",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-ENV-ROM-006",
+"name": "Café corner",
+"style": [
+"Screenlife"
+],
+"category": "ENV",
+"kind": "source",
+"family": "SCR-ENV-ROM Room plates",
+"method": "hybrid",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-ENV-ROM-007",
+"name": "Car interior at night",
+"style": [
+"Screenlife"
+],
+"category": "ENV",
+"kind": "source",
+"family": "SCR-ENV-ROM Room plates",
+"method": "hybrid",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-ENV-ROM-008",
+"name": "Rooftop at dusk",
+"style": [
+"Screenlife"
+],
+"category": "ENV",
+"kind": "source",
+"family": "SCR-ENV-ROM Room plates",
+"method": "hybrid",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-ENV-ROM-009",
+"name": "Event lights",
+"style": [
+"Screenlife"
+],
+"category": "ENV",
+"kind": "source",
+"family": "SCR-ENV-ROM Room plates",
+"method": "hybrid",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-ENV-ROM-010",
+"name": "Bathroom mirror light",
+"style": [
+"Screenlife"
+],
+"category": "ENV",
+"kind": "source",
+"family": "SCR-ENV-ROM Room plates",
+"method": "hybrid",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-ENV-ROM-011",
+"name": "Hospital corridor at night",
+"style": [
+"Screenlife"
+],
+"category": "ENV",
+"kind": "source",
+"family": "SCR-ENV-ROM Room plates",
+"method": "hybrid",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-WAL-001",
+"name": "Cover blur",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-WAL Wallpaper generators",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-WAL-002",
+"name": "Cover crop",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-WAL Wallpaper generators",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-WAL-003",
+"name": "Two-tone gradient",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-WAL Wallpaper generators",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-WAL-004",
+"name": "Soft mesh",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-WAL Wallpaper generators",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-WAL-005",
+"name": "Plain theme",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-WAL Wallpaper generators",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-WAL-006",
+"name": "Starfield",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-WAL Wallpaper generators",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-WAL-007",
+"name": "Plaid pattern",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-WAL Wallpaper generators",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-WAL-008",
+"name": "Paper grain",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-WAL Wallpaper generators",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-001",
+"name": "Message banner",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-002",
+"name": "Missed call",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-003",
+"name": "Low battery",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-004",
+"name": "Alarm",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-005",
+"name": "Now recording",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-006",
+"name": "Download complete",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-007",
+"name": "Do not disturb",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-008",
+"name": "Calendar reminder",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-009",
+"name": "Unread badge",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-010",
+"name": "Typing indicator bubble",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-011",
+"name": "Delivered and read marks",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-012",
+"name": "Screenshot taken",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-013",
+"name": "Volume pill",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-NTF-014",
+"name": "Plaid alert sound dialog",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SCR-PRP-NTF Notifications and system overlays",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-001",
+"name": "Heart burst",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-002",
+"name": "Crying laugh blob",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-003",
+"name": "Fire swoosh",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-004",
+"name": "Sparkle trio",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-005",
+"name": "Thumbs shape",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-006",
+"name": "Lightning",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-007",
+"name": "Broken heart",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-008",
+"name": "Moon and z",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-009",
+"name": "Music notes",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-010",
+"name": "Exclamation pair",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-011",
+"name": "Question swirl",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-012",
+"name": "Rose",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-013",
+"name": "Hundred stamp",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-014",
+"name": "Hand wave",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-015",
+"name": "Sun",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-016",
+"name": "Raindrop",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-017",
+"name": "Party popper",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRP-STK-018",
+"name": "Flower bunch",
+"style": [
+"Screenlife"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SCR-PRP-STK Original reaction stickers",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-REV-CAR-001",
+"name": "Bar caret",
+"style": [
+"Screenlife"
+],
+"category": "REV",
+"kind": "component",
+"family": "SCR-REV-CAR Caret, selection and correction overlays",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-REV-CAR-002",
+"name": "Block caret",
+"style": [
+"Screenlife"
+],
+"category": "REV",
+"kind": "component",
+"family": "SCR-REV-CAR Caret, selection and correction overlays",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-REV-CAR-003",
+"name": "Underline caret",
+"style": [
+"Screenlife"
+],
+"category": "REV",
+"kind": "component",
+"family": "SCR-REV-CAR Caret, selection and correction overlays",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-REV-CAR-004",
+"name": "Selection sweep",
+"style": [
+"Screenlife"
+],
+"category": "REV",
+"kind": "component",
+"family": "SCR-REV-CAR Caret, selection and correction overlays",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-REV-CAR-005",
+"name": "Bold toggle",
+"style": [
+"Screenlife"
+],
+"category": "REV",
+"kind": "component",
+"family": "SCR-REV-CAR Caret, selection and correction overlays",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-REV-CAR-006",
+"name": "Autocorrect bubble",
+"style": [
+"Screenlife"
+],
+"category": "REV",
+"kind": "component",
+"family": "SCR-REV-CAR Caret, selection and correction overlays",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-REV-CAR-007",
+"name": "Spell squiggle",
+"style": [
+"Screenlife"
+],
+"category": "REV",
+"kind": "component",
+"family": "SCR-REV-CAR Caret, selection and correction overlays",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-REV-CAR-008",
+"name": "Strikethrough delete",
+"style": [
+"Screenlife"
+],
+"category": "REV",
+"kind": "component",
+"family": "SCR-REV-CAR Caret, selection and correction overlays",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-REV-CAR-009",
+"name": "IME composition underline",
+"style": [
+"Screenlife"
+],
+"category": "REV",
+"kind": "component",
+"family": "SCR-REV-CAR Caret, selection and correction overlays",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-REV-CAR-010",
+"name": "Paste flash",
+"style": [
+"Screenlife"
+],
+"category": "REV",
+"kind": "component",
+"family": "SCR-REV-CAR Caret, selection and correction overlays",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TYP-001",
+"name": "Confident",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TYP Typing behaviour profiles",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TYP-002",
+"name": "Hesitant",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TYP Typing behaviour profiles",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TYP-003",
+"name": "Tired late-night",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TYP Typing behaviour profiles",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TYP-004",
+"name": "Angry",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TYP Typing behaviour profiles",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TYP-005",
+"name": "Autocorrecting",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TYP Typing behaviour profiles",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TYP-006",
+"name": "Deliberate one-finger",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TYP Typing behaviour profiles",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TYP-007",
+"name": "Dictation chunks",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TYP Typing behaviour profiles",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TYP-008",
+"name": "Paste",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TYP Typing behaviour profiles",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TYP-009",
+"name": "Retype after delete",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TYP Typing behaviour profiles",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TYP-010",
+"name": "Transcript reveal",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TYP Typing behaviour profiles",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TPO-001",
+"name": "Adjacent key",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TPO Typo models",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TPO-002",
+"name": "Doubled letter",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TPO Typo models",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TPO-003",
+"name": "Transposition",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TPO Typo models",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TPO-004",
+"name": "Missing space",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TPO Typo models",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TPO-005",
+"name": "Autocorrect to near word",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TPO Typo models",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-MOT-TPO-006",
+"name": "Caps slip",
+"style": [
+"Screenlife"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SCR-MOT-TPO Typo models",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-001",
+"name": "Settled handheld",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-002",
+"name": "Slow push",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-003",
+"name": "Rack focus field",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-004",
+"name": "Whip pan",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-005",
+"name": "Tilt follow",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-006",
+"name": "Desktop orbit",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-007",
+"name": "Locked off",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-008",
+"name": "Pull back reveal",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-009",
+"name": "Drift down",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-010",
+"name": "Dashboard sway",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-011",
+"name": "Settle after pick-up",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CAM-CAM-012",
+"name": "Top-down desk",
+"style": [
+"Screenlife"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "SCR-CAM-CAM Camera moves",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-LAY-FLD-001",
+"name": "Chat input bar",
+"style": [
+"Screenlife"
+],
+"category": "LAY",
+"kind": "component",
+"family": "SCR-LAY-FLD Lyric field treatments",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-LAY-FLD-002",
+"name": "Bubble XL",
+"style": [
+"Screenlife"
+],
+"category": "LAY",
+"kind": "component",
+"family": "SCR-LAY-FLD Lyric field treatments",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-LAY-FLD-003",
+"name": "Search field",
+"style": [
+"Screenlife"
+],
+"category": "LAY",
+"kind": "component",
+"family": "SCR-LAY-FLD Lyric field treatments",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-LAY-FLD-004",
+"name": "Document heading",
+"style": [
+"Screenlife"
+],
+"category": "LAY",
+"kind": "component",
+"family": "SCR-LAY-FLD Lyric field treatments",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-LAY-FLD-005",
+"name": "Document body",
+"style": [
+"Screenlife"
+],
+"category": "LAY",
+"kind": "component",
+"family": "SCR-LAY-FLD Lyric field treatments",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-LAY-FLD-006",
+"name": "Caption field",
+"style": [
+"Screenlife"
+],
+"category": "LAY",
+"kind": "component",
+"family": "SCR-LAY-FLD Lyric field treatments",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-LAY-FLD-007",
+"name": "Terminal prompt line",
+"style": [
+"Screenlife"
+],
+"category": "LAY",
+"kind": "component",
+"family": "SCR-LAY-FLD Lyric field treatments",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-LAY-FLD-008",
+"name": "Notification title",
+"style": [
+"Screenlife"
+],
+"category": "LAY",
+"kind": "component",
+"family": "SCR-LAY-FLD Lyric field treatments",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-LAY-FLD-009",
+"name": "Checklist item",
+"style": [
+"Screenlife"
+],
+"category": "LAY",
+"kind": "component",
+"family": "SCR-LAY-FLD Lyric field treatments",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-LAY-FLD-010",
+"name": "Nav instruction banner",
+"style": [
+"Screenlife"
+],
+"category": "LAY",
+"kind": "component",
+"family": "SCR-LAY-FLD Lyric field treatments",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-META-001",
+"name": "Contact name = artist",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-META Metadata content rules",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-META-002",
+"name": "Timestamps = song time at the line's start",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-META Metadata content rules",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-META-003",
+"name": "Battery = percent of song remaining",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-META Metadata content rules",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-META-004",
+"name": "Search suggestions = upcoming timed lines (max 3)",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-META Metadata content rules",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-META-005",
+"name": "File and note names = song title and section label",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-META Metadata content rules",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-META-006",
+"name": "Clock = elapsed song time",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-META Metadata content rules",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-META-007",
+"name": "Terminal output = line index and timing source label",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-META Metadata content rules",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-PRC-META-008",
+"name": "Reaction counts = number of times the line has repeated",
+"style": [
+"Screenlife"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SCR-PRC-META Metadata content rules",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TEX-GLS-001",
+"name": "Fingerprint smudge",
+"style": [
+"Screenlife"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SCR-TEX-GLS Glass and CRT surface plates",
+"method": "photographed",
+"priority": "medium",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TEX-GLS-002",
+"name": "Window reflection",
+"style": [
+"Screenlife"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SCR-TEX-GLS Glass and CRT surface plates",
+"method": "photographed",
+"priority": "medium",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TEX-GLS-003",
+"name": "Lamp glare",
+"style": [
+"Screenlife"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SCR-TEX-GLS Glass and CRT surface plates",
+"method": "photographed",
+"priority": "medium",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TEX-GLS-004",
+"name": "Dust on glass",
+"style": [
+"Screenlife"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SCR-TEX-GLS Glass and CRT surface plates",
+"method": "photographed",
+"priority": "medium",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TEX-GLS-005",
+"name": "CRT shadow mask",
+"style": [
+"Screenlife"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SCR-TEX-GLS Glass and CRT surface plates",
+"method": "photographed",
+"priority": "medium",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TEX-GLS-006",
+"name": "CRT phosphor persistence ramp",
+"style": [
+"Screenlife"
+],
+"category": "TEX",
+"kind": "source",
+"family": "SCR-TEX-GLS Glass and CRT surface plates",
+"method": "photographed",
+"priority": "medium",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CMP-C1",
+"name": "Over the shoulder",
+"style": [
+"Screenlife"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SCR-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CMP-C2",
+"name": "Macro on the field",
+"style": [
+"Screenlife"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SCR-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CMP-C3",
+"name": "Desktop windows",
+"style": [
+"Screenlife"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SCR-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CMP-C4",
+"name": "Thread scroll",
+"style": [
+"Screenlife"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SCR-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CMP-C5",
+"name": "Two screens",
+"style": [
+"Screenlife"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SCR-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CMP-C6",
+"name": "Lock screen",
+"style": [
+"Screenlife"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SCR-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-CMP-C7",
+"name": "Full-frame terminal",
+"style": [
+"Screenlife"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SCR-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-01",
+"name": "Late-night messages",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-02",
+"name": "Notes to self",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-03",
+"name": "Search at 3 a.m.",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-04",
+"name": "The draft document",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-05",
+"name": "Post and caption",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-06",
+"name": "Terminal session",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-07",
+"name": "Code editor",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-08",
+"name": "Lock screen and notifications",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-09",
+"name": "Voice memo",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-10",
+"name": "Plans and lists",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-11",
+"name": "Night drive display",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-12",
+"name": "Old desktop",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-SCN-X01",
+"name": "Spreadsheet cell",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SCR-SCN-X02",
+"name": "Video call grid",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SCR-SCN-X03",
+"name": "Dating app profile",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SCR-SCN-X04",
+"name": "Banking or payment screen",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SCR-SCN-X05",
+"name": "Smartwatch glance",
+"style": [
+"Screenlife"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SCR-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "merged",
+"origin": "candidate"
+},
+{
+"id": "SCR-TRN-APP-SWITCH",
+"name": "App switcher card stack",
+"style": [
+"Screenlife"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SCR-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TRN-WHIP-PAN",
+"name": "Whip pan to a new device",
+"style": [
+"Screenlife"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SCR-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TRN-SEND-SCROLL",
+"name": "Send and scroll",
+"style": [
+"Screenlife"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SCR-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TRN-LOCK-WAKE",
+"name": "Lock and wake",
+"style": [
+"Screenlife"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SCR-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TRN-DEVICE-SWAP",
+"name": "Device swap",
+"style": [
+"Screenlife"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SCR-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TRN-SCROLL-BACK",
+"name": "Scroll back through the song",
+"style": [
+"Screenlife"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SCR-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TRN-SCREEN-DIM",
+"name": "Screen dim",
+"style": [
+"Screenlife"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SCR-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SCR-TRN-NOTIFICATION-PULL",
+"name": "Notification pull-down",
+"style": [
+"Screenlife"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SCR-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-001",
+"name": "Eye",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-002",
+"name": "Highway at night",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-003",
+"name": "Slow lights",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-004",
+"name": "Ocean waves",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-005",
+"name": "Fire",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-006",
+"name": "City skyline",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-007",
+"name": "Ringed planet",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-008",
+"name": "Rain",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-009",
+"name": "Tunnel",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-010",
+"name": "Heart",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-011",
+"name": "Flower",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-012",
+"name": "Mountains",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-013",
+"name": "Globe",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-014",
+"name": "Helix",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-015",
+"name": "Butterfly",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "GLY-ENV-SUB-016",
+"name": "Crescent moon and clouds",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-017",
+"name": "Comet over a field",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-018",
+"name": "Constellation chart",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-019",
+"name": "Solar eclipse",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-020",
+"name": "Lighthouse in fog",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-021",
+"name": "Sailing boat at dusk",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-022",
+"name": "Rowing boat on a still lake",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-023",
+"name": "Whale under the surface",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-024",
+"name": "Train on a viaduct",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-025",
+"name": "Station clock",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-026",
+"name": "Airplane window",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-027",
+"name": "Empty desert road",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-028",
+"name": "Streetlight in snow",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-029",
+"name": "Lit window grid",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-030",
+"name": "Bridge over a river",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-031",
+"name": "Thunderstorm over plains",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-032",
+"name": "Snowfall in a forest",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-033",
+"name": "Fog over a valley",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-034",
+"name": "Single tree on a hill",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-035",
+"name": "Rose close-up",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-036",
+"name": "Sunflower field",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-037",
+"name": "Cactus in the desert",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-038",
+"name": "Waterfall",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-039",
+"name": "Candle in the dark",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-040",
+"name": "Struck match",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-041",
+"name": "Sunrise",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-042",
+"name": "Two hands almost touching",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-043",
+"name": "Dancer mid-spin",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-044",
+"name": "Raised hands in a crowd",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-045",
+"name": "Cassette tape",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-046",
+"name": "Vinyl record",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-047",
+"name": "Telephone handset",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-048",
+"name": "Radio with a dial",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-049",
+"name": "Speaker cone",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-050",
+"name": "Hourglass",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-051",
+"name": "Key and lock",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-052",
+"name": "Crown",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-053",
+"name": "Diamond",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-054",
+"name": "Swallow in flight",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-055",
+"name": "Birds on a wire",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-056",
+"name": "Cat on a windowsill",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-057",
+"name": "Rocket launch",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-058",
+"name": "Ferris wheel",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-059",
+"name": "Paper plane",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-060",
+"name": "Balloon floating away",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-061",
+"name": "Cracked mirror",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-062",
+"name": "Steaming cup",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": "handcrafted-raster",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-ENV-SUB-063",
+"name": "Vortex",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "GLY-ENV-SUB-064",
+"name": "Sun grid",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "GLY-ENV-SUB-065",
+"name": "Equalizer bars",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "merged",
+"origin": "candidate"
+},
+{
+"id": "GLY-ENV-SUB-066",
+"name": "Skull with roses",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "GLY-ENV-SUB-067",
+"name": "Real landmark skylines",
+"style": [
+"Glyph Cinema"
+],
+"category": "ENV",
+"kind": "source",
+"family": "GLY-ENV-SUB Subject pictures",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "GLY-MOT-ANI-001",
+"name": "Fall in place",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-ANI Subject motion loops",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-ANI-002",
+"name": "Roll",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-ANI Subject motion loops",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-ANI-003",
+"name": "Advance",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-ANI Subject motion loops",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-ANI-004",
+"name": "Flicker",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-ANI Subject motion loops",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-ANI-005",
+"name": "Twinkle",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-ANI Subject motion loops",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-ANI-006",
+"name": "Blink",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-ANI Subject motion loops",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-ANI-007",
+"name": "Flap",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-ANI Subject motion loops",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-ANI-008",
+"name": "Drift",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-ANI Subject motion loops",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-ANI-009",
+"name": "Spin",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-ANI Subject motion loops",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-ANI-010",
+"name": "Beat",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-ANI Subject motion loops",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-ANI-011",
+"name": "Sweep",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-ANI Subject motion loops",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-001",
+"name": "Classic ten",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-002",
+"name": "Dense seventy",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-003",
+"name": "Block shades",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-004",
+"name": "Braille dots",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-005",
+"name": "Box drawing",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-006",
+"name": "Quiet punctuation",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-007",
+"name": "Numerals",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-008",
+"name": "Greek accents",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-009",
+"name": "Cyrillic",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-010",
+"name": "Kana",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-011",
+"name": "Hangul jamo",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-012",
+"name": "Typewriter overstrike pairs",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-013",
+"name": "Teletext mosaics",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TYP-RMP-014",
+"name": "Lyric letters",
+"style": [
+"Glyph Cinema"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "GLY-TYP-RMP Glyph ramps",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PRC-REG-001",
+"name": "Phosphor ASCII",
+"style": [
+"Glyph Cinema"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "GLY-PRC-REG Registers",
+"method": "shader",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PRC-REG-002",
+"name": "Teletext mosaic",
+"style": [
+"Glyph Cinema"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "GLY-PRC-REG Registers",
+"method": "shader",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PRC-REG-003",
+"name": "Typewriter overstrike",
+"style": [
+"Glyph Cinema"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "GLY-PRC-REG Registers",
+"method": "shader",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PRC-REG-004",
+"name": "1-bit print",
+"style": [
+"Glyph Cinema"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "GLY-PRC-REG Registers",
+"method": "shader",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PRC-REG-005",
+"name": "Block shade",
+"style": [
+"Glyph Cinema"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "GLY-PRC-REG Registers",
+"method": "shader",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-PAG-001",
+"name": "Index page",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-PAG Teletext page templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-PAG-002",
+"name": "Clock page",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-PAG Teletext page templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-PAG-003",
+"name": "Chart page",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-PAG Teletext page templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-PAG-004",
+"name": "Programme guide",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-PAG Teletext page templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-PAG-005",
+"name": "Subtitle page",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-PAG Teletext page templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-PAG-006",
+"name": "Picture page",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-PAG Teletext page templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-PAG-007",
+"name": "Test page",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-PAG Teletext page templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-PAG-008",
+"name": "Weather-map page",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-PAG Teletext page templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-PAG-009",
+"name": "Credits page",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-PAG Teletext page templates",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SRF-PAP-001",
+"name": "Bond paper",
+"style": [
+"Glyph Cinema"
+],
+"category": "SRF",
+"kind": "source",
+"family": "GLY-SRF-PAP Typewriter papers",
+"method": "photographed",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SRF-PAP-002",
+"name": "Onionskin",
+"style": [
+"Glyph Cinema"
+],
+"category": "SRF",
+"kind": "source",
+"family": "GLY-SRF-PAP Typewriter papers",
+"method": "photographed",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SRF-PAP-003",
+"name": "Carbon copy",
+"style": [
+"Glyph Cinema"
+],
+"category": "SRF",
+"kind": "source",
+"family": "GLY-SRF-PAP Typewriter papers",
+"method": "photographed",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SRF-PAP-004",
+"name": "Yellowed letter",
+"style": [
+"Glyph Cinema"
+],
+"category": "SRF",
+"kind": "source",
+"family": "GLY-SRF-PAP Typewriter papers",
+"method": "photographed",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SRF-PAP-005",
+"name": "Ruled pad",
+"style": [
+"Glyph Cinema"
+],
+"category": "SRF",
+"kind": "source",
+"family": "GLY-SRF-PAP Typewriter papers",
+"method": "photographed",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SRF-PAP-006",
+"name": "Index card",
+"style": [
+"Glyph Cinema"
+],
+"category": "SRF",
+"kind": "source",
+"family": "GLY-SRF-PAP Typewriter papers",
+"method": "photographed",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PAL-PAL-001",
+"name": "Green phosphor",
+"style": [
+"Glyph Cinema"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "GLY-PAL-PAL Register palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PAL-PAL-002",
+"name": "Amber phosphor",
+"style": [
+"Glyph Cinema"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "GLY-PAL-PAL Register palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PAL-PAL-003",
+"name": "White phosphor",
+"style": [
+"Glyph Cinema"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "GLY-PAL-PAL Register palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PAL-PAL-004",
+"name": "Cover-hue phosphor",
+"style": [
+"Glyph Cinema"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "GLY-PAL-PAL Register palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PAL-PAL-005",
+"name": "Teletext eight",
+"style": [
+"Glyph Cinema"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "GLY-PAL-PAL Register palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PAL-PAL-006",
+"name": "Black ribbon on bond",
+"style": [
+"Glyph Cinema"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "GLY-PAL-PAL Register palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PAL-PAL-007",
+"name": "Red-black ribbon",
+"style": [
+"Glyph Cinema"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "GLY-PAL-PAL Register palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-PAL-PAL-008",
+"name": "1-bit cover duotone",
+"style": [
+"Glyph Cinema"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "GLY-PAL-PAL Register palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-LAY-001",
+"name": "Top-third band",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-LAY Band layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-LAY-002",
+"name": "Bottom-third band",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-LAY Band layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-LAY-003",
+"name": "Inverted bar band",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-LAY Band layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-LAY-004",
+"name": "Double-height teletext rows",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-LAY Band layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-LAY-005",
+"name": "Typed margin line",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-LAY Band layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-LAY-006",
+"name": "Lyric column (split field)",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-LAY Band layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-LAY-LAY-007",
+"name": "Macro band",
+"style": [
+"Glyph Cinema"
+],
+"category": "LAY",
+"kind": "component",
+"family": "GLY-LAY-LAY Band layouts",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-CAL-001",
+"name": "Brightest first",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-CAL Calligram routing rules",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-CAL-002",
+"name": "Contour follow",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-CAL Calligram routing rules",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-CAL-003",
+"name": "Fill silhouette",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-CAL Calligram routing rules",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-CAL-004",
+"name": "Spiral from centre",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-CAL Calligram routing rules",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-CAL-005",
+"name": "Horizon line",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-CAL Calligram routing rules",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-MOT-CAL-006",
+"name": "Rain of the word",
+"style": [
+"Glyph Cinema"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "GLY-MOT-CAL Calligram routing rules",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-CAM-CAM-001",
+"name": "Zoom-step in to detail",
+"style": [
+"Glyph Cinema"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "GLY-CAM-CAM Grid-snapped camera moves",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-CAM-CAM-002",
+"name": "Zoom-step out to wide",
+"style": [
+"Glyph Cinema"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "GLY-CAM-CAM Grid-snapped camera moves",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-CAM-CAM-003",
+"name": "Cell pan across",
+"style": [
+"Glyph Cinema"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "GLY-CAM-CAM Grid-snapped camera moves",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-CAM-CAM-004",
+"name": "Hold",
+"style": [
+"Glyph Cinema"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "GLY-CAM-CAM Grid-snapped camera moves",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-CAM-CAM-005",
+"name": "Tilt down by rows (for tall subjects in portrait)",
+"style": [
+"Glyph Cinema"
+],
+"category": "CAM",
+"kind": "configuration",
+"family": "GLY-CAM-CAM Grid-snapped camera moves",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-CMP-C1",
+"name": "Picture with lyric band",
+"style": [
+"Glyph Cinema"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "GLY-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-CMP-C2",
+"name": "Calligram",
+"style": [
+"Glyph Cinema"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "GLY-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-CMP-C3",
+"name": "Teletext page",
+"style": [
+"Glyph Cinema"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "GLY-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-CMP-C4",
+"name": "Typewriter sheet",
+"style": [
+"Glyph Cinema"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "GLY-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-CMP-C5",
+"name": "Split field",
+"style": [
+"Glyph Cinema"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "GLY-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-CMP-C6",
+"name": "Macro cell zoom",
+"style": [
+"Glyph Cinema"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "GLY-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-01",
+"name": "Night sky",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-02",
+"name": "Roads and travel",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-03",
+"name": "Weather",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-04",
+"name": "Sea and shore",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-05",
+"name": "City at night",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-06",
+"name": "Nature",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-07",
+"name": "Heart and hands",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-08",
+"name": "Machines and music",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-09",
+"name": "Fire and light",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-10",
+"name": "Creatures",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-11",
+"name": "Teletext service",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-12",
+"name": "Typed letter",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-13",
+"name": "Symbols and objects of fortune",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-SCN-X01",
+"name": "Hacker room",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "GLY-SCN-X02",
+"name": "Falling code",
+"style": [
+"Glyph Cinema"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "GLY-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "GLY-TRN-NOISE-FRONT",
+"name": "Noise-front dissolve",
+"style": [
+"Glyph Cinema"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "GLY-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TRN-PAGE-UPDATE",
+"name": "Teletext page update",
+"style": [
+"Glyph Cinema"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "GLY-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TRN-CARRIAGE-RETURN",
+"name": "Carriage return",
+"style": [
+"Glyph Cinema"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "GLY-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TRN-REGISTER-FLIP",
+"name": "Register flip",
+"style": [
+"Glyph Cinema"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "GLY-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TRN-DECAY-BLANK",
+"name": "Decay to blank",
+"style": [
+"Glyph Cinema"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "GLY-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TRN-ZOOM-STEP",
+"name": "Zoom step",
+"style": [
+"Glyph Cinema"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "GLY-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "GLY-TRN-DEVELOP",
+"name": "Develop from noise",
+"style": [
+"Glyph Cinema"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "GLY-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+}
+]
+}

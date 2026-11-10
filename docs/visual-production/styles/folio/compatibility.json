@@ -1,0 +1,498 @@
+{
+ "style": "Folio",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "FOL-CMP-C1": {
+   "name": "Pull-quote page",
+   "layers": "desk, page paper, body, plates, rules, quote, marginalia",
+   "safe_area": "Quote inside central 80% of the frame after framing.",
+   "assets": "LAY quarterly and newspaper templates, PAIR, RUL"
+  },
+  "FOL-CMP-C2": {
+   "name": "Headline spread",
+   "layers": "page, plate, headline, deck, body",
+   "safe_area": "Headline inside central 90%.",
+   "assets": "LAY headline templates, PLT"
+  },
+  "FOL-CMP-C3": {
+   "name": "Drop-cap opening",
+   "layers": "page, drop cap, paragraph",
+   "safe_area": "Central 80%.",
+   "assets": "LAY opening templates, PAIR"
+  },
+  "FOL-CMP-C4": {
+   "name": "Plate and caption",
+   "layers": "page, plate, frame, caption",
+   "safe_area": "Caption central 80%.",
+   "assets": "PLT, FRM plate frames"
+  },
+  "FOL-CMP-C5": {
+   "name": "Parallel text",
+   "layers": "page, columns, rule, line numbers",
+   "safe_area": "Both columns inside central 90%.",
+   "assets": "LAY bilingual templates"
+  },
+  "FOL-CMP-C6": {
+   "name": "Contents and index",
+   "layers": "page, list, rules",
+   "safe_area": "Central 80%.",
+   "assets": "LAY index templates"
+  },
+  "FOL-CMP-C7": {
+   "name": "Loud collision",
+   "layers": "page, collision type layers, plate fragments, lyric",
+   "safe_area": "Lyric clear zone central 70%; nothing overlaps it.",
+   "assets": "LAY loud templates, PAIR loud"
+  },
+  "FOL-CMP-C8": {
+   "name": "Letter",
+   "layers": "desk, envelope, letter paper, text",
+   "safe_area": "Central 80%.",
+   "assets": "LAY letter templates, PAPR laid"
+  }
+ },
+ "scene_families": {
+  "FOL-SCN-01": {
+   "name": "Literary quarterly",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "FOL-CMP-C1",
+    "FOL-CMP-C3",
+    "FOL-CMP-C4"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRP-RUL",
+    "FOL-PRC-PLT",
+    "FOL-LAY-MARG"
+   ],
+   "attributes": {
+    "publication": "quarterly",
+    "grid": "2 columns wide margins",
+    "plate": "small",
+    "density": "medium",
+    "paper": "cream uncoated",
+    "motion": "slow"
+   }
+  },
+  "FOL-SCN-02": {
+   "name": "Newspaper",
+   "roles": [
+    "verse",
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "FOL-CMP-C1",
+    "FOL-CMP-C2",
+    "FOL-CMP-C4"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR",
+    "FOL-TYP-MST"
+   ],
+   "optional": [
+    "FOL-PRC-PLT",
+    "FOL-PRP-RUL"
+   ],
+   "attributes": {
+    "publication": "newspaper",
+    "grid": "6 narrow columns",
+    "plate": "halftone",
+    "density": "high",
+    "paper": "newsprint",
+    "motion": "brisk"
+   }
+  },
+  "FOL-SCN-03": {
+   "name": "Theatre programme",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "FOL-CMP-C1",
+    "FOL-CMP-C6",
+    "FOL-CMP-C2"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR",
+    "FOL-TYP-MST"
+   ],
+   "optional": [
+    "FOL-PRP-RUL"
+   ],
+   "attributes": {
+    "publication": "programme",
+    "grid": "centred single column",
+    "plate": "none",
+    "density": "low",
+    "paper": "coloured card",
+    "motion": "slow"
+   }
+  },
+  "FOL-SCN-04": {
+   "name": "Art book",
+   "roles": [
+    "verse",
+    "break",
+    "quiet"
+   ],
+   "compositions": [
+    "FOL-CMP-C4",
+    "FOL-CMP-C1"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR",
+    "FOL-PRC-PLT"
+   ],
+   "optional": [
+    "FOL-FRM-FRM"
+   ],
+   "attributes": {
+    "publication": "art book",
+    "grid": "plate-led",
+    "plate": "full",
+    "density": "low",
+    "paper": "white coated",
+    "motion": "drift"
+   }
+  },
+  "FOL-SCN-05": {
+   "name": "Letters page",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "FOL-CMP-C8",
+    "FOL-CMP-C1"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRP-RUL"
+   ],
+   "attributes": {
+    "publication": "letters",
+    "grid": "letter",
+    "plate": "none",
+    "density": "medium",
+    "paper": "laid",
+    "motion": "drift down"
+   }
+  },
+  "FOL-SCN-06": {
+   "name": "Loud issue",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "FOL-CMP-C7",
+    "FOL-CMP-C2"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRC-PLT"
+   ],
+   "attributes": {
+    "publication": "loud",
+    "grid": "broken",
+    "plate": "fragments",
+    "density": "high",
+    "paper": "duotone",
+    "motion": "snap"
+   }
+  },
+  "FOL-SCN-07": {
+   "name": "Poetry chapbook",
+   "roles": [
+    "quiet",
+    "verse",
+    "outro"
+   ],
+   "compositions": [
+    "FOL-CMP-C1",
+    "FOL-CMP-C3"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRP-RUL"
+   ],
+   "attributes": {
+    "publication": "chapbook",
+    "grid": "one line per page",
+    "plate": "none",
+    "density": "very low",
+    "paper": "cream small page",
+    "motion": "page turns"
+   }
+  },
+  "FOL-SCN-08": {
+   "name": "Bilingual edition",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "FOL-CMP-C5",
+    "FOL-CMP-C1"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRP-RUL",
+    "FOL-LAY-MARG"
+   ],
+   "attributes": {
+    "publication": "bilingual",
+    "grid": "parallel columns",
+    "plate": "none",
+    "density": "medium",
+    "paper": "cream",
+    "motion": "slow"
+   }
+  },
+  "FOL-SCN-09": {
+   "name": "Almanac",
+   "roles": [
+    "break",
+    "intro",
+    "outro"
+   ],
+   "compositions": [
+    "FOL-CMP-C6",
+    "FOL-CMP-C4"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRC-PLT",
+    "FOL-PRP-RUL"
+   ],
+   "attributes": {
+    "publication": "almanac",
+    "grid": "tables",
+    "plate": "diagram",
+    "density": "structured",
+    "paper": "cream",
+    "motion": "static"
+   }
+  }
+ },
+ "global_families": [
+  "FOL-TYP-PAIR",
+  "FOL-SRF-PAPR",
+  "FOL-LAY-MARG",
+  "FOL-MOT-MOT",
+  "FOL-PRP-RUL"
+ ],
+ "asset_families": {
+  "FOL-LAY-LAY": {
+   "name": "Page templates",
+   "category": "LAY",
+   "kind": "component",
+   "compatible_with": "Pairings and papers of the publication; plates.",
+   "exclusions": "Body text is only the song's own earlier lines, the second line, or metadata: never filler copy.",
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-02",
+    "FOL-SCN-03",
+    "FOL-SCN-04",
+    "FOL-SCN-05",
+    "FOL-SCN-06",
+    "FOL-SCN-07",
+    "FOL-SCN-08",
+    "FOL-SCN-09"
+   ]
+  },
+  "FOL-TYP-PAIR": {
+   "name": "Type pairings",
+   "category": "TYP",
+   "kind": "configuration",
+   "compatible_with": "Publications listed.",
+   "exclusions": "Loud display faces only in the loud issue.",
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-02",
+    "FOL-SCN-03",
+    "FOL-SCN-04",
+    "FOL-SCN-05",
+    "FOL-SCN-06",
+    "FOL-SCN-07",
+    "FOL-SCN-08",
+    "FOL-SCN-09"
+   ]
+  },
+  "FOL-SRF-PAPR": {
+   "name": "Paper stocks",
+   "category": "SRF",
+   "kind": "source",
+   "compatible_with": "Publications.",
+   "exclusions": "One paper per page.",
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-02",
+    "FOL-SCN-03",
+    "FOL-SCN-04",
+    "FOL-SCN-05",
+    "FOL-SCN-06",
+    "FOL-SCN-07",
+    "FOL-SCN-08",
+    "FOL-SCN-09"
+   ]
+  },
+  "FOL-PRP-RUL": {
+   "name": "Rules and ornaments",
+   "category": "PRP",
+   "kind": "source",
+   "compatible_with": "All templates.",
+   "exclusions": "Max 2 ornament kinds per page.",
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-02",
+    "FOL-SCN-03",
+    "FOL-SCN-05",
+    "FOL-SCN-07",
+    "FOL-SCN-08",
+    "FOL-SCN-09"
+   ]
+  },
+  "FOL-PRC-PLT": {
+   "name": "Plate treatments",
+   "category": "PRC",
+   "kind": "configuration",
+   "compatible_with": "Frames.",
+   "exclusions": "The cover shown as the cover is unmodified; derived plates (duotone, halftone) are captioned as details, not as the cover.",
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-02",
+    "FOL-SCN-04",
+    "FOL-SCN-06",
+    "FOL-SCN-09"
+   ]
+  },
+  "FOL-TYP-MST": {
+   "name": "Masthead systems",
+   "category": "TYP",
+   "kind": "component",
+   "compatible_with": "Pairings.",
+   "exclusions": "Never a real publication name (blocklist check).",
+   "scenes": [
+    "FOL-SCN-02",
+    "FOL-SCN-03"
+   ]
+  },
+  "FOL-FRM-FRM": {
+   "name": "Plate frames",
+   "category": "FRM",
+   "kind": "component",
+   "compatible_with": "Plates.",
+   "exclusions": "One frame style per page.",
+   "scenes": [
+    "FOL-SCN-04"
+   ]
+  },
+  "FOL-LAY-MARG": {
+   "name": "Marginalia",
+   "category": "LAY",
+   "kind": "component",
+   "compatible_with": "All templates.",
+   "exclusions": "Only song data.",
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-08"
+   ]
+  },
+  "FOL-MOT-MOT": {
+   "name": "Editorial motions",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "Reduced-motion alternatives defined.",
+   "scenes": []
+  }
+ },
+ "layer_order": [
+  "desk (when pulled back)",
+  "page paper",
+  "body columns (earlier lines, dim)",
+  "plates and frames",
+  "rules and ornaments",
+  "masthead, running heads, folios",
+  "pull quote or headline (lyric)",
+  "marginalia (second line, repeat marks)",
+  "post: paper fibre, page light"
+ ],
+ "invalid": [
+  {
+   "this": "Body text",
+   "never_with": "invented copy",
+   "because": "Secondary text must be the song itself."
+  },
+  {
+   "this": "Drop caps",
+   "never_with": "Devanagari, Tamil, Arabic",
+   "because": "Convention and shaping."
+  },
+  {
+   "this": "Italic emphasis",
+   "never_with": "scripts without italics",
+   "because": "Use ink darkening."
+  },
+  {
+   "this": "Loud collisions",
+   "never_with": "over the lyric",
+   "because": "Readability rule."
+  },
+  {
+   "this": "Real mastheads",
+   "never_with": "any",
+   "because": "Rights."
+  },
+  {
+   "this": "Plates",
+   "never_with": "altered cover art when shown as the cover",
+   "because": "Artwork policy; derived plates must not pose as the cover."
+  }
+ ],
+ "limits": {
+  "scale": "Pull quote and headline from the template's size table; body 1.4-1.8% of frame.",
+  "safe": "Lyric slot inside central 80% after framing; collision type never enters the lyric clear zone.",
+  "complexity": "Max 3 columns of body visible at once in the frame.",
+  "colour": "Ink plus one spot colour; plates full colour only in the art book.",
+  "motion": "One camera move per line at most.",
+  "material": "Halftone plates only on newsprint; coated paper only in the art book."
+ }
+}

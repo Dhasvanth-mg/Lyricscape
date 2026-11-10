@@ -1,0 +1,493 @@
+{
+ "style": "Nocturne",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "NOC-CMP-C1": {
+   "name": "Light and text opposite",
+   "layers": "darkness, room silhouette, light pool, dust, text, grain",
+   "safe_area": "Text inside central 80% and inside the light pool.",
+   "assets": "LIT, SIL room, WEA dust"
+  },
+  "NOC-CMP-C2": {
+   "name": "Centred halo",
+   "layers": "darkness, halo, text",
+   "safe_area": "Central 60%.",
+   "assets": "LIT halo"
+  },
+  "NOC-CMP-C3": {
+   "name": "Rolling column",
+   "layers": "darkness, light strip, column text",
+   "safe_area": "Column inside 8% margins.",
+   "assets": "LAY column"
+  },
+  "NOC-CMP-C4": {
+   "name": "Window rain",
+   "layers": "bokeh plane, window frame silhouette, rain refraction, text, grain",
+   "safe_area": "Central 80%.",
+   "assets": "BOK, WEA rain, SIL window"
+  },
+  "NOC-CMP-C5": {
+   "name": "Low horizon",
+   "layers": "sky, horizon lights, reflection, text",
+   "safe_area": "Text above the bottom 20%.",
+   "assets": "BOK horizon, WEA fog"
+  },
+  "NOC-CMP-C6": {
+   "name": "Screen glow",
+   "layers": "darkness, glow, text",
+   "safe_area": "Central 70%.",
+   "assets": "LIT phone glow"
+  }
+ },
+ "scene_families": {
+  "NOC-SCN-01": {
+   "name": "Lamp room",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "NOC-CMP-C1",
+    "NOC-CMP-C2",
+    "NOC-CMP-C3"
+   ],
+   "required": [
+    "NOC-LGT-LIT",
+    "NOC-SIL-SIL"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "lamp",
+    "weather": "dust",
+    "depth": "room",
+    "place": "interior",
+    "horizon": "none",
+    "glass": "none"
+   }
+  },
+  "NOC-SCN-02": {
+   "name": "Window rain",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "NOC-CMP-C4",
+    "NOC-CMP-C1"
+   ],
+   "required": [
+    "NOC-ATM-BOK",
+    "NOC-ATM-WEA",
+    "NOC-SIL-SIL"
+   ],
+   "optional": [
+    "NOC-LGT-LIT"
+   ],
+   "attributes": {
+    "light": "streetlight beyond",
+    "weather": "rain on glass",
+    "depth": "two planes",
+    "place": "window",
+    "horizon": "city",
+    "glass": "yes"
+   }
+  },
+  "NOC-SCN-03": {
+   "name": "Night street",
+   "roles": [
+    "verse",
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "NOC-CMP-C5",
+    "NOC-CMP-C1"
+   ],
+   "required": [
+    "NOC-ATM-BOK",
+    "NOC-LGT-LIT"
+   ],
+   "optional": [
+    "NOC-ATM-WEA",
+    "NOC-SIL-SIL"
+   ],
+   "attributes": {
+    "light": "streetlights",
+    "weather": "mist",
+    "depth": "street depth",
+    "place": "street",
+    "horizon": "street end",
+    "glass": "none"
+   }
+  },
+  "NOC-SCN-04": {
+   "name": "Candle",
+   "roles": [
+    "quiet",
+    "verse"
+   ],
+   "compositions": [
+    "NOC-CMP-C2",
+    "NOC-CMP-C1"
+   ],
+   "required": [
+    "NOC-LGT-LIT"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "candle",
+    "weather": "none",
+    "depth": "close",
+    "place": "table",
+    "horizon": "none",
+    "glass": "none"
+   }
+  },
+  "NOC-SCN-05": {
+   "name": "Dawn window",
+   "roles": [
+    "outro",
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "NOC-CMP-C1",
+    "NOC-CMP-C5"
+   ],
+   "required": [
+    "NOC-LGT-LIT",
+    "NOC-SIL-SIL"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "daylight",
+    "weather": "dust",
+    "depth": "room",
+    "place": "window",
+    "horizon": "sky",
+    "glass": "yes"
+   }
+  },
+  "NOC-SCN-06": {
+   "name": "Moonlight on water",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "NOC-CMP-C5",
+    "NOC-CMP-C2"
+   ],
+   "required": [
+    "NOC-LGT-LIT",
+    "NOC-ATM-BOK"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "moon",
+    "weather": "mist",
+    "depth": "far",
+    "place": "water",
+    "horizon": "sea",
+    "glass": "none"
+   }
+  },
+  "NOC-SCN-07": {
+   "name": "Car at night",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "NOC-CMP-C1",
+    "NOC-CMP-C4"
+   ],
+   "required": [
+    "NOC-LGT-LIT",
+    "NOC-SIL-SIL",
+    "NOC-ATM-BOK"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "passing streetlights",
+    "weather": "rain optional",
+    "depth": "interior",
+    "place": "car",
+    "horizon": "road",
+    "glass": "windscreen"
+   }
+  },
+  "NOC-SCN-08": {
+   "name": "Train window",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "NOC-CMP-C4",
+    "NOC-CMP-C1"
+   ],
+   "required": [
+    "NOC-ATM-BOK",
+    "NOC-SIL-SIL"
+   ],
+   "optional": [
+    "NOC-ATM-WEA",
+    "NOC-LGT-LIT"
+   ],
+   "attributes": {
+    "light": "passing lights",
+    "weather": "condensation",
+    "depth": "two planes",
+    "place": "train",
+    "horizon": "countryside lights",
+    "glass": "yes"
+   }
+  },
+  "NOC-SCN-09": {
+   "name": "Snow under a streetlight",
+   "roles": [
+    "verse",
+    "quiet",
+    "outro"
+   ],
+   "compositions": [
+    "NOC-CMP-C1",
+    "NOC-CMP-C2"
+   ],
+   "required": [
+    "NOC-LGT-LIT",
+    "NOC-ATM-WEA"
+   ],
+   "optional": [
+    "NOC-SIL-SIL"
+   ],
+   "attributes": {
+    "light": "streetlight cone",
+    "weather": "snow",
+    "depth": "street",
+    "place": "outdoors",
+    "horizon": "none",
+    "glass": "none"
+   }
+  },
+  "NOC-SCN-10": {
+   "name": "Screen glow",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "NOC-CMP-C6"
+   ],
+   "required": [
+    "NOC-LGT-LIT"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "screen glow",
+    "weather": "none",
+    "depth": "close",
+    "place": "bed",
+    "horizon": "none",
+    "glass": "none"
+   }
+  },
+  "NOC-SCN-11": {
+   "name": "Reading room",
+   "roles": [
+    "verse",
+    "chorus",
+    "break"
+   ],
+   "compositions": [
+    "NOC-CMP-C3"
+   ],
+   "required": [
+    "NOC-LAY-LAY",
+    "NOC-LGT-LIT"
+   ],
+   "optional": [],
+   "attributes": {
+    "light": "soft strip",
+    "weather": "none",
+    "depth": "none",
+    "place": "abstract",
+    "horizon": "none",
+    "glass": "none"
+   }
+  }
+ },
+ "global_families": [
+  "NOC-TYP-PAIR",
+  "NOC-PAL-PAL",
+  "NOC-PAL-GRN",
+  "NOC-LAY-LAY"
+ ],
+ "asset_families": {
+  "NOC-LGT-LIT": {
+   "name": "Light sources",
+   "category": "LGT",
+   "kind": "configuration",
+   "compatible_with": "Silhouettes and weather of the scene.",
+   "exclusions": "One per scene.",
+   "scenes": [
+    "NOC-SCN-01",
+    "NOC-SCN-02",
+    "NOC-SCN-03",
+    "NOC-SCN-04",
+    "NOC-SCN-05",
+    "NOC-SCN-06",
+    "NOC-SCN-07",
+    "NOC-SCN-08",
+    "NOC-SCN-09",
+    "NOC-SCN-10",
+    "NOC-SCN-11"
+   ]
+  },
+  "NOC-ATM-WEA": {
+   "name": "Weather and air layers",
+   "category": "ATM",
+   "kind": "configuration",
+   "compatible_with": "Scenes listed.",
+   "exclusions": "One per scene.",
+   "scenes": [
+    "NOC-SCN-01",
+    "NOC-SCN-02",
+    "NOC-SCN-03",
+    "NOC-SCN-04",
+    "NOC-SCN-05",
+    "NOC-SCN-06",
+    "NOC-SCN-07",
+    "NOC-SCN-08",
+    "NOC-SCN-09",
+    "NOC-SCN-10"
+   ]
+  },
+  "NOC-ATM-BOK": {
+   "name": "Bokeh arrangements",
+   "category": "ATM",
+   "kind": "configuration",
+   "compatible_with": "Window and street scenes.",
+   "exclusions": "Never in Candle or Lamp room.",
+   "scenes": [
+    "NOC-SCN-02",
+    "NOC-SCN-03",
+    "NOC-SCN-06",
+    "NOC-SCN-07",
+    "NOC-SCN-08"
+   ]
+  },
+  "NOC-SIL-SIL": {
+   "name": "Room and place silhouettes",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Scenes listed.",
+   "exclusions": "Max 2 per frame; edges only.",
+   "scenes": [
+    "NOC-SCN-01",
+    "NOC-SCN-02",
+    "NOC-SCN-03",
+    "NOC-SCN-05",
+    "NOC-SCN-07",
+    "NOC-SCN-08",
+    "NOC-SCN-09"
+   ]
+  },
+  "NOC-PAL-GRN": {
+   "name": "Grain profiles",
+   "category": "PAL",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "Strength 0.02-0.04 only.",
+   "scenes": []
+  },
+  "NOC-PAL-PAL": {
+   "name": "Light palettes",
+   "category": "PAL",
+   "kind": "configuration",
+   "compatible_with": "Lights.",
+   "exclusions": "No saturated hues beyond 30% chroma.",
+   "scenes": []
+  },
+  "NOC-LAY-LAY": {
+   "name": "Layouts",
+   "category": "LAY",
+   "kind": "component",
+   "compatible_with": "Compositions.",
+   "exclusions": "Text always inside the pool.",
+   "scenes": [
+    "NOC-SCN-11"
+   ]
+  },
+  "NOC-TYP-PAIR": {
+   "name": "Type pairings",
+   "category": "TYP",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "No display or heavy weights.",
+   "scenes": []
+  }
+ },
+ "layer_order": [
+  "darkness ground (tinted)",
+  "far plane (bokeh, horizon)",
+  "room or window silhouettes",
+  "light source and pool",
+  "weather (rain plane, dust, snow, fog)",
+  "text",
+  "grain whisper"
+ ],
+ "invalid": [
+  {
+   "this": "Two light sources",
+   "never_with": "any",
+   "because": "Identity rule."
+  },
+  {
+   "this": "Rain plane",
+   "never_with": "over the text box",
+   "because": "Readability."
+  },
+  {
+   "this": "Heavy grain (over 0.05)",
+   "never_with": "any",
+   "because": "Celluloid territory."
+  },
+  {
+   "this": "Beat-driven motion",
+   "never_with": "any above 1% gain",
+   "because": "Calm rule."
+  },
+  {
+   "this": "Interface elements",
+   "never_with": "screen glow",
+   "because": "Screenlife territory."
+  },
+  {
+   "this": "Candle flicker",
+   "never_with": "over 1 Hz",
+   "because": "Flash and calm rule."
+  }
+ ],
+ "limits": {
+  "scale": "Silhouettes only at frame edges (max 25% of area).",
+  "safe": "Text inside the light pool and central 80%; rain masked around text.",
+  "complexity": "Max 3 layers besides darkness and text.",
+  "colour": "One light colour.",
+  "motion": "One moving layer at a time besides text.",
+  "material": "Glass layers only in window scenes."
+ }
+}

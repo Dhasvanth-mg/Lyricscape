@@ -1,0 +1,601 @@
+{
+ "style": "Konstrukt",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "KON-CMP-C1": {
+   "name": "Block on grid",
+   "layers": "paper, grid rules, forms, type, numerals",
+   "safe_area": "Block within grid margins (6% outer margin) and out of the bottom 14% in the app stage.",
+   "assets": "GRD, LAY block templates, SHP any family"
+  },
+  "KON-CMP-C2": {
+   "name": "Column stack",
+   "layers": "paper, grid, forms, stack",
+   "safe_area": "Stack within margins.",
+   "assets": "LAY stack templates, SHP bars and dots"
+  },
+  "KON-CMP-C3": {
+   "name": "Rotated edge",
+   "layers": "paper, field, form, rotated type",
+   "safe_area": "Rotated line inside the edge margin band.",
+   "assets": "LAY rotated templates, SHP circles and rings"
+  },
+  "KON-CMP-C4": {
+   "name": "Split field",
+   "layers": "field A, field B, forms, type",
+   "safe_area": "Type centred on the split within margins.",
+   "assets": "LAY split templates, PAL duotone"
+  },
+  "KON-CMP-C5": {
+   "name": "Concentric",
+   "layers": "paper, rings, arcs, type",
+   "safe_area": "Type inside the central 70%.",
+   "assets": "SHP rings, arcs, circles; LAY concentric templates"
+  },
+  "KON-CMP-C6": {
+   "name": "Scatter on grid",
+   "layers": "paper, grid, forms, words",
+   "safe_area": "All modules inside margins.",
+   "assets": "LAY scatter templates, SHP squares and dots"
+  },
+  "KON-CMP-C7": {
+   "name": "Giant form",
+   "layers": "paper, giant form, type",
+   "safe_area": "Type corner within margins.",
+   "assets": "SHP giant forms"
+  }
+ },
+ "scene_families": {
+  "KON-SCN-01": {
+   "name": "Circles",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "KON-CMP-C1",
+    "KON-CMP-C5",
+    "KON-CMP-C7"
+   ],
+   "required": [
+    "KON-GEO-CIR",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "circles",
+    "motion": "scale sequence",
+    "layout": "block or concentric",
+    "density": "medium",
+    "axis": "centre",
+    "register": "positive"
+   }
+  },
+  "KON-SCN-02": {
+   "name": "Bars",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "KON-CMP-C1",
+    "KON-CMP-C2",
+    "KON-CMP-C4"
+   ],
+   "required": [
+    "KON-GEO-BAR",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "bars",
+    "motion": "extend and stack",
+    "layout": "block or column",
+    "density": "medium",
+    "axis": "vertical",
+    "register": "positive"
+   }
+  },
+  "KON-SCN-03": {
+   "name": "Arcs",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "KON-CMP-C5",
+    "KON-CMP-C3",
+    "KON-CMP-C1"
+   ],
+   "required": [
+    "KON-GEO-ARC",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "arcs",
+    "motion": "rotate sweep in steps",
+    "layout": "concentric or rotated",
+    "density": "low",
+    "axis": "centre",
+    "register": "positive"
+   }
+  },
+  "KON-SCN-04": {
+   "name": "Diagonals",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "KON-CMP-C4",
+    "KON-CMP-C1"
+   ],
+   "required": [
+    "KON-GEO-DIA",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "diagonals",
+    "motion": "slash steps",
+    "layout": "split or block",
+    "density": "medium-high",
+    "axis": "diagonal",
+    "register": "positive"
+   }
+  },
+  "KON-SCN-05": {
+   "name": "Dot matrix",
+   "roles": [
+    "verse",
+    "break"
+   ],
+   "compositions": [
+    "KON-CMP-C6",
+    "KON-CMP-C1",
+    "KON-CMP-C2"
+   ],
+   "required": [
+    "KON-GEO-DOT",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "dots",
+    "motion": "fill patterns",
+    "layout": "scatter or block",
+    "density": "medium",
+    "axis": "grid",
+    "register": "positive"
+   }
+  },
+  "KON-SCN-06": {
+   "name": "Rings",
+   "roles": [
+    "chorus",
+    "break"
+   ],
+   "compositions": [
+    "KON-CMP-C5",
+    "KON-CMP-C7"
+   ],
+   "required": [
+    "KON-GEO-RNG",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "rings",
+    "motion": "concentric pulse steps",
+    "layout": "concentric",
+    "density": "medium",
+    "axis": "centre",
+    "register": "positive or negative"
+   }
+  },
+  "KON-SCN-07": {
+   "name": "Squares",
+   "roles": [
+    "verse"
+   ],
+   "compositions": [
+    "KON-CMP-C6",
+    "KON-CMP-C1",
+    "KON-CMP-C2"
+   ],
+   "required": [
+    "KON-GEO-SQR",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "squares",
+    "motion": "module flips",
+    "layout": "scatter",
+    "density": "medium",
+    "axis": "grid",
+    "register": "positive"
+   }
+  },
+  "KON-SCN-08": {
+   "name": "Waves",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "KON-CMP-C1",
+    "KON-CMP-C7",
+    "KON-CMP-C3"
+   ],
+   "required": [
+    "KON-GEO-WAV",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "wave lines",
+    "motion": "phase steps",
+    "layout": "block",
+    "density": "low",
+    "axis": "horizontal",
+    "register": "positive"
+   }
+  },
+  "KON-SCN-09": {
+   "name": "Rules",
+   "roles": [
+    "quiet",
+    "intro",
+    "outro"
+   ],
+   "compositions": [
+    "KON-CMP-C1",
+    "KON-CMP-C2",
+    "KON-CMP-C7"
+   ],
+   "required": [
+    "KON-GEO-RUL",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "rules only",
+    "motion": "rule draws",
+    "layout": "block",
+    "density": "very low",
+    "axis": "horizontal",
+    "register": "positive"
+   }
+  },
+  "KON-SCN-10": {
+   "name": "Constructivist mix",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "KON-CMP-C4",
+    "KON-CMP-C1",
+    "KON-CMP-C5"
+   ],
+   "required": [
+    "KON-GEO-MIX",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "circle bar diagonal",
+    "motion": "layered steps",
+    "layout": "split",
+    "density": "high",
+    "axis": "diagonal",
+    "register": "positive"
+   }
+  },
+  "KON-SCN-11": {
+   "name": "Negative print",
+   "roles": [
+    "bridge",
+    "break"
+   ],
+   "compositions": [
+    "KON-CMP-C3",
+    "KON-CMP-C5",
+    "KON-CMP-C7"
+   ],
+   "required": [
+    "KON-GEO-RNG",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-GEO-ARC"
+   ],
+   "attributes": {
+    "form": "rings and arcs",
+    "motion": "slow rotation",
+    "layout": "rotated",
+    "density": "low",
+    "axis": "centre",
+    "register": "negative"
+   }
+  }
+ },
+ "global_families": [
+  "KON-LAY-GRD",
+  "KON-PAL-PAL",
+  "KON-TEX-TEX",
+  "KON-TYP-TYP",
+  "KON-MOT-TIM",
+  "KON-LAY-LAY"
+ ],
+ "asset_families": {
+  "KON-GEO-CIR": {
+   "name": "Circle choreographies",
+   "category": "GEO",
+   "kind": "configuration",
+   "compatible_with": "Grids and layouts; colour systems; timing sources.",
+   "exclusions": "Op-art density limits: no more than 6 alternating stripes per 10% of frame width, contrast of alternating forms under 3:1 when moving.",
+   "scenes": [
+    "KON-SCN-01"
+   ]
+  },
+  "KON-GEO-BAR": {
+   "name": "Bar choreographies",
+   "category": "GEO",
+   "kind": "configuration",
+   "compatible_with": "Grids and layouts; colour systems; timing sources.",
+   "exclusions": "Op-art density limits: no more than 6 alternating stripes per 10% of frame width, contrast of alternating forms under 3:1 when moving.",
+   "scenes": [
+    "KON-SCN-02"
+   ]
+  },
+  "KON-GEO-ARC": {
+   "name": "Arc choreographies",
+   "category": "GEO",
+   "kind": "configuration",
+   "compatible_with": "Grids and layouts; colour systems; timing sources.",
+   "exclusions": "Op-art density limits: no more than 6 alternating stripes per 10% of frame width, contrast of alternating forms under 3:1 when moving.",
+   "scenes": [
+    "KON-SCN-03",
+    "KON-SCN-11"
+   ]
+  },
+  "KON-GEO-DIA": {
+   "name": "Diagonal choreographies",
+   "category": "GEO",
+   "kind": "configuration",
+   "compatible_with": "Grids and layouts; colour systems; timing sources.",
+   "exclusions": "Op-art density limits: no more than 6 alternating stripes per 10% of frame width, contrast of alternating forms under 3:1 when moving.",
+   "scenes": [
+    "KON-SCN-04"
+   ]
+  },
+  "KON-GEO-DOT": {
+   "name": "Dot matrix choreographies",
+   "category": "GEO",
+   "kind": "configuration",
+   "compatible_with": "Grids and layouts; colour systems; timing sources.",
+   "exclusions": "Op-art density limits: no more than 6 alternating stripes per 10% of frame width, contrast of alternating forms under 3:1 when moving.",
+   "scenes": [
+    "KON-SCN-05"
+   ]
+  },
+  "KON-GEO-RNG": {
+   "name": "Ring choreographies",
+   "category": "GEO",
+   "kind": "configuration",
+   "compatible_with": "Grids and layouts; colour systems; timing sources.",
+   "exclusions": "Op-art density limits: no more than 6 alternating stripes per 10% of frame width, contrast of alternating forms under 3:1 when moving.",
+   "scenes": [
+    "KON-SCN-06",
+    "KON-SCN-11"
+   ]
+  },
+  "KON-GEO-SQR": {
+   "name": "Square choreographies",
+   "category": "GEO",
+   "kind": "configuration",
+   "compatible_with": "Grids and layouts; colour systems; timing sources.",
+   "exclusions": "Op-art density limits: no more than 6 alternating stripes per 10% of frame width, contrast of alternating forms under 3:1 when moving.",
+   "scenes": [
+    "KON-SCN-07"
+   ]
+  },
+  "KON-GEO-WAV": {
+   "name": "Wave line choreographies",
+   "category": "GEO",
+   "kind": "configuration",
+   "compatible_with": "Grids and layouts; colour systems; timing sources.",
+   "exclusions": "Op-art density limits: no more than 6 alternating stripes per 10% of frame width, contrast of alternating forms under 3:1 when moving.",
+   "scenes": [
+    "KON-SCN-08"
+   ]
+  },
+  "KON-GEO-RUL": {
+   "name": "Rule choreographies",
+   "category": "GEO",
+   "kind": "configuration",
+   "compatible_with": "Grids and layouts; colour systems; timing sources.",
+   "exclusions": "Op-art density limits: no more than 6 alternating stripes per 10% of frame width, contrast of alternating forms under 3:1 when moving.",
+   "scenes": [
+    "KON-SCN-09"
+   ]
+  },
+  "KON-GEO-MIX": {
+   "name": "Constructivist mix choreographies",
+   "category": "GEO",
+   "kind": "configuration",
+   "compatible_with": "Grids and layouts; colour systems; timing sources.",
+   "exclusions": "Op-art density limits: no more than 6 alternating stripes per 10% of frame width, contrast of alternating forms under 3:1 when moving.",
+   "scenes": [
+    "KON-SCN-10"
+   ]
+  },
+  "KON-LAY-GRD": {
+   "name": "Grid systems",
+   "category": "LAY",
+   "kind": "component",
+   "compatible_with": "All layouts.",
+   "exclusions": "Radial grid only with concentric layouts.",
+   "scenes": [
+    "KON-SCN-01",
+    "KON-SCN-02",
+    "KON-SCN-03",
+    "KON-SCN-04",
+    "KON-SCN-05",
+    "KON-SCN-06",
+    "KON-SCN-07",
+    "KON-SCN-08",
+    "KON-SCN-09",
+    "KON-SCN-10",
+    "KON-SCN-11"
+   ]
+  },
+  "KON-LAY-LAY": {
+   "name": "Layout templates",
+   "category": "LAY",
+   "kind": "component",
+   "compatible_with": "Grids listed per template.",
+   "exclusions": "Templates declare scripts they support.",
+   "scenes": []
+  },
+  "KON-PAL-PAL": {
+   "name": "Colour systems",
+   "category": "PAL",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "Negative only with Negative print scene.",
+   "scenes": [
+    "KON-SCN-01",
+    "KON-SCN-02",
+    "KON-SCN-03",
+    "KON-SCN-04",
+    "KON-SCN-05",
+    "KON-SCN-06",
+    "KON-SCN-07",
+    "KON-SCN-08",
+    "KON-SCN-09",
+    "KON-SCN-10",
+    "KON-SCN-11"
+   ]
+  },
+  "KON-TEX-TEX": {
+   "name": "Print textures",
+   "category": "TEX",
+   "kind": "source",
+   "compatible_with": "Paper systems.",
+   "exclusions": "Not with negative print.",
+   "scenes": [
+    "KON-SCN-01",
+    "KON-SCN-02",
+    "KON-SCN-03",
+    "KON-SCN-04",
+    "KON-SCN-05",
+    "KON-SCN-06",
+    "KON-SCN-07",
+    "KON-SCN-08",
+    "KON-SCN-09",
+    "KON-SCN-10"
+   ]
+  },
+  "KON-TYP-TYP": {
+   "name": "Type arrangement rules",
+   "category": "TYP",
+   "kind": "component",
+   "compatible_with": "All.",
+   "exclusions": "Width axis only for Latin.",
+   "scenes": []
+  },
+  "KON-MOT-TIM": {
+   "name": "Step trigger sources",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "All choreographies.",
+   "exclusions": "Beat sources only at confidence thresholds.",
+   "scenes": []
+  }
+ },
+ "layer_order": [
+  "paper or dark ground",
+  "colour fields (split layouts)",
+  "grid rules (visible or hidden)",
+  "shape choreography (second ink, overprint)",
+  "shape choreography (first ink)",
+  "numerals and labels",
+  "lyric type",
+  "print texture (tooth, riso grain, misregistration)"
+ ],
+ "invalid": [
+  {
+   "this": "Rotated edge",
+   "never_with": "Devanagari, Tamil, Arabic",
+   "because": "Not a convention for these scripts here; poor reading."
+  },
+  {
+   "this": "Scatter on grid",
+   "never_with": "estimated words",
+   "because": "Word modules would claim timing."
+  },
+  {
+   "this": "Waves",
+   "never_with": "high contrast inks while moving",
+   "because": "Op-art flicker."
+  },
+  {
+   "this": "Negative print",
+   "never_with": "riso grain",
+   "because": "Light on dark is not paper ink."
+  },
+  {
+   "this": "Any form",
+   "never_with": "the type slot",
+   "because": "Hard exclusion."
+  },
+  {
+   "this": "Beat hits",
+   "never_with": "beat grid under 0.5 confidence",
+   "because": "Would mark wrong downbeats."
+  }
+ ],
+ "limits": {
+  "scale": "Forms snap to module multiples; dominant form 2-8 modules; type from the modular scale.",
+  "safe": "Type block in its layout slot, which forms may never enter (hard exclusion mask); 6% outer margin.",
+  "complexity": "Max 2 shape families; max 120 forms.",
+  "colour": "Max 3 inks; type always the darkest ink (or paper on negative).",
+  "motion": "Max 4 steps per second per form; all steps share the trigger source.",
+  "material": "Riso grain only on uncoated paper systems; negative print has no paper texture."
+ }
+}

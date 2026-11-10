@@ -1,0 +1,733 @@
+{
+ "style": "Paper Theatre",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "PTR-CMP-C1": {
+   "name": "Proscenium stage",
+   "layers": "ground, far, middle, near set, figures, props, lyric card, proscenium frame",
+   "safe_area": "Lyric inside the arch opening's central 80%.",
+   "assets": "All SIL sets, FIG, FRM arches, TYP cards"
+  },
+  "PTR-CMP-C2": {
+   "name": "Window stage",
+   "layers": "window set (ground, far, mid), window frame, wall, sill props, lyric",
+   "safe_area": "Card inside central 80% x lower 40%.",
+   "assets": "FRM windows, any set, PRP sill props"
+  },
+  "PTR-CMP-C3": {
+   "name": "Pop-up book",
+   "layers": "table, book pages, pop-up pieces in 3 fold planes, page text",
+   "safe_area": "Text inside its page margins.",
+   "assets": "FRM book spread, SIL sets, TYP printed page"
+  },
+  "PTR-CMP-C4": {
+   "name": "Lantern",
+   "layers": "darkness, disc ground, disc set (2-3 layers), ring text or card",
+   "safe_area": "Ring text inside the frame with 6% margin; card below disc.",
+   "assets": "FRM lantern ring, any set (reduced), FIG"
+  },
+  "PTR-CMP-C5": {
+   "name": "Panorama scroll",
+   "layers": "ground, strip far, strip near, rollers frame, banner",
+   "safe_area": "Banner inside central 84% width.",
+   "assets": "SIL sets with seam pieces, TRN sets, FRM rollers"
+  },
+  "PTR-CMP-C6": {
+   "name": "Close-up cut",
+   "layers": "ground, large piece with letter holes",
+   "safe_area": "Letters inside the piece and the central 80%.",
+   "assets": "PRP large pieces, TYP cut letters"
+  },
+  "PTR-CMP-C7": {
+   "name": "Tiny stage in the dark",
+   "layers": "darkness, mini stage (all layers scaled), card",
+   "safe_area": "Card central 80%.",
+   "assets": "Any set at reduced detail, FRM small arch"
+  }
+ },
+ "scene_families": {
+  "PTR-SCN-01": {
+   "name": "City at night",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "PTR-CMP-C1",
+    "PTR-CMP-C2",
+    "PTR-CMP-C5",
+    "PTR-CMP-C7"
+   ],
+   "required": [
+    "PTR-SIL-CTY",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG",
+    "PTR-PRP-PRP",
+    "PTR-FRM-FRM"
+   ],
+   "attributes": {
+    "set": "city",
+    "depth": "5 layers rooftops",
+    "subject": "buildings and windows",
+    "light": "night blue with warm windows",
+    "figures": "walkers",
+    "frame": "proscenium or window"
+   }
+  },
+  "PTR-SCN-02": {
+   "name": "Harbour and sea",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "PTR-CMP-C1",
+    "PTR-CMP-C5",
+    "PTR-CMP-C4"
+   ],
+   "required": [
+    "PTR-SIL-HRB",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG",
+    "PTR-PRP-PRP"
+   ],
+   "attributes": {
+    "set": "harbour",
+    "depth": "wave rows",
+    "subject": "boats and waves",
+    "light": "dusk orange",
+    "figures": "sailors and gulls",
+    "frame": "proscenium"
+   }
+  },
+  "PTR-SCN-03": {
+   "name": "Forest",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "PTR-CMP-C1",
+    "PTR-CMP-C4",
+    "PTR-CMP-C6"
+   ],
+   "required": [
+    "PTR-SIL-FOR",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG",
+    "PTR-PRP-PRP"
+   ],
+   "attributes": {
+    "set": "forest",
+    "depth": "7 layers of trunks",
+    "subject": "trees and animals",
+    "light": "green dawn",
+    "figures": "deer and fox",
+    "frame": "branches"
+   }
+  },
+  "PTR-SCN-04": {
+   "name": "Desert crossing",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "PTR-CMP-C1",
+    "PTR-CMP-C5",
+    "PTR-CMP-C7"
+   ],
+   "required": [
+    "PTR-SIL-DES",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG"
+   ],
+   "attributes": {
+    "set": "desert",
+    "depth": "3 dune rows",
+    "subject": "dunes and cacti",
+    "light": "white noon or red dusk",
+    "figures": "a lone traveller",
+    "frame": "simple card"
+   }
+  },
+  "PTR-SCN-05": {
+   "name": "Mountains",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "PTR-CMP-C1",
+    "PTR-CMP-C5",
+    "PTR-CMP-C3"
+   ],
+   "required": [
+    "PTR-SIL-MTN",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG",
+    "PTR-PRP-PRP"
+   ],
+   "attributes": {
+    "set": "mountains",
+    "depth": "layered ridges in greys",
+    "subject": "peaks",
+    "light": "cold morning",
+    "figures": "climbers and birds",
+    "frame": "proscenium"
+   }
+  },
+  "PTR-SCN-06": {
+   "name": "Rooms",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "PTR-CMP-C2",
+    "PTR-CMP-C3",
+    "PTR-CMP-C7"
+   ],
+   "required": [
+    "PTR-SIL-ROM",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG",
+    "PTR-PRP-PRP"
+   ],
+   "attributes": {
+    "set": "interior",
+    "depth": "3 layers furniture",
+    "subject": "domestic objects",
+    "light": "lamp warm",
+    "figures": "seated figure",
+    "frame": "window"
+   }
+  },
+  "PTR-SCN-07": {
+   "name": "Sky and birds",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "PTR-CMP-C1",
+    "PTR-CMP-C6",
+    "PTR-CMP-C4"
+   ],
+   "required": [
+    "PTR-SIL-SKY",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG",
+    "PTR-PRP-PRP"
+   ],
+   "attributes": {
+    "set": "sky",
+    "depth": "cloud layers",
+    "subject": "flight",
+    "light": "bright sunrise",
+    "figures": "flocks and kites",
+    "frame": "none or arch"
+   }
+  },
+  "PTR-SCN-08": {
+   "name": "Fairground",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "PTR-CMP-C1",
+    "PTR-CMP-C5"
+   ],
+   "required": [
+    "PTR-SIL-FAR",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG",
+    "PTR-PRP-PRP"
+   ],
+   "attributes": {
+    "set": "fairground",
+    "depth": "4 layers rides",
+    "subject": "rides",
+    "light": "coloured gels cycling",
+    "figures": "dancing pairs",
+    "frame": "proscenium with bunting"
+   }
+  },
+  "PTR-SCN-09": {
+   "name": "Garden",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "PTR-CMP-C1",
+    "PTR-CMP-C3",
+    "PTR-CMP-C6"
+   ],
+   "required": [
+    "PTR-SIL-GAR",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG",
+    "PTR-PRP-PRP"
+   ],
+   "attributes": {
+    "set": "garden",
+    "depth": "hedges and flowers",
+    "subject": "plants",
+    "light": "warm afternoon",
+    "figures": "couple and butterflies",
+    "frame": "arbour"
+   }
+  },
+  "PTR-SCN-10": {
+   "name": "Train journey",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "PTR-CMP-C5",
+    "PTR-CMP-C1"
+   ],
+   "required": [
+    "PTR-SIL-TRV",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG"
+   ],
+   "attributes": {
+    "set": "railway",
+    "depth": "2 panorama layers",
+    "subject": "landscape passing",
+    "light": "changing day to night",
+    "figures": "train and passengers",
+    "frame": "rollers"
+   }
+  },
+  "PTR-SCN-11": {
+   "name": "Snow village",
+   "roles": [
+    "verse",
+    "quiet",
+    "outro"
+   ],
+   "compositions": [
+    "PTR-CMP-C1",
+    "PTR-CMP-C4",
+    "PTR-CMP-C7"
+   ],
+   "required": [
+    "PTR-SIL-SNW",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG",
+    "PTR-PRP-PRP"
+   ],
+   "attributes": {
+    "set": "village",
+    "depth": "4 layers houses",
+    "subject": "houses in snow",
+    "light": "blue with warm windows",
+    "figures": "skaters",
+    "frame": "proscenium"
+   }
+  },
+  "PTR-SCN-12": {
+   "name": "Night road",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "PTR-CMP-C5",
+    "PTR-CMP-C1",
+    "PTR-CMP-C7"
+   ],
+   "required": [
+    "PTR-SIL-RDS",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG"
+   ],
+   "attributes": {
+    "set": "road",
+    "depth": "3 layers",
+    "subject": "car and poles",
+    "light": "headlight beams in tissue",
+    "figures": "car",
+    "frame": "simple card"
+   }
+  },
+  "PTR-SCN-13": {
+   "name": "Sea depths",
+   "roles": [
+    "bridge",
+    "quiet"
+   ],
+   "compositions": [
+    "PTR-CMP-C1",
+    "PTR-CMP-C4",
+    "PTR-CMP-C6"
+   ],
+   "required": [
+    "PTR-SIL-DEP",
+    "PTR-SRF-PAP",
+    "PTR-LGT-LGT"
+   ],
+   "optional": [
+    "PTR-OBJ-FIG"
+   ],
+   "attributes": {
+    "set": "underwater",
+    "depth": "kelp layers",
+    "subject": "sea creatures",
+    "light": "teal from above",
+    "figures": "whale and fish",
+    "frame": "porthole"
+   }
+  }
+ },
+ "global_families": [
+  "PTR-SRF-PAP",
+  "PTR-LGT-LGT",
+  "PTR-TYP-TYP",
+  "PTR-MOT-MOT",
+  "PTR-CAM-CAM",
+  "PTR-PRP-PRP"
+ ],
+ "asset_families": {
+  "PTR-SIL-CTY": {
+   "name": "City pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-01"
+   ]
+  },
+  "PTR-SIL-HRB": {
+   "name": "Harbour and sea pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-02"
+   ]
+  },
+  "PTR-SIL-FOR": {
+   "name": "Forest pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-03"
+   ]
+  },
+  "PTR-SIL-DES": {
+   "name": "Desert pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-04"
+   ]
+  },
+  "PTR-SIL-MTN": {
+   "name": "Mountain pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-05"
+   ]
+  },
+  "PTR-SIL-ROM": {
+   "name": "Room pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-06"
+   ]
+  },
+  "PTR-SIL-SKY": {
+   "name": "Sky pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-07"
+   ]
+  },
+  "PTR-SIL-FAR": {
+   "name": "Fairground pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-08"
+   ]
+  },
+  "PTR-SIL-GAR": {
+   "name": "Garden pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-09"
+   ]
+  },
+  "PTR-SIL-TRV": {
+   "name": "Railway panorama pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-10"
+   ]
+  },
+  "PTR-SIL-SNW": {
+   "name": "Snow village pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-11"
+   ]
+  },
+  "PTR-SIL-RDS": {
+   "name": "Night road pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-12"
+   ]
+  },
+  "PTR-SIL-DEP": {
+   "name": "Sea depth pieces",
+   "category": "SIL",
+   "kind": "source",
+   "compatible_with": "Other pieces of the same set; figures; frames; props of the same season.",
+   "exclusions": "Never two sets in one stage (except the panorama, which joins neighbouring sets at a declared seam piece); no piece larger than 40% of the frame except near-frame pieces.",
+   "scenes": [
+    "PTR-SCN-13"
+   ]
+  },
+  "PTR-OBJ-FIG": {
+   "name": "Hinged figures and animals",
+   "category": "OBJ",
+   "kind": "source",
+   "compatible_with": "Rails and choreographies.",
+   "exclusions": "Max 4 on stage; never a figure larger than 25% of height except C6.",
+   "scenes": [
+    "PTR-SCN-01",
+    "PTR-SCN-02",
+    "PTR-SCN-03",
+    "PTR-SCN-04",
+    "PTR-SCN-05",
+    "PTR-SCN-06",
+    "PTR-SCN-07",
+    "PTR-SCN-08",
+    "PTR-SCN-09",
+    "PTR-SCN-10",
+    "PTR-SCN-11",
+    "PTR-SCN-12",
+    "PTR-SCN-13"
+   ]
+  },
+  "PTR-FRM-FRM": {
+   "name": "Frames",
+   "category": "FRM",
+   "kind": "source",
+   "compatible_with": "All sets.",
+   "exclusions": "One frame per stage.",
+   "scenes": [
+    "PTR-SCN-01"
+   ]
+  },
+  "PTR-SRF-PAP": {
+   "name": "Paper surfaces",
+   "category": "SRF",
+   "kind": "source",
+   "compatible_with": "All sets.",
+   "exclusions": "Kraft and black card never on the same layer.",
+   "scenes": [
+    "PTR-SCN-01",
+    "PTR-SCN-02",
+    "PTR-SCN-03",
+    "PTR-SCN-04",
+    "PTR-SCN-05",
+    "PTR-SCN-06",
+    "PTR-SCN-07",
+    "PTR-SCN-08",
+    "PTR-SCN-09",
+    "PTR-SCN-10",
+    "PTR-SCN-11",
+    "PTR-SCN-12",
+    "PTR-SCN-13"
+   ]
+  },
+  "PTR-LGT-LGT": {
+   "name": "Light rigs",
+   "category": "LGT",
+   "kind": "configuration",
+   "compatible_with": "All sets.",
+   "exclusions": "Gel cycle only fairground and high energy.",
+   "scenes": [
+    "PTR-SCN-01",
+    "PTR-SCN-02",
+    "PTR-SCN-03",
+    "PTR-SCN-04",
+    "PTR-SCN-05",
+    "PTR-SCN-06",
+    "PTR-SCN-07",
+    "PTR-SCN-08",
+    "PTR-SCN-09",
+    "PTR-SCN-10",
+    "PTR-SCN-11",
+    "PTR-SCN-12",
+    "PTR-SCN-13"
+   ]
+  },
+  "PTR-TYP-TYP": {
+   "name": "Lyric treatments",
+   "category": "TYP",
+   "kind": "component",
+   "compatible_with": "All compositions.",
+   "exclusions": "Cut letters only for lines of 3 words or fewer (Latin) or one word (complex scripts, per width rule).",
+   "scenes": []
+  },
+  "PTR-MOT-MOT": {
+   "name": "Choreographies",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "Figures and pieces with pivots or rails.",
+   "exclusions": "No choreography crosses the lyric box during a reveal.",
+   "scenes": []
+  },
+  "PTR-CAM-CAM": {
+   "name": "Camera moves",
+   "category": "CAM",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "No track in C6.",
+   "scenes": []
+  },
+  "PTR-PRP-PRP": {
+   "name": "Props and large pieces",
+   "category": "PRP",
+   "kind": "source",
+   "compatible_with": "Seasonal matching (snow with winter sets only).",
+   "exclusions": "Max 2 prop kinds per stage.",
+   "scenes": [
+    "PTR-SCN-01",
+    "PTR-SCN-02",
+    "PTR-SCN-03",
+    "PTR-SCN-05",
+    "PTR-SCN-06",
+    "PTR-SCN-07",
+    "PTR-SCN-08",
+    "PTR-SCN-09",
+    "PTR-SCN-11"
+   ]
+  }
+ },
+ "layer_order": [
+  "ground gradient (light rig)",
+  "far layer (tracing paper, lightest)",
+  "middle set",
+  "near set",
+  "figures and moving pieces",
+  "props (strings, bunting, falling paper)",
+  "lyric (card, banner or cut layer)",
+  "frame (arch, window, book, lantern, rollers)",
+  "post: paper fibre on ground, fog on far layers"
+ ],
+ "invalid": [
+  {
+   "this": "Two sets",
+   "never_with": "same stage",
+   "because": "Breaks the world (only panorama seams join sets)."
+  },
+  {
+   "this": "Cut letters",
+   "never_with": "long lines over 3 words",
+   "because": "Becomes unreadable; use a printed card."
+  },
+  {
+   "this": "Lantern composition",
+   "never_with": "more than 2 figures",
+   "because": "Too small to read."
+  },
+  {
+   "this": "Fairground light cycle",
+   "never_with": "quiet or sad identity",
+   "because": "Wrong mood."
+  },
+  {
+   "this": "Snow village",
+   "never_with": "religious symbols",
+   "because": "Excluded everywhere."
+  },
+  {
+   "this": "Tissue accent",
+   "never_with": "behind the lyric",
+   "because": "Coloured light lowers contrast unpredictably."
+  }
+ ],
+ "limits": {
+  "scale": "Far pieces 10-30% of height, middle 20-45%, near 30-60%; figures 8-25%; no piece over 40% except frames and C6.",
+  "safe": "Lyric on the brightest ground region and inside the frame opening's central 80%; no piece may cover more than 8% of the lyric box (overlap test).",
+  "complexity": "Max 20 pieces on stage; max 7 layers.",
+  "colour": "One ground hue per stage; one tissue accent; pieces black or set paper only.",
+  "motion": "Max 3 moving elements (intensity tier caps); no piece crosses the lyric box while a word is being revealed.",
+  "material": "Tissue only for light-transmitting pieces; tracing paper only on the far layer; kraft and black card never on the same layer."
+ }
+}

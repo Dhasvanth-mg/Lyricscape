@@ -1,0 +1,560 @@
+{
+ "style": "Celluloid",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "CEL-CMP-C1": {
+   "name": "Letterbox subtitle",
+   "layers": "stock base, image plates (light, leaks), damage, letterbox bars, subtitle, post grain and weave",
+   "safe_area": "Subtitle box inside the image area's action-safe 90% and above the bottom 14% app zone (subtitle moves into the image area in the app stage).",
+   "assets": "PLT, STK, TTL subtitle"
+  },
+  "CEL-CMP-C2": {
+   "name": "Centred title card",
+   "layers": "base, light, title, damage, grain",
+   "safe_area": "Title inside central 70%.",
+   "assets": "TTL card, REG backlit or typewriter"
+  },
+  "CEL-CMP-C3": {
+   "name": "Scratchboard",
+   "layers": "black leader, scratch doodles, scratched words, dust",
+   "safe_area": "Central 70%.",
+   "assets": "SCR loops, scratch REG"
+  },
+  "CEL-CMP-C4": {
+   "name": "Projection room",
+   "layers": "room, wall, projected frame, beam haze, projector silhouette",
+   "safe_area": "Projected rectangle 60% of the frame; text in its centre 80%.",
+   "assets": "PRJ room assets, STK"
+  },
+  "CEL-CMP-C5": {
+   "name": "Film strip",
+   "layers": "light box, strip, frame contents, sprocket holes",
+   "safe_area": "Current frame inside central 70%.",
+   "assets": "GAT strip, TTL frames"
+  },
+  "CEL-CMP-C6": {
+   "name": "Title burst",
+   "layers": "base, word, damage",
+   "safe_area": "Central 80%.",
+   "assets": "REG burst, TTL burst sets"
+  },
+  "CEL-CMP-C7": {
+   "name": "Leader and countdown",
+   "layers": "leader base, countdown graphics, damage",
+   "safe_area": "Countdown inside central 80%.",
+   "assets": "CNT designs, PLT leader"
+  }
+ },
+ "scene_families": {
+  "CEL-SCN-01": {
+   "name": "Colour negative night",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "CEL-CMP-C1",
+    "CEL-CMP-C2",
+    "CEL-CMP-C4"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-PLT",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-TEX-LEK",
+    "CEL-MOT-GAT"
+   ],
+   "attributes": {
+    "stock": "colour negative",
+    "register": "subtitle and backlit",
+    "damage": "light",
+    "light": "cool with warm leaks",
+    "structure": "letterbox",
+    "density": "low"
+   }
+  },
+  "CEL-SCN-02": {
+   "name": "Black-and-white reversal",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "CEL-CMP-C2",
+    "CEL-CMP-C1"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-PLT",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-MOT-GAT"
+   ],
+   "attributes": {
+    "stock": "bw reversal",
+    "register": "backlit serif",
+    "damage": "medium",
+    "light": "neutral",
+    "structure": "card",
+    "density": "low"
+   }
+  },
+  "CEL-SCN-03": {
+   "name": "Home movie",
+   "roles": [
+    "verse",
+    "chorus",
+    "quiet"
+   ],
+   "compositions": [
+    "CEL-CMP-C1",
+    "CEL-CMP-C2",
+    "CEL-CMP-C5"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-PLT",
+    "CEL-TEX-LEK",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-MOT-GAT"
+   ],
+   "attributes": {
+    "stock": "warm reversal",
+    "register": "typewriter and subtitle",
+    "damage": "heavy leaks",
+    "light": "warm sun",
+    "structure": "rounded gate",
+    "density": "low"
+   }
+  },
+  "CEL-SCN-04": {
+   "name": "Tape",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "CEL-CMP-C1",
+    "CEL-CMP-C2"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-TAP",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [],
+   "attributes": {
+    "stock": "tape",
+    "register": "subtitle",
+    "damage": "dropouts",
+    "light": "lifted blacks",
+    "structure": "4:3 frame",
+    "density": "medium"
+   }
+  },
+  "CEL-SCN-05": {
+   "name": "High-contrast lith",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "CEL-CMP-C2",
+    "CEL-CMP-C6",
+    "CEL-CMP-C3"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-PLT",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-PTH-SCR"
+   ],
+   "attributes": {
+    "stock": "lith",
+    "register": "burst and scratch",
+    "damage": "scratches",
+    "light": "hard",
+    "structure": "full frame",
+    "density": "medium"
+   }
+  },
+  "CEL-SCN-06": {
+   "name": "Scratch on leader",
+   "roles": [
+    "verse",
+    "bridge",
+    "break"
+   ],
+   "compositions": [
+    "CEL-CMP-C3"
+   ],
+   "required": [
+    "CEL-PTH-SCR",
+    "CEL-TEX-PLT",
+    "CEL-TYP-REG"
+   ],
+   "optional": [
+    "CEL-PAL-STK"
+   ],
+   "attributes": {
+    "stock": "black leader",
+    "register": "scratched hand",
+    "damage": "scratch is the image",
+    "light": "none",
+    "structure": "full frame",
+    "density": "medium"
+   }
+  },
+  "CEL-SCN-07": {
+   "name": "Backlit optical",
+   "roles": [
+    "verse",
+    "quiet",
+    "chorus"
+   ],
+   "compositions": [
+    "CEL-CMP-C2",
+    "CEL-CMP-C1"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-LEK",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-MOT-GAT"
+   ],
+   "attributes": {
+    "stock": "colour negative soft",
+    "register": "backlit assembly",
+    "damage": "none",
+    "light": "halo bleed",
+    "structure": "card",
+    "density": "very low"
+   }
+  },
+  "CEL-SCN-08": {
+   "name": "Projection room",
+   "roles": [
+    "bridge",
+    "break"
+   ],
+   "compositions": [
+    "CEL-CMP-C4"
+   ],
+   "required": [
+    "CEL-ENV-PRJ",
+    "CEL-PAL-STK",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-TEX-PLT"
+   ],
+   "attributes": {
+    "stock": "any",
+    "register": "projected",
+    "damage": "beam dust",
+    "light": "beam in the dark",
+    "structure": "room",
+    "density": "low"
+   }
+  },
+  "CEL-SCN-09": {
+   "name": "Silent intertitles",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "CEL-CMP-C2"
+   ],
+   "required": [
+    "CEL-FRM-BRD",
+    "CEL-PAL-STK",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-TEX-PLT",
+    "CEL-MOT-GAT"
+   ],
+   "attributes": {
+    "stock": "toned",
+    "register": "intertitle",
+    "damage": "medium",
+    "light": "flicker",
+    "structure": "bordered card",
+    "density": "low"
+   }
+  },
+  "CEL-SCN-10": {
+   "name": "Title burst",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "CEL-CMP-C6",
+    "CEL-CMP-C5"
+   ],
+   "required": [
+    "CEL-TYP-REG",
+    "CEL-PAL-STK",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-TEX-PLT"
+   ],
+   "attributes": {
+    "stock": "varies per cut",
+    "register": "burst",
+    "damage": "light",
+    "light": "hard",
+    "structure": "full frame word",
+    "density": "high cut rate"
+   }
+  },
+  "CEL-SCN-11": {
+   "name": "Leader and countdown",
+   "roles": [
+    "intro",
+    "break",
+    "outro"
+   ],
+   "compositions": [
+    "CEL-CMP-C7"
+   ],
+   "required": [
+    "CEL-OBJ-CNT",
+    "CEL-TEX-PLT"
+   ],
+   "optional": [
+    "CEL-PAL-STK"
+   ],
+   "attributes": {
+    "stock": "leader",
+    "register": "none",
+    "damage": "leader marks",
+    "light": "flat",
+    "structure": "countdown",
+    "density": "very low"
+   }
+  }
+ },
+ "global_families": [
+  "CEL-PAL-STK",
+  "CEL-PAL-GRD",
+  "CEL-MOT-GAT",
+  "CEL-LAY-TTL",
+  "CEL-TYP-REG"
+ ],
+ "asset_families": {
+  "CEL-TEX-PLT": {
+   "name": "Film damage plates",
+   "category": "TEX",
+   "kind": "source",
+   "compatible_with": "Stocks that list it; title registers.",
+   "exclusions": "Never two plates of the same kind at once; dust and hair never over the subtitle box at more than 20% opacity.",
+   "scenes": [
+    "CEL-SCN-01",
+    "CEL-SCN-02",
+    "CEL-SCN-03",
+    "CEL-SCN-05",
+    "CEL-SCN-06",
+    "CEL-SCN-08",
+    "CEL-SCN-09",
+    "CEL-SCN-10",
+    "CEL-SCN-11"
+   ]
+  },
+  "CEL-TEX-LEK": {
+   "name": "Light leaks",
+   "category": "TEX",
+   "kind": "source",
+   "compatible_with": "Stocks that list it; title registers.",
+   "exclusions": "Never two plates of the same kind at once; dust and hair never over the subtitle box at more than 20% opacity.",
+   "scenes": [
+    "CEL-SCN-01",
+    "CEL-SCN-03",
+    "CEL-SCN-07"
+   ]
+  },
+  "CEL-TEX-TAP": {
+   "name": "Tape plates",
+   "category": "TEX",
+   "kind": "source",
+   "compatible_with": "Stocks that list it; title registers.",
+   "exclusions": "Never two plates of the same kind at once; dust and hair never over the subtitle box at more than 20% opacity.",
+   "scenes": [
+    "CEL-SCN-04"
+   ]
+  },
+  "CEL-PAL-STK": {
+   "name": "Stock profiles",
+   "category": "PAL",
+   "kind": "configuration",
+   "compatible_with": "Plates listed per stock.",
+   "exclusions": "See grammar.",
+   "scenes": [
+    "CEL-SCN-01",
+    "CEL-SCN-02",
+    "CEL-SCN-03",
+    "CEL-SCN-04",
+    "CEL-SCN-05",
+    "CEL-SCN-06",
+    "CEL-SCN-07",
+    "CEL-SCN-08",
+    "CEL-SCN-09",
+    "CEL-SCN-10",
+    "CEL-SCN-11"
+   ]
+  },
+  "CEL-PAL-GRD": {
+   "name": "Grades",
+   "category": "PAL",
+   "kind": "configuration",
+   "compatible_with": "Stocks.",
+   "exclusions": "No grade on lith beyond its single tint.",
+   "scenes": []
+  },
+  "CEL-MOT-GAT": {
+   "name": "Gate and projector behaviours",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "All stocks.",
+   "exclusions": "Off in reduced motion (weave, flicker).",
+   "scenes": [
+    "CEL-SCN-01",
+    "CEL-SCN-02",
+    "CEL-SCN-03",
+    "CEL-SCN-07",
+    "CEL-SCN-09"
+   ]
+  },
+  "CEL-LAY-TTL": {
+   "name": "Title layouts",
+   "category": "LAY",
+   "kind": "component",
+   "compatible_with": "Registers.",
+   "exclusions": "Subtitle box not under heavy damage.",
+   "scenes": [
+    "CEL-SCN-01",
+    "CEL-SCN-02",
+    "CEL-SCN-03",
+    "CEL-SCN-04",
+    "CEL-SCN-05",
+    "CEL-SCN-07",
+    "CEL-SCN-08",
+    "CEL-SCN-09",
+    "CEL-SCN-10"
+   ]
+  },
+  "CEL-TYP-REG": {
+   "name": "Title registers",
+   "category": "TYP",
+   "kind": "configuration",
+   "compatible_with": "Layouts.",
+   "exclusions": "Burst needs authored words; scratched hand Latin only.",
+   "scenes": [
+    "CEL-SCN-06",
+    "CEL-SCN-10"
+   ]
+  },
+  "CEL-OBJ-CNT": {
+   "name": "Countdown designs",
+   "category": "OBJ",
+   "kind": "source",
+   "compatible_with": "Leader plates.",
+   "exclusions": "No real leader markings or studio names.",
+   "scenes": [
+    "CEL-SCN-11"
+   ]
+  },
+  "CEL-FRM-BRD": {
+   "name": "Intertitle borders",
+   "category": "FRM",
+   "kind": "source",
+   "compatible_with": "Intertitle layout.",
+   "exclusions": "Not copied from real films.",
+   "scenes": [
+    "CEL-SCN-09"
+   ]
+  },
+  "CEL-PTH-SCR": {
+   "name": "Scratch animation loops",
+   "category": "PTH",
+   "kind": "source",
+   "compatible_with": "Scratch register.",
+   "exclusions": "Max 2 loops at once.",
+   "scenes": [
+    "CEL-SCN-05",
+    "CEL-SCN-06"
+   ]
+  },
+  "CEL-ENV-PRJ": {
+   "name": "Projection room assets",
+   "category": "ENV",
+   "kind": "source",
+   "compatible_with": "All stocks.",
+   "exclusions": "No recognisable cinema interiors.",
+   "scenes": [
+    "CEL-SCN-08"
+   ]
+  }
+ },
+ "layer_order": [
+  "stock base (colour, exposure)",
+  "image plates (light falloff, light leaks)",
+  "environment (projection room only)",
+  "title (register)",
+  "damage plates (dust, hair, scratches)",
+  "gate (frame edges, sprockets, letterbox bars)",
+  "post: grain, flicker, weave, vignette"
+ ],
+ "invalid": [
+  {
+   "this": "Tape stock",
+   "never_with": "film scratches or sprockets",
+   "because": "Different medium."
+  },
+  {
+   "this": "Burst register",
+   "never_with": "estimated word timing",
+   "because": "Claims word cuts."
+  },
+  {
+   "this": "Scratched hand register",
+   "never_with": "complex scripts",
+   "because": "No stroke data; falls back."
+  },
+  {
+   "this": "Flash frames",
+   "never_with": "reduced motion or under 3 s apart",
+   "because": "Flash rule."
+  },
+  {
+   "this": "Light leaks",
+   "never_with": "over the subtitle box above 30%",
+   "because": "Readability."
+  },
+  {
+   "this": "Projection room",
+   "never_with": "burst register",
+   "because": "Too fast for the room metaphor."
+  }
+ ],
+ "limits": {
+  "scale": "Titles from the size table; plates cover the image area.",
+  "safe": "Subtitle inside action-safe; damage under 20% opacity over text.",
+  "complexity": "Max 3 texture plates at once.",
+  "colour": "Stock grade only; titles white, cream or stock highlight.",
+  "motion": "Damage at 24/18/12 fps; one cut source at a time.",
+  "material": "Tape plates only with the tape stock; scratches never with tape."
+ }
+}

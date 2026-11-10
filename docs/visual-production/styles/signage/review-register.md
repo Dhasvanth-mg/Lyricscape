@@ -8,68 +8,68 @@ Style 10 of 15. Every entry of asset-manifest.json with its decision. Generated 
 
 | ID | Asset | Decision | Rationale |
 |---|---|---|---|
-| SIG-PRC-HWR-001 | Split-flap board | approved | Distinct: characters cycle through the flap order and land, 40-60 ms per step |
-| SIG-PRC-HWR-002 | Theatre marquee changeable letters | approved | Distinct: black letters slotted on a lit panel, placed one by one |
-| SIG-PRC-HWR-003 | Neon tube | approved | Distinct: tube paths that buzz on with seeded flicker and afterglow |
-| SIG-PRC-HWR-004 | Flip-dot | approved | Distinct: yellow discs flip column by column with a click rhythm |
-| SIG-PRC-HWR-005 | LED ticker | approved | Distinct: amber dot band scrolling at a lyric-driven speed |
-| SIG-PRC-HWR-006 | RGB LED matrix | approved | Distinct: full-colour dot matrix with frame refresh |
-| SIG-PRC-HWR-007 | Seven- and fourteen-segment | approved | Distinct: segment digits and letters |
-| SIG-PRC-HWR-008 | Lightbox | approved | Distinct: backlit panel with cut letters, flickering tube behind |
-| SIG-PRC-HWR-009 | LCD dot board | approved | Distinct: passive dot board with slow fade between states |
+| SIG-PRC-HWR-001 | Split-flap board | approved | Distinct: Characters cycle through the flap order and land, 40-60 ms per step |
+| SIG-PRC-HWR-002 | Theatre marquee changeable letters | approved | Distinct: Black letters slotted on a lit panel, placed one by one |
+| SIG-PRC-HWR-003 | Neon tube | approved | Distinct: Tube paths that buzz on with seeded flicker and afterglow |
+| SIG-PRC-HWR-004 | Flip-dot | approved | Distinct: Yellow discs flip column by column with a click rhythm |
+| SIG-PRC-HWR-005 | LED ticker | approved | Distinct: Amber dot band scrolling at a lyric-driven speed |
+| SIG-PRC-HWR-006 | RGB LED matrix | approved | Distinct: Full-colour dot matrix with frame refresh |
+| SIG-PRC-HWR-007 | Seven- and fourteen-segment | approved | Distinct: Segment digits and letters |
+| SIG-PRC-HWR-008 | Lightbox | approved | Distinct: Backlit panel with cut letters, flickering tube behind |
+| SIG-PRC-HWR-009 | LCD dot board | approved | Distinct: Passive dot board with slow fade between states |
 | SIG-PRC-HWR-010 | CRT monitor sign | rejected | Screen territory (Screenlife and Phosphor). |
 | SIG-PRC-HWR-011 | Nixie tubes | merged | Digits only; folded into seven-segment for numbers. |
 | SIG-PRC-HWR-012 | Projection on a wall | rejected | Not hardware; overlaps Celluloid. |
-| SIG-OBJ-SGN-001 | Departure board in a frame | approved | Distinct: wide station board with column headers (generic: time, to, platform) |
-| SIG-OBJ-SGN-002 | Motel arrow sign | approved | Distinct: tall sign with a bent arrow and a vacancy panel |
-| SIG-OBJ-SGN-003 | Diner window script | approved | Distinct: neon script word behind glass |
-| SIG-OBJ-SGN-004 | Theatre marquee | approved | Distinct: wide marquee with three letter rows and a bulb border |
-| SIG-OBJ-SGN-005 | Vertical blade sign | approved | Distinct: tall hotel blade with stacked letters |
-| SIG-OBJ-SGN-006 | Night bus front | approved | Distinct: flip-dot destination band above a windscreen |
-| SIG-OBJ-SGN-007 | Overpass ticker band | approved | Distinct: long LED band on a concrete beam |
-| SIG-OBJ-SGN-008 | Stadium scoreboard | approved | Distinct: big RGB board with two side panels |
-| SIG-OBJ-SGN-009 | Pharmacy cross | approved | Distinct: green LED cross with a ticker beneath |
-| SIG-OBJ-SGN-010 | Laundromat lightbox | approved | Distinct: wide lightbox with a bubble motif |
-| SIG-OBJ-SGN-011 | Karaoke bar neon | approved | Distinct: neon microphone and a word panel |
-| SIG-OBJ-SGN-012 | Arcade sign | approved | Distinct: seven-segment score panel and a neon star |
-| SIG-OBJ-SGN-013 | Ferry terminal lightbox | approved | Distinct: cold white box with a wave motif |
+| SIG-OBJ-SGN-001 | Departure board in a frame | approved | Distinct: Wide station board with column headers (generic: time, to, platform) |
+| SIG-OBJ-SGN-002 | Motel arrow sign | approved | Distinct: Tall sign with a bent arrow and a vacancy panel |
+| SIG-OBJ-SGN-003 | Diner window script | approved | Distinct: Neon script word behind glass |
+| SIG-OBJ-SGN-004 | Theatre marquee | approved | Distinct: Wide marquee with three letter rows and a bulb border |
+| SIG-OBJ-SGN-005 | Vertical blade sign | approved | Distinct: Tall hotel blade with stacked letters |
+| SIG-OBJ-SGN-006 | Night bus front | approved | Distinct: Flip-dot destination band above a windscreen |
+| SIG-OBJ-SGN-007 | Overpass ticker band | approved | Distinct: Long LED band on a concrete beam |
+| SIG-OBJ-SGN-008 | Stadium scoreboard | approved | Distinct: Big RGB board with two side panels |
+| SIG-OBJ-SGN-009 | Pharmacy cross | approved | Distinct: Green LED cross with a ticker beneath |
+| SIG-OBJ-SGN-010 | Laundromat lightbox | approved | Distinct: Wide lightbox with a bubble motif |
+| SIG-OBJ-SGN-011 | Karaoke bar neon | approved | Distinct: Neon microphone and a word panel |
+| SIG-OBJ-SGN-012 | Arcade sign | approved | Distinct: Seven-segment score panel and a neon star |
+| SIG-OBJ-SGN-013 | Ferry terminal lightbox | approved | Distinct: Cold white box with a wave motif |
 | SIG-OBJ-SGN-014 | Airport gate board | approved | Distinct: LCD board with gate and status columns |
-| SIG-OBJ-SGN-015 | Chai stall board | approved | Distinct: hand-painted board with an LED strip added |
-| SIG-OBJ-SGN-016 | Single-screen cinema front | approved | Distinct: painted hoarding frame with a marquee band |
-| SIG-OBJ-SGN-017 | Petrol pump price tower | approved | Distinct: segment price digits used as letters |
-| SIG-OBJ-SGN-018 | Bowling alley pin sign | approved | Distinct: neon pin and lettering arch |
-| SIG-OBJ-SGN-019 | Roller rink arch | approved | Distinct: bulb arch with a neon skate |
-| SIG-OBJ-SGN-020 | Bakery window | approved | Distinct: small neon script with a croissant motif |
-| SIG-OBJ-SGN-021 | Late night pharmacy LED | approved | Distinct: scrolling LED strip over a door |
-| SIG-OBJ-SGN-022 | Hotel rooftop letters | approved | Distinct: big lit letters on a roof frame |
-| SIG-OBJ-SGN-023 | Bus stop shelter panel | approved | Distinct: backlit timetable panel |
-| SIG-OBJ-SGN-024 | Metro platform indicator | approved | Distinct: narrow LED band with an arrow |
+| SIG-OBJ-SGN-015 | Chai stall board | approved | Distinct: Hand-painted board with an LED strip added |
+| SIG-OBJ-SGN-016 | Single-screen cinema front | approved | Distinct: Painted hoarding frame with a marquee band |
+| SIG-OBJ-SGN-017 | Petrol pump price tower | approved | Distinct: Segment price digits used as letters |
+| SIG-OBJ-SGN-018 | Bowling alley pin sign | approved | Distinct: Neon pin and lettering arch |
+| SIG-OBJ-SGN-019 | Roller rink arch | approved | Distinct: Bulb arch with a neon skate |
+| SIG-OBJ-SGN-020 | Bakery window | approved | Distinct: Small neon script with a croissant motif |
+| SIG-OBJ-SGN-021 | Late night pharmacy LED | approved | Distinct: Scrolling LED strip over a door |
+| SIG-OBJ-SGN-022 | Hotel rooftop letters | approved | Distinct: Big lit letters on a roof frame |
+| SIG-OBJ-SGN-023 | Bus stop shelter panel | approved | Distinct: Backlit timetable panel |
+| SIG-OBJ-SGN-024 | Metro platform indicator | approved | Distinct: Narrow LED band with an arrow |
 | SIG-OBJ-SGN-025 | Train side destination | approved | Distinct: LED band on a train flank |
-| SIG-OBJ-SGN-026 | Taxi roof sign | approved | Distinct: small lit box on a car roof |
-| SIG-OBJ-SGN-027 | Tram stop board | approved | Distinct: small flip-dot board on a pole |
-| SIG-OBJ-SGN-028 | Lottery board | approved | Distinct: flap board with number rows |
+| SIG-OBJ-SGN-026 | Taxi roof sign | approved | Distinct: Small lit box on a car roof |
+| SIG-OBJ-SGN-027 | Tram stop board | approved | Distinct: Small flip-dot board on a pole |
+| SIG-OBJ-SGN-028 | Lottery board | approved | Distinct: Flap board with number rows |
 | SIG-OBJ-SGN-029 | Bazaar shop board (Devanagari) | approved | Distinct: LED-edged board with Devanagari lettering panel |
-| SIG-OBJ-SGN-030 | Bazaar shop board (Tamil) | approved | Distinct: neon-edged board with Tamil lettering panel |
-| SIG-OBJ-SGN-031 | Street food cart sign | approved | Distinct: small lightbox on a cart |
-| SIG-OBJ-SGN-032 | Fortune teller neon | approved | Distinct: neon eye and hand |
-| SIG-OBJ-SGN-033 | Tattoo parlour neon | approved | Distinct: neon swallow and word panel |
-| SIG-OBJ-SGN-034 | Record shop neon | approved | Distinct: neon disc and arrow |
-| SIG-OBJ-SGN-035 | Flower shop window | approved | Distinct: neon flower outline |
-| SIG-OBJ-SGN-036 | Hospital emergency sign | approved | Distinct: red LED panel |
-| SIG-OBJ-SGN-037 | Radio station on-air light | approved | Distinct: red lightbox above a door |
+| SIG-OBJ-SGN-030 | Bazaar shop board (Tamil) | approved | Distinct: Neon-edged board with Tamil lettering panel |
+| SIG-OBJ-SGN-031 | Street food cart sign | approved | Distinct: Small lightbox on a cart |
+| SIG-OBJ-SGN-032 | Fortune teller neon | approved | Distinct: Neon eye and hand |
+| SIG-OBJ-SGN-033 | Tattoo parlour neon | approved | Distinct: Neon swallow and word panel |
+| SIG-OBJ-SGN-034 | Record shop neon | approved | Distinct: Neon disc and arrow |
+| SIG-OBJ-SGN-035 | Flower shop window | approved | Distinct: Neon flower outline |
+| SIG-OBJ-SGN-036 | Hospital emergency sign | approved | Distinct: Red LED panel |
+| SIG-OBJ-SGN-037 | Radio station on-air light | approved | Distinct: Red lightbox above a door |
 | SIG-OBJ-SGN-038 | Parking garage level sign | approved | Distinct: LED level indicator |
-| SIG-OBJ-SGN-039 | Clock tower LED | approved | Distinct: segment clock face used for words |
-| SIG-OBJ-SGN-040 | Billboard frame (unlit, empty) | approved | Distinct: a dark billboard frame with an LED strip |
-| SIG-OBJ-SGN-041 | Neon heart | approved | Distinct: neon heart outline with a word inside |
-| SIG-OBJ-SGN-042 | Open sign | approved | Distinct: small neon panel with a word |
-| SIG-OBJ-SGN-043 | Hostel sign | approved | Distinct: vertical neon with an arrow |
-| SIG-OBJ-SGN-044 | Ice cream parlour | approved | Distinct: neon cone and script |
-| SIG-OBJ-SGN-045 | Ticket booth | approved | Distinct: small marquee over a window |
-| SIG-OBJ-SGN-046 | Dock warehouse sign | approved | Distinct: painted sign with floodlight |
+| SIG-OBJ-SGN-039 | Clock tower LED | approved | Distinct: Segment clock face used for words |
+| SIG-OBJ-SGN-040 | Billboard frame (unlit, empty) | approved | Distinct: A dark billboard frame with an LED strip |
+| SIG-OBJ-SGN-041 | Neon heart | approved | Distinct: Neon heart outline with a word inside |
+| SIG-OBJ-SGN-042 | Open sign | approved | Distinct: Small neon panel with a word |
+| SIG-OBJ-SGN-043 | Hostel sign | approved | Distinct: Vertical neon with an arrow |
+| SIG-OBJ-SGN-044 | Ice cream parlour | approved | Distinct: Neon cone and script |
+| SIG-OBJ-SGN-045 | Ticket booth | approved | Distinct: Small marquee over a window |
+| SIG-OBJ-SGN-046 | Dock warehouse sign | approved | Distinct: Painted sign with floodlight |
 | SIG-OBJ-SGN-047 | Mountain road warning sign | approved | Distinct: LED variable message sign |
-| SIG-OBJ-SGN-048 | Ferris wheel light ring | approved | Distinct: bulb ring with a centre panel |
+| SIG-OBJ-SGN-048 | Ferris wheel light ring | approved | Distinct: Bulb ring with a centre panel |
 | SIG-OBJ-SGN-049 | Phone repair kiosk | approved | Distinct: LED ticker over a kiosk |
-| SIG-OBJ-SGN-050 | Wedding hall arch | approved | Distinct: bulb arch for festive songs |
+| SIG-OBJ-SGN-050 | Wedding hall arch | approved | Distinct: Bulb arch for festive songs |
 | SIG-OBJ-SGN-051 | Fast food chain style sign | rejected | Brand likeness. |
 | SIG-OBJ-SGN-052 | Real station name board | rejected | Real place and transit authority likeness. |
 | SIG-OBJ-SGN-053 | Generic "OPEN 24H" duplicate | merged | Duplicate of Open sign. |

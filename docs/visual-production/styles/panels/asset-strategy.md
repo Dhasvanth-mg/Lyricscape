@@ -18,7 +18,7 @@ Production methods: authored-data 75, handcrafted-vector 162, procedural-code 36
 
 ## Why this scale
 
-Phase 1 estimated about 380 originals. Phase 2 approves 286 live entries. 162 are panel illustrations, the expensive family; each is drawn once as line, fill and shadow layers so the five art registers are treatments rather than five drawings (Phase 1 counted registers separately). More illustrations can be added in later batches without changing the system.
+Phase 1 estimated about 700 originals. Phase 2 approves 286 live entries. 162 are panel illustrations, the expensive family; each is drawn once as line, fill and shadow layers so the five art registers are treatments rather than five drawings (Phase 1 counted registers separately). More illustrations can be added in later batches without changing the system.
 
 ## Families
 
@@ -224,7 +224,7 @@ Phase 1 estimated about 380 originals. Phase 2 approves 286 live entries. 162 ar
 
 ## Shared assets this style depends on
 
-14 shared entries (counted once in the shared manifest, not in this style's total):
+17 shared entries (counted once in the shared manifest, not in this style's total):
 
 - `SHR-PRC-GEN-001` Film grain (generator)
 - `SHR-PRC-GEN-002` Ordered and blue-noise dither (generator)
@@ -232,6 +232,9 @@ Phase 1 estimated about 380 originals. Phase 2 approves 286 live entries. 162 ar
 - `SHR-PRC-GEN-004` Paper fibre and tooth (generator)
 - `SHR-PRC-GEN-009` Seeded noise fields (generator)
 - `SHR-PRC-GEN-016` Thick line renderer (generator)
+- `SHR-TYP-FNT-003` Archivo Variable (dependency)
+- `SHR-TYP-FNT-005` Anton (dependency)
+- `SHR-TYP-FNT-011` Special Elite (dependency)
 - `SHR-TYP-FNT-013` Bangers (dependency)
 - `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
 - `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)

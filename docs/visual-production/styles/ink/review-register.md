@@ -8,22 +8,22 @@ Style 11 of 15. Every entry of asset-manifest.json with its decision. Generated 
 
 | ID | Asset | Decision | Rationale |
 |---|---|---|---|
-| INK-ENV-LND-001 | Layered mountains | approved | Distinct: three wash layers fading to pale |
-| INK-ENV-LND-002 | Single peak | approved | Distinct: one bold peak with a dry edge |
-| INK-ENV-LND-003 | Waterfall | approved | Distinct: vertical white gap between dark rocks |
-| INK-ENV-LND-004 | River bend | approved | Distinct: two strokes and a pale wash |
-| INK-ENV-LND-005 | Wave | approved | Distinct: a rising wave in heavy strokes |
-| INK-ENV-LND-006 | Calm sea horizon | approved | Distinct: one long stroke and a wash |
-| INK-ENV-LND-007 | Island | approved | Distinct: a small mound in water |
-| INK-ENV-LND-008 | Cliff edge | approved | Distinct: a vertical dark mass |
-| INK-ENV-LND-009 | Desert dunes | approved | Distinct: soft curved washes |
-| INK-ENV-LND-010 | Field of grass | approved | Distinct: many quick strokes at the base |
-| INK-ENV-LND-011 | Hill road | approved | Distinct: a winding pale line |
-| INK-ENV-LND-012 | Snowfield | approved | Distinct: paper left blank with a few tree marks |
-| INK-ENV-LND-013 | Rice terraces | approved | Distinct: stacked curved lines |
-| INK-ENV-LND-014 | Lake with reflection | approved | Distinct: element mirrored in pale wash (one asset) |
-| INK-ENV-LND-015 | Mist valley | approved | Distinct: pale wash between two dark slopes |
-| INK-ENV-LND-016 | Coastline rocks | approved | Distinct: dark dots and strokes |
+| INK-ENV-LND-001 | Layered mountains | approved | Distinct: Three wash layers fading to pale |
+| INK-ENV-LND-002 | Single peak | approved | Distinct: One bold peak with a dry edge |
+| INK-ENV-LND-003 | Waterfall | approved | Distinct: Vertical white gap between dark rocks |
+| INK-ENV-LND-004 | River bend | approved | Distinct: Two strokes and a pale wash |
+| INK-ENV-LND-005 | Wave | approved | Distinct: A rising wave in heavy strokes |
+| INK-ENV-LND-006 | Calm sea horizon | approved | Distinct: One long stroke and a wash |
+| INK-ENV-LND-007 | Island | approved | Distinct: A small mound in water |
+| INK-ENV-LND-008 | Cliff edge | approved | Distinct: A vertical dark mass |
+| INK-ENV-LND-009 | Desert dunes | approved | Distinct: Soft curved washes |
+| INK-ENV-LND-010 | Field of grass | approved | Distinct: Many quick strokes at the base |
+| INK-ENV-LND-011 | Hill road | approved | Distinct: A winding pale line |
+| INK-ENV-LND-012 | Snowfield | approved | Distinct: Paper left blank with a few tree marks |
+| INK-ENV-LND-013 | Rice terraces | approved | Distinct: Stacked curved lines |
+| INK-ENV-LND-014 | Lake with reflection | approved | Distinct: Element mirrored in pale wash (one asset) |
+| INK-ENV-LND-015 | Mist valley | approved | Distinct: Pale wash between two dark slopes |
+| INK-ENV-LND-016 | Coastline rocks | approved | Distinct: Dark dots and strokes |
 | INK-ENV-LND-017 | Mountain range repeat | merged | Too close to Layered mountains. |
 | INK-ENV-LND-018 | Volcano | rejected | Too literal for the style. |
 | INK-OBJ-BOT-001 | Blossom branch | approved | Distinct: A painted element in a few wet strokes: tonal range from dense black to pale wash, dry-brush edges, generous empty paper around it; the brush order is part of the asset. |

@@ -113,7 +113,7 @@ Phase 1 estimated about 220 originals. This plan approves 127 live entries, with
 
 ## Shared assets this style depends on
 
-17 shared entries (counted once in the shared manifest, not in this style's total):
+19 shared entries (counted once in the shared manifest, not in this style's total):
 
 - `SHR-PRC-GEN-001` Film grain (generator)
 - `SHR-PRC-GEN-004` Paper fibre and tooth (generator)
@@ -121,9 +121,11 @@ Phase 1 estimated about 220 originals. This plan approves 127 live entries, with
 - `SHR-PRC-GEN-009` Seeded noise fields (generator)
 - `SHR-PRC-GEN-014` Cover derivation (generator)
 - `SHR-TYP-FNT-001` Inter Variable (dependency)
+- `SHR-TYP-FNT-003` Archivo Variable (dependency)
 - `SHR-TYP-FNT-007` Cormorant Garamond (dependency)
 - `SHR-TYP-FNT-008` Instrument Serif (dependency)
 - `SHR-TYP-FNT-009` Playfair Display Variable (dependency)
+- `SHR-TYP-FNT-010` DM Serif Display (dependency)
 - `SHR-TYP-FNT-015` Syne Variable (dependency)
 - `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
 - `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)

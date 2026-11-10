@@ -153,6 +153,8 @@
    "SHR-PRC-GEN-004",
    "SHR-PRC-GEN-009",
    "SHR-PRC-GEN-012",
+   "SHR-TYP-FNT-003",
+   "SHR-TYP-FNT-008",
    "SHR-TYP-FNT-010",
    "SHR-TYP-FNT-011",
    "SHR-TYP-FNT-016",
@@ -186,12 +188,14 @@
    "SHR-PRC-GEN-014",
    "SHR-TYP-FNT-001",
    "SHR-TYP-FNT-007",
+   "SHR-TYP-FNT-008",
    "SHR-TYP-FNT-011",
    "SHR-TYP-FNT-012",
    "SHR-TYP-FNT-016",
    "SHR-TYP-FNT-017",
    "SHR-TYP-FNT-018",
    "SHR-TYP-FNT-019",
+   "SHR-TYP-FNT-020",
    "SHR-TYP-FNT-021",
    "SHR-TYP-FNT-023"
   ],
@@ -202,9 +206,11 @@
    "SHR-PRC-GEN-009",
    "SHR-PRC-GEN-014",
    "SHR-TYP-FNT-001",
+   "SHR-TYP-FNT-003",
    "SHR-TYP-FNT-007",
    "SHR-TYP-FNT-008",
    "SHR-TYP-FNT-009",
+   "SHR-TYP-FNT-010",
    "SHR-TYP-FNT-015",
    "SHR-TYP-FNT-016",
    "SHR-TYP-FNT-017",
@@ -239,6 +245,7 @@
    "SHR-PRC-GEN-009",
    "SHR-PRC-GEN-010",
    "SHR-PRC-GEN-014",
+   "SHR-TYP-FNT-003",
    "SHR-TYP-FNT-006",
    "SHR-TYP-FNT-016",
    "SHR-TYP-FNT-017",
@@ -254,10 +261,17 @@
    "SHR-PRC-GEN-005",
    "SHR-PRC-GEN-009",
    "SHR-PRC-GEN-011",
+   "SHR-TYP-FNT-005",
+   "SHR-TYP-FNT-006",
+   "SHR-TYP-FNT-007",
+   "SHR-TYP-FNT-008",
+   "SHR-TYP-FNT-011",
    "SHR-TYP-FNT-012",
    "SHR-TYP-FNT-013",
    "SHR-TYP-FNT-016",
    "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-020",
+   "SHR-TYP-FNT-022",
    "SHR-TYP-FNT-024",
    "SHR-TYP-FNT-025",
    "SHR-TYP-FNT-026"
@@ -272,12 +286,14 @@
    "SHR-PRC-GEN-015",
    "SHR-PRC-GEN-016",
    "SHR-TYP-FNT-003",
+   "SHR-TYP-FNT-005",
    "SHR-TYP-FNT-006",
    "SHR-TYP-FNT-016",
    "SHR-TYP-FNT-017",
    "SHR-TYP-FNT-020",
    "SHR-TYP-FNT-022",
    "SHR-TYP-FNT-032",
+   "SHR-TYP-FNT-033",
    "SHR-TYP-FNT-034",
    "SHR-TYP-FNT-035"
   ],
@@ -287,11 +303,17 @@
    "SHR-PRC-GEN-009",
    "SHR-PRC-GEN-010",
    "SHR-PRC-GEN-011",
+   "SHR-TYP-FNT-007",
+   "SHR-TYP-FNT-008",
    "SHR-TYP-FNT-016",
    "SHR-TYP-FNT-017",
+   "SHR-TYP-FNT-018",
+   "SHR-TYP-FNT-019",
    "SHR-TYP-FNT-021",
+   "SHR-TYP-FNT-023",
    "SHR-TYP-FNT-025",
-   "SHR-TYP-FNT-026"
+   "SHR-TYP-FNT-026",
+   "SHR-TYP-FNT-028"
   ],
   "Panels": [
    "SHR-PRC-GEN-001",
@@ -300,6 +322,9 @@
    "SHR-PRC-GEN-004",
    "SHR-PRC-GEN-009",
    "SHR-PRC-GEN-016",
+   "SHR-TYP-FNT-003",
+   "SHR-TYP-FNT-005",
+   "SHR-TYP-FNT-011",
    "SHR-TYP-FNT-013",
    "SHR-TYP-FNT-016",
    "SHR-TYP-FNT-017",
@@ -325,13 +350,17 @@
    "SHR-PRC-GEN-009",
    "SHR-PRC-GEN-014",
    "SHR-TYP-FNT-001",
+   "SHR-TYP-FNT-003",
    "SHR-TYP-FNT-005",
+   "SHR-TYP-FNT-006",
    "SHR-TYP-FNT-010",
    "SHR-TYP-FNT-014",
+   "SHR-TYP-FNT-015",
    "SHR-TYP-FNT-016",
    "SHR-TYP-FNT-017",
    "SHR-TYP-FNT-020",
-   "SHR-TYP-FNT-022"
+   "SHR-TYP-FNT-022",
+   "SHR-TYP-FNT-029"
   ],
   "Monument": [
    "SHR-PRC-GEN-001",
@@ -340,6 +369,7 @@
    "SHR-PRC-GEN-013",
    "SHR-TYP-FNT-003",
    "SHR-TYP-FNT-005",
+   "SHR-TYP-FNT-006",
    "SHR-TYP-FNT-016",
    "SHR-TYP-FNT-017",
    "SHR-TYP-FNT-020",
@@ -604,7 +634,12 @@
    "used_by": [
     "Konstrukt",
     "Monument",
-    "Signage"
+    "Signage",
+    "Paper Theatre",
+    "Folio",
+    "Liquid Light Show",
+    "Panels",
+    "Cover Pop"
    ]
   },
   {
@@ -622,7 +657,10 @@
    "used_by": [
     "Monument",
     "Konstrukt",
-    "Cover Pop"
+    "Cover Pop",
+    "Sketch Cards",
+    "Signage",
+    "Panels"
    ]
   },
   {
@@ -631,7 +669,10 @@
    "kind": "dependency",
    "used_by": [
     "Signage",
-    "Liquid Light Show"
+    "Liquid Light Show",
+    "Sketch Cards",
+    "Cover Pop",
+    "Monument"
    ]
   },
   {
@@ -641,7 +682,9 @@
    "used_by": [
     "Nocturne",
     "Celluloid",
-    "Folio"
+    "Folio",
+    "Sketch Cards",
+    "Ink"
    ]
   },
   {
@@ -651,7 +694,11 @@
    "used_by": [
     "Folio",
     "Screenlife",
-    "Nocturne"
+    "Nocturne",
+    "Paper Theatre",
+    "Celluloid",
+    "Sketch Cards",
+    "Ink"
    ]
   },
   {
@@ -668,7 +715,8 @@
    "kind": "dependency",
    "used_by": [
     "Paper Theatre",
-    "Cover Pop"
+    "Cover Pop",
+    "Folio"
    ]
   },
   {
@@ -678,7 +726,9 @@
    "used_by": [
     "Celluloid",
     "Glyph Cinema",
-    "Paper Theatre"
+    "Paper Theatre",
+    "Sketch Cards",
+    "Panels"
    ]
   },
   {
@@ -712,7 +762,8 @@
    "name": "Syne Variable",
    "kind": "dependency",
    "used_by": [
-    "Folio"
+    "Folio",
+    "Cover Pop"
    ]
   },
   {
@@ -767,7 +818,8 @@
     "Folio",
     "Nocturne",
     "Celluloid",
-    "Paper Theatre"
+    "Paper Theatre",
+    "Ink"
    ]
   },
   {
@@ -778,7 +830,8 @@
     "Folio",
     "Nocturne",
     "Celluloid",
-    "Paper Theatre"
+    "Paper Theatre",
+    "Ink"
    ]
   },
   {
@@ -793,7 +846,9 @@
     "Cover Pop",
     "Monument",
     "Liquid Light Show",
-    "Glyph Cinema"
+    "Glyph Cinema",
+    "Celluloid",
+    "Sketch Cards"
    ]
   },
   {
@@ -820,7 +875,8 @@
     "Cover Pop",
     "Monument",
     "Liquid Light Show",
-    "Glyph Cinema"
+    "Glyph Cinema",
+    "Sketch Cards"
    ]
   },
   {
@@ -831,7 +887,8 @@
     "Folio",
     "Nocturne",
     "Celluloid",
-    "Paper Theatre"
+    "Paper Theatre",
+    "Ink"
    ]
   },
   {
@@ -876,7 +933,8 @@
    "name": "Newsreader",
    "kind": "dependency",
    "used_by": [
-    "Folio"
+    "Folio",
+    "Ink"
    ]
   },
   {
@@ -884,7 +942,8 @@
    "name": "Shrikhand",
    "kind": "dependency",
    "used_by": [
-    "Liquid Light Show"
+    "Liquid Light Show",
+    "Cover Pop"
    ]
   },
   {
@@ -917,7 +976,8 @@
    "name": "Bedstead",
    "kind": "dependency",
    "used_by": [
-    "Glyph Cinema"
+    "Glyph Cinema",
+    "Signage"
    ]
   },
   {

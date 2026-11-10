@@ -17,7 +17,7 @@ Production methods: authored-data 148, handcrafted-vector 28, hybrid 11, photogr
 
 ## Why this scale
 
-The count is what the scene families need, not a target. See the review register for what was cut.
+Phase 1 estimated 250-350 originals. Phase 2 approves 219 live entries. The 16 app kits are counted as one entry per kit plus their states and widgets as components; screen recolours and theme variants are not counted.
 
 ## Families
 

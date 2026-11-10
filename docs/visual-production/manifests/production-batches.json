@@ -35,7 +35,7 @@
   {
    "position": 7,
    "style": "Nocturne",
-   "reason": "Replaces Velvet and Nocturne (classic); small asset set; builds bokeh and weather layers reused by Signage."
+   "reason": "Replaces Velvet, Nocturne (direction) and Stillness; small asset set; builds bokeh and weather layers reused by Signage."
   },
   {
    "position": 8,
@@ -1737,7 +1737,7 @@
    "id": "NOC-B1",
    "style": "Nocturne",
    "name": "Core",
-   "objective": "Position 7 of 15 (Replaces Velvet and Nocturne (classic); small asset set; builds bokeh and weather layers reused by Signage.) Make the style renderable end to end: compositions, scene families, transitions and essential families.",
+   "objective": "Position 7 of 15 (Replaces Velvet, Nocturne (direction) and Stillness; small asset set; builds bokeh and weather layers reused by Signage.) Make the style renderable end to end: compositions, scene families, transitions and essential families.",
    "asset_ids": [
     "NOC-LGT-LIT-001",
     "NOC-LGT-LIT-002",

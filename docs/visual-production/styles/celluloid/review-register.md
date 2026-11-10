@@ -8,25 +8,25 @@ Style 5 of 15. Every entry of asset-manifest.json with its decision. Generated f
 
 | ID | Asset | Decision | Rationale |
 |---|---|---|---|
-| CEL-TEX-PLT-001 | Fine dust set | approved | Distinct: small specks, 24-frame strip |
-| CEL-TEX-PLT-002 | Heavy dust set | approved | Distinct: larger specks and clumps |
-| CEL-TEX-PLT-003 | Hair in the gate | approved | Distinct: one curling hair, occasional |
-| CEL-TEX-PLT-004 | Fibre lint | approved | Distinct: small fibres |
-| CEL-TEX-PLT-005 | Vertical scratch, fine | approved | Distinct: continuous thin line |
-| CEL-TEX-PLT-006 | Vertical scratch, wandering | approved | Distinct: slowly drifting line |
-| CEL-TEX-PLT-007 | Emulsion gouge | approved | Distinct: thick scratch with chipped edges |
-| CEL-TEX-PLT-008 | Base scratch (dark) | approved | Distinct: dark lines |
-| CEL-TEX-PLT-009 | Cross scratches | approved | Distinct: handling scratches at angles |
-| CEL-TEX-PLT-010 | Cue marks | approved | Distinct: original reel-change dots |
-| CEL-TEX-PLT-011 | Splice tape | approved | Distinct: tape edge and bubbles |
+| CEL-TEX-PLT-001 | Fine dust set | approved | Distinct: Small specks, 24-frame strip |
+| CEL-TEX-PLT-002 | Heavy dust set | approved | Distinct: Larger specks and clumps |
+| CEL-TEX-PLT-003 | Hair in the gate | approved | Distinct: One curling hair, occasional |
+| CEL-TEX-PLT-004 | Fibre lint | approved | Distinct: Small fibres |
+| CEL-TEX-PLT-005 | Vertical scratch, fine | approved | Distinct: Continuous thin line |
+| CEL-TEX-PLT-006 | Vertical scratch, wandering | approved | Distinct: Slowly drifting line |
+| CEL-TEX-PLT-007 | Emulsion gouge | approved | Distinct: Thick scratch with chipped edges |
+| CEL-TEX-PLT-008 | Base scratch (dark) | approved | Distinct: Dark lines |
+| CEL-TEX-PLT-009 | Cross scratches | approved | Distinct: Handling scratches at angles |
+| CEL-TEX-PLT-010 | Cue marks | approved | Distinct: Original reel-change dots |
+| CEL-TEX-PLT-011 | Splice tape | approved | Distinct: Tape edge and bubbles |
 | CEL-TEX-PLT-012 | Frame line and sprocket edge | approved | Distinct: 35 mm style edge |
-| CEL-TEX-PLT-013 | Rounded gate | approved | Distinct: small-gauge rounded corners |
-| CEL-TEX-PLT-014 | Leader marks | approved | Distinct: punched holes and plain printed leader stripes |
-| CEL-TEX-PLT-015 | Burn A | approved | Distinct: radial emulsion burn |
-| CEL-TEX-PLT-016 | Burn B | approved | Distinct: edge burn creeping in |
-| CEL-TEX-PLT-017 | Emulsion bubble | approved | Distinct: chemical blemish |
-| CEL-TEX-PLT-018 | Water stain | approved | Distinct: dried spot |
-| CEL-TEX-PLT-019 | Fingerprint on film | approved | Distinct: faint print |
+| CEL-TEX-PLT-013 | Rounded gate | approved | Distinct: Small-gauge rounded corners |
+| CEL-TEX-PLT-014 | Leader marks | approved | Distinct: Punched holes and plain printed leader stripes |
+| CEL-TEX-PLT-015 | Burn A | approved | Distinct: Radial emulsion burn |
+| CEL-TEX-PLT-016 | Burn B | approved | Distinct: Edge burn creeping in |
+| CEL-TEX-PLT-017 | Emulsion bubble | approved | Distinct: Chemical blemish |
+| CEL-TEX-PLT-018 | Water stain | approved | Distinct: Dried spot |
+| CEL-TEX-PLT-019 | Fingerprint on film | approved | Distinct: Faint print |
 | CEL-TEX-PLT-020 | Burning film frame | rejected | Too violent a visual for most songs, and it reads as a stock video effect; kept out of the plate set. |
 | CEL-TEX-PLT-021 | Digital glitch plate | rejected | Digital artefacts are not film; belongs to no style in this set. |
 | CEL-TEX-LEK-001 | Warm edge leak left | approved | Distinct: Soft coloured light entering from the frame edges, captured with a phone or a camera through coloured gels (owner shoots), or authored as gradients. |
@@ -37,19 +37,19 @@ Style 5 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | CEL-TEX-LEK-006 | Blue cold leak | approved | Distinct: Soft coloured light entering from the frame edges, captured with a phone or a camera through coloured gels (owner shoots), or authored as gradients. |
 | CEL-TEX-LEK-007 | Roll-end fog (full warm fog) | approved | Distinct: Soft coloured light entering from the frame edges, captured with a phone or a camera through coloured gels (owner shoots), or authored as gradients. |
 | CEL-TEX-LEK-008 | Halo bloom for backlit titles | approved | Distinct: Soft coloured light entering from the frame edges, captured with a phone or a camera through coloured gels (owner shoots), or authored as gradients. |
-| CEL-TEX-TAP-001 | Dropout lines | approved | Distinct: horizontal white specks |
-| CEL-TEX-TAP-002 | Tracking band | approved | Distinct: rolling distortion band (slow) |
-| CEL-TEX-TAP-003 | Head-switch noise | approved | Distinct: bottom-edge noise strip |
-| CEL-TEX-TAP-004 | Chroma bleed map | approved | Distinct: colour offset field |
-| CEL-TEX-TAP-005 | Tape crease | approved | Distinct: horizontal wrinkle event |
-| CEL-PAL-STK-001 | Colour negative | approved | Distinct: cool shadows, warm highlights, fine grain |
-| CEL-PAL-STK-002 | Black-and-white reversal | approved | Distinct: silver, strong grain |
-| CEL-PAL-STK-003 | Warm reversal | approved | Distinct: saturated home-movie warmth, 18 fps |
-| CEL-PAL-STK-004 | Tape | approved | Distinct: lifted blacks, chroma bleed, 30i feel |
-| CEL-PAL-STK-005 | High-contrast lith | approved | Distinct: pure black and white with a tint |
-| CEL-PAL-STK-006 | Toned amber | approved | Distinct: monochrome amber |
-| CEL-PAL-STK-007 | Toned blue | approved | Distinct: monochrome blue night |
-| CEL-PAL-STK-008 | Soft colour negative | approved | Distinct: low-contrast dreamy variant |
+| CEL-TEX-TAP-001 | Dropout lines | approved | Distinct: Horizontal white specks |
+| CEL-TEX-TAP-002 | Tracking band | approved | Distinct: Rolling distortion band (slow) |
+| CEL-TEX-TAP-003 | Head-switch noise | approved | Distinct: Bottom-edge noise strip |
+| CEL-TEX-TAP-004 | Chroma bleed map | approved | Distinct: Colour offset field |
+| CEL-TEX-TAP-005 | Tape crease | approved | Distinct: Horizontal wrinkle event |
+| CEL-PAL-STK-001 | Colour negative | approved | Distinct: Cool shadows, warm highlights, fine grain |
+| CEL-PAL-STK-002 | Black-and-white reversal | approved | Distinct: Silver, strong grain |
+| CEL-PAL-STK-003 | Warm reversal | approved | Distinct: Saturated home-movie warmth, 18 fps |
+| CEL-PAL-STK-004 | Tape | approved | Distinct: Lifted blacks, chroma bleed, 30i feel |
+| CEL-PAL-STK-005 | High-contrast lith | approved | Distinct: Pure black and white with a tint |
+| CEL-PAL-STK-006 | Toned amber | approved | Distinct: Monochrome amber |
+| CEL-PAL-STK-007 | Toned blue | approved | Distinct: Monochrome blue night |
+| CEL-PAL-STK-008 | Soft colour negative | approved | Distinct: Low-contrast dreamy variant |
 | CEL-PAL-GRD-001 | Neutral | approved | Distinct: Cover-aware tints within each stock. |
 | CEL-PAL-GRD-002 | Cover-warm shadows | approved | Distinct: Cover-aware tints within each stock. |
 | CEL-PAL-GRD-003 | Cover-cool shadows | approved | Distinct: Cover-aware tints within each stock. |
@@ -57,14 +57,14 @@ Style 5 of 15. Every entry of asset-manifest.json with its decision. Generated f
 | CEL-PAL-GRD-005 | Faded print (lifted blacks) | approved | Distinct: Cover-aware tints within each stock. |
 | CEL-PAL-GRD-006 | Bleach bypass (low saturation, high contrast) | approved | Distinct: Cover-aware tints within each stock. |
 | CEL-PAL-GRD-007 | Teal and orange blockbuster grade | rejected | Not a film stock look; reads as digital. |
-| CEL-MOT-GAT-001 | Gate weave 35 mm | approved | Distinct: small, steady |
-| CEL-MOT-GAT-002 | Gate weave small gauge | approved | Distinct: larger, looser |
+| CEL-MOT-GAT-001 | Gate weave 35 mm | approved | Distinct: Small, steady |
+| CEL-MOT-GAT-002 | Gate weave small gauge | approved | Distinct: Larger, looser |
 | CEL-MOT-GAT-003 | Flicker 24 fps | approved | Distinct: 1-3% |
 | CEL-MOT-GAT-004 | Flicker 18 fps | approved | Distinct: 2-4% |
-| CEL-MOT-GAT-005 | Frame slip on splice | approved | Distinct: one-frame jump |
-| CEL-MOT-GAT-006 | Shutter bar (projection room only) | approved | Distinct: faint rolling band |
-| CEL-MOT-GAT-007 | Film strip transport | approved | Distinct: strip moving through a window |
-| CEL-MOT-GAT-008 | Projector stop | approved | Distinct: freeze then burn (outro only) |
+| CEL-MOT-GAT-005 | Frame slip on splice | approved | Distinct: One-frame jump |
+| CEL-MOT-GAT-006 | Shutter bar (projection room only) | approved | Distinct: Faint rolling band |
+| CEL-MOT-GAT-007 | Film strip transport | approved | Distinct: Strip moving through a window |
+| CEL-MOT-GAT-008 | Projector stop | approved | Distinct: Freeze then burn (outro only) |
 | CEL-LAY-TTL-001 | One-line subtitle | approved | Distinct: Cinema title conventions. |
 | CEL-LAY-TTL-002 | Two-line subtitle | approved | Distinct: Cinema title conventions. |
 | CEL-LAY-TTL-003 | Centred title card | approved | Distinct: Cinema title conventions. |

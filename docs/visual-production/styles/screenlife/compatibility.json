@@ -55,7 +55,8 @@
    "compositions": [
     "SCR-CMP-C1",
     "SCR-CMP-C4",
-    "SCR-CMP-C2"
+    "SCR-CMP-C2",
+    "SCR-CMP-C5"
    ],
    "required": [
     "SCR-UIK-APP",

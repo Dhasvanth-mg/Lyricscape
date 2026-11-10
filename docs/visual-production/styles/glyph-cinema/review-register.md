@@ -8,139 +8,139 @@ Style 2 of 15. Every entry of asset-manifest.json with its decision. Generated f
 
 | ID | Asset | Decision | Rationale |
 |---|---|---|---|
-| GLY-ENV-SUB-001 | Eye | revised | Distinct: the existing close-up eye, rebaked as a map with a blink motion channel |
-| GLY-ENV-SUB-002 | Highway at night | revised | Distinct: the existing highway with lane markings and tail lights |
-| GLY-ENV-SUB-003 | Slow lights | revised | Distinct: the existing flashing-lights subject reworked as slowly pulsing spotlights (flash-safe) |
-| GLY-ENV-SUB-004 | Ocean waves | revised | Distinct: the existing rolling sea |
-| GLY-ENV-SUB-005 | Fire | revised | Distinct: the existing bonfire, flicker capped |
-| GLY-ENV-SUB-006 | City skyline | revised | Distinct: the existing skyline with windows |
-| GLY-ENV-SUB-007 | Ringed planet | revised | Distinct: the existing space subject: planet with rings and stars |
-| GLY-ENV-SUB-008 | Rain | revised | Distinct: the existing rain field |
-| GLY-ENV-SUB-009 | Tunnel | revised | Distinct: the existing tunnel with receding lights |
-| GLY-ENV-SUB-010 | Heart | revised | Distinct: the existing heart with a slow beat |
-| GLY-ENV-SUB-011 | Flower | revised | Distinct: the existing flower |
-| GLY-ENV-SUB-012 | Mountains | revised | Distinct: the existing ridgeline |
-| GLY-ENV-SUB-013 | Globe | revised | Distinct: the existing turning globe |
-| GLY-ENV-SUB-014 | Helix | revised | Distinct: the existing double helix |
-| GLY-ENV-SUB-015 | Butterfly | revised | Distinct: the existing butterfly with wing flap |
-| GLY-ENV-SUB-016 | Crescent moon and clouds | approved | Distinct: thin moon, clouds drifting across it |
-| GLY-ENV-SUB-017 | Comet over a field | approved | Distinct: long tail across a dark sky above grass |
-| GLY-ENV-SUB-018 | Constellation chart | approved | Distinct: stars joined by thin lines |
-| GLY-ENV-SUB-019 | Solar eclipse | approved | Distinct: dark disc with a bright corona |
-| GLY-ENV-SUB-020 | Lighthouse in fog | approved | Distinct: tower with a rotating beam |
-| GLY-ENV-SUB-021 | Sailing boat at dusk | approved | Distinct: small sail on a low horizon with the sun |
-| GLY-ENV-SUB-022 | Rowing boat on a still lake | approved | Distinct: boat and its mirror reflection |
-| GLY-ENV-SUB-023 | Whale under the surface | approved | Distinct: a huge shape below a wavy line |
-| GLY-ENV-SUB-024 | Train on a viaduct | approved | Distinct: arches with a train crossing |
-| GLY-ENV-SUB-025 | Station clock | approved | Distinct: platform clock with moving second hand |
-| GLY-ENV-SUB-026 | Airplane window | approved | Distinct: oval window over clouds |
-| GLY-ENV-SUB-027 | Empty desert road | approved | Distinct: straight road to the horizon, heat shimmer |
-| GLY-ENV-SUB-028 | Streetlight in snow | approved | Distinct: one lamp, snow falling through its cone |
-| GLY-ENV-SUB-029 | Lit window grid | approved | Distinct: apartment block at night, windows switching on |
-| GLY-ENV-SUB-030 | Bridge over a river | approved | Distinct: suspension bridge with reflections |
-| GLY-ENV-SUB-031 | Thunderstorm over plains | approved | Distinct: dark clouds, rare lightning (flash-limited, max one per 4 s) |
-| GLY-ENV-SUB-032 | Snowfall in a forest | approved | Distinct: pines and falling snow |
-| GLY-ENV-SUB-033 | Fog over a valley | approved | Distinct: layered hills fading into fog |
-| GLY-ENV-SUB-034 | Single tree on a hill | approved | Distinct: lone tree, wind in the canopy |
-| GLY-ENV-SUB-035 | Rose close-up | approved | Distinct: one rose filling the frame |
-| GLY-ENV-SUB-036 | Sunflower field | approved | Distinct: rows of sunflowers to the horizon |
-| GLY-ENV-SUB-037 | Cactus in the desert | approved | Distinct: saguaro shapes at sunset |
-| GLY-ENV-SUB-038 | Waterfall | approved | Distinct: falling water with spray |
-| GLY-ENV-SUB-039 | Candle in the dark | approved | Distinct: small flame, glow |
-| GLY-ENV-SUB-040 | Struck match | approved | Distinct: a match head flaring then steady (one flare per section) |
-| GLY-ENV-SUB-041 | Sunrise | approved | Distinct: sun rising with rays over hills |
-| GLY-ENV-SUB-042 | Two hands almost touching | approved | Distinct: fingertips with a gap |
-| GLY-ENV-SUB-043 | Dancer mid-spin | approved | Distinct: anonymous silhouette with flowing skirt |
-| GLY-ENV-SUB-044 | Raised hands in a crowd | approved | Distinct: anonymous concert hands |
-| GLY-ENV-SUB-045 | Cassette tape | approved | Distinct: reels turning |
-| GLY-ENV-SUB-046 | Vinyl record | approved | Distinct: spinning record with a tonearm |
-| GLY-ENV-SUB-047 | Telephone handset | approved | Distinct: coiled cord, handset off the hook |
-| GLY-ENV-SUB-048 | Radio with a dial | approved | Distinct: tuning needle moving |
-| GLY-ENV-SUB-049 | Speaker cone | approved | Distinct: cone pulsing (merges the old equalizer) |
-| GLY-ENV-SUB-050 | Hourglass | approved | Distinct: sand falling |
-| GLY-ENV-SUB-051 | Key and lock | approved | Distinct: key turning in a padlock |
-| GLY-ENV-SUB-052 | Crown | approved | Distinct: a simple crown with glints |
-| GLY-ENV-SUB-053 | Diamond | approved | Distinct: faceted gem with glints |
-| GLY-ENV-SUB-054 | Swallow in flight | approved | Distinct: one bird gliding |
-| GLY-ENV-SUB-055 | Birds on a wire | approved | Distinct: five birds on a power line |
-| GLY-ENV-SUB-056 | Cat on a windowsill | approved | Distinct: cat silhouette, tail flick |
-| GLY-ENV-SUB-057 | Rocket launch | approved | Distinct: rocket and smoke column |
-| GLY-ENV-SUB-058 | Ferris wheel | approved | Distinct: turning wheel at night |
-| GLY-ENV-SUB-059 | Paper plane | approved | Distinct: plane gliding across the frame |
-| GLY-ENV-SUB-060 | Balloon floating away | approved | Distinct: a single balloon rising |
-| GLY-ENV-SUB-061 | Cracked mirror | approved | Distinct: radial cracks from one point |
-| GLY-ENV-SUB-062 | Steaming cup | approved | Distinct: cup with rising steam |
+| GLY-ENV-SUB-001 | Eye | revised | Distinct: The existing close-up eye, rebaked as a map with a blink motion channel |
+| GLY-ENV-SUB-002 | Highway at night | revised | Distinct: The existing highway with lane markings and tail lights |
+| GLY-ENV-SUB-003 | Slow lights | revised | Distinct: The existing flashing-lights subject reworked as slowly pulsing spotlights (flash-safe) |
+| GLY-ENV-SUB-004 | Ocean waves | revised | Distinct: The existing rolling sea |
+| GLY-ENV-SUB-005 | Fire | revised | Distinct: The existing bonfire, flicker capped |
+| GLY-ENV-SUB-006 | City skyline | revised | Distinct: The existing skyline with windows |
+| GLY-ENV-SUB-007 | Ringed planet | revised | Distinct: The existing space subject: planet with rings and stars |
+| GLY-ENV-SUB-008 | Rain | revised | Distinct: The existing rain field |
+| GLY-ENV-SUB-009 | Tunnel | revised | Distinct: The existing tunnel with receding lights |
+| GLY-ENV-SUB-010 | Heart | revised | Distinct: The existing heart with a slow beat |
+| GLY-ENV-SUB-011 | Flower | revised | Distinct: The existing flower |
+| GLY-ENV-SUB-012 | Mountains | revised | Distinct: The existing ridgeline |
+| GLY-ENV-SUB-013 | Globe | revised | Distinct: The existing turning globe |
+| GLY-ENV-SUB-014 | Helix | revised | Distinct: The existing double helix |
+| GLY-ENV-SUB-015 | Butterfly | revised | Distinct: The existing butterfly with wing flap |
+| GLY-ENV-SUB-016 | Crescent moon and clouds | approved | Distinct: Thin moon, clouds drifting across it |
+| GLY-ENV-SUB-017 | Comet over a field | approved | Distinct: Long tail across a dark sky above grass |
+| GLY-ENV-SUB-018 | Constellation chart | approved | Distinct: Stars joined by thin lines |
+| GLY-ENV-SUB-019 | Solar eclipse | approved | Distinct: Dark disc with a bright corona |
+| GLY-ENV-SUB-020 | Lighthouse in fog | approved | Distinct: Tower with a rotating beam |
+| GLY-ENV-SUB-021 | Sailing boat at dusk | approved | Distinct: Small sail on a low horizon with the sun |
+| GLY-ENV-SUB-022 | Rowing boat on a still lake | approved | Distinct: Boat and its mirror reflection |
+| GLY-ENV-SUB-023 | Whale under the surface | approved | Distinct: A huge shape below a wavy line |
+| GLY-ENV-SUB-024 | Train on a viaduct | approved | Distinct: Arches with a train crossing |
+| GLY-ENV-SUB-025 | Station clock | approved | Distinct: Platform clock with moving second hand |
+| GLY-ENV-SUB-026 | Airplane window | approved | Distinct: Oval window over clouds |
+| GLY-ENV-SUB-027 | Empty desert road | approved | Distinct: Straight road to the horizon, heat shimmer |
+| GLY-ENV-SUB-028 | Streetlight in snow | approved | Distinct: One lamp, snow falling through its cone |
+| GLY-ENV-SUB-029 | Lit window grid | approved | Distinct: Apartment block at night, windows switching on |
+| GLY-ENV-SUB-030 | Bridge over a river | approved | Distinct: Suspension bridge with reflections |
+| GLY-ENV-SUB-031 | Thunderstorm over plains | approved | Distinct: Dark clouds, rare lightning (flash-limited, max one per 4 s) |
+| GLY-ENV-SUB-032 | Snowfall in a forest | approved | Distinct: Pines and falling snow |
+| GLY-ENV-SUB-033 | Fog over a valley | approved | Distinct: Layered hills fading into fog |
+| GLY-ENV-SUB-034 | Single tree on a hill | approved | Distinct: Lone tree, wind in the canopy |
+| GLY-ENV-SUB-035 | Rose close-up | approved | Distinct: One rose filling the frame |
+| GLY-ENV-SUB-036 | Sunflower field | approved | Distinct: Rows of sunflowers to the horizon |
+| GLY-ENV-SUB-037 | Cactus in the desert | approved | Distinct: Saguaro shapes at sunset |
+| GLY-ENV-SUB-038 | Waterfall | approved | Distinct: Falling water with spray |
+| GLY-ENV-SUB-039 | Candle in the dark | approved | Distinct: Small flame, glow |
+| GLY-ENV-SUB-040 | Struck match | approved | Distinct: A match head flaring then steady (one flare per section) |
+| GLY-ENV-SUB-041 | Sunrise | approved | Distinct: Sun rising with rays over hills |
+| GLY-ENV-SUB-042 | Two hands almost touching | approved | Distinct: Fingertips with a gap |
+| GLY-ENV-SUB-043 | Dancer mid-spin | approved | Distinct: Anonymous silhouette with flowing skirt |
+| GLY-ENV-SUB-044 | Raised hands in a crowd | approved | Distinct: Anonymous concert hands |
+| GLY-ENV-SUB-045 | Cassette tape | approved | Distinct: Reels turning |
+| GLY-ENV-SUB-046 | Vinyl record | approved | Distinct: Spinning record with a tonearm |
+| GLY-ENV-SUB-047 | Telephone handset | approved | Distinct: Coiled cord, handset off the hook |
+| GLY-ENV-SUB-048 | Radio with a dial | approved | Distinct: Tuning needle moving |
+| GLY-ENV-SUB-049 | Speaker cone | approved | Distinct: Cone pulsing (merges the old equalizer) |
+| GLY-ENV-SUB-050 | Hourglass | approved | Distinct: Sand falling |
+| GLY-ENV-SUB-051 | Key and lock | approved | Distinct: Key turning in a padlock |
+| GLY-ENV-SUB-052 | Crown | approved | Distinct: A simple crown with glints |
+| GLY-ENV-SUB-053 | Diamond | approved | Distinct: Faceted gem with glints |
+| GLY-ENV-SUB-054 | Swallow in flight | approved | Distinct: One bird gliding |
+| GLY-ENV-SUB-055 | Birds on a wire | approved | Distinct: Five birds on a power line |
+| GLY-ENV-SUB-056 | Cat on a windowsill | approved | Distinct: Cat silhouette, tail flick |
+| GLY-ENV-SUB-057 | Rocket launch | approved | Distinct: Rocket and smoke column |
+| GLY-ENV-SUB-058 | Ferris wheel | approved | Distinct: Turning wheel at night |
+| GLY-ENV-SUB-059 | Paper plane | approved | Distinct: Plane gliding across the frame |
+| GLY-ENV-SUB-060 | Balloon floating away | approved | Distinct: A single balloon rising |
+| GLY-ENV-SUB-061 | Cracked mirror | approved | Distinct: Radial cracks from one point |
+| GLY-ENV-SUB-062 | Steaming cup | approved | Distinct: Cup with rising steam |
 | GLY-ENV-SUB-063 | Vortex | rejected | Generic trippy shader look the style must never be. |
 | GLY-ENV-SUB-064 | Sun grid | rejected | Synthwave cliché; Vaporwave was removed in Phase 1. |
 | GLY-ENV-SUB-065 | Equalizer bars | merged | Generic; merged into the speaker cone subject. |
 | GLY-ENV-SUB-066 | Skull with roses | rejected | Cliché; dark songs are served by storm, cracked mirror and fog. |
 | GLY-ENV-SUB-067 | Real landmark skylines | rejected | Rights and specificity; skylines stay generic. |
-| GLY-MOT-ANI-001 | Fall in place | approved | Distinct: brightness bands move downward (rain, snow, sand) |
-| GLY-MOT-ANI-002 | Roll | approved | Distinct: horizontal wave motion (sea, grass) |
-| GLY-MOT-ANI-003 | Advance | approved | Distinct: lines move toward the viewer (road, tunnel) |
-| GLY-MOT-ANI-004 | Flicker | approved | Distinct: bounded random brightness (flame), max 3 Hz |
-| GLY-MOT-ANI-005 | Twinkle | approved | Distinct: sparse level changes (stars) |
-| GLY-MOT-ANI-006 | Blink | approved | Distinct: eyelid close and open every 4-9 s |
-| GLY-MOT-ANI-007 | Flap | approved | Distinct: wing open and close |
-| GLY-MOT-ANI-008 | Drift | approved | Distinct: slow lateral drift (clouds, fog) |
-| GLY-MOT-ANI-009 | Spin | approved | Distinct: rotation of a part by re-sampling (record, wheel) |
-| GLY-MOT-ANI-010 | Beat | approved | Distinct: slow scale pulse of the heart (cell-snapped) |
-| GLY-MOT-ANI-011 | Sweep | approved | Distinct: rotating beam (lighthouse) |
-| GLY-TYP-RMP-001 | Classic ten | approved | Distinct: space  |
-| GLY-TYP-RMP-002 | Dense seventy | approved | Distinct: full printable ASCII by measured coverage |
-| GLY-TYP-RMP-003 | Block shades | approved | Distinct: space, light, medium, dark, full blocks |
+| GLY-MOT-ANI-001 | Fall in place | approved | Distinct: Brightness bands move downward (rain, snow, sand) |
+| GLY-MOT-ANI-002 | Roll | approved | Distinct: Horizontal wave motion (sea, grass) |
+| GLY-MOT-ANI-003 | Advance | approved | Distinct: Lines move toward the viewer (road, tunnel) |
+| GLY-MOT-ANI-004 | Flicker | approved | Distinct: Bounded random brightness (flame), max 3 Hz |
+| GLY-MOT-ANI-005 | Twinkle | approved | Distinct: Sparse level changes (stars) |
+| GLY-MOT-ANI-006 | Blink | approved | Distinct: Eyelid close and open every 4-9 s |
+| GLY-MOT-ANI-007 | Flap | approved | Distinct: Wing open and close |
+| GLY-MOT-ANI-008 | Drift | approved | Distinct: Slow lateral drift (clouds, fog) |
+| GLY-MOT-ANI-009 | Spin | approved | Distinct: Rotation of a part by re-sampling (record, wheel) |
+| GLY-MOT-ANI-010 | Beat | approved | Distinct: Slow scale pulse of the heart (cell-snapped) |
+| GLY-MOT-ANI-011 | Sweep | approved | Distinct: Rotating beam (lighthouse) |
+| GLY-TYP-RMP-001 | Classic ten | approved | Distinct: Space  |
+| GLY-TYP-RMP-002 | Dense seventy | approved | Distinct: Full printable ASCII by measured coverage |
+| GLY-TYP-RMP-003 | Block shades | approved | Distinct: Space, light, medium, dark, full blocks |
 | GLY-TYP-RMP-004 | Braille dots | approved | Distinct: 2x4 dot patterns for fine detail |
-| GLY-TYP-RMP-005 | Box drawing | approved | Distinct: lines and corners for architecture subjects |
-| GLY-TYP-RMP-006 | Quiet punctuation | approved | Distinct: only  |
+| GLY-TYP-RMP-005 | Box drawing | approved | Distinct: Lines and corners for architecture subjects |
+| GLY-TYP-RMP-006 | Quiet punctuation | approved | Distinct: Only  |
 | GLY-TYP-RMP-007 | Numerals | approved | Distinct: 0-9 by coverage for machine subjects |
 | GLY-TYP-RMP-008 | Greek accents | approved | Distinct: Greek letters for a classical feel |
 | GLY-TYP-RMP-009 | Cyrillic | approved | Distinct: Cyrillic letters by coverage |
-| GLY-TYP-RMP-010 | Kana | approved | Distinct: full-width kana for Japanese songs (two-cell) |
-| GLY-TYP-RMP-011 | Hangul jamo | approved | Distinct: full-width jamo for Korean songs |
-| GLY-TYP-RMP-012 | Typewriter overstrike pairs | approved | Distinct: combinations like o+/ and O+- for paper |
-| GLY-TYP-RMP-013 | Teletext mosaics | approved | Distinct: the 2x3 sixel mosaic set (teletext only) |
-| GLY-TYP-RMP-014 | Lyric letters | approved | Distinct: the current line's own letters sorted by coverage (calligram) |
-| GLY-PRC-REG-001 | Phosphor ASCII | approved | Distinct: glowing cells on black with scanlines |
+| GLY-TYP-RMP-010 | Kana | approved | Distinct: Full-width kana for Japanese songs (two-cell) |
+| GLY-TYP-RMP-011 | Hangul jamo | approved | Distinct: Full-width jamo for Korean songs |
+| GLY-TYP-RMP-012 | Typewriter overstrike pairs | approved | Distinct: Combinations like o+/ and O+- for paper |
+| GLY-TYP-RMP-013 | Teletext mosaics | approved | Distinct: The 2x3 sixel mosaic set (teletext only) |
+| GLY-TYP-RMP-014 | Lyric letters | approved | Distinct: The current line's own letters sorted by coverage (calligram) |
+| GLY-PRC-REG-001 | Phosphor ASCII | approved | Distinct: Glowing cells on black with scanlines |
 | GLY-PRC-REG-002 | Teletext mosaic | approved | Distinct: 40x24 page, eight colours, double-height rows |
-| GLY-PRC-REG-003 | Typewriter overstrike | approved | Distinct: ink on paper with strike variation and ribbon wear |
-| GLY-PRC-REG-004 | 1-bit print | approved | Distinct: two-colour dither print with stable pattern |
-| GLY-PRC-REG-005 | Block shade | approved | Distinct: coloured blocks on black (ANSI-art-like), chorus only |
-| GLY-LAY-PAG-001 | Index page | approved | Distinct: sections of the song as an index with page numbers |
-| GLY-LAY-PAG-002 | Clock page | approved | Distinct: big song time in double height |
-| GLY-LAY-PAG-003 | Chart page | approved | Distinct: the song's lines ranked by repetition count |
-| GLY-LAY-PAG-004 | Programme guide | approved | Distinct: lines listed with their start times |
-| GLY-LAY-PAG-005 | Subtitle page | approved | Distinct: lyric in double-height boxes over black (classic subtitle look) |
-| GLY-LAY-PAG-006 | Picture page | approved | Distinct: a mosaic subject with a caption row |
-| GLY-LAY-PAG-007 | Test page | approved | Distinct: colour bars for the intro (original arrangement) |
-| GLY-LAY-PAG-008 | Weather-map page | approved | Distinct: a mosaic map of an invented coastline with the hook as the forecast |
-| GLY-LAY-PAG-009 | Credits page | approved | Distinct: title, artist, album for the outro |
-| GLY-SRF-PAP-001 | Bond paper | approved | Distinct: clean white with faint fibre |
-| GLY-SRF-PAP-002 | Onionskin | approved | Distinct: thin translucent with a darker backing |
-| GLY-SRF-PAP-003 | Carbon copy | approved | Distinct: blue-grey carbon smudge |
-| GLY-SRF-PAP-004 | Yellowed letter | approved | Distinct: aged cream with foxing spots |
-| GLY-SRF-PAP-005 | Ruled pad | approved | Distinct: faint blue rules |
-| GLY-SRF-PAP-006 | Index card | approved | Distinct: small card stock (for short songs) |
+| GLY-PRC-REG-003 | Typewriter overstrike | approved | Distinct: Ink on paper with strike variation and ribbon wear |
+| GLY-PRC-REG-004 | 1-bit print | approved | Distinct: Two-colour dither print with stable pattern |
+| GLY-PRC-REG-005 | Block shade | approved | Distinct: Coloured blocks on black (ANSI-art-like), chorus only |
+| GLY-LAY-PAG-001 | Index page | approved | Distinct: Sections of the song as an index with page numbers |
+| GLY-LAY-PAG-002 | Clock page | approved | Distinct: Big song time in double height |
+| GLY-LAY-PAG-003 | Chart page | approved | Distinct: The song's lines ranked by repetition count |
+| GLY-LAY-PAG-004 | Programme guide | approved | Distinct: Lines listed with their start times |
+| GLY-LAY-PAG-005 | Subtitle page | approved | Distinct: Lyric in double-height boxes over black (classic subtitle look) |
+| GLY-LAY-PAG-006 | Picture page | approved | Distinct: A mosaic subject with a caption row |
+| GLY-LAY-PAG-007 | Test page | approved | Distinct: Colour bars for the intro (original arrangement) |
+| GLY-LAY-PAG-008 | Weather-map page | approved | Distinct: A mosaic map of an invented coastline with the hook as the forecast |
+| GLY-LAY-PAG-009 | Credits page | approved | Distinct: Title, artist, album for the outro |
+| GLY-SRF-PAP-001 | Bond paper | approved | Distinct: Clean white with faint fibre |
+| GLY-SRF-PAP-002 | Onionskin | approved | Distinct: Thin translucent with a darker backing |
+| GLY-SRF-PAP-003 | Carbon copy | approved | Distinct: Blue-grey carbon smudge |
+| GLY-SRF-PAP-004 | Yellowed letter | approved | Distinct: Aged cream with foxing spots |
+| GLY-SRF-PAP-005 | Ruled pad | approved | Distinct: Faint blue rules |
+| GLY-SRF-PAP-006 | Index card | approved | Distinct: Small card stock (for short songs) |
 | GLY-PAL-PAL-001 | Green phosphor | approved | Distinct: Fixed colour sets per register. |
 | GLY-PAL-PAL-002 | Amber phosphor | approved | Distinct: Fixed colour sets per register. |
 | GLY-PAL-PAL-003 | White phosphor | approved | Distinct: Fixed colour sets per register. |
-| GLY-PAL-PAL-004 | Cover-hue phosphor | approved | Distinct: cover hue at high luminance |
+| GLY-PAL-PAL-004 | Cover-hue phosphor | approved | Distinct: Cover hue at high luminance |
 | GLY-PAL-PAL-005 | Teletext eight | approved | Distinct: Fixed colour sets per register. |
 | GLY-PAL-PAL-006 | Black ribbon on bond | approved | Distinct: Fixed colour sets per register. |
 | GLY-PAL-PAL-007 | Red-black ribbon | approved | Distinct: Fixed colour sets per register. |
-| GLY-PAL-PAL-008 | 1-bit cover duotone | approved | Distinct: paper from the lightest swatch, ink from the darkest |
+| GLY-PAL-PAL-008 | 1-bit cover duotone | approved | Distinct: Paper from the lightest swatch, ink from the darkest |
 | GLY-LAY-LAY-001 | Top-third band | approved | Distinct: Where the lyric sits in the grid. |
 | GLY-LAY-LAY-002 | Bottom-third band | approved | Distinct: Where the lyric sits in the grid. |
-| GLY-LAY-LAY-003 | Inverted bar band | approved | Distinct: solid bar in the phosphor colour with dark text |
+| GLY-LAY-LAY-003 | Inverted bar band | approved | Distinct: Solid bar in the phosphor colour with dark text |
 | GLY-LAY-LAY-004 | Double-height teletext rows | approved | Distinct: Where the lyric sits in the grid. |
 | GLY-LAY-LAY-005 | Typed margin line | approved | Distinct: Where the lyric sits in the grid. |
 | GLY-LAY-LAY-006 | Lyric column (split field) | approved | Distinct: Where the lyric sits in the grid. |
-| GLY-LAY-LAY-007 | Macro band | approved | Distinct: coarse cells running through the zoomed detail |
-| GLY-MOT-CAL-001 | Brightest first | approved | Distinct: letters fill the highest-brightness target cells in reading order |
-| GLY-MOT-CAL-002 | Contour follow | approved | Distinct: letters trace the subject outline |
-| GLY-MOT-CAL-003 | Fill silhouette | approved | Distinct: letters fill the subject's shape left to right |
-| GLY-MOT-CAL-004 | Spiral from centre | approved | Distinct: for round subjects (heart, record, eye) |
-| GLY-MOT-CAL-005 | Horizon line | approved | Distinct: letters lie along the horizon (sea, road) |
-| GLY-MOT-CAL-006 | Rain of the word | approved | Distinct: letters settle into rain streak cells (weather) |
+| GLY-LAY-LAY-007 | Macro band | approved | Distinct: Coarse cells running through the zoomed detail |
+| GLY-MOT-CAL-001 | Brightest first | approved | Distinct: Letters fill the highest-brightness target cells in reading order |
+| GLY-MOT-CAL-002 | Contour follow | approved | Distinct: Letters trace the subject outline |
+| GLY-MOT-CAL-003 | Fill silhouette | approved | Distinct: Letters fill the subject's shape left to right |
+| GLY-MOT-CAL-004 | Spiral from centre | approved | Distinct: For round subjects (heart, record, eye) |
+| GLY-MOT-CAL-005 | Horizon line | approved | Distinct: Letters lie along the horizon (sea, road) |
+| GLY-MOT-CAL-006 | Rain of the word | approved | Distinct: Letters settle into rain streak cells (weather) |
 | GLY-CAM-CAM-001 | Zoom-step in to detail | approved | Distinct: Discrete camera moves in cell units. |
 | GLY-CAM-CAM-002 | Zoom-step out to wide | approved | Distinct: Discrete camera moves in cell units. |
 | GLY-CAM-CAM-003 | Cell pan across | approved | Distinct: Discrete camera moves in cell units. |

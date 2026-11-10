@@ -144,17 +144,21 @@ Phase 1 listed 480 existing icons. That count is 45 icons times 10 rendering tre
 
 ## Shared assets this style depends on
 
-12 shared entries (counted once in the shared manifest, not in this style's total):
+16 shared entries (counted once in the shared manifest, not in this style's total):
 
 - `SHR-PRC-GEN-001` Film grain (generator)
 - `SHR-PRC-GEN-003` Halftone and screentone (generator)
 - `SHR-PRC-GEN-009` Seeded noise fields (generator)
 - `SHR-PRC-GEN-014` Cover derivation (generator)
 - `SHR-TYP-FNT-001` Inter Variable (dependency)
+- `SHR-TYP-FNT-003` Archivo Variable (dependency)
 - `SHR-TYP-FNT-005` Anton (dependency)
+- `SHR-TYP-FNT-006` Bebas Neue (dependency)
 - `SHR-TYP-FNT-010` DM Serif Display (dependency)
 - `SHR-TYP-FNT-014` Nunito 900 and 900 italic (dependency)
+- `SHR-TYP-FNT-015` Syne Variable (dependency)
 - `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
 - `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
 - `SHR-TYP-FNT-020` Noto Sans Arabic (dependency)
 - `SHR-TYP-FNT-022` Noto Sans Hebrew (dependency)
+- `SHR-TYP-FNT-029` Shrikhand (dependency)

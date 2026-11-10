@@ -47,7 +47,7 @@ Style 11 of 15. Phase 2 planning document (no production code or assets). Genera
 | Script | Behaviour |
 |---|---|
 | English | Stroke-reveal along the glyph's stroke order (computed from the skeleton). |
-| Hindi | Reveal along the headline and strokes computed from the skeleton, then the shirorekha drawn last as one stroke; Noto Serif Devanagari. |
+| Hindi | Reveal along the strokes computed from the skeleton, with the headline bar (shirorekha) drawn last as one stroke; Noto Serif Devanagari. |
 | Tamil | Skeleton-based reveal; Noto Serif Tamil. |
 | Mixed | Per-run faces; reveal per run in reading order. |
 | RTL | Arabic reveal right to left along the baseline joins (Naskh); Hebrew right to left. |

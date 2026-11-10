@@ -18,7 +18,7 @@ Production methods: authored-data 57, handcrafted-vector 62, photographed 20, pr
 
 ## Why this scale
 
-Phase 1 estimated about 250 assets. Phase 2 approves 157 live entries: 9 hardware generators, 50 sign designs, 20 settings, 7 neon alphabets and supporting families.
+Phase 1 estimated about 180 originals. Phase 2 approves 157 live entries: 9 hardware generators, 50 sign designs, 20 settings, 7 neon alphabets and supporting families.
 
 ## Families
 
@@ -125,7 +125,7 @@ Phase 1 estimated about 250 assets. Phase 2 approves 157 live entries: 9 hardwar
 
 ## Shared assets this style depends on
 
-17 shared entries (counted once in the shared manifest, not in this style's total):
+19 shared entries (counted once in the shared manifest, not in this style's total):
 
 - `SHR-PRC-GEN-001` Film grain (generator)
 - `SHR-PRC-GEN-006` Bokeh discs (generator)
@@ -136,11 +136,13 @@ Phase 1 estimated about 250 assets. Phase 2 approves 157 live entries: 9 hardwar
 - `SHR-PRC-GEN-015` Character-cell pass (generator)
 - `SHR-PRC-GEN-016` Thick line renderer (generator)
 - `SHR-TYP-FNT-003` Archivo Variable (dependency)
+- `SHR-TYP-FNT-005` Anton (dependency)
 - `SHR-TYP-FNT-006` Bebas Neue (dependency)
 - `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
 - `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
 - `SHR-TYP-FNT-020` Noto Sans Arabic (dependency)
 - `SHR-TYP-FNT-022` Noto Sans Hebrew (dependency)
 - `SHR-TYP-FNT-032` VT323 (dependency)
+- `SHR-TYP-FNT-033` Bedstead (dependency)
 - `SHR-TYP-FNT-034` GNU Unifont (dependency)
 - `SHR-TYP-FNT-035` Silkscreen (dependency)

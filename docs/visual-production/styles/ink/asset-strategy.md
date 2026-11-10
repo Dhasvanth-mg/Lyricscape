@@ -17,7 +17,7 @@ Production methods: authored-data 53, hybrid 102, photographed 10, procedural-co
 
 ## Why this scale
 
-Phase 1 estimated about 250 assets. Phase 2 approves 188 live entries: about 80 hand-painted elements (the owner paints and scans them), 20 brush strokes and supporting generators. The stroke-reveal family is deferred behind a spike; the style still works with the generic wipe if the spike fails.
+Phase 1 estimated about 500 originals, counting painted elements once per paper and ink; here an element is one asset and paper and ink are separate families. Phase 2 approves 188 live entries: about 80 hand-painted elements (the owner paints and scans them), 20 brush strokes and supporting generators. The stroke-reveal family is deferred behind a spike; the style still works with the generic wipe if the spike fails.
 
 ## Families
 
@@ -174,15 +174,21 @@ Phase 1 estimated about 250 assets. Phase 2 approves 188 live entries: about 80 
 
 ## Shared assets this style depends on
 
-10 shared entries (counted once in the shared manifest, not in this style's total):
+16 shared entries (counted once in the shared manifest, not in this style's total):
 
 - `SHR-PRC-GEN-001` Film grain (generator)
 - `SHR-PRC-GEN-004` Paper fibre and tooth (generator)
 - `SHR-PRC-GEN-009` Seeded noise fields (generator)
 - `SHR-PRC-GEN-010` Baked flow-field sampler (generator)
 - `SHR-PRC-GEN-011` Distance-along-stroke reveal (generator)
+- `SHR-TYP-FNT-007` Cormorant Garamond (dependency)
+- `SHR-TYP-FNT-008` Instrument Serif (dependency)
 - `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
 - `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-018` Noto Serif Devanagari (dependency)
+- `SHR-TYP-FNT-019` Noto Serif Tamil (dependency)
 - `SHR-TYP-FNT-021` Noto Naskh Arabic (dependency)
+- `SHR-TYP-FNT-023` Frank Ruhl Libre (dependency)
 - `SHR-TYP-FNT-025` Kalam (dependency)
 - `SHR-TYP-FNT-026` Kavivanar (dependency)
+- `SHR-TYP-FNT-028` Newsreader (dependency)

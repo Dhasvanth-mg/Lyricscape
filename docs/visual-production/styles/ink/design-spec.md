@@ -174,7 +174,7 @@ Stroke reveal spike (gate) on 4 scripts; cultural review (no costume) on all ele
 
 **15. How does the style adapt to different screen sizes?** Element and column: portrait Element top, column bottom. Single word: portrait Word 80% width. Water register: portrait Clouds rise. All families in composition.md.
 
-**16. How does it handle different languages?** Hindi: Reveal along the headline and strokes computed from the skeleton, then the shirorekha drawn last as one stroke; Noto Serif Devanagari. Tamil: Skeleton-based reveal; Noto Serif Tamil. Mixed: Per-run faces; reveal per run in reading order. RTL: Arabic reveal right to left along the baseline joins (Naskh); Hebrew right to left. Fallback: Any script without reliable skeleton data: generic reading-direction wipe with a brush-textured edge (no fake stroke order).
+**16. How does it handle different languages?** Hindi: Reveal along the strokes computed from the skeleton, with the headline bar (shirorekha) drawn last as one stroke; Noto Serif Devanagari. Tamil: Skeleton-based reveal; Noto Serif Tamil. Mixed: Per-run faces; reveal per run in reading order. RTL: Arabic reveal right to left along the baseline joins (Naskh); Hebrew right to left. Fallback: Any script without reliable skeleton data: generic reading-direction wipe with a brush-textured edge (no fake stroke order).
 
 **17. What technical infrastructure does it require?** Stroke reveal masks for glyphs (distance along skeleton), stroke records for elements, bloom sequences, wet spread shader, paper set, water register. Reuses: Paper fibre (SHR-GEN), stroke reveal (SHR-GEN), noise fields and flow-field sampler for blooms, bundled serif fonts.
 

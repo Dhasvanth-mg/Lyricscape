@@ -17,7 +17,7 @@ Production methods: authored-data 61, handcrafted-vector 50, hybrid 8, procedura
 
 ## Why this scale
 
-Phase 1 estimated about 160 assets. Phase 2 approves 131 live entries. This is a narrow medium by design: its variety comes from 12 curve generators and 50 single-line figures. The stroke-font family is deferred behind the PHO-G1 licence and readability gate.
+Phase 1 estimated about 230 originals and flagged it as the narrowest medium. Phase 2 approves 131 live entries. This is a narrow medium by design: its variety comes from 12 curve generators and 50 single-line figures. The stroke-font family is deferred behind the PHO-G1 licence and readability gate.
 
 ## Families
 

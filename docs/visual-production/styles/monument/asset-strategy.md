@@ -16,7 +16,7 @@ Production methods: authored-data 77, procedural-code 5, shader 10. Priority: es
 
 ## Why this scale
 
-Phase 1 estimated about 120 assets. Phase 2 specifies 92 entries. All are deferred behind the MON-G1 prototype gate, so none are approved for production yet. If the gate fails, the reserve Riso Riot replaces Monument and gets its own full specification.
+Phase 1 estimated about 100 originals. Phase 2 specifies 92 entries. All are deferred behind the MON-G1 prototype gate, so none are approved for production yet. If the gate fails, the reserve Riso Riot replaces Monument and gets its own full specification.
 
 ## Families
 
@@ -143,7 +143,7 @@ Phase 1 estimated about 120 assets. Phase 2 specifies 92 entries. All are deferr
 
 ## Shared assets this style depends on
 
-10 shared entries (counted once in the shared manifest, not in this style's total):
+11 shared entries (counted once in the shared manifest, not in this style's total):
 
 - `SHR-PRC-GEN-001` Film grain (generator)
 - `SHR-PRC-GEN-009` Seeded noise fields (generator)
@@ -151,6 +151,7 @@ Phase 1 estimated about 120 assets. Phase 2 specifies 92 entries. All are deferr
 - `SHR-PRC-GEN-013` Wet ground reflection (generator)
 - `SHR-TYP-FNT-003` Archivo Variable (dependency)
 - `SHR-TYP-FNT-005` Anton (dependency)
+- `SHR-TYP-FNT-006` Bebas Neue (dependency)
 - `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
 - `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
 - `SHR-TYP-FNT-020` Noto Sans Arabic (dependency)

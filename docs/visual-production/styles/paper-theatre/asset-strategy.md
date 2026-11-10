@@ -17,7 +17,7 @@ Production methods: authored-data 53, handcrafted-vector 173, photographed 8, pr
 
 ## Why this scale
 
-Phase 1 estimated 500-700 originals; this plan approves about 250, because Phase 1 counted arrangements and recolours. Variety comes from 13 worlds x 7 compositions x lighting, with every piece a distinct cut. If the first two sets prove that pieces recombine well, Phase 3 can add sets (each about 10-14 pieces) without changing the system.
+Phase 1 estimated 500-700 originals; this plan approves 241 live entries, because Phase 1 counted arrangements and recolours. Variety comes from 13 worlds x 7 compositions x lighting, with every piece a distinct cut. If the first two sets prove that pieces recombine well, Phase 3 can add sets (each about 10-14 pieces) without changing the system.
 
 ## Families
 
@@ -233,12 +233,14 @@ Phase 1 estimated 500-700 originals; this plan approves about 250, because Phase
 
 ## Shared assets this style depends on
 
-12 shared entries (counted once in the shared manifest, not in this style's total):
+14 shared entries (counted once in the shared manifest, not in this style's total):
 
 - `SHR-PRC-GEN-001` Film grain (generator)
 - `SHR-PRC-GEN-004` Paper fibre and tooth (generator)
 - `SHR-PRC-GEN-009` Seeded noise fields (generator)
 - `SHR-PRC-GEN-012` Depth fog and haze (generator)
+- `SHR-TYP-FNT-003` Archivo Variable (dependency)
+- `SHR-TYP-FNT-008` Instrument Serif (dependency)
 - `SHR-TYP-FNT-010` DM Serif Display (dependency)
 - `SHR-TYP-FNT-011` Special Elite (dependency)
 - `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)

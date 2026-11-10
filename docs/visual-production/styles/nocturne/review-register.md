@@ -8,16 +8,16 @@ Style 7 of 15. Every entry of asset-manifest.json with its decision. Generated f
 
 | ID | Asset | Decision | Rationale |
 |---|---|---|---|
-| NOC-LGT-LIT-001 | Table lamp | approved | Distinct: warm cone downward |
-| NOC-LGT-LIT-002 | Streetlight | approved | Distinct: sodium cone from above |
-| NOC-LGT-LIT-003 | Candle | approved | Distinct: small warm flame, gentle flicker under 1 Hz |
-| NOC-LGT-LIT-004 | Window daylight | approved | Distinct: cool rectangle of light |
-| NOC-LGT-LIT-005 | Moon | approved | Distinct: silver disc and path |
-| NOC-LGT-LIT-006 | Screen glow | approved | Distinct: soft cold rectangle from below |
-| NOC-LGT-LIT-007 | Passing headlights | approved | Distinct: sweep across |
-| NOC-LGT-LIT-008 | Halo | approved | Distinct: abstract round glow for single words |
-| NOC-LGT-LIT-009 | Soft strip | approved | Distinct: vertical light behind the column |
-| NOC-LGT-LIT-010 | Distant city glow | approved | Distinct: horizon glow |
+| NOC-LGT-LIT-001 | Table lamp | approved | Distinct: Warm cone downward |
+| NOC-LGT-LIT-002 | Streetlight | approved | Distinct: Sodium cone from above |
+| NOC-LGT-LIT-003 | Candle | approved | Distinct: Small warm flame, gentle flicker under 1 Hz |
+| NOC-LGT-LIT-004 | Window daylight | approved | Distinct: Cool rectangle of light |
+| NOC-LGT-LIT-005 | Moon | approved | Distinct: Silver disc and path |
+| NOC-LGT-LIT-006 | Screen glow | approved | Distinct: Soft cold rectangle from below |
+| NOC-LGT-LIT-007 | Passing headlights | approved | Distinct: Sweep across |
+| NOC-LGT-LIT-008 | Halo | approved | Distinct: Abstract round glow for single words |
+| NOC-LGT-LIT-009 | Soft strip | approved | Distinct: Vertical light behind the column |
+| NOC-LGT-LIT-010 | Distant city glow | approved | Distinct: Horizon glow |
 | NOC-LGT-LIT-011 | Police lights | rejected | Flash risk and a crime connotation. |
 | NOC-LGT-LIT-012 | Disco ball | rejected | Party energy outside the style; Signage and Cover Pop serve showy songs. |
 | NOC-ATM-WEA-001 | Light drizzle on glass | approved | Distinct: Slow atmospheric layers. |

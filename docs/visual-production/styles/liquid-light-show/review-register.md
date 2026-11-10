@@ -8,46 +8,46 @@ Style 8 of 15. Every entry of asset-manifest.json with its decision. Generated f
 
 | ID | Asset | Decision | Rationale |
 |---|---|---|---|
-| LLS-PRC-FLU-001 | Oil: honey amber | approved | Distinct: large slow blobs in amber water |
-| LLS-PRC-FLU-002 | Oil: magenta and clear | approved | Distinct: mid blobs, quick splits |
-| LLS-PRC-FLU-003 | Oil: tri-colour | approved | Distinct: three oils of different viscosity |
-| LLS-PRC-FLU-004 | Oil: tiny cells | approved | Distinct: fine cellular foam of oil |
-| LLS-PRC-FLU-005 | Dye: single plume | approved | Distinct: one colour plume drifting |
-| LLS-PRC-FLU-006 | Dye: twin plumes | approved | Distinct: two colours meeting |
-| LLS-PRC-FLU-007 | Dye: ink cloud colour | approved | Distinct: dense coloured cloud billowing |
-| LLS-PRC-FLU-008 | Dye: threads | approved | Distinct: thin dye threads stretching |
-| LLS-PRC-FLU-009 | Bubbles: champagne | approved | Distinct: fine rising bubbles |
-| LLS-PRC-FLU-010 | Bubbles: large soap | approved | Distinct: big bubbles with thin rims |
-| LLS-PRC-FLU-011 | Bubbles: foam raft | approved | Distinct: packed foam |
-| LLS-PRC-FLU-012 | Bubbles: popping field | approved | Distinct: bubbles popping into rings |
-| LLS-PRC-FLU-013 | Bloom: rose | approved | Distinct: warm pink bloom spreading |
-| LLS-PRC-FLU-014 | Bloom: sea glass | approved | Distinct: cool green-blue bloom |
-| LLS-PRC-FLU-015 | Bloom: sunset | approved | Distinct: orange to violet |
-| LLS-PRC-FLU-016 | Bloom: two-point | approved | Distinct: blooms from two drop points |
-| LLS-PRC-FLU-017 | Drips: slow honey | approved | Distinct: thick slow drips |
-| LLS-PRC-FLU-018 | Drips: rainbow run | approved | Distinct: multiple coloured runs |
-| LLS-PRC-FLU-019 | Drips: single heavy | approved | Distinct: one dramatic drip per line |
-| LLS-PRC-FLU-020 | Drips: spatter | approved | Distinct: small spatters then runs |
-| LLS-PRC-FLU-021 | Meniscus: oil climbing | approved | Distinct: oil climbs the dish edge |
-| LLS-PRC-FLU-022 | Meniscus: rim glow | approved | Distinct: bright colour at the rim |
-| LLS-PRC-FLU-023 | Meniscus: edge ripples | approved | Distinct: ripples along the rim |
-| LLS-PRC-FLU-024 | Meniscus: clear centre | approved | Distinct: coloured edge, clear centre |
-| LLS-PRC-FLU-025 | Marbling: comb | approved | Distinct: combed parallel pattern |
-| LLS-PRC-FLU-026 | Marbling: stone | approved | Distinct: stone-like veins |
-| LLS-PRC-FLU-027 | Marbling: feather | approved | Distinct: feather pattern |
-| LLS-PRC-FLU-028 | Marbling: spiral comb | approved | Distinct: spiral drag |
-| LLS-PRC-FLU-029 | Wheel: four gels | approved | Distinct: warm and cool alternating |
-| LLS-PRC-FLU-030 | Wheel: six gels | approved | Distinct: rainbow segments |
-| LLS-PRC-FLU-031 | Wheel: duotone | approved | Distinct: two cover colours |
-| LLS-PRC-FLU-032 | Wheel: dark gels | approved | Distinct: deep blue and red |
-| LLS-PRC-FLU-033 | Aurora: green veils | approved | Distinct: slow green and violet |
-| LLS-PRC-FLU-034 | Aurora: dawn veils | approved | Distinct: pink and gold |
-| LLS-PRC-FLU-035 | Aurora: cover veils | approved | Distinct: cover colours as veils |
-| LLS-PRC-FLU-036 | Aurora: night veils | approved | Distinct: blue and teal |
-| LLS-PRC-FLU-037 | Swirl: hand stir | approved | Distinct: two-hand stir spirals |
-| LLS-PRC-FLU-038 | Swirl: whirlpool | approved | Distinct: central whirl (slow) |
-| LLS-PRC-FLU-039 | Swirl: figure eight | approved | Distinct: gesture loop |
-| LLS-PRC-FLU-040 | Swirl: counter swirl | approved | Distinct: two dishes swirling opposite |
+| LLS-PRC-FLU-001 | Oil: honey amber | approved | Distinct: Large slow blobs in amber water |
+| LLS-PRC-FLU-002 | Oil: magenta and clear | approved | Distinct: Mid blobs, quick splits |
+| LLS-PRC-FLU-003 | Oil: tri-colour | approved | Distinct: Three oils of different viscosity |
+| LLS-PRC-FLU-004 | Oil: tiny cells | approved | Distinct: Fine cellular foam of oil |
+| LLS-PRC-FLU-005 | Dye: single plume | approved | Distinct: One colour plume drifting |
+| LLS-PRC-FLU-006 | Dye: twin plumes | approved | Distinct: Two colours meeting |
+| LLS-PRC-FLU-007 | Dye: ink cloud colour | approved | Distinct: Dense coloured cloud billowing |
+| LLS-PRC-FLU-008 | Dye: threads | approved | Distinct: Thin dye threads stretching |
+| LLS-PRC-FLU-009 | Bubbles: champagne | approved | Distinct: Fine rising bubbles |
+| LLS-PRC-FLU-010 | Bubbles: large soap | approved | Distinct: Big bubbles with thin rims |
+| LLS-PRC-FLU-011 | Bubbles: foam raft | approved | Distinct: Packed foam |
+| LLS-PRC-FLU-012 | Bubbles: popping field | approved | Distinct: Bubbles popping into rings |
+| LLS-PRC-FLU-013 | Bloom: rose | approved | Distinct: Warm pink bloom spreading |
+| LLS-PRC-FLU-014 | Bloom: sea glass | approved | Distinct: Cool green-blue bloom |
+| LLS-PRC-FLU-015 | Bloom: sunset | approved | Distinct: Orange to violet |
+| LLS-PRC-FLU-016 | Bloom: two-point | approved | Distinct: Blooms from two drop points |
+| LLS-PRC-FLU-017 | Drips: slow honey | approved | Distinct: Thick slow drips |
+| LLS-PRC-FLU-018 | Drips: rainbow run | approved | Distinct: Multiple coloured runs |
+| LLS-PRC-FLU-019 | Drips: single heavy | approved | Distinct: One dramatic drip per line |
+| LLS-PRC-FLU-020 | Drips: spatter | approved | Distinct: Small spatters then runs |
+| LLS-PRC-FLU-021 | Meniscus: oil climbing | approved | Distinct: Oil climbs the dish edge |
+| LLS-PRC-FLU-022 | Meniscus: rim glow | approved | Distinct: Bright colour at the rim |
+| LLS-PRC-FLU-023 | Meniscus: edge ripples | approved | Distinct: Ripples along the rim |
+| LLS-PRC-FLU-024 | Meniscus: clear centre | approved | Distinct: Coloured edge, clear centre |
+| LLS-PRC-FLU-025 | Marbling: comb | approved | Distinct: Combed parallel pattern |
+| LLS-PRC-FLU-026 | Marbling: stone | approved | Distinct: Stone-like veins |
+| LLS-PRC-FLU-027 | Marbling: feather | approved | Distinct: Feather pattern |
+| LLS-PRC-FLU-028 | Marbling: spiral comb | approved | Distinct: Spiral drag |
+| LLS-PRC-FLU-029 | Wheel: four gels | approved | Distinct: Warm and cool alternating |
+| LLS-PRC-FLU-030 | Wheel: six gels | approved | Distinct: Rainbow segments |
+| LLS-PRC-FLU-031 | Wheel: duotone | approved | Distinct: Two cover colours |
+| LLS-PRC-FLU-032 | Wheel: dark gels | approved | Distinct: Deep blue and red |
+| LLS-PRC-FLU-033 | Aurora: green veils | approved | Distinct: Slow green and violet |
+| LLS-PRC-FLU-034 | Aurora: dawn veils | approved | Distinct: Pink and gold |
+| LLS-PRC-FLU-035 | Aurora: cover veils | approved | Distinct: Cover colours as veils |
+| LLS-PRC-FLU-036 | Aurora: night veils | approved | Distinct: Blue and teal |
+| LLS-PRC-FLU-037 | Swirl: hand stir | approved | Distinct: Two-hand stir spirals |
+| LLS-PRC-FLU-038 | Swirl: whirlpool | approved | Distinct: Central whirl (slow) |
+| LLS-PRC-FLU-039 | Swirl: figure eight | approved | Distinct: Gesture loop |
+| LLS-PRC-FLU-040 | Swirl: counter swirl | approved | Distinct: Two dishes swirling opposite |
 | LLS-PRC-FLU-041 | Noise gradient | rejected | The old generic look. |
 | LLS-PRC-FLU-042 | Lava lamp | rejected | A different object; reads as kitsch. |
 | LLS-TEX-FLW-001 | Rock left-right | approved | Distinct: Periodic 2D velocity fields baked offline from authored gesture simulations. |

@@ -164,7 +164,7 @@ Phase 1 estimated about 550 originals with about 350 existing. Phase 2 corrects 
 
 ## Shared assets this style depends on
 
-14 shared entries (counted once in the shared manifest, not in this style's total):
+21 shared entries (counted once in the shared manifest, not in this style's total):
 
 - `SHR-PRC-GEN-001` Film grain (generator)
 - `SHR-PRC-GEN-002` Ordered and blue-noise dither (generator)
@@ -173,10 +173,17 @@ Phase 1 estimated about 550 originals with about 350 existing. Phase 2 corrects 
 - `SHR-PRC-GEN-005` Overprint multiply (generator)
 - `SHR-PRC-GEN-009` Seeded noise fields (generator)
 - `SHR-PRC-GEN-011` Distance-along-stroke reveal (generator)
+- `SHR-TYP-FNT-005` Anton (dependency)
+- `SHR-TYP-FNT-006` Bebas Neue (dependency)
+- `SHR-TYP-FNT-007` Cormorant Garamond (dependency)
+- `SHR-TYP-FNT-008` Instrument Serif (dependency)
+- `SHR-TYP-FNT-011` Special Elite (dependency)
 - `SHR-TYP-FNT-012` Permanent Marker (dependency)
 - `SHR-TYP-FNT-013` Bangers (dependency)
 - `SHR-TYP-FNT-016` Noto Sans Devanagari Variable (dependency)
 - `SHR-TYP-FNT-017` Noto Sans Tamil Variable (dependency)
+- `SHR-TYP-FNT-020` Noto Sans Arabic (dependency)
+- `SHR-TYP-FNT-022` Noto Sans Hebrew (dependency)
 - `SHR-TYP-FNT-024` Caveat (dependency)
 - `SHR-TYP-FNT-025` Kalam (dependency)
 - `SHR-TYP-FNT-026` Kavivanar (dependency)

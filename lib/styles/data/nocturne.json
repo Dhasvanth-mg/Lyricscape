@@ -1,0 +1,777 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Nocturne",
+ "slug": "nocturne",
+ "code": "NOC",
+ "layerOrder": [
+  "darkness ground (tinted)",
+  "far plane (bokeh, horizon)",
+  "room or window silhouettes",
+  "light source and pool",
+  "weather (rain plane, dust, snow, fog)",
+  "text",
+  "grain whisper"
+ ],
+ "limits": {
+  "scale": "Silhouettes only at frame edges (max 25% of area).",
+  "safe": "Text inside the light pool and central 80%; rain masked around text.",
+  "complexity": "Max 3 layers besides darkness and text.",
+  "colour": "One light colour.",
+  "motion": "One moving layer at a time besides text.",
+  "material": "Glass layers only in window scenes."
+ },
+ "invalid": [
+  {
+   "this": "Two light sources",
+   "never_with": "any",
+   "because": "Identity rule."
+  },
+  {
+   "this": "Rain plane",
+   "never_with": "over the text box",
+   "because": "Readability."
+  },
+  {
+   "this": "Heavy grain (over 0.05)",
+   "never_with": "any",
+   "because": "Celluloid territory."
+  },
+  {
+   "this": "Beat-driven motion",
+   "never_with": "any above 1% gain",
+   "because": "Calm rule."
+  },
+  {
+   "this": "Interface elements",
+   "never_with": "screen glow",
+   "because": "Screenlife territory."
+  },
+  {
+   "this": "Candle flicker",
+   "never_with": "over 1 Hz",
+   "because": "Flash and calm rule."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "NOC-SCN-01",
+   "name": "Lamp room",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "home, room, alone, night",
+   "signals": [
+    "home",
+    "room",
+    "alone",
+    "night"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "NOC-CMP-C1",
+    "NOC-CMP-C2",
+    "NOC-CMP-C3"
+   ],
+   "required": [
+    "NOC-LGT-LIT",
+    "NOC-SIL-SIL"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "lamp",
+    "weather": "dust",
+    "depth": "room",
+    "place": "interior",
+    "horizon": "none",
+    "glass": "none"
+   }
+  },
+  {
+   "id": "NOC-SCN-02",
+   "name": "Window rain",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "rain, tears, cold, city at night",
+   "signals": [
+    "rain",
+    "tears",
+    "cold",
+    "city",
+    "at",
+    "night"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "NOC-CMP-C4",
+    "NOC-CMP-C1"
+   ],
+   "required": [
+    "NOC-ATM-BOK",
+    "NOC-ATM-WEA",
+    "NOC-SIL-SIL"
+   ],
+   "optional": [
+    "NOC-LGT-LIT"
+   ],
+   "attributes": {
+    "light": "streetlight beyond",
+    "weather": "rain on glass",
+    "depth": "two planes",
+    "place": "window",
+    "horizon": "city",
+    "glass": "yes"
+   }
+  },
+  {
+   "id": "NOC-SCN-03",
+   "name": "Night street",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus",
+    "high"
+   ],
+   "signalsText": "city, walking, night out, energetic slow jams",
+   "signals": [
+    "city",
+    "walking",
+    "night",
+    "out",
+    "energetic",
+    "slow",
+    "jams"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "NOC-CMP-C5",
+    "NOC-CMP-C1"
+   ],
+   "required": [
+    "NOC-ATM-BOK",
+    "NOC-LGT-LIT"
+   ],
+   "optional": [
+    "NOC-ATM-WEA",
+    "NOC-SIL-SIL"
+   ],
+   "attributes": {
+    "light": "streetlights",
+    "weather": "mist",
+    "depth": "street depth",
+    "place": "street",
+    "horizon": "street end",
+    "glass": "none"
+   }
+  },
+  {
+   "id": "NOC-SCN-04",
+   "name": "Candle",
+   "status": "approved",
+   "roles": [
+    "quiet",
+    "verse"
+   ],
+   "signalsText": "love, quiet intimacy, very calm",
+   "signals": [
+    "love",
+    "quiet",
+    "intimacy",
+    "very",
+    "calm"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "NOC-CMP-C2",
+    "NOC-CMP-C1"
+   ],
+   "required": [
+    "NOC-LGT-LIT"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "candle",
+    "weather": "none",
+    "depth": "close",
+    "place": "table",
+    "horizon": "none",
+    "glass": "none"
+   }
+  },
+  {
+   "id": "NOC-SCN-05",
+   "name": "Dawn window",
+   "status": "approved",
+   "roles": [
+    "outro",
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "morning, hope, new day, waking",
+   "signals": [
+    "morning",
+    "hope",
+    "new",
+    "day",
+    "waking"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "NOC-CMP-C1",
+    "NOC-CMP-C5"
+   ],
+   "required": [
+    "NOC-LGT-LIT",
+    "NOC-SIL-SIL"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "daylight",
+    "weather": "dust",
+    "depth": "room",
+    "place": "window",
+    "horizon": "sky",
+    "glass": "yes"
+   }
+  },
+  {
+   "id": "NOC-SCN-06",
+   "name": "Moonlight on water",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "sea, moon, night, longing",
+   "signals": [
+    "sea",
+    "moon",
+    "night",
+    "longing"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "NOC-CMP-C5",
+    "NOC-CMP-C2"
+   ],
+   "required": [
+    "NOC-LGT-LIT",
+    "NOC-ATM-BOK"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "moon",
+    "weather": "mist",
+    "depth": "far",
+    "place": "water",
+    "horizon": "sea",
+    "glass": "none"
+   }
+  },
+  {
+   "id": "NOC-SCN-07",
+   "name": "Car at night",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "drive, road, leave",
+   "signals": [
+    "drive",
+    "road",
+    "leave"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "NOC-CMP-C1",
+    "NOC-CMP-C4"
+   ],
+   "required": [
+    "NOC-LGT-LIT",
+    "NOC-SIL-SIL",
+    "NOC-ATM-BOK"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "passing streetlights",
+    "weather": "rain optional",
+    "depth": "interior",
+    "place": "car",
+    "horizon": "road",
+    "glass": "windscreen"
+   }
+  },
+  {
+   "id": "NOC-SCN-08",
+   "name": "Train window",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "travel, distance, leaving",
+   "signals": [
+    "travel",
+    "distance",
+    "leaving"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "NOC-CMP-C4",
+    "NOC-CMP-C1"
+   ],
+   "required": [
+    "NOC-ATM-BOK",
+    "NOC-SIL-SIL"
+   ],
+   "optional": [
+    "NOC-ATM-WEA",
+    "NOC-LGT-LIT"
+   ],
+   "attributes": {
+    "light": "passing lights",
+    "weather": "condensation",
+    "depth": "two planes",
+    "place": "train",
+    "horizon": "countryside lights",
+    "glass": "yes"
+   }
+  },
+  {
+   "id": "NOC-SCN-09",
+   "name": "Snow under a streetlight",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet",
+    "outro"
+   ],
+   "signalsText": "winter, cold, alone, quiet",
+   "signals": [
+    "winter",
+    "cold",
+    "alone",
+    "quiet"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "NOC-CMP-C1",
+    "NOC-CMP-C2"
+   ],
+   "required": [
+    "NOC-LGT-LIT",
+    "NOC-ATM-WEA"
+   ],
+   "optional": [
+    "NOC-SIL-SIL"
+   ],
+   "attributes": {
+    "light": "streetlight cone",
+    "weather": "snow",
+    "depth": "street",
+    "place": "outdoors",
+    "horizon": "none",
+    "glass": "none"
+   }
+  },
+  {
+   "id": "NOC-SCN-10",
+   "name": "Screen glow",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "late night, messages, insomnia",
+   "signals": [
+    "late",
+    "night",
+    "messages",
+    "insomnia"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "NOC-CMP-C6"
+   ],
+   "required": [
+    "NOC-LGT-LIT"
+   ],
+   "optional": [
+    "NOC-ATM-WEA"
+   ],
+   "attributes": {
+    "light": "screen glow",
+    "weather": "none",
+    "depth": "close",
+    "place": "bed",
+    "horizon": "none",
+    "glass": "none"
+   }
+  },
+  {
+   "id": "NOC-SCN-11",
+   "name": "Reading room",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus",
+    "break"
+   ],
+   "signalsText": "untimed lyrics, dense lyrics, reading mode",
+   "signals": [
+    "untimed",
+    "dense",
+    "reading",
+    "mode"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "NOC-CMP-C3"
+   ],
+   "required": [
+    "NOC-LAY-LAY",
+    "NOC-LGT-LIT"
+   ],
+   "optional": [],
+   "attributes": {
+    "light": "soft strip",
+    "weather": "none",
+    "depth": "none",
+    "place": "abstract",
+    "horizon": "none",
+    "glass": "none"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "NOC-CMP-C1",
+   "name": "Light and text opposite",
+   "status": "approved",
+   "layers": [
+    "darkness",
+    "room silhouette",
+    "light pool",
+    "dust",
+    "text",
+    "grain"
+   ],
+   "safe": "Text inside central 80% and inside the light pool.",
+   "responsive": {
+    "landscape": "Light left third, text right two-thirds low",
+    "portrait": "Light top, text lower third",
+    "square": "Light corner, text opposite corner",
+    "small": "As portrait"
+   }
+  },
+  {
+   "id": "NOC-CMP-C2",
+   "name": "Centred halo",
+   "status": "approved",
+   "layers": [
+    "darkness",
+    "halo",
+    "text"
+   ],
+   "safe": "Central 60%.",
+   "responsive": {
+    "landscape": "Centre",
+    "portrait": "Centre",
+    "square": "Centre",
+    "small": "Centre"
+   }
+  },
+  {
+   "id": "NOC-CMP-C3",
+   "name": "Rolling column",
+   "status": "approved",
+   "layers": [
+    "darkness",
+    "light strip",
+    "column text"
+   ],
+   "safe": "Column inside 8% margins.",
+   "responsive": {
+    "landscape": "Column 45% wide on the left",
+    "portrait": "Column full width",
+    "square": "Column 60%",
+    "small": "Full width"
+   }
+  },
+  {
+   "id": "NOC-CMP-C4",
+   "name": "Window rain",
+   "status": "approved",
+   "layers": [
+    "bokeh plane",
+    "window frame silhouette",
+    "rain refraction",
+    "text",
+    "grain"
+   ],
+   "safe": "Central 80%.",
+   "responsive": {
+    "landscape": "Window fills frame",
+    "portrait": "Window fills frame",
+    "square": "Same",
+    "small": "Same"
+   }
+  },
+  {
+   "id": "NOC-CMP-C5",
+   "name": "Low horizon",
+   "status": "approved",
+   "layers": [
+    "sky",
+    "horizon lights",
+    "reflection",
+    "text"
+   ],
+   "safe": "Text above the bottom 20%.",
+   "responsive": {
+    "landscape": "Horizon at 70% height",
+    "portrait": "Horizon at 75%",
+    "square": "70%",
+    "small": "75%"
+   }
+  },
+  {
+   "id": "NOC-CMP-C6",
+   "name": "Screen glow",
+   "status": "approved",
+   "layers": [
+    "darkness",
+    "glow",
+    "text"
+   ],
+   "safe": "Central 70%.",
+   "responsive": {
+    "landscape": "Glow bottom centre",
+    "portrait": "Glow bottom",
+    "square": "Same",
+    "small": "Same"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "NOC-TRN-DISSOLVE",
+   "name": "Slow dissolve",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Scene change at the bridge or a long break.",
+   "reducedMotion": "1 s fade."
+  },
+  {
+   "id": "NOC-TRN-LIGHT-ON",
+   "name": "Light on",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Intro.",
+   "reducedMotion": "1 s fade."
+  },
+  {
+   "id": "NOC-TRN-LIGHT-MOVE",
+   "name": "Light moves",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Bridge: a car passes, a cloud crosses the moon.",
+   "reducedMotion": "Light dims and returns in place."
+  },
+  {
+   "id": "NOC-TRN-LIGHT-OFF",
+   "name": "Light off",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Outro.",
+   "reducedMotion": "Same."
+  },
+  {
+   "id": "NOC-TRN-FOCUS-SHIFT",
+   "name": "Focus shift",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Section change without a new scene (verse to chorus).",
+   "reducedMotion": "Off."
+  }
+ ],
+ "families": [
+  {
+   "id": "NOC-LGT-LIT",
+   "name": "Light sources",
+   "kind": "configuration",
+   "members": [
+    "NOC-LGT-LIT-001",
+    "NOC-LGT-LIT-002",
+    "NOC-LGT-LIT-003",
+    "NOC-LGT-LIT-004",
+    "NOC-LGT-LIT-005",
+    "NOC-LGT-LIT-006",
+    "NOC-LGT-LIT-007",
+    "NOC-LGT-LIT-008",
+    "NOC-LGT-LIT-009",
+    "NOC-LGT-LIT-010"
+   ],
+   "scenes": [
+    "NOC-SCN-01",
+    "NOC-SCN-02",
+    "NOC-SCN-03",
+    "NOC-SCN-04",
+    "NOC-SCN-05",
+    "NOC-SCN-06",
+    "NOC-SCN-07",
+    "NOC-SCN-08",
+    "NOC-SCN-09",
+    "NOC-SCN-10",
+    "NOC-SCN-11"
+   ]
+  },
+  {
+   "id": "NOC-ATM-WEA",
+   "name": "Weather and air layers",
+   "kind": "configuration",
+   "members": [
+    "NOC-ATM-WEA-001",
+    "NOC-ATM-WEA-002",
+    "NOC-ATM-WEA-003",
+    "NOC-ATM-WEA-004",
+    "NOC-ATM-WEA-005",
+    "NOC-ATM-WEA-006",
+    "NOC-ATM-WEA-007"
+   ],
+   "scenes": [
+    "NOC-SCN-01",
+    "NOC-SCN-02",
+    "NOC-SCN-03",
+    "NOC-SCN-04",
+    "NOC-SCN-05",
+    "NOC-SCN-06",
+    "NOC-SCN-07",
+    "NOC-SCN-08",
+    "NOC-SCN-09",
+    "NOC-SCN-10"
+   ]
+  },
+  {
+   "id": "NOC-ATM-BOK",
+   "name": "Bokeh arrangements",
+   "kind": "configuration",
+   "members": [
+    "NOC-ATM-BOK-001",
+    "NOC-ATM-BOK-002",
+    "NOC-ATM-BOK-003",
+    "NOC-ATM-BOK-004",
+    "NOC-ATM-BOK-005",
+    "NOC-ATM-BOK-006",
+    "NOC-ATM-BOK-007"
+   ],
+   "scenes": [
+    "NOC-SCN-02",
+    "NOC-SCN-03",
+    "NOC-SCN-06",
+    "NOC-SCN-07",
+    "NOC-SCN-08"
+   ]
+  },
+  {
+   "id": "NOC-SIL-SIL",
+   "name": "Room and place silhouettes",
+   "kind": "source",
+   "members": [
+    "NOC-SIL-SIL-001",
+    "NOC-SIL-SIL-002",
+    "NOC-SIL-SIL-003",
+    "NOC-SIL-SIL-004",
+    "NOC-SIL-SIL-005",
+    "NOC-SIL-SIL-006",
+    "NOC-SIL-SIL-007",
+    "NOC-SIL-SIL-008",
+    "NOC-SIL-SIL-009",
+    "NOC-SIL-SIL-010",
+    "NOC-SIL-SIL-011",
+    "NOC-SIL-SIL-012"
+   ],
+   "scenes": [
+    "NOC-SCN-01",
+    "NOC-SCN-02",
+    "NOC-SCN-03",
+    "NOC-SCN-05",
+    "NOC-SCN-07",
+    "NOC-SCN-08",
+    "NOC-SCN-09"
+   ]
+  },
+  {
+   "id": "NOC-PAL-GRN",
+   "name": "Grain profiles",
+   "kind": "configuration",
+   "members": [
+    "NOC-PAL-GRN-001",
+    "NOC-PAL-GRN-002",
+    "NOC-PAL-GRN-003"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "NOC-PAL-PAL",
+   "name": "Light palettes",
+   "kind": "configuration",
+   "members": [
+    "NOC-PAL-PAL-001",
+    "NOC-PAL-PAL-002",
+    "NOC-PAL-PAL-003",
+    "NOC-PAL-PAL-004",
+    "NOC-PAL-PAL-005",
+    "NOC-PAL-PAL-006",
+    "NOC-PAL-PAL-007"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "NOC-LAY-LAY",
+   "name": "Layouts",
+   "kind": "component",
+   "members": [
+    "NOC-LAY-LAY-001",
+    "NOC-LAY-LAY-002",
+    "NOC-LAY-LAY-003",
+    "NOC-LAY-LAY-004",
+    "NOC-LAY-LAY-005",
+    "NOC-LAY-LAY-006",
+    "NOC-LAY-LAY-007"
+   ],
+   "scenes": [
+    "NOC-SCN-11"
+   ]
+  },
+  {
+   "id": "NOC-TYP-PAIR",
+   "name": "Type pairings",
+   "kind": "configuration",
+   "members": [
+    "NOC-TYP-PAIR-001",
+    "NOC-TYP-PAIR-002",
+    "NOC-TYP-PAIR-003",
+    "NOC-TYP-PAIR-004",
+    "NOC-TYP-PAIR-005",
+    "NOC-TYP-PAIR-006"
+   ],
+   "scenes": []
+  }
+ ]
+}

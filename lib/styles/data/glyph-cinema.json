@@ -1,0 +1,1043 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Glyph Cinema",
+ "slug": "glyph-cinema",
+ "code": "GLY",
+ "layerOrder": [
+  "grid background (register ground: black, page black, or paper)",
+  "subject cells (character pass over a subject map)",
+  "subject motion channel",
+  "routed calligram letters",
+  "band mask",
+  "band text and cursor",
+  "persistence / ink spread",
+  "post: scan and curve (ASCII), raster (teletext), paper fibre (typewriter)"
+ ],
+ "limits": {
+  "scale": "Cell size from the three grid resolutions only; band rows 1-3; subject occupies 50-80% of the grid area.",
+  "safe": "Band inside 4-cell margins and out of the subject's declared focal box; bottom 14% kept clear in the app stage.",
+  "complexity": "One subject per scene; max 24 routed letters at once.",
+  "colour": "One palette per register; teletext only the eight colours; 1-bit only two.",
+  "motion": "One moving subject part at a time; migration and density pulse never in the same second.",
+  "material": "Paper only with typewriter and 1-bit; scanlines only with ASCII; raster only with teletext."
+ },
+ "invalid": [
+  {
+   "this": "Teletext register",
+   "never_with": "cover-derived hues",
+   "because": "Breaks the eight-colour medium."
+  },
+  {
+   "this": "Fine grid",
+   "never_with": "outputs under 600 px tall",
+   "because": "Unreadable on phones."
+  },
+  {
+   "this": "Devanagari, Tamil, Arabic",
+   "never_with": "per-cell migration",
+   "because": "Clusters cannot be split."
+  },
+  {
+   "this": "Fire subject",
+   "never_with": "density pulse",
+   "because": "Two flicker sources exceed the flash budget."
+  },
+  {
+   "this": "Calligram",
+   "never_with": "estimated word timing",
+   "because": "Hook migration would claim a timing that is a guess (it starts at line end instead)."
+  },
+  {
+   "this": "Typewriter register",
+   "never_with": "phosphor bloom",
+   "because": "Paper does not glow."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "GLY-SCN-01",
+   "name": "Night sky",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus",
+    "intro"
+   ],
+   "signalsText": "space, stars, moon, night, heaven words; dreamy moods",
+   "signals": [
+    "space",
+    "stars",
+    "moon",
+    "night",
+    "heaven",
+    "dreamy",
+    "moods"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C2",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-PAL-PAL"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "sky objects",
+    "register": "phosphor",
+    "motion": "twinkle and orbit",
+    "density": "sparse",
+    "focal": "upper centre"
+   }
+  },
+  {
+   "id": "GLY-SCN-02",
+   "name": "Roads and travel",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "car, road, drive, train, leave words; energetic or restless",
+   "signals": [
+    "car",
+    "road",
+    "drive",
+    "train",
+    "leave",
+    "energetic",
+    "restless"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C2",
+    "GLY-CMP-C5"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "vehicles and roads",
+    "register": "phosphor",
+    "motion": "forward scroll",
+    "density": "medium",
+    "focal": "vanishing point"
+   }
+  },
+  {
+   "id": "GLY-SCN-03",
+   "name": "Weather",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "break",
+    "quiet"
+   ],
+   "signalsText": "rain, storm, snow, cloud, tears words; sad or calm",
+   "signals": [
+    "rain",
+    "storm",
+    "snow",
+    "cloud",
+    "tears",
+    "sad",
+    "calm"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C4",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-SRF-PAP"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "weather",
+    "register": "paper or phosphor",
+    "motion": "falling in place",
+    "density": "full field",
+    "focal": "whole field"
+   }
+  },
+  {
+   "id": "GLY-SCN-04",
+   "name": "Sea and shore",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "sea, ocean, wave, boat, shore, drown words",
+   "signals": [
+    "sea",
+    "ocean",
+    "wave",
+    "boat",
+    "shore",
+    "drown"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C2",
+    "GLY-CMP-C5"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "sea",
+    "register": "phosphor",
+    "motion": "rolling waves",
+    "density": "lower half",
+    "focal": "horizon"
+   }
+  },
+  {
+   "id": "GLY-SCN-05",
+   "name": "City at night",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "city, street, building, window, lights words; night and city subject",
+   "signals": [
+    "city",
+    "street",
+    "building",
+    "window",
+    "lights",
+    "night",
+    "subject"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C5",
+    "GLY-CMP-C3"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-LAY-PAG"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "architecture",
+    "register": "phosphor or teletext",
+    "motion": "windows lighting",
+    "density": "dense lower",
+    "focal": "skyline"
+   }
+  },
+  {
+   "id": "GLY-SCN-06",
+   "name": "Nature",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "flower, tree, mountain, garden, grass words; calm or warm",
+   "signals": [
+    "flower",
+    "tree",
+    "mountain",
+    "garden",
+    "grass",
+    "calm",
+    "warm"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C4",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-SRF-PAP"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "plants and land",
+    "register": "paper",
+    "motion": "wind sway",
+    "density": "medium",
+    "focal": "single specimen"
+   }
+  },
+  {
+   "id": "GLY-SCN-07",
+   "name": "Heart and hands",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "verse"
+   ],
+   "signalsText": "love, heart, hold, touch, kiss words; romance subject",
+   "signals": [
+    "love",
+    "heart",
+    "hold",
+    "touch",
+    "kiss",
+    "romance",
+    "subject"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C2",
+    "GLY-CMP-C1",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI"
+   ],
+   "attributes": {
+    "structure": "calligram",
+    "subject": "body symbols",
+    "register": "phosphor",
+    "motion": "slow beat",
+    "density": "centred",
+    "focal": "centre"
+   }
+  },
+  {
+   "id": "GLY-SCN-08",
+   "name": "Machines and music",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus",
+    "break"
+   ],
+   "signalsText": "radio, record, tape, phone, speaker, song, music words; electronic",
+   "signals": [
+    "radio",
+    "record",
+    "tape",
+    "phone",
+    "speaker",
+    "music",
+    "electronic"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C5",
+    "GLY-CMP-C3"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-LAY-PAG"
+   ],
+   "attributes": {
+    "structure": "band or split",
+    "subject": "objects",
+    "register": "teletext or phosphor",
+    "motion": "spinning parts",
+    "density": "centred",
+    "focal": "object centre"
+   }
+  },
+  {
+   "id": "GLY-SCN-09",
+   "name": "Fire and light",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "fire, burn, flame, sun, light words; intense moods",
+   "signals": [
+    "fire",
+    "burn",
+    "flame",
+    "sun",
+    "light",
+    "intense",
+    "moods"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C2",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "light sources",
+    "register": "phosphor",
+    "motion": "flicker within limits",
+    "density": "bright centre",
+    "focal": "flame"
+   }
+  },
+  {
+   "id": "GLY-SCN-10",
+   "name": "Creatures",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "bird, butterfly, cat, whale, fly, wing words",
+   "signals": [
+    "bird",
+    "butterfly",
+    "cat",
+    "whale",
+    "fly",
+    "wing"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C4",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI",
+    "GLY-SRF-PAP"
+   ],
+   "attributes": {
+    "structure": "band",
+    "subject": "animals",
+    "register": "paper or 1-bit",
+    "motion": "wing and tail loops",
+    "density": "sparse",
+    "focal": "creature"
+   }
+  },
+  {
+   "id": "GLY-SCN-11",
+   "name": "Teletext service",
+   "status": "approved",
+   "roles": [
+    "break",
+    "intro",
+    "outro",
+    "chorus"
+   ],
+   "signalsText": "always available as a register; preferred for breaks and retro identity",
+   "signals": [
+    "always",
+    "available",
+    "as",
+    "register",
+    "preferred",
+    "breaks",
+    "retro"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C3"
+   ],
+   "required": [
+    "GLY-LAY-PAG",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-ENV-SUB"
+   ],
+   "attributes": {
+    "structure": "page",
+    "subject": "information pages",
+    "register": "teletext",
+    "motion": "page updates",
+    "density": "structured",
+    "focal": "lyric rows"
+   }
+  },
+  {
+   "id": "GLY-SCN-12",
+   "name": "Typed letter",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet",
+    "outro"
+   ],
+   "signalsText": "letters, writing, memory words; ballads; perspective addressed",
+   "signals": [
+    "letters",
+    "writing",
+    "memory",
+    "ballads",
+    "perspective",
+    "addressed"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C4"
+   ],
+   "required": [
+    "GLY-SRF-PAP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-ENV-SUB"
+   ],
+   "attributes": {
+    "structure": "sheet",
+    "subject": "a letter",
+    "register": "typewriter",
+    "motion": "typing and carriage",
+    "density": "low",
+    "focal": "typed line"
+   }
+  },
+  {
+   "id": "GLY-SCN-13",
+   "name": "Symbols and objects of fortune",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "crown, diamond, money, key, gold words; boastful rap",
+   "signals": [
+    "crown",
+    "diamond",
+    "money",
+    "key",
+    "gold",
+    "boastful",
+    "rap"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "GLY-CMP-C1",
+    "GLY-CMP-C2",
+    "GLY-CMP-C6"
+   ],
+   "required": [
+    "GLY-ENV-SUB",
+    "GLY-TYP-RMP",
+    "GLY-PRC-REG"
+   ],
+   "optional": [
+    "GLY-MOT-ANI"
+   ],
+   "attributes": {
+    "structure": "calligram",
+    "subject": "symbolic objects",
+    "register": "1-bit",
+    "motion": "glint",
+    "density": "centred",
+    "focal": "object"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "GLY-CMP-C1",
+   "name": "Picture with lyric band",
+   "status": "approved",
+   "layers": [
+    "background cells",
+    "subject cells",
+    "band mask",
+    "band text",
+    "persistence",
+    "post (scan or paper)"
+   ],
+   "safe": "Band fully inside 4-cell margins and above the bottom 14% player zone.",
+   "responsive": {
+    "landscape": "Grid 96-128 columns",
+    "portrait": "Grid 40-56 columns",
+    "square": "64-80 columns",
+    "small": "40 columns minimum cell size rule"
+   }
+  },
+  {
+   "id": "GLY-CMP-C2",
+   "name": "Calligram",
+   "status": "approved",
+   "layers": [
+    "background",
+    "subject dimmed",
+    "routed letters",
+    "band"
+   ],
+   "safe": "As C1.",
+   "responsive": {
+    "landscape": "As C1",
+    "portrait": "As C1 with portrait routing targets",
+    "square": "As C1",
+    "small": "Routing allowed only if the subject region is at least 20x10 cells"
+   }
+  },
+  {
+   "id": "GLY-CMP-C3",
+   "name": "Teletext page",
+   "status": "approved",
+   "layers": [
+    "page background",
+    "mosaic picture",
+    "header",
+    "lyric rows",
+    "footer"
+   ],
+   "safe": "Page fitted inside the frame with 4% margins; 40x24 cells fixed (letterboxed in portrait).",
+   "responsive": {
+    "landscape": "Page 4:3 centred with side margins in black",
+    "portrait": "Page scaled to width with black above and below",
+    "square": "Page centred",
+    "small": "Page scaled to width"
+   }
+  },
+  {
+   "id": "GLY-CMP-C4",
+   "name": "Typewriter sheet",
+   "status": "approved",
+   "layers": [
+    "ground",
+    "paper sheet",
+    "overstrike picture",
+    "typed lines",
+    "ink spread",
+    "sheet shadow"
+   ],
+   "safe": "Typed line inside the sheet margins and the frame's central 80%.",
+   "responsive": {
+    "landscape": "Sheet portrait-oriented centred, 70% height",
+    "portrait": "Sheet fills width",
+    "square": "Sheet 85% height",
+    "small": "Sheet fills width"
+   }
+  },
+  {
+   "id": "GLY-CMP-C5",
+   "name": "Split field",
+   "status": "approved",
+   "layers": [
+    "subject region",
+    "divider",
+    "column background",
+    "column text"
+   ],
+   "safe": "Column text inside 4-cell margins.",
+   "responsive": {
+    "landscape": "Side by side, subject left (right in RTL)",
+    "portrait": "Stacked: subject top, column bottom",
+    "square": "Stacked 55/45",
+    "small": "Stacked"
+   }
+  },
+  {
+   "id": "GLY-CMP-C6",
+   "name": "Macro cell zoom",
+   "status": "approved",
+   "layers": [
+    "detail cells",
+    "band"
+   ],
+   "safe": "Band inside 2-cell margins.",
+   "responsive": {
+    "landscape": "16-24 columns",
+    "portrait": "10-14 columns",
+    "square": "14-18 columns",
+    "small": "10 columns"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "GLY-TRN-NOISE-FRONT",
+   "name": "Noise-front dissolve",
+   "status": "approved",
+   "durationMs": 800,
+   "use": "Change subject at a section boundary.",
+   "reducedMotion": "300 ms cross-fade."
+  },
+  {
+   "id": "GLY-TRN-PAGE-UPDATE",
+   "name": "Teletext page update",
+   "status": "approved",
+   "durationMs": 600,
+   "use": "Change page or subject in the teletext register.",
+   "reducedMotion": "Instant swap."
+  },
+  {
+   "id": "GLY-TRN-CARRIAGE-RETURN",
+   "name": "Carriage return",
+   "status": "approved",
+   "durationMs": 180,
+   "use": "Line change in the typewriter register.",
+   "reducedMotion": "Instant."
+  },
+  {
+   "id": "GLY-TRN-REGISTER-FLIP",
+   "name": "Register flip",
+   "status": "approved",
+   "durationMs": 500,
+   "use": "Chorus entry: the medium itself changes.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "GLY-TRN-DECAY-BLANK",
+   "name": "Decay to blank",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Outro and long breaks.",
+   "reducedMotion": "2 s fade."
+  },
+  {
+   "id": "GLY-TRN-ZOOM-STEP",
+   "name": "Zoom step",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Detail change within a subject (chorus or break).",
+   "reducedMotion": "Cut to the detail."
+  },
+  {
+   "id": "GLY-TRN-DEVELOP",
+   "name": "Develop from noise",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Intro and first appearance of a subject.",
+   "reducedMotion": "Fade in."
+  }
+ ],
+ "families": [
+  {
+   "id": "GLY-ENV-SUB",
+   "name": "Subject pictures",
+   "kind": "source",
+   "members": [
+    "GLY-ENV-SUB-001",
+    "GLY-ENV-SUB-002",
+    "GLY-ENV-SUB-003",
+    "GLY-ENV-SUB-004",
+    "GLY-ENV-SUB-005",
+    "GLY-ENV-SUB-006",
+    "GLY-ENV-SUB-007",
+    "GLY-ENV-SUB-008",
+    "GLY-ENV-SUB-009",
+    "GLY-ENV-SUB-010",
+    "GLY-ENV-SUB-011",
+    "GLY-ENV-SUB-012",
+    "GLY-ENV-SUB-013",
+    "GLY-ENV-SUB-014",
+    "GLY-ENV-SUB-015",
+    "GLY-ENV-SUB-016",
+    "GLY-ENV-SUB-017",
+    "GLY-ENV-SUB-018",
+    "GLY-ENV-SUB-019",
+    "GLY-ENV-SUB-020",
+    "GLY-ENV-SUB-021",
+    "GLY-ENV-SUB-022",
+    "GLY-ENV-SUB-023",
+    "GLY-ENV-SUB-024",
+    "GLY-ENV-SUB-025",
+    "GLY-ENV-SUB-026",
+    "GLY-ENV-SUB-027",
+    "GLY-ENV-SUB-028",
+    "GLY-ENV-SUB-029",
+    "GLY-ENV-SUB-030",
+    "GLY-ENV-SUB-031",
+    "GLY-ENV-SUB-032",
+    "GLY-ENV-SUB-033",
+    "GLY-ENV-SUB-034",
+    "GLY-ENV-SUB-035",
+    "GLY-ENV-SUB-036",
+    "GLY-ENV-SUB-037",
+    "GLY-ENV-SUB-038",
+    "GLY-ENV-SUB-039",
+    "GLY-ENV-SUB-040",
+    "GLY-ENV-SUB-041",
+    "GLY-ENV-SUB-042",
+    "GLY-ENV-SUB-043",
+    "GLY-ENV-SUB-044",
+    "GLY-ENV-SUB-045",
+    "GLY-ENV-SUB-046",
+    "GLY-ENV-SUB-047",
+    "GLY-ENV-SUB-048",
+    "GLY-ENV-SUB-049",
+    "GLY-ENV-SUB-050",
+    "GLY-ENV-SUB-051",
+    "GLY-ENV-SUB-052",
+    "GLY-ENV-SUB-053",
+    "GLY-ENV-SUB-054",
+    "GLY-ENV-SUB-055",
+    "GLY-ENV-SUB-056",
+    "GLY-ENV-SUB-057",
+    "GLY-ENV-SUB-058",
+    "GLY-ENV-SUB-059",
+    "GLY-ENV-SUB-060",
+    "GLY-ENV-SUB-061",
+    "GLY-ENV-SUB-062"
+   ],
+   "scenes": [
+    "GLY-SCN-01",
+    "GLY-SCN-02",
+    "GLY-SCN-03",
+    "GLY-SCN-04",
+    "GLY-SCN-05",
+    "GLY-SCN-06",
+    "GLY-SCN-07",
+    "GLY-SCN-08",
+    "GLY-SCN-09",
+    "GLY-SCN-10",
+    "GLY-SCN-11",
+    "GLY-SCN-12",
+    "GLY-SCN-13"
+   ]
+  },
+  {
+   "id": "GLY-MOT-ANI",
+   "name": "Subject motion loops",
+   "kind": "configuration",
+   "members": [
+    "GLY-MOT-ANI-001",
+    "GLY-MOT-ANI-002",
+    "GLY-MOT-ANI-003",
+    "GLY-MOT-ANI-004",
+    "GLY-MOT-ANI-005",
+    "GLY-MOT-ANI-006",
+    "GLY-MOT-ANI-007",
+    "GLY-MOT-ANI-008",
+    "GLY-MOT-ANI-009",
+    "GLY-MOT-ANI-010",
+    "GLY-MOT-ANI-011"
+   ],
+   "scenes": [
+    "GLY-SCN-01",
+    "GLY-SCN-02",
+    "GLY-SCN-03",
+    "GLY-SCN-04",
+    "GLY-SCN-05",
+    "GLY-SCN-06",
+    "GLY-SCN-07",
+    "GLY-SCN-08",
+    "GLY-SCN-09",
+    "GLY-SCN-10",
+    "GLY-SCN-13"
+   ]
+  },
+  {
+   "id": "GLY-TYP-RMP",
+   "name": "Glyph ramps",
+   "kind": "configuration",
+   "members": [
+    "GLY-TYP-RMP-001",
+    "GLY-TYP-RMP-002",
+    "GLY-TYP-RMP-003",
+    "GLY-TYP-RMP-004",
+    "GLY-TYP-RMP-005",
+    "GLY-TYP-RMP-006",
+    "GLY-TYP-RMP-007",
+    "GLY-TYP-RMP-008",
+    "GLY-TYP-RMP-009",
+    "GLY-TYP-RMP-010",
+    "GLY-TYP-RMP-011",
+    "GLY-TYP-RMP-012",
+    "GLY-TYP-RMP-013",
+    "GLY-TYP-RMP-014"
+   ],
+   "scenes": [
+    "GLY-SCN-01",
+    "GLY-SCN-02",
+    "GLY-SCN-03",
+    "GLY-SCN-04",
+    "GLY-SCN-05",
+    "GLY-SCN-06",
+    "GLY-SCN-07",
+    "GLY-SCN-08",
+    "GLY-SCN-09",
+    "GLY-SCN-10",
+    "GLY-SCN-13"
+   ]
+  },
+  {
+   "id": "GLY-PRC-REG",
+   "name": "Registers",
+   "kind": "configuration",
+   "members": [
+    "GLY-PRC-REG-001",
+    "GLY-PRC-REG-002",
+    "GLY-PRC-REG-003",
+    "GLY-PRC-REG-004",
+    "GLY-PRC-REG-005"
+   ],
+   "scenes": [
+    "GLY-SCN-01",
+    "GLY-SCN-02",
+    "GLY-SCN-03",
+    "GLY-SCN-04",
+    "GLY-SCN-05",
+    "GLY-SCN-06",
+    "GLY-SCN-07",
+    "GLY-SCN-08",
+    "GLY-SCN-09",
+    "GLY-SCN-10",
+    "GLY-SCN-11",
+    "GLY-SCN-12",
+    "GLY-SCN-13"
+   ]
+  },
+  {
+   "id": "GLY-LAY-PAG",
+   "name": "Teletext page templates",
+   "kind": "component",
+   "members": [
+    "GLY-LAY-PAG-001",
+    "GLY-LAY-PAG-002",
+    "GLY-LAY-PAG-003",
+    "GLY-LAY-PAG-004",
+    "GLY-LAY-PAG-005",
+    "GLY-LAY-PAG-006",
+    "GLY-LAY-PAG-007",
+    "GLY-LAY-PAG-008",
+    "GLY-LAY-PAG-009"
+   ],
+   "scenes": [
+    "GLY-SCN-05",
+    "GLY-SCN-08",
+    "GLY-SCN-11"
+   ]
+  },
+  {
+   "id": "GLY-SRF-PAP",
+   "name": "Typewriter papers",
+   "kind": "source",
+   "members": [
+    "GLY-SRF-PAP-001",
+    "GLY-SRF-PAP-002",
+    "GLY-SRF-PAP-003",
+    "GLY-SRF-PAP-004",
+    "GLY-SRF-PAP-005",
+    "GLY-SRF-PAP-006"
+   ],
+   "scenes": [
+    "GLY-SCN-03",
+    "GLY-SCN-06",
+    "GLY-SCN-10",
+    "GLY-SCN-12"
+   ]
+  },
+  {
+   "id": "GLY-PAL-PAL",
+   "name": "Register palettes",
+   "kind": "configuration",
+   "members": [
+    "GLY-PAL-PAL-001",
+    "GLY-PAL-PAL-002",
+    "GLY-PAL-PAL-003",
+    "GLY-PAL-PAL-004",
+    "GLY-PAL-PAL-005",
+    "GLY-PAL-PAL-006",
+    "GLY-PAL-PAL-007",
+    "GLY-PAL-PAL-008"
+   ],
+   "scenes": [
+    "GLY-SCN-01"
+   ]
+  },
+  {
+   "id": "GLY-LAY-LAY",
+   "name": "Band layouts",
+   "kind": "component",
+   "members": [
+    "GLY-LAY-LAY-001",
+    "GLY-LAY-LAY-002",
+    "GLY-LAY-LAY-003",
+    "GLY-LAY-LAY-004",
+    "GLY-LAY-LAY-005",
+    "GLY-LAY-LAY-006",
+    "GLY-LAY-LAY-007"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "GLY-MOT-CAL",
+   "name": "Calligram routing rules",
+   "kind": "configuration",
+   "members": [
+    "GLY-MOT-CAL-001",
+    "GLY-MOT-CAL-002",
+    "GLY-MOT-CAL-003",
+    "GLY-MOT-CAL-004",
+    "GLY-MOT-CAL-005",
+    "GLY-MOT-CAL-006"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "GLY-CAM-CAM",
+   "name": "Grid-snapped camera moves",
+   "kind": "configuration",
+   "members": [
+    "GLY-CAM-CAM-001",
+    "GLY-CAM-CAM-002",
+    "GLY-CAM-CAM-003",
+    "GLY-CAM-CAM-004",
+    "GLY-CAM-CAM-005"
+   ],
+   "scenes": []
+  }
+ ]
+}

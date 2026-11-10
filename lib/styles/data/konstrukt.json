@@ -1,0 +1,924 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Konstrukt",
+ "slug": "konstrukt",
+ "code": "KON",
+ "layerOrder": [
+  "paper or dark ground",
+  "colour fields (split layouts)",
+  "grid rules (visible or hidden)",
+  "shape choreography (second ink, overprint)",
+  "shape choreography (first ink)",
+  "numerals and labels",
+  "lyric type",
+  "print texture (tooth, riso grain, misregistration)"
+ ],
+ "limits": {
+  "scale": "Forms snap to module multiples; dominant form 2-8 modules; type from the modular scale.",
+  "safe": "Type block in its layout slot, which forms may never enter (hard exclusion mask); 6% outer margin.",
+  "complexity": "Max 2 shape families; max 120 forms.",
+  "colour": "Max 3 inks; type always the darkest ink (or paper on negative).",
+  "motion": "Max 4 steps per second per form; all steps share the trigger source.",
+  "material": "Riso grain only on uncoated paper systems; negative print has no paper texture."
+ },
+ "invalid": [
+  {
+   "this": "Rotated edge",
+   "never_with": "Devanagari, Tamil, Arabic",
+   "because": "Not a convention for these scripts here; poor reading."
+  },
+  {
+   "this": "Scatter on grid",
+   "never_with": "estimated words",
+   "because": "Word modules would claim timing."
+  },
+  {
+   "this": "Waves",
+   "never_with": "high contrast inks while moving",
+   "because": "Op-art flicker."
+  },
+  {
+   "this": "Negative print",
+   "never_with": "riso grain",
+   "because": "Light on dark is not paper ink."
+  },
+  {
+   "this": "Any form",
+   "never_with": "the type slot",
+   "because": "Hard exclusion."
+  },
+  {
+   "this": "Beat hits",
+   "never_with": "beat grid under 0.5 confidence",
+   "because": "Would mark wrong downbeats."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "KON-SCN-01",
+   "name": "Circles",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "default for pop and electronic",
+   "signals": [
+    "pop",
+    "electronic"
+   ],
+   "isDefault": true,
+   "compositions": [
+    "KON-CMP-C1",
+    "KON-CMP-C5",
+    "KON-CMP-C7"
+   ],
+   "required": [
+    "KON-GEO-CIR",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "circles",
+    "motion": "scale sequence",
+    "layout": "block or concentric",
+    "density": "medium",
+    "axis": "centre",
+    "register": "positive"
+   }
+  },
+  {
+   "id": "KON-SCN-02",
+   "name": "Bars",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "hip-hop, rock; strong beat",
+   "signals": [
+    "hip-hop",
+    "rock",
+    "strong",
+    "beat"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "KON-CMP-C1",
+    "KON-CMP-C2",
+    "KON-CMP-C4"
+   ],
+   "required": [
+    "KON-GEO-BAR",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "bars",
+    "motion": "extend and stack",
+    "layout": "block or column",
+    "density": "medium",
+    "axis": "vertical",
+    "register": "positive"
+   }
+  },
+  {
+   "id": "KON-SCN-03",
+   "name": "Arcs",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "flowing songs, R&B",
+   "signals": [
+    "flowing"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "KON-CMP-C5",
+    "KON-CMP-C3",
+    "KON-CMP-C1"
+   ],
+   "required": [
+    "KON-GEO-ARC",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "arcs",
+    "motion": "rotate sweep in steps",
+    "layout": "concentric or rotated",
+    "density": "low",
+    "axis": "centre",
+    "register": "positive"
+   }
+  },
+  {
+   "id": "KON-SCN-04",
+   "name": "Diagonals",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "energetic, aggressive",
+   "signals": [
+    "energetic",
+    "aggressive"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "KON-CMP-C4",
+    "KON-CMP-C1"
+   ],
+   "required": [
+    "KON-GEO-DIA",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "diagonals",
+    "motion": "slash steps",
+    "layout": "split or block",
+    "density": "medium-high",
+    "axis": "diagonal",
+    "register": "positive"
+   }
+  },
+  {
+   "id": "KON-SCN-05",
+   "name": "Dot matrix",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "break"
+   ],
+   "signalsText": "electronic, minimal",
+   "signals": [
+    "electronic",
+    "minimal"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "KON-CMP-C6",
+    "KON-CMP-C1",
+    "KON-CMP-C2"
+   ],
+   "required": [
+    "KON-GEO-DOT",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "dots",
+    "motion": "fill patterns",
+    "layout": "scatter or block",
+    "density": "medium",
+    "axis": "grid",
+    "register": "positive"
+   }
+  },
+  {
+   "id": "KON-SCN-06",
+   "name": "Rings",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "break"
+   ],
+   "signalsText": "loops, house, techno",
+   "signals": [
+    "loops",
+    "house",
+    "techno"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "KON-CMP-C5",
+    "KON-CMP-C7"
+   ],
+   "required": [
+    "KON-GEO-RNG",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "rings",
+    "motion": "concentric pulse steps",
+    "layout": "concentric",
+    "density": "medium",
+    "axis": "centre",
+    "register": "positive or negative"
+   }
+  },
+  {
+   "id": "KON-SCN-07",
+   "name": "Squares",
+   "status": "approved",
+   "roles": [
+    "verse"
+   ],
+   "signalsText": "math rock, jazz, indie",
+   "signals": [
+    "math",
+    "rock",
+    "jazz",
+    "indie"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "KON-CMP-C6",
+    "KON-CMP-C1",
+    "KON-CMP-C2"
+   ],
+   "required": [
+    "KON-GEO-SQR",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "squares",
+    "motion": "module flips",
+    "layout": "scatter",
+    "density": "medium",
+    "axis": "grid",
+    "register": "positive"
+   }
+  },
+  {
+   "id": "KON-SCN-08",
+   "name": "Waves",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "calm, ambient, water subjects",
+   "signals": [
+    "calm",
+    "ambient",
+    "water"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "KON-CMP-C1",
+    "KON-CMP-C7",
+    "KON-CMP-C3"
+   ],
+   "required": [
+    "KON-GEO-WAV",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "wave lines",
+    "motion": "phase steps",
+    "layout": "block",
+    "density": "low",
+    "axis": "horizontal",
+    "register": "positive"
+   }
+  },
+  {
+   "id": "KON-SCN-09",
+   "name": "Rules",
+   "status": "approved",
+   "roles": [
+    "quiet",
+    "intro",
+    "outro"
+   ],
+   "signalsText": "quiet, ballads; typographic songs",
+   "signals": [
+    "quiet",
+    "ballads",
+    "typographic"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "KON-CMP-C1",
+    "KON-CMP-C2",
+    "KON-CMP-C7"
+   ],
+   "required": [
+    "KON-GEO-RUL",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "rules only",
+    "motion": "rule draws",
+    "layout": "block",
+    "density": "very low",
+    "axis": "horizontal",
+    "register": "positive"
+   }
+  },
+  {
+   "id": "KON-SCN-10",
+   "name": "Constructivist mix",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "hooks of energetic songs",
+   "signals": [
+    "hooks",
+    "energetic"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "KON-CMP-C4",
+    "KON-CMP-C1",
+    "KON-CMP-C5"
+   ],
+   "required": [
+    "KON-GEO-MIX",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-TEX-TEX"
+   ],
+   "attributes": {
+    "form": "circle bar diagonal",
+    "motion": "layered steps",
+    "layout": "split",
+    "density": "high",
+    "axis": "diagonal",
+    "register": "positive"
+   }
+  },
+  {
+   "id": "KON-SCN-11",
+   "name": "Negative print",
+   "status": "approved",
+   "roles": [
+    "bridge",
+    "break"
+   ],
+   "signalsText": "bridge or dark moods",
+   "signals": [
+    "bridge",
+    "dark",
+    "moods"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "KON-CMP-C3",
+    "KON-CMP-C5",
+    "KON-CMP-C7"
+   ],
+   "required": [
+    "KON-GEO-RNG",
+    "KON-LAY-GRD",
+    "KON-PAL-PAL"
+   ],
+   "optional": [
+    "KON-GEO-ARC"
+   ],
+   "attributes": {
+    "form": "rings and arcs",
+    "motion": "slow rotation",
+    "layout": "rotated",
+    "density": "low",
+    "axis": "centre",
+    "register": "negative"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "KON-CMP-C1",
+   "name": "Block on grid",
+   "status": "approved",
+   "layers": [
+    "paper",
+    "grid rules",
+    "forms",
+    "type",
+    "numerals"
+   ],
+   "safe": "Block within grid margins (6% outer margin) and out of the bottom 14% in the app stage.",
+   "responsive": {
+    "landscape": "12-column grid",
+    "portrait": "6-column grid",
+    "square": "8-column",
+    "small": "4-column"
+   }
+  },
+  {
+   "id": "KON-CMP-C2",
+   "name": "Column stack",
+   "status": "approved",
+   "layers": [
+    "paper",
+    "grid",
+    "forms",
+    "stack"
+   ],
+   "safe": "Stack within margins.",
+   "responsive": {
+    "landscape": "Stack in columns 1-3",
+    "portrait": "Stack full height on the left half",
+    "square": "As landscape",
+    "small": "Stack only"
+   }
+  },
+  {
+   "id": "KON-CMP-C3",
+   "name": "Rotated edge",
+   "status": "approved",
+   "layers": [
+    "paper",
+    "field",
+    "form",
+    "rotated type"
+   ],
+   "safe": "Rotated line inside the edge margin band.",
+   "responsive": {
+    "landscape": "Line on the left short edge (fits fewer words",
+    "portrait": "Line on the long left edge",
+    "square": "Left edge",
+    "small": "Not used under 400 px width"
+   }
+  },
+  {
+   "id": "KON-CMP-C4",
+   "name": "Split field",
+   "status": "approved",
+   "layers": [
+    "field A",
+    "field B",
+    "forms",
+    "type"
+   ],
+   "safe": "Type centred on the split within margins.",
+   "responsive": {
+    "landscape": "Vertical split at a grid column",
+    "portrait": "Horizontal split",
+    "square": "Diagonal split allowed",
+    "small": "Horizontal split"
+   }
+  },
+  {
+   "id": "KON-CMP-C5",
+   "name": "Concentric",
+   "status": "approved",
+   "layers": [
+    "paper",
+    "rings",
+    "arcs",
+    "type"
+   ],
+   "safe": "Type inside the central 70%.",
+   "responsive": {
+    "landscape": "Ring system centred, radius to 45% of height",
+    "portrait": "Radius to 45% of width",
+    "square": "Native",
+    "small": "Native"
+   }
+  },
+  {
+   "id": "KON-CMP-C6",
+   "name": "Scatter on grid",
+   "status": "approved",
+   "layers": [
+    "paper",
+    "grid",
+    "forms",
+    "words"
+   ],
+   "safe": "All modules inside margins.",
+   "responsive": {
+    "landscape": "Up to 8 word modules",
+    "portrait": "Up to 6",
+    "square": "Up to 6",
+    "small": "Up to 4"
+   }
+  },
+  {
+   "id": "KON-CMP-C7",
+   "name": "Giant form",
+   "status": "approved",
+   "layers": [
+    "paper",
+    "giant form",
+    "type"
+   ],
+   "safe": "Type corner within margins.",
+   "responsive": {
+    "landscape": "Form crops right",
+    "portrait": "Form crops bottom",
+    "square": "Form crops corner",
+    "small": "Form crops bottom"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "KON-TRN-REFLOW",
+   "name": "Grid reflow",
+   "status": "approved",
+   "durationMs": 500,
+   "use": "Section change: the layout re-composes.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "KON-TRN-MODULE-WIPE",
+   "name": "Module wipe",
+   "status": "approved",
+   "durationMs": 400,
+   "use": "Colour system change.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "KON-TRN-FIELD-SWAP",
+   "name": "Colour field swap",
+   "status": "approved",
+   "durationMs": 300,
+   "use": "Split-field layouts swap their two fields.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "KON-TRN-REMOVE",
+   "name": "Remove modules",
+   "status": "approved",
+   "durationMs": 250,
+   "use": "Outro and quiet sections.",
+   "reducedMotion": "Fade."
+  },
+  {
+   "id": "KON-TRN-GRID-DRAW",
+   "name": "Grid draw",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Intro.",
+   "reducedMotion": "Grid appears."
+  }
+ ],
+ "families": [
+  {
+   "id": "KON-GEO-CIR",
+   "name": "Circle choreographies",
+   "kind": "configuration",
+   "members": [
+    "KON-GEO-CIR-001",
+    "KON-GEO-CIR-002",
+    "KON-GEO-CIR-003",
+    "KON-GEO-CIR-004",
+    "KON-GEO-CIR-005",
+    "KON-GEO-CIR-006"
+   ],
+   "scenes": [
+    "KON-SCN-01"
+   ]
+  },
+  {
+   "id": "KON-GEO-BAR",
+   "name": "Bar choreographies",
+   "kind": "configuration",
+   "members": [
+    "KON-GEO-BAR-001",
+    "KON-GEO-BAR-002",
+    "KON-GEO-BAR-003",
+    "KON-GEO-BAR-004",
+    "KON-GEO-BAR-005",
+    "KON-GEO-BAR-006"
+   ],
+   "scenes": [
+    "KON-SCN-02"
+   ]
+  },
+  {
+   "id": "KON-GEO-ARC",
+   "name": "Arc choreographies",
+   "kind": "configuration",
+   "members": [
+    "KON-GEO-ARC-001",
+    "KON-GEO-ARC-002",
+    "KON-GEO-ARC-003",
+    "KON-GEO-ARC-004",
+    "KON-GEO-ARC-005"
+   ],
+   "scenes": [
+    "KON-SCN-03",
+    "KON-SCN-11"
+   ]
+  },
+  {
+   "id": "KON-GEO-DIA",
+   "name": "Diagonal choreographies",
+   "kind": "configuration",
+   "members": [
+    "KON-GEO-DIA-001",
+    "KON-GEO-DIA-002",
+    "KON-GEO-DIA-003",
+    "KON-GEO-DIA-004",
+    "KON-GEO-DIA-005"
+   ],
+   "scenes": [
+    "KON-SCN-04"
+   ]
+  },
+  {
+   "id": "KON-GEO-DOT",
+   "name": "Dot matrix choreographies",
+   "kind": "configuration",
+   "members": [
+    "KON-GEO-DOT-001",
+    "KON-GEO-DOT-002",
+    "KON-GEO-DOT-003",
+    "KON-GEO-DOT-004",
+    "KON-GEO-DOT-005"
+   ],
+   "scenes": [
+    "KON-SCN-05"
+   ]
+  },
+  {
+   "id": "KON-GEO-RNG",
+   "name": "Ring choreographies",
+   "kind": "configuration",
+   "members": [
+    "KON-GEO-RNG-001",
+    "KON-GEO-RNG-002",
+    "KON-GEO-RNG-003",
+    "KON-GEO-RNG-004",
+    "KON-GEO-RNG-005"
+   ],
+   "scenes": [
+    "KON-SCN-06",
+    "KON-SCN-11"
+   ]
+  },
+  {
+   "id": "KON-GEO-SQR",
+   "name": "Square choreographies",
+   "kind": "configuration",
+   "members": [
+    "KON-GEO-SQR-001",
+    "KON-GEO-SQR-002",
+    "KON-GEO-SQR-003",
+    "KON-GEO-SQR-004",
+    "KON-GEO-SQR-005"
+   ],
+   "scenes": [
+    "KON-SCN-07"
+   ]
+  },
+  {
+   "id": "KON-GEO-WAV",
+   "name": "Wave line choreographies",
+   "kind": "configuration",
+   "members": [
+    "KON-GEO-WAV-001",
+    "KON-GEO-WAV-002",
+    "KON-GEO-WAV-003",
+    "KON-GEO-WAV-004"
+   ],
+   "scenes": [
+    "KON-SCN-08"
+   ]
+  },
+  {
+   "id": "KON-GEO-RUL",
+   "name": "Rule choreographies",
+   "kind": "configuration",
+   "members": [
+    "KON-GEO-RUL-001",
+    "KON-GEO-RUL-002",
+    "KON-GEO-RUL-003",
+    "KON-GEO-RUL-004"
+   ],
+   "scenes": [
+    "KON-SCN-09"
+   ]
+  },
+  {
+   "id": "KON-GEO-MIX",
+   "name": "Constructivist mix choreographies",
+   "kind": "configuration",
+   "members": [
+    "KON-GEO-MIX-001",
+    "KON-GEO-MIX-002",
+    "KON-GEO-MIX-003",
+    "KON-GEO-MIX-004"
+   ],
+   "scenes": [
+    "KON-SCN-10"
+   ]
+  },
+  {
+   "id": "KON-LAY-GRD",
+   "name": "Grid systems",
+   "kind": "component",
+   "members": [
+    "KON-LAY-GRD-001",
+    "KON-LAY-GRD-002",
+    "KON-LAY-GRD-003",
+    "KON-LAY-GRD-004",
+    "KON-LAY-GRD-005",
+    "KON-LAY-GRD-006",
+    "KON-LAY-GRD-007",
+    "KON-LAY-GRD-008",
+    "KON-LAY-GRD-009",
+    "KON-LAY-GRD-010",
+    "KON-LAY-GRD-011"
+   ],
+   "scenes": [
+    "KON-SCN-01",
+    "KON-SCN-02",
+    "KON-SCN-03",
+    "KON-SCN-04",
+    "KON-SCN-05",
+    "KON-SCN-06",
+    "KON-SCN-07",
+    "KON-SCN-08",
+    "KON-SCN-09",
+    "KON-SCN-10",
+    "KON-SCN-11"
+   ]
+  },
+  {
+   "id": "KON-LAY-LAY",
+   "name": "Layout templates",
+   "kind": "component",
+   "members": [
+    "KON-LAY-LAY-001",
+    "KON-LAY-LAY-002",
+    "KON-LAY-LAY-003",
+    "KON-LAY-LAY-004",
+    "KON-LAY-LAY-005",
+    "KON-LAY-LAY-006",
+    "KON-LAY-LAY-007",
+    "KON-LAY-LAY-008",
+    "KON-LAY-LAY-009",
+    "KON-LAY-LAY-010",
+    "KON-LAY-LAY-011",
+    "KON-LAY-LAY-012",
+    "KON-LAY-LAY-013",
+    "KON-LAY-LAY-014",
+    "KON-LAY-LAY-015",
+    "KON-LAY-LAY-016",
+    "KON-LAY-LAY-017",
+    "KON-LAY-LAY-018",
+    "KON-LAY-LAY-019"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "KON-PAL-PAL",
+   "name": "Colour systems",
+   "kind": "configuration",
+   "members": [
+    "KON-PAL-PAL-001",
+    "KON-PAL-PAL-002",
+    "KON-PAL-PAL-003",
+    "KON-PAL-PAL-004",
+    "KON-PAL-PAL-005",
+    "KON-PAL-PAL-006",
+    "KON-PAL-PAL-007",
+    "KON-PAL-PAL-008",
+    "KON-PAL-PAL-009",
+    "KON-PAL-PAL-010"
+   ],
+   "scenes": [
+    "KON-SCN-01",
+    "KON-SCN-02",
+    "KON-SCN-03",
+    "KON-SCN-04",
+    "KON-SCN-05",
+    "KON-SCN-06",
+    "KON-SCN-07",
+    "KON-SCN-08",
+    "KON-SCN-09",
+    "KON-SCN-10",
+    "KON-SCN-11"
+   ]
+  },
+  {
+   "id": "KON-TEX-TEX",
+   "name": "Print textures",
+   "kind": "source",
+   "members": [
+    "KON-TEX-TEX-001",
+    "KON-TEX-TEX-002",
+    "KON-TEX-TEX-003",
+    "KON-TEX-TEX-004",
+    "KON-TEX-TEX-005",
+    "KON-TEX-TEX-006"
+   ],
+   "scenes": [
+    "KON-SCN-01",
+    "KON-SCN-02",
+    "KON-SCN-03",
+    "KON-SCN-04",
+    "KON-SCN-05",
+    "KON-SCN-06",
+    "KON-SCN-07",
+    "KON-SCN-08",
+    "KON-SCN-09",
+    "KON-SCN-10"
+   ]
+  },
+  {
+   "id": "KON-TYP-TYP",
+   "name": "Type arrangement rules",
+   "kind": "component",
+   "members": [
+    "KON-TYP-TYP-001",
+    "KON-TYP-TYP-002",
+    "KON-TYP-TYP-003",
+    "KON-TYP-TYP-004",
+    "KON-TYP-TYP-005",
+    "KON-TYP-TYP-006",
+    "KON-TYP-TYP-007"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "KON-MOT-TIM",
+   "name": "Step trigger sources",
+   "kind": "configuration",
+   "members": [
+    "KON-MOT-TIM-001",
+    "KON-MOT-TIM-002",
+    "KON-MOT-TIM-003",
+    "KON-MOT-TIM-004",
+    "KON-MOT-TIM-005",
+    "KON-MOT-TIM-006"
+   ],
+   "scenes": []
+  }
+ ]
+}

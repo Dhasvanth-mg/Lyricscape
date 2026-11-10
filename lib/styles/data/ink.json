@@ -1,0 +1,919 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Ink",
+ "slug": "ink",
+ "code": "INK",
+ "layerOrder": [
+  "paper",
+  "paper fibre and granulation",
+  "pale wash layer",
+  "painted element strokes",
+  "dried previous lines (pale)",
+  "active line stroke reveal",
+  "wet spread",
+  "post: grain"
+ ],
+ "limits": {
+  "scale": "Element 25-50% of frame; large word 8-14% cap height.",
+  "safe": "Type central 84%; element never under the active line.",
+  "complexity": "One element plus one small accent element.",
+  "colour": "One ink plus one accent.",
+  "motion": "One stroke moving at a time.",
+  "material": "White ink only on black paper; water register replaces paper."
+ },
+ "invalid": [
+  {
+   "this": "Brush-style fake calligraphy font",
+   "never_with": "any Latin line",
+   "because": "Kitsch."
+  },
+  {
+   "this": "Stroke-order reveal",
+   "never_with": "scripts without skeleton data",
+   "because": "Fake stroke order."
+  },
+  {
+   "this": "Flicks",
+   "never_with": "reduced motion",
+   "because": "Motion rule."
+  },
+  {
+   "this": "Two large elements",
+   "never_with": "any",
+   "because": "Emptiness rule."
+  },
+  {
+   "this": "Accent colour",
+   "never_with": "more than one word per section",
+   "because": "Accent rule."
+  },
+  {
+   "this": "Dry-brush heavy",
+   "never_with": "devotional identity",
+   "because": "Tone."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "INK-SCN-01",
+   "name": "Mountains",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "nature, distance, longing",
+   "signals": [
+    "nature",
+    "distance",
+    "longing"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "INK-CMP-C4",
+    "INK-CMP-C1"
+   ],
+   "required": [
+    "INK-ENV-LND",
+    "INK-SRF-PAP"
+   ],
+   "optional": [
+    "INK-ATM-SKY"
+   ],
+   "attributes": {
+    "subject": "landscape",
+    "paper": "rice",
+    "ink": "black",
+    "register": "paper",
+    "brush": "light",
+    "mood": "still"
+   }
+  },
+  {
+   "id": "INK-SCN-02",
+   "name": "Branch",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "love, seasons, blossom",
+   "signals": [
+    "love",
+    "seasons",
+    "blossom"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "INK-CMP-C1"
+   ],
+   "required": [
+    "INK-OBJ-BOT",
+    "INK-SRF-PAP"
+   ],
+   "optional": [
+    "INK-ATM-SKY"
+   ],
+   "attributes": {
+    "subject": "botany",
+    "paper": "cotton",
+    "ink": "black and accent",
+    "register": "paper",
+    "brush": "light",
+    "mood": "tender"
+   }
+  },
+  {
+   "id": "INK-SCN-03",
+   "name": "Rain",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "rain, sadness, waiting",
+   "signals": [
+    "rain",
+    "sadness",
+    "waiting"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "INK-CMP-C1",
+    "INK-CMP-C2"
+   ],
+   "required": [
+    "INK-ATM-SKY",
+    "INK-SRF-PAP"
+   ],
+   "optional": [
+    "INK-PRP-OBJ"
+   ],
+   "attributes": {
+    "subject": "weather",
+    "paper": "grey-blue",
+    "ink": "indigo",
+    "register": "paper",
+    "brush": "light",
+    "mood": "melancholy"
+   }
+  },
+  {
+   "id": "INK-SCN-04",
+   "name": "Sea",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "bridge"
+   ],
+   "signalsText": "sea, journey, waves",
+   "signals": [
+    "sea",
+    "journey",
+    "waves"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "INK-CMP-C4",
+    "INK-CMP-C1"
+   ],
+   "required": [
+    "INK-ENV-LND",
+    "INK-SRF-PAP"
+   ],
+   "optional": [
+    "INK-PRP-OBJ"
+   ],
+   "attributes": {
+    "subject": "water",
+    "paper": "rice",
+    "ink": "indigo",
+    "register": "paper",
+    "brush": "heavy",
+    "mood": "surging"
+   }
+  },
+  {
+   "id": "INK-SCN-05",
+   "name": "Ink in water",
+   "status": "approved",
+   "roles": [
+    "bridge",
+    "break"
+   ],
+   "signalsText": "dreams, ambient, bridges",
+   "signals": [
+    "dreams",
+    "ambient",
+    "bridges"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "INK-CMP-C3"
+   ],
+   "required": [
+    "INK-PRC-BLM",
+    "INK-MOT-WTR"
+   ],
+   "optional": [],
+   "attributes": {
+    "subject": "abstract",
+    "paper": "water",
+    "ink": "black",
+    "register": "water",
+    "brush": "none",
+    "mood": "dreamlike"
+   }
+  },
+  {
+   "id": "INK-SCN-06",
+   "name": "Night sheet",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "night, moon, dark identity",
+   "signals": [
+    "night",
+    "moon",
+    "dark"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "INK-CMP-C1",
+    "INK-CMP-C2"
+   ],
+   "required": [
+    "INK-ATM-SKY",
+    "INK-SRF-PAP"
+   ],
+   "optional": [
+    "INK-SIL-FIG"
+   ],
+   "attributes": {
+    "subject": "moon",
+    "paper": "black",
+    "ink": "white",
+    "register": "paper",
+    "brush": "light",
+    "mood": "nocturnal"
+   }
+  },
+  {
+   "id": "INK-SCN-07",
+   "name": "City in ink",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "city, modern life, travel",
+   "signals": [
+    "city",
+    "modern",
+    "life",
+    "travel"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "INK-CMP-C1",
+    "INK-CMP-C4"
+   ],
+   "required": [
+    "INK-PRP-OBJ",
+    "INK-SRF-PAP"
+   ],
+   "optional": [
+    "INK-SIL-FIG"
+   ],
+   "attributes": {
+    "subject": "urban",
+    "paper": "kraft",
+    "ink": "sepia",
+    "register": "paper",
+    "brush": "medium",
+    "mood": "modern"
+   }
+  },
+  {
+   "id": "INK-SCN-08",
+   "name": "Heavy brush",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "intense hooks, anger, rock",
+   "signals": [
+    "intense",
+    "hooks",
+    "anger",
+    "rock"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "INK-CMP-C5",
+    "INK-CMP-C2"
+   ],
+   "required": [
+    "INK-TEX-BRS",
+    "INK-SRF-PAP"
+   ],
+   "optional": [],
+   "attributes": {
+    "subject": "gesture",
+    "paper": "cotton",
+    "ink": "black and accent",
+    "register": "paper",
+    "brush": "heavy",
+    "mood": "fierce"
+   }
+  },
+  {
+   "id": "INK-SCN-09",
+   "name": "Garden",
+   "status": "approved",
+   "roles": [
+    "verse"
+   ],
+   "signalsText": "home, family, peace",
+   "signals": [
+    "home",
+    "family",
+    "peace"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "INK-CMP-C1"
+   ],
+   "required": [
+    "INK-OBJ-BOT",
+    "INK-SRF-PAP"
+   ],
+   "optional": [
+    "INK-SIL-FIG",
+    "INK-PRP-OBJ"
+   ],
+   "attributes": {
+    "subject": "botany",
+    "paper": "cream",
+    "ink": "sepia",
+    "register": "paper",
+    "brush": "medium",
+    "mood": "warm"
+   }
+  },
+  {
+   "id": "INK-SCN-10",
+   "name": "Figure",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "solitude, addressed lines",
+   "signals": [
+    "solitude",
+    "addressed",
+    "lines"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "INK-CMP-C1",
+    "INK-CMP-C2"
+   ],
+   "required": [
+    "INK-SIL-FIG",
+    "INK-SRF-PAP"
+   ],
+   "optional": [
+    "INK-ATM-SKY"
+   ],
+   "attributes": {
+    "subject": "figure",
+    "paper": "cotton",
+    "ink": "sepia",
+    "register": "paper",
+    "brush": "light",
+    "mood": "alone"
+   }
+  },
+  {
+   "id": "INK-SCN-11",
+   "name": "Drying sheet",
+   "status": "approved",
+   "roles": [
+    "outro"
+   ],
+   "signalsText": "endings",
+   "signals": [
+    "endings"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "INK-CMP-C4",
+    "INK-CMP-C1"
+   ],
+   "required": [
+    "INK-SRF-PAP"
+   ],
+   "optional": [
+    "INK-ENV-LND",
+    "INK-OBJ-BOT"
+   ],
+   "attributes": {
+    "subject": "accumulated",
+    "paper": "as section",
+    "ink": "as section",
+    "register": "paper",
+    "brush": "none",
+    "mood": "ending"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "INK-CMP-C1",
+   "name": "Element and column",
+   "status": "approved",
+   "layers": [
+    "paper",
+    "wash",
+    "element",
+    "type"
+   ],
+   "safe": "Type inside central 84%.",
+   "responsive": {
+    "landscape": "Element left, column right",
+    "portrait": "Element top, column bottom",
+    "square": "Diagonal",
+    "small": "Element smaller"
+   }
+  },
+  {
+   "id": "INK-CMP-C2",
+   "name": "Single word",
+   "status": "approved",
+   "layers": [
+    "paper",
+    "word"
+   ],
+   "safe": "Central 80%.",
+   "responsive": {
+    "landscape": "Word 50% width",
+    "portrait": "Word 80% width",
+    "square": "Word 70%",
+    "small": "Word fills"
+   }
+  },
+  {
+   "id": "INK-CMP-C3",
+   "name": "Water register",
+   "status": "approved",
+   "layers": [
+    "water",
+    "bloom clouds",
+    "type"
+   ],
+   "safe": "Type central 80% with a clean halo.",
+   "responsive": {
+    "landscape": "Clouds spread",
+    "portrait": "Clouds rise",
+    "square": "Centre",
+    "small": "Type larger"
+   }
+  },
+  {
+   "id": "INK-CMP-C4",
+   "name": "Landscape scroll",
+   "status": "approved",
+   "layers": [
+    "paper",
+    "landscape",
+    "type"
+   ],
+   "safe": "Type in the upper central area.",
+   "responsive": {
+    "landscape": "Wide scroll",
+    "portrait": "Vertical hanging scroll",
+    "square": "Crop",
+    "small": "Type larger"
+   }
+  },
+  {
+   "id": "INK-CMP-C5",
+   "name": "Fragment",
+   "status": "approved",
+   "layers": [
+    "paper",
+    "stroke",
+    "type"
+   ],
+   "safe": "Type central 80%.",
+   "responsive": {
+    "landscape": "Stroke left",
+    "portrait": "Stroke top",
+    "square": "Corner",
+    "small": "Type larger"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "INK-TRN-PTR-001",
+   "name": "Wet sheet dissolve",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Section changes.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "INK-TRN-PTR-002",
+   "name": "New sheet slide",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Section changes.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "INK-TRN-PTR-003",
+   "name": "Ink drop",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Section changes.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "INK-TRN-PTR-004",
+   "name": "Dry out",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Section changes.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "INK-TRN-WET-DISSOLVE",
+   "name": "Wet sheet dissolve",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Section change.",
+   "reducedMotion": "Cross-fade 300 ms."
+  },
+  {
+   "id": "INK-TRN-SHEET-SLIDE",
+   "name": "New sheet",
+   "status": "approved",
+   "durationMs": 700,
+   "use": "Verse to chorus.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "INK-TRN-DROP",
+   "name": "Ink drop",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Into the water register.",
+   "reducedMotion": "Cross-fade."
+  },
+  {
+   "id": "INK-TRN-DRY-OUT",
+   "name": "Dry out",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Outro.",
+   "reducedMotion": "Same (static fade)."
+  }
+ ],
+ "families": [
+  {
+   "id": "INK-ENV-LND",
+   "name": "Landscape elements",
+   "kind": "source",
+   "members": [
+    "INK-ENV-LND-001",
+    "INK-ENV-LND-002",
+    "INK-ENV-LND-003",
+    "INK-ENV-LND-004",
+    "INK-ENV-LND-005",
+    "INK-ENV-LND-006",
+    "INK-ENV-LND-007",
+    "INK-ENV-LND-008",
+    "INK-ENV-LND-009",
+    "INK-ENV-LND-010",
+    "INK-ENV-LND-011",
+    "INK-ENV-LND-012",
+    "INK-ENV-LND-013",
+    "INK-ENV-LND-014",
+    "INK-ENV-LND-015",
+    "INK-ENV-LND-016"
+   ],
+   "scenes": [
+    "INK-SCN-01",
+    "INK-SCN-04",
+    "INK-SCN-11"
+   ]
+  },
+  {
+   "id": "INK-OBJ-BOT",
+   "name": "Botanical elements",
+   "kind": "source",
+   "members": [
+    "INK-OBJ-BOT-001",
+    "INK-OBJ-BOT-002",
+    "INK-OBJ-BOT-003",
+    "INK-OBJ-BOT-004",
+    "INK-OBJ-BOT-005",
+    "INK-OBJ-BOT-006",
+    "INK-OBJ-BOT-007",
+    "INK-OBJ-BOT-008",
+    "INK-OBJ-BOT-009",
+    "INK-OBJ-BOT-010",
+    "INK-OBJ-BOT-011",
+    "INK-OBJ-BOT-012",
+    "INK-OBJ-BOT-013",
+    "INK-OBJ-BOT-014",
+    "INK-OBJ-BOT-015",
+    "INK-OBJ-BOT-016",
+    "INK-OBJ-BOT-017",
+    "INK-OBJ-BOT-018",
+    "INK-OBJ-BOT-019",
+    "INK-OBJ-BOT-020"
+   ],
+   "scenes": [
+    "INK-SCN-02",
+    "INK-SCN-09",
+    "INK-SCN-11"
+   ]
+  },
+  {
+   "id": "INK-ATM-SKY",
+   "name": "Sky and weather elements",
+   "kind": "source",
+   "members": [
+    "INK-ATM-SKY-001",
+    "INK-ATM-SKY-002",
+    "INK-ATM-SKY-003",
+    "INK-ATM-SKY-004",
+    "INK-ATM-SKY-005",
+    "INK-ATM-SKY-006",
+    "INK-ATM-SKY-007",
+    "INK-ATM-SKY-008",
+    "INK-ATM-SKY-009",
+    "INK-ATM-SKY-010",
+    "INK-ATM-SKY-011",
+    "INK-ATM-SKY-012"
+   ],
+   "scenes": [
+    "INK-SCN-01",
+    "INK-SCN-02",
+    "INK-SCN-03",
+    "INK-SCN-06",
+    "INK-SCN-10"
+   ]
+  },
+  {
+   "id": "INK-SIL-FIG",
+   "name": "Figures and creatures",
+   "kind": "source",
+   "members": [
+    "INK-SIL-FIG-001",
+    "INK-SIL-FIG-002",
+    "INK-SIL-FIG-003",
+    "INK-SIL-FIG-004",
+    "INK-SIL-FIG-005",
+    "INK-SIL-FIG-006",
+    "INK-SIL-FIG-007",
+    "INK-SIL-FIG-008",
+    "INK-SIL-FIG-009",
+    "INK-SIL-FIG-010",
+    "INK-SIL-FIG-011",
+    "INK-SIL-FIG-012",
+    "INK-SIL-FIG-013",
+    "INK-SIL-FIG-014",
+    "INK-SIL-FIG-015",
+    "INK-SIL-FIG-016"
+   ],
+   "scenes": [
+    "INK-SCN-06",
+    "INK-SCN-07",
+    "INK-SCN-09",
+    "INK-SCN-10"
+   ]
+  },
+  {
+   "id": "INK-PRP-OBJ",
+   "name": "Objects",
+   "kind": "source",
+   "members": [
+    "INK-PRP-OBJ-001",
+    "INK-PRP-OBJ-002",
+    "INK-PRP-OBJ-003",
+    "INK-PRP-OBJ-004",
+    "INK-PRP-OBJ-005",
+    "INK-PRP-OBJ-006",
+    "INK-PRP-OBJ-007",
+    "INK-PRP-OBJ-008",
+    "INK-PRP-OBJ-009",
+    "INK-PRP-OBJ-010",
+    "INK-PRP-OBJ-011",
+    "INK-PRP-OBJ-012",
+    "INK-PRP-OBJ-013",
+    "INK-PRP-OBJ-014",
+    "INK-PRP-OBJ-015",
+    "INK-PRP-OBJ-016",
+    "INK-PRP-OBJ-017",
+    "INK-PRP-OBJ-018"
+   ],
+   "scenes": [
+    "INK-SCN-03",
+    "INK-SCN-04",
+    "INK-SCN-07",
+    "INK-SCN-09"
+   ]
+  },
+  {
+   "id": "INK-TEX-BRS",
+   "name": "Brush stroke library",
+   "kind": "source",
+   "members": [
+    "INK-TEX-BRS-001",
+    "INK-TEX-BRS-002",
+    "INK-TEX-BRS-003",
+    "INK-TEX-BRS-004",
+    "INK-TEX-BRS-005",
+    "INK-TEX-BRS-006",
+    "INK-TEX-BRS-007",
+    "INK-TEX-BRS-008",
+    "INK-TEX-BRS-009",
+    "INK-TEX-BRS-010",
+    "INK-TEX-BRS-011",
+    "INK-TEX-BRS-012",
+    "INK-TEX-BRS-013",
+    "INK-TEX-BRS-014",
+    "INK-TEX-BRS-015",
+    "INK-TEX-BRS-016",
+    "INK-TEX-BRS-017",
+    "INK-TEX-BRS-018",
+    "INK-TEX-BRS-019",
+    "INK-TEX-BRS-020"
+   ],
+   "scenes": [
+    "INK-SCN-08"
+   ]
+  },
+  {
+   "id": "INK-PRC-BRT",
+   "name": "Brush types",
+   "kind": "configuration",
+   "members": [
+    "INK-PRC-BRT-001",
+    "INK-PRC-BRT-002",
+    "INK-PRC-BRT-003",
+    "INK-PRC-BRT-004",
+    "INK-PRC-BRT-005",
+    "INK-PRC-BRT-006",
+    "INK-PRC-BRT-007"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "INK-SRF-PAP",
+   "name": "Papers",
+   "kind": "source",
+   "members": [
+    "INK-SRF-PAP-001",
+    "INK-SRF-PAP-002",
+    "INK-SRF-PAP-003",
+    "INK-SRF-PAP-004",
+    "INK-SRF-PAP-005",
+    "INK-SRF-PAP-006",
+    "INK-SRF-PAP-007",
+    "INK-SRF-PAP-008",
+    "INK-SRF-PAP-009",
+    "INK-SRF-PAP-010"
+   ],
+   "scenes": [
+    "INK-SCN-01",
+    "INK-SCN-02",
+    "INK-SCN-03",
+    "INK-SCN-04",
+    "INK-SCN-06",
+    "INK-SCN-07",
+    "INK-SCN-08",
+    "INK-SCN-09",
+    "INK-SCN-10",
+    "INK-SCN-11"
+   ]
+  },
+  {
+   "id": "INK-PAL-INC",
+   "name": "Ink colours",
+   "kind": "configuration",
+   "members": [
+    "INK-PAL-INC-001",
+    "INK-PAL-INC-002",
+    "INK-PAL-INC-003",
+    "INK-PAL-INC-004",
+    "INK-PAL-INC-005",
+    "INK-PAL-INC-006",
+    "INK-PAL-INC-007",
+    "INK-PAL-INC-008"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "INK-PRC-BLM",
+   "name": "Bloom and bleed",
+   "kind": "generator",
+   "members": [
+    "INK-PRC-BLM-001",
+    "INK-PRC-BLM-002",
+    "INK-PRC-BLM-003",
+    "INK-PRC-BLM-004",
+    "INK-PRC-BLM-005",
+    "INK-PRC-BLM-006",
+    "INK-PRC-BLM-007",
+    "INK-PRC-BLM-008",
+    "INK-PRC-BLM-009",
+    "INK-PRC-BLM-010"
+   ],
+   "scenes": [
+    "INK-SCN-05"
+   ]
+  },
+  {
+   "id": "INK-MOT-WTR",
+   "name": "Water register sequences",
+   "kind": "configuration",
+   "members": [
+    "INK-MOT-WTR-001",
+    "INK-MOT-WTR-002",
+    "INK-MOT-WTR-003",
+    "INK-MOT-WTR-004",
+    "INK-MOT-WTR-005",
+    "INK-MOT-WTR-006"
+   ],
+   "scenes": [
+    "INK-SCN-05"
+   ]
+  },
+  {
+   "id": "INK-TYP-SRV",
+   "name": "Stroke reveal data",
+   "kind": "generator",
+   "members": [
+    "INK-TYP-SRV-001",
+    "INK-TYP-SRV-002",
+    "INK-TYP-SRV-003",
+    "INK-TYP-SRV-004",
+    "INK-TYP-SRV-005",
+    "INK-TYP-SRV-006",
+    "INK-TYP-SRV-007"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "INK-MOT-DYN",
+   "name": "Stroke dynamics profiles",
+   "kind": "configuration",
+   "members": [
+    "INK-MOT-DYN-001",
+    "INK-MOT-DYN-002",
+    "INK-MOT-DYN-003",
+    "INK-MOT-DYN-004",
+    "INK-MOT-DYN-005",
+    "INK-MOT-DYN-006"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "INK-LAY-LAY",
+   "name": "Sheet layouts",
+   "kind": "configuration",
+   "members": [
+    "INK-LAY-LAY-001",
+    "INK-LAY-LAY-002",
+    "INK-LAY-LAY-003",
+    "INK-LAY-LAY-004",
+    "INK-LAY-LAY-005",
+    "INK-LAY-LAY-006",
+    "INK-LAY-LAY-007",
+    "INK-LAY-LAY-008"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "INK-TRN-PTR",
+   "name": "Paper transitions",
+   "kind": "configuration",
+   "members": [
+    "INK-TRN-PTR-001",
+    "INK-TRN-PTR-002",
+    "INK-TRN-PTR-003",
+    "INK-TRN-PTR-004"
+   ],
+   "scenes": []
+  }
+ ]
+}

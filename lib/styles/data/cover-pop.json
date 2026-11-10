@@ -1,0 +1,735 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Cover Pop",
+ "slug": "cover-pop",
+ "code": "CVP",
+ "layerOrder": [
+  "colour field (where the cover does not fill)",
+  "cover (unmodified, cropped and scaled only)",
+  "burst",
+  "cut-out stickers",
+  "phrase",
+  "chip",
+  "annotation stickers"
+ ],
+ "limits": {
+  "scale": "Phrase cap height 7-14%.",
+  "safe": "Phrase central 84%; never over detected high-detail regions where an empty one exists.",
+  "complexity": "Max two stickers plus one burst.",
+  "colour": "Per word from the pixels behind (existing).",
+  "motion": "One phrase at a time.",
+  "material": "Cover untouched."
+ },
+ "invalid": [
+  {
+   "this": "Cover blur or dim",
+   "never_with": "any",
+   "because": "Artwork rule."
+  },
+  {
+   "this": "Italic",
+   "never_with": "complex scripts",
+   "because": "Shaping."
+  },
+  {
+   "this": "Playful stickers",
+   "never_with": "grief identity",
+   "because": "Tone."
+  },
+  {
+   "this": "Burst",
+   "never_with": "reduced motion",
+   "because": "Motion rule."
+  },
+  {
+   "this": "Phrase over 4 words",
+   "never_with": "any",
+   "because": "Readability: split."
+  },
+  {
+   "this": "Cut-out stickers",
+   "never_with": "covers under 600 px",
+   "because": "Quality."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "CVP-SCN-01",
+   "name": "Full stage",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "intro"
+   ],
+   "signalsText": "default for choruses",
+   "signals": [
+    "choruses"
+   ],
+   "isDefault": true,
+   "compositions": [
+    "CVP-CMP-C1",
+    "CVP-CMP-C3"
+   ],
+   "required": [
+    "CVP-TYP-VOI",
+    "CVP-LAY-PHL",
+    "CVP-TYP-CHP"
+   ],
+   "optional": [
+    "CVP-GEO-BST",
+    "CVP-PRP-STK"
+   ],
+   "attributes": {
+    "cover": "full",
+    "voice": "rounded",
+    "layout": "saliency",
+    "stickers": "few",
+    "motion": "pop",
+    "mood": "bright"
+   }
+  },
+  {
+   "id": "CVP-SCN-02",
+   "name": "Detail tour",
+   "status": "approved",
+   "roles": [
+    "verse"
+   ],
+   "signalsText": "default for verses",
+   "signals": [
+    "verses"
+   ],
+   "isDefault": true,
+   "compositions": [
+    "CVP-CMP-C2"
+   ],
+   "required": [
+    "CVP-CAM-CRP",
+    "CVP-PRC-SAL",
+    "CVP-LAY-PHL"
+   ],
+   "optional": [
+    "CVP-PRP-STK"
+   ],
+   "attributes": {
+    "cover": "crop",
+    "voice": "as section",
+    "layout": "crop region",
+    "stickers": "one",
+    "motion": "pan",
+    "mood": "exploring"
+   }
+  },
+  {
+   "id": "CVP-SCN-03",
+   "name": "Burst hook",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "energetic hooks",
+   "signals": [
+    "energetic",
+    "hooks"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CVP-CMP-C1",
+    "CVP-CMP-C3"
+   ],
+   "required": [
+    "CVP-GEO-BST",
+    "CVP-TYP-VOI"
+   ],
+   "optional": [
+    "CVP-PRP-STK"
+   ],
+   "attributes": {
+    "cover": "full",
+    "voice": "condensed",
+    "layout": "giant word",
+    "stickers": "none",
+    "motion": "punch",
+    "mood": "explosive"
+   }
+  },
+  {
+   "id": "CVP-SCN-04",
+   "name": "Side field",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "busy covers, long lines",
+   "signals": [
+    "busy",
+    "covers",
+    "long",
+    "lines"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CVP-CMP-C4"
+   ],
+   "required": [
+    "CVP-PAL-COL",
+    "CVP-LAY-PHL"
+   ],
+   "optional": [
+    "CVP-PRP-STK"
+   ],
+   "attributes": {
+    "cover": "inset",
+    "voice": "serif",
+    "layout": "field column",
+    "stickers": "one",
+    "motion": "slide",
+    "mood": "calm"
+   }
+  },
+  {
+   "id": "CVP-SCN-05",
+   "name": "Collage",
+   "status": "approved",
+   "roles": [
+    "bridge",
+    "verse"
+   ],
+   "signalsText": "playful, fan energy",
+   "signals": [
+    "playful",
+    "fan",
+    "energy"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CVP-CMP-C5"
+   ],
+   "required": [
+    "CVP-PRC-CUT",
+    "CVP-PRP-STK",
+    "CVP-LAY-PHL"
+   ],
+   "optional": [],
+   "attributes": {
+    "cover": "full and cut-outs",
+    "voice": "script",
+    "layout": "centre",
+    "stickers": "many",
+    "motion": "pop",
+    "mood": "playful"
+   }
+  },
+  {
+   "id": "CVP-SCN-06",
+   "name": "Slow breathe",
+   "status": "approved",
+   "roles": [
+    "quiet",
+    "break"
+   ],
+   "signalsText": "ballads, breaks",
+   "signals": [
+    "ballads",
+    "breaks"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CVP-CMP-C1",
+    "CVP-CMP-C2"
+   ],
+   "required": [
+    "CVP-CAM-CRP"
+   ],
+   "optional": [
+    "CVP-LAY-PHL"
+   ],
+   "attributes": {
+    "cover": "slow push",
+    "voice": "serif",
+    "layout": "single word",
+    "stickers": "none",
+    "motion": "fade",
+    "mood": "tender"
+   }
+  },
+  {
+   "id": "CVP-SCN-07",
+   "name": "No-cover stage",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "missing or text-only covers",
+   "signals": [
+    "missing",
+    "text-only",
+    "covers"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CVP-CMP-C3",
+    "CVP-CMP-C1"
+   ],
+   "required": [
+    "CVP-ENV-FBK",
+    "CVP-TYP-VOI",
+    "CVP-LAY-PHL"
+   ],
+   "optional": [
+    "CVP-GEO-BST",
+    "CVP-PRP-STK"
+   ],
+   "attributes": {
+    "cover": "generated",
+    "voice": "wide",
+    "layout": "giant word",
+    "stickers": "few",
+    "motion": "pop",
+    "mood": "bright"
+   }
+  },
+  {
+   "id": "CVP-SCN-08",
+   "name": "Framed ending",
+   "status": "approved",
+   "roles": [
+    "outro"
+   ],
+   "signalsText": "endings",
+   "signals": [
+    "endings"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CVP-CMP-C4"
+   ],
+   "required": [
+    "CVP-PAL-COL"
+   ],
+   "optional": [],
+   "attributes": {
+    "cover": "framed",
+    "voice": "as section",
+    "layout": "none",
+    "stickers": "none",
+    "motion": "recede",
+    "mood": "ending"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "CVP-CMP-C1",
+   "name": "Full cover phrase",
+   "status": "approved",
+   "layers": [
+    "cover",
+    "burst",
+    "phrase",
+    "chip",
+    "stickers"
+   ],
+   "safe": "Phrase central 84%.",
+   "responsive": {
+    "landscape": "Cover fit to height with colour-extended sides (existing mono background), or cover fills width when it allows",
+    "portrait": "Cover fit to width, colour field above and below with phrases in the field",
+    "square": "Cover fills",
+    "small": "Larger phrase"
+   }
+  },
+  {
+   "id": "CVP-CMP-C2",
+   "name": "Crop detail",
+   "status": "approved",
+   "layers": [
+    "cover crop",
+    "phrase"
+   ],
+   "safe": "Central 84%.",
+   "responsive": {
+    "landscape": "Wide crop",
+    "portrait": "Tall crop",
+    "square": "Square crop",
+    "small": "Tight"
+   }
+  },
+  {
+   "id": "CVP-CMP-C3",
+   "name": "Giant word",
+   "status": "approved",
+   "layers": [
+    "cover",
+    "word"
+   ],
+   "safe": "Central 90%.",
+   "responsive": {
+    "landscape": "Word 60% width",
+    "portrait": "Word 90% width",
+    "square": "80%",
+    "small": "Fills"
+   }
+  },
+  {
+   "id": "CVP-CMP-C4",
+   "name": "Colour field and cover",
+   "status": "approved",
+   "layers": [
+    "field",
+    "cover",
+    "phrase"
+   ],
+   "safe": "Phrase in the field.",
+   "responsive": {
+    "landscape": "Cover left, field right",
+    "portrait": "Cover top, field bottom",
+    "square": "Cover inset",
+    "small": "Cover top"
+   }
+  },
+  {
+   "id": "CVP-CMP-C5",
+   "name": "Sticker collage",
+   "status": "approved",
+   "layers": [
+    "cover",
+    "cut-outs",
+    "phrase",
+    "stickers"
+   ],
+   "safe": "Central 84%.",
+   "responsive": {
+    "landscape": "Around",
+    "portrait": "Above and below",
+    "square": "Around",
+    "small": "Fewer stickers"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "CVP-TRN-CROP-JUMP",
+   "name": "Crop jump",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Line groups change.",
+   "reducedMotion": "Same."
+  },
+  {
+   "id": "CVP-TRN-FULL-OUT",
+   "name": "Zoom out to full",
+   "status": "approved",
+   "durationMs": 700,
+   "use": "Chorus entry.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "CVP-TRN-BURST",
+   "name": "Burst",
+   "status": "approved",
+   "durationMs": 500,
+   "use": "Hook hit.",
+   "reducedMotion": "Off."
+  },
+  {
+   "id": "CVP-TRN-RECEDE",
+   "name": "Recede",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Outro.",
+   "reducedMotion": "Cut."
+  }
+ ],
+ "families": [
+  {
+   "id": "CVP-TYP-VOI",
+   "name": "Type voices",
+   "kind": "configuration",
+   "members": [
+    "CVP-TYP-VOI-001",
+    "CVP-TYP-VOI-002",
+    "CVP-TYP-VOI-003",
+    "CVP-TYP-VOI-004",
+    "CVP-TYP-VOI-005",
+    "CVP-TYP-VOI-006",
+    "CVP-TYP-VOI-007",
+    "CVP-TYP-VOI-008",
+    "CVP-TYP-VOI-009"
+   ],
+   "scenes": [
+    "CVP-SCN-01",
+    "CVP-SCN-03",
+    "CVP-SCN-07"
+   ]
+  },
+  {
+   "id": "CVP-OBJ-ICN",
+   "name": "Icons (existing)",
+   "kind": "source",
+   "members": [
+    "CVP-OBJ-ICN-001",
+    "CVP-OBJ-ICN-002",
+    "CVP-OBJ-ICN-003",
+    "CVP-OBJ-ICN-004",
+    "CVP-OBJ-ICN-005",
+    "CVP-OBJ-ICN-006",
+    "CVP-OBJ-ICN-007",
+    "CVP-OBJ-ICN-008",
+    "CVP-OBJ-ICN-009",
+    "CVP-OBJ-ICN-010",
+    "CVP-OBJ-ICN-011",
+    "CVP-OBJ-ICN-012",
+    "CVP-OBJ-ICN-013",
+    "CVP-OBJ-ICN-014",
+    "CVP-OBJ-ICN-015",
+    "CVP-OBJ-ICN-016",
+    "CVP-OBJ-ICN-017",
+    "CVP-OBJ-ICN-018",
+    "CVP-OBJ-ICN-019",
+    "CVP-OBJ-ICN-020",
+    "CVP-OBJ-ICN-021",
+    "CVP-OBJ-ICN-022",
+    "CVP-OBJ-ICN-023",
+    "CVP-OBJ-ICN-024",
+    "CVP-OBJ-ICN-025",
+    "CVP-OBJ-ICN-026",
+    "CVP-OBJ-ICN-027",
+    "CVP-OBJ-ICN-028",
+    "CVP-OBJ-ICN-029",
+    "CVP-OBJ-ICN-030",
+    "CVP-OBJ-ICN-031",
+    "CVP-OBJ-ICN-032",
+    "CVP-OBJ-ICN-033",
+    "CVP-OBJ-ICN-034",
+    "CVP-OBJ-ICN-035",
+    "CVP-OBJ-ICN-036",
+    "CVP-OBJ-ICN-037",
+    "CVP-OBJ-ICN-038",
+    "CVP-OBJ-ICN-039",
+    "CVP-OBJ-ICN-040",
+    "CVP-OBJ-ICN-041",
+    "CVP-OBJ-ICN-042",
+    "CVP-OBJ-ICN-043",
+    "CVP-OBJ-ICN-044",
+    "CVP-OBJ-ICN-045"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "CVP-PRP-STK",
+   "name": "Annotation stickers",
+   "kind": "source",
+   "members": [
+    "CVP-PRP-STK-001",
+    "CVP-PRP-STK-002",
+    "CVP-PRP-STK-003",
+    "CVP-PRP-STK-004",
+    "CVP-PRP-STK-005",
+    "CVP-PRP-STK-006",
+    "CVP-PRP-STK-007",
+    "CVP-PRP-STK-008",
+    "CVP-PRP-STK-009",
+    "CVP-PRP-STK-010",
+    "CVP-PRP-STK-011",
+    "CVP-PRP-STK-012",
+    "CVP-PRP-STK-013",
+    "CVP-PRP-STK-014",
+    "CVP-PRP-STK-015",
+    "CVP-PRP-STK-016",
+    "CVP-PRP-STK-017",
+    "CVP-PRP-STK-018",
+    "CVP-PRP-STK-019",
+    "CVP-PRP-STK-020",
+    "CVP-PRP-STK-021",
+    "CVP-PRP-STK-022",
+    "CVP-PRP-STK-023",
+    "CVP-PRP-STK-024",
+    "CVP-PRP-STK-025",
+    "CVP-PRP-STK-026",
+    "CVP-PRP-STK-027",
+    "CVP-PRP-STK-028",
+    "CVP-PRP-STK-029",
+    "CVP-PRP-STK-030",
+    "CVP-PRP-STK-031",
+    "CVP-PRP-STK-032",
+    "CVP-PRP-STK-033",
+    "CVP-PRP-STK-034",
+    "CVP-PRP-STK-035",
+    "CVP-PRP-STK-036"
+   ],
+   "scenes": [
+    "CVP-SCN-01",
+    "CVP-SCN-02",
+    "CVP-SCN-03",
+    "CVP-SCN-04",
+    "CVP-SCN-05",
+    "CVP-SCN-07"
+   ]
+  },
+  {
+   "id": "CVP-PRC-CUT",
+   "name": "Cover cut-out generator",
+   "kind": "generator",
+   "members": [
+    "CVP-PRC-CUT-001",
+    "CVP-PRC-CUT-002",
+    "CVP-PRC-CUT-003",
+    "CVP-PRC-CUT-004"
+   ],
+   "scenes": [
+    "CVP-SCN-05"
+   ]
+  },
+  {
+   "id": "CVP-CAM-CRP",
+   "name": "Crop and pan paths",
+   "kind": "configuration",
+   "members": [
+    "CVP-CAM-CRP-001",
+    "CVP-CAM-CRP-002",
+    "CVP-CAM-CRP-003",
+    "CVP-CAM-CRP-004",
+    "CVP-CAM-CRP-005",
+    "CVP-CAM-CRP-006",
+    "CVP-CAM-CRP-007",
+    "CVP-CAM-CRP-008",
+    "CVP-CAM-CRP-009",
+    "CVP-CAM-CRP-010",
+    "CVP-CAM-CRP-011",
+    "CVP-CAM-CRP-012"
+   ],
+   "scenes": [
+    "CVP-SCN-02",
+    "CVP-SCN-06"
+   ]
+  },
+  {
+   "id": "CVP-GEO-BST",
+   "name": "Burst shapes",
+   "kind": "component",
+   "members": [
+    "CVP-GEO-BST-001",
+    "CVP-GEO-BST-002",
+    "CVP-GEO-BST-003",
+    "CVP-GEO-BST-004",
+    "CVP-GEO-BST-005",
+    "CVP-GEO-BST-006",
+    "CVP-GEO-BST-007",
+    "CVP-GEO-BST-008"
+   ],
+   "scenes": [
+    "CVP-SCN-01",
+    "CVP-SCN-03",
+    "CVP-SCN-07"
+   ]
+  },
+  {
+   "id": "CVP-LAY-PHL",
+   "name": "Phrase layouts",
+   "kind": "configuration",
+   "members": [
+    "CVP-LAY-PHL-001",
+    "CVP-LAY-PHL-002",
+    "CVP-LAY-PHL-003",
+    "CVP-LAY-PHL-004",
+    "CVP-LAY-PHL-005",
+    "CVP-LAY-PHL-006",
+    "CVP-LAY-PHL-007",
+    "CVP-LAY-PHL-008",
+    "CVP-LAY-PHL-009",
+    "CVP-LAY-PHL-010",
+    "CVP-LAY-PHL-011",
+    "CVP-LAY-PHL-012",
+    "CVP-LAY-PHL-013",
+    "CVP-LAY-PHL-014"
+   ],
+   "scenes": [
+    "CVP-SCN-01",
+    "CVP-SCN-02",
+    "CVP-SCN-04",
+    "CVP-SCN-05",
+    "CVP-SCN-06",
+    "CVP-SCN-07"
+   ]
+  },
+  {
+   "id": "CVP-TYP-CHP",
+   "name": "Chip styles",
+   "kind": "component",
+   "members": [
+    "CVP-TYP-CHP-001",
+    "CVP-TYP-CHP-002",
+    "CVP-TYP-CHP-003",
+    "CVP-TYP-CHP-004",
+    "CVP-TYP-CHP-005",
+    "CVP-TYP-CHP-006"
+   ],
+   "scenes": [
+    "CVP-SCN-01"
+   ]
+  },
+  {
+   "id": "CVP-PAL-COL",
+   "name": "Colour pickers",
+   "kind": "configuration",
+   "members": [
+    "CVP-PAL-COL-001",
+    "CVP-PAL-COL-002",
+    "CVP-PAL-COL-003",
+    "CVP-PAL-COL-004",
+    "CVP-PAL-COL-005"
+   ],
+   "scenes": [
+    "CVP-SCN-04",
+    "CVP-SCN-08"
+   ]
+  },
+  {
+   "id": "CVP-PRC-SAL",
+   "name": "Cover analysis",
+   "kind": "generator",
+   "members": [
+    "CVP-PRC-SAL-001",
+    "CVP-PRC-SAL-002",
+    "CVP-PRC-SAL-003",
+    "CVP-PRC-SAL-004"
+   ],
+   "scenes": [
+    "CVP-SCN-02"
+   ]
+  },
+  {
+   "id": "CVP-ENV-FBK",
+   "name": "Fallback stages",
+   "kind": "generator",
+   "members": [
+    "CVP-ENV-FBK-001",
+    "CVP-ENV-FBK-002",
+    "CVP-ENV-FBK-003",
+    "CVP-ENV-FBK-004",
+    "CVP-ENV-FBK-005"
+   ],
+   "scenes": [
+    "CVP-SCN-07"
+   ]
+  },
+  {
+   "id": "CVP-MOT-PHM",
+   "name": "Phrase motions",
+   "kind": "configuration",
+   "members": [
+    "CVP-MOT-PHM-001",
+    "CVP-MOT-PHM-002",
+    "CVP-MOT-PHM-003",
+    "CVP-MOT-PHM-004",
+    "CVP-MOT-PHM-005",
+    "CVP-MOT-PHM-006",
+    "CVP-MOT-PHM-007"
+   ],
+   "scenes": []
+  }
+ ]
+}

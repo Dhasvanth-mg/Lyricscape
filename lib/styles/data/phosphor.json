@@ -1,0 +1,790 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Phosphor",
+ "slug": "phosphor",
+ "code": "PHO",
+ "layerOrder": [
+  "field (black)",
+  "furniture (graticule, bezel, room plate)",
+  "trail (persistence buffer)",
+  "beam line",
+  "beam head",
+  "bloom",
+  "post: grain, curvature"
+ ],
+ "limits": {
+  "scale": "Writing cap height at least 5% of frame height; figures 40-60% of short side.",
+  "safe": "Writing central 84%.",
+  "complexity": "One figure or curve at a time.",
+  "colour": "One beam colour.",
+  "motion": "One beam.",
+  "material": "Graticule only in scope register; room plates only in light painting."
+ },
+ "invalid": [
+  {
+   "this": "Two beams",
+   "never_with": "any",
+   "because": "Identity."
+  },
+  {
+   "this": "Symmetry spin",
+   "never_with": "reduced motion",
+   "because": "Motion rule."
+  },
+  {
+   "this": "Fast flicker of the whole trace",
+   "never_with": "any",
+   "because": "Flash guard."
+  },
+  {
+   "this": "Outline trace",
+   "never_with": "scripts failing the readability gate",
+   "because": "Use declared fallback."
+  },
+  {
+   "this": "Figures",
+   "never_with": "while a word is being written",
+   "because": "Hierarchy."
+  },
+  {
+   "this": "Sparkler sparks",
+   "never_with": "grief identity",
+   "because": "Tone."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "PHO-SCN-01",
+   "name": "Green scope",
+   "status": "approved",
+   "roles": [
+    "verse"
+   ],
+   "signalsText": "electronic, minimal",
+   "signals": [
+    "electronic",
+    "minimal"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PHO-CMP-C1",
+    "PHO-CMP-C3"
+   ],
+   "required": [
+    "PHO-TYP-SFN",
+    "PHO-FRM-FUR",
+    "PHO-PTH-PTH"
+   ],
+   "optional": [
+    "PHO-GEO-CRV"
+   ],
+   "attributes": {
+    "register": "scope",
+    "phosphor": "green",
+    "furniture": "graticule",
+    "curves": "simple",
+    "symmetry": "none",
+    "mood": "cool"
+   }
+  },
+  {
+   "id": "PHO-SCN-02",
+   "name": "Lissajous chorus",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "hooks, synth, energy",
+   "signals": [
+    "hooks",
+    "synth",
+    "energy"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PHO-CMP-C4"
+   ],
+   "required": [
+    "PHO-GEO-CRV",
+    "PHO-GEO-SYM"
+   ],
+   "optional": [
+    "PHO-FRM-FUR"
+   ],
+   "attributes": {
+    "register": "scope",
+    "phosphor": "blue-white",
+    "furniture": "bezel",
+    "curves": "Lissajous",
+    "symmetry": "rotational",
+    "mood": "hypnotic"
+   }
+  },
+  {
+   "id": "PHO-SCN-03",
+   "name": "Amber terminal",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "retro, warm electronic",
+   "signals": [
+    "retro",
+    "warm",
+    "electronic"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PHO-CMP-C1",
+    "PHO-CMP-C2"
+   ],
+   "required": [
+    "PHO-TYP-SFN",
+    "PHO-FRM-FUR"
+   ],
+   "optional": [
+    "PHO-PTH-PTH"
+   ],
+   "attributes": {
+    "register": "scope",
+    "phosphor": "amber",
+    "furniture": "curved glass",
+    "curves": "figures",
+    "symmetry": "none",
+    "mood": "warm retro"
+   }
+  },
+  {
+   "id": "PHO-SCN-04",
+   "name": "Light painting",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "love, warm, acoustic-electronic",
+   "signals": [
+    "love",
+    "warm",
+    "acoustic-electronic"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PHO-CMP-C5",
+    "PHO-CMP-C3"
+   ],
+   "required": [
+    "PHO-FRM-FUR",
+    "PHO-PTH-PTH",
+    "PHO-TYP-SFN"
+   ],
+   "optional": [
+    "PHO-GEO-CRV"
+   ],
+   "attributes": {
+    "register": "light painting",
+    "phosphor": "gold",
+    "furniture": "dark room",
+    "curves": "figures",
+    "symmetry": "none",
+    "mood": "tender"
+   }
+  },
+  {
+   "id": "PHO-SCN-05",
+   "name": "Sparkler night",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "celebration, festive, Diwali, new year",
+   "signals": [
+    "celebration",
+    "festive",
+    "diwali",
+    "new",
+    "year"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PHO-CMP-C5",
+    "PHO-CMP-C4"
+   ],
+   "required": [
+    "PHO-FRM-FUR",
+    "PHO-GEO-CRV"
+   ],
+   "optional": [
+    "PHO-PTH-PTH"
+   ],
+   "attributes": {
+    "register": "light painting",
+    "phosphor": "sparkler",
+    "furniture": "night yard",
+    "curves": "spirals",
+    "symmetry": "mirror",
+    "mood": "festive"
+   }
+  },
+  {
+   "id": "PHO-SCN-06",
+   "name": "Vector horizon",
+   "status": "approved",
+   "roles": [
+    "bridge",
+    "break"
+   ],
+   "signalsText": "space, synthwave, travel",
+   "signals": [
+    "space",
+    "synthwave",
+    "travel"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PHO-CMP-C2"
+   ],
+   "required": [
+    "PHO-PTH-PTH",
+    "PHO-GEO-CRV"
+   ],
+   "optional": [
+    "PHO-FRM-FUR"
+   ],
+   "attributes": {
+    "register": "vector display",
+    "phosphor": "white",
+    "furniture": "none",
+    "curves": "perspective grid lines",
+    "symmetry": "mirror",
+    "mood": "vast"
+   }
+  },
+  {
+   "id": "PHO-SCN-07",
+   "name": "Heartline",
+   "status": "approved",
+   "roles": [
+    "quiet",
+    "verse"
+   ],
+   "signalsText": "love, health, longing",
+   "signals": [
+    "love",
+    "health",
+    "longing"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PHO-CMP-C3",
+    "PHO-CMP-C1"
+   ],
+   "required": [
+    "PHO-PTH-PTH",
+    "PHO-TYP-SFN"
+   ],
+   "optional": [],
+   "attributes": {
+    "register": "scope",
+    "phosphor": "red",
+    "furniture": "none",
+    "curves": "pulse line",
+    "symmetry": "none",
+    "mood": "intimate"
+   }
+  },
+  {
+   "id": "PHO-SCN-08",
+   "name": "Harmonograph",
+   "status": "approved",
+   "roles": [
+    "break",
+    "bridge"
+   ],
+   "signalsText": "instrumental breaks, ambient",
+   "signals": [
+    "instrumental",
+    "breaks",
+    "ambient"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PHO-CMP-C2",
+    "PHO-CMP-C4"
+   ],
+   "required": [
+    "PHO-GEO-CRV"
+   ],
+   "optional": [
+    "PHO-GEO-SYM"
+   ],
+   "attributes": {
+    "register": "scope",
+    "phosphor": "P7 decay",
+    "furniture": "none",
+    "curves": "harmonograph",
+    "symmetry": "decaying",
+    "mood": "meditative"
+   }
+  },
+  {
+   "id": "PHO-SCN-09",
+   "name": "City line",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "city, night, urban",
+   "signals": [
+    "city",
+    "night",
+    "urban"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PHO-CMP-C3",
+    "PHO-CMP-C2"
+   ],
+   "required": [
+    "PHO-PTH-PTH",
+    "PHO-TYP-SFN"
+   ],
+   "optional": [
+    "PHO-FRM-FUR"
+   ],
+   "attributes": {
+    "register": "light painting",
+    "phosphor": "white torch",
+    "furniture": "rooftop",
+    "curves": "skyline",
+    "symmetry": "none",
+    "mood": "urban"
+   }
+  },
+  {
+   "id": "PHO-SCN-10",
+   "name": "Last dot",
+   "status": "approved",
+   "roles": [
+    "outro"
+   ],
+   "signalsText": "endings",
+   "signals": [
+    "endings"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PHO-CMP-C2",
+    "PHO-CMP-C1"
+   ],
+   "required": [
+    "PHO-TYP-SFN"
+   ],
+   "optional": [
+    "PHO-FRM-FUR"
+   ],
+   "attributes": {
+    "register": "as section",
+    "phosphor": "as section",
+    "furniture": "as section",
+    "curves": "collapse",
+    "symmetry": "none",
+    "mood": "ending"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "PHO-CMP-C1",
+   "name": "Centre writing",
+   "status": "approved",
+   "layers": [
+    "field",
+    "graticule",
+    "beam",
+    "trail",
+    "bloom"
+   ],
+   "safe": "Central 84%.",
+   "responsive": {
+    "landscape": "Baseline width 80%",
+    "portrait": "Baseline width 90%, larger writing",
+    "square": "Centre",
+    "small": "Larger writing, scroll"
+   }
+  },
+  {
+   "id": "PHO-CMP-C2",
+   "name": "Figure",
+   "status": "approved",
+   "layers": [
+    "field",
+    "beam"
+   ],
+   "safe": "Central.",
+   "responsive": {
+    "landscape": "Centre",
+    "portrait": "Centre",
+    "square": "Centre",
+    "small": "Centre"
+   }
+  },
+  {
+   "id": "PHO-CMP-C3",
+   "name": "Word and figure",
+   "status": "approved",
+   "layers": [
+    "field",
+    "figure",
+    "beam"
+   ],
+   "safe": "Word central 84%.",
+   "responsive": {
+    "landscape": "Figure left, word right",
+    "portrait": "Figure top",
+    "square": "Figure top",
+    "small": "Figure smaller"
+   }
+  },
+  {
+   "id": "PHO-CMP-C4",
+   "name": "Symmetry",
+   "status": "approved",
+   "layers": [
+    "field",
+    "curve",
+    "word"
+   ],
+   "safe": "Word central 80%.",
+   "responsive": {
+    "landscape": "Centre",
+    "portrait": "Centre",
+    "square": "Centre",
+    "small": "Curve smaller"
+   }
+  },
+  {
+   "id": "PHO-CMP-C5",
+   "name": "Light painting room",
+   "status": "approved",
+   "layers": [
+    "room plate",
+    "trail",
+    "dust"
+   ],
+   "safe": "Central 84%.",
+   "responsive": {
+    "landscape": "Room wide",
+    "portrait": "Room tall",
+    "square": "Crop",
+    "small": "Crop"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "PHO-TRN-MRP-001",
+   "name": "Word tail unwinds into figure",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Continuity: the style's core.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PHO-TRN-MRP-002",
+   "name": "Figure collapses to a dot, then writes",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Continuity: the style's core.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PHO-TRN-MRP-003",
+   "name": "Figure folds into the next word's first letter",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Continuity: the style's core.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PHO-TRN-MRP-004",
+   "name": "Word stretches into a horizon line",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Continuity: the style's core.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PHO-TRN-MRP-005",
+   "name": "Curve tightens into the hook word",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Continuity: the style's core.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PHO-TRN-MRP-006",
+   "name": "Straight sweep between words",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Continuity: the style's core.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PHO-TRN-DOT",
+   "name": "Collapse to a dot",
+   "status": "approved",
+   "durationMs": 900,
+   "use": "Section change.",
+   "reducedMotion": "Fade."
+  },
+  {
+   "id": "PHO-TRN-PHOSPHOR",
+   "name": "Phosphor change",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Bridge.",
+   "reducedMotion": "Instant colour change."
+  },
+  {
+   "id": "PHO-TRN-SWEEP",
+   "name": "Sweep",
+   "status": "approved",
+   "durationMs": 800,
+   "use": "Into curves.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PHO-TRN-FADE-OUT",
+   "name": "Last dot",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Outro.",
+   "reducedMotion": "Fade."
+  }
+ ],
+ "families": [
+  {
+   "id": "PHO-PTH-PTH",
+   "name": "Single-line figures",
+   "kind": "source",
+   "members": [
+    "PHO-PTH-PTH-001",
+    "PHO-PTH-PTH-002",
+    "PHO-PTH-PTH-003",
+    "PHO-PTH-PTH-004",
+    "PHO-PTH-PTH-005",
+    "PHO-PTH-PTH-006",
+    "PHO-PTH-PTH-007",
+    "PHO-PTH-PTH-008",
+    "PHO-PTH-PTH-009",
+    "PHO-PTH-PTH-010",
+    "PHO-PTH-PTH-011",
+    "PHO-PTH-PTH-012",
+    "PHO-PTH-PTH-013",
+    "PHO-PTH-PTH-014",
+    "PHO-PTH-PTH-015",
+    "PHO-PTH-PTH-016",
+    "PHO-PTH-PTH-017",
+    "PHO-PTH-PTH-018",
+    "PHO-PTH-PTH-019",
+    "PHO-PTH-PTH-020",
+    "PHO-PTH-PTH-021",
+    "PHO-PTH-PTH-022",
+    "PHO-PTH-PTH-023",
+    "PHO-PTH-PTH-024",
+    "PHO-PTH-PTH-025",
+    "PHO-PTH-PTH-026",
+    "PHO-PTH-PTH-027",
+    "PHO-PTH-PTH-028",
+    "PHO-PTH-PTH-029",
+    "PHO-PTH-PTH-030",
+    "PHO-PTH-PTH-031",
+    "PHO-PTH-PTH-032",
+    "PHO-PTH-PTH-033",
+    "PHO-PTH-PTH-034",
+    "PHO-PTH-PTH-035",
+    "PHO-PTH-PTH-036",
+    "PHO-PTH-PTH-037",
+    "PHO-PTH-PTH-038",
+    "PHO-PTH-PTH-039",
+    "PHO-PTH-PTH-040",
+    "PHO-PTH-PTH-041",
+    "PHO-PTH-PTH-042",
+    "PHO-PTH-PTH-043",
+    "PHO-PTH-PTH-044",
+    "PHO-PTH-PTH-045",
+    "PHO-PTH-PTH-046",
+    "PHO-PTH-PTH-047",
+    "PHO-PTH-PTH-048",
+    "PHO-PTH-PTH-049",
+    "PHO-PTH-PTH-050"
+   ],
+   "scenes": [
+    "PHO-SCN-01",
+    "PHO-SCN-03",
+    "PHO-SCN-04",
+    "PHO-SCN-05",
+    "PHO-SCN-06",
+    "PHO-SCN-07",
+    "PHO-SCN-09"
+   ]
+  },
+  {
+   "id": "PHO-GEO-CRV",
+   "name": "Curve generators",
+   "kind": "generator",
+   "members": [
+    "PHO-GEO-CRV-001",
+    "PHO-GEO-CRV-002",
+    "PHO-GEO-CRV-003",
+    "PHO-GEO-CRV-004",
+    "PHO-GEO-CRV-005",
+    "PHO-GEO-CRV-006",
+    "PHO-GEO-CRV-007",
+    "PHO-GEO-CRV-008",
+    "PHO-GEO-CRV-009",
+    "PHO-GEO-CRV-010",
+    "PHO-GEO-CRV-011",
+    "PHO-GEO-CRV-012"
+   ],
+   "scenes": [
+    "PHO-SCN-01",
+    "PHO-SCN-02",
+    "PHO-SCN-04",
+    "PHO-SCN-05",
+    "PHO-SCN-06",
+    "PHO-SCN-08"
+   ]
+  },
+  {
+   "id": "PHO-TYP-SFN",
+   "name": "Stroke font configurations",
+   "kind": "configuration",
+   "members": [
+    "PHO-TYP-SFN-001",
+    "PHO-TYP-SFN-002",
+    "PHO-TYP-SFN-003",
+    "PHO-TYP-SFN-004",
+    "PHO-TYP-SFN-005",
+    "PHO-TYP-SFN-006",
+    "PHO-TYP-SFN-007",
+    "PHO-TYP-SFN-008",
+    "PHO-TYP-SFN-009"
+   ],
+   "scenes": [
+    "PHO-SCN-01",
+    "PHO-SCN-03",
+    "PHO-SCN-04",
+    "PHO-SCN-07",
+    "PHO-SCN-09",
+    "PHO-SCN-10"
+   ]
+  },
+  {
+   "id": "PHO-FRM-FUR",
+   "name": "Scope furniture and rooms",
+   "kind": "source",
+   "members": [
+    "PHO-FRM-FUR-001",
+    "PHO-FRM-FUR-002",
+    "PHO-FRM-FUR-003",
+    "PHO-FRM-FUR-004",
+    "PHO-FRM-FUR-005",
+    "PHO-FRM-FUR-006",
+    "PHO-FRM-FUR-007",
+    "PHO-FRM-FUR-008"
+   ],
+   "scenes": [
+    "PHO-SCN-01",
+    "PHO-SCN-02",
+    "PHO-SCN-03",
+    "PHO-SCN-04",
+    "PHO-SCN-05",
+    "PHO-SCN-06",
+    "PHO-SCN-09",
+    "PHO-SCN-10"
+   ]
+  },
+  {
+   "id": "PHO-PAL-BCL",
+   "name": "Beam colours",
+   "kind": "configuration",
+   "members": [
+    "PHO-PAL-BCL-001",
+    "PHO-PAL-BCL-002",
+    "PHO-PAL-BCL-003",
+    "PHO-PAL-BCL-004",
+    "PHO-PAL-BCL-005",
+    "PHO-PAL-BCL-006",
+    "PHO-PAL-BCL-007",
+    "PHO-PAL-BCL-008",
+    "PHO-PAL-BCL-009"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PHO-MOT-PER",
+   "name": "Persistence profiles",
+   "kind": "configuration",
+   "members": [
+    "PHO-MOT-PER-001",
+    "PHO-MOT-PER-002",
+    "PHO-MOT-PER-003",
+    "PHO-MOT-PER-004",
+    "PHO-MOT-PER-005"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PHO-MOT-BMB",
+   "name": "Beam behaviours",
+   "kind": "configuration",
+   "members": [
+    "PHO-MOT-BMB-001",
+    "PHO-MOT-BMB-002",
+    "PHO-MOT-BMB-003",
+    "PHO-MOT-BMB-004",
+    "PHO-MOT-BMB-005",
+    "PHO-MOT-BMB-006",
+    "PHO-MOT-BMB-007"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PHO-TRN-MRP",
+   "name": "Morph rules",
+   "kind": "configuration",
+   "members": [
+    "PHO-TRN-MRP-001",
+    "PHO-TRN-MRP-002",
+    "PHO-TRN-MRP-003",
+    "PHO-TRN-MRP-004",
+    "PHO-TRN-MRP-005",
+    "PHO-TRN-MRP-006"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PHO-GEO-SYM",
+   "name": "Symmetry rules",
+   "kind": "configuration",
+   "members": [
+    "PHO-GEO-SYM-001",
+    "PHO-GEO-SYM-002",
+    "PHO-GEO-SYM-003",
+    "PHO-GEO-SYM-004",
+    "PHO-GEO-SYM-005",
+    "PHO-GEO-SYM-006"
+   ],
+   "scenes": [
+    "PHO-SCN-02",
+    "PHO-SCN-08"
+   ]
+  }
+ ]
+}

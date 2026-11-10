@@ -1,0 +1,729 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Liquid Light Show",
+ "slug": "liquid-light-show",
+ "code": "LLS",
+ "layerOrder": [
+  "darkness (outside the dish)",
+  "dish layer A fluid",
+  "dish layer B fluid (additive, optional)",
+  "colour wheel tint",
+  "dish rim and meniscus",
+  "slide (letter mask or band) and text",
+  "halo and lamp grain"
+ ],
+ "limits": {
+  "scale": "Letter masks cap height 10-16%.",
+  "safe": "Slide inside central 80-84%.",
+  "complexity": "Max 2 dishes.",
+  "colour": "Max 4 dyes per dish; 2 shared across dishes; luminance sum capped.",
+  "motion": "One gesture at a time per dish.",
+  "material": "Oil presets never with marbling presets in the same projection."
+ },
+ "invalid": [
+  {
+   "this": "Two dishes",
+   "never_with": "4 dyes each",
+   "because": "Mud and white-out."
+  },
+  {
+   "this": "Hue cycling",
+   "never_with": "faster than 1 cycle per 4 s",
+   "because": "Flash and cliché."
+  },
+  {
+   "this": "Letter masks",
+   "never_with": "lines over 3 words",
+   "because": "Letters too small to show fluid."
+  },
+  {
+   "this": "Monochrome palette",
+   "never_with": "water and dye",
+   "because": "Ink's territory."
+  },
+  {
+   "this": "Squeeze on beat",
+   "never_with": "beat grid under 0.5 confidence",
+   "because": "Would misfire."
+  },
+  {
+   "this": "Black intro",
+   "never_with": "any",
+   "because": "Observed bug; intro starts lit."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "LLS-SCN-01",
+   "name": "Oil blobs",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "default; rock, psych",
+   "signals": [
+    "rock",
+    "psych"
+   ],
+   "isDefault": true,
+   "compositions": [
+    "LLS-CMP-C1",
+    "LLS-CMP-C2",
+    "LLS-CMP-C3"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [
+    "LLS-MSK-DSH"
+   ],
+   "attributes": {
+    "fluid": "oil cells",
+    "scale": "large",
+    "edge": "sharp",
+    "motion": "rock and split",
+    "layering": "one",
+    "light": "lamp"
+   }
+  },
+  {
+   "id": "LLS-SCN-02",
+   "name": "Water and dye",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "dreamy, ambient",
+   "signals": [
+    "dreamy",
+    "ambient"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "LLS-CMP-C1",
+    "LLS-CMP-C3"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [
+    "LLS-MSK-DSH"
+   ],
+   "attributes": {
+    "fluid": "dye plumes",
+    "scale": "medium",
+    "edge": "soft",
+    "motion": "bloom and drift",
+    "layering": "one",
+    "light": "lamp"
+   }
+  },
+  {
+   "id": "LLS-SCN-03",
+   "name": "Bubbles",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "upbeat, pop, disco",
+   "signals": [
+    "upbeat",
+    "pop",
+    "disco"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "LLS-CMP-C2",
+    "LLS-CMP-C1",
+    "LLS-CMP-C4"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [
+    "LLS-MSK-DSH"
+   ],
+   "attributes": {
+    "fluid": "bubbles",
+    "scale": "small many",
+    "edge": "sharp rims",
+    "motion": "rise and pop",
+    "layering": "two",
+    "light": "lamp"
+   }
+  },
+  {
+   "id": "LLS-SCN-04",
+   "name": "Wet-on-wet bloom",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "romantic, warm",
+   "signals": [
+    "romantic",
+    "warm"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "LLS-CMP-C1",
+    "LLS-CMP-C2"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [],
+   "attributes": {
+    "fluid": "colour blooms",
+    "scale": "large",
+    "edge": "feathered",
+    "motion": "spread",
+    "layering": "one",
+    "light": "warm"
+   }
+  },
+  {
+   "id": "LLS-SCN-05",
+   "name": "Drips",
+   "status": "approved",
+   "roles": [
+    "bridge",
+    "break"
+   ],
+   "signalsText": "heavy, slow, dark psych",
+   "signals": [
+    "heavy",
+    "slow",
+    "dark",
+    "psych"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "LLS-CMP-C3",
+    "LLS-CMP-C1"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [
+    "LLS-MSK-DSH"
+   ],
+   "attributes": {
+    "fluid": "drips",
+    "scale": "medium",
+    "edge": "sharp",
+    "motion": "fall",
+    "layering": "one",
+    "light": "lamp"
+   }
+  },
+  {
+   "id": "LLS-SCN-06",
+   "name": "Meniscus edge",
+   "status": "approved",
+   "roles": [
+    "intro",
+    "quiet",
+    "outro"
+   ],
+   "signalsText": "intros and quiet sections",
+   "signals": [
+    "intros",
+    "quiet",
+    "sections"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "LLS-CMP-C3"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-MSK-DSH",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [
+    "LLS-TYP-SLD"
+   ],
+   "attributes": {
+    "fluid": "oil edge",
+    "scale": "rim",
+    "edge": "refractive",
+    "motion": "slow swirl",
+    "layering": "one",
+    "light": "lamp edge"
+   }
+  },
+  {
+   "id": "LLS-SCN-07",
+   "name": "Marbling",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "intricate, folk psych",
+   "signals": [
+    "intricate",
+    "folk",
+    "psych"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "LLS-CMP-C1",
+    "LLS-CMP-C2"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [],
+   "attributes": {
+    "fluid": "marbled lines",
+    "scale": "fine",
+    "edge": "combed",
+    "motion": "comb drag",
+    "layering": "one",
+    "light": "flat"
+   }
+  },
+  {
+   "id": "LLS-SCN-08",
+   "name": "Colour wheel show",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "bridge"
+   ],
+   "signalsText": "chorus and bridge of energetic songs",
+   "signals": [
+    "chorus",
+    "bridge",
+    "energetic"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "LLS-CMP-C5",
+    "LLS-CMP-C4"
+   ],
+   "required": [
+    "LLS-OBJ-WHL",
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD"
+   ],
+   "optional": [
+    "LLS-PAL-PAL"
+   ],
+   "attributes": {
+    "fluid": "any",
+    "scale": "large",
+    "edge": "sharp",
+    "motion": "wheel rotation",
+    "layering": "two",
+    "light": "tinted"
+   }
+  },
+  {
+   "id": "LLS-SCN-09",
+   "name": "Slow aurora",
+   "status": "approved",
+   "roles": [
+    "quiet",
+    "verse"
+   ],
+   "signalsText": "calm, ambient, night",
+   "signals": [
+    "calm",
+    "ambient",
+    "night"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "LLS-CMP-C1",
+    "LLS-CMP-C3"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [],
+   "attributes": {
+    "fluid": "veils",
+    "scale": "huge",
+    "edge": "soft",
+    "motion": "very slow drift",
+    "layering": "one",
+    "light": "cool"
+   }
+  },
+  {
+   "id": "LLS-SCN-10",
+   "name": "Swirled dish",
+   "status": "approved",
+   "roles": [
+    "high",
+    "chorus"
+   ],
+   "signalsText": "psychedelic peaks (absorbs Psychedelic)",
+   "signals": [
+    "psychedelic",
+    "peaks"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "LLS-CMP-C3",
+    "LLS-CMP-C4"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-MSK-DSH",
+    "LLS-TYP-SLD"
+   ],
+   "optional": [
+    "LLS-PAL-PAL"
+   ],
+   "attributes": {
+    "fluid": "spiral swirl",
+    "scale": "large",
+    "edge": "sharp",
+    "motion": "hand swirl",
+    "layering": "two",
+    "light": "lamp"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "LLS-CMP-C1",
+   "name": "Full-bleed dish with band slide",
+   "status": "approved",
+   "layers": [
+    "fluid",
+    "band",
+    "text",
+    "lamp grain"
+   ],
+   "safe": "Band text inside central 84%.",
+   "responsive": {
+    "landscape": "Band across",
+    "portrait": "Band in the lower third",
+    "square": "Band middle",
+    "small": "Band lower third"
+   }
+  },
+  {
+   "id": "LLS-CMP-C2",
+   "name": "Letter-mask slide",
+   "status": "approved",
+   "layers": [
+    "fluid",
+    "black slide with letter holes",
+    "halo"
+   ],
+   "safe": "Central 80%.",
+   "responsive": {
+    "landscape": "1-2 lines",
+    "portrait": "2-3 lines stacked",
+    "square": "2 lines",
+    "small": "Short lines only"
+   }
+  },
+  {
+   "id": "LLS-CMP-C3",
+   "name": "Visible dish",
+   "status": "approved",
+   "layers": [
+    "darkness",
+    "dish fluid",
+    "rim",
+    "slide"
+   ],
+   "safe": "Slide inside the dish and central 80%.",
+   "responsive": {
+    "landscape": "Dish 90% height",
+    "portrait": "Dish 90% width",
+    "square": "Dish 90%",
+    "small": "Dish fills width"
+   }
+  },
+  {
+   "id": "LLS-CMP-C4",
+   "name": "Double projection",
+   "status": "approved",
+   "layers": [
+    "dish A",
+    "dish B (additive)",
+    "slide"
+   ],
+   "safe": "Central 80%.",
+   "responsive": {
+    "landscape": "Dishes side by side overlapping",
+    "portrait": "Stacked overlapping",
+    "square": "Diagonal",
+    "small": "Stacked"
+   }
+  },
+  {
+   "id": "LLS-CMP-C5",
+   "name": "Colour wheel",
+   "status": "approved",
+   "layers": [
+    "fluid",
+    "wheel tint",
+    "wheel edge",
+    "slide"
+   ],
+   "safe": "Central 84%.",
+   "responsive": {
+    "landscape": "Wheel edge at the right",
+    "portrait": "Wheel edge at the bottom",
+    "square": "Corner",
+    "small": "Bottom"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "LLS-TRN-PULL-DISH",
+   "name": "Dish pulled away",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Section change.",
+   "reducedMotion": "Cross-fade 600 ms."
+  },
+  {
+   "id": "LLS-TRN-FRESH-DROP",
+   "name": "Fresh drop",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Palette change within a dish.",
+   "reducedMotion": "Slow fade."
+  },
+  {
+   "id": "LLS-TRN-WHEEL-TURN",
+   "name": "Colour wheel turn",
+   "status": "approved",
+   "durationMs": 800,
+   "use": "Chorus entry or bridge.",
+   "reducedMotion": "Tint fade."
+  },
+  {
+   "id": "LLS-TRN-LAMP-FADE",
+   "name": "Lamp fade",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Outro.",
+   "reducedMotion": "Same."
+  },
+  {
+   "id": "LLS-TRN-CAROUSEL",
+   "name": "Slide carousel advance",
+   "status": "approved",
+   "durationMs": 250,
+   "use": "Line change.",
+   "reducedMotion": "Cut."
+  }
+ ],
+ "families": [
+  {
+   "id": "LLS-PRC-FLU",
+   "name": "Fluid presets",
+   "kind": "configuration",
+   "members": [
+    "LLS-PRC-FLU-001",
+    "LLS-PRC-FLU-002",
+    "LLS-PRC-FLU-003",
+    "LLS-PRC-FLU-004",
+    "LLS-PRC-FLU-005",
+    "LLS-PRC-FLU-006",
+    "LLS-PRC-FLU-007",
+    "LLS-PRC-FLU-008",
+    "LLS-PRC-FLU-009",
+    "LLS-PRC-FLU-010",
+    "LLS-PRC-FLU-011",
+    "LLS-PRC-FLU-012",
+    "LLS-PRC-FLU-013",
+    "LLS-PRC-FLU-014",
+    "LLS-PRC-FLU-015",
+    "LLS-PRC-FLU-016",
+    "LLS-PRC-FLU-017",
+    "LLS-PRC-FLU-018",
+    "LLS-PRC-FLU-019",
+    "LLS-PRC-FLU-020",
+    "LLS-PRC-FLU-021",
+    "LLS-PRC-FLU-022",
+    "LLS-PRC-FLU-023",
+    "LLS-PRC-FLU-024",
+    "LLS-PRC-FLU-025",
+    "LLS-PRC-FLU-026",
+    "LLS-PRC-FLU-027",
+    "LLS-PRC-FLU-028",
+    "LLS-PRC-FLU-029",
+    "LLS-PRC-FLU-030",
+    "LLS-PRC-FLU-031",
+    "LLS-PRC-FLU-032",
+    "LLS-PRC-FLU-033",
+    "LLS-PRC-FLU-034",
+    "LLS-PRC-FLU-035",
+    "LLS-PRC-FLU-036",
+    "LLS-PRC-FLU-037",
+    "LLS-PRC-FLU-038",
+    "LLS-PRC-FLU-039",
+    "LLS-PRC-FLU-040"
+   ],
+   "scenes": [
+    "LLS-SCN-01",
+    "LLS-SCN-02",
+    "LLS-SCN-03",
+    "LLS-SCN-04",
+    "LLS-SCN-05",
+    "LLS-SCN-06",
+    "LLS-SCN-07",
+    "LLS-SCN-08",
+    "LLS-SCN-09",
+    "LLS-SCN-10"
+   ]
+  },
+  {
+   "id": "LLS-TEX-FLW",
+   "name": "Baked flow fields",
+   "kind": "source",
+   "members": [
+    "LLS-TEX-FLW-001",
+    "LLS-TEX-FLW-002",
+    "LLS-TEX-FLW-003",
+    "LLS-TEX-FLW-004",
+    "LLS-TEX-FLW-005",
+    "LLS-TEX-FLW-006",
+    "LLS-TEX-FLW-007",
+    "LLS-TEX-FLW-008",
+    "LLS-TEX-FLW-009",
+    "LLS-TEX-FLW-010"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "LLS-MSK-DSH",
+   "name": "Dish masks",
+   "kind": "source",
+   "members": [
+    "LLS-MSK-DSH-001",
+    "LLS-MSK-DSH-002",
+    "LLS-MSK-DSH-003",
+    "LLS-MSK-DSH-004",
+    "LLS-MSK-DSH-005",
+    "LLS-MSK-DSH-006"
+   ],
+   "scenes": [
+    "LLS-SCN-01",
+    "LLS-SCN-02",
+    "LLS-SCN-03",
+    "LLS-SCN-05",
+    "LLS-SCN-06",
+    "LLS-SCN-10"
+   ]
+  },
+  {
+   "id": "LLS-TYP-SLD",
+   "name": "Slide treatments",
+   "kind": "component",
+   "members": [
+    "LLS-TYP-SLD-001",
+    "LLS-TYP-SLD-002",
+    "LLS-TYP-SLD-003",
+    "LLS-TYP-SLD-004",
+    "LLS-TYP-SLD-005",
+    "LLS-TYP-SLD-006"
+   ],
+   "scenes": [
+    "LLS-SCN-01",
+    "LLS-SCN-02",
+    "LLS-SCN-03",
+    "LLS-SCN-04",
+    "LLS-SCN-05",
+    "LLS-SCN-06",
+    "LLS-SCN-07",
+    "LLS-SCN-08",
+    "LLS-SCN-09",
+    "LLS-SCN-10"
+   ]
+  },
+  {
+   "id": "LLS-PAL-PAL",
+   "name": "Dye palettes",
+   "kind": "configuration",
+   "members": [
+    "LLS-PAL-PAL-001",
+    "LLS-PAL-PAL-002",
+    "LLS-PAL-PAL-003",
+    "LLS-PAL-PAL-004",
+    "LLS-PAL-PAL-005",
+    "LLS-PAL-PAL-006",
+    "LLS-PAL-PAL-007",
+    "LLS-PAL-PAL-008",
+    "LLS-PAL-PAL-009",
+    "LLS-PAL-PAL-010",
+    "LLS-PAL-PAL-011",
+    "LLS-PAL-PAL-012"
+   ],
+   "scenes": [
+    "LLS-SCN-01",
+    "LLS-SCN-02",
+    "LLS-SCN-03",
+    "LLS-SCN-04",
+    "LLS-SCN-05",
+    "LLS-SCN-06",
+    "LLS-SCN-07",
+    "LLS-SCN-08",
+    "LLS-SCN-09",
+    "LLS-SCN-10"
+   ]
+  },
+  {
+   "id": "LLS-OBJ-WHL",
+   "name": "Colour wheels",
+   "kind": "source",
+   "members": [
+    "LLS-OBJ-WHL-001",
+    "LLS-OBJ-WHL-002",
+    "LLS-OBJ-WHL-003",
+    "LLS-OBJ-WHL-004",
+    "LLS-OBJ-WHL-005"
+   ],
+   "scenes": [
+    "LLS-SCN-08"
+   ]
+  },
+  {
+   "id": "LLS-MOT-MOT",
+   "name": "Hand gestures",
+   "kind": "configuration",
+   "members": [
+    "LLS-MOT-MOT-001",
+    "LLS-MOT-MOT-002",
+    "LLS-MOT-MOT-003",
+    "LLS-MOT-MOT-004",
+    "LLS-MOT-MOT-005",
+    "LLS-MOT-MOT-006",
+    "LLS-MOT-MOT-007",
+    "LLS-MOT-MOT-008"
+   ],
+   "scenes": []
+  }
+ ]
+}

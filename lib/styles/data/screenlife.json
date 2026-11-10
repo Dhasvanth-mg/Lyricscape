@@ -1,0 +1,1137 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Screenlife",
+ "slug": "screenlife",
+ "code": "SCR",
+ "layerOrder": [
+  "room or environment plate (ENV)",
+  "device shadow",
+  "device frame (FRM)",
+  "wallpaper (PRC wallpaper, only lock and desktop)",
+  "UI sheet: kit state (UIK) with earlier lines",
+  "active field with lyric and caret (REV)",
+  "overlays: notifications, stickers, reactions (PRP)",
+  "glass reflection and smudge (TEX)",
+  "post: grain, focus blur, motion blur, CRT scan for terminals"
+ ],
+ "limits": {
+  "scale": "Lyric x-height floors as in typography; device never smaller than 55% of the frame height in landscape; notifications never larger than the lyric field.",
+  "safe": "Lyric box in the title-safe 84% x 80% and outside the bottom 14% player-chrome zone; overlays never intersect the lyric box (layout solver pushes them to the opposite half).",
+  "complexity": "Max 6 visible UI widgets besides the lyric field; max 1 overlay; max 2 devices.",
+  "colour": "One theme per device world; accent from cover; stickers use accent or complementary only; room plate tinted by the theme spill.",
+  "motion": "Only one of camera push, whip pan or scroll per 600 ms window; no camera move during the last 300 ms of a line's typing.",
+  "material": "CRT plates only with terminal and old desktop kits; glass smudge never with CRT; hand silhouette never with desktop monitors."
+ },
+ "invalid": [
+  {
+   "this": "Light theme",
+   "never_with": "bloom or glow post",
+   "because": "Blows out white UI (observed)."
+  },
+  {
+   "this": "Terminal kit",
+   "never_with": "stickers or reactions",
+   "because": "Different device worlds."
+  },
+  {
+   "this": "Post and caption",
+   "never_with": "cover crop altered or recoloured",
+   "because": "Cover must be shown unmodified (Spotify artwork policy)."
+  },
+  {
+   "this": "Any kit",
+   "never_with": "invented third-party messages",
+   "because": "Fabricated conversation rule."
+  },
+  {
+   "this": "Two Screens (C5)",
+   "never_with": "portrait small mobile with both full devices",
+   "because": "Fields become too small; use the receiver banner instead."
+  },
+  {
+   "this": "Hindi, Tamil, Arabic text",
+   "never_with": "typo model",
+   "because": "No typos inside complex scripts."
+  },
+  {
+   "this": "Code editor",
+   "never_with": "default for electronic songs",
+   "because": "Only when chosen or the lyric is about code."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "SCR-SCN-01",
+   "name": "Late-night messages",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "perspective addressed; subjects romance, night and city; dark or late-night moods",
+   "signals": [
+    "perspective",
+    "addressed",
+    "romance",
+    "night",
+    "city",
+    "dark",
+    "late-night",
+    "moods"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SCR-CMP-C1",
+    "SCR-CMP-C4",
+    "SCR-CMP-C2",
+    "SCR-CMP-C5"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-UIK-STA",
+    "SCR-FRM-DEV",
+    "SCR-ENV-ROM"
+   ],
+   "optional": [
+    "SCR-PRP-NTF",
+    "SCR-PRP-STK",
+    "SCR-REV-CAR",
+    "SCR-TEX-GLS"
+   ],
+   "attributes": {
+    "structure": "thread",
+    "subject": "conversation",
+    "env": "bedroom at night",
+    "depth": "device in room",
+    "motion": "typing and send",
+    "light": "screen glow in dark",
+    "density": "medium"
+   }
+  },
+  {
+   "id": "SCR-SCN-02",
+   "name": "Notes to self",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "perspective inward; subjects memory, self; calm moods",
+   "signals": [
+    "perspective",
+    "inward",
+    "memory",
+    "self",
+    "calm",
+    "moods"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SCR-CMP-C2",
+    "SCR-CMP-C1",
+    "SCR-CMP-C4"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-UIK-STA",
+    "SCR-FRM-DEV"
+   ],
+   "optional": [
+    "SCR-ENV-ROM",
+    "SCR-REV-CAR",
+    "SCR-TEX-GLS"
+   ],
+   "attributes": {
+    "structure": "document",
+    "subject": "private note",
+    "env": "morning kitchen or desk",
+    "depth": "device in room",
+    "motion": "slow typing and edits",
+    "light": "daylight",
+    "density": "low"
+   }
+  },
+  {
+   "id": "SCR-SCN-03",
+   "name": "Search at 3 a.m.",
+   "status": "approved",
+   "roles": [
+    "bridge",
+    "verse"
+   ],
+   "signalsText": "questions in the lyric (how, why, what, who, where; and equivalents in Hindi and Tamil lexicons); anxious or longing moods",
+   "signals": [
+    "questions",
+    "lyric",
+    "anxious",
+    "longing",
+    "moods"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SCR-CMP-C2",
+    "SCR-CMP-C1"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-UIK-STA"
+   ],
+   "optional": [
+    "SCR-FRM-DEV",
+    "SCR-ENV-ROM"
+   ],
+   "attributes": {
+    "structure": "single field with suggestions",
+    "subject": "a question",
+    "env": "none (macro)",
+    "depth": "macro",
+    "motion": "typing with suggestions",
+    "light": "screen glow in dark",
+    "density": "low"
+   }
+  },
+  {
+   "id": "SCR-SCN-04",
+   "name": "The draft document",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "perspective narrative; long lines; storytelling rap; letters",
+   "signals": [
+    "perspective",
+    "narrative",
+    "long",
+    "lines",
+    "storytelling",
+    "rap",
+    "letters"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SCR-CMP-C3",
+    "SCR-CMP-C1",
+    "SCR-CMP-C2"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-UIK-STA",
+    "SCR-FRM-DEV"
+   ],
+   "optional": [
+    "SCR-ENV-ROM",
+    "SCR-TEX-GLS"
+   ],
+   "attributes": {
+    "structure": "page",
+    "subject": "a letter or story",
+    "env": "desk at night",
+    "depth": "window stack",
+    "motion": "typing and paragraph flow",
+    "light": "lamp and screen",
+    "density": "medium-high"
+   }
+  },
+  {
+   "id": "SCR-SCN-05",
+   "name": "Post and caption",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "energetic moods; party, confidence, celebration subjects; hooks",
+   "signals": [
+    "energetic",
+    "moods",
+    "party",
+    "confidence",
+    "celebration",
+    "hooks"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SCR-CMP-C1",
+    "SCR-CMP-C2",
+    "SCR-CMP-C4"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-UIK-STA",
+    "SCR-FRM-DEV"
+   ],
+   "optional": [
+    "SCR-PRP-STK",
+    "SCR-PRP-NTF",
+    "SCR-ENV-ROM"
+   ],
+   "attributes": {
+    "structure": "photo composer",
+    "subject": "a public post",
+    "env": "outdoors or event lights",
+    "depth": "device in room",
+    "motion": "caption typing, reactions",
+    "light": "colourful event bokeh",
+    "density": "medium-high"
+   }
+  },
+  {
+   "id": "SCR-SCN-06",
+   "name": "Terminal session",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus",
+    "break"
+   ],
+   "signalsText": "electronic, industrial, techno, hacker-themed tags; cold moods",
+   "signals": [
+    "electronic",
+    "industrial",
+    "techno",
+    "hacker-themed",
+    "tags",
+    "cold",
+    "moods"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SCR-CMP-C7",
+    "SCR-CMP-C3"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-UIK-STA",
+    "SCR-TEX-GLS"
+   ],
+   "optional": [
+    "SCR-FRM-DEV"
+   ],
+   "attributes": {
+    "structure": "terminal",
+    "subject": "commands and output",
+    "env": "none or dark room",
+    "depth": "flat CRT",
+    "motion": "typing and scrolling output",
+    "light": "phosphor",
+    "density": "medium"
+   }
+  },
+  {
+   "id": "SCR-SCN-07",
+   "name": "Code editor",
+   "status": "approved",
+   "roles": [
+    "verse"
+   ],
+   "signalsText": "only when the song is about code or the user picks it; explicitly not the default for electronic music",
+   "signals": [
+    "only",
+    "is",
+    "about",
+    "code",
+    "user",
+    "picks",
+    "it",
+    "explicitly",
+    "not",
+    "electronic",
+    "music"
+   ],
+   "isDefault": true,
+   "compositions": [
+    "SCR-CMP-C3",
+    "SCR-CMP-C2"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-UIK-STA",
+    "SCR-FRM-DEV"
+   ],
+   "optional": [
+    "SCR-ENV-ROM"
+   ],
+   "attributes": {
+    "structure": "editor with gutter",
+    "subject": "comments and strings",
+    "env": "desk",
+    "depth": "window stack",
+    "motion": "typing in a line of code",
+    "light": "screen glow",
+    "density": "medium"
+   }
+  },
+  {
+   "id": "SCR-SCN-08",
+   "name": "Lock screen and notifications",
+   "status": "approved",
+   "roles": [
+    "intro",
+    "break",
+    "outro",
+    "quiet"
+   ],
+   "signalsText": "always available; preferred for intros and outros",
+   "signals": [
+    "always",
+    "available",
+    "preferred",
+    "intros",
+    "outros"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SCR-CMP-C6"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-PRC-WAL"
+   ],
+   "optional": [
+    "SCR-PRP-NTF",
+    "SCR-FRM-DEV",
+    "SCR-ENV-ROM"
+   ],
+   "attributes": {
+    "structure": "notification stack",
+    "subject": "time and arrivals",
+    "env": "wallpaper",
+    "depth": "flat",
+    "motion": "notifications drop, clock ticks",
+    "light": "wallpaper glow",
+    "density": "very low"
+   }
+  },
+  {
+   "id": "SCR-SCN-09",
+   "name": "Voice memo",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "acoustic, spoken word, singer-songwriter; sparse lines",
+   "signals": [
+    "acoustic",
+    "spoken",
+    "word",
+    "singer-songwriter",
+    "sparse",
+    "lines"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SCR-CMP-C1",
+    "SCR-CMP-C2",
+    "SCR-CMP-C4"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-UIK-STA",
+    "SCR-FRM-DEV"
+   ],
+   "optional": [
+    "SCR-ENV-ROM"
+   ],
+   "attributes": {
+    "structure": "waveform with transcript",
+    "subject": "a recording",
+    "env": "bedroom or car",
+    "depth": "device in room",
+    "motion": "transcript words appear, waveform scrolls",
+    "light": "low warm",
+    "density": "low"
+   }
+  },
+  {
+   "id": "SCR-SCN-10",
+   "name": "Plans and lists",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "upbeat, routine, determination subjects; list-like lyrics (repeated structures)",
+   "signals": [
+    "upbeat",
+    "routine",
+    "determination",
+    "list-like"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SCR-CMP-C1",
+    "SCR-CMP-C4",
+    "SCR-CMP-C2"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-UIK-STA",
+    "SCR-FRM-DEV"
+   ],
+   "optional": [
+    "SCR-PRP-NTF",
+    "SCR-PRP-STK"
+   ],
+   "attributes": {
+    "structure": "checklist or calendar",
+    "subject": "plans",
+    "env": "daytime desk",
+    "depth": "device in room",
+    "motion": "items added and ticked",
+    "light": "daylight",
+    "density": "medium"
+   }
+  },
+  {
+   "id": "SCR-SCN-11",
+   "name": "Night drive display",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "night and city, driving, travel subjects",
+   "signals": [
+    "night",
+    "city",
+    "driving",
+    "travel"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SCR-CMP-C1"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-UIK-STA",
+    "SCR-FRM-DEV"
+   ],
+   "optional": [
+    "SCR-REV-CAR"
+   ],
+   "attributes": {
+    "structure": "dashboard",
+    "subject": "directions",
+    "env": "car interior with passing lights",
+    "depth": "dashboard in car",
+    "motion": "nav banner updates, passing streetlights",
+    "light": "sodium streetlight sweeps",
+    "density": "low"
+   }
+  },
+  {
+   "id": "SCR-SCN-12",
+   "name": "Old desktop",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus",
+    "bridge"
+   ],
+   "signalsText": "nostalgia, memory subjects; older songs (release year before 2005 if metadata has it)",
+   "signals": [
+    "nostalgia",
+    "memory",
+    "older"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SCR-CMP-C3",
+    "SCR-CMP-C1"
+   ],
+   "required": [
+    "SCR-UIK-APP",
+    "SCR-UIK-STA",
+    "SCR-FRM-DEV"
+   ],
+   "optional": [
+    "SCR-TEX-GLS",
+    "SCR-PRC-WAL"
+   ],
+   "attributes": {
+    "structure": "retro windows",
+    "subject": "old chat and documents",
+    "env": "bedroom with CRT monitor",
+    "depth": "window stack on CRT",
+    "motion": "typing, window pops",
+    "light": "CRT glow",
+    "density": "medium"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "SCR-CMP-C1",
+   "name": "Over the shoulder",
+   "status": "approved",
+   "layers": [
+    "room plate",
+    "device shadow",
+    "device frame",
+    "UI sheet",
+    "glass reflection",
+    "caret and selection overlay"
+   ],
+   "safe": "Lyric bounding box inside the central 84% x 80% of the frame (title-safe), plus the player-chrome-safe zone (bottom 14% in the app stage).",
+   "responsive": {
+    "landscape": "Phone shown tilted in a room, occupying 55-65% of the height",
+    "portrait": "Phone face-on filling 92% of height",
+    "square": "Phone at 75% height, room visible on both sides",
+    "small": "Same as portrait"
+   }
+  },
+  {
+   "id": "SCR-CMP-C2",
+   "name": "Macro on the field",
+   "status": "approved",
+   "layers": [
+    "UI sheet (blurred)",
+    "field crop sharp",
+    "caret overlay"
+   ],
+   "safe": "Lyric inside central 80% x 60%.",
+   "responsive": {
+    "landscape": "Field runs horizontally across the frame",
+    "portrait": "Field wraps to 2-3 lines at the same x-height",
+    "square": "As portrait with 2 lines",
+    "small": "As portrait"
+   }
+  },
+  {
+   "id": "SCR-CMP-C3",
+   "name": "Desktop windows",
+   "status": "approved",
+   "layers": [
+    "wallpaper",
+    "back windows (2-4)",
+    "front window",
+    "cursor",
+    "glass"
+   ],
+   "safe": "Front window field inside central 80% x 70%.",
+   "responsive": {
+    "landscape": "Native: monitor or laptop at 80-90% width",
+    "portrait": "Monitor cropped to the front window, back windows peek at the top",
+    "square": "Front window centred, back windows behind at 92% scale",
+    "small": "Front window only"
+   }
+  },
+  {
+   "id": "SCR-CMP-C4",
+   "name": "Thread scroll",
+   "status": "approved",
+   "layers": [
+    "thread background",
+    "bubbles",
+    "input bar",
+    "keyboard",
+    "overlay"
+   ],
+   "safe": "Newest bubble inside central 86% width.",
+   "responsive": {
+    "landscape": "Device centred face-on at 90% height, room visible left and right with soft vignette",
+    "portrait": "Native",
+    "square": "Device at 92% height",
+    "small": "Native"
+   }
+  },
+  {
+   "id": "SCR-CMP-C5",
+   "name": "Two screens",
+   "status": "approved",
+   "layers": [
+    "room A",
+    "room B",
+    "device A",
+    "device B",
+    "UI sheets",
+    "glass"
+   ],
+   "safe": "Each device's field in its half's central 80%.",
+   "responsive": {
+    "landscape": "Native side by side",
+    "portrait": "Stacked: sender bottom, receiver top",
+    "square": "Stacked at 48% each",
+    "small": "Stacked, receiver reduced to a notification banner"
+   }
+  },
+  {
+   "id": "SCR-CMP-C6",
+   "name": "Lock screen",
+   "status": "approved",
+   "layers": [
+    "wallpaper",
+    "clock",
+    "notification stack",
+    "glass"
+   ],
+   "safe": "Notification card inside central 86% width.",
+   "responsive": {
+    "landscape": "Phone face-on centred at 90% height in a dim room, or the lock screen of a laptop (centred clock)",
+    "portrait": "Native",
+    "square": "Phone at 92% height",
+    "small": "Native"
+   }
+  },
+  {
+   "id": "SCR-CMP-C7",
+   "name": "Full-frame terminal",
+   "status": "approved",
+   "layers": [
+    "terminal background",
+    "text sheet",
+    "CRT curvature and scan post"
+   ],
+   "safe": "Prompt line inside central 90% width; never on the bottom 14% (player chrome).",
+   "responsive": {
+    "landscape": "80 columns visible",
+    "portrait": "40 columns",
+    "square": "60 columns",
+    "small": "34 columns"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "SCR-TRN-APP-SWITCH",
+   "name": "App switcher card stack",
+   "status": "approved",
+   "durationMs": 600,
+   "use": "Change app family at a section boundary while staying on the same device.",
+   "reducedMotion": "Instant cut with 200 ms cross-fade."
+  },
+  {
+   "id": "SCR-TRN-WHIP-PAN",
+   "name": "Whip pan to a new device",
+   "status": "approved",
+   "durationMs": 220,
+   "use": "Energetic change of device world inside a song (high-energy chorus entries).",
+   "reducedMotion": "Cut with 200 ms fade."
+  },
+  {
+   "id": "SCR-TRN-SEND-SCROLL",
+   "name": "Send and scroll",
+   "status": "approved",
+   "durationMs": 280,
+   "use": "The line-to-line transition inside messaging and notes.",
+   "reducedMotion": "Thread updates in place without scroll animation."
+  },
+  {
+   "id": "SCR-TRN-LOCK-WAKE",
+   "name": "Lock and wake",
+   "status": "approved",
+   "durationMs": 800,
+   "use": "Instrumental breaks and the outro: the person puts the phone down.",
+   "reducedMotion": "Cross-fade."
+  },
+  {
+   "id": "SCR-TRN-DEVICE-SWAP",
+   "name": "Device swap",
+   "status": "approved",
+   "durationMs": 900,
+   "use": "Move from phone to laptop or desktop at a bridge.",
+   "reducedMotion": "Cut with fade."
+  },
+  {
+   "id": "SCR-TRN-SCROLL-BACK",
+   "name": "Scroll back through the song",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Break and outro: show the thread of everything sent so far.",
+   "reducedMotion": "Static view of the last 6 lines."
+  },
+  {
+   "id": "SCR-TRN-SCREEN-DIM",
+   "name": "Screen dim",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Quiet moments between lines without a full lock.",
+   "reducedMotion": "Same (non-motion)."
+  },
+  {
+   "id": "SCR-TRN-NOTIFICATION-PULL",
+   "name": "Notification pull-down",
+   "status": "approved",
+   "durationMs": 700,
+   "use": "Change from lock or home to an app via a notification (opening lines of a verse).",
+   "reducedMotion": "Cut."
+  }
+ ],
+ "families": [
+  {
+   "id": "SCR-UIK-APP",
+   "name": "Fictional app kits",
+   "kind": "source",
+   "members": [
+    "SCR-UIK-APP-001",
+    "SCR-UIK-APP-002",
+    "SCR-UIK-APP-003",
+    "SCR-UIK-APP-004",
+    "SCR-UIK-APP-005",
+    "SCR-UIK-APP-006",
+    "SCR-UIK-APP-007",
+    "SCR-UIK-APP-008",
+    "SCR-UIK-APP-009",
+    "SCR-UIK-APP-010",
+    "SCR-UIK-APP-011",
+    "SCR-UIK-APP-012",
+    "SCR-UIK-APP-013",
+    "SCR-UIK-APP-014",
+    "SCR-UIK-APP-015",
+    "SCR-UIK-APP-016"
+   ],
+   "scenes": [
+    "SCR-SCN-01",
+    "SCR-SCN-02",
+    "SCR-SCN-03",
+    "SCR-SCN-04",
+    "SCR-SCN-05",
+    "SCR-SCN-06",
+    "SCR-SCN-07",
+    "SCR-SCN-08",
+    "SCR-SCN-09",
+    "SCR-SCN-10",
+    "SCR-SCN-11",
+    "SCR-SCN-12"
+   ]
+  },
+  {
+   "id": "SCR-UIK-STA",
+   "name": "Kit states",
+   "kind": "component",
+   "members": [
+    "SCR-UIK-STA-001",
+    "SCR-UIK-STA-002",
+    "SCR-UIK-STA-003",
+    "SCR-UIK-STA-004",
+    "SCR-UIK-STA-005",
+    "SCR-UIK-STA-006",
+    "SCR-UIK-STA-007",
+    "SCR-UIK-STA-008",
+    "SCR-UIK-STA-009",
+    "SCR-UIK-STA-010",
+    "SCR-UIK-STA-011",
+    "SCR-UIK-STA-012",
+    "SCR-UIK-STA-013",
+    "SCR-UIK-STA-014",
+    "SCR-UIK-STA-015",
+    "SCR-UIK-STA-016",
+    "SCR-UIK-STA-017",
+    "SCR-UIK-STA-018",
+    "SCR-UIK-STA-019",
+    "SCR-UIK-STA-020",
+    "SCR-UIK-STA-021",
+    "SCR-UIK-STA-022",
+    "SCR-UIK-STA-023",
+    "SCR-UIK-STA-024",
+    "SCR-UIK-STA-025",
+    "SCR-UIK-STA-026",
+    "SCR-UIK-STA-027",
+    "SCR-UIK-STA-028",
+    "SCR-UIK-STA-029",
+    "SCR-UIK-STA-030",
+    "SCR-UIK-STA-031",
+    "SCR-UIK-STA-032",
+    "SCR-UIK-STA-033",
+    "SCR-UIK-STA-034",
+    "SCR-UIK-STA-035",
+    "SCR-UIK-STA-036",
+    "SCR-UIK-STA-037",
+    "SCR-UIK-STA-038",
+    "SCR-UIK-STA-039",
+    "SCR-UIK-STA-040",
+    "SCR-UIK-STA-041",
+    "SCR-UIK-STA-042",
+    "SCR-UIK-STA-043",
+    "SCR-UIK-STA-044",
+    "SCR-UIK-STA-045",
+    "SCR-UIK-STA-046",
+    "SCR-UIK-STA-047",
+    "SCR-UIK-STA-048",
+    "SCR-UIK-STA-049",
+    "SCR-UIK-STA-050",
+    "SCR-UIK-STA-051",
+    "SCR-UIK-STA-052",
+    "SCR-UIK-STA-053"
+   ],
+   "scenes": [
+    "SCR-SCN-01",
+    "SCR-SCN-02",
+    "SCR-SCN-03",
+    "SCR-SCN-04",
+    "SCR-SCN-05",
+    "SCR-SCN-06",
+    "SCR-SCN-07",
+    "SCR-SCN-09",
+    "SCR-SCN-10",
+    "SCR-SCN-11",
+    "SCR-SCN-12"
+   ]
+  },
+  {
+   "id": "SCR-FRM-DEV",
+   "name": "Device frames",
+   "kind": "source",
+   "members": [
+    "SCR-FRM-DEV-001",
+    "SCR-FRM-DEV-002",
+    "SCR-FRM-DEV-003",
+    "SCR-FRM-DEV-004",
+    "SCR-FRM-DEV-005",
+    "SCR-FRM-DEV-006",
+    "SCR-FRM-DEV-007",
+    "SCR-FRM-DEV-008",
+    "SCR-FRM-DEV-009",
+    "SCR-FRM-DEV-010"
+   ],
+   "scenes": [
+    "SCR-SCN-01",
+    "SCR-SCN-02",
+    "SCR-SCN-03",
+    "SCR-SCN-04",
+    "SCR-SCN-05",
+    "SCR-SCN-06",
+    "SCR-SCN-07",
+    "SCR-SCN-08",
+    "SCR-SCN-09",
+    "SCR-SCN-10",
+    "SCR-SCN-11",
+    "SCR-SCN-12"
+   ]
+  },
+  {
+   "id": "SCR-ENV-ROM",
+   "name": "Room plates",
+   "kind": "source",
+   "members": [
+    "SCR-ENV-ROM-001",
+    "SCR-ENV-ROM-002",
+    "SCR-ENV-ROM-003",
+    "SCR-ENV-ROM-004",
+    "SCR-ENV-ROM-005",
+    "SCR-ENV-ROM-006",
+    "SCR-ENV-ROM-007",
+    "SCR-ENV-ROM-008",
+    "SCR-ENV-ROM-009",
+    "SCR-ENV-ROM-010",
+    "SCR-ENV-ROM-011"
+   ],
+   "scenes": [
+    "SCR-SCN-01",
+    "SCR-SCN-02",
+    "SCR-SCN-03",
+    "SCR-SCN-04",
+    "SCR-SCN-05",
+    "SCR-SCN-07",
+    "SCR-SCN-08",
+    "SCR-SCN-09"
+   ]
+  },
+  {
+   "id": "SCR-PRC-WAL",
+   "name": "Wallpaper generators",
+   "kind": "configuration",
+   "members": [
+    "SCR-PRC-WAL-001",
+    "SCR-PRC-WAL-002",
+    "SCR-PRC-WAL-003",
+    "SCR-PRC-WAL-004",
+    "SCR-PRC-WAL-005",
+    "SCR-PRC-WAL-006",
+    "SCR-PRC-WAL-007",
+    "SCR-PRC-WAL-008"
+   ],
+   "scenes": [
+    "SCR-SCN-08",
+    "SCR-SCN-12"
+   ]
+  },
+  {
+   "id": "SCR-PRP-NTF",
+   "name": "Notifications and system overlays",
+   "kind": "component",
+   "members": [
+    "SCR-PRP-NTF-001",
+    "SCR-PRP-NTF-002",
+    "SCR-PRP-NTF-003",
+    "SCR-PRP-NTF-004",
+    "SCR-PRP-NTF-005",
+    "SCR-PRP-NTF-006",
+    "SCR-PRP-NTF-007",
+    "SCR-PRP-NTF-008",
+    "SCR-PRP-NTF-009",
+    "SCR-PRP-NTF-010",
+    "SCR-PRP-NTF-011",
+    "SCR-PRP-NTF-012",
+    "SCR-PRP-NTF-013",
+    "SCR-PRP-NTF-014"
+   ],
+   "scenes": [
+    "SCR-SCN-01",
+    "SCR-SCN-05",
+    "SCR-SCN-08",
+    "SCR-SCN-10"
+   ]
+  },
+  {
+   "id": "SCR-PRP-STK",
+   "name": "Original reaction stickers",
+   "kind": "source",
+   "members": [
+    "SCR-PRP-STK-001",
+    "SCR-PRP-STK-002",
+    "SCR-PRP-STK-003",
+    "SCR-PRP-STK-004",
+    "SCR-PRP-STK-005",
+    "SCR-PRP-STK-006",
+    "SCR-PRP-STK-007",
+    "SCR-PRP-STK-008",
+    "SCR-PRP-STK-009",
+    "SCR-PRP-STK-010",
+    "SCR-PRP-STK-011",
+    "SCR-PRP-STK-012",
+    "SCR-PRP-STK-013",
+    "SCR-PRP-STK-014",
+    "SCR-PRP-STK-015",
+    "SCR-PRP-STK-016",
+    "SCR-PRP-STK-017",
+    "SCR-PRP-STK-018"
+   ],
+   "scenes": [
+    "SCR-SCN-01",
+    "SCR-SCN-05",
+    "SCR-SCN-10"
+   ]
+  },
+  {
+   "id": "SCR-REV-CAR",
+   "name": "Caret, selection and correction overlays",
+   "kind": "component",
+   "members": [
+    "SCR-REV-CAR-001",
+    "SCR-REV-CAR-002",
+    "SCR-REV-CAR-003",
+    "SCR-REV-CAR-004",
+    "SCR-REV-CAR-005",
+    "SCR-REV-CAR-006",
+    "SCR-REV-CAR-007",
+    "SCR-REV-CAR-008",
+    "SCR-REV-CAR-009",
+    "SCR-REV-CAR-010"
+   ],
+   "scenes": [
+    "SCR-SCN-01",
+    "SCR-SCN-02",
+    "SCR-SCN-11"
+   ]
+  },
+  {
+   "id": "SCR-MOT-TYP",
+   "name": "Typing behaviour profiles",
+   "kind": "configuration",
+   "members": [
+    "SCR-MOT-TYP-001",
+    "SCR-MOT-TYP-002",
+    "SCR-MOT-TYP-003",
+    "SCR-MOT-TYP-004",
+    "SCR-MOT-TYP-005",
+    "SCR-MOT-TYP-006",
+    "SCR-MOT-TYP-007",
+    "SCR-MOT-TYP-008",
+    "SCR-MOT-TYP-009",
+    "SCR-MOT-TYP-010"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "SCR-MOT-TPO",
+   "name": "Typo models",
+   "kind": "configuration",
+   "members": [
+    "SCR-MOT-TPO-001",
+    "SCR-MOT-TPO-002",
+    "SCR-MOT-TPO-003",
+    "SCR-MOT-TPO-004",
+    "SCR-MOT-TPO-005",
+    "SCR-MOT-TPO-006"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "SCR-CAM-CAM",
+   "name": "Camera moves",
+   "kind": "configuration",
+   "members": [
+    "SCR-CAM-CAM-001",
+    "SCR-CAM-CAM-002",
+    "SCR-CAM-CAM-003",
+    "SCR-CAM-CAM-004",
+    "SCR-CAM-CAM-005",
+    "SCR-CAM-CAM-006",
+    "SCR-CAM-CAM-007",
+    "SCR-CAM-CAM-008",
+    "SCR-CAM-CAM-009",
+    "SCR-CAM-CAM-010",
+    "SCR-CAM-CAM-011",
+    "SCR-CAM-CAM-012"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "SCR-LAY-FLD",
+   "name": "Lyric field treatments",
+   "kind": "component",
+   "members": [
+    "SCR-LAY-FLD-001",
+    "SCR-LAY-FLD-002",
+    "SCR-LAY-FLD-003",
+    "SCR-LAY-FLD-004",
+    "SCR-LAY-FLD-005",
+    "SCR-LAY-FLD-006",
+    "SCR-LAY-FLD-007",
+    "SCR-LAY-FLD-008",
+    "SCR-LAY-FLD-009",
+    "SCR-LAY-FLD-010"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "SCR-PRC-META",
+   "name": "Metadata content rules",
+   "kind": "configuration",
+   "members": [
+    "SCR-PRC-META-001",
+    "SCR-PRC-META-002",
+    "SCR-PRC-META-003",
+    "SCR-PRC-META-004",
+    "SCR-PRC-META-005",
+    "SCR-PRC-META-006",
+    "SCR-PRC-META-007",
+    "SCR-PRC-META-008"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "SCR-TEX-GLS",
+   "name": "Glass and CRT surface plates",
+   "kind": "source",
+   "members": [
+    "SCR-TEX-GLS-001",
+    "SCR-TEX-GLS-002",
+    "SCR-TEX-GLS-003",
+    "SCR-TEX-GLS-004",
+    "SCR-TEX-GLS-005",
+    "SCR-TEX-GLS-006"
+   ],
+   "scenes": [
+    "SCR-SCN-01",
+    "SCR-SCN-02",
+    "SCR-SCN-04",
+    "SCR-SCN-06",
+    "SCR-SCN-12"
+   ]
+  }
+ ]
+}

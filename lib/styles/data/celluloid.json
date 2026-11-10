@@ -1,0 +1,901 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Celluloid",
+ "slug": "celluloid",
+ "code": "CEL",
+ "layerOrder": [
+  "stock base (colour, exposure)",
+  "image plates (light falloff, light leaks)",
+  "environment (projection room only)",
+  "title (register)",
+  "damage plates (dust, hair, scratches)",
+  "gate (frame edges, sprockets, letterbox bars)",
+  "post: grain, flicker, weave, vignette"
+ ],
+ "limits": {
+  "scale": "Titles from the size table; plates cover the image area.",
+  "safe": "Subtitle inside action-safe; damage under 20% opacity over text.",
+  "complexity": "Max 3 texture plates at once.",
+  "colour": "Stock grade only; titles white, cream or stock highlight.",
+  "motion": "Damage at 24/18/12 fps; one cut source at a time.",
+  "material": "Tape plates only with the tape stock; scratches never with tape."
+ },
+ "invalid": [
+  {
+   "this": "Tape stock",
+   "never_with": "film scratches or sprockets",
+   "because": "Different medium."
+  },
+  {
+   "this": "Burst register",
+   "never_with": "estimated word timing",
+   "because": "Claims word cuts."
+  },
+  {
+   "this": "Scratched hand register",
+   "never_with": "complex scripts",
+   "because": "No stroke data; falls back."
+  },
+  {
+   "this": "Flash frames",
+   "never_with": "reduced motion or under 3 s apart",
+   "because": "Flash rule."
+  },
+  {
+   "this": "Light leaks",
+   "never_with": "over the subtitle box above 30%",
+   "because": "Readability."
+  },
+  {
+   "this": "Projection room",
+   "never_with": "burst register",
+   "because": "Too fast for the room metaphor."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "CEL-SCN-01",
+   "name": "Colour negative night",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "dark pop, cinematic, night and city",
+   "signals": [
+    "dark",
+    "pop",
+    "cinematic",
+    "night",
+    "city"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CEL-CMP-C1",
+    "CEL-CMP-C2",
+    "CEL-CMP-C4"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-PLT",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-TEX-LEK",
+    "CEL-MOT-GAT"
+   ],
+   "attributes": {
+    "stock": "colour negative",
+    "register": "subtitle and backlit",
+    "damage": "light",
+    "light": "cool with warm leaks",
+    "structure": "letterbox",
+    "density": "low"
+   }
+  },
+  {
+   "id": "CEL-SCN-02",
+   "name": "Black-and-white reversal",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "classic, melancholy, older songs",
+   "signals": [
+    "classic",
+    "melancholy",
+    "older"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CEL-CMP-C2",
+    "CEL-CMP-C1"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-PLT",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-MOT-GAT"
+   ],
+   "attributes": {
+    "stock": "bw reversal",
+    "register": "backlit serif",
+    "damage": "medium",
+    "light": "neutral",
+    "structure": "card",
+    "density": "low"
+   }
+  },
+  {
+   "id": "CEL-SCN-03",
+   "name": "Home movie",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus",
+    "quiet"
+   ],
+   "signalsText": "nostalgic, warm, memory, family",
+   "signals": [
+    "nostalgic",
+    "warm",
+    "memory",
+    "family"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CEL-CMP-C1",
+    "CEL-CMP-C2",
+    "CEL-CMP-C5"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-PLT",
+    "CEL-TEX-LEK",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-MOT-GAT"
+   ],
+   "attributes": {
+    "stock": "warm reversal",
+    "register": "typewriter and subtitle",
+    "damage": "heavy leaks",
+    "light": "warm sun",
+    "structure": "rounded gate",
+    "density": "low"
+   }
+  },
+  {
+   "id": "CEL-SCN-04",
+   "name": "Tape",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "lo-fi, 90s, bedroom, VHS tags",
+   "signals": [
+    "lo-fi",
+    "90s",
+    "bedroom",
+    "vhs",
+    "tags"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CEL-CMP-C1",
+    "CEL-CMP-C2"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-TAP",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [],
+   "attributes": {
+    "stock": "tape",
+    "register": "subtitle",
+    "damage": "dropouts",
+    "light": "lifted blacks",
+    "structure": "4:3 frame",
+    "density": "medium"
+   }
+  },
+  {
+   "id": "CEL-SCN-05",
+   "name": "High-contrast lith",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "intense, aggressive, graphic",
+   "signals": [
+    "intense",
+    "aggressive",
+    "graphic"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CEL-CMP-C2",
+    "CEL-CMP-C6",
+    "CEL-CMP-C3"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-PLT",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-PTH-SCR"
+   ],
+   "attributes": {
+    "stock": "lith",
+    "register": "burst and scratch",
+    "damage": "scratches",
+    "light": "hard",
+    "structure": "full frame",
+    "density": "medium"
+   }
+  },
+  {
+   "id": "CEL-SCN-06",
+   "name": "Scratch on leader",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge",
+    "break"
+   ],
+   "signalsText": "raw, punk, handmade, dark",
+   "signals": [
+    "raw",
+    "punk",
+    "handmade",
+    "dark"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CEL-CMP-C3"
+   ],
+   "required": [
+    "CEL-PTH-SCR",
+    "CEL-TEX-PLT",
+    "CEL-TYP-REG"
+   ],
+   "optional": [
+    "CEL-PAL-STK"
+   ],
+   "attributes": {
+    "stock": "black leader",
+    "register": "scratched hand",
+    "damage": "scratch is the image",
+    "light": "none",
+    "structure": "full frame",
+    "density": "medium"
+   }
+  },
+  {
+   "id": "CEL-SCN-07",
+   "name": "Backlit optical",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet",
+    "chorus"
+   ],
+   "signalsText": "dreamy, ambient, romantic",
+   "signals": [
+    "dreamy",
+    "ambient",
+    "romantic"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CEL-CMP-C2",
+    "CEL-CMP-C1"
+   ],
+   "required": [
+    "CEL-PAL-STK",
+    "CEL-TEX-LEK",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-MOT-GAT"
+   ],
+   "attributes": {
+    "stock": "colour negative soft",
+    "register": "backlit assembly",
+    "damage": "none",
+    "light": "halo bleed",
+    "structure": "card",
+    "density": "very low"
+   }
+  },
+  {
+   "id": "CEL-SCN-08",
+   "name": "Projection room",
+   "status": "approved",
+   "roles": [
+    "bridge",
+    "break"
+   ],
+   "signalsText": "nostalgic, cinema, memory",
+   "signals": [
+    "nostalgic",
+    "cinema",
+    "memory"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CEL-CMP-C4"
+   ],
+   "required": [
+    "CEL-ENV-PRJ",
+    "CEL-PAL-STK",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-TEX-PLT"
+   ],
+   "attributes": {
+    "stock": "any",
+    "register": "projected",
+    "damage": "beam dust",
+    "light": "beam in the dark",
+    "structure": "room",
+    "density": "low"
+   }
+  },
+  {
+   "id": "CEL-SCN-09",
+   "name": "Silent intertitles",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "old-time, storytelling, waltz, theatrical",
+   "signals": [
+    "old-time",
+    "storytelling",
+    "waltz",
+    "theatrical"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CEL-CMP-C2"
+   ],
+   "required": [
+    "CEL-FRM-BRD",
+    "CEL-PAL-STK",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-TEX-PLT",
+    "CEL-MOT-GAT"
+   ],
+   "attributes": {
+    "stock": "toned",
+    "register": "intertitle",
+    "damage": "medium",
+    "light": "flicker",
+    "structure": "bordered card",
+    "density": "low"
+   }
+  },
+  {
+   "id": "CEL-SCN-10",
+   "name": "Title burst",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "energetic choruses with authored word timing",
+   "signals": [
+    "energetic",
+    "choruses",
+    "authored",
+    "word",
+    "timing"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CEL-CMP-C6",
+    "CEL-CMP-C5"
+   ],
+   "required": [
+    "CEL-TYP-REG",
+    "CEL-PAL-STK",
+    "CEL-LAY-TTL"
+   ],
+   "optional": [
+    "CEL-TEX-PLT"
+   ],
+   "attributes": {
+    "stock": "varies per cut",
+    "register": "burst",
+    "damage": "light",
+    "light": "hard",
+    "structure": "full frame word",
+    "density": "high cut rate"
+   }
+  },
+  {
+   "id": "CEL-SCN-11",
+   "name": "Leader and countdown",
+   "status": "approved",
+   "roles": [
+    "intro",
+    "break",
+    "outro"
+   ],
+   "signalsText": "always",
+   "signals": [
+    "always"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "CEL-CMP-C7"
+   ],
+   "required": [
+    "CEL-OBJ-CNT",
+    "CEL-TEX-PLT"
+   ],
+   "optional": [
+    "CEL-PAL-STK"
+   ],
+   "attributes": {
+    "stock": "leader",
+    "register": "none",
+    "damage": "leader marks",
+    "light": "flat",
+    "structure": "countdown",
+    "density": "very low"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "CEL-CMP-C1",
+   "name": "Letterbox subtitle",
+   "status": "approved",
+   "layers": [
+    "stock base",
+    "image plates (light",
+    "leaks)",
+    "damage",
+    "letterbox bars",
+    "subtitle",
+    "post grain and weave"
+   ],
+   "safe": "Subtitle box inside the image area's action-safe 90% and above the bottom 14% app zone (subtitle moves into the image area in the app stage).",
+   "responsive": {
+    "landscape": "2.39:1 image with bars",
+    "portrait": "4:5 frame centred in 9:16 with bars",
+    "square": "4:5 frame in square with side bars",
+    "small": "As portrait"
+   }
+  },
+  {
+   "id": "CEL-CMP-C2",
+   "name": "Centred title card",
+   "status": "approved",
+   "layers": [
+    "base",
+    "light",
+    "title",
+    "damage",
+    "grain"
+   ],
+   "safe": "Title inside central 70%.",
+   "responsive": {
+    "landscape": "Native",
+    "portrait": "Native (title wraps to 2-3 lines)",
+    "square": "Native",
+    "small": "Native"
+   }
+  },
+  {
+   "id": "CEL-CMP-C3",
+   "name": "Scratchboard",
+   "status": "approved",
+   "layers": [
+    "black leader",
+    "scratch doodles",
+    "scratched words",
+    "dust"
+   ],
+   "safe": "Central 70%.",
+   "responsive": {
+    "landscape": "Native",
+    "portrait": "Native",
+    "square": "Native",
+    "small": "Words larger, fewer doodles"
+   }
+  },
+  {
+   "id": "CEL-CMP-C4",
+   "name": "Projection room",
+   "status": "approved",
+   "layers": [
+    "room",
+    "wall",
+    "projected frame",
+    "beam haze",
+    "projector silhouette"
+   ],
+   "safe": "Projected rectangle 60% of the frame; text in its centre 80%.",
+   "responsive": {
+    "landscape": "Projected rect centre-right, projector left",
+    "portrait": "Projected rect top, beam from below",
+    "square": "Centre",
+    "small": "Rect fills width"
+   }
+  },
+  {
+   "id": "CEL-CMP-C5",
+   "name": "Film strip",
+   "status": "approved",
+   "layers": [
+    "light box",
+    "strip",
+    "frame contents",
+    "sprocket holes"
+   ],
+   "safe": "Current frame inside central 70%.",
+   "responsive": {
+    "landscape": "Horizontal strip",
+    "portrait": "Vertical strip",
+    "square": "Vertical",
+    "small": "Vertical"
+   }
+  },
+  {
+   "id": "CEL-CMP-C6",
+   "name": "Title burst",
+   "status": "approved",
+   "layers": [
+    "base",
+    "word",
+    "damage"
+   ],
+   "safe": "Central 80%.",
+   "responsive": {
+    "landscape": "Native",
+    "portrait": "Native",
+    "square": "Native",
+    "small": "Native"
+   }
+  },
+  {
+   "id": "CEL-CMP-C7",
+   "name": "Leader and countdown",
+   "status": "approved",
+   "layers": [
+    "leader base",
+    "countdown graphics",
+    "damage"
+   ],
+   "safe": "Countdown inside central 80%.",
+   "responsive": {
+    "landscape": "Native",
+    "portrait": "Countdown circle fits width",
+    "square": "Native",
+    "small": "Native"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "CEL-TRN-SPLICE",
+   "name": "Splice cut",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Section and stock change.",
+   "reducedMotion": "6-frame fade."
+  },
+  {
+   "id": "CEL-TRN-BURN",
+   "name": "Burn-through",
+   "status": "approved",
+   "durationMs": 900,
+   "use": "Bridge entries and the end of a reel.",
+   "reducedMotion": "Fade to white and back."
+  },
+  {
+   "id": "CEL-TRN-DISSOLVE",
+   "name": "Optical dissolve",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Calm line changes.",
+   "reducedMotion": "Same."
+  },
+  {
+   "id": "CEL-TRN-FLASH",
+   "name": "Flash frame",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Punctuation at chorus entries.",
+   "reducedMotion": "Removed."
+  },
+  {
+   "id": "CEL-TRN-REEL-CHANGE",
+   "name": "Reel change",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Instrumental breaks: a change cue and a new reel.",
+   "reducedMotion": "Cue static."
+  },
+  {
+   "id": "CEL-TRN-RUN-OUT",
+   "name": "Film runs out",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Outro.",
+   "reducedMotion": "Fade to white then black."
+  },
+  {
+   "id": "CEL-TRN-STEP-PRINT",
+   "name": "Step-print smear",
+   "status": "approved",
+   "durationMs": 600,
+   "use": "Energetic movement between words.",
+   "reducedMotion": "Removed."
+  }
+ ],
+ "families": [
+  {
+   "id": "CEL-TEX-PLT",
+   "name": "Film damage plates",
+   "kind": "source",
+   "members": [
+    "CEL-TEX-PLT-001",
+    "CEL-TEX-PLT-002",
+    "CEL-TEX-PLT-003",
+    "CEL-TEX-PLT-004",
+    "CEL-TEX-PLT-005",
+    "CEL-TEX-PLT-006",
+    "CEL-TEX-PLT-007",
+    "CEL-TEX-PLT-008",
+    "CEL-TEX-PLT-009",
+    "CEL-TEX-PLT-010",
+    "CEL-TEX-PLT-011",
+    "CEL-TEX-PLT-012",
+    "CEL-TEX-PLT-013",
+    "CEL-TEX-PLT-014",
+    "CEL-TEX-PLT-015",
+    "CEL-TEX-PLT-016",
+    "CEL-TEX-PLT-017",
+    "CEL-TEX-PLT-018",
+    "CEL-TEX-PLT-019"
+   ],
+   "scenes": [
+    "CEL-SCN-01",
+    "CEL-SCN-02",
+    "CEL-SCN-03",
+    "CEL-SCN-05",
+    "CEL-SCN-06",
+    "CEL-SCN-08",
+    "CEL-SCN-09",
+    "CEL-SCN-10",
+    "CEL-SCN-11"
+   ]
+  },
+  {
+   "id": "CEL-TEX-LEK",
+   "name": "Light leaks",
+   "kind": "source",
+   "members": [
+    "CEL-TEX-LEK-001",
+    "CEL-TEX-LEK-002",
+    "CEL-TEX-LEK-003",
+    "CEL-TEX-LEK-004",
+    "CEL-TEX-LEK-005",
+    "CEL-TEX-LEK-006",
+    "CEL-TEX-LEK-007",
+    "CEL-TEX-LEK-008"
+   ],
+   "scenes": [
+    "CEL-SCN-01",
+    "CEL-SCN-03",
+    "CEL-SCN-07"
+   ]
+  },
+  {
+   "id": "CEL-TEX-TAP",
+   "name": "Tape plates",
+   "kind": "source",
+   "members": [
+    "CEL-TEX-TAP-001",
+    "CEL-TEX-TAP-002",
+    "CEL-TEX-TAP-003",
+    "CEL-TEX-TAP-004",
+    "CEL-TEX-TAP-005"
+   ],
+   "scenes": [
+    "CEL-SCN-04"
+   ]
+  },
+  {
+   "id": "CEL-PAL-STK",
+   "name": "Stock profiles",
+   "kind": "configuration",
+   "members": [
+    "CEL-PAL-STK-001",
+    "CEL-PAL-STK-002",
+    "CEL-PAL-STK-003",
+    "CEL-PAL-STK-004",
+    "CEL-PAL-STK-005",
+    "CEL-PAL-STK-006",
+    "CEL-PAL-STK-007",
+    "CEL-PAL-STK-008"
+   ],
+   "scenes": [
+    "CEL-SCN-01",
+    "CEL-SCN-02",
+    "CEL-SCN-03",
+    "CEL-SCN-04",
+    "CEL-SCN-05",
+    "CEL-SCN-06",
+    "CEL-SCN-07",
+    "CEL-SCN-08",
+    "CEL-SCN-09",
+    "CEL-SCN-10",
+    "CEL-SCN-11"
+   ]
+  },
+  {
+   "id": "CEL-PAL-GRD",
+   "name": "Grades",
+   "kind": "configuration",
+   "members": [
+    "CEL-PAL-GRD-001",
+    "CEL-PAL-GRD-002",
+    "CEL-PAL-GRD-003",
+    "CEL-PAL-GRD-004",
+    "CEL-PAL-GRD-005",
+    "CEL-PAL-GRD-006"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "CEL-MOT-GAT",
+   "name": "Gate and projector behaviours",
+   "kind": "configuration",
+   "members": [
+    "CEL-MOT-GAT-001",
+    "CEL-MOT-GAT-002",
+    "CEL-MOT-GAT-003",
+    "CEL-MOT-GAT-004",
+    "CEL-MOT-GAT-005",
+    "CEL-MOT-GAT-006",
+    "CEL-MOT-GAT-007",
+    "CEL-MOT-GAT-008"
+   ],
+   "scenes": [
+    "CEL-SCN-01",
+    "CEL-SCN-02",
+    "CEL-SCN-03",
+    "CEL-SCN-07",
+    "CEL-SCN-09"
+   ]
+  },
+  {
+   "id": "CEL-LAY-TTL",
+   "name": "Title layouts",
+   "kind": "component",
+   "members": [
+    "CEL-LAY-TTL-001",
+    "CEL-LAY-TTL-002",
+    "CEL-LAY-TTL-003",
+    "CEL-LAY-TTL-004",
+    "CEL-LAY-TTL-005",
+    "CEL-LAY-TTL-006",
+    "CEL-LAY-TTL-007",
+    "CEL-LAY-TTL-008",
+    "CEL-LAY-TTL-009",
+    "CEL-LAY-TTL-010",
+    "CEL-LAY-TTL-011",
+    "CEL-LAY-TTL-012"
+   ],
+   "scenes": [
+    "CEL-SCN-01",
+    "CEL-SCN-02",
+    "CEL-SCN-03",
+    "CEL-SCN-04",
+    "CEL-SCN-05",
+    "CEL-SCN-07",
+    "CEL-SCN-08",
+    "CEL-SCN-09",
+    "CEL-SCN-10"
+   ]
+  },
+  {
+   "id": "CEL-TYP-REG",
+   "name": "Title registers",
+   "kind": "configuration",
+   "members": [
+    "CEL-TYP-REG-001",
+    "CEL-TYP-REG-002",
+    "CEL-TYP-REG-003",
+    "CEL-TYP-REG-004",
+    "CEL-TYP-REG-005",
+    "CEL-TYP-REG-006"
+   ],
+   "scenes": [
+    "CEL-SCN-06",
+    "CEL-SCN-10"
+   ]
+  },
+  {
+   "id": "CEL-OBJ-CNT",
+   "name": "Countdown designs",
+   "kind": "source",
+   "members": [
+    "CEL-OBJ-CNT-001",
+    "CEL-OBJ-CNT-002",
+    "CEL-OBJ-CNT-003",
+    "CEL-OBJ-CNT-004",
+    "CEL-OBJ-CNT-005"
+   ],
+   "scenes": [
+    "CEL-SCN-11"
+   ]
+  },
+  {
+   "id": "CEL-FRM-BRD",
+   "name": "Intertitle borders",
+   "kind": "source",
+   "members": [
+    "CEL-FRM-BRD-001",
+    "CEL-FRM-BRD-002",
+    "CEL-FRM-BRD-003",
+    "CEL-FRM-BRD-004",
+    "CEL-FRM-BRD-005"
+   ],
+   "scenes": [
+    "CEL-SCN-09"
+   ]
+  },
+  {
+   "id": "CEL-PTH-SCR",
+   "name": "Scratch animation loops",
+   "kind": "source",
+   "members": [
+    "CEL-PTH-SCR-001",
+    "CEL-PTH-SCR-002",
+    "CEL-PTH-SCR-003",
+    "CEL-PTH-SCR-004",
+    "CEL-PTH-SCR-005",
+    "CEL-PTH-SCR-006",
+    "CEL-PTH-SCR-007",
+    "CEL-PTH-SCR-008"
+   ],
+   "scenes": [
+    "CEL-SCN-05",
+    "CEL-SCN-06"
+   ]
+  },
+  {
+   "id": "CEL-ENV-PRJ",
+   "name": "Projection room assets",
+   "kind": "source",
+   "members": [
+    "CEL-ENV-PRJ-001",
+    "CEL-ENV-PRJ-002",
+    "CEL-ENV-PRJ-003",
+    "CEL-ENV-PRJ-004",
+    "CEL-ENV-PRJ-005"
+   ],
+   "scenes": [
+    "CEL-SCN-08"
+   ]
+  }
+ ]
+}

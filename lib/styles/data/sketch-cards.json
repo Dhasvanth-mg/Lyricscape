@@ -1,0 +1,1017 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Sketch Cards",
+ "slug": "sketch-cards",
+ "code": "SKC",
+ "layerOrder": [
+  "ground surface",
+  "tools and props at the edges",
+  "pile (baked)",
+  "top card paper (card type)",
+  "print process texture",
+  "doodle drawing",
+  "lettering (big, pill, thin)",
+  "tape and pins",
+  "hand (held scenes)",
+  "post: soft shadow, light gradient"
+ ],
+ "limits": {
+  "scale": "Card 60-80% of frame height; doodle 12-30% of card.",
+  "safe": "Card text central 84%; doodles never over the big word.",
+  "complexity": "Max 6 elements on a card.",
+  "colour": "Song colour set; process limits.",
+  "motion": "One card moving at a time.",
+  "material": "Riso only on riso cards; photocopy only on wheatpaste and receipts."
+ },
+ "invalid": [
+  {
+   "this": "Cute drawings",
+   "never_with": "grief or dark identity",
+   "because": "Tone."
+  },
+  {
+   "this": "Dark register",
+   "never_with": "cute colour sets",
+   "because": "Tone."
+  },
+  {
+   "this": "Per-letter rotation",
+   "never_with": "complex scripts",
+   "because": "Shaping."
+  },
+  {
+   "this": "Sticky notes",
+   "never_with": "long lines over 8 words without splitting",
+   "because": "Unreadable."
+  },
+  {
+   "this": "Creature dance",
+   "never_with": "reduced motion",
+   "because": "Motion rule."
+  },
+  {
+   "this": "Panel sequences",
+   "never_with": "any",
+   "because": "Panels territory."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "SKC-SCN-01",
+   "name": "Desk at night",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "default for calm and night songs",
+   "signals": [
+    "calm",
+    "night"
+   ],
+   "isDefault": true,
+   "compositions": [
+    "SKC-CMP-C1",
+    "SKC-CMP-C3"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-OBJ-DOD",
+    "SKC-PRC-ART"
+   ],
+   "optional": [
+    "SKC-OBJ-DRK",
+    "SKC-PRP-TOL"
+   ],
+   "attributes": {
+    "ground": "desk",
+    "card": "index card",
+    "process": "marker",
+    "depth": "top-down",
+    "motion": "drop",
+    "mood": "calm"
+   }
+  },
+  {
+   "id": "SKC-SCN-02",
+   "name": "Kitchen table",
+   "status": "approved",
+   "roles": [
+    "verse"
+   ],
+   "signalsText": "everyday, love, home",
+   "signals": [
+    "everyday",
+    "love",
+    "home"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SKC-CMP-C1",
+    "SKC-CMP-C3"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-OBJ-EVD"
+   ],
+   "optional": [
+    "SKC-OBJ-DOD",
+    "SKC-PRC-ART",
+    "SKC-PRP-TOL"
+   ],
+   "attributes": {
+    "ground": "table",
+    "card": "napkin and receipt",
+    "process": "ballpoint and marker",
+    "depth": "top-down",
+    "motion": "drop",
+    "mood": "warm"
+   }
+  },
+  {
+   "id": "SKC-SCN-03",
+   "name": "Bedroom wall",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "verse"
+   ],
+   "signalsText": "teen, pop, love",
+   "signals": [
+    "teen",
+    "pop",
+    "love"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SKC-CMP-C4",
+    "SKC-CMP-C5"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-OBJ-DOD",
+    "SKC-PRC-ART"
+   ],
+   "optional": [
+    "SKC-PRC-PRT"
+   ],
+   "attributes": {
+    "ground": "wall",
+    "card": "poster",
+    "process": "paint dither",
+    "depth": "flat",
+    "motion": "pin",
+    "mood": "bright"
+   }
+  },
+  {
+   "id": "SKC-SCN-04",
+   "name": "Street wall",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "hip-hop, punk, protest, energy",
+   "signals": [
+    "hip-hop",
+    "punk",
+    "protest",
+    "energy"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SKC-CMP-C4",
+    "SKC-CMP-C5"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-PRC-PRT"
+   ],
+   "optional": [
+    "SKC-OBJ-DRK",
+    "SKC-PRC-ART"
+   ],
+   "attributes": {
+    "ground": "street wall",
+    "card": "wheatpaste poster",
+    "process": "photocopy",
+    "depth": "flat",
+    "motion": "paste slap",
+    "mood": "raw"
+   }
+  },
+  {
+   "id": "SKC-SCN-05",
+   "name": "Notebook pages",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "school, memory, diary (absorbs Notebook)",
+   "signals": [
+    "school",
+    "memory",
+    "diary"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SKC-CMP-C1",
+    "SKC-CMP-C5"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-OBJ-DOD"
+   ],
+   "optional": [
+    "SKC-PRC-ART"
+   ],
+   "attributes": {
+    "ground": "notebook",
+    "card": "ruled page",
+    "process": "pen and highlighter",
+    "depth": "top-down",
+    "motion": "page flip",
+    "mood": "personal"
+   }
+  },
+  {
+   "id": "SKC-SCN-06",
+   "name": "Cue cards in hand",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "verse"
+   ],
+   "signalsText": "addressed lyrics, confessions",
+   "signals": [
+    "addressed",
+    "confessions"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SKC-CMP-C2"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-OBJ-HND"
+   ],
+   "optional": [
+    "SKC-OBJ-DOD",
+    "SKC-PRC-ART"
+   ],
+   "attributes": {
+    "ground": "street blur",
+    "card": "large card",
+    "process": "marker",
+    "depth": "card near",
+    "motion": "hand swap",
+    "mood": "direct"
+   }
+  },
+  {
+   "id": "SKC-SCN-07",
+   "name": "Corkboard",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "plans, lists, memories",
+   "signals": [
+    "plans",
+    "lists",
+    "memories"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SKC-CMP-C4"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD"
+   ],
+   "optional": [
+    "SKC-OBJ-EVD",
+    "SKC-OBJ-DOD"
+   ],
+   "attributes": {
+    "ground": "cork",
+    "card": "mixed",
+    "process": "mixed",
+    "depth": "flat",
+    "motion": "pin",
+    "mood": "busy"
+   }
+  },
+  {
+   "id": "SKC-SCN-08",
+   "name": "Sticky note wall",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "high"
+   ],
+   "signalsText": "rap, dense lyrics, word-synced",
+   "signals": [
+    "rap",
+    "dense",
+    "word-synced"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SKC-CMP-C6"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD"
+   ],
+   "optional": [
+    "SKC-OBJ-DOD"
+   ],
+   "attributes": {
+    "ground": "wall",
+    "card": "sticky notes",
+    "process": "marker",
+    "depth": "flat",
+    "motion": "slap",
+    "mood": "urgent"
+   }
+  },
+  {
+   "id": "SKC-SCN-09",
+   "name": "Riso studio",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "bridge"
+   ],
+   "signalsText": "indie, art pop",
+   "signals": [
+    "indie",
+    "art",
+    "pop"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SKC-CMP-C5",
+    "SKC-CMP-C1"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-PRC-PRT",
+    "SKC-SRF-GRD"
+   ],
+   "optional": [
+    "SKC-PRC-ART"
+   ],
+   "attributes": {
+    "ground": "drying line",
+    "card": "riso print",
+    "process": "riso two-colour",
+    "depth": "hanging",
+    "motion": "clip on line",
+    "mood": "crafty"
+   }
+  },
+  {
+   "id": "SKC-SCN-10",
+   "name": "Creature break",
+   "status": "approved",
+   "roles": [
+    "break",
+    "intro"
+   ],
+   "signalsText": "instrumental breaks",
+   "signals": [
+    "instrumental",
+    "breaks"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SKC-CMP-C1"
+   ],
+   "required": [
+    "SKC-MOT-CRE",
+    "SKC-SRF-GRD"
+   ],
+   "optional": [
+    "SKC-PRC-ART",
+    "SKC-OBJ-DOD"
+   ],
+   "attributes": {
+    "ground": "desk",
+    "card": "none",
+    "process": "marker",
+    "depth": "top-down",
+    "motion": "dance",
+    "mood": "playful"
+   }
+  },
+  {
+   "id": "SKC-SCN-11",
+   "name": "Floor scatter",
+   "status": "approved",
+   "roles": [
+    "outro",
+    "bridge"
+   ],
+   "signalsText": "outros; endings of breakup songs",
+   "signals": [
+    "outros",
+    "endings",
+    "breakup"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SKC-CMP-C3",
+    "SKC-CMP-C1"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD"
+   ],
+   "optional": [
+    "SKC-OBJ-DRK"
+   ],
+   "attributes": {
+    "ground": "floor",
+    "card": "scattered cards",
+    "process": "mixed",
+    "depth": "top-down wide",
+    "motion": "fall",
+    "mood": "aftermath"
+   }
+  },
+  {
+   "id": "SKC-SCN-12",
+   "name": "Dark sketchbook",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "grief, anger, emo, dark identity",
+   "signals": [
+    "grief",
+    "anger",
+    "emo",
+    "dark"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "SKC-CMP-C1",
+    "SKC-CMP-C5",
+    "SKC-CMP-C3"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-OBJ-DRK"
+   ],
+   "optional": [
+    "SKC-PRC-PRT"
+   ],
+   "attributes": {
+    "ground": "black paper",
+    "card": "torn page",
+    "process": "charcoal and white pen",
+    "depth": "top-down",
+    "motion": "tear",
+    "mood": "dark"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "SKC-CMP-C1",
+   "name": "Card on a surface",
+   "status": "approved",
+   "layers": [
+    "ground",
+    "pile",
+    "top card",
+    "tape",
+    "tools"
+   ],
+   "safe": "Card text inside central 84%.",
+   "responsive": {
+    "landscape": "Card 70% height",
+    "portrait": "Vertical card 80% height",
+    "square": "Card 75%",
+    "small": "Card fills width"
+   }
+  },
+  {
+   "id": "SKC-CMP-C2",
+   "name": "Held cue card",
+   "status": "approved",
+   "layers": [
+    "background plate",
+    "hand",
+    "card"
+   ],
+   "safe": "Card text central 80%.",
+   "responsive": {
+    "landscape": "Card 65% height",
+    "portrait": "Card 75% height",
+    "square": "70%",
+    "small": "Card fills width"
+   }
+  },
+  {
+   "id": "SKC-CMP-C3",
+   "name": "The pile",
+   "status": "approved",
+   "layers": [
+    "ground",
+    "pile (baked)",
+    "top card"
+   ],
+   "safe": "Top card inside central 84%.",
+   "responsive": {
+    "landscape": "Pile spreads right",
+    "portrait": "Pile spreads down",
+    "square": "Diagonal",
+    "small": "Top card only visible fully"
+   }
+  },
+  {
+   "id": "SKC-CMP-C4",
+   "name": "Pinned wall",
+   "status": "approved",
+   "layers": [
+    "wall",
+    "cards",
+    "pins"
+   ],
+   "safe": "Newest card text central 80% after framing.",
+   "responsive": {
+    "landscape": "Grid 4x3",
+    "portrait": "Grid 2x5",
+    "square": "3x3",
+    "small": "Close framing"
+   }
+  },
+  {
+   "id": "SKC-CMP-C5",
+   "name": "Full-bleed poster",
+   "status": "approved",
+   "layers": [
+    "poster"
+   ],
+   "safe": "Central 90%.",
+   "responsive": {
+    "landscape": "4:3 poster with ground slivers",
+    "portrait": "Vertical poster",
+    "square": "Square poster",
+    "small": "Vertical"
+   }
+  },
+  {
+   "id": "SKC-CMP-C6",
+   "name": "Sticky notes cluster",
+   "status": "approved",
+   "layers": [
+    "surface",
+    "notes"
+   ],
+   "safe": "Notes central 84%.",
+   "responsive": {
+    "landscape": "Cluster spreads",
+    "portrait": "Column",
+    "square": "Cluster",
+    "small": "Column"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "SKC-TRN-SWEEP",
+   "name": "Sweep the pile",
+   "status": "approved",
+   "durationMs": 600,
+   "use": "Section change on the same ground.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "SKC-TRN-FLIP",
+   "name": "Card flip",
+   "status": "approved",
+   "durationMs": 400,
+   "use": "Hook returns: the card flips to show its worn back.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "SKC-TRN-GROUND-CUT",
+   "name": "New ground",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Bridge.",
+   "reducedMotion": "Same."
+  },
+  {
+   "id": "SKC-TRN-PULL-BACK",
+   "name": "Pull back to the pile",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Outro and section ends.",
+   "reducedMotion": "Cut to the wide."
+  },
+  {
+   "id": "SKC-TRN-HAND-SWAP",
+   "name": "Hand swap",
+   "status": "approved",
+   "durationMs": 350,
+   "use": "Cue-card scenes: the hand drops the card and lifts the next.",
+   "reducedMotion": "Cut."
+  }
+ ],
+ "families": [
+  {
+   "id": "SKC-FRM-CRD",
+   "name": "Card types",
+   "kind": "source",
+   "members": [
+    "SKC-FRM-CRD-001",
+    "SKC-FRM-CRD-002",
+    "SKC-FRM-CRD-003",
+    "SKC-FRM-CRD-004",
+    "SKC-FRM-CRD-005",
+    "SKC-FRM-CRD-006",
+    "SKC-FRM-CRD-007",
+    "SKC-FRM-CRD-008",
+    "SKC-FRM-CRD-009",
+    "SKC-FRM-CRD-010",
+    "SKC-FRM-CRD-011",
+    "SKC-FRM-CRD-012",
+    "SKC-FRM-CRD-013",
+    "SKC-FRM-CRD-014"
+   ],
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-02",
+    "SKC-SCN-03",
+    "SKC-SCN-04",
+    "SKC-SCN-05",
+    "SKC-SCN-06",
+    "SKC-SCN-07",
+    "SKC-SCN-08",
+    "SKC-SCN-09",
+    "SKC-SCN-11",
+    "SKC-SCN-12"
+   ]
+  },
+  {
+   "id": "SKC-SRF-GRD",
+   "name": "Grounds",
+   "kind": "source",
+   "members": [
+    "SKC-SRF-GRD-001",
+    "SKC-SRF-GRD-002",
+    "SKC-SRF-GRD-003",
+    "SKC-SRF-GRD-004",
+    "SKC-SRF-GRD-005",
+    "SKC-SRF-GRD-006",
+    "SKC-SRF-GRD-007",
+    "SKC-SRF-GRD-008",
+    "SKC-SRF-GRD-009",
+    "SKC-SRF-GRD-010",
+    "SKC-SRF-GRD-011"
+   ],
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-02",
+    "SKC-SCN-03",
+    "SKC-SCN-04",
+    "SKC-SCN-05",
+    "SKC-SCN-07",
+    "SKC-SCN-08",
+    "SKC-SCN-09",
+    "SKC-SCN-10",
+    "SKC-SCN-11",
+    "SKC-SCN-12"
+   ]
+  },
+  {
+   "id": "SKC-OBJ-DOD",
+   "name": "Sketch doodles (existing)",
+   "kind": "source",
+   "members": [
+    "SKC-OBJ-DOD-001",
+    "SKC-OBJ-DOD-002",
+    "SKC-OBJ-DOD-003",
+    "SKC-OBJ-DOD-004",
+    "SKC-OBJ-DOD-005",
+    "SKC-OBJ-DOD-006",
+    "SKC-OBJ-DOD-007",
+    "SKC-OBJ-DOD-008",
+    "SKC-OBJ-DOD-009",
+    "SKC-OBJ-DOD-010",
+    "SKC-OBJ-DOD-011",
+    "SKC-OBJ-DOD-012",
+    "SKC-OBJ-DOD-013",
+    "SKC-OBJ-DOD-014",
+    "SKC-OBJ-DOD-015",
+    "SKC-OBJ-DOD-016",
+    "SKC-OBJ-DOD-017",
+    "SKC-OBJ-DOD-018",
+    "SKC-OBJ-DOD-019",
+    "SKC-OBJ-DOD-020",
+    "SKC-OBJ-DOD-021",
+    "SKC-OBJ-DOD-022",
+    "SKC-OBJ-DOD-023",
+    "SKC-OBJ-DOD-024"
+   ],
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-02",
+    "SKC-SCN-03",
+    "SKC-SCN-05",
+    "SKC-SCN-06",
+    "SKC-SCN-07",
+    "SKC-SCN-08",
+    "SKC-SCN-10"
+   ]
+  },
+  {
+   "id": "SKC-PRC-ART",
+   "name": "Art library generators (existing)",
+   "kind": "generator",
+   "members": [
+    "SKC-PRC-ART-001",
+    "SKC-PRC-ART-002",
+    "SKC-PRC-ART-003",
+    "SKC-PRC-ART-004",
+    "SKC-PRC-ART-005",
+    "SKC-PRC-ART-006",
+    "SKC-PRC-ART-007",
+    "SKC-PRC-ART-008",
+    "SKC-PRC-ART-009",
+    "SKC-PRC-ART-010",
+    "SKC-PRC-ART-011",
+    "SKC-PRC-ART-012",
+    "SKC-PRC-ART-013",
+    "SKC-PRC-ART-014"
+   ],
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-02",
+    "SKC-SCN-03",
+    "SKC-SCN-04",
+    "SKC-SCN-05",
+    "SKC-SCN-06",
+    "SKC-SCN-09",
+    "SKC-SCN-10"
+   ]
+  },
+  {
+   "id": "SKC-OBJ-DRK",
+   "name": "Dark register drawings",
+   "kind": "source",
+   "members": [
+    "SKC-OBJ-DRK-001",
+    "SKC-OBJ-DRK-002",
+    "SKC-OBJ-DRK-003",
+    "SKC-OBJ-DRK-004",
+    "SKC-OBJ-DRK-005",
+    "SKC-OBJ-DRK-006",
+    "SKC-OBJ-DRK-007",
+    "SKC-OBJ-DRK-008",
+    "SKC-OBJ-DRK-009",
+    "SKC-OBJ-DRK-010",
+    "SKC-OBJ-DRK-011",
+    "SKC-OBJ-DRK-012",
+    "SKC-OBJ-DRK-013",
+    "SKC-OBJ-DRK-014",
+    "SKC-OBJ-DRK-015",
+    "SKC-OBJ-DRK-016",
+    "SKC-OBJ-DRK-017",
+    "SKC-OBJ-DRK-018",
+    "SKC-OBJ-DRK-019",
+    "SKC-OBJ-DRK-020",
+    "SKC-OBJ-DRK-021",
+    "SKC-OBJ-DRK-022",
+    "SKC-OBJ-DRK-023",
+    "SKC-OBJ-DRK-024",
+    "SKC-OBJ-DRK-025",
+    "SKC-OBJ-DRK-026",
+    "SKC-OBJ-DRK-027",
+    "SKC-OBJ-DRK-028",
+    "SKC-OBJ-DRK-029",
+    "SKC-OBJ-DRK-030",
+    "SKC-OBJ-DRK-031",
+    "SKC-OBJ-DRK-032",
+    "SKC-OBJ-DRK-033",
+    "SKC-OBJ-DRK-034",
+    "SKC-OBJ-DRK-035",
+    "SKC-OBJ-DRK-036",
+    "SKC-OBJ-DRK-037",
+    "SKC-OBJ-DRK-038",
+    "SKC-OBJ-DRK-039",
+    "SKC-OBJ-DRK-040"
+   ],
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-04",
+    "SKC-SCN-11",
+    "SKC-SCN-12"
+   ]
+  },
+  {
+   "id": "SKC-OBJ-EVD",
+   "name": "Everyday object drawings",
+   "kind": "source",
+   "members": [
+    "SKC-OBJ-EVD-001",
+    "SKC-OBJ-EVD-002",
+    "SKC-OBJ-EVD-003",
+    "SKC-OBJ-EVD-004",
+    "SKC-OBJ-EVD-005",
+    "SKC-OBJ-EVD-006",
+    "SKC-OBJ-EVD-007",
+    "SKC-OBJ-EVD-008",
+    "SKC-OBJ-EVD-009",
+    "SKC-OBJ-EVD-010",
+    "SKC-OBJ-EVD-011",
+    "SKC-OBJ-EVD-012",
+    "SKC-OBJ-EVD-013",
+    "SKC-OBJ-EVD-014",
+    "SKC-OBJ-EVD-015",
+    "SKC-OBJ-EVD-016",
+    "SKC-OBJ-EVD-017",
+    "SKC-OBJ-EVD-018",
+    "SKC-OBJ-EVD-019",
+    "SKC-OBJ-EVD-020",
+    "SKC-OBJ-EVD-021",
+    "SKC-OBJ-EVD-022",
+    "SKC-OBJ-EVD-023",
+    "SKC-OBJ-EVD-024",
+    "SKC-OBJ-EVD-025",
+    "SKC-OBJ-EVD-026",
+    "SKC-OBJ-EVD-027",
+    "SKC-OBJ-EVD-028",
+    "SKC-OBJ-EVD-029",
+    "SKC-OBJ-EVD-030",
+    "SKC-OBJ-EVD-031",
+    "SKC-OBJ-EVD-032",
+    "SKC-OBJ-EVD-033",
+    "SKC-OBJ-EVD-034",
+    "SKC-OBJ-EVD-035",
+    "SKC-OBJ-EVD-036",
+    "SKC-OBJ-EVD-037",
+    "SKC-OBJ-EVD-038",
+    "SKC-OBJ-EVD-039",
+    "SKC-OBJ-EVD-040"
+   ],
+   "scenes": [
+    "SKC-SCN-02",
+    "SKC-SCN-07"
+   ]
+  },
+  {
+   "id": "SKC-MOT-CRE",
+   "name": "Creature choreographies (from Acid)",
+   "kind": "configuration",
+   "members": [
+    "SKC-MOT-CRE-001",
+    "SKC-MOT-CRE-002",
+    "SKC-MOT-CRE-003",
+    "SKC-MOT-CRE-004",
+    "SKC-MOT-CRE-005",
+    "SKC-MOT-CRE-006",
+    "SKC-MOT-CRE-007",
+    "SKC-MOT-CRE-008",
+    "SKC-MOT-CRE-009",
+    "SKC-MOT-CRE-010"
+   ],
+   "scenes": [
+    "SKC-SCN-10"
+   ]
+  },
+  {
+   "id": "SKC-OBJ-HND",
+   "name": "Hands",
+   "kind": "source",
+   "members": [
+    "SKC-OBJ-HND-001",
+    "SKC-OBJ-HND-002",
+    "SKC-OBJ-HND-003",
+    "SKC-OBJ-HND-004",
+    "SKC-OBJ-HND-005"
+   ],
+   "scenes": [
+    "SKC-SCN-06"
+   ]
+  },
+  {
+   "id": "SKC-PRC-PRT",
+   "name": "Print processes",
+   "kind": "configuration",
+   "members": [
+    "SKC-PRC-PRT-001",
+    "SKC-PRC-PRT-002",
+    "SKC-PRC-PRT-003",
+    "SKC-PRC-PRT-004",
+    "SKC-PRC-PRT-005",
+    "SKC-PRC-PRT-006",
+    "SKC-PRC-PRT-007"
+   ],
+   "scenes": [
+    "SKC-SCN-03",
+    "SKC-SCN-04",
+    "SKC-SCN-09",
+    "SKC-SCN-12"
+   ]
+  },
+  {
+   "id": "SKC-TYP-FNT",
+   "name": "Font sets (existing)",
+   "kind": "configuration",
+   "members": [
+    "SKC-TYP-FNT-001",
+    "SKC-TYP-FNT-002",
+    "SKC-TYP-FNT-003",
+    "SKC-TYP-FNT-004",
+    "SKC-TYP-FNT-005",
+    "SKC-TYP-FNT-006",
+    "SKC-TYP-FNT-007",
+    "SKC-TYP-FNT-008",
+    "SKC-TYP-FNT-009",
+    "SKC-TYP-FNT-010",
+    "SKC-TYP-FNT-011",
+    "SKC-TYP-FNT-012"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "SKC-TYP-PIL",
+   "name": "Pill kinds (existing)",
+   "kind": "component",
+   "members": [
+    "SKC-TYP-PIL-001",
+    "SKC-TYP-PIL-002",
+    "SKC-TYP-PIL-003",
+    "SKC-TYP-PIL-004",
+    "SKC-TYP-PIL-005"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "SKC-TYP-BIG",
+   "name": "Big word treatments (existing)",
+   "kind": "component",
+   "members": [
+    "SKC-TYP-BIG-001",
+    "SKC-TYP-BIG-002",
+    "SKC-TYP-BIG-003",
+    "SKC-TYP-BIG-004",
+    "SKC-TYP-BIG-005"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "SKC-PRP-COL",
+   "name": "Borders (existing)",
+   "kind": "component",
+   "members": [
+    "SKC-PRP-COL-001",
+    "SKC-PRP-COL-002",
+    "SKC-PRP-COL-003",
+    "SKC-PRP-COL-004",
+    "SKC-PRP-COL-005",
+    "SKC-PRP-COL-006",
+    "SKC-PRP-COL-007",
+    "SKC-PRP-COL-008",
+    "SKC-PRP-COL-009",
+    "SKC-PRP-COL-010",
+    "SKC-PRP-COL-011",
+    "SKC-PRP-COL-012"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "SKC-PRP-TOL",
+   "name": "Desk tools",
+   "kind": "source",
+   "members": [
+    "SKC-PRP-TOL-001",
+    "SKC-PRP-TOL-002",
+    "SKC-PRP-TOL-003",
+    "SKC-PRP-TOL-004",
+    "SKC-PRP-TOL-005",
+    "SKC-PRP-TOL-006"
+   ],
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-02"
+   ]
+  }
+ ]
+}

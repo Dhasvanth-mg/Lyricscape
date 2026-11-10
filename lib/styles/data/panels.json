@@ -1,0 +1,1161 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Panels",
+ "slug": "panels",
+ "code": "PAN",
+ "layerOrder": [
+  "paper",
+  "page layout",
+  "panel art (line, fill, shadow)",
+  "register treatment (tone, dots)",
+  "panel borders",
+  "speed lines",
+  "SFX lettering",
+  "balloons and captions",
+  "active-panel highlight",
+  "post: paper grain"
+ ],
+ "limits": {
+  "scale": "Active panel at least 35% of frame after camera framing.",
+  "safe": "Active balloon central 84%.",
+  "complexity": "Max 6 panels; one active.",
+  "colour": "One register per page.",
+  "motion": "Camera moves between panels only.",
+  "material": "Dots fixed to page."
+ },
+ "invalid": [
+  {
+   "this": "SFX distortion",
+   "never_with": "complex scripts",
+   "because": "Shaping."
+  },
+  {
+   "this": "Speed lines",
+   "never_with": "quiet identity",
+   "because": "Tone."
+  },
+  {
+   "this": "Faces",
+   "never_with": "any",
+   "because": "No characters (likeness)."
+  },
+  {
+   "this": "Halftone pop",
+   "never_with": "grief identity",
+   "because": "Tone: use ink noir or screentone."
+  },
+  {
+   "this": "Shakes",
+   "never_with": "reduced motion",
+   "because": "Motion rule."
+  },
+  {
+   "this": "Two active panels",
+   "never_with": "any",
+   "because": "Hierarchy."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "PAN-SCN-01",
+   "name": "City night noir",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "dark, crime-tinged, rain, regret",
+   "signals": [
+    "dark",
+    "crime-tinged",
+    "rain",
+    "regret"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C5"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-OBJ-CLU",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-ATM-WTH"
+   ],
+   "attributes": {
+    "register": "ink noir",
+    "subject": "city",
+    "layout": "grid",
+    "balloons": "captions",
+    "pace": "slow",
+    "mood": "noir"
+   }
+  },
+  {
+   "id": "PAN-SCN-02",
+   "name": "Bright pop page",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "verse"
+   ],
+   "signalsText": "pop, love, fun",
+   "signals": [
+    "pop",
+    "love",
+    "fun"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C2"
+   ],
+   "required": [
+    "PAN-PRP-OBJ",
+    "PAN-OBJ-CLU",
+    "PAN-TYP-BAL",
+    "PAN-TYP-SFX"
+   ],
+   "optional": [
+    "PAN-PRC-SPD"
+   ],
+   "attributes": {
+    "register": "halftone pop",
+    "subject": "objects",
+    "layout": "grid",
+    "balloons": "speech",
+    "pace": "normal",
+    "mood": "bright"
+   }
+  },
+  {
+   "id": "PAN-SCN-03",
+   "name": "Screentone evening",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "anime-adjacent, longing, school, summer",
+   "signals": [
+    "anime-adjacent",
+    "longing",
+    "school",
+    "summer"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C3"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-ENV-NAT",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-ATM-WTH"
+   ],
+   "attributes": {
+    "register": "screentone",
+    "subject": "seasons",
+    "layout": "tall panels",
+    "balloons": "thought",
+    "pace": "slow",
+    "mood": "wistful"
+   }
+  },
+  {
+   "id": "PAN-SCN-04",
+   "name": "Action splash",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "energetic hooks, rock, rap",
+   "signals": [
+    "energetic",
+    "hooks",
+    "rock",
+    "rap"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C2"
+   ],
+   "required": [
+    "PAN-TYP-SFX",
+    "PAN-PRC-SPD",
+    "PAN-OBJ-VEH"
+   ],
+   "optional": [
+    "PAN-PRP-OBJ"
+   ],
+   "attributes": {
+    "register": "halftone pop",
+    "subject": "impact",
+    "layout": "splash",
+    "balloons": "shout",
+    "pace": "fast",
+    "mood": "explosive"
+   }
+  },
+  {
+   "id": "PAN-SCN-05",
+   "name": "Road trip",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "travel, freedom, cars",
+   "signals": [
+    "travel",
+    "freedom",
+    "cars"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C4"
+   ],
+   "required": [
+    "PAN-OBJ-VEH",
+    "PAN-ENV-PLC",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-ENV-NAT"
+   ],
+   "attributes": {
+    "register": "flat colour",
+    "subject": "road",
+    "layout": "wide tiers",
+    "balloons": "speech",
+    "pace": "normal",
+    "mood": "free"
+   }
+  },
+  {
+   "id": "PAN-SCN-06",
+   "name": "Rooms",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "home, love, breakup, inward",
+   "signals": [
+    "home",
+    "love",
+    "breakup",
+    "inward"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C3",
+    "PAN-CMP-C5"
+   ],
+   "required": [
+    "PAN-ENV-INT",
+    "PAN-OBJ-CLU",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-PRP-OBJ"
+   ],
+   "attributes": {
+    "register": "flat colour",
+    "subject": "interiors",
+    "layout": "strip",
+    "balloons": "thought",
+    "pace": "slow",
+    "mood": "intimate"
+   }
+  },
+  {
+   "id": "PAN-SCN-07",
+   "name": "Crowd and stage",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "anthems, concerts, celebration",
+   "signals": [
+    "anthems",
+    "concerts",
+    "celebration"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C2",
+    "PAN-CMP-C1"
+   ],
+   "required": [
+    "PAN-SIL-CRW",
+    "PAN-TYP-SFX"
+   ],
+   "optional": [
+    "PAN-PRC-SPD"
+   ],
+   "attributes": {
+    "register": "flat colour",
+    "subject": "crowd",
+    "layout": "inset over splash",
+    "balloons": "song",
+    "pace": "fast",
+    "mood": "euphoric"
+   }
+  },
+  {
+   "id": "PAN-SCN-08",
+   "name": "Storm",
+   "status": "approved",
+   "roles": [
+    "bridge",
+    "high"
+   ],
+   "signalsText": "conflict, drama",
+   "signals": [
+    "conflict",
+    "drama"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C2",
+    "PAN-CMP-C1"
+   ],
+   "required": [
+    "PAN-ATM-WTH",
+    "PAN-ENV-PLC"
+   ],
+   "optional": [
+    "PAN-PRC-SPD",
+    "PAN-TYP-SFX"
+   ],
+   "attributes": {
+    "register": "ink noir",
+    "subject": "weather",
+    "layout": "diagonal",
+    "balloons": "caption",
+    "pace": "fast",
+    "mood": "dramatic"
+   }
+  },
+  {
+   "id": "PAN-SCN-09",
+   "name": "Newsprint memory",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "nostalgia, old songs, memory",
+   "signals": [
+    "nostalgia",
+    "old",
+    "memory"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C5",
+    "PAN-CMP-C1"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-PRP-OBJ",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-ENV-INT"
+   ],
+   "attributes": {
+    "register": "newsprint",
+    "subject": "memory",
+    "layout": "grid",
+    "balloons": "captions",
+    "pace": "slow",
+    "mood": "nostalgic"
+   }
+  },
+  {
+   "id": "PAN-SCN-10",
+   "name": "Wordless break",
+   "status": "approved",
+   "roles": [
+    "break",
+    "intro"
+   ],
+   "signalsText": "instrumental breaks",
+   "signals": [
+    "instrumental",
+    "breaks"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C4",
+    "PAN-CMP-C6"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-ENV-NAT"
+   ],
+   "optional": [
+    "PAN-ATM-WTH"
+   ],
+   "attributes": {
+    "register": "as section",
+    "subject": "establishing",
+    "layout": "wide",
+    "balloons": "none",
+    "pace": "slow",
+    "mood": "open"
+   }
+  },
+  {
+   "id": "PAN-SCN-11",
+   "name": "Bazaar and monsoon",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "Hindi and Tamil songs, city India, rain",
+   "signals": [
+    "hindi",
+    "tamil",
+    "city",
+    "india",
+    "rain"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C2"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-OBJ-VEH",
+    "PAN-ATM-WTH",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-SIL-CRW"
+   ],
+   "attributes": {
+    "register": "flat colour",
+    "subject": "monsoon city",
+    "layout": "grid",
+    "balloons": "speech",
+    "pace": "normal",
+    "mood": "lively"
+   }
+  },
+  {
+   "id": "PAN-SCN-12",
+   "name": "Last page",
+   "status": "approved",
+   "roles": [
+    "outro"
+   ],
+   "signalsText": "endings",
+   "signals": [
+    "endings"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "PAN-CMP-C1",
+    "PAN-CMP-C5"
+   ],
+   "required": [
+    "PAN-ENV-PLC",
+    "PAN-TYP-BAL"
+   ],
+   "optional": [
+    "PAN-ENV-NAT"
+   ],
+   "attributes": {
+    "register": "as section",
+    "subject": "closing",
+    "layout": "last panel",
+    "balloons": "caption",
+    "pace": "slow",
+    "mood": "ending"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "PAN-CMP-C1",
+   "name": "Grid page",
+   "status": "approved",
+   "layers": [
+    "paper",
+    "panels (art",
+    "tone)",
+    "borders",
+    "balloons",
+    "SFX"
+   ],
+   "safe": "Active balloon inside central 84% after the camera frames it.",
+   "responsive": {
+    "landscape": "Two-page spread, active page centred",
+    "portrait": "Vertical strip, one panel per screen",
+    "square": "Single page",
+    "small": "Camera frames the active panel full"
+   }
+  },
+  {
+   "id": "PAN-CMP-C2",
+   "name": "Splash page",
+   "status": "approved",
+   "layers": [
+    "art",
+    "tone",
+    "SFX",
+    "balloon"
+   ],
+   "safe": "SFX and balloon central 88%.",
+   "responsive": {
+    "landscape": "Wide splash",
+    "portrait": "Tall splash",
+    "square": "Square splash",
+    "small": "Splash fills"
+   }
+  },
+  {
+   "id": "PAN-CMP-C3",
+   "name": "Close-up strip",
+   "status": "approved",
+   "layers": [
+    "panels",
+    "captions"
+   ],
+   "safe": "Captions central.",
+   "responsive": {
+    "landscape": "Row of 3-4",
+    "portrait": "Column of 3",
+    "square": "Row of 3",
+    "small": "One at a time"
+   }
+  },
+  {
+   "id": "PAN-CMP-C4",
+   "name": "Wordless establishing",
+   "status": "approved",
+   "layers": [
+    "art",
+    "tone"
+   ],
+   "safe": "Caption central.",
+   "responsive": {
+    "landscape": "Wide",
+    "portrait": "Tall crop",
+    "square": "Crop",
+    "small": "Crop"
+   }
+  },
+  {
+   "id": "PAN-CMP-C5",
+   "name": "Caption narrative",
+   "status": "approved",
+   "layers": [
+    "art",
+    "captions"
+   ],
+   "safe": "Captions central 84%.",
+   "responsive": {
+    "landscape": "Captions left column",
+    "portrait": "Captions stepped down",
+    "square": "Stepped",
+    "small": "Larger captions"
+   }
+  },
+  {
+   "id": "PAN-CMP-C6",
+   "name": "Cover page",
+   "status": "approved",
+   "layers": [
+    "art",
+    "title",
+    "cover furniture"
+   ],
+   "safe": "Title central 88%.",
+   "responsive": {
+    "landscape": "Cover with paper margins",
+    "portrait": "Full cover",
+    "square": "Cover crop",
+    "small": "Cover crop"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "PAN-TRN-PGT-001",
+   "name": "Page turn",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Sections.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PAN-TRN-PGT-002",
+   "name": "Splash reveal",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Sections.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PAN-TRN-PGT-003",
+   "name": "Gutter wipe",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Sections.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PAN-TRN-PGT-004",
+   "name": "Zoom into a panel",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Sections.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PAN-TRN-PGT-005",
+   "name": "Last panel",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Sections.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PAN-TRN-PAGE-TURN",
+   "name": "Page turn",
+   "status": "approved",
+   "durationMs": 700,
+   "use": "Section change.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PAN-TRN-SPLASH",
+   "name": "Splash reveal",
+   "status": "approved",
+   "durationMs": 600,
+   "use": "Chorus entry.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PAN-TRN-GUTTER-WIPE",
+   "name": "Gutter wipe",
+   "status": "approved",
+   "durationMs": 800,
+   "use": "Register change at the bridge.",
+   "reducedMotion": "Cross-fade."
+  },
+  {
+   "id": "PAN-TRN-ZOOM-INTO-PANEL",
+   "name": "Zoom into a panel",
+   "status": "approved",
+   "durationMs": 900,
+   "use": "Quiet focus.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "PAN-TRN-LAST-PANEL",
+   "name": "Last panel",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Outro.",
+   "reducedMotion": "Same (cuts)."
+  }
+ ],
+ "families": [
+  {
+   "id": "PAN-ENV-PLC",
+   "name": "Place panels",
+   "kind": "source",
+   "members": [
+    "PAN-ENV-PLC-001",
+    "PAN-ENV-PLC-002",
+    "PAN-ENV-PLC-003",
+    "PAN-ENV-PLC-004",
+    "PAN-ENV-PLC-005",
+    "PAN-ENV-PLC-006",
+    "PAN-ENV-PLC-007",
+    "PAN-ENV-PLC-008",
+    "PAN-ENV-PLC-009",
+    "PAN-ENV-PLC-010",
+    "PAN-ENV-PLC-011",
+    "PAN-ENV-PLC-012",
+    "PAN-ENV-PLC-013",
+    "PAN-ENV-PLC-014",
+    "PAN-ENV-PLC-015",
+    "PAN-ENV-PLC-016",
+    "PAN-ENV-PLC-017",
+    "PAN-ENV-PLC-018",
+    "PAN-ENV-PLC-019",
+    "PAN-ENV-PLC-020",
+    "PAN-ENV-PLC-021",
+    "PAN-ENV-PLC-022",
+    "PAN-ENV-PLC-023",
+    "PAN-ENV-PLC-024",
+    "PAN-ENV-PLC-025",
+    "PAN-ENV-PLC-026",
+    "PAN-ENV-PLC-027",
+    "PAN-ENV-PLC-028",
+    "PAN-ENV-PLC-029",
+    "PAN-ENV-PLC-030"
+   ],
+   "scenes": [
+    "PAN-SCN-01",
+    "PAN-SCN-03",
+    "PAN-SCN-05",
+    "PAN-SCN-08",
+    "PAN-SCN-09",
+    "PAN-SCN-10",
+    "PAN-SCN-11",
+    "PAN-SCN-12"
+   ]
+  },
+  {
+   "id": "PAN-OBJ-CLU",
+   "name": "Close-up panels",
+   "kind": "source",
+   "members": [
+    "PAN-OBJ-CLU-001",
+    "PAN-OBJ-CLU-002",
+    "PAN-OBJ-CLU-003",
+    "PAN-OBJ-CLU-004",
+    "PAN-OBJ-CLU-005",
+    "PAN-OBJ-CLU-006",
+    "PAN-OBJ-CLU-007",
+    "PAN-OBJ-CLU-008",
+    "PAN-OBJ-CLU-009",
+    "PAN-OBJ-CLU-010",
+    "PAN-OBJ-CLU-011",
+    "PAN-OBJ-CLU-012",
+    "PAN-OBJ-CLU-013",
+    "PAN-OBJ-CLU-014",
+    "PAN-OBJ-CLU-015",
+    "PAN-OBJ-CLU-016",
+    "PAN-OBJ-CLU-017",
+    "PAN-OBJ-CLU-018",
+    "PAN-OBJ-CLU-019",
+    "PAN-OBJ-CLU-020",
+    "PAN-OBJ-CLU-021",
+    "PAN-OBJ-CLU-022",
+    "PAN-OBJ-CLU-023",
+    "PAN-OBJ-CLU-024",
+    "PAN-OBJ-CLU-025",
+    "PAN-OBJ-CLU-026",
+    "PAN-OBJ-CLU-027",
+    "PAN-OBJ-CLU-028",
+    "PAN-OBJ-CLU-029",
+    "PAN-OBJ-CLU-030",
+    "PAN-OBJ-CLU-031",
+    "PAN-OBJ-CLU-032",
+    "PAN-OBJ-CLU-033",
+    "PAN-OBJ-CLU-034",
+    "PAN-OBJ-CLU-035",
+    "PAN-OBJ-CLU-036",
+    "PAN-OBJ-CLU-037",
+    "PAN-OBJ-CLU-038",
+    "PAN-OBJ-CLU-039",
+    "PAN-OBJ-CLU-040"
+   ],
+   "scenes": [
+    "PAN-SCN-01",
+    "PAN-SCN-02",
+    "PAN-SCN-06"
+   ]
+  },
+  {
+   "id": "PAN-PRP-OBJ",
+   "name": "Object panels",
+   "kind": "source",
+   "members": [
+    "PAN-PRP-OBJ-001",
+    "PAN-PRP-OBJ-002",
+    "PAN-PRP-OBJ-003",
+    "PAN-PRP-OBJ-004",
+    "PAN-PRP-OBJ-005",
+    "PAN-PRP-OBJ-006",
+    "PAN-PRP-OBJ-007",
+    "PAN-PRP-OBJ-008",
+    "PAN-PRP-OBJ-009",
+    "PAN-PRP-OBJ-010",
+    "PAN-PRP-OBJ-011",
+    "PAN-PRP-OBJ-012",
+    "PAN-PRP-OBJ-013",
+    "PAN-PRP-OBJ-014",
+    "PAN-PRP-OBJ-015",
+    "PAN-PRP-OBJ-016",
+    "PAN-PRP-OBJ-017",
+    "PAN-PRP-OBJ-018",
+    "PAN-PRP-OBJ-019",
+    "PAN-PRP-OBJ-020",
+    "PAN-PRP-OBJ-021",
+    "PAN-PRP-OBJ-022",
+    "PAN-PRP-OBJ-023",
+    "PAN-PRP-OBJ-024",
+    "PAN-PRP-OBJ-025",
+    "PAN-PRP-OBJ-026",
+    "PAN-PRP-OBJ-027",
+    "PAN-PRP-OBJ-028",
+    "PAN-PRP-OBJ-029",
+    "PAN-PRP-OBJ-030"
+   ],
+   "scenes": [
+    "PAN-SCN-02",
+    "PAN-SCN-04",
+    "PAN-SCN-06",
+    "PAN-SCN-09"
+   ]
+  },
+  {
+   "id": "PAN-ATM-WTH",
+   "name": "Weather panels",
+   "kind": "source",
+   "members": [
+    "PAN-ATM-WTH-001",
+    "PAN-ATM-WTH-002",
+    "PAN-ATM-WTH-003",
+    "PAN-ATM-WTH-004",
+    "PAN-ATM-WTH-005",
+    "PAN-ATM-WTH-006",
+    "PAN-ATM-WTH-007",
+    "PAN-ATM-WTH-008",
+    "PAN-ATM-WTH-009",
+    "PAN-ATM-WTH-010",
+    "PAN-ATM-WTH-011",
+    "PAN-ATM-WTH-012"
+   ],
+   "scenes": [
+    "PAN-SCN-01",
+    "PAN-SCN-03",
+    "PAN-SCN-08",
+    "PAN-SCN-10",
+    "PAN-SCN-11"
+   ]
+  },
+  {
+   "id": "PAN-OBJ-VEH",
+   "name": "Vehicle panels",
+   "kind": "source",
+   "members": [
+    "PAN-OBJ-VEH-001",
+    "PAN-OBJ-VEH-002",
+    "PAN-OBJ-VEH-003",
+    "PAN-OBJ-VEH-004",
+    "PAN-OBJ-VEH-005",
+    "PAN-OBJ-VEH-006",
+    "PAN-OBJ-VEH-007",
+    "PAN-OBJ-VEH-008",
+    "PAN-OBJ-VEH-009",
+    "PAN-OBJ-VEH-010"
+   ],
+   "scenes": [
+    "PAN-SCN-04",
+    "PAN-SCN-05",
+    "PAN-SCN-11"
+   ]
+  },
+  {
+   "id": "PAN-SIL-CRW",
+   "name": "Crowd and silhouette panels",
+   "kind": "source",
+   "members": [
+    "PAN-SIL-CRW-001",
+    "PAN-SIL-CRW-002",
+    "PAN-SIL-CRW-003",
+    "PAN-SIL-CRW-004",
+    "PAN-SIL-CRW-005",
+    "PAN-SIL-CRW-006",
+    "PAN-SIL-CRW-007",
+    "PAN-SIL-CRW-008",
+    "PAN-SIL-CRW-009",
+    "PAN-SIL-CRW-010",
+    "PAN-SIL-CRW-011",
+    "PAN-SIL-CRW-012"
+   ],
+   "scenes": [
+    "PAN-SCN-07",
+    "PAN-SCN-11"
+   ]
+  },
+  {
+   "id": "PAN-ENV-NAT",
+   "name": "Nature panels",
+   "kind": "source",
+   "members": [
+    "PAN-ENV-NAT-001",
+    "PAN-ENV-NAT-002",
+    "PAN-ENV-NAT-003",
+    "PAN-ENV-NAT-004",
+    "PAN-ENV-NAT-005",
+    "PAN-ENV-NAT-006",
+    "PAN-ENV-NAT-007",
+    "PAN-ENV-NAT-008",
+    "PAN-ENV-NAT-009",
+    "PAN-ENV-NAT-010",
+    "PAN-ENV-NAT-011",
+    "PAN-ENV-NAT-012"
+   ],
+   "scenes": [
+    "PAN-SCN-03",
+    "PAN-SCN-05",
+    "PAN-SCN-10",
+    "PAN-SCN-12"
+   ]
+  },
+  {
+   "id": "PAN-ENV-INT",
+   "name": "Interior panels",
+   "kind": "source",
+   "members": [
+    "PAN-ENV-INT-001",
+    "PAN-ENV-INT-002",
+    "PAN-ENV-INT-003",
+    "PAN-ENV-INT-004",
+    "PAN-ENV-INT-005",
+    "PAN-ENV-INT-006",
+    "PAN-ENV-INT-007",
+    "PAN-ENV-INT-008",
+    "PAN-ENV-INT-009",
+    "PAN-ENV-INT-010",
+    "PAN-ENV-INT-011",
+    "PAN-ENV-INT-012",
+    "PAN-ENV-INT-013",
+    "PAN-ENV-INT-014",
+    "PAN-ENV-INT-015",
+    "PAN-ENV-INT-016"
+   ],
+   "scenes": [
+    "PAN-SCN-06",
+    "PAN-SCN-09"
+   ]
+  },
+  {
+   "id": "PAN-LAY-PGL",
+   "name": "Page layouts",
+   "kind": "configuration",
+   "members": [
+    "PAN-LAY-PGL-001",
+    "PAN-LAY-PGL-002",
+    "PAN-LAY-PGL-003",
+    "PAN-LAY-PGL-004",
+    "PAN-LAY-PGL-005",
+    "PAN-LAY-PGL-006",
+    "PAN-LAY-PGL-007",
+    "PAN-LAY-PGL-008",
+    "PAN-LAY-PGL-009",
+    "PAN-LAY-PGL-010",
+    "PAN-LAY-PGL-011",
+    "PAN-LAY-PGL-012",
+    "PAN-LAY-PGL-013",
+    "PAN-LAY-PGL-014",
+    "PAN-LAY-PGL-015",
+    "PAN-LAY-PGL-016",
+    "PAN-LAY-PGL-017",
+    "PAN-LAY-PGL-018",
+    "PAN-LAY-PGL-019",
+    "PAN-LAY-PGL-020"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PAN-TYP-BAL",
+   "name": "Balloons and captions",
+   "kind": "component",
+   "members": [
+    "PAN-TYP-BAL-001",
+    "PAN-TYP-BAL-002",
+    "PAN-TYP-BAL-003",
+    "PAN-TYP-BAL-004",
+    "PAN-TYP-BAL-005",
+    "PAN-TYP-BAL-006",
+    "PAN-TYP-BAL-007",
+    "PAN-TYP-BAL-008",
+    "PAN-TYP-BAL-009",
+    "PAN-TYP-BAL-010",
+    "PAN-TYP-BAL-011",
+    "PAN-TYP-BAL-012"
+   ],
+   "scenes": [
+    "PAN-SCN-01",
+    "PAN-SCN-02",
+    "PAN-SCN-03",
+    "PAN-SCN-05",
+    "PAN-SCN-06",
+    "PAN-SCN-09",
+    "PAN-SCN-11",
+    "PAN-SCN-12"
+   ]
+  },
+  {
+   "id": "PAN-TYP-SFX",
+   "name": "SFX lettering treatments",
+   "kind": "component",
+   "members": [
+    "PAN-TYP-SFX-001",
+    "PAN-TYP-SFX-002",
+    "PAN-TYP-SFX-003",
+    "PAN-TYP-SFX-004",
+    "PAN-TYP-SFX-005",
+    "PAN-TYP-SFX-006",
+    "PAN-TYP-SFX-007",
+    "PAN-TYP-SFX-008",
+    "PAN-TYP-SFX-009",
+    "PAN-TYP-SFX-010",
+    "PAN-TYP-SFX-011",
+    "PAN-TYP-SFX-012"
+   ],
+   "scenes": [
+    "PAN-SCN-02",
+    "PAN-SCN-04",
+    "PAN-SCN-07",
+    "PAN-SCN-08"
+   ]
+  },
+  {
+   "id": "PAN-PRC-SPD",
+   "name": "Speed lines and focus lines",
+   "kind": "generator",
+   "members": [
+    "PAN-PRC-SPD-001",
+    "PAN-PRC-SPD-002",
+    "PAN-PRC-SPD-003",
+    "PAN-PRC-SPD-004",
+    "PAN-PRC-SPD-005",
+    "PAN-PRC-SPD-006"
+   ],
+   "scenes": [
+    "PAN-SCN-02",
+    "PAN-SCN-04",
+    "PAN-SCN-07",
+    "PAN-SCN-08"
+   ]
+  },
+  {
+   "id": "PAN-PRC-REG",
+   "name": "Art registers",
+   "kind": "configuration",
+   "members": [
+    "PAN-PRC-REG-001",
+    "PAN-PRC-REG-002",
+    "PAN-PRC-REG-003",
+    "PAN-PRC-REG-004",
+    "PAN-PRC-REG-005"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PAN-TEX-TON",
+   "name": "Tone patterns",
+   "kind": "configuration",
+   "members": [
+    "PAN-TEX-TON-001",
+    "PAN-TEX-TON-002",
+    "PAN-TEX-TON-003",
+    "PAN-TEX-TON-004",
+    "PAN-TEX-TON-005",
+    "PAN-TEX-TON-006",
+    "PAN-TEX-TON-007",
+    "PAN-TEX-TON-008"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PAN-PAL-PAL",
+   "name": "Register palettes",
+   "kind": "configuration",
+   "members": [
+    "PAN-PAL-PAL-001",
+    "PAN-PAL-PAL-002",
+    "PAN-PAL-PAL-003",
+    "PAN-PAL-PAL-004",
+    "PAN-PAL-PAL-005",
+    "PAN-PAL-PAL-006",
+    "PAN-PAL-PAL-007",
+    "PAN-PAL-PAL-008"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PAN-TYP-LTR",
+   "name": "Lettering configurations",
+   "kind": "configuration",
+   "members": [
+    "PAN-TYP-LTR-001",
+    "PAN-TYP-LTR-002",
+    "PAN-TYP-LTR-003",
+    "PAN-TYP-LTR-004",
+    "PAN-TYP-LTR-005",
+    "PAN-TYP-LTR-006"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PAN-FRM-BDR",
+   "name": "Panel borders",
+   "kind": "component",
+   "members": [
+    "PAN-FRM-BDR-001",
+    "PAN-FRM-BDR-002",
+    "PAN-FRM-BDR-003",
+    "PAN-FRM-BDR-004",
+    "PAN-FRM-BDR-005",
+    "PAN-FRM-BDR-006"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PAN-LAY-CVR",
+   "name": "Cover page templates",
+   "kind": "configuration",
+   "members": [
+    "PAN-LAY-CVR-001",
+    "PAN-LAY-CVR-002",
+    "PAN-LAY-CVR-003",
+    "PAN-LAY-CVR-004",
+    "PAN-LAY-CVR-005"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PAN-MOT-ANM",
+   "name": "Limited animation loops",
+   "kind": "configuration",
+   "members": [
+    "PAN-MOT-ANM-001",
+    "PAN-MOT-ANM-002",
+    "PAN-MOT-ANM-003",
+    "PAN-MOT-ANM-004",
+    "PAN-MOT-ANM-005",
+    "PAN-MOT-ANM-006",
+    "PAN-MOT-ANM-007",
+    "PAN-MOT-ANM-008"
+   ],
+   "scenes": []
+  },
+  {
+   "id": "PAN-TRN-PGT",
+   "name": "Page transitions",
+   "kind": "configuration",
+   "members": [
+    "PAN-TRN-PGT-001",
+    "PAN-TRN-PGT-002",
+    "PAN-TRN-PGT-003",
+    "PAN-TRN-PGT-004",
+    "PAN-TRN-PGT-005"
+   ],
+   "scenes": []
+  }
+ ]
+}

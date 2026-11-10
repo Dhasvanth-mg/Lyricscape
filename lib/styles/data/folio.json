@@ -1,0 +1,827 @@
+{
+ "schema": "lyricscape.scene-data/1",
+ "style": "Folio",
+ "slug": "folio",
+ "code": "FOL",
+ "layerOrder": [
+  "desk (when pulled back)",
+  "page paper",
+  "body columns (earlier lines, dim)",
+  "plates and frames",
+  "rules and ornaments",
+  "masthead, running heads, folios",
+  "pull quote or headline (lyric)",
+  "marginalia (second line, repeat marks)",
+  "post: paper fibre, page light"
+ ],
+ "limits": {
+  "scale": "Pull quote and headline from the template's size table; body 1.4-1.8% of frame.",
+  "safe": "Lyric slot inside central 80% after framing; collision type never enters the lyric clear zone.",
+  "complexity": "Max 3 columns of body visible at once in the frame.",
+  "colour": "Ink plus one spot colour; plates full colour only in the art book.",
+  "motion": "One camera move per line at most.",
+  "material": "Halftone plates only on newsprint; coated paper only in the art book."
+ },
+ "invalid": [
+  {
+   "this": "Body text",
+   "never_with": "invented copy",
+   "because": "Secondary text must be the song itself."
+  },
+  {
+   "this": "Drop caps",
+   "never_with": "Devanagari, Tamil, Arabic",
+   "because": "Convention and shaping."
+  },
+  {
+   "this": "Italic emphasis",
+   "never_with": "scripts without italics",
+   "because": "Use ink darkening."
+  },
+  {
+   "this": "Loud collisions",
+   "never_with": "over the lyric",
+   "because": "Readability rule."
+  },
+  {
+   "this": "Real mastheads",
+   "never_with": "any",
+   "because": "Rights."
+  },
+  {
+   "this": "Plates",
+   "never_with": "altered cover art when shown as the cover",
+   "because": "Artwork policy; derived plates must not pose as the cover."
+  }
+ ],
+ "scenes": [
+  {
+   "id": "FOL-SCN-01",
+   "name": "Literary quarterly",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "signalsText": "inward, literary, folk, ballad",
+   "signals": [
+    "inward",
+    "literary",
+    "folk",
+    "ballad"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "FOL-CMP-C1",
+    "FOL-CMP-C3",
+    "FOL-CMP-C4"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRP-RUL",
+    "FOL-PRC-PLT",
+    "FOL-LAY-MARG"
+   ],
+   "attributes": {
+    "publication": "quarterly",
+    "grid": "2 columns wide margins",
+    "plate": "small",
+    "density": "medium",
+    "paper": "cream uncoated",
+    "motion": "slow"
+   }
+  },
+  {
+   "id": "FOL-SCN-02",
+   "name": "Newspaper",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus",
+    "high"
+   ],
+   "signalsText": "narrative, story rap, urgent",
+   "signals": [
+    "narrative",
+    "story",
+    "rap",
+    "urgent"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "FOL-CMP-C1",
+    "FOL-CMP-C2",
+    "FOL-CMP-C4"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR",
+    "FOL-TYP-MST"
+   ],
+   "optional": [
+    "FOL-PRC-PLT",
+    "FOL-PRP-RUL"
+   ],
+   "attributes": {
+    "publication": "newspaper",
+    "grid": "6 narrow columns",
+    "plate": "halftone",
+    "density": "high",
+    "paper": "newsprint",
+    "motion": "brisk"
+   }
+  },
+  {
+   "id": "FOL-SCN-03",
+   "name": "Theatre programme",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "theatrical, musical, dramatic",
+   "signals": [
+    "theatrical",
+    "musical",
+    "dramatic"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "FOL-CMP-C1",
+    "FOL-CMP-C6",
+    "FOL-CMP-C2"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR",
+    "FOL-TYP-MST"
+   ],
+   "optional": [
+    "FOL-PRP-RUL"
+   ],
+   "attributes": {
+    "publication": "programme",
+    "grid": "centred single column",
+    "plate": "none",
+    "density": "low",
+    "paper": "coloured card",
+    "motion": "slow"
+   }
+  },
+  {
+   "id": "FOL-SCN-04",
+   "name": "Art book",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "break",
+    "quiet"
+   ],
+   "signalsText": "art, visual, ambient, instrumental-heavy",
+   "signals": [
+    "art",
+    "visual",
+    "ambient",
+    "instrumental-heavy"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "FOL-CMP-C4",
+    "FOL-CMP-C1"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR",
+    "FOL-PRC-PLT"
+   ],
+   "optional": [
+    "FOL-FRM-FRM"
+   ],
+   "attributes": {
+    "publication": "art book",
+    "grid": "plate-led",
+    "plate": "full",
+    "density": "low",
+    "paper": "white coated",
+    "motion": "drift"
+   }
+  },
+  {
+   "id": "FOL-SCN-05",
+   "name": "Letters page",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "signalsText": "addressed perspective; you and I",
+   "signals": [
+    "addressed",
+    "perspective",
+    "you"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "FOL-CMP-C8",
+    "FOL-CMP-C1"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRP-RUL"
+   ],
+   "attributes": {
+    "publication": "letters",
+    "grid": "letter",
+    "plate": "none",
+    "density": "medium",
+    "paper": "laid",
+    "motion": "drift down"
+   }
+  },
+  {
+   "id": "FOL-SCN-06",
+   "name": "Loud issue",
+   "status": "approved",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "signalsText": "energetic, alternative, punk, experimental",
+   "signals": [
+    "energetic",
+    "alternative",
+    "punk",
+    "experimental"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "FOL-CMP-C7",
+    "FOL-CMP-C2"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRC-PLT"
+   ],
+   "attributes": {
+    "publication": "loud",
+    "grid": "broken",
+    "plate": "fragments",
+    "density": "high",
+    "paper": "duotone",
+    "motion": "snap"
+   }
+  },
+  {
+   "id": "FOL-SCN-07",
+   "name": "Poetry chapbook",
+   "status": "approved",
+   "roles": [
+    "quiet",
+    "verse",
+    "outro"
+   ],
+   "signalsText": "sparse lyrics, ballads, ambient",
+   "signals": [
+    "sparse",
+    "ballads",
+    "ambient"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "FOL-CMP-C1",
+    "FOL-CMP-C3"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRP-RUL"
+   ],
+   "attributes": {
+    "publication": "chapbook",
+    "grid": "one line per page",
+    "plate": "none",
+    "density": "very low",
+    "paper": "cream small page",
+    "motion": "page turns"
+   }
+  },
+  {
+   "id": "FOL-SCN-08",
+   "name": "Bilingual edition",
+   "status": "approved",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "signalsText": "second line enabled; Hindi, Tamil and other non-English songs",
+   "signals": [
+    "second",
+    "line",
+    "enabled",
+    "hindi",
+    "tamil",
+    "other",
+    "non-english"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "FOL-CMP-C5",
+    "FOL-CMP-C1"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRP-RUL",
+    "FOL-LAY-MARG"
+   ],
+   "attributes": {
+    "publication": "bilingual",
+    "grid": "parallel columns",
+    "plate": "none",
+    "density": "medium",
+    "paper": "cream",
+    "motion": "slow"
+   }
+  },
+  {
+   "id": "FOL-SCN-09",
+   "name": "Almanac",
+   "status": "approved",
+   "roles": [
+    "break",
+    "intro",
+    "outro"
+   ],
+   "signalsText": "breaks and structure pages",
+   "signals": [
+    "breaks",
+    "structure",
+    "pages"
+   ],
+   "isDefault": false,
+   "compositions": [
+    "FOL-CMP-C6",
+    "FOL-CMP-C4"
+   ],
+   "required": [
+    "FOL-LAY-LAY",
+    "FOL-TYP-PAIR",
+    "FOL-SRF-PAPR"
+   ],
+   "optional": [
+    "FOL-PRC-PLT",
+    "FOL-PRP-RUL"
+   ],
+   "attributes": {
+    "publication": "almanac",
+    "grid": "tables",
+    "plate": "diagram",
+    "density": "structured",
+    "paper": "cream",
+    "motion": "static"
+   }
+  }
+ ],
+ "compositions": [
+  {
+   "id": "FOL-CMP-C1",
+   "name": "Pull-quote page",
+   "status": "approved",
+   "layers": [
+    "desk",
+    "page paper",
+    "body",
+    "plates",
+    "rules",
+    "quote",
+    "marginalia"
+   ],
+   "safe": "Quote inside central 80% of the frame after framing.",
+   "responsive": {
+    "landscape": "Spread view, camera frames quote and its column",
+    "portrait": "Single page view",
+    "square": "Single page view",
+    "small": "Close framing on the quote slot"
+   }
+  },
+  {
+   "id": "FOL-CMP-C2",
+   "name": "Headline spread",
+   "status": "approved",
+   "layers": [
+    "page",
+    "plate",
+    "headline",
+    "deck",
+    "body"
+   ],
+   "safe": "Headline inside central 90%.",
+   "responsive": {
+    "landscape": "Spread",
+    "portrait": "Headline stacked on one page",
+    "square": "Page",
+    "small": "Page, headline 3 lines max"
+   }
+  },
+  {
+   "id": "FOL-CMP-C3",
+   "name": "Drop-cap opening",
+   "status": "approved",
+   "layers": [
+    "page",
+    "drop cap",
+    "paragraph"
+   ],
+   "safe": "Central 80%.",
+   "responsive": {
+    "landscape": "Spread, paragraph on the right page",
+    "portrait": "Page",
+    "square": "Page",
+    "small": "Close"
+   }
+  },
+  {
+   "id": "FOL-CMP-C4",
+   "name": "Plate and caption",
+   "status": "approved",
+   "layers": [
+    "page",
+    "plate",
+    "frame",
+    "caption"
+   ],
+   "safe": "Caption central 80%.",
+   "responsive": {
+    "landscape": "Plate left, caption right",
+    "portrait": "Plate top, caption below",
+    "square": "Plate top",
+    "small": "Plate top"
+   }
+  },
+  {
+   "id": "FOL-CMP-C5",
+   "name": "Parallel text",
+   "status": "approved",
+   "layers": [
+    "page",
+    "columns",
+    "rule",
+    "line numbers"
+   ],
+   "safe": "Both columns inside central 90%.",
+   "responsive": {
+    "landscape": "Side by side",
+    "portrait": "Stacked original then second line",
+    "square": "Side by side narrow",
+    "small": "Stacked"
+   }
+  },
+  {
+   "id": "FOL-CMP-C6",
+   "name": "Contents and index",
+   "status": "approved",
+   "layers": [
+    "page",
+    "list",
+    "rules"
+   ],
+   "safe": "Central 80%.",
+   "responsive": {
+    "landscape": "Spread with list on the right",
+    "portrait": "Page",
+    "square": "Page",
+    "small": "Page"
+   }
+  },
+  {
+   "id": "FOL-CMP-C7",
+   "name": "Loud collision",
+   "status": "approved",
+   "layers": [
+    "page",
+    "collision type layers",
+    "plate fragments",
+    "lyric"
+   ],
+   "safe": "Lyric clear zone central 70%; nothing overlaps it.",
+   "responsive": {
+    "landscape": "Collisions around",
+    "portrait": "Collisions above and below",
+    "square": "Around",
+    "small": "Reduced collisions (half)"
+   }
+  },
+  {
+   "id": "FOL-CMP-C8",
+   "name": "Letter",
+   "status": "approved",
+   "layers": [
+    "desk",
+    "envelope",
+    "letter paper",
+    "text"
+   ],
+   "safe": "Central 80%.",
+   "responsive": {
+    "landscape": "Letter centred, envelope beside",
+    "portrait": "Letter fills frame",
+    "square": "Letter",
+    "small": "Letter"
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "id": "FOL-TRN-PAGE-TURN",
+   "name": "Page turn",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Section change.",
+   "reducedMotion": "200 ms fade."
+  },
+  {
+   "id": "FOL-TRN-SPREAD-SLIDE",
+   "name": "Spread slide",
+   "status": "approved",
+   "durationMs": 700,
+   "use": "Change of publication section (newspaper sections).",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "FOL-TRN-REFLOW",
+   "name": "Column reflow",
+   "status": "approved",
+   "durationMs": 600,
+   "use": "Within-section layout change (template switch on the same paper).",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "FOL-TRN-SECTION-TAB",
+   "name": "Section tab",
+   "status": "approved",
+   "durationMs": 900,
+   "use": "Jump to letters page, index or plates.",
+   "reducedMotion": "Cut."
+  },
+  {
+   "id": "FOL-TRN-CLOSE",
+   "name": "Close the publication",
+   "status": "approved",
+   "durationMs": null,
+   "use": "Outro.",
+   "reducedMotion": "Fade."
+  }
+ ],
+ "families": [
+  {
+   "id": "FOL-LAY-LAY",
+   "name": "Page templates",
+   "kind": "component",
+   "members": [
+    "FOL-LAY-LAY-001",
+    "FOL-LAY-LAY-002",
+    "FOL-LAY-LAY-003",
+    "FOL-LAY-LAY-004",
+    "FOL-LAY-LAY-005",
+    "FOL-LAY-LAY-006",
+    "FOL-LAY-LAY-007",
+    "FOL-LAY-LAY-008",
+    "FOL-LAY-LAY-009",
+    "FOL-LAY-LAY-010",
+    "FOL-LAY-LAY-011",
+    "FOL-LAY-LAY-012",
+    "FOL-LAY-LAY-013",
+    "FOL-LAY-LAY-014",
+    "FOL-LAY-LAY-015",
+    "FOL-LAY-LAY-016",
+    "FOL-LAY-LAY-017",
+    "FOL-LAY-LAY-018",
+    "FOL-LAY-LAY-019",
+    "FOL-LAY-LAY-020",
+    "FOL-LAY-LAY-021",
+    "FOL-LAY-LAY-022",
+    "FOL-LAY-LAY-023",
+    "FOL-LAY-LAY-024",
+    "FOL-LAY-LAY-025",
+    "FOL-LAY-LAY-026",
+    "FOL-LAY-LAY-027",
+    "FOL-LAY-LAY-028",
+    "FOL-LAY-LAY-029",
+    "FOL-LAY-LAY-030",
+    "FOL-LAY-LAY-031",
+    "FOL-LAY-LAY-032",
+    "FOL-LAY-LAY-033",
+    "FOL-LAY-LAY-034",
+    "FOL-LAY-LAY-035",
+    "FOL-LAY-LAY-036"
+   ],
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-02",
+    "FOL-SCN-03",
+    "FOL-SCN-04",
+    "FOL-SCN-05",
+    "FOL-SCN-06",
+    "FOL-SCN-07",
+    "FOL-SCN-08",
+    "FOL-SCN-09"
+   ]
+  },
+  {
+   "id": "FOL-TYP-PAIR",
+   "name": "Type pairings",
+   "kind": "configuration",
+   "members": [
+    "FOL-TYP-PAIR-001",
+    "FOL-TYP-PAIR-002",
+    "FOL-TYP-PAIR-003",
+    "FOL-TYP-PAIR-004",
+    "FOL-TYP-PAIR-005",
+    "FOL-TYP-PAIR-006",
+    "FOL-TYP-PAIR-007",
+    "FOL-TYP-PAIR-008",
+    "FOL-TYP-PAIR-009",
+    "FOL-TYP-PAIR-010",
+    "FOL-TYP-PAIR-011",
+    "FOL-TYP-PAIR-012"
+   ],
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-02",
+    "FOL-SCN-03",
+    "FOL-SCN-04",
+    "FOL-SCN-05",
+    "FOL-SCN-06",
+    "FOL-SCN-07",
+    "FOL-SCN-08",
+    "FOL-SCN-09"
+   ]
+  },
+  {
+   "id": "FOL-SRF-PAPR",
+   "name": "Paper stocks",
+   "kind": "source",
+   "members": [
+    "FOL-SRF-PAPR-001",
+    "FOL-SRF-PAPR-002",
+    "FOL-SRF-PAPR-003",
+    "FOL-SRF-PAPR-004",
+    "FOL-SRF-PAPR-005",
+    "FOL-SRF-PAPR-006",
+    "FOL-SRF-PAPR-007",
+    "FOL-SRF-PAPR-008"
+   ],
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-02",
+    "FOL-SCN-03",
+    "FOL-SCN-04",
+    "FOL-SCN-05",
+    "FOL-SCN-06",
+    "FOL-SCN-07",
+    "FOL-SCN-08",
+    "FOL-SCN-09"
+   ]
+  },
+  {
+   "id": "FOL-PRP-RUL",
+   "name": "Rules and ornaments",
+   "kind": "source",
+   "members": [
+    "FOL-PRP-RUL-001",
+    "FOL-PRP-RUL-002",
+    "FOL-PRP-RUL-003",
+    "FOL-PRP-RUL-004",
+    "FOL-PRP-RUL-005",
+    "FOL-PRP-RUL-006",
+    "FOL-PRP-RUL-007",
+    "FOL-PRP-RUL-008",
+    "FOL-PRP-RUL-009",
+    "FOL-PRP-RUL-010",
+    "FOL-PRP-RUL-011",
+    "FOL-PRP-RUL-012",
+    "FOL-PRP-RUL-013",
+    "FOL-PRP-RUL-014"
+   ],
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-02",
+    "FOL-SCN-03",
+    "FOL-SCN-05",
+    "FOL-SCN-07",
+    "FOL-SCN-08",
+    "FOL-SCN-09"
+   ]
+  },
+  {
+   "id": "FOL-PRC-PLT",
+   "name": "Plate treatments",
+   "kind": "configuration",
+   "members": [
+    "FOL-PRC-PLT-001",
+    "FOL-PRC-PLT-002",
+    "FOL-PRC-PLT-003",
+    "FOL-PRC-PLT-004",
+    "FOL-PRC-PLT-005",
+    "FOL-PRC-PLT-006",
+    "FOL-PRC-PLT-007",
+    "FOL-PRC-PLT-008"
+   ],
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-02",
+    "FOL-SCN-04",
+    "FOL-SCN-06",
+    "FOL-SCN-09"
+   ]
+  },
+  {
+   "id": "FOL-TYP-MST",
+   "name": "Masthead systems",
+   "kind": "component",
+   "members": [
+    "FOL-TYP-MST-001",
+    "FOL-TYP-MST-002",
+    "FOL-TYP-MST-003",
+    "FOL-TYP-MST-004",
+    "FOL-TYP-MST-005",
+    "FOL-TYP-MST-006"
+   ],
+   "scenes": [
+    "FOL-SCN-02",
+    "FOL-SCN-03"
+   ]
+  },
+  {
+   "id": "FOL-FRM-FRM",
+   "name": "Plate frames",
+   "kind": "component",
+   "members": [
+    "FOL-FRM-FRM-001",
+    "FOL-FRM-FRM-002",
+    "FOL-FRM-FRM-003",
+    "FOL-FRM-FRM-004",
+    "FOL-FRM-FRM-005",
+    "FOL-FRM-FRM-006"
+   ],
+   "scenes": [
+    "FOL-SCN-04"
+   ]
+  },
+  {
+   "id": "FOL-LAY-MARG",
+   "name": "Marginalia",
+   "kind": "component",
+   "members": [
+    "FOL-LAY-MARG-001",
+    "FOL-LAY-MARG-002",
+    "FOL-LAY-MARG-003",
+    "FOL-LAY-MARG-004",
+    "FOL-LAY-MARG-005",
+    "FOL-LAY-MARG-006",
+    "FOL-LAY-MARG-007",
+    "FOL-LAY-MARG-008"
+   ],
+   "scenes": [
+    "FOL-SCN-01",
+    "FOL-SCN-08"
+   ]
+  },
+  {
+   "id": "FOL-MOT-MOT",
+   "name": "Editorial motions",
+   "kind": "configuration",
+   "members": [
+    "FOL-MOT-MOT-001",
+    "FOL-MOT-MOT-002",
+    "FOL-MOT-MOT-003",
+    "FOL-MOT-MOT-004",
+    "FOL-MOT-MOT-005",
+    "FOL-MOT-MOT-006",
+    "FOL-MOT-MOT-007"
+   ],
+   "scenes": []
+  }
+ ]
+}

@@ -1,6 +1,6 @@
 {
 "schema": "lyricscape.index/1.0.0",
-"total": 1168,
+"total": 1509,
 "assets": [
 {
 "id": "SHR-PRC-GEN-001",
@@ -17713,6 +17713,5121 @@
 "category": "TRN",
 "kind": "configuration",
 "family": "NOC-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-001",
+"name": "Oil: honey amber",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-002",
+"name": "Oil: magenta and clear",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-003",
+"name": "Oil: tri-colour",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-004",
+"name": "Oil: tiny cells",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-005",
+"name": "Dye: single plume",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-006",
+"name": "Dye: twin plumes",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-007",
+"name": "Dye: ink cloud colour",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-008",
+"name": "Dye: threads",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-009",
+"name": "Bubbles: champagne",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-010",
+"name": "Bubbles: large soap",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-011",
+"name": "Bubbles: foam raft",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-012",
+"name": "Bubbles: popping field",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-013",
+"name": "Bloom: rose",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-014",
+"name": "Bloom: sea glass",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-015",
+"name": "Bloom: sunset",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-016",
+"name": "Bloom: two-point",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-017",
+"name": "Drips: slow honey",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-018",
+"name": "Drips: rainbow run",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-019",
+"name": "Drips: single heavy",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-020",
+"name": "Drips: spatter",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-021",
+"name": "Meniscus: oil climbing",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-022",
+"name": "Meniscus: rim glow",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-023",
+"name": "Meniscus: edge ripples",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-024",
+"name": "Meniscus: clear centre",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-025",
+"name": "Marbling: comb",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-026",
+"name": "Marbling: stone",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-027",
+"name": "Marbling: feather",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-028",
+"name": "Marbling: spiral comb",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-029",
+"name": "Wheel: four gels",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-030",
+"name": "Wheel: six gels",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-031",
+"name": "Wheel: duotone",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-032",
+"name": "Wheel: dark gels",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-033",
+"name": "Aurora: green veils",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-034",
+"name": "Aurora: dawn veils",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-035",
+"name": "Aurora: cover veils",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-036",
+"name": "Aurora: night veils",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-037",
+"name": "Swirl: hand stir",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-038",
+"name": "Swirl: whirlpool",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-039",
+"name": "Swirl: figure eight",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-040",
+"name": "Swirl: counter swirl",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PRC-FLU-041",
+"name": "Noise gradient",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "LLS-PRC-FLU-042",
+"name": "Lava lamp",
+"style": [
+"Liquid Light Show"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "LLS-PRC-FLU Fluid presets",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "LLS-TEX-FLW-001",
+"name": "Rock left-right",
+"style": [
+"Liquid Light Show"
+],
+"category": "TEX",
+"kind": "source",
+"family": "LLS-TEX-FLW Baked flow fields",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TEX-FLW-002",
+"name": "Swirl clockwise",
+"style": [
+"Liquid Light Show"
+],
+"category": "TEX",
+"kind": "source",
+"family": "LLS-TEX-FLW Baked flow fields",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TEX-FLW-003",
+"name": "Swirl counter",
+"style": [
+"Liquid Light Show"
+],
+"category": "TEX",
+"kind": "source",
+"family": "LLS-TEX-FLW Baked flow fields",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TEX-FLW-004",
+"name": "Radial bloom",
+"style": [
+"Liquid Light Show"
+],
+"category": "TEX",
+"kind": "source",
+"family": "LLS-TEX-FLW Baked flow fields",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TEX-FLW-005",
+"name": "Pinch squeeze",
+"style": [
+"Liquid Light Show"
+],
+"category": "TEX",
+"kind": "source",
+"family": "LLS-TEX-FLW Baked flow fields",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TEX-FLW-006",
+"name": "Drip down",
+"style": [
+"Liquid Light Show"
+],
+"category": "TEX",
+"kind": "source",
+"family": "LLS-TEX-FLW Baked flow fields",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TEX-FLW-007",
+"name": "Comb drag",
+"style": [
+"Liquid Light Show"
+],
+"category": "TEX",
+"kind": "source",
+"family": "LLS-TEX-FLW Baked flow fields",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TEX-FLW-008",
+"name": "Vortex pair",
+"style": [
+"Liquid Light Show"
+],
+"category": "TEX",
+"kind": "source",
+"family": "LLS-TEX-FLW Baked flow fields",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TEX-FLW-009",
+"name": "Shear band",
+"style": [
+"Liquid Light Show"
+],
+"category": "TEX",
+"kind": "source",
+"family": "LLS-TEX-FLW Baked flow fields",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TEX-FLW-010",
+"name": "Rim climb",
+"style": [
+"Liquid Light Show"
+],
+"category": "TEX",
+"kind": "source",
+"family": "LLS-TEX-FLW Baked flow fields",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MSK-DSH-001",
+"name": "Round dish",
+"style": [
+"Liquid Light Show"
+],
+"category": "MSK",
+"kind": "source",
+"family": "LLS-MSK-DSH Dish masks",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MSK-DSH-002",
+"name": "Deep bowl with thick rim",
+"style": [
+"Liquid Light Show"
+],
+"category": "MSK",
+"kind": "source",
+"family": "LLS-MSK-DSH Dish masks",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MSK-DSH-003",
+"name": "Square tray",
+"style": [
+"Liquid Light Show"
+],
+"category": "MSK",
+"kind": "source",
+"family": "LLS-MSK-DSH Dish masks",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MSK-DSH-004",
+"name": "Oval dish",
+"style": [
+"Liquid Light Show"
+],
+"category": "MSK",
+"kind": "source",
+"family": "LLS-MSK-DSH Dish masks",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MSK-DSH-005",
+"name": "Overlapping pair",
+"style": [
+"Liquid Light Show"
+],
+"category": "MSK",
+"kind": "source",
+"family": "LLS-MSK-DSH Dish masks",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MSK-DSH-006",
+"name": "Dish with a chipped rim",
+"style": [
+"Liquid Light Show"
+],
+"category": "MSK",
+"kind": "source",
+"family": "LLS-MSK-DSH Dish masks",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TYP-SLD-001",
+"name": "Black slide clear letters",
+"style": [
+"Liquid Light Show"
+],
+"category": "TYP",
+"kind": "component",
+"family": "LLS-TYP-SLD Slide treatments",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TYP-SLD-002",
+"name": "Dark band light type",
+"style": [
+"Liquid Light Show"
+],
+"category": "TYP",
+"kind": "component",
+"family": "LLS-TYP-SLD Slide treatments",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TYP-SLD-003",
+"name": "Mounted slide with frame edge",
+"style": [
+"Liquid Light Show"
+],
+"category": "TYP",
+"kind": "component",
+"family": "LLS-TYP-SLD Slide treatments",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TYP-SLD-004",
+"name": "Round slide (text centred in a circle)",
+"style": [
+"Liquid Light Show"
+],
+"category": "TYP",
+"kind": "component",
+"family": "LLS-TYP-SLD Slide treatments",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TYP-SLD-005",
+"name": "Title slide (song title and artist)",
+"style": [
+"Liquid Light Show"
+],
+"category": "TYP",
+"kind": "component",
+"family": "LLS-TYP-SLD Slide treatments",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TYP-SLD-006",
+"name": "Two-line band",
+"style": [
+"Liquid Light Show"
+],
+"category": "TYP",
+"kind": "component",
+"family": "LLS-TYP-SLD Slide treatments",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-001",
+"name": "Classic magenta amber cyan",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-002",
+"name": "Sunset orange violet",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-003",
+"name": "Sea glass green blue",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-004",
+"name": "Acid green and pink",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-005",
+"name": "Deep red and blue",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-006",
+"name": "Gold and teal",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-007",
+"name": "Cover three",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-008",
+"name": "Cover two plus clear",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-009",
+"name": "Pastel dream",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-010",
+"name": "Monochrome-free warm trio",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-011",
+"name": "Festival rainbow (four)",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-PAL-PAL-012",
+"name": "Night violet and cyan",
+"style": [
+"Liquid Light Show"
+],
+"category": "PAL",
+"kind": "configuration",
+"family": "LLS-PAL-PAL Dye palettes",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-OBJ-WHL-001",
+"name": "Four segment",
+"style": [
+"Liquid Light Show"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "LLS-OBJ-WHL Colour wheels",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-OBJ-WHL-002",
+"name": "Six segment",
+"style": [
+"Liquid Light Show"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "LLS-OBJ-WHL Colour wheels",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-OBJ-WHL-003",
+"name": "Eight segment",
+"style": [
+"Liquid Light Show"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "LLS-OBJ-WHL Colour wheels",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-OBJ-WHL-004",
+"name": "Duotone half wheel",
+"style": [
+"Liquid Light Show"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "LLS-OBJ-WHL Colour wheels",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-OBJ-WHL-005",
+"name": "Iris wheel (segments with holes)",
+"style": [
+"Liquid Light Show"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "LLS-OBJ-WHL Colour wheels",
+"method": "handcrafted-vector",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MOT-MOT-001",
+"name": "Rock",
+"style": [
+"Liquid Light Show"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "LLS-MOT-MOT Hand gestures",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MOT-MOT-002",
+"name": "Swirl",
+"style": [
+"Liquid Light Show"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "LLS-MOT-MOT Hand gestures",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MOT-MOT-003",
+"name": "Squeeze on beat",
+"style": [
+"Liquid Light Show"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "LLS-MOT-MOT Hand gestures",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MOT-MOT-004",
+"name": "Tilt",
+"style": [
+"Liquid Light Show"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "LLS-MOT-MOT Hand gestures",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MOT-MOT-005",
+"name": "Drop",
+"style": [
+"Liquid Light Show"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "LLS-MOT-MOT Hand gestures",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MOT-MOT-006",
+"name": "Pull dish",
+"style": [
+"Liquid Light Show"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "LLS-MOT-MOT Hand gestures",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MOT-MOT-007",
+"name": "Two-hand stir",
+"style": [
+"Liquid Light Show"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "LLS-MOT-MOT Hand gestures",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-MOT-MOT-008",
+"name": "Rest (still)",
+"style": [
+"Liquid Light Show"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "LLS-MOT-MOT Hand gestures",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-CMP-C1",
+"name": "Full-bleed dish with band slide",
+"style": [
+"Liquid Light Show"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "LLS-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-CMP-C2",
+"name": "Letter-mask slide",
+"style": [
+"Liquid Light Show"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "LLS-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-CMP-C3",
+"name": "Visible dish",
+"style": [
+"Liquid Light Show"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "LLS-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-CMP-C4",
+"name": "Double projection",
+"style": [
+"Liquid Light Show"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "LLS-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-CMP-C5",
+"name": "Colour wheel",
+"style": [
+"Liquid Light Show"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "LLS-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-SCN-01",
+"name": "Oil blobs",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-SCN-02",
+"name": "Water and dye",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-SCN-03",
+"name": "Bubbles",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-SCN-04",
+"name": "Wet-on-wet bloom",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-SCN-05",
+"name": "Drips",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-SCN-06",
+"name": "Meniscus edge",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-SCN-07",
+"name": "Marbling",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-SCN-08",
+"name": "Colour wheel show",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-SCN-09",
+"name": "Slow aurora",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-SCN-10",
+"name": "Swirled dish",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-SCN-X01",
+"name": "Kaleidoscope",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "LLS-SCN-X02",
+"name": "Tunnel zoom",
+"style": [
+"Liquid Light Show"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "LLS-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "LLS-TRN-PULL-DISH",
+"name": "Dish pulled away",
+"style": [
+"Liquid Light Show"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "LLS-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TRN-FRESH-DROP",
+"name": "Fresh drop",
+"style": [
+"Liquid Light Show"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "LLS-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TRN-WHEEL-TURN",
+"name": "Colour wheel turn",
+"style": [
+"Liquid Light Show"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "LLS-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TRN-LAMP-FADE",
+"name": "Lamp fade",
+"style": [
+"Liquid Light Show"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "LLS-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "LLS-TRN-CAROUSEL",
+"name": "Slide carousel advance",
+"style": [
+"Liquid Light Show"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "LLS-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-001",
+"name": "Index card (ruled)",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-002",
+"name": "Plain card stock",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-003",
+"name": "Napkin (folded edge)",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-004",
+"name": "Receipt (long, thermal paper)",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-005",
+"name": "Sticky note",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-006",
+"name": "Poster sheet",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-007",
+"name": "Envelope back",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-008",
+"name": "Torn notebook page",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-009",
+"name": "Ruled notebook page",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-010",
+"name": "Riso print sheet",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-011",
+"name": "Wheatpaste poster",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-012",
+"name": "Large cue card board",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-013",
+"name": "Ticket stub",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-FRM-CRD-014",
+"name": "Torn black page (dark register)",
+"style": [
+"Sketch Cards"
+],
+"category": "FRM",
+"kind": "source",
+"family": "SKC-FRM-CRD Card types",
+"method": "hybrid",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-001",
+"name": "Wooden desk",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": "photographed",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-002",
+"name": "Kitchen table (laminate)",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": "photographed",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-003",
+"name": "Painted bedroom wall",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": "photographed",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-004",
+"name": "Street wall (painted concrete)",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": "photographed",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-005",
+"name": "Notebook spread",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": "photographed",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-006",
+"name": "Corkboard",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": "photographed",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-007",
+"name": "Plain wall for notes",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": "photographed",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-008",
+"name": "Drying line with clips",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": "photographed",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-009",
+"name": "Wooden floor",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": "photographed",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-010",
+"name": "Black paper",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": "photographed",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SRF-GRD-011",
+"name": "Bus seat fabric (held cards backdrop, blurred)",
+"style": [
+"Sketch Cards"
+],
+"category": "SRF",
+"kind": "source",
+"family": "SKC-SRF-GRD Grounds",
+"method": "photographed",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DOD-001",
+"name": "face",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-002",
+"name": "eyes",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-003",
+"name": "chibi",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-004",
+"name": "flower",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-005",
+"name": "cat",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-006",
+"name": "stars",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-007",
+"name": "heart",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-008",
+"name": "sun",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-009",
+"name": "moon",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-010",
+"name": "cloud",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-011",
+"name": "bolt",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-012",
+"name": "note",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-013",
+"name": "planet",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-014",
+"name": "ghost",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-015",
+"name": "smile",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-016",
+"name": "mushroom",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-017",
+"name": "wave",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-018",
+"name": "mountain",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-019",
+"name": "rainbow",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-020",
+"name": "sparkle",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-021",
+"name": "eye",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-022",
+"name": "drop",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-023",
+"name": "cactus",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-DOD-024",
+"name": "rocket",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DOD Sketch doodles (existing)",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-PRC-ART-001",
+"name": "critter generator (42 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-002",
+"name": "face generator (30 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-003",
+"name": "flower generator (30 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-004",
+"name": "plant generator (20 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-005",
+"name": "star generator (25 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-006",
+"name": "sky generator (25 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-007",
+"name": "weather generator (16 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-008",
+"name": "heart generator (20 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-009",
+"name": "music generator (18 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-010",
+"name": "squiggle generator (30 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-011",
+"name": "object generator (30 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-012",
+"name": "shape generator (24 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-013",
+"name": "animal generator (20 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRC-ART-014",
+"name": "symbol generator (16 seeds)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "generator",
+"family": "SKC-PRC-ART Art library generators (existing)",
+"method": "procedural-code",
+"priority": "high",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-OBJ-DRK-001",
+"name": "Stitched broken heart",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-002",
+"name": "Rain cloud over a small house",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-003",
+"name": "Empty chair",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-004",
+"name": "Wilted flower in a glass",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-005",
+"name": "Burnt-out candle",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-006",
+"name": "Cracked phone screen",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-007",
+"name": "Key without a lock",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-008",
+"name": "Closed door with light under it",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-009",
+"name": "Raven on a wire",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-010",
+"name": "Moth at a bulb",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-011",
+"name": "Storm over the sea",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-012",
+"name": "Single bare tree",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-013",
+"name": "Clock with no hands",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-014",
+"name": "Torn photograph outline (no image)",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-015",
+"name": "Hand letting go of a balloon",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-016",
+"name": "Footprints walking away",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-017",
+"name": "Smoke from an extinguished match",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-018",
+"name": "Paper boat sinking",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-019",
+"name": "Fist",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-020",
+"name": "Shattered glass",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-021",
+"name": "Barbed wire line",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-022",
+"name": "Skull-free gravestone-free memorial candle",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-023",
+"name": "Empty bed",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-024",
+"name": "Phone off the hook",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-025",
+"name": "Lonely streetlight",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-026",
+"name": "Wolf howling (simple line)",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-027",
+"name": "Thorned rose stem",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-028",
+"name": "Heart in a cage",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-029",
+"name": "Eye with a tear",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-030",
+"name": "Spiral scribble (anxiety)",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-031",
+"name": "Shadow figure in a doorway",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-032",
+"name": "Melting ice cream (bittersweet)",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-033",
+"name": "Burning letter",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-034",
+"name": "Snapped pencil",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-035",
+"name": "Unplugged cable",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-036",
+"name": "Ashtray-free coffee cup gone cold",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-037",
+"name": "Ladder to nowhere",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-038",
+"name": "Locked diary",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-039",
+"name": "Bird cage open and empty",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-DRK-040",
+"name": "Anchor chain",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-DRK Dark register drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-001",
+"name": "Headphones",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-002",
+"name": "Coffee cup with steam",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-003",
+"name": "Bus ticket",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-004",
+"name": "Sneakers",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-005",
+"name": "Cassette",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-006",
+"name": "Instant camera",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-007",
+"name": "Bicycle",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-008",
+"name": "Houseplant",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-009",
+"name": "Takeaway noodle box",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-010",
+"name": "Sunglasses",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-011",
+"name": "Backpack",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-012",
+"name": "House keys on a ring",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-013",
+"name": "Umbrella",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-014",
+"name": "Toothbrush pair (love songs)",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-015",
+"name": "Alarm clock",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-016",
+"name": "Guitar",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-017",
+"name": "Skateboard",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-018",
+"name": "Paper airplane",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-019",
+"name": "Ice cream cone",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-020",
+"name": "Pizza slice",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-021",
+"name": "Plane ticket",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-022",
+"name": "Suitcase",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-023",
+"name": "Moon and stars mobile",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-024",
+"name": "Lipstick",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-025",
+"name": "Rubber duck",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-026",
+"name": "Lamp",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-027",
+"name": "Goldfish bowl",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-028",
+"name": "Basketball",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-029",
+"name": "Microphone",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-030",
+"name": "Record player",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-031",
+"name": "Teacup",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-032",
+"name": "Love letter envelope",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-033",
+"name": "Map with a dotted route",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-034",
+"name": "Lighthouse toy",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-035",
+"name": "Bunch of balloons",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-036",
+"name": "Polaroid frame (empty)",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-037",
+"name": "Chai glass",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-038",
+"name": "Auto-rickshaw",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-039",
+"name": "Kite with a tail",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-EVD-040",
+"name": "Mango",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-EVD Everyday object drawings",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-MOT-CRE-001",
+"name": "Bounce in place",
+"style": [
+"Sketch Cards"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SKC-MOT-CRE Creature choreographies (from Acid)",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-MOT-CRE-002",
+"name": "Conga line",
+"style": [
+"Sketch Cards"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SKC-MOT-CRE Creature choreographies (from Acid)",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-MOT-CRE-003",
+"name": "Spin",
+"style": [
+"Sketch Cards"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SKC-MOT-CRE Creature choreographies (from Acid)",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-MOT-CRE-004",
+"name": "Hop across",
+"style": [
+"Sketch Cards"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SKC-MOT-CRE Creature choreographies (from Acid)",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-MOT-CRE-005",
+"name": "Wave arms",
+"style": [
+"Sketch Cards"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SKC-MOT-CRE Creature choreographies (from Acid)",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-MOT-CRE-006",
+"name": "Bob heads",
+"style": [
+"Sketch Cards"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SKC-MOT-CRE Creature choreographies (from Acid)",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-MOT-CRE-007",
+"name": "Circle dance",
+"style": [
+"Sketch Cards"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SKC-MOT-CRE Creature choreographies (from Acid)",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-MOT-CRE-008",
+"name": "Jump on downbeats",
+"style": [
+"Sketch Cards"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SKC-MOT-CRE Creature choreographies (from Acid)",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-MOT-CRE-009",
+"name": "Sleep (idle breathing)",
+"style": [
+"Sketch Cards"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SKC-MOT-CRE Creature choreographies (from Acid)",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-MOT-CRE-010",
+"name": "Peek from behind a card",
+"style": [
+"Sketch Cards"
+],
+"category": "MOT",
+"kind": "configuration",
+"family": "SKC-MOT-CRE Creature choreographies (from Acid)",
+"method": "authored-data",
+"priority": "medium",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-OBJ-HND-001",
+"name": "Right hand holding bottom edge",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-HND Hands",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-HND-002",
+"name": "Two hands holding sides",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-HND Hands",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-HND-003",
+"name": "Hand flicking a card away",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-HND Hands",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-HND-004",
+"name": "Hand raising a card",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-HND Hands",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-OBJ-HND-005",
+"name": "Hand pointing at a word",
+"style": [
+"Sketch Cards"
+],
+"category": "OBJ",
+"kind": "source",
+"family": "SKC-OBJ-HND Hands",
+"method": "handcrafted-vector",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRC-PRT-001",
+"name": "Paint-program dither (existing look)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SKC-PRC-PRT Print processes",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRC-PRT-002",
+"name": "Riso two-colour",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SKC-PRC-PRT Print processes",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRC-PRT-003",
+"name": "Photocopy toner",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SKC-PRC-PRT Print processes",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRC-PRT-004",
+"name": "Marker on cardboard",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SKC-PRC-PRT Print processes",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRC-PRT-005",
+"name": "Ballpoint pen",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SKC-PRC-PRT Print processes",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRC-PRT-006",
+"name": "Charcoal and white pen (dark register)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SKC-PRC-PRT Print processes",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRC-PRT-007",
+"name": "Highlighter swipe (notebook)",
+"style": [
+"Sketch Cards"
+],
+"category": "PRC",
+"kind": "configuration",
+"family": "SKC-PRC-PRT Print processes",
+"method": "shader",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-TYP-FNT-001",
+"name": "Anton / Marker / Elite",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-FNT-002",
+"name": "Anton / Elite / Cormorant",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-FNT-003",
+"name": "Anton / Marker / Instrument",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-FNT-004",
+"name": "Bebas / Marker / Caveat",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-FNT-005",
+"name": "Bangers / Marker / Caveat",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-FNT-006",
+"name": "Bebas / Elite / Instrument",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-FNT-007",
+"name": "Anton / Caveat / Cormorant",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-FNT-008",
+"name": "Bangers / Elite / Caveat",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-FNT-009",
+"name": "Hindi: Noto Devanagari Black / Kalam / Kalam light",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-FNT-010",
+"name": "Tamil: Noto Tamil Black / Kavivanar / Noto Tamil",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-FNT-011",
+"name": "Arabic: Noto Arabic Bold / Noto Arabic",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-FNT-012",
+"name": "Hebrew: Noto Hebrew Bold / Noto Hebrew",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "configuration",
+"family": "SKC-TYP-FNT Font sets (existing)",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "S",
+"status": "revised",
+"origin": "existing-rework"
+},
+{
+"id": "SKC-TYP-PIL-001",
+"name": "blob",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "component",
+"family": "SKC-TYP-PIL Pill kinds (existing)",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-TYP-PIL-002",
+"name": "box",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "component",
+"family": "SKC-TYP-PIL Pill kinds (existing)",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-TYP-PIL-003",
+"name": "tape",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "component",
+"family": "SKC-TYP-PIL Pill kinds (existing)",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-TYP-PIL-004",
+"name": "ring",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "component",
+"family": "SKC-TYP-PIL Pill kinds (existing)",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-TYP-PIL-005",
+"name": "Highlighter swipe (new, notebook)",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "component",
+"family": "SKC-TYP-PIL Pill kinds (existing)",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-TYP-BIG-001",
+"name": "outline",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "component",
+"family": "SKC-TYP-BIG Big word treatments (existing)",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-TYP-BIG-002",
+"name": "shadow",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "component",
+"family": "SKC-TYP-BIG Big word treatments (existing)",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-TYP-BIG-003",
+"name": "plain",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "component",
+"family": "SKC-TYP-BIG Big word treatments (existing)",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-TYP-BIG-004",
+"name": "underline",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "component",
+"family": "SKC-TYP-BIG Big word treatments (existing)",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-TYP-BIG-005",
+"name": "Stencil (new, wheatpaste)",
+"style": [
+"Sketch Cards"
+],
+"category": "TYP",
+"kind": "component",
+"family": "SKC-TYP-BIG Big word treatments (existing)",
+"method": "procedural-code",
+"priority": "essential",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-001",
+"name": "hatch",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-002",
+"name": "dots",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-003",
+"name": "scribble",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-004",
+"name": "stripe",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-005",
+"name": "crosshatch",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-006",
+"name": "zigzag",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-007",
+"name": "checker",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-008",
+"name": "tape",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-009",
+"name": "double",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-010",
+"name": "stitch",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-011",
+"name": "waves",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-COL-012",
+"name": "confetti",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "component",
+"family": "SKC-PRP-COL Borders (existing)",
+"method": "procedural-code",
+"priority": "medium",
+"complexity": "S",
+"status": "approved",
+"origin": "existing-reuse"
+},
+{
+"id": "SKC-PRP-TOL-001",
+"name": "Marker with cap off",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SKC-PRP-TOL Desk tools",
+"method": "handcrafted-vector",
+"priority": "optional",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRP-TOL-002",
+"name": "Tape roll",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SKC-PRP-TOL Desk tools",
+"method": "handcrafted-vector",
+"priority": "optional",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRP-TOL-003",
+"name": "Scissors",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SKC-PRP-TOL Desk tools",
+"method": "handcrafted-vector",
+"priority": "optional",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRP-TOL-004",
+"name": "Pencil and eraser",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SKC-PRP-TOL Desk tools",
+"method": "handcrafted-vector",
+"priority": "optional",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRP-TOL-005",
+"name": "Coffee ring stain",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SKC-PRP-TOL Desk tools",
+"method": "handcrafted-vector",
+"priority": "optional",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-PRP-TOL-006",
+"name": "Paper clip",
+"style": [
+"Sketch Cards"
+],
+"category": "PRP",
+"kind": "source",
+"family": "SKC-PRP-TOL Desk tools",
+"method": "handcrafted-vector",
+"priority": "optional",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-CMP-C1",
+"name": "Card on a surface",
+"style": [
+"Sketch Cards"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SKC-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-CMP-C2",
+"name": "Held cue card",
+"style": [
+"Sketch Cards"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SKC-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-CMP-C3",
+"name": "The pile",
+"style": [
+"Sketch Cards"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SKC-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-CMP-C4",
+"name": "Pinned wall",
+"style": [
+"Sketch Cards"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SKC-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-CMP-C5",
+"name": "Full-bleed poster",
+"style": [
+"Sketch Cards"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SKC-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-CMP-C6",
+"name": "Sticky notes cluster",
+"style": [
+"Sketch Cards"
+],
+"category": "CMP",
+"kind": "composition",
+"family": "SKC-CMP Composition families",
+"method": "authored-data",
+"priority": "essential",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-01",
+"name": "Desk at night",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-02",
+"name": "Kitchen table",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-03",
+"name": "Bedroom wall",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-04",
+"name": "Street wall",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-05",
+"name": "Notebook pages",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-06",
+"name": "Cue cards in hand",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-07",
+"name": "Corkboard",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-08",
+"name": "Sticky note wall",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-09",
+"name": "Riso studio",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-10",
+"name": "Creature break",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-11",
+"name": "Floor scatter",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-12",
+"name": "Dark sketchbook",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": "authored-data",
+"priority": "high",
+"complexity": "M",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-SCN-X01",
+"name": "Chalkboard",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SKC-SCN-X02",
+"name": "Phone notes app",
+"style": [
+"Sketch Cards"
+],
+"category": "SCN",
+"kind": "composition",
+"family": "SKC-SCN Scene families",
+"method": null,
+"priority": null,
+"complexity": null,
+"status": "rejected",
+"origin": "candidate"
+},
+{
+"id": "SKC-TRN-SWEEP",
+"name": "Sweep the pile",
+"style": [
+"Sketch Cards"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SKC-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-TRN-FLIP",
+"name": "Card flip",
+"style": [
+"Sketch Cards"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SKC-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-TRN-GROUND-CUT",
+"name": "New ground",
+"style": [
+"Sketch Cards"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SKC-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-TRN-PULL-BACK",
+"name": "Pull back to the pile",
+"style": [
+"Sketch Cards"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SKC-TRN Transitions",
+"method": "authored-data",
+"priority": "high",
+"complexity": "S",
+"status": "approved",
+"origin": "new"
+},
+{
+"id": "SKC-TRN-HAND-SWAP",
+"name": "Hand swap",
+"style": [
+"Sketch Cards"
+],
+"category": "TRN",
+"kind": "configuration",
+"family": "SKC-TRN Transitions",
 "method": "authored-data",
 "priority": "high",
 "complexity": "S",

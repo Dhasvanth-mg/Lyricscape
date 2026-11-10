@@ -1,0 +1,458 @@
+{
+ "style": "Liquid Light Show",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "LLS-CMP-C1": {
+   "name": "Full-bleed dish with band slide",
+   "layers": "fluid, band, text, lamp grain",
+   "safe_area": "Band text inside central 84%.",
+   "assets": "FLU, SLD band"
+  },
+  "LLS-CMP-C2": {
+   "name": "Letter-mask slide",
+   "layers": "fluid, black slide with letter holes, halo",
+   "safe_area": "Central 80%.",
+   "assets": "FLU, SLD letter mask"
+  },
+  "LLS-CMP-C3": {
+   "name": "Visible dish",
+   "layers": "darkness, dish fluid, rim, slide",
+   "safe_area": "Slide inside the dish and central 80%.",
+   "assets": "DSH, FLU"
+  },
+  "LLS-CMP-C4": {
+   "name": "Double projection",
+   "layers": "dish A, dish B (additive), slide",
+   "safe_area": "Central 80%.",
+   "assets": "FLU x2, DSH pair"
+  },
+  "LLS-CMP-C5": {
+   "name": "Colour wheel",
+   "layers": "fluid, wheel tint, wheel edge, slide",
+   "safe_area": "Central 84%.",
+   "assets": "WHL, FLU"
+  }
+ },
+ "scene_families": {
+  "LLS-SCN-01": {
+   "name": "Oil blobs",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "LLS-CMP-C1",
+    "LLS-CMP-C2",
+    "LLS-CMP-C3"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [
+    "LLS-MSK-DSH"
+   ],
+   "attributes": {
+    "fluid": "oil cells",
+    "scale": "large",
+    "edge": "sharp",
+    "motion": "rock and split",
+    "layering": "one",
+    "light": "lamp"
+   }
+  },
+  "LLS-SCN-02": {
+   "name": "Water and dye",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "LLS-CMP-C1",
+    "LLS-CMP-C3"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [
+    "LLS-MSK-DSH"
+   ],
+   "attributes": {
+    "fluid": "dye plumes",
+    "scale": "medium",
+    "edge": "soft",
+    "motion": "bloom and drift",
+    "layering": "one",
+    "light": "lamp"
+   }
+  },
+  "LLS-SCN-03": {
+   "name": "Bubbles",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "LLS-CMP-C2",
+    "LLS-CMP-C1",
+    "LLS-CMP-C4"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [
+    "LLS-MSK-DSH"
+   ],
+   "attributes": {
+    "fluid": "bubbles",
+    "scale": "small many",
+    "edge": "sharp rims",
+    "motion": "rise and pop",
+    "layering": "two",
+    "light": "lamp"
+   }
+  },
+  "LLS-SCN-04": {
+   "name": "Wet-on-wet bloom",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "LLS-CMP-C1",
+    "LLS-CMP-C2"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [],
+   "attributes": {
+    "fluid": "colour blooms",
+    "scale": "large",
+    "edge": "feathered",
+    "motion": "spread",
+    "layering": "one",
+    "light": "warm"
+   }
+  },
+  "LLS-SCN-05": {
+   "name": "Drips",
+   "roles": [
+    "bridge",
+    "break"
+   ],
+   "compositions": [
+    "LLS-CMP-C3",
+    "LLS-CMP-C1"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [
+    "LLS-MSK-DSH"
+   ],
+   "attributes": {
+    "fluid": "drips",
+    "scale": "medium",
+    "edge": "sharp",
+    "motion": "fall",
+    "layering": "one",
+    "light": "lamp"
+   }
+  },
+  "LLS-SCN-06": {
+   "name": "Meniscus edge",
+   "roles": [
+    "intro",
+    "quiet",
+    "outro"
+   ],
+   "compositions": [
+    "LLS-CMP-C3"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-MSK-DSH",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [
+    "LLS-TYP-SLD"
+   ],
+   "attributes": {
+    "fluid": "oil edge",
+    "scale": "rim",
+    "edge": "refractive",
+    "motion": "slow swirl",
+    "layering": "one",
+    "light": "lamp edge"
+   }
+  },
+  "LLS-SCN-07": {
+   "name": "Marbling",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "LLS-CMP-C1",
+    "LLS-CMP-C2"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [],
+   "attributes": {
+    "fluid": "marbled lines",
+    "scale": "fine",
+    "edge": "combed",
+    "motion": "comb drag",
+    "layering": "one",
+    "light": "flat"
+   }
+  },
+  "LLS-SCN-08": {
+   "name": "Colour wheel show",
+   "roles": [
+    "chorus",
+    "bridge"
+   ],
+   "compositions": [
+    "LLS-CMP-C5",
+    "LLS-CMP-C4"
+   ],
+   "required": [
+    "LLS-OBJ-WHL",
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD"
+   ],
+   "optional": [
+    "LLS-PAL-PAL"
+   ],
+   "attributes": {
+    "fluid": "any",
+    "scale": "large",
+    "edge": "sharp",
+    "motion": "wheel rotation",
+    "layering": "two",
+    "light": "tinted"
+   }
+  },
+  "LLS-SCN-09": {
+   "name": "Slow aurora",
+   "roles": [
+    "quiet",
+    "verse"
+   ],
+   "compositions": [
+    "LLS-CMP-C1",
+    "LLS-CMP-C3"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-TYP-SLD",
+    "LLS-PAL-PAL"
+   ],
+   "optional": [],
+   "attributes": {
+    "fluid": "veils",
+    "scale": "huge",
+    "edge": "soft",
+    "motion": "very slow drift",
+    "layering": "one",
+    "light": "cool"
+   }
+  },
+  "LLS-SCN-10": {
+   "name": "Swirled dish",
+   "roles": [
+    "high",
+    "chorus"
+   ],
+   "compositions": [
+    "LLS-CMP-C3",
+    "LLS-CMP-C4"
+   ],
+   "required": [
+    "LLS-PRC-FLU",
+    "LLS-MSK-DSH",
+    "LLS-TYP-SLD"
+   ],
+   "optional": [
+    "LLS-PAL-PAL"
+   ],
+   "attributes": {
+    "fluid": "spiral swirl",
+    "scale": "large",
+    "edge": "sharp",
+    "motion": "hand swirl",
+    "layering": "two",
+    "light": "lamp"
+   }
+  }
+ },
+ "global_families": [
+  "LLS-PAL-PAL",
+  "LLS-MOT-MOT",
+  "LLS-TEX-FLW"
+ ],
+ "asset_families": {
+  "LLS-PRC-FLU": {
+   "name": "Fluid presets",
+   "category": "PRC",
+   "kind": "configuration",
+   "compatible_with": "Slides, dish masks, gestures.",
+   "exclusions": "Two layers must not exceed the colour sum limit (no white-out: summed luminance capped at 0.85).",
+   "scenes": [
+    "LLS-SCN-01",
+    "LLS-SCN-02",
+    "LLS-SCN-03",
+    "LLS-SCN-04",
+    "LLS-SCN-05",
+    "LLS-SCN-06",
+    "LLS-SCN-07",
+    "LLS-SCN-08",
+    "LLS-SCN-09",
+    "LLS-SCN-10"
+   ]
+  },
+  "LLS-TEX-FLW": {
+   "name": "Baked flow fields",
+   "category": "TEX",
+   "kind": "source",
+   "compatible_with": "Fluid presets.",
+   "exclusions": "n/a",
+   "scenes": []
+  },
+  "LLS-MSK-DSH": {
+   "name": "Dish masks",
+   "category": "MSK",
+   "kind": "source",
+   "compatible_with": "Visible dish and double projection.",
+   "exclusions": "One dish shape per song.",
+   "scenes": [
+    "LLS-SCN-01",
+    "LLS-SCN-02",
+    "LLS-SCN-03",
+    "LLS-SCN-05",
+    "LLS-SCN-06",
+    "LLS-SCN-10"
+   ]
+  },
+  "LLS-TYP-SLD": {
+   "name": "Slide treatments",
+   "category": "TYP",
+   "kind": "component",
+   "compatible_with": "All.",
+   "exclusions": "Letter masks short lines only.",
+   "scenes": [
+    "LLS-SCN-01",
+    "LLS-SCN-02",
+    "LLS-SCN-03",
+    "LLS-SCN-04",
+    "LLS-SCN-05",
+    "LLS-SCN-06",
+    "LLS-SCN-07",
+    "LLS-SCN-08",
+    "LLS-SCN-09",
+    "LLS-SCN-10"
+   ]
+  },
+  "LLS-PAL-PAL": {
+   "name": "Dye palettes",
+   "category": "PAL",
+   "kind": "configuration",
+   "compatible_with": "All presets.",
+   "exclusions": "Max 4 dyes.",
+   "scenes": [
+    "LLS-SCN-01",
+    "LLS-SCN-02",
+    "LLS-SCN-03",
+    "LLS-SCN-04",
+    "LLS-SCN-05",
+    "LLS-SCN-06",
+    "LLS-SCN-07",
+    "LLS-SCN-08",
+    "LLS-SCN-09",
+    "LLS-SCN-10"
+   ]
+  },
+  "LLS-OBJ-WHL": {
+   "name": "Colour wheels",
+   "category": "OBJ",
+   "kind": "source",
+   "compatible_with": "Wheel composition.",
+   "exclusions": "Not with reduced motion rotation.",
+   "scenes": [
+    "LLS-SCN-08"
+   ]
+  },
+  "LLS-MOT-MOT": {
+   "name": "Hand gestures",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "All presets.",
+   "exclusions": "Squeeze needs beat confidence 0.5.",
+   "scenes": []
+  }
+ },
+ "layer_order": [
+  "darkness (outside the dish)",
+  "dish layer A fluid",
+  "dish layer B fluid (additive, optional)",
+  "colour wheel tint",
+  "dish rim and meniscus",
+  "slide (letter mask or band) and text",
+  "halo and lamp grain"
+ ],
+ "invalid": [
+  {
+   "this": "Two dishes",
+   "never_with": "4 dyes each",
+   "because": "Mud and white-out."
+  },
+  {
+   "this": "Hue cycling",
+   "never_with": "faster than 1 cycle per 4 s",
+   "because": "Flash and cliché."
+  },
+  {
+   "this": "Letter masks",
+   "never_with": "lines over 3 words",
+   "because": "Letters too small to show fluid."
+  },
+  {
+   "this": "Monochrome palette",
+   "never_with": "water and dye",
+   "because": "Ink's territory."
+  },
+  {
+   "this": "Squeeze on beat",
+   "never_with": "beat grid under 0.5 confidence",
+   "because": "Would misfire."
+  },
+  {
+   "this": "Black intro",
+   "never_with": "any",
+   "because": "Observed bug; intro starts lit."
+  }
+ ],
+ "limits": {
+  "scale": "Letter masks cap height 10-16%.",
+  "safe": "Slide inside central 80-84%.",
+  "complexity": "Max 2 dishes.",
+  "colour": "Max 4 dyes per dish; 2 shared across dishes; luminance sum capped.",
+  "motion": "One gesture at a time per dish.",
+  "material": "Oil presets never with marbling presets in the same projection."
+ }
+}

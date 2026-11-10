@@ -2,74 +2,76 @@
  "schema": "lyricscape.counts/1.0.0",
  "note": "Live = not rejected or merged. Kinds are reported separately; generated variations, colour variations, animation frames and runtime combinations are never counted.",
  "total": {
-  "total_entries": 1168,
-  "approved": 1114,
-  "revised": 21,
+  "total_entries": 1509,
+  "approved": 1389,
+  "revised": 81,
   "deferred": 0,
-  "rejected": 27,
+  "rejected": 33,
   "merged": 6,
   "by_kind": {
-   "generator": 16,
-   "source": 411,
+   "generator": 30,
+   "source": 572,
    "dependency": 35,
-   "component": 222,
-   "configuration": 323,
-   "composition": 128
+   "component": 250,
+   "configuration": 422,
+   "composition": 161
   },
   "by_category": {
-   "PRC": 45,
-   "TEX": 50,
-   "TYP": 93,
+   "PRC": 106,
+   "TEX": 60,
+   "TYP": 121,
    "UIK": 69,
-   "FRM": 31,
+   "FRM": 45,
    "ENV": 78,
-   "PRP": 56,
+   "PRP": 74,
    "REV": 10,
-   "MOT": 65,
+   "MOT": 83,
    "CAM": 22,
    "LAY": 119,
-   "CMP": 48,
-   "SCN": 80,
-   "TRN": 44,
-   "SRF": 22,
-   "PAL": 42,
+   "CMP": 59,
+   "SCN": 102,
+   "TRN": 54,
+   "SRF": 33,
+   "PAL": 54,
    "SIL": 141,
-   "OBJ": 29,
+   "OBJ": 143,
    "LGT": 20,
    "GEO": 49,
    "PTH": 8,
-   "ATM": 14
+   "ATM": 14,
+   "MSK": 6
   },
   "by_method": {
-   "shader": 45,
-   "procedural-code": 76,
+   "shader": 52,
+   "procedural-code": 128,
    "licensed-font": 35,
-   "authored-data": 595,
-   "handcrafted-vector": 237,
-   "hybrid": 16,
-   "photographed": 61,
+   "authored-data": 720,
+   "handcrafted-vector": 363,
+   "hybrid": 30,
+   "photographed": 72,
    "handcrafted-raster": 70
   },
   "by_priority": {
-   "essential": 618,
-   "high": 367,
-   "medium": 150
+   "essential": 712,
+   "high": 569,
+   "medium": 183,
+   "optional": 6
   },
   "by_complexity": {
    "L": 56,
-   "S": 514,
-   "M": 565
+   "S": 736,
+   "M": 678
   },
   "by_origin": {
-   "existing-reuse": 18,
-   "existing-rework": 20,
-   "new": 1097
+   "existing-reuse": 54,
+   "existing-rework": 66,
+   "new": 1350
   },
-  "live": 1135
+  "live": 1470
  },
  "shared_vs_exclusive": {
   "shared": 57,
-  "exclusive": 1078
+  "exclusive": 1413
  },
  "per_style": {
   "Shared": {
@@ -432,6 +434,101 @@
     "new": 81
    },
    "live": 81
+  },
+  "Liquid Light Show": {
+   "total_entries": 111,
+   "approved": 107,
+   "revised": 0,
+   "deferred": 0,
+   "rejected": 4,
+   "merged": 0,
+   "by_kind": {
+    "configuration": 65,
+    "source": 21,
+    "component": 6,
+    "composition": 15
+   },
+   "by_category": {
+    "PRC": 40,
+    "TEX": 10,
+    "MSK": 6,
+    "TYP": 6,
+    "PAL": 12,
+    "OBJ": 5,
+    "MOT": 8,
+    "CMP": 5,
+    "SCN": 10,
+    "TRN": 5
+   },
+   "by_method": {
+    "authored-data": 80,
+    "procedural-code": 16,
+    "handcrafted-vector": 11
+   },
+   "by_priority": {
+    "high": 55,
+    "essential": 41,
+    "medium": 11
+   },
+   "by_complexity": {
+    "M": 65,
+    "S": 42
+   },
+   "by_origin": {
+    "new": 107
+   },
+   "live": 107
+  },
+  "Sketch Cards": {
+   "total_entries": 230,
+   "approved": 168,
+   "revised": 60,
+   "deferred": 0,
+   "rejected": 2,
+   "merged": 0,
+   "by_kind": {
+    "source": 140,
+    "generator": 14,
+    "configuration": 34,
+    "component": 22,
+    "composition": 18
+   },
+   "by_category": {
+    "FRM": 14,
+    "SRF": 11,
+    "OBJ": 109,
+    "PRC": 21,
+    "MOT": 10,
+    "TYP": 22,
+    "PRP": 18,
+    "CMP": 6,
+    "SCN": 12,
+    "TRN": 5
+   },
+   "by_method": {
+    "hybrid": 14,
+    "photographed": 11,
+    "handcrafted-vector": 115,
+    "procedural-code": 36,
+    "authored-data": 45,
+    "shader": 7
+   },
+   "by_priority": {
+    "essential": 53,
+    "high": 147,
+    "medium": 22,
+    "optional": 6
+   },
+   "by_complexity": {
+    "M": 48,
+    "S": 180
+   },
+   "by_origin": {
+    "new": 146,
+    "existing-rework": 46,
+    "existing-reuse": 36
+   },
+   "live": 228
   }
  },
  "by_family": {
@@ -494,6 +591,16 @@
   "KON-TEX-TEX Print textures": 6,
   "KON-TRN Transitions": 5,
   "KON-TYP-TYP Type arrangement rules": 7,
+  "LLS-CMP Composition families": 5,
+  "LLS-MOT-MOT Hand gestures": 8,
+  "LLS-MSK-DSH Dish masks": 6,
+  "LLS-OBJ-WHL Colour wheels": 5,
+  "LLS-PAL-PAL Dye palettes": 12,
+  "LLS-PRC-FLU Fluid presets": 40,
+  "LLS-SCN Scene families": 10,
+  "LLS-TEX-FLW Baked flow fields": 10,
+  "LLS-TRN Transitions": 5,
+  "LLS-TYP-SLD Slide treatments": 6,
   "NOC-ATM-BOK Bokeh arrangements": 7,
   "NOC-ATM-WEA Weather and air layers": 7,
   "NOC-CMP Composition families": 6,
@@ -548,7 +655,24 @@
   "SCR-UIK-STA Kit states": 53,
   "SHR-PRC-GEN Shared procedural generators": 16,
   "SHR-TEX-NOI Shared noise and utility textures": 6,
-  "SHR-TYP-FNT Typefaces (open licence)": 35
+  "SHR-TYP-FNT Typefaces (open licence)": 35,
+  "SKC-CMP Composition families": 6,
+  "SKC-FRM-CRD Card types": 14,
+  "SKC-MOT-CRE Creature choreographies (from Acid)": 10,
+  "SKC-OBJ-DOD Sketch doodles (existing)": 24,
+  "SKC-OBJ-DRK Dark register drawings": 40,
+  "SKC-OBJ-EVD Everyday object drawings": 40,
+  "SKC-OBJ-HND Hands": 5,
+  "SKC-PRC-ART Art library generators (existing)": 14,
+  "SKC-PRC-PRT Print processes": 7,
+  "SKC-PRP-COL Borders (existing)": 12,
+  "SKC-PRP-TOL Desk tools": 6,
+  "SKC-SCN Scene families": 12,
+  "SKC-SRF-GRD Grounds": 11,
+  "SKC-TRN Transitions": 5,
+  "SKC-TYP-BIG Big word treatments (existing)": 5,
+  "SKC-TYP-FNT Font sets (existing)": 12,
+  "SKC-TYP-PIL Pill kinds (existing)": 5
  },
  "scene_families": {
   "Screenlife": 12,
@@ -557,7 +681,9 @@
   "Konstrukt": 11,
   "Celluloid": 11,
   "Folio": 9,
-  "Nocturne": 11
+  "Nocturne": 11,
+  "Liquid Light Show": 10,
+  "Sketch Cards": 12
  },
  "composition_families": {
   "Screenlife": 7,
@@ -566,6 +692,8 @@
   "Konstrukt": 7,
   "Celluloid": 7,
   "Folio": 8,
-  "Nocturne": 6
+  "Nocturne": 6,
+  "Liquid Light Show": 5,
+  "Sketch Cards": 6
  }
 }

@@ -1,0 +1,603 @@
+{
+ "style": "Sketch Cards",
+ "schema": "lyricscape.compat/1.0.0",
+ "composition_families": {
+  "SKC-CMP-C1": {
+   "name": "Card on a surface",
+   "layers": "ground, pile, top card, tape, tools",
+   "safe_area": "Card text inside central 84%.",
+   "assets": "CRD, GRD, drawings"
+  },
+  "SKC-CMP-C2": {
+   "name": "Held cue card",
+   "layers": "background plate, hand, card",
+   "safe_area": "Card text central 80%.",
+   "assets": "HND hands, CRD poster"
+  },
+  "SKC-CMP-C3": {
+   "name": "The pile",
+   "layers": "ground, pile (baked), top card",
+   "safe_area": "Top card inside central 84%.",
+   "assets": "CRD, GRD"
+  },
+  "SKC-CMP-C4": {
+   "name": "Pinned wall",
+   "layers": "wall, cards, pins",
+   "safe_area": "Newest card text central 80% after framing.",
+   "assets": "CRD, GRD wall"
+  },
+  "SKC-CMP-C5": {
+   "name": "Full-bleed poster",
+   "layers": "poster",
+   "safe_area": "Central 90%.",
+   "assets": "CRD poster, PRT"
+  },
+  "SKC-CMP-C6": {
+   "name": "Sticky notes cluster",
+   "layers": "surface, notes",
+   "safe_area": "Notes central 84%.",
+   "assets": "CRD sticky notes"
+  }
+ },
+ "scene_families": {
+  "SKC-SCN-01": {
+   "name": "Desk at night",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "SKC-CMP-C1",
+    "SKC-CMP-C3"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-OBJ-DOD",
+    "SKC-PRC-ART"
+   ],
+   "optional": [
+    "SKC-OBJ-DRK",
+    "SKC-PRP-TOL"
+   ],
+   "attributes": {
+    "ground": "desk",
+    "card": "index card",
+    "process": "marker",
+    "depth": "top-down",
+    "motion": "drop",
+    "mood": "calm"
+   }
+  },
+  "SKC-SCN-02": {
+   "name": "Kitchen table",
+   "roles": [
+    "verse"
+   ],
+   "compositions": [
+    "SKC-CMP-C1",
+    "SKC-CMP-C3"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-OBJ-EVD"
+   ],
+   "optional": [
+    "SKC-OBJ-DOD",
+    "SKC-PRC-ART",
+    "SKC-PRP-TOL"
+   ],
+   "attributes": {
+    "ground": "table",
+    "card": "napkin and receipt",
+    "process": "ballpoint and marker",
+    "depth": "top-down",
+    "motion": "drop",
+    "mood": "warm"
+   }
+  },
+  "SKC-SCN-03": {
+   "name": "Bedroom wall",
+   "roles": [
+    "chorus",
+    "verse"
+   ],
+   "compositions": [
+    "SKC-CMP-C4",
+    "SKC-CMP-C5"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-OBJ-DOD",
+    "SKC-PRC-ART"
+   ],
+   "optional": [
+    "SKC-PRC-PRT"
+   ],
+   "attributes": {
+    "ground": "wall",
+    "card": "poster",
+    "process": "paint dither",
+    "depth": "flat",
+    "motion": "pin",
+    "mood": "bright"
+   }
+  },
+  "SKC-SCN-04": {
+   "name": "Street wall",
+   "roles": [
+    "chorus",
+    "high"
+   ],
+   "compositions": [
+    "SKC-CMP-C4",
+    "SKC-CMP-C5"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-PRC-PRT"
+   ],
+   "optional": [
+    "SKC-OBJ-DRK",
+    "SKC-PRC-ART"
+   ],
+   "attributes": {
+    "ground": "street wall",
+    "card": "wheatpaste poster",
+    "process": "photocopy",
+    "depth": "flat",
+    "motion": "paste slap",
+    "mood": "raw"
+   }
+  },
+  "SKC-SCN-05": {
+   "name": "Notebook pages",
+   "roles": [
+    "verse",
+    "quiet"
+   ],
+   "compositions": [
+    "SKC-CMP-C1",
+    "SKC-CMP-C5"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-OBJ-DOD"
+   ],
+   "optional": [
+    "SKC-PRC-ART"
+   ],
+   "attributes": {
+    "ground": "notebook",
+    "card": "ruled page",
+    "process": "pen and highlighter",
+    "depth": "top-down",
+    "motion": "page flip",
+    "mood": "personal"
+   }
+  },
+  "SKC-SCN-06": {
+   "name": "Cue cards in hand",
+   "roles": [
+    "chorus",
+    "verse"
+   ],
+   "compositions": [
+    "SKC-CMP-C2"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-OBJ-HND"
+   ],
+   "optional": [
+    "SKC-OBJ-DOD",
+    "SKC-PRC-ART"
+   ],
+   "attributes": {
+    "ground": "street blur",
+    "card": "large card",
+    "process": "marker",
+    "depth": "card near",
+    "motion": "hand swap",
+    "mood": "direct"
+   }
+  },
+  "SKC-SCN-07": {
+   "name": "Corkboard",
+   "roles": [
+    "verse",
+    "bridge"
+   ],
+   "compositions": [
+    "SKC-CMP-C4"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD"
+   ],
+   "optional": [
+    "SKC-OBJ-EVD",
+    "SKC-OBJ-DOD"
+   ],
+   "attributes": {
+    "ground": "cork",
+    "card": "mixed",
+    "process": "mixed",
+    "depth": "flat",
+    "motion": "pin",
+    "mood": "busy"
+   }
+  },
+  "SKC-SCN-08": {
+   "name": "Sticky note wall",
+   "roles": [
+    "verse",
+    "high"
+   ],
+   "compositions": [
+    "SKC-CMP-C6"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD"
+   ],
+   "optional": [
+    "SKC-OBJ-DOD"
+   ],
+   "attributes": {
+    "ground": "wall",
+    "card": "sticky notes",
+    "process": "marker",
+    "depth": "flat",
+    "motion": "slap",
+    "mood": "urgent"
+   }
+  },
+  "SKC-SCN-09": {
+   "name": "Riso studio",
+   "roles": [
+    "chorus",
+    "bridge"
+   ],
+   "compositions": [
+    "SKC-CMP-C5",
+    "SKC-CMP-C1"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-PRC-PRT",
+    "SKC-SRF-GRD"
+   ],
+   "optional": [
+    "SKC-PRC-ART"
+   ],
+   "attributes": {
+    "ground": "drying line",
+    "card": "riso print",
+    "process": "riso two-colour",
+    "depth": "hanging",
+    "motion": "clip on line",
+    "mood": "crafty"
+   }
+  },
+  "SKC-SCN-10": {
+   "name": "Creature break",
+   "roles": [
+    "break",
+    "intro"
+   ],
+   "compositions": [
+    "SKC-CMP-C1"
+   ],
+   "required": [
+    "SKC-MOT-CRE",
+    "SKC-SRF-GRD"
+   ],
+   "optional": [
+    "SKC-PRC-ART",
+    "SKC-OBJ-DOD"
+   ],
+   "attributes": {
+    "ground": "desk",
+    "card": "none",
+    "process": "marker",
+    "depth": "top-down",
+    "motion": "dance",
+    "mood": "playful"
+   }
+  },
+  "SKC-SCN-11": {
+   "name": "Floor scatter",
+   "roles": [
+    "outro",
+    "bridge"
+   ],
+   "compositions": [
+    "SKC-CMP-C3",
+    "SKC-CMP-C1"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD"
+   ],
+   "optional": [
+    "SKC-OBJ-DRK"
+   ],
+   "attributes": {
+    "ground": "floor",
+    "card": "scattered cards",
+    "process": "mixed",
+    "depth": "top-down wide",
+    "motion": "fall",
+    "mood": "aftermath"
+   }
+  },
+  "SKC-SCN-12": {
+   "name": "Dark sketchbook",
+   "roles": [
+    "verse",
+    "chorus"
+   ],
+   "compositions": [
+    "SKC-CMP-C1",
+    "SKC-CMP-C5",
+    "SKC-CMP-C3"
+   ],
+   "required": [
+    "SKC-FRM-CRD",
+    "SKC-SRF-GRD",
+    "SKC-OBJ-DRK"
+   ],
+   "optional": [
+    "SKC-PRC-PRT"
+   ],
+   "attributes": {
+    "ground": "black paper",
+    "card": "torn page",
+    "process": "charcoal and white pen",
+    "depth": "top-down",
+    "motion": "tear",
+    "mood": "dark"
+   }
+  }
+ },
+ "global_families": [
+  "SKC-TYP-FNT",
+  "SKC-TYP-PIL",
+  "SKC-TYP-BIG",
+  "SKC-PRC-PRT",
+  "SKC-PRP-COL"
+ ],
+ "asset_families": {
+  "SKC-FRM-CRD": {
+   "name": "Card types",
+   "category": "FRM",
+   "kind": "source",
+   "compatible_with": "Print processes listed.",
+   "exclusions": "Receipts only with photocopy or ballpoint.",
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-02",
+    "SKC-SCN-03",
+    "SKC-SCN-04",
+    "SKC-SCN-05",
+    "SKC-SCN-06",
+    "SKC-SCN-07",
+    "SKC-SCN-08",
+    "SKC-SCN-09",
+    "SKC-SCN-11",
+    "SKC-SCN-12"
+   ]
+  },
+  "SKC-SRF-GRD": {
+   "name": "Grounds",
+   "category": "SRF",
+   "kind": "source",
+   "compatible_with": "Card types per scene.",
+   "exclusions": "One ground per section.",
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-02",
+    "SKC-SCN-03",
+    "SKC-SCN-04",
+    "SKC-SCN-05",
+    "SKC-SCN-07",
+    "SKC-SCN-08",
+    "SKC-SCN-09",
+    "SKC-SCN-10",
+    "SKC-SCN-11",
+    "SKC-SCN-12"
+   ]
+  },
+  "SKC-OBJ-DOD": {
+   "name": "Sketch doodles (existing)",
+   "category": "OBJ",
+   "kind": "source",
+   "compatible_with": "Card types and print processes; the dark register only with dark-allowed colour sets.",
+   "exclusions": "Dark-register drawings never with cute colour sets; cute drawings never on dark or grief identity.",
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-02",
+    "SKC-SCN-03",
+    "SKC-SCN-05",
+    "SKC-SCN-06",
+    "SKC-SCN-07",
+    "SKC-SCN-08",
+    "SKC-SCN-10"
+   ]
+  },
+  "SKC-PRC-ART": {
+   "name": "Art library generators (existing)",
+   "category": "PRC",
+   "kind": "generator",
+   "compatible_with": "All card types.",
+   "exclusions": "Not in the dark register.",
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-02",
+    "SKC-SCN-03",
+    "SKC-SCN-04",
+    "SKC-SCN-05",
+    "SKC-SCN-06",
+    "SKC-SCN-09",
+    "SKC-SCN-10"
+   ]
+  },
+  "SKC-OBJ-DRK": {
+   "name": "Dark register drawings",
+   "category": "OBJ",
+   "kind": "source",
+   "compatible_with": "Card types and print processes; the dark register only with dark-allowed colour sets.",
+   "exclusions": "Dark-register drawings never with cute colour sets; cute drawings never on dark or grief identity.",
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-04",
+    "SKC-SCN-11",
+    "SKC-SCN-12"
+   ]
+  },
+  "SKC-OBJ-EVD": {
+   "name": "Everyday object drawings",
+   "category": "OBJ",
+   "kind": "source",
+   "compatible_with": "Card types and print processes; the dark register only with dark-allowed colour sets.",
+   "exclusions": "Dark-register drawings never with cute colour sets; cute drawings never on dark or grief identity.",
+   "scenes": [
+    "SKC-SCN-02",
+    "SKC-SCN-07"
+   ]
+  },
+  "SKC-MOT-CRE": {
+   "name": "Creature choreographies (from Acid)",
+   "category": "MOT",
+   "kind": "configuration",
+   "compatible_with": "Critter and creature drawings.",
+   "exclusions": "Not in dark register; off in reduced motion.",
+   "scenes": [
+    "SKC-SCN-10"
+   ]
+  },
+  "SKC-OBJ-HND": {
+   "name": "Hands",
+   "category": "OBJ",
+   "kind": "source",
+   "compatible_with": "Large cue cards.",
+   "exclusions": "No skin-tone realism (ink style).",
+   "scenes": [
+    "SKC-SCN-06"
+   ]
+  },
+  "SKC-PRC-PRT": {
+   "name": "Print processes",
+   "category": "PRC",
+   "kind": "configuration",
+   "compatible_with": "Card types.",
+   "exclusions": "See grammar.",
+   "scenes": [
+    "SKC-SCN-03",
+    "SKC-SCN-04",
+    "SKC-SCN-09",
+    "SKC-SCN-12"
+   ]
+  },
+  "SKC-TYP-FNT": {
+   "name": "Font sets (existing)",
+   "category": "TYP",
+   "kind": "configuration",
+   "compatible_with": "All.",
+   "exclusions": "Script sets for complex scripts.",
+   "scenes": []
+  },
+  "SKC-TYP-PIL": {
+   "name": "Pill kinds (existing)",
+   "category": "TYP",
+   "kind": "component",
+   "compatible_with": "All.",
+   "exclusions": "n/a",
+   "scenes": []
+  },
+  "SKC-TYP-BIG": {
+   "name": "Big word treatments (existing)",
+   "category": "TYP",
+   "kind": "component",
+   "compatible_with": "All.",
+   "exclusions": "n/a",
+   "scenes": []
+  },
+  "SKC-PRP-COL": {
+   "name": "Borders (existing)",
+   "category": "PRP",
+   "kind": "component",
+   "compatible_with": "Card types without their own edge.",
+   "exclusions": "None on receipts and sticky notes.",
+   "scenes": []
+  },
+  "SKC-PRP-TOL": {
+   "name": "Desk tools",
+   "category": "PRP",
+   "kind": "source",
+   "compatible_with": "Top-down grounds.",
+   "exclusions": "Max 2 per frame.",
+   "scenes": [
+    "SKC-SCN-01",
+    "SKC-SCN-02"
+   ]
+  }
+ },
+ "layer_order": [
+  "ground surface",
+  "tools and props at the edges",
+  "pile (baked)",
+  "top card paper (card type)",
+  "print process texture",
+  "doodle drawing",
+  "lettering (big, pill, thin)",
+  "tape and pins",
+  "hand (held scenes)",
+  "post: soft shadow, light gradient"
+ ],
+ "invalid": [
+  {
+   "this": "Cute drawings",
+   "never_with": "grief or dark identity",
+   "because": "Tone."
+  },
+  {
+   "this": "Dark register",
+   "never_with": "cute colour sets",
+   "because": "Tone."
+  },
+  {
+   "this": "Per-letter rotation",
+   "never_with": "complex scripts",
+   "because": "Shaping."
+  },
+  {
+   "this": "Sticky notes",
+   "never_with": "long lines over 8 words without splitting",
+   "because": "Unreadable."
+  },
+  {
+   "this": "Creature dance",
+   "never_with": "reduced motion",
+   "because": "Motion rule."
+  },
+  {
+   "this": "Panel sequences",
+   "never_with": "any",
+   "because": "Panels territory."
+  }
+ ],
+ "limits": {
+  "scale": "Card 60-80% of frame height; doodle 12-30% of card.",
+  "safe": "Card text central 84%; doodles never over the big word.",
+  "complexity": "Max 6 elements on a card.",
+  "colour": "Song colour set; process limits.",
+  "motion": "One card moving at a time.",
+  "material": "Riso only on riso cards; photocopy only on wheatpaste and receipts."
+ }
+}

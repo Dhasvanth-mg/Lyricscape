@@ -5,7 +5,8 @@
     "tests/styles-infra.test.ts": "28 passed",
     "tests/sketch-cards.test.ts": "8 passed",
     "tests/cover-pop.test.ts": "11 passed",
-    "tests/screenlife.test.ts": "15 passed"
+    "tests/screenlife.test.ts": "15 passed",
+    "tests/glyph-cinema.test.ts": "17 passed"
   },
   "fullSuite": "see regression-results.md"
 }

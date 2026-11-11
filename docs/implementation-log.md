@@ -191,3 +191,7 @@ The Turbo `sketch` scene now draws the Phase 3 Sketch Cards style (`lib/styles/s
 ## Lyric styles Phase 3: Screenlife (2026-11-11)
 
 The Turbo `terminal` scene now draws the Phase 3 Screenlife style (`lib/styles/screenlife/`): each line is typed at a human cadence into one of eleven invented interfaces (messenger, notes, search, documents, post composer, terminal, lock screen, voice memo, checklist, car display, a late-90s desktop) on a device in a blurred room, then sent or saved; the thread is the song's memory. Non-lyric text comes only from the song's metadata. Also drawn for `style15: screenlife`. Record in `docs/visual-production/phase-3/`.
+
+## Lyric styles Phase 3: Glyph Cinema (2026-11-11)
+
+The Turbo `ascii` scene now draws the Phase 3 Glyph Cinema style (`lib/styles/glyph-cinema/`): one of 62 procedural pictures chosen from the song's title and lyrics, turned into characters by the shared character pass in five registers (phosphor, teletext, ink typewriter, 1-bit, block shade), with the lyric typed cell by cell into a band, a split field, a teletext page or a typewriter sheet. The character pass gained ink, teletext and 1-bit modes, custom ramps and regions; its default is unchanged. Also drawn for `style15: glyph-cinema`. Record in `docs/visual-production/phase-3/`.

@@ -4,9 +4,9 @@
   "note": "Counts of live manifest entries (approved, revised, deferred) by production status. Kinds are listed separately and never summed into completion.",
   "totals": {
     "live": 2496,
-    "produced": 547,
-    "blocked": 108,
-    "notStarted": 1841
+    "produced": 696,
+    "blocked": 115,
+    "notStarted": 1685
   },
   "styles": {
     "sketch-cards": {
@@ -117,9 +117,23 @@
         "component": 16,
         "composition": 19
       },
-      "produced": 0,
-      "blocked": 0,
-      "notStarted": 159
+      "produced": 149,
+      "blocked": 7,
+      "notStarted": 3,
+      "blockedIds": [
+        "GLY-CMP-C2",
+        "GLY-MOT-CAL-001",
+        "GLY-MOT-CAL-002",
+        "GLY-MOT-CAL-003",
+        "GLY-MOT-CAL-004",
+        "GLY-MOT-CAL-005",
+        "GLY-MOT-CAL-006"
+      ],
+      "notStartedIds": [
+        "GLY-TYP-RMP-014",
+        "GLY-LAY-PAG-008",
+        "GLY-TRN-REGISTER-FLIP"
+      ]
     },
     "konstrukt": {
       "live": 131,

@@ -4,6 +4,7 @@ export const SCENE_FONT_LOADS = [
   '300 64px "Inter Variable"',
   '600 64px "JetBrains Mono Variable"',
   '500 64px "JetBrains Mono Variable"',
+  '700 64px "JetBrains Mono Variable"',
   '400 64px "Special Elite"',
   '400 64px "Bebas Neue"',
   '900 64px "Nunito"',

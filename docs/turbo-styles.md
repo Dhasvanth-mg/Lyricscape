@@ -14,7 +14,7 @@ Turbo (WebGL2) has six **styles**, picked in the Studio (Mode -> Turbo -> chips)
 | `sketch` | Sketch cards | hand-lettered cards on real kinds of paper, landing on painted places (Phase 3) | `lib/styles/sketch-cards/scene.ts` (the first version, `gl/scenes/sketch.ts`, is kept unused) |
 | `nebula` | Lyrics app | Apple-style rolling lyric column over a colour mesh or a nebula with neon streaks | `gl/scenes/nebula.ts` |
 | `acid` | Acid grain | rolling colour blobs, grain, looping RGB-split eyeballs, yellow subtitle | `gl/scenes/acid.ts` |
-| `ascii` | ASCII eye | a window of characters; the picture comes from the song | `gl/scenes/ascii.ts`, `subject.ts` |
+| `ascii` | ASCII eye | Phase 3: now drawn by Glyph Cinema (pictures from the song made of characters, with the lyric typed into a band, a teletext page or a typewriter sheet); the old scene is kept, unused, until Phase 3 is accepted | `lib/styles/glyph-cinema/` (old: `gl/scenes/ascii.ts`, `subject.ts`) |
 
 (The ids kept their first names; the labels are in `TURBO_STYLES` in `lib/kinetic/turbo.ts`.)
 

@@ -343,28 +343,79 @@ uniform sampler2D u_scene;
 uniform sampler2D u_atlas;
 uniform vec2 u_res;
 uniform float u_cell;
+uniform float u_cellY;   // cell height (device px); equal to u_cell for square cells
 uniform float u_n;
 uniform float u_mix;
 uniform float u_time;
 uniform float u_boost;
+// 0 colour (the picture's own colour), 1 ink on paper (typewriter: strike variation), 2 teletext mosaic (2x3 sixels, eight colours),
+// 3 one-bit print (ordered dither, two colours)
+uniform int u_mode;
+uniform vec3 u_ink;
+uniform vec3 u_paper;
+uniform vec2 u_origin;   // grid origin (device px, from the bottom-left)
+uniform vec4 u_region;   // only cells inside (device px x0, y0, x1, y1 from the bottom-left) turn into characters
+uniform float u_bg;      // colour mode: how much of the cell's colour shows behind the glyph
+uniform float u_wear;    // ink mode: strike-to-strike variation
+uniform float u_gain;    // lightness -> ramp level gain (1.25 = the Turbo ASCII look)
 float h2(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
 float n2(vec2 p) {
   vec2 i = floor(p); vec2 f = fract(p); f = f * f * (3.0 - 2.0 * f);
   return mix(mix(h2(i), h2(i + vec2(1.0, 0.0)), f.x), mix(h2(i + vec2(0.0, 1.0)), h2(i + vec2(1.0, 1.0)), f.x), f.y);
 }
+float bayer4(vec2 p) {
+  vec2 q = mod(p, 4.0);
+  int i = int(q.x) + int(q.y) * 4;
+  int m[16] = int[16](0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5);
+  return (float(m[i]) + 0.5) / 16.0;
+}
+vec3 tt8(vec3 c) {
+  // nearest of the eight teletext colours (black, red, green, yellow, blue, magenta, cyan, white)
+  return step(vec3(0.5), c);
+}
 void main() {
-  vec2 cell = floor(gl_FragCoord.xy / u_cell);
-  vec2 c0 = (cell + 0.5) * u_cell / u_res;
-  vec2 px = vec2(u_cell * 0.3) / u_res;
+  vec3 base = texture(u_scene, v_tc).rgb;
+  vec2 fc = gl_FragCoord.xy;
+  if (fc.x < u_region.x || fc.y < u_region.y || fc.x > u_region.z || fc.y > u_region.w) { o = vec4(base, 1.0); return; }
+  vec2 cs = vec2(u_cell, u_cellY);
+  vec2 g0 = (fc - u_origin) / cs;
+  vec2 cell = floor(g0);
+  vec2 f = fract(g0);
+  vec2 c0 = ((cell + 0.5) * cs + u_origin) / u_res;
+  vec2 px = cs * 0.3 / u_res;
   vec3 c = (texture(u_scene, c0).rgb * 2.0 + texture(u_scene, c0 + px).rgb + texture(u_scene, c0 - px).rgb + texture(u_scene, c0 + vec2(px.x, -px.y)).rgb + texture(u_scene, c0 - vec2(px.x, -px.y)).rgb) / 6.0;
   float lum = dot(c, vec3(0.299, 0.587, 0.114));
-  float g = floor(clamp(lum * 1.25, 0.0, 0.999) * u_n);
-  vec2 f = fract(gl_FragCoord.xy / u_cell);
+  if (u_mode == 2) {
+    // teletext: each cell is 2x3 sixels, each on or off from the picture under it, all in the cell's one colour
+    vec2 sub = floor(f * vec2(2.0, 3.0));
+    vec2 sc = ((cell + (sub + 0.5) / vec2(2.0, 3.0)) * cs + u_origin) / u_res;
+    vec3 sv = texture(u_scene, sc).rgb;
+    float on = step(0.22, max(sv.r, max(sv.g, sv.b)));
+    vec3 ink = tt8(c / max(0.001, max(c.r, max(c.g, c.b))) * 0.9);
+    if (dot(ink, vec3(1.0)) < 0.5) ink = vec3(1.0);
+    // the gap between sixels (separated graphics are not used: contiguous blocks)
+    o = vec4(mix(u_paper, ink, on), 1.0);
+    return;
+  }
+  if (u_mode == 3) {
+    float d = bayer4(cell) - 0.5;
+    float g = floor(clamp((lum - 0.1) * 1.3 + d * 0.3 * smoothstep(0.08, 0.25, lum), 0.0, 0.999) * u_n);
+    float m = step(0.5, texture(u_atlas, vec2((g + f.x) / u_n, 1.0 - f.y)).a);
+    o = vec4(mix(u_paper, u_ink, m), 1.0);
+    return;
+  }
+  float g = floor(clamp(lum * u_gain, 0.0, 0.999) * u_n);
   float m = texture(u_atlas, vec2((g + f.x) / u_n, 1.0 - f.y)).a;
-  vec3 asc = c * u_boost * m + c * 0.05;
-  vec3 base = texture(u_scene, v_tc).rgb;
+  if (u_mode == 1) {
+    // the picture's lightness is how much ink a cell takes (the subject is typed, its dark ground stays paper); each strike differs
+    float gi = floor(clamp((lum - 0.05) * 2.2, 0.0, 0.999) * u_n);
+    float mi = texture(u_atlas, vec2((gi + f.x) / u_n, 1.0 - f.y)).a;
+    float strike = 1.0 - u_wear * h2(cell + 7.1) - u_wear * 0.6 * n2(cell * 0.21 + vec2(f.x * 3.0, 0.0));
+    o = vec4(mix(u_paper, u_ink, clamp(mi * strike, 0.0, 1.0)), 1.0);
+    return;
+  }
+  vec3 asc = c * u_boost * m + c * u_bg;
   float edge = n2(v_tc * vec2(u_res.x / u_res.y, 1.0) * 6.0 + u_time * 0.25);
-  float k = smoothstep(u_mix - 0.12, u_mix + 0.12, 1.0 - edge * (1.0 - u_mix) - (1.0 - u_mix) * 0.0);
   float amount = clamp(u_mix * 1.2 - edge * 0.2 + 0.1, 0.0, 1.0);
   o = vec4(mix(base, asc, amount), 1.0);
 }`;

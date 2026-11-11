@@ -29,6 +29,32 @@ type Glyph = { tex: Tex; /** quad size in css px at the bucketed font size */ w:
 type Sprite = { tex: Tex; w: number; h: number };
 export type ShapeOpts = { kind: 0 | 1 | 2 | 3 | 4 | 5; m: Affine; w: number; h: number; color: string | [number, number, number, number]; color2?: string; alpha?: number; radius?: number; width?: number; soft?: number; camera?: boolean };
 
+/** a character ramp painted by the caller: `n` cells of `cell` px, emptiest first (cached by key) */
+export type AsciiAtlas = { key: string; n: number; paint: (c: CanvasRenderingContext2D, cell: number) => void };
+export type AsciiOpts = {
+  cell?: number;
+  /** cell height in css px (exact grids only; default square) */
+  cellY?: number;
+  mix?: number;
+  boost?: number;
+  ramp?: string;
+  atlas?: AsciiAtlas;
+  /** 0 colour, 1 ink on paper, 2 teletext mosaic, 3 one-bit print */
+  mode?: 0 | 1 | 2 | 3;
+  ink?: string;
+  paper?: string;
+  /** the grid's top-left corner in css px (cells line up with text drawn on the same grid) */
+  origin?: [number, number];
+  /** only this css rect (x0, y0, x1, y1) turns into characters */
+  region?: [number, number, number, number];
+  /** cell size in css px exactly (not rounded to device px), so the grid matches the caller's own */
+  exact?: boolean;
+  bg?: number;
+  wear?: number;
+  /** lightness to ramp-level gain (default 1.25) */
+  gain?: number;
+};
+
 export type SpriteOpts = {
     tex: Tex;
     m: Affine; // local -> stage (before the camera)
@@ -91,6 +117,8 @@ export class TurboRenderer {
   private bloomB: Target | null = null;
   private asciiRT: Target | null = null;
   private asciiAtlas: { tex: Tex; n: number } | null = null;
+  /** custom character ramps (Glyph Cinema), by key; a handful at most */
+  private asciiAtlases = new Map<string, { tex: Tex; n: number }>();
   private sceneProgs = new Map<string, Program>();
   private lastTurboStyle: TurboStyleId = 'liquid';
 
@@ -214,6 +242,7 @@ export class TurboRenderer {
     this.sprites.clear();
     this.sceneRT = this.stageRT = this.bloomA = this.bloomB = this.asciiRT = null;
     this.asciiAtlas = null;
+    this.asciiAtlases.clear();
     this.sceneProgs.clear();
     this.artTex = null;
     this.artLevels = null;
@@ -252,6 +281,8 @@ export class TurboRenderer {
     freeTarget(gl, this.bloomB);
     freeTarget(gl, this.asciiRT);
     if (this.asciiAtlas) gl.deleteTexture(this.asciiAtlas.tex.tex);
+    for (const a of this.asciiAtlases.values()) gl.deleteTexture(a.tex.tex);
+    this.asciiAtlases.clear();
     this.sceneRT = this.stageRT = this.bloomA = this.bloomB = this.asciiRT = null;
     for (const p of Object.values(this.programs)) gl.deleteProgram(p.prog);
     for (const p of this.sceneProgs.values()) gl.deleteProgram(p.prog);
@@ -1390,14 +1421,37 @@ export class TurboRenderer {
     return this.asciiAtlas;
   }
 
-  private asciiPass(frame: Frame, W: number, H: number, o: { cell?: number; mix?: number; boost?: number } = {}) {
+  private customAtlas(a: AsciiAtlas): { tex: Tex; n: number } {
+    const hit = this.asciiAtlases.get(a.key);
+    if (hit) {
+      this.asciiAtlases.delete(a.key);
+      this.asciiAtlases.set(a.key, hit);
+      return hit;
+    }
+    const CELL = 32;
+    const c = document.createElement('canvas');
+    c.width = CELL * a.n;
+    c.height = CELL;
+    a.paint(c.getContext('2d')!, CELL);
+    const made = { tex: textureFrom(this.gl, c, c.width, c.height, { mips: false }), n: a.n };
+    this.asciiAtlases.set(a.key, made);
+    while (this.asciiAtlases.size > 12) {
+      const [k, v] = this.asciiAtlases.entries().next().value!;
+      this.gl.deleteTexture(v.tex.tex);
+      this.asciiAtlases.delete(k);
+    }
+    return made;
+  }
+
+  private asciiPass(frame: Frame, W: number, H: number, o: AsciiOpts = {}) {
     const gl = this.gl;
     const scene = this.sceneRT!;
     if (!this.asciiRT) this.asciiRT = createTarget(gl, this.canvas.width, this.canvas.height);
     const out = this.asciiRT;
-    const atlas = this.ensureAtlas();
-    void W;
-    void H;
+    const atlas = o.atlas ? this.customAtlas(o.atlas) : this.ensureAtlas();
+    // css px -> device px of the scene target (its y runs up from the bottom)
+    const sx = out.w / Math.max(1, W);
+    const sy = out.h / Math.max(1, H);
     gl.disable(gl.BLEND);
     gl.bindFramebuffer(gl.FRAMEBUFFER, out.fbo);
     gl.viewport(0, 0, out.w, out.h);
@@ -1408,7 +1462,22 @@ export class TurboRenderer {
     p.i('u_scene', 0);
     p.i('u_atlas', 1);
     p.v2('u_res', out.w, out.h);
-    p.f('u_cell', Math.max(4, Math.round((o.cell ?? 12) * this.dpr)));
+    const cellX = o.exact ? Math.max(2, (o.cell ?? 12) * sx) : Math.max(4, Math.round((o.cell ?? 12) * this.dpr));
+    p.f('u_cell', cellX);
+    p.f('u_cellY', o.exact ? Math.max(2, (o.cellY ?? o.cell ?? 12) * sy) : cellX);
+    p.i('u_mode', o.mode ?? 0);
+    p.col3('u_ink', parseColor(o.ink ?? '#000000'));
+    p.col3('u_paper', parseColor(o.paper ?? '#ffffff'));
+    // origin: top-left of the grid in css px -> bottom-left device coordinates of a cell boundary
+    const ox = (o.origin?.[0] ?? 0) * sx;
+    const oyTop = (o.origin?.[1] ?? 0) * sy;
+    const cy = o.exact ? Math.max(2, (o.cellY ?? o.cell ?? 12) * sy) : cellX;
+    p.v2('u_origin', ox, o.origin ? ((out.h - oyTop) % cy + cy) % cy : 0);
+    const r = o.region;
+    p.v4('u_region', r ? r[0] * sx : -1, r ? out.h - r[3] * sy : -1, r ? r[2] * sx : out.w + 1, r ? out.h - r[1] * sy : out.h + 1);
+    p.f('u_bg', o.bg ?? 0.05);
+    p.f('u_wear', o.wear ?? 0);
+    p.f('u_gain', o.gain ?? 1.25);
     p.f('u_n', atlas.n);
     // mostly characters, falling back toward the real picture on the beat
     p.f('u_mix', o.mix ?? Math.min(1, Math.max(0.3, 0.72 + 0.2 * Math.sin(frame.tMs / 2300) - frame.beat.pulse * 0.45)));

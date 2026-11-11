@@ -40,3 +40,14 @@ Not yet reviewed in real renders: the held cue card (C2) with hands, the pile (C
 - Arabic and Hebrew: bubbles on the left, text right-aligned, the caret at the left end. Devanagari and Tamil typed by whole clusters (no half-built conjuncts seen).
 - Small mobile (390x844) meets the 2.6% x-height floor, which makes the messenger text very large on that screen; listed for the owner's review.
 - Not reviewed: reduced motion as frames (covered by tests only), the section transitions watched as motion, real-device performance (B-06).
+
+## Glyph Cinema, 62 subjects, five registers, five compositions, 1280x720, 720x1280, 1080x1080, 390x844, five scripts
+
+- All 62 subjects rendered through the character pass in phosphor at 1280x720 on one contact sheet. Most read at a glance; rose, hands, dancer, crowd and slow lights are weak and listed for redrawing.
+- The picture shader first drew upside down (wrong uv flip); fixed. Landscape grids were too coarse; fixed. Pictures were dim through the ramp; a gain was added.
+- Square-celled band text looked letterspaced; band cells now use a 0.72 aspect (D3-GLY-01).
+- 1-bit: dither speckled the paper; thresholds changed. Teletext mosaic read as a blob; sixels now light on the brightest channel.
+- Typewriter: the picture printed inverted and faint; it is printed by brightness now, still lighter than the type (D3-GLY-03). Wrapped lines overlapped; rows now stack with the current row on the carriage. The heading overflowed on small screens; it is now fitted.
+- Hindi, Tamil and Arabic lines in teletext pages broke in the cell grid; they are now drawn as clipped strips (right-aligned for Arabic). Mixed lines become strips (D3-GLY-06).
+- Default (unforced) frames at four sizes: the split field, the band with the sung word inverted, block shade in a chorus. Small mobile meets the 2.6% x-height floor; the inverted band in portrait is small but over the floor.
+- Not reviewed: motion watched as motion, reduced motion as frames (tests only), kana and hangul ramps (they depend on system CJK fonts), real-GPU timings (B-06).

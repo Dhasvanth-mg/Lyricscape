@@ -14,3 +14,4 @@ Things Phase 3 cannot finish here, with what would unblock them. Work moved on t
 | B-08 | Cover Pop's 50-cover saliency and contrast review | Needs a set of real album covers; none may be downloaded here without rights | The owner runs the review on their library, or supplies a cleared set |
 | B-09 | SCR-PRP-NTF-013 volume pill | It appears "when the song gets louder (energy estimate) only with analysis"; no audio energy analysis exists in the app | An audio energy analysis (or the owner drops the entry) |
 | B-10 | SCR-REV-CAR-009 IME composition underline | The spec defers Japanese and Korean IME composition to after Phase 3 core | The owner schedules the extension |
+| B-11 | GLY-CMP-C2 calligram and GLY-MOT-CAL-001..006 | Part of B-05: the calligram composition waits on its prototype gate. Sections the plan would give it use the lyric band (C1) | The owner judges a calligram prototype |

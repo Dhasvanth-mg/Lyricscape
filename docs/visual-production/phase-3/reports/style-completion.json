@@ -23,8 +23,8 @@
     {
       "order": 4,
       "slug": "glyph-cinema",
-      "stage": "not-started",
-      "offered": "no"
+      "stage": "in-review",
+      "offered": "drawn when the renderer option style15 is glyph-cinema, and in place of the Turbo ascii scene; not yet in the 15-style selector"
     },
     {
       "order": 5,

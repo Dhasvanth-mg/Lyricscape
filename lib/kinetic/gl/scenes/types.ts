@@ -3,7 +3,7 @@
 
 import type { Affine, Program, Tex } from '../gpu';
 import type { Frame, VisualTimeline } from '../../types';
-import type { SpriteOpts, ShapeOpts } from '../renderer';
+import type { AsciiOpts, SpriteOpts, ShapeOpts } from '../renderer';
 
 export type TexEntry = { tex: Tex; w: number; h: number };
 
@@ -57,7 +57,7 @@ export type SceneHost = {
   /** a full-screen fragment shader; `scale` is the fraction of the scene resolution it runs at (it is stretched up) */
   fullscreen(key: string, fs: string, scale: number, set: (p: Program, size: { w: number; h: number }) => void): void;
   /** turn what has been drawn so far into characters (ASCII pass) */
-  ascii(o: { cell: number; mix: number; ramp?: string; boost?: number }): void;
+  ascii(o: AsciiOpts & { cell: number; mix: number }): void;
   /** additive (true) or normal premultiplied blending (false) */
   additive(on: boolean): void;
   /** the scene target as a texture is not available to scenes; blur is done with mip levels (`lod`) on sprites */

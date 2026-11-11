@@ -1,19 +1,20 @@
 // The reference scenes: one picture-making function per Turbo style that was modelled on a reference clip.
 import type { TurboStyleId } from '../../turbo';
 import { drawAcidScene } from './acid';
-import { drawAsciiScene } from './ascii';
 import { drawNebulaScene } from './nebula';
 import { drawSketchCardsScene } from '../../../styles/sketch-cards/scene';
 import type { SceneFx, SceneHost } from './types';
 import type { Style15Id } from '../../../styles/registry';
 import { drawCoverPopScene } from '../../../styles/cover-pop/scene';
 import { drawScreenlifeScene } from '../../../styles/screenlife/scene';
+import { drawGlyphCinemaScene } from '../../../styles/glyph-cinema/scene';
 
 /** Phase 3 styles that have a scene of their own (drawn instead of the Turbo pick when the stage asks for one) */
 export const STYLE15_SCENES: Partial<Record<Style15Id, (h: SceneHost) => SceneFx>> = {
   'sketch-cards': drawSketchCardsScene,
   'cover-pop': drawCoverPopScene,
   screenlife: drawScreenlifeScene,
+  'glyph-cinema': drawGlyphCinemaScene,
 };
 
 export function drawScene(style: TurboStyleId, h: SceneHost): SceneFx {
@@ -29,7 +30,8 @@ export function drawScene(style: TurboStyleId, h: SceneHost): SceneFx {
     case 'acid':
       return drawAcidScene(h);
     case 'ascii':
-      return drawAsciiScene(h);
+      // Phase 3: Glyph Cinema replaces the ASCII eye scene (its hacker room is rejected as GLY-SCN-X01; kept in ascii.ts until Phase 3 is accepted)
+      return drawGlyphCinemaScene(h);
     default:
       h.clear('#000000');
       return {};

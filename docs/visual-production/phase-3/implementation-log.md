@@ -32,3 +32,14 @@
 - Registered in `STYLE15_SCENES` and drawn in place of the Turbo terminal scene. Space Grotesk and the Noto Devanagari and Tamil UI weights added to the scene font loads (already bundled).
 - A QA-only hook (`globalThis.__LS_QA_SCR`, ignored in production builds) forces a kit and composition so every scene family can be checked on real frames; the demo songs reach only four of them.
 - 15 tests in `tests/screenlife.test.ts`.
+
+## 2026-11-11: Glyph Cinema
+
+- The shared character pass (`ASCII_FS`, `asciiPass`) gained modes without changing its default: colour, ink on paper, teletext 2x3 sixels in 8 colours and 1-bit ordered dither; custom ramp atlases (cached, at most 12), a region and origin so a pass can cover part of the frame, separate cell height, paper and ink colours, background level, strike wear and gain.
+- `lib/styles/glyph-cinema/`: 62 procedural subjects in one shader (`shader.ts`), each with its motion channel, grouped in the 13 scene families with the lyric words that call them (`subjects.ts`; a title word decides, lyrics need repetition); 13 ramps sorted by measured coverage, phosphors, cover phosphor, block colours, teletext palette and duotone with contrast floors (`ramps.ts`); the song plan (`plan.ts`); painting of rows, papers, typed sheets and teletext pages (`paint.ts`); the scene (`scene.ts`).
+- Song plan: the shared planner with Glyph Cinema's rules: teletext pages only in the teletext register, the typewriter sheet only in ink, block shade only in choruses and at most twice a song, the title subject leading the choruses, reduced motion holding the camera and cutting between sections.
+- Typing: each grapheme cluster appears in its cell at most once a 30 fps step; authored words at their own times, other timing over the first 40% of the line. The sung word is inverted in the band; old rows fade behind a decay front.
+- Five compositions: picture with lyric band (C1), teletext page (C3, 40x24 or 24x36 with header, footer and seven page kinds), typewriter sheet (C4), split field (C5), macro cell zoom (C6).
+- Registered in `STYLE15_SCENES` and drawn in place of the Turbo ascii scene. JetBrains Mono bold added to the scene font loads.
+- A QA-only hook (`globalThis.__LS_QA_GLY`, ignored in production builds) forces composition, register, subject, page, ramp, density, band and paper.
+- 17 tests in `tests/glyph-cinema.test.ts`.

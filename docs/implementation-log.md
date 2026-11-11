@@ -187,3 +187,7 @@ Final browser regression: both Spotify tests passed together after the final pro
 ## Lyric styles Phase 3: Sketch Cards (2026-11-11)
 
 The Turbo `sketch` scene now draws the Phase 3 Sketch Cards style (`lib/styles/sketch-cards/`): lines lettered on fourteen kinds of paper landing on eleven painted places, six compositions, drawings from three registers, print processes, five scripts with right-to-left layout. The production record is in `docs/visual-production/phase-3/`.
+
+## Lyric styles Phase 3: Screenlife (2026-11-11)
+
+The Turbo `terminal` scene now draws the Phase 3 Screenlife style (`lib/styles/screenlife/`): each line is typed at a human cadence into one of eleven invented interfaces (messenger, notes, search, documents, post composer, terminal, lock screen, voice memo, checklist, car display, a late-90s desktop) on a device in a blurred room, then sent or saved; the thread is the song's memory. Non-lyric text comes only from the song's metadata. Also drawn for `style15: screenlife`. Record in `docs/visual-production/phase-3/`.

@@ -10,7 +10,7 @@ Turbo (WebGL2) has six **styles**, picked in the Studio (Mode -> Turbo -> chips)
 | id | Label | What it is | Code |
 |---|---|---|---|
 | `liquid` | Liquid light | the default: the song's own art direction at full intensity (flowing light, god rays, bokeh, beat shockwaves, cover treatments) | `lib/kinetic/gl/renderer.ts` `draw()` (the long path), `turbo.ts` |
-| `terminal` | Code screens | each lyric is typed into a different screen the camera flies through | `gl/scenes/terminal.ts` |
+| `terminal` | Code screens | Phase 3: now drawn by Screenlife (each line typed into an invented app on a device); the old scene is kept, unused, until Phase 3 is accepted | `lib/styles/screenlife/` (old: `gl/scenes/terminal.ts`) |
 | `sketch` | Sketch cards | hand-lettered cards on real kinds of paper, landing on painted places (Phase 3) | `lib/styles/sketch-cards/scene.ts` (the first version, `gl/scenes/sketch.ts`, is kept unused) |
 | `nebula` | Lyrics app | Apple-style rolling lyric column over a colour mesh or a nebula with neon streaks | `gl/scenes/nebula.ts` |
 | `acid` | Acid grain | rolling colour blobs, grain, looping RGB-split eyeballs, yellow subtitle | `gl/scenes/acid.ts` |

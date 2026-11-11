@@ -12,3 +12,5 @@ Things Phase 3 cannot finish here, with what would unblock them. Work moved on t
 | B-06 | Real-device performance numbers | Only a software GPU (SwiftShader) is available in this container; its timings say nothing about a phone or a laptop GPU | A run of the bench on the owner's machines |
 | B-07 | Pushing, pull requests | The owner has not authorised pushing in Phase 3 | The owner's go-ahead |
 | B-08 | Cover Pop's 50-cover saliency and contrast review | Needs a set of real album covers; none may be downloaded here without rights | The owner runs the review on their library, or supplies a cleared set |
+| B-09 | SCR-PRP-NTF-013 volume pill | It appears "when the song gets louder (energy estimate) only with analysis"; no audio energy analysis exists in the app | An audio energy analysis (or the owner drops the entry) |
+| B-10 | SCR-REV-CAR-009 IME composition underline | The spec defers Japanese and Korean IME composition to after Phase 3 core | The owner schedules the extension |

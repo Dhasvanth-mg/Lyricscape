@@ -1,8 +1,19 @@
 {
   "schema": "lyricscape.phase3.production-batches/1",
   "asOf": "2026-11-11",
-  "note": "Batch ids from docs/visual-production/phase-2. Only Sketch Cards batches have started.",
+  "note": "Batch ids from docs/visual-production/phase-2. Sketch Cards, Cover Pop and Screenlife batches have started.",
   "batches": [
-    { "style": "sketch-cards", "status": "produced except SKC-PRC-ART (blocked B-01)" }
+    {
+      "style": "sketch-cards",
+      "status": "produced except SKC-PRC-ART (blocked B-01)"
+    },
+    {
+      "style": "cover-pop",
+      "status": "produced (172 of 172)"
+    },
+    {
+      "style": "screenlife",
+      "status": "161 of 219 produced; 2 blocked (B-09, B-10); 56 not started (listed in asset-coverage.json)"
+    }
   ]
 }

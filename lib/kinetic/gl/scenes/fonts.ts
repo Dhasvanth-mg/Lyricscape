@@ -9,6 +9,8 @@ export const SCENE_FONT_LOADS = [
   '900 64px "Nunito"',
   '300 64px "Cormorant Garamond"',
   '400 64px "Instrument Serif"',
+  '500 64px "Space Grotesk Variable"',
+  '700 64px "Space Grotesk Variable"',
   '400 64px "Anton"',
   '400 64px "Permanent Marker"',
   '400 64px "Bangers"',
@@ -36,4 +38,7 @@ export const SCENE_SCRIPT_LOADS: [font: string, sample: string][] = [
   ['800 64px "Noto Sans Hebrew Variable"', 'עברית'],
   ['500 64px "Noto Sans Arabic Variable"', 'عربي'],
   ['500 64px "Noto Sans Hebrew Variable"', 'עברית'],
+  ['400 64px "Noto Sans Devanagari Variable"', 'हिंदी'],
+  ['500 64px "Noto Sans Devanagari Variable"', 'हिंदी'],
+  ['500 64px "Noto Sans Tamil Variable"', 'தமிழ்'],
 ];

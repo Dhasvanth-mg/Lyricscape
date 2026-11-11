@@ -27,3 +27,16 @@ Not yet reviewed in real renders: the held cue card (C2) with hands, the pile (C
 - In landscape the full-cover phrase was squeezed into the cover's empty patch; it may now run across the side fields at that height.
 - A portrait collage phrase ran past the frame edge; phrases are now scaled to stay inside the frame.
 - Not reviewed: the brief's 50-cover saliency review (only the three demo covers exist here), square and small-mobile sizes.
+
+## Screenlife, all 11 kits, 1280x720, 720x1280, 1080x1080, 390x844, five scripts
+
+- All kits drawn and legible: messenger (phone and tablet), notes, search with suggestions, documents on a monitor, post composer with the cover, full-frame terminal, lock screen with the stack, voice memo, checklist, car display, Plaid desktop on a CRT.
+- Captures taken while the page was still loading showed an empty intro state and, once, the composer without its cover; the kit cache key now includes whether a cover is present, and the capture script waits for the timeline.
+- The voice memo transcript scrolled under the waveform; the recorder now masks it.
+- The car display showed an empty map between lines; the last instruction now stays on the banner, dimmed.
+- In portrait, the composer and messenger over the shoulder were small; portrait C1 now fills the height. Wide screens (laptop, car display, CRT) in a tall frame now crop to the part that holds the field.
+- The post composer on a landscape tablet overflowed the screen; the composer is always a phone.
+- A chorus sticker covered the checklist title; stickers now sit at the trailing edge of the newest item.
+- Arabic and Hebrew: bubbles on the left, text right-aligned, the caret at the left end. Devanagari and Tamil typed by whole clusters (no half-built conjuncts seen).
+- Small mobile (390x844) meets the 2.6% x-height floor, which makes the messenger text very large on that screen; listed for the owner's review.
+- Not reviewed: reduced motion as frames (covered by tests only), the section transitions watched as motion, real-device performance (B-06).

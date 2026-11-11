@@ -29,7 +29,7 @@ export default function IconSheet() {
   if (!mounted) return null;
   return (
     <div className="p-4" data-testid="icon-sheet">
-      <h1 className="font-display mb-1 text-3xl uppercase">Icon set</h1>
+      <h1 className="mb-1 text-2xl font-bold tracking-tight">Icon set</h1>
       <p className="mb-4 text-sm text-ink-300">{ICON_IDS.length} custom vector icons. Top row of each cell: inline SVG on dark / light. Then the {ICON_TREATMENTS.length} ways the stage may draw it ({ICON_IDS.length * ICON_TREATMENTS.length} in all), and the sticker sprite in three accents.</p>
       <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))' }}>
         {ICON_IDS.map((id) => (

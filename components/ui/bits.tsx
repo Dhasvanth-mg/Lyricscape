@@ -8,15 +8,15 @@ export function Button({ variant = 'outline', size = 'md', className, ...rest }:
     <button
       {...rest}
       className={clsx(
-        'inline-flex items-center justify-center gap-2 rounded-full font-semibold transition select-none disabled:opacity-40 active:scale-[0.97]',
-        size === 'sm' && 'h-8 px-3.5 text-[13px]',
-        size === 'md' && 'h-10 px-5 text-sm',
-        size === 'lg' && 'h-12 px-7 text-base',
+        'inline-flex items-center justify-center gap-2 rounded-full font-bold transition select-none hover:scale-[1.04] active:scale-100 disabled:pointer-events-none disabled:opacity-40',
+        size === 'sm' && 'h-8 px-4 text-[13px]',
+        size === 'md' && 'h-10 px-6 text-sm',
+        size === 'lg' && 'h-12 px-8 text-base',
         variant === 'primary' && 'bg-signal text-white hover:bg-[#ff5a87]',
         variant === 'spotify' && 'bg-spotify text-black hover:brightness-110',
-        variant === 'outline' && 'border border-ink-600 bg-ink-850 text-bone hover:border-ink-400 hover:bg-ink-800',
-        variant === 'ghost' && 'text-ink-200 hover:bg-ink-800 hover:text-bone',
-        variant === 'danger' && 'border border-red-500/40 text-red-300 hover:bg-red-500/10',
+        variant === 'outline' && 'border border-ink-400 bg-transparent text-bone hover:border-bone',
+        variant === 'ghost' && 'text-ink-300 hover:scale-100 hover:bg-ink-800 hover:text-bone',
+        variant === 'danger' && 'border border-danger/60 text-danger hover:border-danger',
         className,
       )}
     />
@@ -37,7 +37,7 @@ export function IconButton({
       title={label}
       aria-pressed={active}
       className={clsx(
-        'inline-flex h-9 w-9 items-center justify-center rounded-full transition disabled:opacity-30 active:scale-90',
+        'inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-105 active:scale-95 disabled:pointer-events-none disabled:opacity-30',
         active ? 'text-signal' : 'text-ink-300 hover:text-bone',
         className,
       )}
@@ -51,11 +51,11 @@ export function Chip({ children, tone = 'default', className }: { children: Reac
   return (
     <span
       className={clsx(
-        'inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-semibold tracking-wide uppercase',
-        tone === 'default' && 'bg-ink-800 text-ink-300',
+        'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold',
+        tone === 'default' && 'bg-ink-800 text-bone',
         tone === 'good' && 'bg-aqua/15 text-aqua',
         tone === 'warn' && 'bg-sun/15 text-sun',
-        tone === 'bad' && 'bg-red-500/15 text-red-300',
+        tone === 'bad' && 'bg-danger/15 text-danger',
         tone === 'spotify' && 'bg-spotify/15 text-spotify',
         className,
       )}
@@ -71,9 +71,9 @@ export function Spinner({ className }: { className?: string }) {
 
 export function Empty({ title, children, action }: { title: string; children?: ReactNode; action?: ReactNode }) {
   return (
-    <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-ink-700 px-6 py-12 text-center">
-      <p className="font-display text-2xl tracking-wide text-ink-200 uppercase">{title}</p>
-      {children && <div className="max-w-md text-sm text-ink-400">{children}</div>}
+    <div className="flex flex-col items-center gap-2 rounded-xl bg-ink-850/60 px-6 py-12 text-center">
+      <p className="text-xl font-bold tracking-tight text-bone">{title}</p>
+      {children && <div className="max-w-md text-sm text-ink-300">{children}</div>}
       {action && <div className="mt-3">{action}</div>}
     </div>
   );
@@ -81,10 +81,10 @@ export function Empty({ title, children, action }: { title: string; children?: R
 
 export function PageHeader({ eyebrow, title, children }: { eyebrow?: string; title: string; children?: ReactNode }) {
   return (
-    <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
+    <header className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
       <div>
-        {eyebrow && <p className="mb-1 font-mono text-[11px] tracking-[0.18em] text-signal uppercase">{eyebrow}</p>}
-        <h1 className="font-display text-5xl leading-none tracking-wide uppercase sm:text-6xl">{title}</h1>
+        {eyebrow && <p className="mb-2 text-xs font-semibold text-ink-300">{eyebrow}</p>}
+        <h1 className="text-3xl leading-tight font-extrabold tracking-tight sm:text-5xl">{title}</h1>
       </div>
       {children}
     </header>

@@ -146,7 +146,7 @@ function Gallery() {
   const h = num('h', Math.round((w * 9) / 16));
   return (
     <div className="p-4">
-      <h1 className="font-display text-3xl uppercase">Look gallery</h1>
+      <h1 className="text-2xl font-bold tracking-tight">Look gallery</h1>
       <p className="mb-5 max-w-3xl text-sm text-ink-300">
         Original sample songs (invented titles, lyrics written for this page, generated covers, stand-in genre tags) run through the real pipeline in Auto. Each frame is frozen at one moment of the song. These are not real recordings.
       </p>

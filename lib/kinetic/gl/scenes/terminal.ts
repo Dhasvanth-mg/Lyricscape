@@ -7,16 +7,99 @@
 import { mul, translate, type Affine } from '../gpu';
 import { camera, clamp, cursorOn, drawText, easeInOut, easeOut, easeOutExpo, hash01, lerp, lineAt, noise1, prefixPx, smooth, textTex, typedChars, wrapText, type Line } from './common';
 import type { SceneFx, SceneHost, TexEntry } from './types';
+import { hashKey, hsl, pick, seeded, songHues } from '../../variety';
+import { APP_SCREENS, CAMERA_MOVES, drawAppShot, type AppScreen } from './screens';
 
 const MONO = (px: number) => `600 ${px}px "JetBrains Mono Variable", ui-monospace, monospace`;
 const MONO_B = (px: number) => `700 ${px}px "JetBrains Mono Variable", ui-monospace, monospace`;
 const UI = (px: number) => `500 ${px}px "Inter Variable", "Segoe UI", system-ui, sans-serif`;
 
 export const SHOT_ORDER = ['code', 'code', 'errors', 'big', 'form', 'banner', 'console', 'big'] as const;
-export type Shot = (typeof SHOT_ORDER)[number];
+export type ClassicShot = (typeof SHOT_ORDER)[number];
+/** the six original screens, or one of the app screens (chat, search, notes, ...) from screens.ts */
+export type Shot = ClassicShot | AppScreen;
+/** a song plays its screens in one of these orders (the first is the original cut) */
+export const SHOT_ORDERS: readonly (readonly ClassicShot[])[] = [
+  SHOT_ORDER,
+  ['code', 'errors', 'code', 'big', 'console', 'form', 'big', 'banner'],
+  ['code', 'big', 'errors', 'code', 'banner', 'big', 'console', 'form'],
+  ['code', 'console', 'big', 'errors', 'code', 'form', 'banner', 'big'],
+  ['code', 'code', 'big', 'banner', 'errors', 'console', 'big', 'form'],
+  ['code', 'form', 'big', 'console', 'code', 'errors', 'big', 'banner'],
+  ['code', 'big', 'code', 'console', 'big', 'errors', 'banner', 'form'],
+  ['code', 'errors', 'big', 'code', 'console', 'big', 'form', 'banner'],
+];
 
-export function shotFor(line: Line): Shot {
-  const s = SHOT_ORDER[line.i % SHOT_ORDER.length]!;
+/** Editor colour themes for the code screens. Each is our own set of colours in the spirit of a familiar dark theme. */
+export type CodeTheme = { id: string; bg: string; fg: string; str: string; num: string; kw2: string; kw: string; fn: string; op: string; caret: string };
+export const CODE_THEMES: readonly CodeTheme[] = [
+  { id: 'night', bg: '#04060d', fg: '#d7e3fb', str: '#ffb27a', num: '#ffb27a', kw2: '#c692f2', kw: '#52c7ff', fn: '#f4e3b8', op: '#ffffff', caret: '#ffe6cf' },
+  { id: 'vampire', bg: '#191a21', fg: '#f8f8f2', str: '#f1fa8c', num: '#bd93f9', kw2: '#ff79c6', kw: '#8be9fd', fn: '#50fa7b', op: '#ff79c6', caret: '#f8f8f0' },
+  { id: 'molokai', bg: '#1e1f1c', fg: '#f8f8f2', str: '#e6db74', num: '#ae81ff', kw2: '#f92672', kw: '#66d9ef', fn: '#a6e22e', op: '#f92672', caret: '#f8f8f0' },
+  { id: 'fjord', bg: '#242933', fg: '#d8dee9', str: '#a3be8c', num: '#b48ead', kw2: '#81a1c1', kw: '#88c0d0', fn: '#8fbcbb', op: '#eceff4', caret: '#eceff4' },
+  { id: 'retro', bg: '#1d2021', fg: '#ebdbb2', str: '#b8bb26', num: '#d3869b', kw2: '#fb4934', kw: '#83a598', fn: '#fabd2f', op: '#fe8019', caret: '#fbf1c7' },
+  { id: 'synth', bg: '#1a1033', fg: '#f0e9ff', str: '#ff8b39', num: '#f97e72', kw2: '#fede5d', kw: '#36f9f6', fn: '#ff7edb', op: '#fede5d', caret: '#ff7edb' },
+  { id: 'phosphor', bg: '#020a04', fg: '#7dff9a', str: '#d6ffd9', num: '#3dff6e', kw2: '#00c43a', kw: '#9dffb0', fn: '#c8ffcf', op: '#ffffff', caret: '#b8ffc4' },
+  { id: 'deepsea', bg: '#00212b', fg: '#93a1a1', str: '#2aa198', num: '#d33682', kw2: '#859900', kw: '#268bd2', fn: '#b58900', op: '#cb4b16', caret: '#fdf6e3' },
+  { id: 'midnight', bg: '#16161e', fg: '#c0caf5', str: '#9ece6a', num: '#ff9e64', kw2: '#bb9af7', kw: '#7aa2f7', fn: '#7dcfff', op: '#89ddff', caret: '#c0caf5' },
+  { id: 'dusk', bg: '#191724', fg: '#e0def4', str: '#f6c177', num: '#eb6f92', kw2: '#c4a7e7', kw: '#9ccfd8', fn: '#ebbcba', op: '#e0def4', caret: '#e0def4' },
+  { id: 'amber', bg: '#0d0700', fg: '#ffb000', str: '#ffd27a', num: '#ffcc66', kw2: '#ff8800', kw: '#ffc040', fn: '#ffe0a0', op: '#fff2d0', caret: '#fff2d0' },
+  { id: 'ocean', bg: '#0f1c24', fg: '#cdd3de', str: '#99c794', num: '#f99157', kw2: '#c594c5', kw: '#6699cc', fn: '#fac863', op: '#5fb3b3', caret: '#ffffff' },
+  { id: 'ice', bg: '#0a1220', fg: '#dbe9ff', str: '#9be7ff', num: '#c3a6ff', kw2: '#7fb2ff', kw: '#5ee0ff', fn: '#ffffff', op: '#a8c8ff', caret: '#ffffff' },
+  { id: 'ember', bg: '#140805', fg: '#f3d9c9', str: '#ffcf5c', num: '#ff7a59', kw2: '#ff4d4d', kw: '#ff9e5e', fn: '#ffe6b0', op: '#ffffff', caret: '#fff0e0' },
+];
+
+/** a theme made from the song's own cover colours */
+function coverTheme(hue: number, r: () => number): CodeTheme {
+  const s = 0.6 + r() * 0.3;
+  return {
+    id: `cover${Math.round(hue * 360)}`,
+    bg: hsl(hue, 0.45, 0.05),
+    fg: hsl(hue, 0.25, 0.86),
+    str: hsl(hue + 0.5, s, 0.7),
+    num: hsl(hue + 0.42, s, 0.68),
+    kw2: hsl(hue + 0.12, s, 0.7),
+    kw: hsl(hue, s, 0.66),
+    fn: hsl(hue + 0.06, 0.4, 0.88),
+    op: '#ffffff',
+    caret: hsl(hue + 0.5, 0.5, 0.92),
+  };
+}
+
+const PHOSPHORS = ['#43ff3c', '#ffb000', '#3cf2ff', '#ff4fd8', '#e8f0ff', '#9dff3c', '#ff6a3c', '#b48cff'] as const;
+const ALERT_HUES = [0.99, 0.07, 0.6, 0.76, 0.48, 0.9] as const;
+const FORM_HUES = [0.38, 0.6, 0.75, 0.02, 0.08, 0.5] as const;
+
+export type TerminalVariant = { theme: CodeTheme; order: readonly Shot[]; phosphor: string; alertHue: number; formHue: number; hues: number[] };
+
+/** The song's look for the code screens: an editor theme, a cut order, a console colour, an alert colour and a form accent. */
+export function terminalVariant(trackId: string, seed: number, palette: readonly string[] | undefined): TerminalVariant {
+  const r = seeded(hashKey(`${trackId}|${seed}|code`));
+  const hues = songHues(palette, seed);
+  const theme = r() < 0.25 ? coverTheme(pick(r, hues), r) : pick(r, CODE_THEMES);
+  // the song's cut: one of the classic orders with every app screen woven in, in a shuffled order
+  const classic = pick(r, SHOT_ORDERS);
+  const apps = [...APP_SCREENS];
+  for (let i = apps.length - 1; i > 0; i--) {
+    const j = Math.floor(r() * (i + 1));
+    [apps[i], apps[j]] = [apps[j]!, apps[i]!];
+  }
+  const order: Shot[] = [];
+  for (let i = 0; i < Math.max(classic.length, apps.length); i++) {
+    if (i < classic.length) order.push(classic[i]!);
+    if (i < apps.length) order.push(apps[i]!);
+  }
+  return { theme, order, phosphor: pick(r, PHOSPHORS), alertHue: pick(r, ALERT_HUES), formHue: pick(r, FORM_HUES), hues };
+}
+let varMemo: { key: string; v: TerminalVariant } | null = null;
+function variantOf(tl: { trackId: string; seed: number; palette?: readonly string[] }): TerminalVariant {
+  const key = `${tl.trackId}|${tl.seed}|${(tl.palette ?? []).join(',')}`;
+  if (varMemo?.key !== key) varMemo = { key, v: terminalVariant(tl.trackId, tl.seed, tl.palette) };
+  return varMemo.v;
+}
+
+export function shotFor(line: Line, order: readonly Shot[] = SHOT_ORDER): Shot {
+  const s = order[line.i % order.length]!;
   if (s === 'big' && line.text.length > 30) return 'console';
   return s;
 }
@@ -74,49 +157,49 @@ const CODE_LINES = [
 const KEYWORDS = new Set(['typeof', 'instanceof', 'new', 'function', 'void', 'if', 'else', 'throw', 'var', 'try', 'catch', 'while', 'in']);
 const KW2 = new Set(['return']);
 
-function paintCodeLine(c: CanvasRenderingContext2D, line: string, x: number, y: number) {
+function paintCodeLine(c: CanvasRenderingContext2D, line: string, x: number, y: number, T: CodeTheme) {
   const re = /('[^']*'|\b\d+\b|[A-Za-z_$][\w$]*|\s+|[^\sA-Za-z_$\d'])/g;
   let cx = x;
   let m: RegExpExecArray | null;
   const toks: string[] = [];
   while ((m = re.exec(line))) toks.push(m[0]);
   toks.forEach((tk, i) => {
-    let col = '#d7e3fb';
-    if (tk.startsWith("'")) col = '#ffb27a';
-    else if (/^\d+$/.test(tk)) col = '#ffb27a';
-    else if (KW2.has(tk) || tk === 'void') col = '#c692f2';
-    else if (KEYWORDS.has(tk)) col = '#52c7ff';
-    else if (/^[A-Za-z_$]/.test(tk) && /^\(/.test((toks[i + 1] ?? '').trim() === '' ? (toks[i + 2] ?? '') : (toks[i + 1] ?? ''))) col = '#f4e3b8';
-    else if (/^[=<>!&|:?+*]+$/.test(tk)) col = '#ffffff';
+    let col = T.fg;
+    if (tk.startsWith("'")) col = T.str;
+    else if (/^\d+$/.test(tk)) col = T.num;
+    else if (KW2.has(tk) || tk === 'void') col = T.kw2;
+    else if (KEYWORDS.has(tk)) col = T.kw;
+    else if (/^[A-Za-z_$]/.test(tk) && /^\(/.test((toks[i + 1] ?? '').trim() === '' ? (toks[i + 2] ?? '') : (toks[i + 1] ?? ''))) col = T.fn;
+    else if (/^[=<>!&|:?+*]+$/.test(tk)) col = T.op;
     c.fillStyle = col;
     c.fillText(tk, cx, y);
     cx += c.measureText(tk).width;
   });
 }
 
-function codeSheet(h: SceneHost): Sheet {
+function codeSheet(h: SceneHost, T: CodeTheme): Sheet {
   const W = 2200;
   const H = 40 * CODE_ROW + 120;
-  return sheet(h, 'code', W, H, (c) => {
+  return sheet(h, `code|${T.id}`, W, H, (c) => {
     c.font = MONO(CODE_FS);
     c.textBaseline = 'middle';
     CODE_LINES.forEach((ln, i) => {
       if (i === LYRIC_ROW) {
         c.font = MONO(CODE_FS);
-        c.fillStyle = '#d7e3fb';
+        c.fillStyle = T.fg;
         c.fillText('    throw ', 24, 60 + i * CODE_ROW);
-        c.fillStyle = '#52c7ff';
+        c.fillStyle = T.kw;
         c.fillText('new ', 24 + c.measureText('    throw ').width, 60 + i * CODE_ROW);
-        c.fillStyle = '#f4e3b8';
+        c.fillStyle = T.fn;
         c.fillText('TypeError', 24 + c.measureText('    throw new ').width, 60 + i * CODE_ROW);
-        c.fillStyle = '#ffffff';
+        c.fillStyle = T.op;
         c.fillText('(', 24 + c.measureText('    throw new TypeError').width, 60 + i * CODE_ROW);
         return;
       }
-      paintCodeLine(c, ln, 24, 60 + i * CODE_ROW);
+      paintCodeLine(c, ln, 24, 60 + i * CODE_ROW, T);
     });
     // more rows below so the camera never runs out of code
-    for (let i = CODE_LINES.length; i < 40; i++) paintCodeLine(c, CODE_LINES[(i * 7) % CODE_LINES.length] || "  return n._V = 3, n._W = f, void X(c.bind(f), n);", 24, 60 + i * CODE_ROW);
+    for (let i = CODE_LINES.length; i < 40; i++) paintCodeLine(c, CODE_LINES[(i * 7) % CODE_LINES.length] || "  return n._V = 3, n._W = f, void X(c.bind(f), n);", 24, 60 + i * CODE_ROW, T);
   });
 }
 const CODE_PREFIX_W = 24 + 0.6 * CODE_FS * '    throw new TypeError('.length; // monospace advance
@@ -206,8 +289,9 @@ function triangle(c: CanvasRenderingContext2D, x: number, y: number, s: number) 
   c.fillRect(x - 2.5, y + s * 0.38, 5, 5);
 }
 
-function formSheet(h: SceneHost): Sheet {
-  return sheet(h, 'form', 1500, 1150, (c) => {
+function formSheet(h: SceneHost, hue: number): Sheet {
+  const accent = hsl(hue, 0.55, 0.4);
+  return sheet(h, `form|${hue}`, 1500, 1150, (c) => {
     const g = c.createRadialGradient(750, 560, 100, 750, 560, 900);
     g.addColorStop(0, '#f1f1f3');
     g.addColorStop(1, '#cfcfd4');
@@ -215,7 +299,7 @@ function formSheet(h: SceneHost): Sheet {
     c.fillRect(0, 0, 1500, 1150);
     c.textBaseline = 'middle';
     // wordmark (our own: a green arc and a condensed name)
-    c.strokeStyle = '#2f9e52';
+    c.strokeStyle = accent;
     c.lineWidth = 12;
     c.beginPath();
     c.arc(560, 215, 70, Math.PI * 0.85, Math.PI * 1.9);
@@ -279,7 +363,7 @@ function formSheet(h: SceneHost): Sheet {
     field(668, 'Password', 'lock');
     field(786, '2-step code', 'key');
     const btn = (x: number, w: number, label: string) => {
-      c.fillStyle = '#2f9e52';
+      c.fillStyle = accent;
       c.beginPath();
       c.roundRect(x, 920, w, 78, 8);
       c.fill();
@@ -301,16 +385,16 @@ function formSheet(h: SceneHost): Sheet {
 }
 const FORM_FIELD = { x: 215, y: 591 };
 
-function bannerSheet(h: SceneHost): Sheet {
-  return sheet(h, 'banner-bg', 2000, 1100, (c) => {
+function bannerSheet(h: SceneHost, hue: number): Sheet {
+  return sheet(h, `banner-bg|${hue}`, 2000, 1100, (c) => {
     c.fillStyle = '#dcdce0';
     c.fillRect(0, 0, 2000, 1100);
     [60, 410, 760].forEach((y) => {
-      c.fillStyle = '#f7c4cb';
+      c.fillStyle = hsl(hue, 0.8, 0.87);
       c.fillRect(120, y, 1860, 250);
-      c.fillStyle = '#d32f3b';
+      c.fillStyle = hsl(hue, 0.65, 0.5);
       c.fillRect(120, y, 30, 250);
-      c.strokeStyle = '#cf3a45';
+      c.strokeStyle = hsl(hue, 0.6, 0.52);
       c.lineWidth = 5;
       c.beginPath();
       c.arc(270, y + 125, 38, 0, Math.PI * 2);
@@ -333,16 +417,18 @@ export function drawTerminalScene(h: SceneHost): SceneFx {
   const line = lineAt(tl, t);
   const reduced = h.reduced;
   const fx = baseFx();
-  h.clear('#04060d');
+  const V = variantOf(tl);
+  const T = V.theme;
+  h.clear(T.bg);
   if (!line) {
     // nobody is singing: the code drifts by, out of focus
-    const cs = codeSheet(h);
+    const cs = codeSheet(h, T);
     const z = 0.95 + 0.04 * Math.sin(t / 3400);
     const M = camera(W, H, { fx: 900 + Math.sin(t / 5200) * 120, fy: 600 + t * 0.02 % 500, zoom: z * (W / 1280), rot: Math.sin(t / 7000) * 1.2 });
     put(h, M, cs, { lod: 1.4, alpha: 0.55 });
     return { ...fx, exposure: 0.9, bloom: 1.2 };
   }
-  const shot = shotFor(line);
+  const shot = shotFor(line, V.order);
   const a = line.age;
   const D = line.dur;
   const whip = 1 - smooth(0, 190, a); // 1 at the cut, 0 once the shot has settled
@@ -355,10 +441,10 @@ export function drawTerminalScene(h: SceneHost): SceneFx {
   let alpha = 1;
 
   if (shot === 'code') {
-    const cs = codeSheet(h);
+    const cs = codeSheet(h, T);
     const font = MONO(CODE_FS);
     const lyric = line.text;
-    const tt = textTex(h, lyric, MONO, CODE_FS, '#ffb27a', { hi: 3 });
+    const tt = textTex(h, lyric, MONO, CODE_FS, T.str, { hi: 3 });
     const Lw = tt.textW * tt.k;
     const lx = CODE_PREFIX_W + 22; // after the opening quote
     const ly = 60 + LYRIC_ROW * CODE_ROW;
@@ -377,15 +463,15 @@ export function drawTerminalScene(h: SceneHost): SceneFx {
     const prefix = prefixPx(h, tt, lyric, n);
     const baseLod = Math.max(0, lod - 0.4);
     h.shape({ kind: 0, m: mul(M, translate(lx - 12, ly)), w: 20, h: 1, color: '#000000', alpha: 0, camera: false });
-    drawQuote(h, M, lx - 0.6 * CODE_FS, ly, baseLod);
+    drawQuote(h, M, lx - 0.6 * CODE_FS, ly, baseLod, '', T.str);
     drawText(h, tt, M, lx, ly, { clipPx: prefix, lod: baseLod, alpha });
-    drawQuote(h, M, lx + Lw, ly, baseLod, ");");
+    drawQuote(h, M, lx + Lw, ly, baseLod, ");", T.str);
     // the caret
     if (n < lyric.length || cursorOn(t)) {
       const cw = 3.4;
       const cxs = lx + prefix + 1;
       h.rect(0, 0, 0, 0, '#000', 0);
-      h.sprite({ tex: caretTex(h).tex, m: mul(M, translate(cxs + cw / 2, ly)), w: cw, h: CODE_FS * 1.25, alpha: n >= lyric.length && !cursorOn(t) ? 0 : 1, mode: 1, color: '#ffe6cf', camera: false, lod: baseLod });
+      h.sprite({ tex: caretTex(h).tex, m: mul(M, translate(cxs + cw / 2, ly)), w: cw, h: CODE_FS * 1.25, alpha: n >= lyric.length && !cursorOn(t) ? 0 : 1, mode: 1, color: T.caret, camera: false, lod: baseLod });
     }
     fx.mblur = [(whip * 0.045 + out * 0.02) * (reduced ? 0 : 1), 0];
     void font;
@@ -406,7 +492,7 @@ export function drawTerminalScene(h: SceneHost): SceneFx {
     fx.mblur = [(whip * 0.05 + zoomIn * (1 - zoomIn) * 0.06) * (reduced ? 0 : 1), 0];
     void Lw;
   } else if (shot === 'form') {
-    const fs = formSheet(h);
+    const fs = formSheet(h, V.formHue);
     h.clear('#cfcfd4');
     const tt = textTex(h, line.text, UI, 44, '#2a2a30', { hi: 3 });
     const Lw = tt.textW * tt.k;
@@ -431,9 +517,9 @@ export function drawTerminalScene(h: SceneHost): SceneFx {
     fx.exposure = 1.0;
     void Lw;
   } else if (shot === 'banner') {
-    const bs = bannerSheet(h);
+    const bs = bannerSheet(h, V.alertHue);
     h.clear('#d4d4d8');
-    const tt = textTex(h, line.text, (px) => `500 ${px}px "Inter Variable", "Segoe UI", sans-serif`, 70, '#c32f3a', { hi: 3 });
+    const tt = textTex(h, line.text, (px) => `500 ${px}px "Inter Variable", "Segoe UI", sans-serif`, 70, hsl(V.alertHue, 0.62, 0.47), { hi: 3 });
     const n = typedChars(line.text, a, D * 0.05, D * 0.34, 20, 60);
     const prefix = prefixPx(h, tt, line.text, n);
     const travel = easeInOut(line.p);
@@ -448,10 +534,15 @@ export function drawTerminalScene(h: SceneHost): SceneFx {
     fx.mblur = [whip * 0.05 * (reduced ? 0 : 1), 0];
     fx.vignette = 0.65;
     fx.bloom = 0.3;
+  } else if ((APP_SCREENS as readonly string[]).includes(shot)) {
+    // an app screen: its own colours, light or dark, and a camera move, per line
+    const lr = seeded(hashKey(`${tl.trackId}|${tl.seed}|app|${line.i}`));
+    const hue = pick(lr, V.hues) + (lr() < 0.5 ? 0 : (lr() - 0.5) * 0.6);
+    drawAppShot(h, line, fx, shot as AppScreen, (Math.round((((hue % 1) + 1) % 1) * 12) % 12) / 12, lr() < 0.45, pick(lr, CAMERA_MOVES)); // 12 accent hues, so sheets are reused
   } else if (shot === 'console') {
-    consoleShot(h, line, fx);
+    consoleShot(h, line, fx, line.i % 3 === 2 ? pick(seeded(hashKey(`${tl.trackId}|${line.i}`)), PHOSPHORS) : V.phosphor);
   } else {
-    bigShot(h, line, fx);
+    bigShot(h, line, fx, T);
   }
 
   const f2 = fx;
@@ -475,22 +566,22 @@ function caretTex(h: SceneHost): TexEntry {
   void caretCache;
 }
 
-function drawQuote(h: SceneHost, M: Affine, x: number, y: number, lod: number, tail = '') {
-  const tt = textTex(h, `'${tail}`, MONO, CODE_FS, '#ffb27a', { hi: 3 });
+function drawQuote(h: SceneHost, M: Affine, x: number, y: number, lod: number, tail = '', col = '#ffb27a') {
+  const tt = textTex(h, `'${tail}`, MONO, CODE_FS, col, { hi: 3 });
   drawText(h, tt, M, x, y, { lod });
 }
 
-function consoleShot(h: SceneHost, line: Line, fx: Fx) {
+function consoleShot(h: SceneHost, line: Line, fx: Fx, green: string) {
   const { W, H, frame } = h;
   const t = frame.tMs;
   const a = line.age;
   const D = line.dur;
   h.clear('#02050a');
-  const green = '#43ff3c';
+  const glow = `${green}e6`;
   const lyric = line.text;
   const big = lyric.length <= 34;
   const size = big ? W * 0.07 : W * 0.04;
-  const tt = textTex(h, lyric, MONO_B, size, green, { hi: 2, shadow: { color: 'rgba(60,255,60,0.9)', blur: size * 0.22 } });
+  const tt = textTex(h, lyric, MONO_B, size, green, { hi: 2, shadow: { color: glow, blur: size * 0.22 } });
   const n = typedChars(lyric, a, D * 0.08, D * (big ? 0.62 : 0.7), 30, 80);
   const M: Affine = [1, 0, 0, 1, 0, 0];
   if (big) {
@@ -509,7 +600,7 @@ function consoleShot(h: SceneHost, line: Line, fx: Fx) {
     const lineH = size * 1.9;
     const y0 = H * 0.46 - ((lines.length - 1) * lineH) / 2;
     lines.forEach((ln, i) => {
-      const lt = textTex(h, ln, MONO_B, size, green, { hi: 2, shadow: { color: 'rgba(60,255,60,0.9)', blur: size * 0.22 } });
+      const lt = textTex(h, ln, MONO_B, size, green, { hi: 2, shadow: { color: glow, blur: size * 0.22 } });
       const lw = lt.textW * lt.k;
       const take = clamp(remaining, 0, ln.length);
       remaining -= ln.length + 1;
@@ -529,13 +620,15 @@ function consoleShot(h: SceneHost, line: Line, fx: Fx) {
   fx.aber = 0.5;
 }
 
-function bigShot(h: SceneHost, line: Line, fx: Fx) {
+function bigShot(h: SceneHost, line: Line, fx: Fx, T: CodeTheme) {
   const { W, H, frame } = h;
   const t = frame.tMs;
   const a = line.age;
   const D = line.dur;
-  const cs = codeSheet(h);
+  const cs = codeSheet(h, T);
   const k = W / 1280;
+  const ink = T.fn;
+  const halo = `${ink}99`;
   const M0 = camera(W, H, { fx: 1000 + Math.sin(t / 3000) * 80, fy: 700, zoom: 1.2 * k, rot: -3 + Math.sin(t / 2600) * 0.8 });
   put(h, M0, cs, { lod: 1.8, alpha: 0.5 });
   const size = W * 0.12;
@@ -549,7 +642,7 @@ function bigShot(h: SceneHost, line: Line, fx: Fx) {
   const words = line.words;
   const sizeFit = Math.min(size, (W * 0.9) / Math.max(1, Math.max(...lines.map((l) => h.measure(font(Math.round(size)), l)))) * size);
   lines.forEach((ln, li) => {
-    const lt = textTex(h, ln, (px) => font(px), sizeFit, '#f3e5a6', { hi: 2, shadow: { color: 'rgba(255,236,160,0.6)', blur: sizeFit * 0.12 } });
+    const lt = textTex(h, ln, (px) => font(px), sizeFit, ink, { hi: 2, shadow: { color: halo, blur: sizeFit * 0.12 } });
     const lw = lt.textW * lt.k;
     // words appear as they are sung
     const parts = ln.split(' ');
@@ -564,7 +657,7 @@ function bigShot(h: SceneHost, line: Line, fx: Fx) {
       const px = h.measure(lt.f, pre) * lt.k;
       void x;
       if (!on) return;
-      const wt = textTex(h, p, (q) => font(q), sizeFit, '#f3e5a6', { hi: 2, shadow: { color: 'rgba(255,236,160,0.6)', blur: sizeFit * 0.12 } });
+      const wt = textTex(h, p, (q) => font(q), sizeFit, ink, { hi: 2, shadow: { color: halo, blur: sizeFit * 0.12 } });
       const jitter = since >= 0 && since < 160 ? (hash01(Math.floor(t / 40) + pi) - 0.5) * sizeFit * 0.12 : 0;
       const m = mul(translate(W / 2, H / 2), mul([dolly, 0, 0, dolly, 0, 0], translate(-W / 2, -H / 2)));
       drawText(h, wt, m, (W - lw) / 2 + px + jitter, y0 + li * lineH, { alpha: smooth(0, 90, since), lod: smooth(0.85, 1, line.p) * 1.5 });

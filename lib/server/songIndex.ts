@@ -9,8 +9,9 @@ import path from 'node:path';
 import type { DatabaseSync, StatementSync } from 'node:sqlite';
 import { FEATURE_KINDS, featureSchemas, fingerprint, fingerprints, type FeatureKind, type IndexEntry, type IndexStats, type PutBody, type SongMeta } from '../index/types';
 import { hasTempo } from '../analysis/types';
+import { ftsQuery, HIT_CLOSE, HIT_OPEN, markTerms, queryTerms, searchableLines, type LyricHit, type SavedLine, type SavedLineInput } from '../lyrics/search';
 
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 
 /**
  * Where the index lives. NOT inside the project folder by default: `next dev` watches the project, and a database that is opened, read
@@ -34,13 +35,14 @@ type Prepared = {
   delKind: StatementSync;
 };
 
-type State = { db: DatabaseSync; file: string; st: Prepared };
+type State = { db: DatabaseSync; file: string; st: Prepared; fts: boolean; schema: number };
 const g = globalThis as unknown as { __lyricscapeSongIndex?: State | null | 'unavailable'; __lyricscapeSongIndexDir?: string };
 
 function open(): State | null {
   const dir = indexDir();
   const cached = g.__lyricscapeSongIndex;
-  if (cached && cached !== 'unavailable' && g.__lyricscapeSongIndexDir === dir) return cached;
+  // a handle opened by an older copy of this module (hot reload) may predate the current schema: reopen so the migration runs
+  if (cached && cached !== 'unavailable' && g.__lyricscapeSongIndexDir === dir && (cached as Partial<State>).schema === SCHEMA_VERSION) return cached;
   if (cached && cached !== 'unavailable') closeIndex();
   let Database: typeof DatabaseSync;
   try {
@@ -58,7 +60,7 @@ function open(): State | null {
   const db = new Database(file);
   db.exec('PRAGMA journal_mode = WAL; PRAGMA synchronous = NORMAL; PRAGMA foreign_keys = ON;');
   const v = (db.prepare('PRAGMA user_version').get() as { user_version: number }).user_version;
-  if (v < SCHEMA_VERSION) {
+  if (v < 1) {
     db.exec(`
       CREATE TABLE IF NOT EXISTS songs (
         key TEXT PRIMARY KEY,
@@ -84,9 +86,36 @@ function open(): State | null {
         PRIMARY KEY (key, kind)
       );
       CREATE INDEX IF NOT EXISTS features_kind ON features(kind);
-      PRAGMA user_version = ${SCHEMA_VERSION};
     `);
   }
+  // v2: lyric search (one row per lyric line) and saved lines
+  const hasTable = (name: string) => !!db.prepare("SELECT 1 FROM sqlite_master WHERE name = ?").get(name);
+  if (!hasTable('lyric_lines')) {
+    try {
+      // marks count as letters, so Tamil and Hindi words stay whole; accents fold (cafe finds café)
+      db.exec(`CREATE VIRTUAL TABLE lyric_lines USING fts5(text, key UNINDEXED, idx UNINDEXED, ms UNINDEXED, tokenize = "unicode61 remove_diacritics 2 categories 'L* N* Co M*'")`);
+    } catch {
+      db.exec('CREATE TABLE lyric_lines (text TEXT NOT NULL, key TEXT NOT NULL, idx INTEGER NOT NULL, ms INTEGER)');
+      db.exec('CREATE INDEX lyric_lines_key ON lyric_lines(key)');
+    }
+  }
+  db.exec(`CREATE TABLE IF NOT EXISTS saved_lines (
+    id TEXT PRIMARY KEY, key TEXT NOT NULL, title TEXT NOT NULL, artists TEXT NOT NULL, idx INTEGER NOT NULL, ms INTEGER,
+    text TEXT NOT NULL, art TEXT, note TEXT, saved_at INTEGER NOT NULL, UNIQUE (key, idx, text)
+  )`);
+  const fts = /fts5/i.test((db.prepare("SELECT sql FROM sqlite_master WHERE name = 'lyric_lines'").get() as { sql: string } | undefined)?.sql ?? '');
+  if (v < 2) {
+    // lyrics stored before search existed
+    for (const r of db.prepare("SELECT key, json FROM features WHERE kind = 'lyrics'").all() as { key: string; json: string }[]) {
+      try {
+        const l = JSON.parse(r.json) as { lrc: string; synced: boolean };
+        indexLines(db, r.key, l.lrc, l.synced);
+      } catch {
+        /* a record that does not parse is skipped */
+      }
+    }
+  }
+  if (v < SCHEMA_VERSION) db.exec(`PRAGMA user_version = ${SCHEMA_VERSION}`);
   const st: Prepared = {
     getSong: db.prepare('SELECT key, provider, title, artists, duration_ms, first_seen, last_seen, plays FROM songs WHERE key = ?'),
     getFeatures: db.prepare('SELECT kind, json FROM features WHERE key = ?'),
@@ -104,7 +133,7 @@ function open(): State | null {
     delFeatures: db.prepare('DELETE FROM features WHERE key = ?'),
     delKind: db.prepare('DELETE FROM features WHERE key = ? AND kind = ?'),
   };
-  const state = { db, file, st };
+  const state = { db, file, st, fts, schema: SCHEMA_VERSION };
   g.__lyricscapeSongIndex = state;
   g.__lyricscapeSongIndexDir = dir;
   return state;
@@ -176,6 +205,10 @@ export const songIndex = {
         const version = kind === 'audio' ? (v as { version: number }).version : 1;
         const tempo = kind === 'audio' && hasTempo(v as Parameters<typeof hasTempo>[0]) ? 1 : 0;
         s.st.upsertFeature.run(key, kind, version, json, json.length, tempo, now);
+        if (kind === 'lyrics') {
+          const l = v as { lrc: string; synced: boolean };
+          indexLines(s.db, key, l.lrc, l.synced);
+        }
       }
       s.db.exec('COMMIT');
     } catch (e) {
@@ -193,6 +226,7 @@ export const songIndex = {
     const s = open();
     if (!s) return false;
     s.st.delFeatures.run(key);
+    s.db.prepare('DELETE FROM lyric_lines WHERE key = ?').run(key);
     return Number(s.st.del.run(key).changes) > 0;
   },
 
@@ -200,6 +234,7 @@ export const songIndex = {
   removeFeature(key: string, kind: FeatureKind): boolean {
     const s = open();
     if (!s) return false;
+    if (kind === 'lyrics') s.db.prepare('DELETE FROM lyric_lines WHERE key = ?').run(key);
     return Number(s.st.delKind.run(key, kind).changes) > 0;
   },
 
@@ -207,7 +242,7 @@ export const songIndex = {
     const s = open();
     if (!s) return 0;
     const n = (s.db.prepare('SELECT COUNT(*) AS n FROM songs').get() as { n: number }).n;
-    s.db.exec('DELETE FROM features; DELETE FROM songs;');
+    s.db.exec('DELETE FROM features; DELETE FROM songs; DELETE FROM lyric_lines;'); // saved lines are the person's own and stay
     s.db.exec('VACUUM');
     return n;
   },
@@ -227,10 +262,83 @@ export const songIndex = {
     return out;
   },
 
+  /**
+   * Search every lyric line the index holds. Every word must appear (as the start of a word); best matches first, then most played.
+   * Without FTS5 (an unusual SQLite build) a plain substring search does the same job more slowly.
+   */
+  search(q: string, limit = 50): LyricHit[] {
+    const s = open();
+    if (!s) return [];
+    const n = Math.max(1, Math.min(200, Math.floor(limit)));
+    type Row = { key: string; idx: number; ms: number | null; text: string; snip: string; title: string | null; artists: string | null };
+    let rows: Row[];
+    if (s.fts) {
+      const m = ftsQuery(q);
+      if (!m) return [];
+      rows = s.db
+        .prepare(
+          `SELECT l.key, l.idx, l.ms, l.text, snippet(lyric_lines, 0, ?, ?, '…', 14) AS snip, so.title, so.artists
+           FROM lyric_lines l LEFT JOIN songs so ON so.key = l.key WHERE lyric_lines MATCH ? ORDER BY bm25(lyric_lines), so.plays DESC LIMIT ?`,
+        )
+        .all(HIT_OPEN, HIT_CLOSE, m, n) as Row[];
+    } else {
+      const terms = queryTerms(q);
+      if (!terms.length) return [];
+      const where = terms.map(() => "l.text LIKE ? ESCAPE '\\'").join(' AND ');
+      const args = terms.map((t) => `%${t.replace(/[\\%_]/g, (c) => `\\${c}`)}%`);
+      rows = (s.db.prepare(`SELECT l.key, l.idx, l.ms, l.text, l.text AS snip, so.title, so.artists FROM lyric_lines l LEFT JOIN songs so ON so.key = l.key WHERE ${where} ORDER BY so.plays DESC LIMIT ?`).all(...args, n) as Row[]).map((r) => ({ ...r, snip: markTerms(r.text, terms) }));
+    }
+    return rows.map((r) => ({ key: r.key, title: r.title ?? 'Unknown song', artists: r.artists ? (JSON.parse(r.artists) as string[]) : [], idx: Number(r.idx), ms: r.ms === null ? null : Number(r.ms), text: r.text, snippet: r.snip }));
+  },
+
+  /** Lines the person starred, newest first. */
+  savedLines(): SavedLine[] {
+    const s = open();
+    if (!s) return [];
+    type Row = { id: string; key: string; title: string; artists: string; idx: number; ms: number | null; text: string; art: string | null; note: string | null; saved_at: number };
+    return (s.db.prepare('SELECT * FROM saved_lines ORDER BY saved_at DESC LIMIT 2000').all() as Row[]).map((r) => ({
+      id: r.id,
+      key: r.key,
+      title: r.title,
+      artists: JSON.parse(r.artists) as string[],
+      idx: r.idx,
+      ms: r.ms,
+      text: r.text,
+      ...(r.art ? { art: r.art } : {}),
+      ...(r.note ? { note: r.note } : {}),
+      savedAt: r.saved_at,
+    }));
+  },
+
+  /** Star a line (starring the same line again returns the one already saved). */
+  saveLine(input: SavedLineInput, id: string): SavedLine {
+    const s = open();
+    if (!s) throw new Error('song index unavailable');
+    const now = Date.now();
+    s.db
+      .prepare('INSERT INTO saved_lines (id, key, title, artists, idx, ms, text, art, note, saved_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(key, idx, text) DO NOTHING')
+      .run(id, input.key, input.title, JSON.stringify(input.artists), input.idx, input.ms, input.text, input.art ?? null, input.note ?? null, now);
+    const r = s.db.prepare('SELECT id FROM saved_lines WHERE key = ? AND idx = ? AND text = ?').get(input.key, input.idx, input.text) as { id: string };
+    return songIndex.savedLines().find((l) => l.id === r.id)!;
+  },
+
+  unsaveLine(id: string): boolean {
+    const s = open();
+    if (!s) return false;
+    return Number(s.db.prepare('DELETE FROM saved_lines WHERE id = ?').run(id).changes) > 0;
+  },
+
   /** For tests: close the connection so the data directory can be removed. */
   close: closeIndex,
 };
 
 function hasTempoOf(e: IndexEntry): boolean {
   return !!e.features.audio && hasTempo(e.features.audio);
+}
+
+/** Replace a song's searchable lines. */
+function indexLines(db: DatabaseSync, key: string, lrc: string, synced: boolean) {
+  db.prepare('DELETE FROM lyric_lines WHERE key = ?').run(key);
+  const ins = db.prepare('INSERT INTO lyric_lines (text, key, idx, ms) VALUES (?, ?, ?, ?)');
+  for (const l of searchableLines(lrc, synced)) ins.run(l.text, key, l.idx, l.ms);
 }

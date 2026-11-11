@@ -6,7 +6,6 @@ import { Cpu, Gem, Zap } from 'lucide-react';
 import { MODES, STAGE_MODES, type StageMode } from '@/lib/kinetic/modes';
 import { turboSupported } from '@/lib/kinetic/stageRenderer';
 import { TURBO_STYLES, TURBO_STYLE_IDS } from '@/lib/kinetic/turbo';
-import { CHORUS_PARTNER } from '@/lib/kinetic/director';
 import { useUi } from '@/lib/ui-store';
 import { GpuStatus } from '@/components/ui/GpuStatus';
 
@@ -72,7 +71,7 @@ export function ModePicker() {
             <span>
               <span className="font-semibold">Auto director</span>
               <span className="block text-[11px] leading-snug text-ink-300">
-                Cuts to {TURBO_STYLES[CHORUS_PARTNER[turboStyle]].label} for choruses and back to {TURBO_STYLES[turboStyle].label} for verses, on the beat. Choruses are found from repeated lines, so a song that never repeats one stays in one scene. Off with reduced motion.
+                Starts on {TURBO_STYLES[turboStyle].label}, then every new section (chorus, verse, break, or a long stretch) cuts to a different scene on the beat, going through all six before any comes back, in an order of its own for each song. Choruses are found from repeated lines. Off with reduced motion.
               </span>
             </span>
           </label>

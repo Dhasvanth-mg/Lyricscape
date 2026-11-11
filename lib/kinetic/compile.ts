@@ -30,7 +30,12 @@ export type CompileOptions = {
   cover?: VisualTimeline['cover'];
   /** Animate word by word on line-synced lyrics using ESTIMATED word times. Off by default: a guess is not sync. */
   estimateWords?: boolean;
+  /** Turbo: every line gets word-by-word motion (estimated word times when only lines are timed) and the full mix of presets,
+   *  even when the direction is a calm one that would otherwise show whole lines */
+  lively?: boolean;
 };
+
+const LIVELY_PRESETS: PresetId[] = ['drop', 'stack', 'wave', 'ticker', 'burst', 'drop', 'wave'];
 
 /** Presentation only (not a timing claim): words of an untimed line enter a beat apart, then all stay until the line ends. */
 const STAGGER_MS = 40;
@@ -75,7 +80,9 @@ export function gridFromBpm(bpm: number, durationMs: number, offsetMs = 0): numb
  */
 export function compileTimeline(doc: LyricDocument, opts: CompileOptions): VisualTimeline {
   const styleId = opts.style ?? 'maximalist';
-  const style = STYLES[styleId];
+  const base = STYLES[styleId];
+  // Turbo is the lively mode: calm directions keep their colours and type, but lines move with the full set of presets
+  const style = opts.lively ? { ...base, presetPolicy: undefined, calmPresets: LIVELY_PRESETS, hookPreset: base.presetPolicy ? 'burst' : base.hookPreset } : base;
   const seed = opts.seed ?? hashString(opts.trackId);
   const palette = opts.palette.length >= 2 ? opts.palette : ['#ff2e63', '#14121f'];
   const beatTimesMs =
@@ -94,6 +101,8 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
 
   const cues: WordCue[] = [];
   const scenes: Scene[] = [];
+  // background vocals: words inside parentheses, unless the parentheses wrap the whole line (then it is just that line)
+  const adlibOf = adlibMarks(doc.lines);
   let prevPreset: PresetId | null = null;
   let calmRotation = hashString(String(seed)) % 7;
 
@@ -105,7 +114,7 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
     const wt = line.wordTiming ?? 'authored';
     // Real word times drive word-level motion. Without them the line is shown as a unit (see STAGGER_MS) unless the
     // user opted in to estimated word timing.
-    const wordLevel = wt === 'authored' || (wt === 'estimated' && !!opts.estimateWords);
+    const wordLevel = wt === 'authored' || (wt === 'estimated' && (!!opts.estimateWords || !!opts.lively));
     // calm directions never turn a quick passage into single-word cuts (that is what makes fast singing unreadable)
     const fast = wordLevel && wps > 3.6 && line.words.length >= 4 && !style.presetPolicy;
 
@@ -144,6 +153,14 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
       }
       return { id: `${li}:${wi}`, text: w.text, startMs: w.startMs, endMs: w.endMs, emphasis: round(emphasis), effect, timing: wt as 'authored' | 'estimated' };
     });
+    adlibOf[li]?.forEach((on, wi) => {
+      const c = lineCues[wi];
+      if (!on || !c) return;
+      c.adlib = true;
+      c.text = c.text.replace(/[()]/g, '') || c.text;
+      c.effect = 'pop';
+      c.emphasis = 0;
+    });
     cues.push(...lineCues);
 
     // phrase mode: a line with real or estimated word times becomes a run of short scenes (1 to 3 big words each); a line with
@@ -171,6 +188,7 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
         seed: Math.floor(rng() * 2 ** 31),
         preset: groupPreset,
         hook,
+        ...(line.voice ? { voice: line.voice } : {}),
         mood: opts.mood?.perLine[li] as Mood | undefined,
         intensity: round(Math.min(2, style.motion * (hook ? 1.25 : 1) * (fast ? 1.1 : 1))),
         words: g,
@@ -226,6 +244,27 @@ export function compileTimeline(doc: LyricDocument, opts: CompileOptions): Visua
 }
 
 const round = (n: number) => Math.round(n * 100) / 100;
+
+/**
+ * Per line, per word: is it a background vocal? Words between "(" and ")" are, when the line also has words outside them.
+ * A line that is all parentheses is left alone (it is the line being sung, often a whole backing line). Presentation only.
+ */
+export function adlibMarks(lines: { words: { text: string }[] }[]): (boolean[] | null)[] {
+  return lines.map((line) => {
+    let depth = 0;
+    let any = false;
+    const marks = line.words.map((w) => {
+      const opens = (w.text.match(/\(/g) ?? []).length;
+      const closes = (w.text.match(/\)/g) ?? []).length;
+      const inside = depth > 0 || opens > 0;
+      depth = Math.max(0, depth + opens - closes);
+      if (inside) any = true;
+      return inside;
+    });
+    if (!any || marks.every(Boolean)) return null;
+    return marks;
+  });
+}
 
 /** Find the scene that is "current" at time t (last scene whose start <= t, within its window). */
 export function sceneAt(tl: VisualTimeline, tMs: number): Scene | null {

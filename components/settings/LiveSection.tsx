@@ -54,6 +54,8 @@ export function LiveSection() {
   }, [share]);
 
   const url = useMemo(() => (origin ? overlayUrl(origin, o) : ''), [origin, o]);
+  // the desktop helper always wants a see-through background
+  const desktopCmd = `pnpm lyrics:desktop "${url ? new URL(overlayUrl(origin, { ...o, bg: 'transparent' })).search.slice(1) : ''}"`;
   const wallUrl = useMemo(() => (origin ? overlayUrl(origin, { ...o, bg: 'cover', size: 'xl', meta: true }) : ''), [origin, o]);
 
   const copy = (text: string, key: string) => {
@@ -146,6 +148,13 @@ export function LiveSection() {
           </Button>
         </div>
         <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-ink-300">
+          <li data-testid="desktop-lyrics">
+            <strong>See-through on your desktop</strong> (just the words, over your wallpaper and every window; clicks go through to what is under them): in a terminal in the Lyricscape folder, run{' '}
+            <button className="font-mono text-xs underline" onClick={() => copy(desktopCmd, 'desk')}>
+              {copied === 'desk' ? 'copied' : desktopCmd}
+            </button>
+            . It uses the options above. Ctrl+Alt+L to move or resize it (press again to lock it), Ctrl+Alt+H to hide it, Ctrl+Alt+Q to quit. Sharing must be on. The browser&apos;s floating window can&apos;t be see-through, so this uses a small desktop helper (downloaded once, about 100 MB).
+          </li>
           <li>
             <strong>OBS:</strong> Sources → + → Browser, paste the address, set the size of your canvas (for example 1920 × 300), and leave &quot;Custom CSS&quot; empty. The background is see-through.
           </li>

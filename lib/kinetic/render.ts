@@ -15,7 +15,7 @@ import { drawDoodle } from './doodles';
 import { PIXEL_BUDGET, QUALITY_PROFILE, type QualityLevel } from './governor';
 import type { DrawWord, FontKey, Frame, VisualTimeline } from './types';
 import { contrastRatio, mix, rgbToHex } from './util';
-import { drawIcon, iconColors, type IconId } from './icons';
+import { drawIcon, iconColors, iconVariant, type IconId, type IconTreatment } from './icons';
 import type { ColorMode } from './emotion';
 
 export type ArtworkAmount = 'off' | 'background';
@@ -384,7 +384,7 @@ export class KineticRenderer {
     // ---- emoji stickers (cached sprites) ------------------------------------------------------------
     for (const e of frame.icons) {
       if (e.alpha <= 0.01 || e.sizePx < 3) continue;
-      const sprite = this.iconSprite(e.icon, frame.tone.accent, frame.tone.ink);
+      const sprite = this.iconSprite(e.icon, frame.tone.accent, frame.tone.ink, iconVariant(e.id));
       if (!sprite) continue;
       ctx.save();
       ctx.globalAlpha = e.alpha;
@@ -527,18 +527,18 @@ export class KineticRenderer {
   }
 
   // ---- icons: the custom vector set is drawn ONCE per icon and tone into a sprite, then just scaled ------------
-  private iconSprite(id: IconId, accent: string, ink: string): HTMLCanvasElement | null {
+  private iconSprite(id: IconId, accent: string, ink: string, treatment: IconTreatment = 'sticker'): HTMLCanvasElement | null {
     // a pale sticker edge on dark stages, a dark one on light stages, so the icon always separates from its ground
     const darkStage = contrastRatio(ink, '#000000') > contrastRatio(ink, '#ffffff');
     const edge = darkStage ? '#ffffff' : '#2a2433';
-    const key = `${id}|${accent}|${edge}`;
+    const key = `${id}|${accent}|${edge}|${treatment}`;
     let s = this.iconSprites.get(key);
     if (!s) {
       s = document.createElement('canvas');
       s.width = s.height = SPRITE_PX;
       const c = s.getContext('2d') as Ls;
       c.translate(SPRITE_PX / 2, SPRITE_PX / 2);
-      drawIcon(c, id, SPRITE_PX - 6, iconColors(id, accent), edge);
+      drawIcon(c, id, SPRITE_PX - 6, iconColors(id, accent), edge, treatment);
       if (this.iconSprites.size > 160) this.iconSprites.clear();
       this.iconSprites.set(key, s);
     }

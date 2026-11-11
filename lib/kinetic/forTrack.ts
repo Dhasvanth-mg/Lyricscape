@@ -24,6 +24,8 @@ export function compileForTrack(a: {
   mood: MoodAnalysis | null;
   /** animate word by word on line-synced lyrics from estimated word times (the stage's "estimated words" switch) */
   estimateWords?: boolean;
+  /** Turbo: full motion for every song (see compileTimeline) */
+  lively?: boolean;
 }): VisualTimeline {
   const { track } = a;
   const doc = a.doc ?? { source: 'manual' as const, licenseSource: 'none', lines: [] };
@@ -38,5 +40,6 @@ export function compileForTrack(a: {
     cover: a.cover ?? undefined,
     label: `${track.title} • ${track.artists.join(', ')}`,
     estimateWords: a.estimateWords,
+    lively: a.lively,
   });
 }

@@ -25,6 +25,10 @@ export const SCENE_FONT_LOADS = [
   '400 64px "DM Serif Display"',
   '800 64px "Syne Variable"',
   '400 64px "Shrikhand"',
+  // variety work
+  '800 64px "Archivo Variable"',
+  '800 64px "Playfair Display Variable"',
+  '800 64px "Space Grotesk Variable"',
 ];
 
 /** Non-Latin subsets load only when text in their range is asked for, so each is named with a sample of its script. */

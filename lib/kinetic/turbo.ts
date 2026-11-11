@@ -36,6 +36,9 @@ export function turboLook(look: Look, style: TurboStyleId = 'liquid'): Look {
       smooth: clamp(m.smooth * 0.8, 0, 1),
       complexity: clamp(m.complexity + 0.3, 0.6, 1),
       progress: true,
+      // Turbo is the lively mode: even when a calm direction (Stillness) reveals whole lines, words land one by one here
+      reveal: 'word',
+      speed: Math.max(m.speed ?? 1, 1),
     },
     appearance: { ...look.appearance, glow: clamp(Math.max(look.appearance.glow, 0.55) + 0.15, 0, 1), density: clamp(look.appearance.density + 0.2, 0.5, 1) },
   };

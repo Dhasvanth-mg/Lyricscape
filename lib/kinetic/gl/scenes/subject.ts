@@ -2,7 +2,7 @@
 // cars give a highway with cars on it; flashing lights give flashing lights; the sea, fire, a city at night, space or rain have their
 // own picture. Nothing matched: the eye (and, for a lively song, strobing lights; for a low, sad one, rain). Pure, so it is tested.
 
-export const SUBJECTS = ['eye', 'highway', 'lights', 'ocean', 'fire', 'city', 'space', 'rain'] as const;
+export const SUBJECTS = ['eye', 'highway', 'lights', 'ocean', 'fire', 'city', 'space', 'rain', 'tunnel', 'heart', 'flower', 'mountains', 'equalizer', 'vortex', 'globe', 'sungrid', 'helix', 'butterfly', 'plasma', 'warp', 'ridges', 'lissajous', 'coderain', 'clouds', 'aurora', 'lava', 'ripples', 'checker', 'sunburst', 'dark'] as const;
 export type Subject = (typeof SUBJECTS)[number];
 /** the index the shader uses */
 export const subjectIndex = (s: Subject) => SUBJECTS.indexOf(s);
@@ -15,6 +15,28 @@ const WORDS: Record<Exclude<Subject, 'eye'>, string> = {
   city: 'city cities skyline building buildings tower towers downtown streets street skyscraper skyscrapers rooftop concrete apartment manhattan',
   space: 'space star stars moon planet planets galaxy universe rocket orbit cosmic saturn mars sun astronaut heaven comet',
   rain: 'rain raining rainy storm thunder lightning cloud clouds tears cry crying umbrella weather wet drizzle',
+  tunnel: 'tunnel tunnels underground subway train trains falling fall deeper hole',
+  heart: 'heart hearts heartbeat heartbreak love loving lover lovers kiss kisses valentine darling',
+  flower: 'flower flowers rose roses bloom blooming garden petals petal daisy lily blossom spring',
+  mountains: 'mountain mountains hill hills valley valleys peak summit climb climbing cliff canyon horizon',
+  equalizer: 'bass beat beats speaker speakers volume loud stereo radio dj turntable remix track tracks song songs music',
+  vortex: 'dizzy spin spinning spiral twist twisted whirl tornado hypnotized hypnotic trance psychedelic',
+  globe: 'world worldwide globe earth planet-wide countries country travel everywhere passport map',
+  sungrid: 'retro eighties 80s synth sunset vhs arcade cassette nostalgia miami',
+  helix: 'dna blood veins genes chemistry science alive born',
+  butterfly: 'butterfly butterflies wings wing fly flying flew moth',
+  plasma: 'acid trippy melt melting colours colors kaleidoscope',
+  warp: 'warp lightspeed faster fast hyperspace zoom zooming',
+  ridges: 'pulse pulses signal static frequency',
+  lissajous: 'loop loops orbit orbiting circles circling',
+  coderain: 'code matrix hacker glitch computer digital system',
+  clouds: 'sky skies floating float cloud9 heavenly',
+  aurora: 'aurora northern glow glowing lights-up',
+  lava: 'lava hot heat melting warm burning-up',
+  ripples: 'ripple ripples pond lake echo echoes',
+  checker: 'checker maze dizzy-room',
+  sunburst: 'sunshine sunny summer bright brighter golden',
+  dark: '',
 };
 
 const LOOKUP = new Map<string, Exclude<Subject, 'eye'>>();
@@ -30,7 +52,7 @@ const words = (s: string) => s.toLowerCase().match(/[a-z0-9][a-z0-9'-]*/g) ?? []
 export function pickSubject(title: string, lyrics: string, mood?: { arousal: number; valence: number }): Subject {
   const sub = (w: string) => LOOKUP.get(w.replace(/'s$/, '')) ?? LOOKUP.get(w.replace(/-/g, ''));
   // ties go to the more specific picture
-  const order: Subject[] = ['highway', 'lights', 'rain', 'fire', 'ocean', 'space', 'city'];
+  const order: Subject[] = ['highway', 'lights', 'rain', 'fire', 'ocean', 'space', 'city', 'butterfly', 'flower', 'heart', 'mountains', 'globe', 'tunnel', 'sungrid', 'vortex', 'helix', 'equalizer'];
   const top = (score: Map<Subject, number>, min: number): Subject | null => {
     let best: Subject | null = null;
     let bestScore = min - 1;

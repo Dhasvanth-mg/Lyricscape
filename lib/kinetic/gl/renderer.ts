@@ -13,7 +13,7 @@ import { drawDoodle } from '../doodles';
 import { PIXEL_BUDGET, QUALITY_PROFILE, type QualityLevel } from '../governor';
 import type { DrawWord, FontKey, Frame, VisualTimeline } from '../types';
 import { contrastRatio, mix, rgbToHex } from '../util';
-import { drawIcon, iconColors, type IconId } from '../icons';
+import { drawIcon, iconColors, iconVariant, type IconId, type IconTreatment } from '../icons';
 import { EMOTION_DEFS } from '../emotion';
 import type { RendererOptions } from '../render';
 import { isSceneStyle, planStage, turboLook, type TurboStyleId } from '../turbo';
@@ -23,6 +23,9 @@ import type { SceneFx, SceneHost } from './scenes/types';
 import { SCENE_FONT_LOADS, SCENE_SCRIPT_LOADS } from './scenes/fonts';
 import { IDENTITY, Program, cameraMatrix, createTarget, freeTarget, mul, parseColor, rotate, scale, skewX, textureFrom, toClip, translate, type Affine, type Target, type Tex } from './gpu';
 import { ASCII_FS, BLIT_FS, BLUR_FS, BRIGHT_FS, FULL_VS, POINT_FS, POINT_VS, POST_FS, QUAD_VS, SHAPE_FS, SPRITE_FS, STAGE_FS, STRIP_FS, STRIP_VS } from './shaders';
+
+/** the ASCII pass's character ramp, dark to bright, unless a scene asks for another */
+const DEFAULT_RAMP = ' .:;i1tfLCG08@';
 
 type Ls = CanvasRenderingContext2D & { letterSpacing?: string };
 type Glyph = { tex: Tex; /** quad size in css px at the bucketed font size */ w: number; h: number; textW: number; pad: number; sizeB: number };
@@ -85,7 +88,7 @@ export type SpriteOpts = {
 /** glyph textures may use about this much GPU memory in total; the least recently used are dropped first */
 const GLYPH_BUDGET_BYTES = 192 * 1024 * 1024;
 const ICON_PX = 192;
-const DOODLE_PX = 192;
+const DOODLE_PX = 256; // room for the ornaments (up to 1.5 r) around a doodle
 const DOODLE_R = 80;
 
 export class TurboRenderer {
@@ -116,7 +119,7 @@ export class TurboRenderer {
   private bloomA: Target | null = null;
   private bloomB: Target | null = null;
   private asciiRT: Target | null = null;
-  private asciiAtlas: { tex: Tex; n: number } | null = null;
+  private asciiAtlas: { tex: Tex; n: number; ramp: string } | null = null;
   /** custom character ramps (Glyph Cinema), by key; a handful at most */
   private asciiAtlases = new Map<string, { tex: Tex; n: number }>();
   private sceneProgs = new Map<string, Program>();
@@ -506,12 +509,12 @@ export class TurboRenderer {
     }
     return spr;
   }
-  private iconSprite(id: IconId, accent: string, ink: string): Sprite {
+  private iconSprite(id: IconId, accent: string, ink: string, treatment: IconTreatment = 'sticker'): Sprite {
     const darkStage = contrastRatio(ink, '#000000') > contrastRatio(ink, '#ffffff');
     const edge = darkStage ? '#ffffff' : '#2a2433';
-    return this.sprite(`i|${id}|${accent}|${edge}`, ICON_PX, ICON_PX, (c) => {
+    return this.sprite(`i|${id}|${accent}|${edge}|${treatment}`, ICON_PX, ICON_PX, (c) => {
       c.translate(ICON_PX / 2, ICON_PX / 2);
-      drawIcon(c, id, ICON_PX - 8, iconColors(id, accent), edge);
+      drawIcon(c, id, ICON_PX - 8, iconColors(id, accent), edge, treatment);
     });
   }
   private doodleSprite(d: Frame['doodles'][number]): Sprite {
@@ -832,7 +835,7 @@ export class TurboRenderer {
     for (const w of frame.words) this.drawWord(w, frame, style, prof.echo);
     for (const e of frame.icons) {
       if (e.alpha <= 0.01 || e.sizePx < 3) continue;
-      const spr = this.iconSprite(e.icon, frame.tone.accent, frame.tone.ink);
+      const spr = this.iconSprite(e.icon, frame.tone.accent, frame.tone.ink, iconVariant(e.id));
       this.drawSprite({ tex: spr.tex, m: mul(translate(W / 2 + e.x, H / 2 + e.y), rotate((e.rotationDeg * Math.PI) / 180)), w: e.sizePx, h: e.sizePx, alpha: e.alpha });
     }
 
@@ -1404,9 +1407,10 @@ export class TurboRenderer {
 
   // ---- Turbo styles -------------------------------------------------------------------------------------------------------------------
   /** ASCII: the picture so far becomes characters (brightness picks the glyph, the colour stays), dissolving back on the beat. */
-  private ensureAtlas(): { tex: Tex; n: number } {
-    if (this.asciiAtlas) return this.asciiAtlas;
-    const RAMP = ' .:;i1tfLCG08@';
+  private ensureAtlas(ramp = DEFAULT_RAMP): { tex: Tex; n: number } {
+    if (this.asciiAtlas?.ramp === ramp) return this.asciiAtlas;
+    if (this.asciiAtlas) this.gl.deleteTexture(this.asciiAtlas.tex.tex);
+    const RAMP = ramp.length >= 2 ? ramp : DEFAULT_RAMP;
     const CELL = 24;
     const c = document.createElement('canvas');
     c.width = CELL * RAMP.length;
@@ -1417,7 +1421,7 @@ export class TurboRenderer {
     cx.textAlign = 'center';
     cx.textBaseline = 'middle';
     [...RAMP].forEach((ch, i) => ch !== ' ' && cx.fillText(ch, CELL * i + CELL / 2, CELL / 2 + 1));
-    this.asciiAtlas = { tex: textureFrom(this.gl, c, c.width, c.height, { mips: false }), n: RAMP.length };
+    this.asciiAtlas = { tex: textureFrom(this.gl, c, c.width, c.height, { mips: false }), n: RAMP.length, ramp };
     return this.asciiAtlas;
   }
 
@@ -1448,7 +1452,7 @@ export class TurboRenderer {
     const scene = this.sceneRT!;
     if (!this.asciiRT) this.asciiRT = createTarget(gl, this.canvas.width, this.canvas.height);
     const out = this.asciiRT;
-    const atlas = o.atlas ? this.customAtlas(o.atlas) : this.ensureAtlas();
+    const atlas = o.atlas ? this.customAtlas(o.atlas) : this.ensureAtlas(o.ramp);
     // css px -> device px of the scene target (its y runs up from the bottom)
     const sx = out.w / Math.max(1, W);
     const sy = out.h / Math.max(1, H);

@@ -25,6 +25,7 @@ import { paletteWarmth } from '@/lib/theme/color';
 import { directionOf } from '@/lib/theme/directions';
 import type { CoverInfo } from '@/lib/theme/types';
 import { useSongLook } from './useSongLook';
+import { readableArt } from '@/lib/artwork/sameOrigin';
 import { artworkFor } from '@/lib/artwork/forTrack';
 import type { StyleId, VisualTimeline } from '@/lib/kinetic/types';
 import { usePlayer, player } from '@/lib/player/controller';
@@ -181,8 +182,8 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
 
   const timeline = useMemo(() => {
     if (!track || !sl.ready) return null;
-    return compileForTrack({ track: timingTrack ?? track, doc: lyrics.doc, style: resolved.direction, albumPalette, cover: coverCues, mood, estimateWords: ui.estimatedWords });
-  }, [track, timingTrack, sl.ready, lyrics.doc, resolved.direction, albumPalette, mood, coverCues, ui.estimatedWords]);
+    return compileForTrack({ track: timingTrack ?? track, doc: lyrics.doc, style: resolved.direction, albumPalette, cover: coverCues, mood, estimateWords: ui.estimatedWords, lively: mode === 'turbo' });
+  }, [track, timingTrack, sl.ready, lyrics.doc, resolved.direction, albumPalette, mood, coverCues, ui.estimatedWords, mode]);
 
   useEffect(() => {
     diagRef.current = { clock, timeline, lyrics };
@@ -270,7 +271,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       img.onerror = () => {
         if (cors && !dead) load(false);
       };
-      img.src = artSrc;
+      img.src = readableArt(artSrc);
     };
     load(true);
     return () => {

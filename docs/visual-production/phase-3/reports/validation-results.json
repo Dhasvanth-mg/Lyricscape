@@ -1,0 +1,6 @@
+{
+  "schema": "lyricscape.phase3.validation/1",
+  "asOf": "2026-11-11",
+  "tests": { "tests/styles-infra.test.ts": "28 passed", "tests/sketch-cards.test.ts": "8 passed" },
+  "fullSuite": "see regression-results.md"
+}

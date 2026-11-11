@@ -1,0 +1,8 @@
+{
+  "schema": "lyricscape.phase3.production-batches/1",
+  "asOf": "2026-11-11",
+  "note": "Batch ids from docs/visual-production/phase-2. Only Sketch Cards batches have started.",
+  "batches": [
+    { "style": "sketch-cards", "status": "produced except SKC-PRC-ART (blocked B-01)" }
+  ]
+}

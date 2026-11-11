@@ -11,7 +11,7 @@ Turbo (WebGL2) has six **styles**, picked in the Studio (Mode -> Turbo -> chips)
 |---|---|---|---|
 | `liquid` | Liquid light | the default: the song's own art direction at full intensity (flowing light, god rays, bokeh, beat shockwaves, cover treatments) | `lib/kinetic/gl/renderer.ts` `draw()` (the long path), `turbo.ts` |
 | `terminal` | Code screens | each lyric is typed into a different screen the camera flies through | `gl/scenes/terminal.ts` |
-| `sketch` | Sketch cards | hand-lettered, dithered poster cards | `gl/scenes/sketch.ts` |
+| `sketch` | Sketch cards | hand-lettered cards on real kinds of paper, landing on painted places (Phase 3) | `lib/styles/sketch-cards/scene.ts` (the first version, `gl/scenes/sketch.ts`, is kept unused) |
 | `nebula` | Lyrics app | Apple-style rolling lyric column over a colour mesh or a nebula with neon streaks | `gl/scenes/nebula.ts` |
 | `acid` | Acid grain | rolling colour blobs, grain, looping RGB-split eyeballs, yellow subtitle | `gl/scenes/acid.ts` |
 | `ascii` | ASCII eye | a window of characters; the picture comes from the song | `gl/scenes/ascii.ts`, `subject.ts` |
@@ -83,6 +83,8 @@ Each shot is a camera path over a texture "sheet" painted once at 2x (`sheet()`,
 **Tests:** `tests/turbo-styles.test.ts` (shot order, long-line fallback, typing).
 
 ## 2. Sketch cards (`sketch`) — `gl/scenes/sketch.ts`
+
+Replaced in Phase 3 by `lib/styles/sketch-cards/` (see `docs/visual-production/phase-3/styles/sketch-cards/README.md`). The section below describes the first version, kept in the code but no longer drawn. Its 1.5 ms timing above was measured on the first version; the Phase 3 version is not measured yet.
 
 **Reference:** a clip of pixel-scribble poster cards, each lyric line a hand-lettered card in a paint program. **Not copied:** the artist's drawings, handles, the "follow" card.
 

@@ -1,0 +1,207 @@
+{
+  "schema": "lyricscape.phase3.asset-coverage/1",
+  "asOf": "2026-11-11",
+  "note": "Counts of live manifest entries (approved, revised, deferred) by production status. Kinds are listed separately and never summed into completion.",
+  "totals": {
+    "live": 2496,
+    "produced": 214,
+    "blocked": 106,
+    "notStarted": 2176
+  },
+  "styles": {
+    "sketch-cards": {
+      "live": 228,
+      "byKind": {
+        "source": 140,
+        "generator": 14,
+        "configuration": 34,
+        "component": 22,
+        "composition": 18
+      },
+      "produced": 214,
+      "blocked": 14,
+      "notStarted": 0
+    },
+    "cover-pop": {
+      "live": 172,
+      "byKind": {
+        "configuration": 51,
+        "source": 81,
+        "generator": 13,
+        "component": 14,
+        "composition": 13
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 172
+    },
+    "screenlife": {
+      "live": 219,
+      "byKind": {
+        "source": 61,
+        "component": 87,
+        "configuration": 52,
+        "composition": 19
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 219
+    },
+    "glyph-cinema": {
+      "live": 159,
+      "byKind": {
+        "source": 68,
+        "configuration": 56,
+        "component": 16,
+        "composition": 19
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 159
+    },
+    "konstrukt": {
+      "live": 131,
+      "byKind": {
+        "configuration": 70,
+        "component": 37,
+        "source": 6,
+        "composition": 18
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 131
+    },
+    "folio": {
+      "live": 127,
+      "byKind": {
+        "component": 56,
+        "configuration": 32,
+        "source": 22,
+        "composition": 17
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 127
+    },
+    "nocturne": {
+      "live": 81,
+      "byKind": {
+        "configuration": 45,
+        "source": 12,
+        "component": 7,
+        "composition": 17
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 81
+    },
+    "celluloid": {
+      "live": 120,
+      "byKind": {
+        "source": 55,
+        "configuration": 35,
+        "component": 12,
+        "composition": 18
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 120
+    },
+    "signage": {
+      "live": 157,
+      "byKind": {
+        "generator": 9,
+        "source": 82,
+        "configuration": 43,
+        "component": 5,
+        "composition": 18
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 157
+    },
+    "paper-theatre": {
+      "live": 241,
+      "byKind": {
+        "source": 181,
+        "configuration": 33,
+        "component": 7,
+        "composition": 20
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 241
+    },
+    "panels": {
+      "live": 286,
+      "byKind": {
+        "source": 162,
+        "configuration": 70,
+        "component": 30,
+        "generator": 6,
+        "composition": 18
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 286
+    },
+    "liquid-light-show": {
+      "live": 107,
+      "byKind": {
+        "configuration": 65,
+        "source": 21,
+        "component": 6,
+        "composition": 15
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 107
+    },
+    "ink": {
+      "live": 188,
+      "byKind": {
+        "source": 112,
+        "configuration": 43,
+        "generator": 17,
+        "composition": 16
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 188
+    },
+    "phosphor": {
+      "live": 131,
+      "byKind": {
+        "source": 58,
+        "generator": 12,
+        "configuration": 46,
+        "composition": 15
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 131
+    },
+    "monument": {
+      "live": 92,
+      "byKind": {
+        "generator": 5,
+        "configuration": 74,
+        "composition": 13
+      },
+      "produced": 0,
+      "blocked": 92,
+      "notStarted": 0
+    },
+    "_shared": {
+      "live": 57,
+      "byKind": {
+        "generator": 16,
+        "source": 6,
+        "dependency": 35
+      },
+      "produced": 0,
+      "blocked": 0,
+      "notStarted": 57
+    }
+  }
+}

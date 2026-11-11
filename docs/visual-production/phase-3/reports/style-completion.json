@@ -1,0 +1,96 @@
+{
+  "schema": "lyricscape.phase3.style-completion/1",
+  "asOf": "2026-11-11",
+  "styles": [
+    {
+      "order": 1,
+      "slug": "sketch-cards",
+      "stage": "in-review",
+      "offered": "replaces the Turbo sketch scene; not yet in the 15-style selector"
+    },
+    {
+      "order": 2,
+      "slug": "cover-pop",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 3,
+      "slug": "screenlife",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 4,
+      "slug": "glyph-cinema",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 5,
+      "slug": "konstrukt",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 6,
+      "slug": "folio",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 7,
+      "slug": "nocturne",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 8,
+      "slug": "celluloid",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 9,
+      "slug": "signage",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 10,
+      "slug": "paper-theatre",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 11,
+      "slug": "panels",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 12,
+      "slug": "liquid-light-show",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 13,
+      "slug": "ink",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 14,
+      "slug": "phosphor",
+      "stage": "not-started",
+      "offered": "no"
+    },
+    {
+      "order": 15,
+      "slug": "monument",
+      "stage": "blocked (gate MON-G1)",
+      "offered": "no"
+    }
+  ]
+}

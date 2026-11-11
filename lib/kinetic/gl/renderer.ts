@@ -20,7 +20,7 @@ import { isSceneStyle, planStage, turboLook, type TurboStyleId } from '../turbo'
 import { styleAt } from '../director';
 import { drawScene } from './scenes';
 import type { SceneFx, SceneHost } from './scenes/types';
-import { SCENE_FONT_LOADS } from './scenes/fonts';
+import { SCENE_FONT_LOADS, SCENE_SCRIPT_LOADS } from './scenes/fonts';
 import { IDENTITY, Program, cameraMatrix, createTarget, freeTarget, mul, parseColor, rotate, scale, skewX, textureFrom, toClip, translate, type Affine, type Target, type Tex } from './gpu';
 import { ASCII_FS, BLIT_FS, BLUR_FS, BRIGHT_FS, FULL_VS, POINT_FS, POINT_VS, POST_FS, QUAD_VS, SHAPE_FS, SPRITE_FS, STAGE_FS, STRIP_FS, STRIP_VS } from './shaders';
 
@@ -264,7 +264,7 @@ export class TurboRenderer {
   async loadFonts(): Promise<void> {
     if (typeof document === 'undefined' || !document.fonts) return;
     try {
-      await Promise.all([...REQUIRED_FONT_LOADS, ...SCENE_FONT_LOADS].map((f) => document.fonts.load(f, 'Aa lyrics')));
+      await Promise.all([...[...REQUIRED_FONT_LOADS, ...SCENE_FONT_LOADS].map((f) => document.fonts.load(f, 'Aa lyrics')), ...SCENE_SCRIPT_LOADS.map(([f, s]) => document.fonts.load(f, s))]);
     } catch {
       /* system fonts; layout is re-measured anyway */
     }

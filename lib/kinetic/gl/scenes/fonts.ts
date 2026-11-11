@@ -12,4 +12,20 @@ export const SCENE_FONT_LOADS = [
   '400 64px "Anton"',
   '400 64px "Permanent Marker"',
   '400 64px "Bangers"',
+  '400 64px "Caveat"',
+  '400 64px "Kalam"',
+  '700 64px "Kalam"',
+  '400 64px "Kavivanar"',
+];
+
+/** Non-Latin subsets load only when text in their range is asked for, so each is named with a sample of its script. */
+export const SCENE_SCRIPT_LOADS: [font: string, sample: string][] = [
+  ['400 64px "Kalam"', 'हिंदी'],
+  ['700 64px "Kalam"', 'हिंदी'],
+  ['400 64px "Kavivanar"', 'தமிழ்'],
+  ['900 64px "Noto Sans Devanagari Variable"', 'हिंदी'],
+  ['900 64px "Noto Sans Tamil Variable"', 'தமிழ்'],
+  ['400 64px "Noto Sans Tamil Variable"', 'தமிழ்'],
+  ['500 64px "Noto Sans Arabic Variable"', 'عربي'],
+  ['500 64px "Noto Sans Hebrew Variable"', 'עברית'],
 ];

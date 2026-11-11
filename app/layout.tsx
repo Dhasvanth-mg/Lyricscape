@@ -20,6 +20,13 @@ import '@fontsource-variable/playfair-display';
 import '@fontsource-variable/playfair-display/wght-italic.css';
 import '@fontsource-variable/syne';
 import '@fontsource/special-elite';
+// Sketch Cards hand lettering and the scripts it letters in (Phase 3; all OFL 1.1)
+import '@fontsource/caveat';
+import '@fontsource/kalam';
+import '@fontsource/kalam/700.css';
+import '@fontsource/kavivanar';
+import '@fontsource-variable/noto-sans-arabic';
+import '@fontsource-variable/noto-sans-hebrew';
 import '@fontsource/bebas-neue';
 import '@fontsource/nunito/900.css';
 // Hindi (Devanagari) and Tamil faces: the browser only downloads them when lyrics in those scripts are drawn

@@ -11,8 +11,8 @@
     {
       "order": 2,
       "slug": "cover-pop",
-      "stage": "not-started",
-      "offered": "no"
+      "stage": "in-review",
+      "offered": "drawn when the renderer option style15 is cover-pop; not yet in a picker"
     },
     {
       "order": 3,

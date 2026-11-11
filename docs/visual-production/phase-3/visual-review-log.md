@@ -19,3 +19,11 @@ Renders were taken from the running app in headless Chromium (software WebGL) wi
 - One Tamil pill word was measured before its font had loaded and overflowed its pill in the test harness. In the app the script fonts load before the first frame (`SCENE_SCRIPT_LOADS`); not seen there.
 
 Not yet reviewed in real renders: the held cue card (C2) with hands, the pile (C3), the full-bleed poster (C5), the dark sketchbook, kitchen, notebook, riso studio and corkboard grounds, square and small-mobile sizes.
+
+## Cover Pop, demo covers, 1280x720, 720x1280, mixed scripts, cover off
+
+- Full stage, crop tour, collage with cut-outs, giant-word chorus with a halftone burst, side field, framed ending and the no-cover stages all drawn; Arabic and Hebrew lines laid out right to left in their voice.
+- The chip word's icon covered the next word; moved above the chip word's corner.
+- In landscape the full-cover phrase was squeezed into the cover's empty patch; it may now run across the side fields at that height.
+- A portrait collage phrase ran past the frame edge; phrases are now scaled to stay inside the frame.
+- Not reviewed: the brief's 50-cover saliency review (only the three demo covers exist here), square and small-mobile sizes.

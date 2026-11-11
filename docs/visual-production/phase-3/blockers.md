@@ -11,3 +11,4 @@ Things Phase 3 cannot finish here, with what would unblock them. Work moved on t
 | B-05 | Gated families: Ink stroke reveal, Glyph Cinema calligram, Phosphor stroke fonts, Liquid Light Show fluid | Each needs its prototype gate passed before production | Gate prototypes judged by the owner |
 | B-06 | Real-device performance numbers | Only a software GPU (SwiftShader) is available in this container; its timings say nothing about a phone or a laptop GPU | A run of the bench on the owner's machines |
 | B-07 | Pushing, pull requests | The owner has not authorised pushing in Phase 3 | The owner's go-ahead |
+| B-08 | Cover Pop's 50-cover saliency and contrast review | Needs a set of real album covers; none may be downloaded here without rights | The owner runs the review on their library, or supplies a cleared set |

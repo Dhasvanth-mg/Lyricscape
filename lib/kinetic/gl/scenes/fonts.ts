@@ -16,6 +16,12 @@ export const SCENE_FONT_LOADS = [
   '400 64px "Kalam"',
   '700 64px "Kalam"',
   '400 64px "Kavivanar"',
+  // Cover Pop voices
+  'italic 900 64px "Nunito"',
+  '900 64px "Archivo Variable"',
+  '400 64px "DM Serif Display"',
+  '800 64px "Syne Variable"',
+  '400 64px "Shrikhand"',
 ];
 
 /** Non-Latin subsets load only when text in their range is asked for, so each is named with a sample of its script. */
@@ -26,6 +32,8 @@ export const SCENE_SCRIPT_LOADS: [font: string, sample: string][] = [
   ['900 64px "Noto Sans Devanagari Variable"', 'हिंदी'],
   ['900 64px "Noto Sans Tamil Variable"', 'தமிழ்'],
   ['400 64px "Noto Sans Tamil Variable"', 'தமிழ்'],
+  ['800 64px "Noto Sans Arabic Variable"', 'عربي'],
+  ['800 64px "Noto Sans Hebrew Variable"', 'עברית'],
   ['500 64px "Noto Sans Arabic Variable"', 'عربي'],
   ['500 64px "Noto Sans Hebrew Variable"', 'עברית'],
 ];

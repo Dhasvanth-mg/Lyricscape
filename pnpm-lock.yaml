@@ -71,6 +71,9 @@ importers:
       '@fontsource/permanent-marker':
         specifier: ^5.3.0
         version: 5.3.0
+      '@fontsource/shrikhand':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource/special-elite':
         specifier: ^5.3.0
         version: 5.3.0
@@ -524,6 +527,9 @@ packages:
 
   '@fontsource/permanent-marker@5.3.0':
     resolution: {integrity: sha512-ZO/NtYW4SCc/iY8N3dmjWyDITcXJ/vhWZFgnwRcvzwCKKnScMrM/a2/6VHlsjCVuIgmPzNrCFbedEYhv+/jJBg==}
+
+  '@fontsource/shrikhand@5.3.0':
+    resolution: {integrity: sha512-AWCCj1oNNpMK5hXfFo4JO5KyLhPrdBmpbA0wyIl4IUB05WTU0CGP2UgGX7Lcq/N8nS2+hcxzCPMSQ1R55FuMPg==}
 
   '@fontsource/special-elite@5.3.0':
     resolution: {integrity: sha512-fOQ9XU8m4KnqzcLibAXCxTsKzbxePNDjPqVss5GSMcPVCY1TuCv+Wq8gm1ebqIR6XS1rhMbQ7ECP9ocKVEEpTA==}
@@ -3330,6 +3336,8 @@ snapshots:
   '@fontsource/nunito@5.3.0': {}
 
   '@fontsource/permanent-marker@5.3.0': {}
+
+  '@fontsource/shrikhand@5.3.0': {}
 
   '@fontsource/special-elite@5.3.0': {}
 

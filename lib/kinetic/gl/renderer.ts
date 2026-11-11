@@ -18,7 +18,7 @@ import { EMOTION_DEFS } from '../emotion';
 import type { RendererOptions } from '../render';
 import { isSceneStyle, planStage, turboLook, type TurboStyleId } from '../turbo';
 import { styleAt } from '../director';
-import { drawScene } from './scenes';
+import { drawScene, STYLE15_SCENES } from './scenes';
 import type { SceneFx, SceneHost } from './scenes/types';
 import { SCENE_FONT_LOADS, SCENE_SCRIPT_LOADS } from './scenes/fonts';
 import { IDENTITY, Program, cameraMatrix, createTarget, freeTarget, mul, parseColor, rotate, scale, skewX, textureFrom, toClip, translate, type Affine, type Target, type Tex } from './gpu';
@@ -116,6 +116,8 @@ export class TurboRenderer {
   private artTex: Tex | null = null;
   private artLevels: { l160: Target; l56: Target; l14: Target } | null = null;
   private artGrid: Uint8ClampedArray | null = null;
+  /** the cover's own shorter side in px, before it was scaled for upload */
+  private artNatural = 0;
   private bleedSide = 0;
 
   constructor(
@@ -515,6 +517,7 @@ export class TurboRenderer {
     if (!cx) return;
     cx.imageSmoothingQuality = 'high';
     const s = Math.min(nw, nh); // covers are square; anything else is centre-cropped
+    this.artNatural = s;
     cx.drawImage(source, (nw - s) / 2, (nh - s) / 2, s, s, 0, 0, side, side);
     this.artCanvas = c;
     try {
@@ -743,7 +746,7 @@ export class TurboRenderer {
     this.clip = toClip(W, H);
     this.cam = cameraMatrix(W, H, frame.camera);
     this.bleedSide = 0;
-    if (isSceneStyle(sid)) {
+    if (isSceneStyle(sid) || this.style15Scene()) {
       this.drawSceneFrame(frame);
       return;
     }
@@ -823,6 +826,7 @@ export class TurboRenderer {
       frame,
       tl: this.timeline!,
       reduced: this.options.reducedMotion,
+      cover: this.artTex && this.artCanvas && this.options.artwork !== 'off' ? { tex: this.artTex, size: this.artCanvas.width, grid: this.artGrid, canvas: this.artCanvas, natural: this.artNatural } : null,
       density: this.density,
       tex: (key, w, h, paint, o) => this.sprite('s|' + key, w, h, (c) => paint(c), o),
       measure: (font, text) => {
@@ -878,13 +882,20 @@ export class TurboRenderer {
     };
   }
 
+  /** the Phase 3 style's own scene, when the stage picked one of the 15 that has it */
+  private style15Scene() {
+    const id = this.options.style15;
+    return id ? (STYLE15_SCENES[id] ?? null) : null;
+  }
+
   private drawSceneFrame(frame: Frame) {
     const gl = this.gl;
     this.cam = IDENTITY;
     this.sceneBind();
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-    const fx = drawScene(this.styleId(), this.makeHost(frame));
+    const own = this.style15Scene();
+    const fx = own ? own(this.makeHost(frame)) : drawScene(this.styleId(), this.makeHost(frame));
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
     const plan = { variant: 4 as const, amount: 0, coverMix: 0, bloom: 0.3 * (fx.bloom ?? 1), aberration: 0.012 * (fx.aber ?? 0) };
     this.bloomPass(plan, false);

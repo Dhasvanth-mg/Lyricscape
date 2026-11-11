@@ -27,6 +27,8 @@ import '@fontsource/kalam/700.css';
 import '@fontsource/kavivanar';
 import '@fontsource-variable/noto-sans-arabic';
 import '@fontsource-variable/noto-sans-hebrew';
+// Cover Pop retro script voice (Phase 3; OFL 1.1)
+import '@fontsource/shrikhand';
 import '@fontsource/bebas-neue';
 import '@fontsource/nunito/900.css';
 // Hindi (Devanagari) and Tamil faces: the browser only downloads them when lyrics in those scripts are drawn

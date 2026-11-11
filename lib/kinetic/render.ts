@@ -36,6 +36,8 @@ export type RendererOptions = {
   texture: boolean;
   /** Turbo only: which of the six GPU styles to draw (default liquid light) */
   turboStyle?: import('./turbo').TurboStyleId;
+  /** Turbo only, Phase 3: one of the 15 lyric styles that has its own scene. When set it is drawn instead of `turboStyle`. */
+  style15?: import('../styles/registry').Style15Id | null;
   /** Turbo only: the auto director's plan. When set, the scene follows the song's sections instead of `turboStyle`. */
   director?: import('./director').DirectorPlan | null;
 };

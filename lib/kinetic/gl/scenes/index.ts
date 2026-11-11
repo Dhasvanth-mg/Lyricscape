@@ -6,6 +6,14 @@ import { drawNebulaScene } from './nebula';
 import { drawSketchCardsScene } from '../../../styles/sketch-cards/scene';
 import { drawTerminalScene } from './terminal';
 import type { SceneFx, SceneHost } from './types';
+import type { Style15Id } from '../../../styles/registry';
+import { drawCoverPopScene } from '../../../styles/cover-pop/scene';
+
+/** Phase 3 styles that have a scene of their own (drawn instead of the Turbo pick when the stage asks for one) */
+export const STYLE15_SCENES: Partial<Record<Style15Id, (h: SceneHost) => SceneFx>> = {
+  'sketch-cards': drawSketchCardsScene,
+  'cover-pop': drawCoverPopScene,
+};
 
 export function drawScene(style: TurboStyleId, h: SceneHost): SceneFx {
   switch (style) {

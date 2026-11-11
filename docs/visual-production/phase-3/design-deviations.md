@@ -22,3 +22,6 @@ reversed without throwing work away.
 | D3-SKC-04 | SKC-MOT-CRE choreographies | Danced by the existing Acid cast and critters | Danced by the SKC doodles (SKC-OBJ-DOD) | The Acid cast lives in the Acid scene and is not exported; the doodles are this style's own cast |
 | D3-SKC-05 | Right-to-left lettering reveal | Wipe in reading direction | Words fade in (in right-to-left order) | The sprite clip only wipes left to right; a fade never runs against reading order |
 | D3-SKC-06 | SKC-TYP-FNT-009/010 big word | Noto Devanagari / Tamil Black | Noto Sans Devanagari / Tamil variable at weight 900 | The variable fonts carry the black weight; same family |
+| D3-CVP-01 | CVP-TYP-VOI-003 heavy grotesk | Archivo Black | Archivo (variable) at weight 900 | Archivo is already bundled; Archivo Black is a separate family not in the project |
+| D3-CVP-02 | Latin letter spacing -0.02 em | Tight tracking | Not applied | The shared text texture has no tracking control yet; to add with the typography work |
+| D3-CVP-03 | Saliency placement review on 50 covers | 50 real covers | 3 demo covers and a synthetic test cover | No licensed cover set is available here (B-08) |

@@ -39,6 +39,8 @@ export type SceneHost = {
   frame: Frame;
   tl: VisualTimeline;
   reduced: boolean;
+  /** the song's cover as loaded (square, 512-1024 px), unmodified, and a 48x48 RGBA sample of it; null when there is none or it may not be read */
+  cover: { tex: Tex; size: number; grid: Uint8ClampedArray | null; canvas: HTMLCanvasElement; natural: number } | null;
   /** quality 0..1 (1 = high) so a scene can use fewer elements on a struggling machine */
   density: number;
   /** a canvas painted once and kept as a texture (cached by key) */

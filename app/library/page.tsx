@@ -55,7 +55,7 @@ export default function LibraryPage() {
       <PageHeader eyebrow="Collection" title="Library" />
 
       <section className="mb-10">
-        <h2 className="mb-3 font-display text-3xl tracking-wide uppercase">Playlists</h2>
+        <h2 className="mb-3 text-2xl font-bold tracking-tight">Playlists</h2>
         <form
           className="mb-4 flex flex-wrap gap-2"
           onSubmit={(e) => {
@@ -80,7 +80,7 @@ export default function LibraryPage() {
         ) : (
           <ul className="space-y-2">
             {playlists.map((p) => (
-              <li key={p.id} className="rounded-2xl border border-ink-700 bg-ink-900">
+              <li key={p.id} className="rounded-2xl bg-ink-850">
                 <div className="flex items-center gap-2 p-3">
                   <button className="min-w-0 flex-1 text-left" onClick={() => setOpen(open === p.id ? null : p.id)} aria-expanded={open === p.id}>
                     <span className="block truncate font-semibold">{p.title}</span>
@@ -125,7 +125,7 @@ export default function LibraryPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="mb-3 font-display text-3xl tracking-wide uppercase">My files</h2>
+        <h2 className="mb-3 text-2xl font-bold tracking-tight">My files</h2>
         {files.length === 0 ? (
           <Empty
             title="No imported files"
@@ -145,7 +145,7 @@ export default function LibraryPage() {
       </section>
 
       <section>
-        <h2 className="mb-3 font-display text-3xl tracking-wide uppercase">Songs with saved lyrics</h2>
+        <h2 className="mb-3 text-2xl font-bold tracking-tight">Songs with saved lyrics</h2>
         <p className="text-sm text-ink-300">{withLyrics.length} songs (including Spotify tracks) have lyrics saved on this device, so they work offline next time.</p>
         {demo.length > 0 && <p className="mt-1 text-xs text-ink-400">Bundled demo songs ship with their own timed lyrics.</p>}
       </section>

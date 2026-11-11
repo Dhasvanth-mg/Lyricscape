@@ -26,7 +26,7 @@ export function PostCard({ post, onChange }: { post: PostDto; onChange: () => vo
   const playable = post.track.provider === 'demo' || !!post.track.providerTrackId;
 
   return (
-    <article className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
+    <article className="rounded-2xl bg-ink-850 p-4">
       <header className="mb-2 flex flex-wrap items-center gap-2 text-sm">
         <Link href={`/profile/${post.author.handle}`} className="font-semibold hover:underline">
           {post.author.displayName}
@@ -48,7 +48,7 @@ export function PostCard({ post, onChange }: { post: PostDto; onChange: () => vo
           <Play size={18} fill="currentColor" className="translate-x-px" />
         </button>
         <div className="min-w-0">
-          <p className="truncate font-display text-2xl tracking-wide uppercase">{post.track.title}</p>
+          <p className="truncate text-xl font-bold tracking-tight">{post.track.title}</p>
           <p className="truncate text-sm text-ink-300">{post.track.artists.join(', ')}</p>
         </div>
       </div>

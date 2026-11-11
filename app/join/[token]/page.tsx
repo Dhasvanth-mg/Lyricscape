@@ -52,7 +52,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-5 py-10">
-      <p className="mb-6 font-display text-2xl tracking-wide uppercase">
+      <p className="mb-6 text-xl font-bold tracking-tight">
         Lyric<span className="text-signal">scape</span>
       </p>
       {!preview && !error && (
@@ -62,7 +62,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
       )}
       {error && (
         <div role="alert">
-          <h1 className="mb-2 font-display text-4xl uppercase">
+          <h1 className="mb-2 text-3xl font-bold tracking-tight">
             {error.code === 'invite_revoked' ? 'Link turned off' : error.code === 'invite_expired' ? 'Link expired' : 'Invite not valid'}
           </h1>
           <p className="text-ink-300">{error.message}. Ask the host for a fresh link.</p>
@@ -71,7 +71,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
       {preview && (
         <>
           <p className="mb-1 font-mono text-[11px] tracking-[0.2em] text-signal uppercase">You&apos;re invited</p>
-          <h1 className="font-display text-6xl leading-[0.95] tracking-wide uppercase">{preview.eventTitle}</h1>
+          <h1 className="text-5xl leading-[1.05] font-extrabold tracking-tight">{preview.eventTitle}</h1>
           <p className="mt-3 text-ink-300">
             Hosted by {preview.hostName}
             {preview.place ? ` · ${preview.place}` : ''}

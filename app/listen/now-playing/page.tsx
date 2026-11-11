@@ -55,7 +55,7 @@ export default function NowPlaying() {
       <div className="grid gap-8 lg:grid-cols-[minmax(0,420px)_1fr]">
         <div>
           <Cover track={track} rounded="rounded-2xl" className="mb-5 aspect-square w-full" />
-          <h2 className="font-display text-4xl leading-tight tracking-wide uppercase">{track.title}</h2>
+          <h2 className="text-3xl leading-tight font-bold tracking-tight">{track.title}</h2>
           <p className="mb-3 text-ink-200">
             {track.artists.join(', ')}
             {track.album ? ` · ${track.album}` : ''}
@@ -89,7 +89,7 @@ export default function NowPlaying() {
         </div>
         <div className="min-w-0">
           <LyricStage track={track} style={style} className="mb-6 aspect-video w-full rounded-2xl border border-ink-700" />
-          <h3 className="mb-2 font-display text-2xl tracking-wide uppercase">Up next</h3>
+          <h3 className="mb-2 text-xl font-bold tracking-tight">Up next</h3>
           {next.length === 0 ? (
             <p className="text-sm text-ink-400">Nothing queued.</p>
           ) : (

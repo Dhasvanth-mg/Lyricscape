@@ -22,7 +22,7 @@ export default function SpotifyCallback() {
     <div className="flex min-h-dvh items-center justify-center p-6 text-center">
       {error ? (
         <div className="max-w-md space-y-4">
-          <h1 className="font-display text-4xl uppercase">Spotify login failed</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Spotify login failed</h1>
           <p className="text-ink-200">{error}</p>
           <Link href="/settings" className="inline-flex h-10 items-center rounded-full bg-bone px-5 text-sm font-semibold text-ink-950">
             Back to Settings

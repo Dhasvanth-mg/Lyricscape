@@ -117,7 +117,7 @@ export default function MapPage() {
       {me && available && !loading && (
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,400px)]">
           <div className="min-w-0 space-y-4">
-            <div className="relative h-[52vh] min-h-[340px] overflow-hidden rounded-2xl border border-ink-700 bg-ink-900">
+            <div className="relative h-[52vh] min-h-[340px] overflow-hidden rounded-2xl bg-ink-850">
               <MapView places={places} selectedId={selected} onSelect={setSelected} className="absolute inset-0" />
               {settings.enabled && places.length === 0 && (
                 <p className="pointer-events-none absolute inset-x-6 top-4 rounded-lg bg-black/60 p-3 text-center text-sm backdrop-blur">
@@ -127,7 +127,7 @@ export default function MapPage() {
             </div>
 
             {sessions.length > 0 && (
-              <div className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
+              <div className="rounded-2xl bg-ink-850 p-4">
                 <div className="mb-2 flex flex-wrap items-center gap-3 text-sm">
                   <span className="font-semibold">Time</span>
                   <select value={windowDays} onChange={(e) => setWindowDays(Number(e.target.value))} className="h-8 rounded-lg border border-ink-600 bg-ink-850 px-2 text-xs" aria-label="Window">
@@ -146,9 +146,9 @@ export default function MapPage() {
             )}
 
             {sel && (
-              <section className="rounded-2xl border border-ink-700 bg-ink-900 p-4" aria-label="Selected place">
+              <section className="rounded-2xl bg-ink-850 p-4" aria-label="Selected place">
                 <div className="mb-2 flex items-center gap-2">
-                  <h3 className="font-display text-2xl tracking-wide uppercase">Around {sel.lat.toFixed(2)}, {sel.lng.toFixed(2)}</h3>
+                  <h3 className="text-xl font-bold tracking-tight">Around {sel.lat.toFixed(2)}, {sel.lng.toFixed(2)}</h3>
                   <Chip>±{Math.round(sel.precisionM / 100) / 10} km</Chip>
                   <button
                     className="ml-auto inline-flex items-center gap-1 text-xs text-red-300 underline"
@@ -187,8 +187,8 @@ export default function MapPage() {
             )}
 
             {!sel && places.length > 0 && (
-              <section className="rounded-2xl border border-ink-700 bg-ink-900 p-4" aria-label="Places">
-                <h3 className="mb-2 font-display text-2xl tracking-wide uppercase">Places</h3>
+              <section className="rounded-2xl bg-ink-850 p-4" aria-label="Places">
+                <h3 className="mb-2 text-xl font-bold tracking-tight">Places</h3>
                 <ul className="grid gap-1 sm:grid-cols-2">
                   {places.slice(0, 20).map((p) => (
                     <li key={p.id}>

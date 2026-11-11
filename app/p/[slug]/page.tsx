@@ -28,7 +28,7 @@ export default function GuestRoom({ params }: { params: Promise<{ slug: string }
     const d = describeError(error ?? ({ status: 500, code: 'x', message: 'Unknown error' } as never));
     return (
       <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-5">
-        <h1 className="mb-2 font-display text-4xl uppercase">{d.title}</h1>
+        <h1 className="mb-2 text-3xl font-bold tracking-tight">{d.title}</h1>
         <p className="text-ink-300">{d.body}</p>
       </main>
     );
@@ -50,7 +50,7 @@ export default function GuestRoom({ params }: { params: Promise<{ slug: string }
             </Link>
           )}
         </div>
-        <h1 className="font-display text-5xl leading-none tracking-wide uppercase">{snap.event.title}</h1>
+        <h1 className="text-4xl leading-tight font-extrabold tracking-tight">{snap.event.title}</h1>
         <p className="mt-1 text-sm text-ink-300">Hi {snap.me.displayName} <Icon id="hand" size={16} className="ml-0.5 inline align-[-3px]" />
         </p>
       </header>

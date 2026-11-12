@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lyricscape Looks Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600&family=Permanent+Marker&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+  /* Layout: a stage-first lab. Stage and transport on the left, the twenty looks and the notes for the chosen one on the right; one column on phones.
+     Deliberately single-theme (a dark screening room), so the looks are judged against the same ground. */
+  :root {
+    --bg: #0f0c15;
+    --panel: #18141f;
+    --line: #2b2536;
+    --fg: #f3eff8;
+    --muted: #a39bb2;
+    --accent: #ff6f59;
+    --accent-ink: #1a0b10;
+    --display: "Space Grotesk", Inter, system-ui, sans-serif;
+    --body: Inter, "Segoe UI", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--bg); color: var(--fg); }
+  body { margin: 0; font: 15px/1.5 var(--body); padding-block: 20px 32px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .app { max-width: 1380px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; align-items: start; }
+  header { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; }
+  h1 { font: 700 26px/1.1 var(--display); margin: 0; letter-spacing: -0.01em; }
+  header p { margin: 0; color: var(--muted); max-width: 70ch; }
+  .main { min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+  #stageWrap { width: 100%; display: flex; justify-content: center; background: #08060c; border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+  #stage { display: block; border-radius: 6px; max-width: 100%; }
+  .transport { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  button { font: 600 13px/1 var(--body); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; cursor: pointer; }
+  button:hover { border-color: var(--muted); }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  #play { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); min-width: 76px; }
+  button[aria-pressed="true"]:not(#play) { border-color: var(--accent); }
+  .scrubRow { display: flex; gap: 12px; align-items: center; }
+  #scrub { flex: 1; min-width: 0; accent-color: var(--accent); }
+  .readout { font: 500 12px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  #sections { display: flex; flex-wrap: wrap; gap: 6px; }
+  .sec { font-size: 12px; padding: 6px 9px; color: var(--muted); }
+  aside { min-width: 0; display: flex; flex-direction: column; gap: 16px; position: sticky; top: max(12px, env(safe-area-inset-top, 0px)); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .eyebrow { font: 600 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  #lookName { font: 700 24px/1.1 var(--display); margin: 0 0 4px; }
+  #lookFamily { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
+  .from { margin: 0 0 10px; font-size: 13px; }
+  .from b { color: var(--accent); font-weight: 600; }
+  #lookWhat { margin: 0; }
+  #lookNote { margin: 10px 0 0; font-size: 12px; color: var(--muted); }
+  #looks h3 { font: 600 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 14px 0 8px; }
+  #looks h3:first-child { margin-top: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .look { display: inline-flex; gap: 6px; align-items: baseline; padding: 7px 10px; }
+  .look .n { font: 500 11px var(--mono); color: var(--muted); }
+  .look[aria-current="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .look[aria-current="true"] .n { color: var(--bg); }
+  .foot { color: var(--muted); font-size: 12px; margin: 0; }
+  kbd { font: 500 11px var(--mono); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
+  @media (max-width: 900px) { .app { grid-template-columns: minmax(0, 1fr); } aside { position: static; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Looks Lab</h1>
+    <p>Twenty lyric looks for Lyricscape, each an original take on how a kind of app or video puts lyrics and graphics on screen. All of them play the same original demo song, “Static Bloom”.</p>
+  </header>
+  <section class="main" aria-label="Stage">
+    <div id="stageWrap"><canvas id="stage" aria-label="Lyric stage preview"></canvas></div>
+    <div class="transport">
+      <button id="play" type="button" aria-pressed="false">Play</button>
+      <button id="sound" type="button" aria-pressed="true">Sound on</button>
+      <button id="prev" type="button" aria-label="Previous look">◀ Prev</button>
+      <button id="next" type="button" aria-label="Next look">Next ▶</button>
+      <button type="button" data-aspect-btn="wide" aria-pressed="true">16:9</button>
+      <button type="button" data-aspect-btn="tall" aria-pressed="false">9:16</button>
+    </div>
+    <div class="scrubRow">
+      <label class="readout" for="scrub" id="section">Verse 1</label>
+      <input id="scrub" type="range" min="0" max="900" step="1" value="122">
+      <span class="readout" id="time">0:12 / 1:30</span>
+    </div>
+    <div id="sections" aria-label="Jump to section"></div>
+  </section>
+  <aside>
+    <div class="card" aria-live="polite">
+      <p class="eyebrow">Now showing</p>
+      <h2 id="lookName">Current</h2>
+      <p id="lookFamily"></p>
+      <p class="from"><b>Genre it comes from:</b> <span id="lookFrom"></span></p>
+      <p id="lookWhat"></p>
+      <p id="lookNote" hidden>This look keeps a feedback buffer between frames, so after a jump it needs a moment to build its trails.</p>
+    </div>
+    <div class="card" id="looks" aria-label="Looks"></div>
+    <p class="foot"><kbd>←</kbd> <kbd>→</kbd> switch looks · <kbd>Space</kbd> play or pause. The music is a small built-in synth; the spectra are worked out from its notes, the same way Lyricscape would fake them from a beat grid when it cannot hear the song.</p>
+  </aside>
+</div>
+<script src="lab.js"></script>
+</body>
+</html>

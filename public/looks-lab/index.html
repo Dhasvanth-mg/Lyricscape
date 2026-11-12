@@ -7,9 +7,9 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600&family=Permanent+Marker&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;600;700;800;900&family=Inter:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
 <style>
-  /* Layout: a stage-first lab. Stage and transport on the left, the twenty looks and the notes for the chosen one on the right; one column on phones.
+  /* Layout: a stage-first lab. Stage and transport on the left, the nine looks and the notes for the chosen one on the right; one column on phones.
      Deliberately single-theme (a dark screening room), so the looks are judged against the same ground. */
   :root {
     --bg: #0f0c15;
@@ -19,7 +19,7 @@
     --muted: #a39bb2;
     --accent: #ff6f59;
     --accent-ink: #1a0b10;
-    --display: "Space Grotesk", Inter, system-ui, sans-serif;
+    --display: "Inter Tight", Inter, system-ui, sans-serif;
     --body: Inter, "Segoe UI", system-ui, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, monospace;
     color-scheme: dark;
@@ -70,10 +70,10 @@
 <div class="app">
   <header>
     <h1>Looks Lab</h1>
-    <p>Twenty lyric looks for Lyricscape, each an original take on how a kind of app or video puts lyrics and graphics on screen. All of them play the same original demo song, “Static Bloom”.</p>
+    <p>Nine lyric looks for Lyricscape, rendered live on the GPU with real light, glass, metal, fluid and film. Each is an original take on where high-end music graphics are right now. All of them play the same original demo song, “Static Bloom”.</p>
   </header>
   <section class="main" aria-label="Stage">
-    <div id="stageWrap"><canvas id="stage" aria-label="Lyric stage preview"></canvas></div>
+    <div id="stageWrap"><canvas id="stage" aria-label="Lyric stage preview"></canvas><p id="nogl" hidden>This lab needs WebGL2, which this browser has turned off.</p></div>
     <div class="transport">
       <button id="play" type="button" aria-pressed="false">Play</button>
       <button id="sound" type="button" aria-pressed="true">Sound on</button>
@@ -96,10 +96,10 @@
       <p id="lookFamily"></p>
       <p class="from"><b>Genre it comes from:</b> <span id="lookFrom"></span></p>
       <p id="lookWhat"></p>
-      <p id="lookNote" hidden>This look keeps a feedback buffer between frames, so after a jump it needs a moment to build its trails.</p>
+      <p id="lookNote" hidden>This look runs a small fluid simulation, so after a jump it replays the last few seconds to rebuild the ink.</p>
     </div>
     <div class="card" id="looks" aria-label="Looks"></div>
-    <p class="foot"><kbd>←</kbd> <kbd>→</kbd> switch looks · <kbd>Space</kbd> play or pause. The music is a small built-in synth; the spectra are worked out from its notes, the same way Lyricscape would fake them from a beat grid when it cannot hear the song.</p>
+    <p class="foot"><kbd>←</kbd> <kbd>→</kbd> switch looks · <kbd>Space</kbd> play or pause. The music is a small built-in synth; the light reacts to its kick, bass and melody, the same signals Lyricscape would read from a real song or fake from a beat grid.</p>
   </aside>
 </div>
 <script src="lab.js"></script>

@@ -277,7 +277,7 @@
   //  WebGL2 plumbing
   // =====================================================================================
   const $ = (s) => document.querySelector(s);
-  const stage = $('#stage'), stage2 = $('#stage2'), ctx2 = stage2.getContext('2d');
+  const stage = $('#stage'), stage2 = document.createElement('canvas'), ctx2 = stage2.getContext('2d');
   const gl = stage.getContext('webgl2', { antialias: false, alpha: false, premultipliedAlpha: false, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
   if (!gl) { const p = $('#nogl'); if (p) p.hidden = false; return; }
   const HAS_FLOAT = !!gl.getExtension('EXT_color_buffer_float');
@@ -960,6 +960,14 @@
   //  The hand-made, quirky looks from round 1 (Canvas 2D), kept beside the GPU looks.
   //  They draw on their own 2D canvas; the code is unchanged from round 1.
   // =====================================================================================
+  const COVER_ART = cover;
+  // per-look camera finish for the hand-made looks
+  const POLISH = {
+    warp: { bloom: 0.8, thresh: 0.7, ca: 0.35 }, magnet: { bloom: 1.2, thresh: 0.5, exp: 1.5 }, highway: { bloom: 0.7, thresh: 0.75 },
+    karaoke: { bloom: 0.6 }, lull: { bloom: 0.7, thresh: 0.7, hal: 0.3, grain: 0.05 }, platter: { bloom: 0.35, vig: 0.55 },
+    recap: { bloom: 0.2, vig: 0.2, boost: 0, exp: 1.25 }, kinetic: { bloom: 0.15, vig: 0.25, boost: 0, exp: 1.25 }, marginalia: { bloom: 0.25, grain: 0.03, exp: 1.1 },
+    sticker: { exp: 1.15 }, punch: { exp: 1.15 }, mirror: { exp: 1.1 }, melt: { exp: 1.1 }, boil: { exp: 1.1 }, strip: { bloom: 0.5 },
+  };
   const CLASSIC = (() => {
   const NOTES = { 2: [3, 6, 'a goodbye that washes off'], 5: [2, 5, 'noise as company'], 9: [1, 4, 'letters never sent'], 11: [3, 4, 'refusing the ending'] };
   // ---------- the cover: an original procedural "album cover" ----------
@@ -986,6 +994,8 @@
     c.putImageData(img, 0, 0);
     c.fillStyle = 'rgba(255,244,230,0.9)'; c.font = '700 22px "Space Grotesk", system-ui, sans-serif'; c.fillText('STATIC BLOOM', 26, 44);
   })();
+    // production pass: the hand-made looks share the richer cover art used by the GPU looks
+    cover.width = cover.height = 1024; cover.getContext('2d').drawImage(COVER_ART, 0, 0, 1024, 1024);
 
   // ---------- drawing helpers ----------
   const FONT = {
@@ -1309,14 +1319,17 @@
     id: 'strip', name: 'Strip', family: 'Streaming lyric views', from: 'Desktop lyric bars and floating lyrics (Kugou, NetEase, Musixmatch FloatingLyrics)', phase: 'D',
     what: 'Two staggered outlined lines in a see-through strip over a desktop; each word fills with a gradient as it is sung. Meant for Lyricscape’s floating window, OBS overlay and wallpaper.',
     draw(ctx, W, H, t) {
-      const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#26395c'); g.addColorStop(1, '#5b2a5e');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-      ctx.fillStyle = 'rgba(255,255,255,0.05)'; ctx.beginPath(); ctx.arc(W * 0.8, H * 0.25, Math.min(W, H) * 0.35, 0, TAU); ctx.fill();
-      const win = (x, y, w, h) => { ctx.fillStyle = 'rgba(245,245,250,0.9)'; roundRect(ctx, x, y, w, h, 8); ctx.fill(); ctx.fillStyle = 'rgba(30,30,40,0.08)'; ctx.fillRect(x, y + 26, w, 1); for (let k = 0; k < 3; k++) { ctx.fillStyle = '#c7c7d1'; ctx.beginPath(); ctx.arc(x + 16 + k * 14, y + 13, 4, 0, TAU); ctx.fill(); } for (let r = 0; r < 6; r++) { ctx.fillStyle = '#e1e1e8'; roundRect(ctx, x + 18, y + 44 + r * 20, (w - 36) * (0.4 + 0.6 * hash(r + x)), 8, 4); ctx.fill(); } };
-      if (H > W) { win(W * 0.08, H * 0.08, W * 0.84, H * 0.3); } else { win(W * 0.06, H * 0.08, W * 0.42, H * 0.46); win(W * 0.52, H * 0.16, W * 0.4, H * 0.36); }
+      // wallpaper: the cover art, softly out of focus, drifting
+      const wall = (blur) => { ctx.save(); if (HAS_FILTER) ctx.filter = `blur(${blur}px) saturate(1.15)`; coverFill(ctx, -W * 0.05, -H * 0.05, W * 1.1, H * 1.1, 1.15 + 0.02 * Math.sin(t * 0.1), 0.5 + 0.02 * Math.sin(t * 0.07), 0.45); ctx.restore(); };
+      wall(Math.min(W, H) * 0.02);
+      ctx.fillStyle = 'rgba(8,6,14,0.28)'; ctx.fillRect(0, 0, W, H);
       const fs = H > W ? W * 0.066 : Math.min(H * 0.065, W * 0.04);
-      const sy = H * 0.7, sh = fs * 3.4, sx = W * 0.04, sw = W * 0.92;
-      ctx.fillStyle = 'rgba(10,8,16,0.42)'; roundRect(ctx, sx, sy, sw, sh, fs * 0.5); ctx.fill();
+      const sy = H * 0.68, sh = fs * 3.4, sx = W * 0.05, sw = W * 0.9;
+      // frosted glass bar: blurred wallpaper inside, soft shadow under, hairline highlight on top
+      ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.45)'; ctx.shadowBlur = fs * 1.6; ctx.shadowOffsetY = fs * 0.4; ctx.fillStyle = 'rgba(20,16,30,0.6)'; roundRect(ctx, sx, sy, sw, sh, fs * 0.7); ctx.fill(); ctx.restore();
+      ctx.save(); roundRect(ctx, sx, sy, sw, sh, fs * 0.7); ctx.clip(); wall(Math.min(W, H) * 0.06); ctx.fillStyle = 'rgba(255,255,255,0.10)'; ctx.fillRect(sx, sy, sw, sh);
+      const hl = ctx.createLinearGradient(0, sy, 0, sy + sh); hl.addColorStop(0, 'rgba(255,255,255,0.16)'); hl.addColorStop(0.4, 'rgba(255,255,255,0)'); ctx.fillStyle = hl; ctx.fillRect(sx, sy, sw, sh); ctx.restore();
+      ctx.save(); ctx.strokeStyle = 'rgba(255,255,255,0.28)'; ctx.lineWidth = 1; roundRect(ctx, sx + 0.5, sy + 0.5, sw - 1, sh - 1, fs * 0.7); ctx.stroke(); ctx.restore();
       const cur = Math.max(0, Song.lastStarted(t));
       const rowFor = (j) => j % 2;
       const sungGrad = (x, w) => { const gg = ctx.createLinearGradient(x, 0, x + w, 0); gg.addColorStop(0, '#ff7ab6'); gg.addColorStop(1, '#ffd23f'); return gg; };
@@ -1335,7 +1348,7 @@
         for (const w of L.words) {
           const p = j === cur ? Song.wordP(w, t) : 0;
           const ww = ctx.measureText(w.text).width;
-          wipeWord(ctx, w.text, wx, 0, p, '#fff', sungGrad(wx, ww), fs * 0.16, 'rgba(0,0,0,0.85)', 'rgba(0,0,0,0.85)');
+          wipeWord(ctx, w.text, wx, 0, p, 'rgba(255,255,255,0.92)', sungGrad(wx, ww), 0);
           wx += ww + ctx.measureText(' ').width;
         }
         ctx.restore();
@@ -2117,7 +2130,16 @@
     const keep = ['platter', 'strip', 'marginalia', 'sticker', 'punch', 'recap', 'kinetic', 'lull', 'boil', 'warp', 'magnet', 'mirror', 'melt', 'karaoke', 'highway'];
     return { looks: LOOKS.filter((l) => keep.includes(l.id)), resize() { kinCache.clear(); }, fontsLoaded() { ptsCache.clear(); kinCache.clear(); } };
   })();
-  for (const l of CLASSIC.looks) LOOKS.push(Object.assign(l, { kind: '2d', gpuFamily: l.family, family: 'Hand-made and quirky' }));
+  for (const l of CLASSIC.looks) LOOKS.push(Object.assign(l, { kind: '2d', gpuFamily: l.family, family: 'Hand-made and quirky', post: POST(Object.assign({ thresh: 0.9, bloom: 0.45, grain: 0.032, ca: 0.12, vig: 0.4 }, POLISH[l.id] || {})) }));
+  const P_PIC = program(PRE + `
+  uniform sampler2D uPic; uniform float uBoost;
+  void main(){
+    vec3 c = pow(texture(uPic, vUv).rgb, vec3(2.2));
+    float l = max(c.r, max(c.g, c.b));
+    c *= 1. + pow(l, 4.) * 1.8 * uBoost;
+    o = vec4(c, 1);
+  }`, 'pic');
+  const texPic = gl.createTexture();
 
   // title "lines" for the swarm to build during the intro, the break and the outro
   const TITLE_LINES = [[0.4, LINES[0].start - 0.6, 100], [BRK.start + 0.8, BRK.end - 0.9, 101], [LINES[LINES.length - 1].end + 1.4, DURATION - 0.6, 102]].map(([s0, e0, i]) => ({
@@ -2182,12 +2204,13 @@
   function size() {
     const wrap = $('#stageWrap');
     const portrait = state.aspect === 'tall';
-    const bw = wrap.clientWidth - 24, maxH = Math.min(window.innerHeight * 0.72, 900);
+    wrap.dataset.aspect = state.aspect;
+    const bw = wrap.clientWidth, maxH = Math.min(window.innerHeight * (portrait ? 0.74 : 0.7), 900) - (portrait ? 28 : 0);
     let w = bw, h = portrait ? bw * 16 / 9 : bw * 9 / 16;
     if (h > maxH) { h = maxH; w = portrait ? h * 9 / 16 : h * 16 / 9; }
     const dpr = Math.min(1.75, window.devicePixelRatio || 1);
     stage.style.width = `${w}px`; stage.style.height = `${h}px`;
-    stage2.style.width = `${w}px`; stage2.style.height = `${h}px`; stage2.width = Math.round(w * dpr); stage2.height = Math.round(h * dpr);
+    stage2.width = Math.round(w * dpr); stage2.height = Math.round(h * dpr);
     CLASSIC.resize();
     const pw = Math.round(w * dpr), ph = Math.round(h * dpr);
     if (stage.width !== pw || stage.height !== ph || !FB) {
@@ -2283,7 +2306,12 @@
     const sp = spectrum(t, 64); for (let i = 0; i < 64; i++) specBytes[i] = Math.round(sp[i] * 255);
     gl.bindTexture(gl.TEXTURE_2D, texSpec); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
     gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, 64, 1, gl.RED, gl.UNSIGNED_BYTE, specBytes);
-    drawMask(Lk, t);
+    if (Lk.kind === '2d') {
+      gl.bindTexture(gl.TEXTURE_2D, texPic); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, gl.RGBA, gl.UNSIGNED_BYTE, stage2);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    } else drawMask(Lk, t);
     gl.disable(gl.BLEND);
     if (Lk.sim) {
       if (simFresh) clearSim();
@@ -2296,7 +2324,8 @@
   }
   function draw(t, dt) {
     const { Lk, U } = step(t, dt);
-    gl.useProgram(Lk.prog.p); setU(Lk.prog, U); bindCommon(Lk.prog, FB.simA.tex);
+    if (Lk.kind === '2d') { gl.useProgram(P_PIC.p); setU(P_PIC, U); setU(P_PIC, { uBoost: Lk.post.boost == null ? 1 : Lk.post.boost }); bindTex(P_PIC, 'uPic', 0, texPic); }
+    else { gl.useProgram(Lk.prog.p); setU(Lk.prog, U); bindCommon(Lk.prog, FB.simA.tex); }
     quad(FB.scene);
     if (Lk.points) drawSwarm(t, U);
     // bloom
@@ -2343,7 +2372,6 @@
   function render(dt) {
     const L = LOOKS[state.look];
     const is2d = L.kind === '2d';
-    stage.hidden = is2d; stage2.hidden = !is2d;
     if (is2d) {
       ctx2.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
       ctx2.globalAlpha = 1; ctx2.globalCompositeOperation = 'source-over'; ctx2.textAlign = 'left'; ctx2.textBaseline = 'alphabetic'; ctx2.shadowBlur = 0; ctx2.filter = 'none';
@@ -2352,12 +2380,14 @@
       try { L.draw(ctx2, state.W, state.H, state.t, state.dpr); } catch (e) { console.error(L.id, e); }
       ctx2.restore();
     }
-    const jump = !is2d && (state.lastFrameT == null || Math.abs(state.t - state.lastFrameT) > 0.5 || dt < 0);
-    if (!is2d) try { if (jump && L.sim) warm(state.t); else draw(state.t, jump ? 0 : clamp(dt, 0, 1 / 20)); } catch (e) { console.error(L.id, e); }
+    const jump = state.lastFrameT == null || Math.abs(state.t - state.lastFrameT) > 0.5 || dt < 0;
+    try { if (jump && L.sim) warm(state.t); else draw(state.t, jump ? 0 : clamp(dt, 0, 1 / 20)); } catch (e) { console.error(L.id, e); }
     state.lastFrameT = state.t;
     const sec = Song.section(state.t);
     $('#time').textContent = `${fmt(state.t)} / ${fmt(DURATION)}`;
     $('#section').textContent = sec.name;
+    for (const b of document.querySelectorAll('.sec')) b.setAttribute('aria-current', String(+b.dataset.i === sec.i));
+    $('#scrub').style.setProperty('--p', `${(state.t / DURATION) * 100}%`);
     const sc = $('#scrub'); if (document.activeElement !== sc) sc.value = String(Math.round(state.t * 10));
   }
   // Stateful looks rebuild their history after a jump by simulating the last few seconds.
@@ -2418,9 +2448,10 @@
   function play(on) { state.playing = on; if (on) startSound(); else stopSound(); syncButtons(); }
   function seek(t) { state.t = clamp(t, 0, DURATION - 0.01); if (state.playing) { stopSound(); startSound(); } render(0); }
   function syncButtons() {
-    $('#play').textContent = state.playing ? 'Pause' : 'Play';
+    $('#play').setAttribute('aria-label', state.playing ? 'Pause' : 'Play');
     $('#play').setAttribute('aria-pressed', String(state.playing));
-    $('#sound').textContent = state.sound ? 'Sound on' : 'Sound off';
+    $('#play .pl').style.display = state.playing ? 'none' : ''; $('#play .pa').style.display = state.playing ? '' : 'none';
+    $('#sound').setAttribute('aria-label', state.sound ? 'Mute' : 'Unmute');
     $('#sound').setAttribute('aria-pressed', String(state.sound));
     for (const b of document.querySelectorAll('[data-aspect-btn]')) b.setAttribute('aria-pressed', String(b.dataset.aspectBtn === state.aspect));
   }
@@ -2430,6 +2461,7 @@
     for (const b of document.querySelectorAll('.look')) b.setAttribute('aria-current', String(b.dataset.id === L.id));
     $('#lookName').textContent = L.name;
     $('#lookFamily').textContent = L.family;
+    $('#nowName').textContent = L.name; const tag = $('#nowTag'); tag.classList.add('show'); clearTimeout(select.tm); select.tm = setTimeout(() => tag.classList.remove('show'), 1600);
     $('#lookFrom').textContent = L.from;
     $('#lookWhat').textContent = L.what;
     $('#lookNote').hidden = !L.stateful;
@@ -2444,11 +2476,11 @@
     const fams = [...new Set(LOOKS.map((l) => l.family))];
     for (const f of fams) {
       const h = document.createElement('h3'); h.textContent = f; list.appendChild(h);
-      const row = document.createElement('div'); row.className = 'chips';
+      const row = document.createElement('div'); row.className = 'grid';
       LOOKS.forEach((l, i) => {
         if (l.family !== f) return;
         const b = document.createElement('button'); b.className = 'look'; b.dataset.id = l.id; b.type = 'button';
-        b.innerHTML = `<span class="n">${String(i + 1).padStart(2, '0')}</span><span>${l.name}</span>`;
+        b.innerHTML = `<span class="thumb"><img alt="" data-thumb="${l.id}"></span><span class="t">${l.name}</span>`;
         b.addEventListener('click', () => select(i));
         row.appendChild(b);
       });
@@ -2456,9 +2488,27 @@
     }
   }
 
+  // library thumbnails: each look is rendered once at a chorus moment, between frames, so the stage never flickers
+  const thumbCan = document.createElement('canvas'); thumbCan.width = 384; thumbCan.height = 216;
+  let thumbQ = [];
+  function thumbNext() {
+    if (!thumbQ.length) return;
+    if (state.aspect !== 'wide' || state.playing) { setTimeout(thumbNext, 800); return; }
+    const i = thumbQ.shift(), keep = state.look, keepT = state.t;
+    try {
+      state.look = i; state.t = LOOKS[i].thumbT || 24.6; state.lastFrameT = null; render(0);
+      thumbCan.getContext('2d').drawImage(stage, 0, 0, 384, 216);
+      const img = document.querySelector(`img[data-thumb="${LOOKS[i].id}"]`);
+      if (img) { img.src = thumbCan.toDataURL('image/jpeg', 0.85); img.classList.add('ok'); }
+    } catch (e) { console.error('thumb', e); }
+    state.look = keep; state.t = keepT; state.lastFrameT = null; render(0);
+    setTimeout(thumbNext, 60);
+  }
+
   function fromHash() { const id = (location.hash || '').slice(1); const i = LOOKS.findIndex((l) => l.id === id); if (i >= 0) select(i, true); }
 
   buildList();
+  $('#count').textContent = `${LOOKS.length} looks`;
   $('#play').addEventListener('click', () => play(!state.playing));
   $('#sound').addEventListener('click', () => { state.sound = !state.sound; if (state.playing) { if (state.sound) startSound(); else stopSound(); } syncButtons(); });
   $('#prev').addEventListener('click', () => select(state.look - 1));
@@ -2466,7 +2516,7 @@
   for (const b of document.querySelectorAll('[data-aspect-btn]')) b.addEventListener('click', () => { state.aspect = b.dataset.aspectBtn; size(); syncButtons(); state.lastFrameT = null; render(0); });
   const sc = $('#scrub'); sc.max = String(Math.floor(DURATION * 10));
   sc.addEventListener('input', () => seek(Number(sc.value) / 10));
-  for (const s of SECTIONS) { const b = document.createElement('button'); b.type = 'button'; b.className = 'sec'; b.textContent = s.name; b.addEventListener('click', () => seek(s.start + (s.name === 'Intro' ? 0 : 0.01))); $('#sections').appendChild(b); }
+  for (const s of SECTIONS) { const b = document.createElement('button'); b.type = 'button'; b.className = 'sec'; b.dataset.i = s.i; b.textContent = s.name; { const k = document.createElement('i'); k.style.left = `${(s.start / DURATION) * 100}%`; if (s.i) $('#ticks').appendChild(k); } b.addEventListener('click', () => seek(s.start + (s.name === 'Intro' ? 0 : 0.01))); $('#sections').appendChild(b); }
   window.addEventListener('keydown', (e) => {
     if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') && e.key === ' ') return;
     if (e.key === 'ArrowRight') select(state.look + 1);
@@ -2480,7 +2530,7 @@
   fromHash();
   syncButtons();
   const fontsReady = document.fonts && document.fonts.load ? Promise.all(['300 40px "Inter Tight"', '600 40px "Inter Tight"', '700 40px "Inter Tight"', '800 40px "Inter Tight"', '900 40px "Inter Tight"', '400 40px "Instrument Serif"', 'italic 400 40px "Instrument Serif"', '800 40px "Bricolage Grotesque"', '800 40px Inter', '400 40px Anton', '700 40px "Space Grotesk"', '500 40px "JetBrains Mono"', '400 40px "Permanent Marker"'].map((f) => document.fonts.load(f).catch(() => null))) : Promise.resolve();
-  fontsReady.then(() => { for (const v of swarmCache.values()) gl.deleteTexture(v.tex); swarmCache.clear(); CLASSIC.fontsLoaded(); state.lastFrameT = null; render(0); window.__labReady = true; });
+  fontsReady.then(() => { for (const v of swarmCache.values()) gl.deleteTexture(v.tex); swarmCache.clear(); CLASSIC.fontsLoaded(); state.lastFrameT = null; render(0); window.__labReady = true; if (!/nothumbs/.test(location.search)) { thumbQ = LOOKS.map((_, i) => i); setTimeout(thumbNext, 400); } });
   requestAnimationFrame((n) => { state.last = n; tick(n); });
   // test hook: draw a given look at a given time (used by the screenshot check)
   window.__lab = { looks: LOOKS.map((l) => l.id), show(id, t, aspect) { if (aspect && aspect !== state.aspect) { state.aspect = aspect; size(); syncButtons(); } state.playing = false; stopSound(); state.t = t; select(LOOKS.findIndex((l) => l.id === id)); } };

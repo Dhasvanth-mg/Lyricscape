@@ -2141,6 +2141,242 @@
   }`, 'pic');
   const texPic = gl.createTexture();
 
+  // =====================================================================================
+  //  Live-motion looks: everything moves on the vocal and the beat, not on a fixed timer.
+  //  Words land exactly when they are sung, held notes visibly hold, text dies with the voice,
+  //  and camera cuts sit on the downbeat.
+  // =====================================================================================
+  const MOTION = [];
+  const leadEnv = (t) => { for (let i = LEADS.length - 1; i >= 0; i--) { const e = LEADS[i]; if (e.t <= t) return Math.exp(-(t - e.t) * 3); } return 0; };
+  const held = (w) => w.e - w.s > 0.55;
+  const couplet = (i) => Math.floor(i / 2);
+
+  // ---------- Constellation ----------
+  // Each sung word becomes a star. A spark travels along a fresh line from the last word to the next and lands on the
+  // syllable; the word blooms large if it is held, then settles into a small label. A couplet builds one constellation,
+  // and the next couplet cuts to a clean sky on the downbeat.
+  const constCache = new Map();
+  function constLayout(c, W, H) {
+    const key = `${c}:${W}x${H}`;
+    if (constCache.has(key)) return constCache.get(key);
+    const S = Math.min(W, H), tall = H > W;
+    const box = tall ? [W * 0.12, H * 0.34, W * 0.88, H * 0.86] : [W * 0.1, H * 0.36, W * 0.9, H * 0.86];
+    const words = [];
+    for (const L of LINES) if (couplet(L.i) === c) for (const w of L.words) words.push(w);
+    const pts = [];
+    let x = lerp(box[0], box[2], 0.15 + 0.2 * hash(c * 7.7)), y = lerp(box[1], box[3], 0.3 + 0.5 * hash(c * 3.1));
+    let ang = hash(c * 1.3) * TAU;
+    words.forEach((w, k) => {
+      if (k > 0) {
+        let best = null;
+        for (let tries = 0; tries < 16; tries++) {
+          const a = ang + (hash(c * 31 + k * 7 + tries * 1.7) - 0.5) * 2.4 + (tries > 7 ? Math.PI : 0);
+          const d = S * (0.11 + 0.1 * hash(c * 5 + k * 13 + tries));
+          const nx = x + Math.cos(a) * d * (tall ? 0.9 : 1.25), ny = y + Math.sin(a) * d * 0.8;
+          if (nx < box[0] || nx > box[2] || ny < box[1] || ny > box[3]) continue;
+          if (pts.some((p) => Math.hypot(p.x - nx, p.y - ny) < S * 0.075)) continue;
+          best = [nx, ny, a]; break;
+        }
+        if (!best) { const nx = lerp(box[0], box[2], hash(c + k * 9.1)), ny = lerp(box[1], box[3], hash(c * 2 + k * 4.3)); best = [nx, ny, ang + 1.3]; }
+        [x, y, ang] = best;
+      }
+      pts.push({ x, y, w, k, side: x > (box[0] + box[2]) / 2 ? -1 : 1 });
+    });
+    const r = { pts };
+    constCache.set(key, r);
+    return r;
+  }
+  function sparkle(ctx, x, y, r, a) {
+    ctx.save(); ctx.translate(x, y); ctx.globalAlpha *= a;
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) { const rr = i % 2 ? r * 0.28 : r; const an = (i / 8) * TAU - Math.PI / 2; ctx.lineTo(Math.cos(an) * rr, Math.sin(an) * rr); }
+    ctx.closePath(); ctx.fill(); ctx.restore();
+  }
+  MOTION.push({
+    id: 'constellation', name: 'Constellation', family: 'Live motion',
+    from: 'Fan lyric edits that map each sung word to a star on a dark lock-screen-style sky.',
+    what: 'Every sung word becomes a star. A spark races along a new line from the last word and lands exactly on the syllable; held words bloom large and glow while the note lasts, then shrink into a small label. Each couplet draws one constellation, and the next couplet cuts to a clean sky on the downbeat. The thin clock up top is the song’s own time.',
+    post: POST({ thresh: 0.75, bloom: 0.75, grain: 0.04, ca: 0.15, vig: 0.7 }),
+    draw(ctx, W, H, t) {
+      const S = Math.min(W, H), tall = H > W;
+      ctx.fillStyle = '#040407'; ctx.fillRect(0, 0, W, H);
+      // a faint field of background stars, deterministic
+      for (let i = 0; i < 90; i++) { const a = 0.08 + 0.18 * hash(i * 9.1) * (0.6 + 0.4 * Math.sin(t * (0.5 + hash(i)) + i)); ctx.fillStyle = `rgba(200,205,235,${a})`; ctx.fillRect(hash(i * 1.7) * W, hash(i * 2.9) * H, 1.2, 1.2); }
+      const li = Song.lastStarted(t);
+      const L = li >= 0 ? LINES[li] : null;
+      const c = L ? couplet(L.i) : -1;
+      const cs = c >= 0 ? LINES.find((x) => couplet(x.i) === c) : null;
+      const ce = c >= 0 ? LINES.filter((x) => couplet(x.i) === c).pop() : null;
+      // camera: a fresh framing per couplet (a cut), then a slow push and a breath of handheld drift
+      const since = cs ? t - cs.start : t;
+      const push = 1 + 0.05 * clamp(since / 8, 0, 1) + 0.008 * Song.beat(t).barEnv;
+      const ox = (c >= 0 ? (hash(c * 4.4) - 0.5) * W * 0.04 : 0) + Math.sin(t * 0.7) * S * 0.003, oy = (c >= 0 ? (hash(c * 6.1) - 0.5) * H * 0.03 : 0) + Math.cos(t * 0.9) * S * 0.003;
+      ctx.save(); ctx.translate(W / 2 + ox, H / 2 + oy); ctx.scale(push, push); ctx.translate(-W / 2, -H / 2);
+      // clock: the song's own time, in a thin face
+      const secs = Math.floor(t), clock = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = 'rgba(220,224,240,0.62)'; ctx.font = F.tight(600, S * 0.024); if ('letterSpacing' in ctx) ctx.letterSpacing = `${S * 0.002}px`;
+      ctx.fillText(Song.section(t).name.toUpperCase(), W / 2, H * (tall ? 0.13 : 0.12));
+      if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+      ctx.fillStyle = 'rgba(214,218,236,0.82)'; ctx.font = F.tight(300, S * (tall ? 0.15 : 0.13)); ctx.fillText(clock, W / 2, H * (tall ? 0.24 : 0.26));
+      // intro / break / outro: the song title floats where the stars will be
+      const tf = titleFade(t);
+      if (tf > 0 && (!L || t > (ce ? ce.end + 1.2 : 0) || t < LINES[0].start)) {
+        ctx.globalAlpha = tf; ctx.fillStyle = '#eef0fa'; ctx.font = F.tight(700, S * 0.05); ctx.fillText(TITLE, W / 2, H * 0.6);
+        ctx.fillStyle = 'rgba(200,205,225,0.7)'; ctx.font = F.tight(500, S * 0.022); ctx.fillText(ARTIST, W / 2, H * 0.6 + S * 0.05); ctx.globalAlpha = 1;
+        sparkle(ctx, W / 2, H * 0.6 - S * 0.09, S * 0.016 * (1 + 0.3 * Song.beat(t).env), tf);
+      }
+      if (L) {
+        const lay = constLayout(c, W, H);
+        const fadeOut = 1 - smooth(ce.end + 0.5, ce.end + 1.3, t);
+        const pts = lay.pts.filter((p) => p.w.s - 0.2 <= t);
+        if (pts.length && fadeOut > 0) {
+          ctx.globalAlpha = fadeOut;
+          const cur = pts[pts.length - 1];
+          // lines: each drawn as the spark travels it, landing on the syllable
+          ctx.lineWidth = Math.max(1, S * 0.0016); ctx.lineCap = 'round';
+          for (let k = 1; k < pts.length; k++) {
+            const a = pts[k - 1], b = pts[k];
+            const p = smooth(b.w.s - 0.2, b.w.s, t);
+            const g = ctx.createLinearGradient(a.x, a.y, b.x, b.y); g.addColorStop(0, 'rgba(190,198,235,0.35)'); g.addColorStop(1, 'rgba(225,230,255,0.7)');
+            ctx.strokeStyle = g; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(lerp(a.x, b.x, p), lerp(a.y, b.y, p)); ctx.stroke();
+          }
+          // nodes and labels
+          for (const q of pts) {
+            const isCur = q === cur, w = q.w;
+            const landed = t >= w.s;
+            const age = t - w.s;
+            const voice = t < w.e ? 1 : Math.exp(-(t - w.e) * 2.5);
+            const big = held(w) || w.k === LINES[LINES.indexOf(LINES.find((x) => x.words.includes(w)))].words.length - 1;
+            const peak = big ? S * 0.085 : S * 0.05;
+            const settle = isCur ? 1 : 1 - smooth(0, 0.3, t - (pts[pts.indexOf(q) + 1] ? pts[pts.indexOf(q) + 1].w.s : 1e9));
+            const pop = easeBack(clamp(age / 0.16, 0, 1));
+            const size = landed ? lerp(S * 0.022, peak, settle * (big ? Math.max(voice, 0.35) : 1)) * (0.85 + 0.15 * pop) : 0;
+            ctx.fillStyle = '#dfe3f6';
+            sparkle(ctx, q.x, q.y, S * (isCur ? 0.012 : 0.008), landed ? 1 : 0.4);
+            if (isCur && landed) {
+              const env = leadEnv(t);
+              ctx.strokeStyle = `rgba(230,235,255,${0.5 * voice + 0.25 * env})`; ctx.lineWidth = Math.max(1, S * 0.0018);
+              ctx.beginPath(); ctx.arc(q.x, q.y, S * (0.02 + 0.006 * env + 0.004 * Song.beat(t).env), 0, TAU); ctx.stroke();
+              ctx.fillStyle = '#ffffff'; sparkle(ctx, q.x, q.y, S * (0.016 + 0.01 * voice * env), 1);
+            }
+            if (size > 0) {
+              ctx.font = F.tight(isCur || settle > 0.5 ? 700 : 600, size);
+              ctx.textBaseline = 'middle';
+              const bright = isCur ? 0.98 : lerp(0.55, 0.95, settle);
+              ctx.fillStyle = `rgba(232,236,252,${bright})`;
+              const dx = q.side * (S * 0.022 + size * 0.15), dy = isCur && big ? S * 0.03 : -S * 0.018;
+              ctx.textAlign = q.side > 0 ? 'left' : 'right';
+              ctx.fillText(w.text, q.x + dx, q.y + dy);
+            }
+          }
+          // the travelling spark between nodes
+          const nxt = lay.pts.find((p) => p.w.s > t);
+          if (nxt && t > nxt.w.s - 0.2) {
+            const p = smooth(nxt.w.s - 0.2, nxt.w.s, t);
+            ctx.fillStyle = '#ffffff'; sparkle(ctx, lerp(cur.x, nxt.x, p), lerp(cur.y, nxt.y, p), S * 0.014, 1);
+          }
+          ctx.globalAlpha = 1;
+        }
+      }
+      ctx.restore();
+    },
+  });
+
+  // ---------- Typecut ----------
+  // Fast-edit lyric style: a hard cut to a new framing on every downbeat (every two beats in the chorus), the word typed
+  // out letter by letter as it is sung, held notes stretching their last letter, and the line dying with the voice.
+  const TC_FRAMES = ['center', 'corner', 'invert', 'stack', 'serif', 'mono'];
+  MOTION.push({
+    id: 'typecut', name: 'Typecut', family: 'Live motion',
+    from: 'Fast-cut fan lyric edits: hard cuts on the beat, typed-out words and stretched held notes.',
+    what: 'Hard cuts to a new framing land on every downbeat, twice as often in the chorus. Each word types itself out letter by letter as it is sung, held notes stretch their last letter while the voice holds (“bloommm…”), and the line fades as the voice dies. A two-frame flash marks each cut.',
+    post: POST({ thresh: 0.95, bloom: 0.3, grain: 0.05, ca: 0.25, vig: 0.45, boost: 0, exp: 1.12 }),
+    draw(ctx, W, H, t) {
+      const S = Math.min(W, H), tall = H > W;
+      const sec = Song.section(t), chorus = sec.name === 'Chorus';
+      const unit = chorus ? 2 * BEAT : BAR;
+      const cut = Math.floor(t / unit), cutT = t - cut * unit;
+      const frame = TC_FRAMES[Math.floor(hash(cut * 3.7 + 1) * TC_FRAMES.length)];
+      const inv = frame === 'invert';
+      const bgc = inv ? '#f2efe9' : '#07060a', fg = inv ? '#0b0a0f' : '#f6f3ee', acc = '#ff7a5c';
+      ctx.fillStyle = bgc; ctx.fillRect(0, 0, W, H);
+      if (frame === 'corner' || frame === 'serif') { ctx.save(); ctx.globalAlpha = 0.5; if (HAS_FILTER2) ctx.filter = 'blur(2px) saturate(1.2)'; const z = Math.max(W, H) * (1.3 + 0.2 * hash(cut)); ctx.drawImage(cover, (W - z) * hash(cut * 1.9), (H - z) * hash(cut * 2.3), z, z); ctx.restore(); ctx.fillStyle = 'rgba(5,4,8,0.55)'; ctx.fillRect(0, 0, W, H); }
+      // the line: words so far, current word typed by syllable timing
+      const hit = Song.lineAt(t);
+      const L = hit ? hit.L : null;
+      const words = [];
+      if (L) {
+        for (const w of L.words) {
+          if (t < w.s) break;
+          const dur = Math.max(0.08, Math.min(w.e - w.s, 0.32));
+          const n = Math.min(w.text.length, Math.ceil(w.text.length * clamp((t - w.s) / dur, 0, 1)));
+          let txt = w.text.slice(0, n);
+          if (held(w) && n === w.text.length && t < w.e + 0.1) {
+            const base = w.text.replace(/[^a-z]+$/i, ''); const last = base.slice(-1);
+            const extra = Math.min(6, Math.floor((t - w.s - dur) / 0.13));
+            txt = base + last.repeat(Math.max(0, extra)) + w.text.slice(base.length) + (extra > 3 ? '…' : '');
+          }
+          words.push({ w, txt, typing: n < w.text.length, cur: w === Song.curWord(L, t) });
+        }
+      } else if (titleFade(t) > 0) {
+        const k = Math.ceil(TITLE.length * clamp((t % BAR) / 0.6, 0, 1));
+        words.push({ w: { s: 0, e: 1e9 }, txt: TITLE.toLowerCase().slice(0, k), typing: k < TITLE.length, cur: true });
+      }
+      const lastSung = L ? L.words[L.words.length - 1] : null;
+      const voiceFade = lastSung && t > lastSung.e ? Math.exp(-(t - lastSung.e) * 2.6) : 1;
+      ctx.globalAlpha = voiceFade * (L ? 1 : titleFade(t));
+      const caret = (x, y, h) => { if (Math.floor(t * 4) % 2 === 0) { ctx.fillStyle = acc; ctx.fillRect(x + h * 0.06, y - h * 0.42, Math.max(2, h * 0.07), h * 0.84); } };
+      ctx.textBaseline = 'middle';
+      if (!inv) { ctx.shadowColor = 'rgba(255,240,230,0.35)'; ctx.shadowBlur = S * 0.03; }
+      if (frame === 'center' || frame === 'invert') {
+        // the current word huge, the rest of the line small above it
+        const cw = words.find((x) => x.cur) || words[words.length - 1];
+        if (cw) {
+          ctx.textAlign = 'center';
+          const prev = words.filter((x) => x !== cw).map((x) => x.txt).join(' ');
+          ctx.font = F.tight(600, S * 0.032); ctx.fillStyle = inv ? 'rgba(11,10,15,0.55)' : 'rgba(246,243,238,0.55)'; ctx.fillText(prev.toLowerCase(), W / 2, H / 2 - S * 0.16);
+          let px = S * 0.24; ctx.font = F.tight(900, px); const mw = ctx.measureText(cw.txt.toLowerCase()).width; if (mw > W * 0.9) { px *= W * 0.9 / mw; ctx.font = F.tight(900, px); }
+          const sq = 1 + 0.05 * Song.beat(t).env;
+          ctx.save(); ctx.translate(W / 2, H / 2); ctx.scale(sq, 1 / sq); ctx.fillStyle = fg; if ('letterSpacing' in ctx) ctx.letterSpacing = `${-px * 0.04}px`; ctx.fillText(cw.txt.toLowerCase(), 0, 0); if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+          if (cw.typing) caret(ctx.measureText(cw.txt.toLowerCase()).width / 2, 0, px);
+          ctx.restore();
+        }
+      } else if (frame === 'stack') {
+        // words stacked as a left-aligned column, the newest one in the accent colour
+        ctx.textAlign = 'left';
+        const px = S * (tall ? 0.1 : 0.085), x0 = W * 0.08;
+        const y0 = H / 2 - (words.length - 1) * px * 0.5;
+        words.forEach((x, i) => { ctx.font = F.tight(900, px); ctx.fillStyle = x.cur ? acc : fg; ctx.fillText(x.txt.toUpperCase(), x0, y0 + i * px * 0.96); if (x.cur && x.typing) caret(x0 + ctx.measureText(x.txt.toUpperCase()).width, y0 + i * px * 0.96, px); });
+      } else if (frame === 'serif') {
+        ctx.textAlign = 'center';
+        const txt = words.map((x) => x.txt).join(' ');
+        let px = S * 0.12; ctx.font = F.serif(px, true); const mw = ctx.measureText(txt).width; if (mw > W * 0.86) { px *= W * 0.86 / mw; ctx.font = F.serif(px, true); }
+        ctx.fillStyle = fg; ctx.fillText(txt, W / 2, H / 2);
+      } else if (frame === 'mono') {
+        ctx.textAlign = 'left';
+        const px = S * 0.05, x0 = W * 0.08; let y = H * 0.4;
+        ctx.font = `500 ${px * 0.5}px "JetBrains Mono", monospace`; ctx.fillStyle = 'rgba(246,243,238,0.45)'; ctx.fillText(`> ${TITLE.toLowerCase()} · ${sec.name.toLowerCase()} · ${Song.beat(t).i % 4 + 1}/4`, x0, y - px * 1.4);
+        ctx.font = `600 ${px}px "JetBrains Mono", monospace`;
+        let x = x0;
+        for (const wd of words) { const s = wd.txt + ' '; const ww = ctx.measureText(s).width; if (x + ww > W * 0.92) { x = x0; y += px * 1.3; } ctx.fillStyle = wd.cur ? acc : fg; ctx.fillText(s, x, y); x += ww; if (wd.cur && wd.typing) caret(x - ctx.measureText(' ').width, y, px); }
+      } else {
+        // corner: lower-left caption over the cut-up cover
+        ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+        const px = S * 0.075, x0 = W * 0.07; const txt = words.map((x) => x.txt).join(' ');
+        ctx.font = F.tight(800, px); ctx.fillStyle = fg; ctx.fillText(txt.toLowerCase(), x0, H * 0.86);
+        const cw = words[words.length - 1]; if (cw && cw.typing) { ctx.textBaseline = 'middle'; caret(x0 + ctx.measureText(txt.toLowerCase()).width, H * 0.86 - px * 0.35, px); }
+        ctx.font = F.tight(600, S * 0.022); ctx.fillStyle = acc; ctx.fillText(sec.name.toUpperCase(), x0, H * 0.86 - px * 1.1);
+      }
+      ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+      // the cut: a two-frame flash and a sliver of misregistration
+      if (cutT < 1 / 15 && !REDUCED_M) { ctx.fillStyle = inv ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.35)'; ctx.fillRect(0, 0, W, H); }
+    },
+  });
+  const HAS_FILTER2 = (() => { try { const c = document.createElement('canvas').getContext('2d'); c.filter = 'blur(2px)'; return c.filter === 'blur(2px)'; } catch { return false; } })();
+  let REDUCED_M = false; try { REDUCED_M = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { /* none */ }
+  LOOKS.unshift(...MOTION.map((l) => Object.assign(l, { kind: '2d' })));
+
   // title "lines" for the swarm to build during the intro, the break and the outro
   const TITLE_LINES = [[0.4, LINES[0].start - 0.6, 100], [BRK.start + 0.8, BRK.end - 0.9, 101], [LINES[LINES.length - 1].end + 1.4, DURATION - 0.6, 102]].map(([s0, e0, i]) => ({
     i, start: s0, end: e0, words: [{ text: 'static', s: s0, e: s0 + 0.5, k: 0 }, { text: 'bloom', s: s0 + 0.45, e: s0 + 1, k: 1 }] }));

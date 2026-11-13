@@ -2385,6 +2385,267 @@
   });
   const HAS_FILTER2 = (() => { try { const c = document.createElement('canvas').getContext('2d'); c.filter = 'blur(2px)'; return c.filter === 'blur(2px)'; } catch { return false; } })();
   let REDUCED_M = false; try { REDUCED_M = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { /* none */ }
+
+  // ---------- shared helpers for the beat-cut looks ----------
+  const kickEnv = (t, k = 9) => envAt(KICKS, t, k);
+  const snareEnv = (t, k = 10) => envAt(SNARES, t, k);
+  /** the cut grid: a new shot every bar, every half bar in a chorus; follows the tracked beat on real songs */
+  function cutAt(t) {
+    const b = Song.beat(t), chorus = Song.section(t).name === 'Chorus';
+    const per = chorus ? 2 : 4, idx = Math.floor(b.i / per), into = ((b.i % per) + b.ph) * BEAT;
+    return { idx, into, chorus };
+  }
+  /** what is being sung: the line, the word under the voice and how far through it we are */
+  function sungNow(t) {
+    const hit = Song.lineAt(t); if (!hit) return null;
+    const L = hit.L, w = Song.curWord(L, t); if (!w) return { L, hit, w: null };
+    const lastW = L.words[L.words.length - 1];
+    return { L, hit, w, p: Song.wordP(w, t), age: t - w.s, holding: held(w) && t < w.e, fade: t > lastW.e ? Math.exp(-(t - lastW.e) * 2.4) : 1 };
+  }
+  const CUT_PAL = [['#ff7a5c', '#2b1641', '#fff4e6'], ['#ffd23f', '#1d1030', '#ff6f59'], ['#2ec4b6', '#0b1a26', '#fff4e6'], ['#ff9fb2', '#2b1641', '#ffd23f'], ['#f2efe9', '#16121c', '#ff7a5c'], ['#5b3cc4', '#fff4e6', '#ffd23f']];
+  const shade = (hex, k) => { const n = parseInt(hex.slice(1), 16); const c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => Math.round(clamp(v * k, 0, 255))); return `rgb(${c[0]},${c[1]},${c[2]})`; };
+
+  // ---------- Cutout ----------
+  // Paper cut-outs on a hard colour field. Every word is a thick extruded card that pops in on its syllable with a
+  // spring, stretches sideways while the note is held, and the shot cuts (new colour, new tilt) on the beat.
+  // When the voice stops the card tips over and drops out of frame.
+  MOTION.push({
+    id: 'cutout', name: 'Cutout', family: 'Live motion',
+    from: '3D paper-cutout fan edits: thick extruded word cards, beat cuts and spring pops.',
+    what: 'Each word is a thick paper card that springs in on its syllable and stretches sideways while the note is held. The shot cuts to a new colour field and tilt on every bar, every half bar in the chorus, and kicks punch the camera in. When the voice stops, the card tips over and falls out of frame.',
+    post: POST({ thresh: 0.9, bloom: 0.35, grain: 0.06, ca: 0.2, vig: 0.4, boost: 0, exp: 1.1 }),
+    draw(ctx, W, H, t) {
+      const S = Math.min(W, H), tall = H > W;
+      const c = cutAt(t), pal = CUT_PAL[Math.floor(hash(c.idx * 5.3 + 2) * CUT_PAL.length)];
+      const [bgc, ink, hi] = pal;
+      ctx.fillStyle = bgc; ctx.fillRect(0, 0, W, H);
+      // a big paper shape behind, one per shot
+      ctx.save();
+      ctx.translate(W * (0.3 + 0.4 * hash(c.idx * 1.7)), H * (0.3 + 0.4 * hash(c.idx * 2.9)));
+      ctx.rotate((hash(c.idx * 3.1) - 0.5) * 1.2);
+      ctx.fillStyle = shade(bgc, 0.86); ctx.shadowColor = 'rgba(0,0,0,0.25)'; ctx.shadowBlur = S * 0.03; ctx.shadowOffsetY = S * 0.01;
+      const shape = Math.floor(hash(c.idx * 7.7) * 3), r = S * (0.38 + 0.12 * hash(c.idx * 4.4));
+      ctx.beginPath();
+      if (shape === 0) ctx.arc(0, 0, r, 0, TAU);
+      else if (shape === 1) { ctx.rect(-r * 1.6, -r * 0.35, r * 3.2, r * 0.7); }
+      else { for (let k = 0; k < 10; k++) { const a = (k / 10) * TAU, rr = k % 2 ? r * 0.55 : r; ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); } ctx.closePath(); }
+      ctx.fill(); ctx.restore();
+      // camera: a tilt and a slow push per shot, a punch on each kick, a whip in the first frames of a cut
+      const whip = REDUCED_M ? 0 : Math.exp(-c.into * 22);
+      const zoom = 1 + c.into * 0.025 + kickEnv(t) * 0.035 * (REDUCED_M ? 0.3 : 1);
+      ctx.save();
+      ctx.translate(W / 2 + whip * W * 0.08 * (hash(c.idx) > 0.5 ? 1 : -1), H / 2);
+      ctx.rotate((hash(c.idx * 9.1) - 0.5) * 0.2);
+      ctx.scale(zoom, zoom);
+      const now = sungNow(t);
+      const card = (text, px, depth, sx, face, side, edge, alpha) => {
+        ctx.font = F.tight(900, px); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        const dx = px * 0.018, dy = px * 0.03;
+        ctx.save(); ctx.scale(sx, 1); ctx.globalAlpha = alpha;
+        ctx.lineJoin = 'round'; ctx.strokeStyle = edge; ctx.lineWidth = px * 0.16;
+        // the card's thickness: dark side layers (outlined in the side colour so the cut edge reads as one solid block)
+        ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = px * 0.25; ctx.shadowOffsetY = px * 0.12;
+        ctx.strokeStyle = side; ctx.fillStyle = side; ctx.strokeText(text, depth * dx, depth * dy); ctx.shadowColor = 'transparent';
+        for (let k = depth; k >= 1; k--) { ctx.strokeText(text, k * dx, k * dy); ctx.fillText(text, k * dx, k * dy); }
+        // the paper border around the printed face
+        ctx.strokeStyle = edge; ctx.strokeText(text, 0, 0);
+        ctx.fillStyle = face; ctx.fillText(text, 0, 0);
+        ctx.restore();
+      };
+      if (now && now.w) {
+        const { L, w, fade } = now;
+        const maxW = W * (tall ? 0.8 : 0.66);
+        // the earlier words of the line, as thin cards stacked above
+        const before = L.words.filter((x) => x.s <= t && x !== w).slice(-3);
+        let y = -S * 0.2;
+        ctx.save(); ctx.globalAlpha = fade;
+        for (let k = before.length - 1; k >= 0; k--) {
+          const bw = before[k], px = S * 0.07;
+          ctx.font = F.tight(900, px); const tw = ctx.measureText(bw.text).width;
+          const sx = Math.min(1, maxW / tw);
+          ctx.save(); ctx.translate((hash(bw.k * 3.3 + L.i) - 0.5) * S * 0.12, y); ctx.rotate((hash(bw.k * 5.1 + L.i) - 0.5) * 0.18);
+          card(bw.text.toUpperCase(), px, 4, sx, ink, shade(ink, 0.6), '#fffaf2', 0.95);
+          ctx.restore(); y -= px * 1.15;
+        }
+        ctx.restore();
+        // the word under the voice: spring in, stretch while held, fall when the voice stops
+        const age = t - w.s, pop = REDUCED_M ? ease(age / 0.15) : easeBack(age / 0.22);
+        const hold = held(w) ? clamp((t - w.s - 0.2) / Math.max(0.3, w.e - w.s - 0.2), 0, 1) : 0;
+        const lastW = L.words[L.words.length - 1], gone = w === lastW && t > w.e ? t - w.e : 0;
+        let px = S * (tall ? 0.2 : 0.22);
+        const text = w.text.toUpperCase().replace(/[.,!?;:]+$/, '');
+        ctx.font = F.tight(900, px); const tw = ctx.measureText(text).width;
+        const fit = Math.min(1, (maxW / (1 + hold * 0.35)) / tw); px *= fit;
+        ctx.save();
+        ctx.translate(0, S * 0.06 + gone * gone * S * 2.4);
+        ctx.rotate((hash(w.k * 7 + L.i * 3) - 0.5) * 0.14 + (1 - pop) * 0.5 + gone * 1.6);
+        ctx.scale(Math.max(0.01, pop), Math.max(0.01, pop));
+        card(text, px, Math.round(6 + hold * 10), 1 + hold * 0.35, hi === '#fff4e6' || hi === bgc ? ink : hi, shade(ink, 0.55), '#fffaf2', Math.max(0, 1 - gone * 1.2));
+        ctx.restore();
+      } else if (titleFade(t) > 0) {
+        ctx.globalAlpha = titleFade(t);
+        const px = S * 0.13; ctx.font = F.tight(900, px); const tw = ctx.measureText(TITLE.toUpperCase()).width;
+        card(TITLE.toUpperCase(), px, 8, Math.min(1, (W * 0.8) / tw), '#fffaf2', shade(ink, 0.9), ink, 1);
+        ctx.globalAlpha = 1;
+      }
+      ctx.restore();
+      // section stamp, bottom left, like a sticker label
+      ctx.font = F.tight(800, S * 0.022); ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+      const lab = Song.section(t).name.toUpperCase(), lw = ctx.measureText(lab).width;
+      ctx.fillStyle = ink; ctx.fillRect(S * 0.05, H - S * 0.09, lw + S * 0.04, S * 0.045);
+      ctx.fillStyle = bgc; ctx.fillText(lab, S * 0.07, H - S * 0.058);
+    },
+  });
+
+  // ---------- Tunnel ----------
+  // Words fly at the viewer through a tunnel of rings. Each word launches from deep in the tunnel so it arrives
+  // exactly on its syllable, hangs there while sung (echo copies stream behind a held note), then rushes past the
+  // camera as the next one lands. Rings thump on the kick and flash on the snare.
+  MOTION.push({
+    id: 'tunnel', name: 'Tunnel', family: 'Live motion',
+    from: 'Hyper-speed lyric edits: words fly at the camera and land on the beat.',
+    what: 'Each word flies out of a tunnel of light and arrives exactly on its syllable, hangs there while it is sung, then rushes past the camera as the next word lands. Held notes leave a stream of echoes behind the word. The rings speed up with the song, thump on every kick and flash on the snare.',
+    post: POST({ thresh: 0.55, bloom: 0.9, hal: 0.2, grain: 0.04, ca: 0.5, vig: 0.75 }),
+    draw(ctx, W, H, t) {
+      const S = Math.min(W, H), cx = W / 2, cy = H / 2;
+      ctx.fillStyle = '#05040a'; ctx.fillRect(0, 0, W, H);
+      const e = energy(t), k = kickEnv(t), sn = snareEnv(t), sec = Song.section(t);
+      const hue = [12, 330, 190, 45, 270][sec.i % 5];
+      // the tunnel travels at a speed set by the song's energy; position is the integral, sampled per beat for stability
+      const travel = t * (0.6 + 1.6 * e);
+      const N = 26, f = S * 0.9;
+      ctx.lineCap = 'round';
+      for (let i = N - 1; i >= 0; i--) {
+        const z = ((i - (travel % 1)) / N) * 6 + 0.08;
+        if (z <= 0.08) continue;
+        const sc = f / (z * S * 1.6), a = clamp(1 - z / 6, 0, 1);
+        const ring = i + Math.floor(travel);
+        const side = Math.floor(ring % 4);
+        const w = W * 0.55 * sc, h = H * 0.55 * sc;
+        ctx.save(); ctx.translate(cx + Math.sin(t * 0.7 + z) * S * 0.02 * z, cy + Math.cos(t * 0.5 + z) * S * 0.015 * z);
+        ctx.rotate(Math.sin(ring * 0.7) * 0.05 + t * 0.03);
+        ctx.strokeStyle = `hsla(${hue + side * 12}, 90%, ${55 + sn * 30}%, ${a * (0.35 + 0.65 * k * (z < 2.2 ? 1 : 0.3))})`;
+        ctx.lineWidth = Math.max(1, S * 0.006 * sc * (1 + k * 2));
+        const rr = Math.min(w, h) * 0.18;
+        ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(-w, -h, w * 2, h * 2, rr); else ctx.rect(-w, -h, w * 2, h * 2); ctx.stroke();
+        ctx.restore();
+      }
+      // speed streaks
+      ctx.save(); ctx.translate(cx, cy);
+      for (let i = 0; i < 70; i++) {
+        const a = hash(i * 3.17) * TAU, sp = 0.3 + hash(i * 1.3), r0 = (((t * sp * (0.5 + e) + hash(i * 7.7)) % 1) ** 2) * S * 1.1;
+        const len = S * 0.04 * (0.4 + e) * (1 + k);
+        ctx.strokeStyle = `hsla(${hue + 20}, 80%, 80%, ${0.12 + 0.25 * e})`; ctx.lineWidth = Math.max(1, S * 0.002);
+        ctx.beginPath(); ctx.moveTo(Math.cos(a) * r0, Math.sin(a) * r0); ctx.lineTo(Math.cos(a) * (r0 + len), Math.sin(a) * (r0 + len)); ctx.stroke();
+      }
+      ctx.restore();
+      // the words: launch so they arrive on the syllable, hold, and blow past when the next one lands
+      const hit = Song.lineAt(t);
+      const fly = 0.32;
+      const draws = [];
+      if (hit) {
+        const L = hit.L, lastW = L.words[L.words.length - 1];
+        for (let j = 0; j < L.words.length; j++) {
+          const w = L.words[j], nx = L.words[j + 1];
+          const leave = nx ? nx.s : Math.max(w.e, lastW.e) + 0.35;
+          if (t < w.s - fly || t > leave + 0.4) continue;
+          let z;
+          if (t < w.s) z = 1 + 7 * Math.pow((w.s - t) / fly, 1.6); // flying in
+          else if (t < leave) z = 1 - 0.08 * clamp((t - w.s) / Math.max(0.2, leave - w.s), 0, 1); // drifting slowly while sung
+          else z = 0.92 - 2.2 * (t - leave); // past the camera
+          draws.push({ w, z, holdK: held(w) ? clamp((t - w.s) / (w.e - w.s), 0, 1) : 0, sung: t >= w.s });
+        }
+      } else if (titleFade(t) > 0) draws.push({ w: { text: TITLE, s: 0, e: 0, k: 0 }, z: 1.1 + 0.1 * Math.sin(t), holdK: 0, sung: true, title: true });
+      draws.sort((a, b) => b.z - a.z);
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      for (const d of draws) {
+        const z = d.z; if (z < 0.12) continue;
+        const sc = 1 / z, px = S * (d.title ? 0.11 : 0.16) * sc;
+        ctx.font = F.tight(900, px);
+        const text = d.title ? d.w.text.toUpperCase() : d.w.text.toUpperCase().replace(/[.,!?;:]+$/, '');
+        const tw = ctx.measureText(text).width, fit = Math.min(1, (W * 0.84) / Math.max(1, tw));
+        const a = clamp(z < 1 ? (z - 0.12) / 0.5 : 1 - (z - 1) / 7, 0, 1) * (d.title ? titleFade(t) : 1);
+        ctx.save(); ctx.translate(cx, cy); ctx.scale(fit, fit);
+        // echoes streaming back into the tunnel behind a held note
+        if (d.holdK > 0) for (let k2 = 6; k2 >= 1; k2--) {
+          const zz = z + k2 * 0.22 * d.holdK; const s2 = z / zz;
+          ctx.save(); ctx.scale(s2, s2); ctx.globalAlpha = a * 0.16 * (1 - k2 / 7);
+          ctx.fillStyle = `hsl(${hue + k2 * 14}, 95%, 65%)`; ctx.fillText(text, 0, 0); ctx.restore();
+        }
+        ctx.globalAlpha = a;
+        ctx.shadowColor = `hsla(${hue}, 100%, 70%, 0.9)`; ctx.shadowBlur = px * 0.35;
+        ctx.fillStyle = d.sung ? '#ffffff' : `hsl(${hue}, 90%, 75%)`; ctx.fillText(text, 0, 0);
+        ctx.restore();
+      }
+      ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+    },
+  });
+
+  // ---------- Split ----------
+  // The frame splits into panels on the beat: two in a verse, three or four in the chorus. Every panel shows the same
+  // sung word in a different treatment (whole, cropped huge, outline, inverted), revealed in a fast cascade across the
+  // panels on the syllable. Panels slide to a new arrangement on each cut and zoom in while a note is held.
+  MOTION.push({
+    id: 'split', name: 'Split', family: 'Live motion',
+    from: 'Multi-panel fan edits: the screen splits and re-cuts on the beat.',
+    what: 'The frame splits into panels on the beat, two in a verse and three or four in the chorus, and slides to a new arrangement on every cut. Each panel treats the sung word differently: whole, cropped huge, outlined or inverted, revealed in a quick cascade across the panels on the syllable. Panels zoom in while a note is held.',
+    post: POST({ thresh: 0.95, bloom: 0.3, grain: 0.05, ca: 0.3, vig: 0.35, boost: 0, exp: 1.08 }),
+    draw(ctx, W, H, t) {
+      const S = Math.min(W, H), tall = H > W;
+      const c = cutAt(t), now = sungNow(t);
+      const n = now && now.w ? (c.chorus ? 3 + (hash(c.idx * 2.1) > 0.5 ? 1 : 0) : 2) : 1;
+      const pal = CUT_PAL[Math.floor(hash(c.idx * 5.9 + 1) * CUT_PAL.length)];
+      const slide = REDUCED_M ? 1 : ease(c.into / 0.14);
+      const dir = hash(c.idx * 4.3) > 0.5 ? 1 : -1;
+      ctx.fillStyle = '#060509'; ctx.fillRect(0, 0, W, H);
+      const word = now && now.w ? now.w.text.toUpperCase().replace(/[.,!?;:]+$/, '') : TITLE.toUpperCase();
+      const alpha = now && now.w ? now.fade : titleFade(t);
+      const hold = now && now.w && held(now.w) ? clamp((t - now.w.s) / (now.w.e - now.w.s), 0, 1) : 0;
+      const gap = Math.max(2, S * 0.008);
+      for (let i = 0; i < n; i++) {
+        // panel rectangle (stripes across the long side), sliding in from alternate ends on each cut
+        const along = tall ? H : W, size = (along - gap * (n - 1)) / n;
+        const off = (1 - slide) * along * 0.35 * dir * (i % 2 ? -1 : 1);
+        const x = tall ? 0 : i * (size + gap) + off, y = tall ? i * (size + gap) + off : 0;
+        const pw = tall ? W : size, ph = tall ? size : H;
+        const kind = n === 1 ? 'whole' : ['whole', 'crop', 'outline', 'invert'][(i + c.idx) % 4];
+        const [bg, ink, acc] = kind === 'invert' ? [pal[1], pal[0], pal[2]] : pal;
+        ctx.save(); ctx.beginPath(); ctx.rect(x, y, pw, ph); ctx.clip();
+        ctx.fillStyle = kind === 'outline' ? '#0b0a10' : bg; ctx.fillRect(x, y, pw, ph);
+        // cascade: each panel reveals a beat-fraction later
+        const delay = i * 0.045, age = now && now.w ? t - now.w.s - delay : 1;
+        const show = age >= 0 ? (REDUCED_M ? 1 : easeBack(age / 0.18)) : 0;
+        if (show > 0 && alpha > 0) {
+          const zoom = (1 + hold * 0.5 + kickEnv(t) * 0.04) * show;
+          let px = Math.min(pw, ph) * (kind === 'crop' ? 1.1 : 0.42);
+          ctx.font = F.tight(900, px);
+          const tw = ctx.measureText(word).width;
+          if (kind !== 'crop') px *= Math.min(1, (pw * 0.86) / tw);
+          ctx.font = F.tight(900, px); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.save(); ctx.translate(x + pw / 2, y + ph / 2); ctx.scale(zoom, zoom);
+          if (kind === 'crop') ctx.translate(-tw * 0.18 * (hash(c.idx + i) - 0.5), 0);
+          ctx.globalAlpha = alpha;
+          if (kind === 'outline') { ctx.strokeStyle = acc; ctx.lineWidth = Math.max(1.5, px * 0.025); ctx.strokeText(word, 0, 0); }
+          else { ctx.fillStyle = ink; ctx.fillText(word, 0, 0); }
+          ctx.restore();
+        }
+        // a thin accent rule on the kick
+        ctx.globalAlpha = kickEnv(t) * 0.8; ctx.fillStyle = acc;
+        if (tall) ctx.fillRect(x, y + ph - S * 0.01, pw, S * 0.01); else ctx.fillRect(x, y + ph - S * 0.012, pw, S * 0.012);
+        ctx.globalAlpha = 1;
+        ctx.restore();
+      }
+      // the line so far as a small caption across the bottom
+      if (now && now.L) {
+        const sungSoFar = now.L.words.filter((w) => w.s <= t).map((w) => w.text).join(' ');
+        ctx.font = F.tight(700, S * 0.03); ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+        const tw = ctx.measureText(sungSoFar).width, pad = S * 0.02;
+        ctx.globalAlpha = now.fade * 0.95; ctx.fillStyle = 'rgba(6,5,9,0.78)';
+        ctx.fillRect(W / 2 - tw / 2 - pad, H - S * 0.1, tw + pad * 2, S * 0.055);
+        ctx.fillStyle = '#f6f3ee'; ctx.fillText(sungSoFar, W / 2, H - S * 0.062); ctx.globalAlpha = 1;
+      }
+    },
+  });
   LOOKS.unshift(...MOTION.map((l) => Object.assign(l, { kind: '2d' })));
 
   // title "lines" for the swarm to build during the intro, the break and the outro

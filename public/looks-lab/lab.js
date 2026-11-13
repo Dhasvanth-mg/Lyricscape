@@ -15,8 +15,10 @@
   const TAU = Math.PI * 2;
 
   // ---------- the demo song (original words, 112 BPM) ----------
-  const BPM = 112, BEAT = 60 / BPM, BAR = BEAT * 4;
-  const TITLE = 'Static Bloom', ARTIST = 'Lyricscape demo';
+  let BPM = 112, BEAT = 60 / BPM, BAR = BEAT * 4;
+  let TITLE = 'Static Bloom', ARTIST = 'Lyricscape demo';
+  // A loaded real song (see the TRACK section near the end). null = the built-in demo song.
+  let TRACK = null;
   // [bar, text, singer, translation, held last word, adlib [text, beat offset, beats]]
   const RAW = [
     [2, 'City lights are humming low', 'A', 'Las luces de la ciudad zumban bajo'],
@@ -39,7 +41,7 @@
   ];
   const SECTIONS = [['Intro', 0, 2], ['Verse 1', 2, 10], ['Chorus', 10, 18], ['Break', 18, 22], ['Verse 2', 22, 30], ['Chorus', 30, 38], ['Outro', 38, 42]]
     .map(([name, a, b], i) => ({ name, i, start: a * BAR, end: b * BAR }));
-  const DURATION = 42 * BAR;
+  let DURATION = 42 * BAR;
 
   const LINES = RAW.map(([bar, text, singer, sub, held, ad], i) => {
     const start = bar * BAR;
@@ -80,8 +82,14 @@
     curWord(L, t) { let r = null; for (const w of L.words) if (t >= w.s) r = w; return r; },
     section(t) { for (const s of SECTIONS) if (t >= s.start && t < s.end) return s; return SECTIONS[SECTIONS.length - 1]; },
     beat(t) {
-      const x = Math.max(0, t) / BEAT;
-      const i = Math.floor(x), ph = x - i;
+      let i, ph;
+      if (TRACK && TRACK.beats.length > 1) {
+        // real song: the tracked beat grid (it follows tempo drift); bar phase from the detected downbeat
+        const B = TRACK.beats; let lo = 0, hi = B.length - 1;
+        if (t < B[0]) { const x = (t - B[0]) / BEAT; i = Math.floor(x); ph = x - i; }
+        else { while (lo < hi) { const m = (lo + hi + 1) >> 1; if (B[m] <= t) lo = m; else hi = m - 1; } i = lo; const nx = B[lo + 1] ?? B[lo] + BEAT; ph = clamp((t - B[lo]) / (nx - B[lo]), 0, 1); }
+        i = Math.max(0, i - TRACK.down + 4);
+      } else { const x = Math.max(0, t) / BEAT; i = Math.floor(x); ph = x - i; }
       return { i, ph, env: Math.exp(-ph * 5), bar: Math.floor(i / 4), down: i % 4 === 0, barEnv: i % 4 === 0 ? Math.exp(-ph * 4) : 0 };
     },
   };
@@ -111,6 +119,7 @@
   /** A spectrum of n bands (0..1) built from what is playing at t: deterministic, matches the synth. */
   function spectrum(t, n) {
     const out = new Float32Array(n);
+    if (TRACK) return TRACK.spectrum(t, n, out);
     const k = Math.exp(-(t - lastBefore(KICKS, t)) * 9);
     const s = Math.exp(-(t - lastBefore(SNARES, t)) * 10);
     const h = Math.exp(-(t - lastBefore(HATS, t)) * 22);
@@ -260,15 +269,16 @@
     return h;
   }
   const lineFade = (hit, t) => (hit ? smooth(hit.L.start - 0.3, hit.L.start + 0.08, t) * (1 - smooth(hit.until - 0.4, hit.until, t)) : 0);
-  const BRK = SECTIONS.find((x) => x.name === 'Break');
+  let BRK = SECTIONS.find((x) => x.name === 'Break');
   const titleFade = (t) => Math.max(1 - smooth(LINES[0].start - 1.2, LINES[0].start - 0.3, t), smooth(BRK.start + 0.5, BRK.start + 1.5, t) * (1 - smooth(BRK.end - 1.4, BRK.end - 0.5, t)), smooth(LINES[LINES.length - 1].end + 1.0, LINES[LINES.length - 1].end + 2.4, t));
   const outroFade = (t) => smooth(LINES[LINES.length - 1].end + 0.8, LINES[LINES.length - 1].end + 2.2, t);
 
   // ---------- section energy and palette signals ----------
   const SEC_E = { Intro: 0.18, 'Verse 1': 0.5, Chorus: 1, Break: 0.28, 'Verse 2': 0.55, Outro: 0.2 };
   function energy(t) {
+    if (TRACK) return TRACK.energy(t);
     const s = Song.section(t), prev = SECTIONS[s.i - 1];
-    const e = SEC_E[s.name], pe = prev ? SEC_E[prev.name] : e;
+    const e = SEC_E[s.name] ?? 0.5, pe = prev ? SEC_E[prev.name] ?? 0.5 : e;
     return lerp(pe, e, smooth(s.start - BEAT, s.start + BEAT * 2, t));
   }
   const envAt = (arr, t, k) => Math.exp(-Math.max(0, t - lastBefore(arr, t)) * k);
@@ -529,7 +539,7 @@
     text(ctx, W, H, t) {
       const m = M(W, H), hit = Song.lineAt(t), a = lineFade(hit, t);
       if (!hit) {
-        if (titleFade(t) > 0) { ctx.font = F.tight(900, m.S * 0.2); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = rgba('g', titleFade(t)); ctx.fillText('static', m.cx, m.cy - m.S * 0.1); ctx.fillText('bloom', m.cx, m.cy + m.S * 0.1); }
+        if (titleFade(t) > 0) { ctx.font = F.tight(900, m.S * 0.2); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = rgba('g', titleFade(t)); { const tw = TITLE.toLowerCase().split(/\s+/).slice(0, 3); tw.forEach((w, k) => ctx.fillText(w, m.cx, m.cy + (k - (tw.length - 1) / 2) * m.S * 0.2)); } }
         return;
       }
       const maxW = W * 0.86, { px, rows } = fitRows(ctx, hit.L.words, (s) => F.tight(900, s), maxW, m.tall ? W * 0.2 : H * 0.24, m.tall ? 4 : 2);
@@ -586,7 +596,7 @@
     post: POST({ thresh: 1.2, bloom: 0.8, grain: 0.035, ca: 0.3, vig: 0.7 }),
     text(ctx, W, H, t) {
       const m = M(W, H), hit = Song.lineAt(t), a = lineFade(hit, t);
-      const words = hit ? hit.L.words : (titleFade(t) > 0 ? [{ text: 'static', s: -9, e: -8 }, { text: 'bloom', s: -9, e: -8 }] : null);
+      const words = hit ? hit.L.words : (titleFade(t) > 0 ? TITLE.toLowerCase().split(/\s+/).slice(0, 4).map((text) => ({ text, s: -9, e: -8 })) : null);
       if (!words) return;
       const maxW = W * 0.84, { px, rows } = fitRows(ctx, words, F.brico, maxW, m.tall ? W * 0.22 : H * 0.26, m.tall ? 4 : 2);
       spacing(ctx, -px * 0.03);
@@ -655,7 +665,7 @@
       const m = M(W, H), hit = Song.lineAt(t), a = lineFade(hit, t);
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       if (!hit) {
-        if (titleFade(t) > 0) { ctx.font = F.tight(800, m.S * 0.11); spacing(ctx, m.S * 0.02); ctx.fillStyle = rgba('r', titleFade(t)); ctx.fillText('STATIC BLOOM', m.cx, m.cy); spacing(ctx, 0); }
+        if (titleFade(t) > 0) { ctx.font = F.tight(800, m.S * 0.11); spacing(ctx, m.S * 0.02); ctx.fillStyle = rgba('r', titleFade(t)); ctx.fillText(TITLE.toUpperCase(), m.cx, m.cy); spacing(ctx, 0); }
         return;
       }
       const maxW = W * 0.86;
@@ -705,7 +715,7 @@
       const m = M(W, H), hit = Song.lineAt(t), a = lineFade(hit, t);
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       if (!hit) {
-        if (titleFade(t) > 0) { ctx.font = F.serif(m.S * 0.2, true); ctx.fillStyle = rgba('g', titleFade(t)); ctx.fillText('Static Bloom', m.cx, m.cy); }
+        if (titleFade(t) > 0) { ctx.font = F.serif(m.S * 0.2, true); ctx.fillStyle = rgba('g', titleFade(t)); ctx.fillText(TITLE, m.cx, m.cy); }
         return;
       }
       const maxW = W * 0.84, { px, rows } = fitRows(ctx, hit.L.words, (s) => F.serif(s, true), maxW, m.tall ? W * 0.18 : H * 0.2, m.tall ? 4 : 2);
@@ -847,7 +857,7 @@
       if (!hit) {
         if (titleFade(t) > 0) {
           const k = clamp(t / 2.5, 0, 1); ctx.font = F.serif(m.S * 0.1); spacing(ctx, m.S * 0.03);
-          blur((1 - ease(k)) * m.S * 0.02); ctx.fillStyle = rgba('r', titleFade(t) * ease(k)); ctx.fillText('STATIC BLOOM', m.cx, m.cy); blur(0);
+          blur((1 - ease(k)) * m.S * 0.02); ctx.fillStyle = rgba('r', titleFade(t) * ease(k)); ctx.fillText(TITLE.toUpperCase(), m.cx, m.cy); blur(0);
           ctx.font = F.serif(m.S * 0.032, true); spacing(ctx, m.S * 0.004); ctx.fillStyle = rgba('b', titleFade(t) * smooth(1, 3, t)); ctx.fillText('a Lyricscape demo', m.cx, m.cy + m.S * 0.1); spacing(ctx, 0);
         }
         return;
@@ -1405,7 +1415,7 @@
       let y = lh * 2;
       for (const L of show) {
         const rows = layoutWords(ctx, L.words, FONT.serif(fs), textW);
-        const note = NOTES[L.i];
+        const note = TRACK ? null : NOTES[L.i];
         rows.forEach((row, r) => {
           const ry = y + r * lh;
           for (const it of row.items) {
@@ -2045,7 +2055,7 @@
         const a = 1 - smooth(2 * BAR - 1, 2 * BAR, t);
         ctx.globalAlpha = a; ctx.textAlign = 'center';
         ctx.font = FONT.ui(900, Math.min(W, H) * 0.1); ctx.fillStyle = '#fff'; ctx.fillText(TITLE, W / 2, H * 0.42);
-        ctx.font = FONT.ui(600, Math.min(W, H) * 0.04); ctx.fillStyle = 'rgba(255,255,255,0.75)'; ctx.fillText(`${ARTIST}  ·  words and music: original`, W / 2, H * 0.52);
+        ctx.font = FONT.ui(600, Math.min(W, H) * 0.04); ctx.fillStyle = 'rgba(255,255,255,0.75)'; ctx.fillText(TRACK ? ARTIST : `${ARTIST}  ·  words and music: original`, W / 2, H * 0.52);
         ctx.textAlign = 'left'; ctx.globalAlpha = 1;
       }
       const cur = Song.lastStarted(t);
@@ -2378,8 +2388,13 @@
   LOOKS.unshift(...MOTION.map((l) => Object.assign(l, { kind: '2d' })));
 
   // title "lines" for the swarm to build during the intro, the break and the outro
-  const TITLE_LINES = [[0.4, LINES[0].start - 0.6, 100], [BRK.start + 0.8, BRK.end - 0.9, 101], [LINES[LINES.length - 1].end + 1.4, DURATION - 0.6, 102]].map(([s0, e0, i]) => ({
-    i, start: s0, end: e0, words: [{ text: 'static', s: s0, e: s0 + 0.5, k: 0 }, { text: 'bloom', s: s0 + 0.45, e: s0 + 1, k: 1 }] }));
+  function makeTitleLines() {
+    const tw = TITLE.toLowerCase().split(/\s+/).filter(Boolean).slice(0, 4), last = LINES[LINES.length - 1];
+    return [[0.4, LINES[0].start - 0.6, 10000], [BRK.start + 0.8, BRK.end - 0.9, 10001], [last.end + 1.4, DURATION - 0.6, 10002]]
+      .filter(([a, b]) => b - a > 0.8)
+      .map(([s0, e0, i]) => ({ i, start: s0, end: e0, words: tw.map((text, k) => ({ text, s: s0 + k * 0.45, e: s0 + k * 0.45 + 0.55, k })) }));
+  }
+  const TITLE_LINES = makeTitleLines();
   // ---------- Swarm particles ----------
   const SW_N = 40000, SW_TW = 256, SW_TH = Math.ceil(SW_N / SW_TW);
   const SWARM_VS = `#version 300 es
@@ -2434,6 +2449,285 @@
   // =====================================================================================
   //  App shell
   // =====================================================================================
+
+  // =====================================================================================
+  //  Real songs. The listener's own audio file plays in the browser and is never uploaded.
+  //  It is analysed once:
+  //   - a 64-band spectrum and a loudness curve per frame (so every look reads the real mix),
+  //   - kick / snare / hat onsets from band-limited spectral flux,
+  //   - a beat grid: onset envelope -> tempo by autocorrelation -> dynamic-programming beat
+  //     tracker (the grid follows the drummer, not a fixed metronome), downbeat from the kick,
+  //   - a vocal-band onset curve, used to land each word on its syllable.
+  //  Synced lyrics come from LRCLIB (through the app's own lookup route when it is there) or
+  //  from an .lrc file, at runtime. Nothing about the song is stored in the repo.
+  // =====================================================================================
+  const SONG = (() => {
+    const SR = 22050, N = 1024, HOP = 256, FPS = SR / HOP, NB = 64;
+    const half = N / 2;
+    // radix-2 FFT tables
+    const rev = new Uint32Array(N), cosT = new Float32Array(half), sinT = new Float32Array(half), win = new Float32Array(N);
+    for (let i = 0, bits = Math.log2(N); i < N; i++) { let r = 0; for (let b = 0; b < bits; b++) r |= ((i >> b) & 1) << (bits - 1 - b); rev[i] = r; }
+    for (let i = 0; i < half; i++) { cosT[i] = Math.cos((TAU * i) / N); sinT[i] = -Math.sin((TAU * i) / N); }
+    for (let i = 0; i < N; i++) win[i] = 0.5 - 0.5 * Math.cos((TAU * i) / (N - 1));
+    function fft(re, im) {
+      for (let i = 0; i < N; i++) { const j = rev[i]; if (j > i) { let t = re[i]; re[i] = re[j]; re[j] = t; t = im[i]; im[i] = im[j]; im[j] = t; } }
+      for (let size = 2; size <= N; size <<= 1) {
+        const h = size >> 1, step = N / size;
+        for (let i = 0; i < N; i += size) for (let j = 0, k = 0; j < h; j++, k += step) {
+          const a = i + j, b = a + h, tr = re[b] * cosT[k] - im[b] * sinT[k], ti = re[b] * sinT[k] + im[b] * cosT[k];
+          re[b] = re[a] - tr; im[b] = im[a] - ti; re[a] += tr; im[a] += ti;
+        }
+      }
+    }
+    const bin = (hz) => Math.max(1, Math.min(half - 1, Math.round((hz * N) / SR)));
+    const pct = (arr, p) => { const a = Float32Array.from(arr).sort(); return a[Math.min(a.length - 1, Math.floor(p * (a.length - 1)))] || 0; };
+    const movAvg = (a, r) => { const o = new Float32Array(a.length); let s = 0; const n = a.length; for (let i = 0; i < Math.min(n, r); i++) s += a[i]; for (let i = 0; i < n; i++) { if (i + r < n) s += a[i + r]; if (i - r - 1 >= 0) s -= a[i - r - 1]; o[i] = s / (Math.min(n - 1, i + r) - Math.max(0, i - r) + 1); } return o; };
+    const frameT = (f) => (f * HOP + N / 2) / SR;
+
+    async function analyse(buf, progress) {
+      const len = Math.max(N, Math.ceil(buf.duration * SR));
+      const off = new OfflineAudioContext(1, len, SR);
+      const src = off.createBufferSource(); src.buffer = buf; src.connect(off.destination); src.start();
+      const x = (await off.startRendering()).getChannelData(0);
+      const F = Math.max(1, Math.floor((x.length - N) / HOP) + 1);
+      const edges = []; for (let b = 0; b <= NB; b++) edges.push(bin(40 * Math.pow(10000 / 40, b / NB)));
+      const bandsF = new Float32Array(F * NB), rms = new Float32Array(F);
+      const fAll = new Float32Array(F), fLow = new Float32Array(F), fMid = new Float32Array(F), fHigh = new Float32Array(F), fVoc = new Float32Array(F), eVoc = new Float32Array(F);
+      const re = new Float32Array(N), im = new Float32Array(N), lm = new Float32Array(half), prev = new Float32Array(half);
+      const L0 = bin(40), L1 = bin(150), M0 = bin(180), M1 = bin(5000), H0 = bin(6000), V0 = bin(250), V1 = bin(3500);
+      for (let f = 0; f < F; f++) {
+        const o = f * HOP; let e = 0;
+        for (let i = 0; i < N; i++) { const v = x[o + i] || 0; e += v * v; re[i] = v * win[i]; im[i] = 0; }
+        rms[f] = Math.sqrt(e / N);
+        fft(re, im);
+        for (let k = 0; k < half; k++) lm[k] = Math.log1p(Math.hypot(re[k], im[k]) * 40);
+        let a = 0, lo = 0, mi = 0, hi = 0, vo = 0, ve = 0;
+        for (let k = 1; k < half; k++) {
+          const d = lm[k] - prev[k], p = d > 0 ? d : 0;
+          a += p;
+          if (k >= L0 && k <= L1) lo += p;
+          if (k >= M0 && k <= M1) mi += p;
+          if (k >= H0) hi += p;
+          if (k >= V0 && k <= V1) { vo += p; ve += lm[k]; }
+        }
+        fAll[f] = a; fLow[f] = lo; fMid[f] = mi; fHigh[f] = hi; fVoc[f] = vo; eVoc[f] = ve / (V1 - V0 + 1);
+        for (let b = 0; b < NB; b++) { let s = 0; const k0 = edges[b], k1 = Math.max(k0, edges[b + 1] - 1); for (let k = k0; k <= k1; k++) s += lm[k]; bandsF[f * NB + b] = s / (k1 - k0 + 1); }
+        prev.set(lm);
+        if ((f & 511) === 511) { progress && progress(f / F); await new Promise((r) => setTimeout(r, 0)); }
+      }
+      // spectrum: each band scaled between its own quiet and loud levels so every band moves
+      const bands = new Uint8Array(F * NB);
+      for (let b = 0; b < NB; b++) {
+        const col = new Float32Array(F); for (let f = 0; f < F; f++) col[f] = bandsF[f * NB + b];
+        const lo = pct(col, 0.2), hi = Math.max(lo + 1e-3, pct(col, 0.995));
+        for (let f = 0; f < F; f++) bands[f * NB + b] = Math.round(255 * clamp((col[f] - lo) / (hi - lo), 0, 1));
+      }
+      // onset envelope (normalised), tempo, beats
+      const norm = (c, r) => { const m = movAvg(c, r), o = new Float32Array(c.length); let s = 0; for (let i = 0; i < c.length; i++) { o[i] = Math.max(0, c[i] - m[i]); s += o[i] * o[i]; } const sd = Math.sqrt(s / c.length) || 1; for (let i = 0; i < c.length; i++) o[i] /= sd; return o; };
+      const env = norm(fAll, Math.round(FPS * 0.4)), low = norm(fLow, Math.round(FPS * 0.4)), mid = norm(fMid, Math.round(FPS * 0.3)), high = norm(fHigh, Math.round(FPS * 0.2)), voc = norm(fVoc, Math.round(FPS * 0.3));
+      const beatEnv = new Float32Array(F); for (let i = 0; i < F; i++) beatEnv[i] = env[i] + 0.6 * low[i];
+      let best = -1, period = FPS * 0.5;
+      const minL = Math.floor((60 * FPS) / 190), maxL = Math.ceil((60 * FPS) / 65);
+      const acf = new Float32Array(maxL + 2);
+      for (let l = minL - 1; l <= maxL + 1; l++) { let s = 0; for (let i = l; i < F; i++) s += beatEnv[i] * beatEnv[i - l]; acf[l] = s / (F - l); }
+      const acfAt = (l) => { if (l >= F - 8) return 0; let s = 0; for (let i = l; i < F; i++) s += beatEnv[i] * beatEnv[i - l]; return s / (F - l); };
+      for (let l = minL; l <= maxL; l++) {
+        const bpm = (60 * FPS) / l, w = Math.exp(-0.5 * Math.pow(Math.log2(bpm / 120) / 1.1, 2));
+        // a true beat period also shows up at 2, 3 and 4 times its lag (a 2/3 or half-time guess does not line up with all of them)
+        const at = (k) => (k * l + 1 < acf.length ? acf[k * l] : acfAt(k * l));
+        const v = (acf[l] + 0.6 * at(2) + 0.4 * at(3) + 0.3 * at(4)) * w;
+        if (v > best) { best = v; const a = acf[l - 1], b = acf[l], c = acf[l + 1], den = a - 2 * b + c; period = l + (den ? clamp((0.5 * (a - c)) / den, -0.5, 0.5) : 0); }
+      }
+      const score = new Float32Array(F), back = new Int32Array(F).fill(-1), alpha = 100;
+      for (let n = 0; n < F; n++) {
+        let bv = 0, bm = -1;
+        for (let m = Math.max(0, n - Math.round(2 * period)); m <= n - Math.round(period / 2); m++) {
+          const g = Math.log((n - m) / period), v = score[m] - alpha * g * g;
+          if (bm < 0 || v > bv) { bv = v; bm = m; }
+        }
+        score[n] = beatEnv[n] + (bm >= 0 ? Math.max(0, bv) : 0); back[n] = bm >= 0 && bv > 0 ? bm : -1;
+      }
+      let end = F - 1, bs = -Infinity;
+      for (let n = Math.max(0, F - Math.round(period)); n < F; n++) if (score[n] > bs) { bs = score[n]; end = n; }
+      const bf = []; for (let n = end; n >= 0; n = back[n]) { bf.push(n); if (back[n] < 0) break; }
+      bf.reverse();
+      // extend the grid back to the start of the file, at the tracked period
+      while (bf.length && bf[0] - period > 0) bf.unshift(Math.round(bf[0] - period));
+      const beats = bf.map(frameT);
+      // downbeat: the beat phase (of four) that carries the most kick
+      const peakNear = (c, f) => { let m = 0; for (let i = Math.max(0, f - 2); i <= Math.min(F - 1, f + 2); i++) m = Math.max(m, c[i]); return m; };
+      const ph = [0, 0, 0, 0]; bf.forEach((f, j) => { ph[j % 4] += peakNear(low, f) + 0.3 * peakNear(env, f); });
+      const down = ph.indexOf(Math.max(...ph));
+      const peaks = (c, k, gap) => {
+        const m = movAvg(c, Math.round(FPS * 0.25)), out = []; let last = -1e9;
+        for (let i = 2; i < F - 2; i++) {
+          if (c[i] < c[i - 1] || c[i] < c[i + 1] || c[i] < c[i - 2] || c[i] < c[i + 2]) continue;
+          if (c[i] < m[i] * 1.5 + k) continue;
+          const t = frameT(i); if (t - last < gap) continue; out.push(t); last = t;
+        }
+        return out;
+      };
+      // loudness, smoothed over a second and a half, scaled between the song's quiet and loud parts
+      const sm = movAvg(rms, Math.round(FPS * 0.75)), q0 = pct(sm, 0.08), q1 = Math.max(q0 + 1e-4, pct(sm, 0.97));
+      const loud = new Float32Array(F); for (let i = 0; i < F; i++) loud[i] = clamp((sm[i] - q0) / (q1 - q0), 0, 1);
+      progress && progress(1);
+      return { F, FPS, bands, beats, down, period, kicks: peaks(low, 0.9, 0.12), snares: peaks(mid, 1.1, 0.14), hats: peaks(high, 0.8, 0.07), voc, eVoc: movAvg(eVoc, 3), loud, duration: buf.duration };
+    }
+
+    // ---------- lyrics ----------
+    const TS = /\[(\d+):(\d+(?:[.:]\d+)?)\]/g;
+    const sec = (m, s) => Number(m) * 60 + Number(String(s).replace(':', '.'));
+    function parseLRC(text) {
+      let offset = 0; const cues = [];
+      for (const raw of String(text || '').split(/\r?\n/)) {
+        const om = raw.match(/^\s*\[offset:\s*([+-]?\d+)\s*\]/i); if (om) { offset = Number(om[1]) / 1000; continue; }
+        const stamps = [...raw.matchAll(TS)]; if (!stamps.length) continue;
+        let body = raw.replace(TS, '').trim().replace(/^v\d\s*:\s*/i, '');
+        // enhanced LRC: <mm:ss.xx> before each word
+        let words = null;
+        if (/<\d+:\d+(?:[.:]\d+)?>/.test(body)) {
+          words = []; const parts = body.split(/<(\d+):(\d+(?:[.:]\d+)?)>/);
+          for (let i = 1; i + 2 < parts.length + 1; i += 3) { const txt = (parts[i + 2] || '').trim(); if (txt) for (const w of txt.split(/\s+/)) words.push({ text: w, s: sec(parts[i], parts[i + 1]) }); }
+          body = body.replace(/<\d+:\d+(?:[.:]\d+)?>/g, '').replace(/\s+/g, ' ').trim();
+        }
+        for (const s of stamps) cues.push({ t: sec(s[1], s[2]), text: body, words });
+      }
+      cues.sort((a, b) => a.t - b.t);
+      for (const c of cues) { c.t -= offset; if (c.words) for (const w of c.words) w.s -= offset; }
+      return cues;
+    }
+    const sung = (s) => !!s && /[\p{L}\p{N}]/u.test(s) && !/^[(\[]?\s*(instrumental|music|♪+)\s*[)\]]?$/i.test(s);
+    const syllables = (w) => { const m = w.toLowerCase().replace(/[^a-zÀ-ɏ]/g, '').replace(/e$/, '').match(/[aeiouyÀ-ɏ]+/g); return Math.max(1, m ? m.length : 1); };
+    const normLine = (s) => s.toLowerCase().replace(/[^\p{L}\p{N} ]/gu, '').replace(/\s+/g, ' ').trim();
+
+    /** Find where a short clip sits inside the song: the lag at which the lyric cue times best meet vocal onsets. */
+    function autoOffset(cues, A, from, to) {
+      const at = (t) => { const f = Math.round((t * SR - N / 2) / HOP); let m = 0; for (let i = Math.max(0, f - 3); i <= Math.min(A.F - 1, f + 3); i++) m = Math.max(m, A.voc[i] + 0.5 * (A.loud[i] > 0.05 ? 1 : 0)); return m; };
+      let mean = 0; for (let i = 0; i < A.F; i++) mean += A.voc[i]; mean /= A.F;
+      const starts = cues.filter((c) => sung(c.text)).map((c) => c.t);
+      let best = -Infinity, bo = 0; const sc = [];
+      for (let o = from; o <= to; o += 1 / FPS) {
+        let s = 0, n = 0;
+        for (const t of starts) { const u = t - o; if (u < 0.2 || u > A.duration - 0.4) continue; s += at(u) - mean - 0.5; n++; }
+        if (n < 2) continue;
+        sc.push([o, s]);
+        if (s > best) { best = s; bo = o; }
+      }
+      // how clearly the winner stands out from the best lag more than a second away (for the test report)
+      let second = -Infinity; for (const [o, v] of sc) if (Math.abs(o - bo) > 1 && v > second) second = v;
+      autoOffset.margin = { best, second };
+      return bo;
+    }
+
+    /** Spread a line's words over the time it is sung and land each one on the nearest vocal onset. */
+    function timeWords(parts, s, nx, A) {
+      const vAt = (t) => A.voc[clamp(Math.round((t * SR - N / 2) / HOP), 0, A.F - 1)];
+      const eAt = (t) => A.eVoc[clamp(Math.round((t * SR - N / 2) / HOP), 0, A.F - 1)];
+      const syl = parts.map(syllables), tot = syl.reduce((a, b) => a + b, 0);
+      const span = Math.max(0.3, nx - s - 0.1);
+      const natural = 0.21 * tot + 0.3;
+      const singEnd = s + clamp(natural * 1.1, Math.min(span, 0.45), span);
+      const wt = syl.map((n) => n + 0.6), wtot = wt.reduce((a, b) => a + b, 0);
+      let acc = 0;
+      const st = wt.map((w) => { const v = s + (acc / wtot) * (singEnd - s); acc += w; return v; });
+      for (let k = 1; k < st.length; k++) {
+        let bt = st[k], bv = 0;
+        for (let d = -0.15; d <= 0.15; d += 1 / FPS) { const v = vAt(st[k] + d) * (1 - Math.abs(d) * 2.5); if (v > bv) { bv = v; bt = st[k] + d; } }
+        if (bv > 1.2) st[k] = bt;
+        st[k] = clamp(st[k], st[k - 1] + 0.07, singEnd - 0.05 * (st.length - k));
+      }
+      // the last word holds while the voice band stays lit (a held note), up to the next line
+      let lastEnd = Math.max(singEnd, st[st.length - 1] + 0.18);
+      const base = eAt(st[st.length - 1]);
+      while (lastEnd < nx - 0.15 && lastEnd - st[st.length - 1] < 3.2 && eAt(lastEnd) > base * 0.86) lastEnd += 1 / FPS;
+      if (nx - lastEnd < 0.45) lastEnd = Math.max(lastEnd, nx - 0.12);
+      return parts.map((text, k) => ({ text, s: st[k], e: k < parts.length - 1 ? st[k + 1] - 0.02 : lastEnd, k }));
+    }
+
+    function build(cues, A, meta) {
+      const dur = A.duration, offset = meta.offset || 0;
+      const C = cues.map((c) => ({ t: c.t - offset, text: c.text, words: c.words ? c.words.map((w) => ({ text: w.text, s: w.s - offset })) : null }));
+      const lines = [];
+      for (let i = 0; i < C.length; i++) {
+        const c = C[i]; if (!sung(c.text)) continue;
+        if (c.t < 0.1 || c.t > dur - 0.4) continue;
+        const nx = Math.min(dur - 0.05, C[i + 1] ? C[i + 1].t : c.t + 8, c.t + 9);
+        let text = c.text, adText = null;
+        const am = text.match(/^(.*\S)\s*\(([^()]+)\)\s*$/); if (am && am[1].split(' ').length >= 2) { text = am[1]; adText = am[2]; }
+        const parts = text.split(/\s+/).filter(Boolean);
+        let words;
+        if (c.words && c.words.length) {
+          words = c.words.map((w, k) => ({ text: w.text, s: w.s, e: 0, k }));
+          for (let k = 0; k < words.length; k++) words[k].e = k < words.length - 1 ? words[k + 1].s - 0.02 : Math.min(nx - 0.1, words[k].s + 0.8);
+          text = words.map((w) => w.text).join(' ');
+        } else words = timeWords(parts, c.t, nx, A);
+        const L = { i: lines.length, text, singer: 'A', sub: '', start: words[0].s, end: words[words.length - 1].e, words };
+        if (adText) L.adlib = { text: adText, s: Math.min(nx - 0.6, L.end - 0.2), e: Math.min(nx - 0.05, L.end + 0.9) };
+        lines.push(L);
+      }
+      if (!lines.length) return null;
+      // sections: blocks of lines split by gaps; a block whose lines come back later is a chorus
+      const count = new Map(); for (const L of lines) { const k = normLine(L.text); count.set(k, (count.get(k) || 0) + 1); }
+      const blocks = []; let cur = null;
+      for (const L of lines) {
+        const prev = cur && cur[cur.length - 1];
+        if (!prev || L.start - prev.end > 2.6 || (cur.length >= 8 && L.start - prev.end > 1.2)) { cur = []; blocks.push(cur); }
+        cur.push(L);
+      }
+      const secs = []; let v = 1;
+      const add = (name, a, b) => { if (b - a > 0.3) secs.push({ name, i: secs.length, start: a, end: b }); };
+      add('Intro', 0, Math.max(0, blocks[0][0].start - 0.35));
+      let brk = null;
+      blocks.forEach((B, j) => {
+        const rep = B.filter((L) => count.get(normLine(L.text)) > 1).length / B.length;
+        const a = Math.max(0, B[0].start - 0.35), lastEnd = B[B.length - 1].end, nb = blocks[j + 1];
+        const b = nb ? nb[0].start - 0.35 : Math.min(dur, lastEnd + 1.0);
+        const name = rep >= 0.5 && B.length >= 2 ? 'Chorus' : `Verse ${v++}`;
+        if (nb && b - lastEnd > 7) { add(name, a, lastEnd + 1.0); add('Break', lastEnd + 1.0, b); const s = secs[secs.length - 1]; if (!brk || s.end - s.start > brk.end - brk.start) brk = s; }
+        else add(name, a, b);
+      });
+      add('Outro', secs.length ? secs[secs.length - 1].end : 0, dur);
+      if (secs.length && secs[secs.length - 1].end < dur) secs[secs.length - 1].end = dur;
+      for (const L of lines) L.section = Math.max(0, secs.findIndex((s) => L.start >= s.start && L.start < s.end));
+      return { lines, secs, brk };
+    }
+    return { analyse, parseLRC, build, autoOffset, FPS, SR, N, HOP };
+  })();
+
+  // ---------- switching between the demo song and a real one ----------
+  const DEMO = { BPM, TITLE, ARTIST, DURATION, BRK, SECTIONS: SECTIONS.slice(), LINES: LINES.slice(), EVENTS: EVENTS.slice(), KICKS: KICKS.slice(), SNARES: SNARES.slice(), HATS: HATS.slice(), LEADS: LEADS.slice() };
+  const put = (a, b) => { a.length = 0; for (const x of b) a.push(x); };
+  const songListeners = [];
+  function makeTrack(A, buffer, built, meta) {
+    const FR = A.FPS, F = A.F, at = (t) => clamp(Math.round((t * SONG.SR - SONG.N / 2) / SONG.HOP), 0, F - 1);
+    return {
+      A, buffer, meta, beats: A.beats, down: A.down,
+      spectrum(t, n, out) { const f = at(t) * 64; for (let b = 0; b < n; b++) out[b] = A.bands[f + Math.min(63, Math.floor((b * 64) / n))] / 255; return out; },
+      energy(t) { const x = t * FR - 2, i = clamp(Math.floor(x), 0, F - 2), k = clamp(x - i, 0, 1); return 0.14 + 0.86 * lerp(A.loud[i], A.loud[i + 1], k); },
+      built,
+    };
+  }
+  function useSong(T) {
+    TRACK = T;
+    if (!T) {
+      BPM = DEMO.BPM; TITLE = DEMO.TITLE; ARTIST = DEMO.ARTIST; DURATION = DEMO.DURATION; BRK = DEMO.BRK;
+      for (const k of ['SECTIONS', 'LINES', 'EVENTS', 'KICKS', 'SNARES', 'HATS', 'LEADS']) put({ SECTIONS, LINES, EVENTS, KICKS, SNARES, HATS, LEADS }[k], DEMO[k]);
+    } else {
+      const { A, built, meta } = T;
+      BPM = (60 * A.FPS) / A.period; TITLE = meta.title || 'Untitled'; ARTIST = meta.artist || ''; DURATION = A.duration;
+      BRK = built.brk || { name: 'Break', i: -1, start: 1e9, end: 1e9 + 1 };
+      put(SECTIONS, built.secs); put(LINES, built.lines);
+      put(KICKS, A.kicks); put(SNARES, A.snares); put(HATS, A.hats);
+      const leads = [];
+      for (const L of LINES) for (const w of L.words) leads.push({ t: w.s, kind: 'lead', note: SCALE[Math.floor(hash(L.i * 13 + w.k * 7) * SCALE.length)], dur: Math.min(0.9, w.e - w.s) });
+      put(LEADS, leads);
+      put(EVENTS, [...A.kicks.map((t) => ({ t, kind: 'kick' })), ...A.snares.map((t) => ({ t, kind: 'snare' })), ...A.hats.map((t) => ({ t, kind: 'hat' })), ...leads].sort((a, b) => a.t - b.t));
+    }
+    BEAT = 60 / BPM; BAR = BEAT * 4;
+    put(TITLE_LINES, makeTitleLines());
+    for (const f of songListeners) f();
+  }
+
   const state = { look: 0, t: 12.2, playing: false, last: 0, aspect: 'wide', sound: true, lastFrameT: null };
   try { REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { /* no media query support */ }
 
@@ -2636,7 +2930,7 @@
   const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
   // ---------- sound ----------
-  let ac = null, out = null, sched = 0, timer = 0, base = 0;
+  let ac = null, out = null, sched = 0, timer = 0, base = 0, curSrc = null;
   const hz = (n) => 440 * Math.pow(2, (n - 69) / 12);
   function voice(e, when) {
     const o = ac.createOscillator(), g = ac.createGain();
@@ -2657,9 +2951,10 @@
     try {
       ac = ac || new (window.AudioContext || window.webkitAudioContext)();
       ac.resume();
-      out = ac.createGain(); out.gain.value = 0.6; out.connect(ac.destination);
+      out = ac.createGain(); out.gain.value = TRACK ? 1 : 0.6; out.connect(ac.destination);
       base = ac.currentTime + 0.05 - state.t; sched = state.t;
       clearInterval(timer);
+      if (TRACK) { const src = ac.createBufferSource(); src.buffer = TRACK.buffer; src.connect(out); src.start(base + state.t, state.t); curSrc = src; return; }
       timer = setInterval(() => {
         const until = ac.currentTime - base + 0.2;
         for (const e of EVENTS) if (e.t >= sched && e.t < until) voice(e, base + e.t);
@@ -2667,7 +2962,7 @@
       }, 40);
     } catch { state.sound = false; syncButtons(); }
   }
-  function stopSound() { clearInterval(timer); if (out) { try { out.disconnect(); } catch { /* already gone */ } out = null; } }
+  function stopSound() { clearInterval(timer); if (curSrc) { try { curSrc.stop(); } catch { /* not started */ } curSrc = null; } if (out) { try { out.disconnect(); } catch { /* already gone */ } out = null; } }
 
   // ---------- loop and controls ----------
   function tick(now) {
@@ -2750,9 +3045,131 @@
   $('#prev').addEventListener('click', () => select(state.look - 1));
   $('#next').addEventListener('click', () => select(state.look + 1));
   for (const b of document.querySelectorAll('[data-aspect-btn]')) b.addEventListener('click', () => { state.aspect = b.dataset.aspectBtn; size(); syncButtons(); state.lastFrameT = null; render(0); });
-  const sc = $('#scrub'); sc.max = String(Math.floor(DURATION * 10));
-  sc.addEventListener('input', () => seek(Number(sc.value) / 10));
-  for (const s of SECTIONS) { const b = document.createElement('button'); b.type = 'button'; b.className = 'sec'; b.dataset.i = s.i; b.textContent = s.name; { const k = document.createElement('i'); k.style.left = `${(s.start / DURATION) * 100}%`; if (s.i) $('#ticks').appendChild(k); } b.addEventListener('click', () => seek(s.start + (s.name === 'Intro' ? 0 : 0.01))); $('#sections').appendChild(b); }
+  function buildSections() {
+    const sc = $('#scrub'); sc.max = String(Math.floor(DURATION * 10));
+    $('#ticks').textContent = ''; $('#sections').textContent = '';
+    for (const s of SECTIONS) {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'sec'; b.dataset.i = s.i; b.textContent = s.name;
+      if (s.i) { const k = document.createElement('i'); k.style.left = `${(s.start / DURATION) * 100}%`; $('#ticks').appendChild(k); }
+      b.addEventListener('click', () => seek(s.start + (s.name === 'Intro' ? 0 : 0.01))); $('#sections').appendChild(b);
+    }
+  }
+  $('#scrub').addEventListener('input', () => seek(Number($('#scrub').value) / 10));
+  buildSections();
+
+  // ---------- your own song ----------
+  songListeners.push(() => {
+    for (const v of swarmCache.values()) gl.deleteTexture(v.tex); swarmCache.clear();
+    constCache.clear(); CLASSIC.fontsLoaded();
+    buildSections();
+    $('#songLabel').textContent = TRACK ? `${TITLE}${ARTIST ? ' · ' + ARTIST : ''}` : 'Static Bloom · demo song';
+    $('#songBtn').dataset.real = TRACK ? '1' : '0';
+    $('#offsetRow').hidden = !TRACK;
+    state.lastFrameT = null;
+  });
+  const pending = { A: null, buffer: null, cues: null, name: '', offset: 0 };
+  const status = (msg, kind) => { const el = $('#songStatus'); el.textContent = msg; el.className = `status${kind ? ' ' + kind : ''}`; };
+  const panel = $('#songPanel');
+  const openPanel = (on) => { panel.hidden = !on; $('#songBtn').setAttribute('aria-expanded', String(on)); };
+  $('#songBtn').addEventListener('click', (e) => { e.stopPropagation(); openPanel(panel.hidden); });
+  document.addEventListener('click', (e) => { if (!panel.hidden && !panel.contains(e.target) && e.target !== $('#songBtn')) openPanel(false); });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') openPanel(false); });
+
+  // title and artist from ID3v2 tags (mp3), else from the file name ("Artist - Title")
+  function readTags(bytes, name) {
+    const out = { title: '', artist: '' };
+    try {
+      if (bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33) {
+        const v = bytes[3], size = ((bytes[6] & 127) << 21) | ((bytes[7] & 127) << 14) | ((bytes[8] & 127) << 7) | (bytes[9] & 127);
+        let p = 10;
+        const txt = (a, b) => { const enc = bytes[a]; const raw = bytes.subarray(a + 1, b); const dec = new TextDecoder(enc === 1 ? 'utf-16' : enc === 2 ? 'utf-16be' : enc === 3 ? 'utf-8' : 'latin1'); return dec.decode(raw).replace(/\0/g, '').trim(); };
+        while (p + 10 < size + 10) {
+          const id = String.fromCharCode(bytes[p], bytes[p + 1], bytes[p + 2], bytes[p + 3]);
+          const fs = v === 4 ? ((bytes[p + 4] & 127) << 21) | ((bytes[p + 5] & 127) << 14) | ((bytes[p + 6] & 127) << 7) | (bytes[p + 7] & 127) : (bytes[p + 4] << 24) | (bytes[p + 5] << 16) | (bytes[p + 6] << 8) | bytes[p + 7];
+          if (!/^[A-Z0-9]{4}$/.test(id) || fs <= 0) break;
+          if (id === 'TIT2') out.title = txt(p + 10, p + 10 + fs);
+          if (id === 'TPE1') out.artist = txt(p + 10, p + 10 + fs);
+          p += 10 + fs;
+        }
+      }
+    } catch { /* no usable tags */ }
+    if (!out.title) {
+      const base = name.replace(/\.[^.]+$/, '').replace(/^\d{1,3}[\s._-]+/, '').replace(/_/g, ' ');
+      const m = base.split(/\s+[-–—]\s+/);
+      if (m.length >= 2) { out.artist = out.artist || m[0].trim(); out.title = m.slice(1).join(' - ').trim(); } else out.title = base.trim();
+    }
+    return out;
+  }
+
+  async function lookupLyrics(title, artist, duration) {
+    const q = new URLSearchParams({ title, artist }); if (duration) q.set('duration', String(Math.round(duration)));
+    try { // the Lyricscape app's own route (ranks LRCLIB versions); missing when the lab is opened on its own
+      const r = await fetch(`/api/lyrics/lookup?${q}`); if (r.ok) { const j = await r.json(); if (j && j.found && j.synced) return j.synced; if (j && j.found === false) return null; }
+    } catch { /* not inside the app */ }
+    const g = new URLSearchParams({ track_name: title, artist_name: artist }); if (duration) g.set('duration', String(Math.round(duration)));
+    let r = await fetch(`https://lrclib.net/api/get?${g}`);
+    if (r.ok) { const j = await r.json(); if (j.syncedLyrics) return j.syncedLyrics; }
+    r = await fetch(`https://lrclib.net/api/search?${new URLSearchParams({ track_name: title, artist_name: artist })}`);
+    if (r.ok) { const list = await r.json(); const hit = Array.isArray(list) && list.find((x) => x.syncedLyrics && (!duration || Math.abs((x.duration || 0) - duration) < 4)) || (Array.isArray(list) && list.find((x) => x.syncedLyrics)); if (hit) return hit.syncedLyrics; }
+    return null;
+  }
+
+  function apply(offset) {
+    if (!pending.A || !pending.cues) return false;
+    pending.offset = offset;
+    const built = SONG.build(pending.cues, pending.A, { offset });
+    if (!built) { status('No sung lines fall inside this audio. Try Auto-align or another lyric file.', 'err'); return false; }
+    const wasPlaying = state.playing; if (wasPlaying) play(false);
+    useSong(makeTrack(pending.A, pending.buffer, built, { title: $('#songTitle').value.trim() || pending.name, artist: $('#songArtist').value.trim(), offset }));
+    $('#offVal').textContent = `${offset >= 0 ? '+' : '−'}${Math.abs(offset).toFixed(1)} s`;
+    state.t = clamp(state.t, 0, DURATION - 0.01);
+    if (wasPlaying) play(true); else render(0);
+    return true;
+  }
+  const isClip = () => pending.A && pending.cues && pending.cues.length && pending.cues[pending.cues.length - 1].t > pending.A.duration + 20;
+  function useCues(cues, how) {
+    pending.cues = cues;
+    // a short clip (a preview) sits somewhere inside the song: find where by matching cue times to vocal onsets
+    let off = 0;
+    if (isClip()) off = SONG.autoOffset(cues, pending.A, 0, cues[cues.length - 1].t);
+    if (apply(off)) { status(`${how}. ${LINES.length} lines, ${Math.round(BPM)} BPM${off ? `, clip found at ${fmt(off)} in the song` : ''}.`, 'ok'); state.t = Math.max(0, LINES[0].start - 1.5); render(0); }
+  }
+  async function loadAudio(file) {
+    status('Reading the file…');
+    try {
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const tags = readTags(bytes, file.name);
+      $('#songTitle').value = tags.title; $('#songArtist').value = tags.artist; pending.name = tags.title;
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      const buffer = await ac.decodeAudioData(bytes.buffer.slice(0));
+      status('Listening for the beat and the voice…');
+      const A = await SONG.analyse(buffer, (p) => status(`Listening for the beat and the voice… ${Math.round(p * 100)}%`));
+      pending.A = A; pending.buffer = buffer; pending.cues = null;
+      if (tags.title && tags.artist) await findLyrics();
+      else status('Add the title and artist, then find the lyrics.');
+    } catch (e) { console.error(e); status('This file could not be decoded. Try an mp3, m4a or wav.', 'err'); }
+  }
+  async function findLyrics() {
+    if (!pending.A) { status('Choose a song file first.', 'err'); return; }
+    const title = $('#songTitle').value.trim(), artist = $('#songArtist').value.trim();
+    if (!title || !artist) { status('Add the title and artist first.', 'err'); return; }
+    status('Looking up synced lyrics…');
+    try {
+      const lrc = await lookupLyrics(title, artist, pending.A.duration > 60 ? pending.A.duration : 0);
+      if (!lrc) { status('No synced lyrics found. You can use an .lrc file instead.', 'err'); return; }
+      useCues(SONG.parseLRC(lrc), 'Synced lyrics found');
+    } catch (e) { console.error(e); status('The lyrics service could not be reached from here. Use an .lrc file instead.', 'err'); }
+  }
+  $('#songFile').addEventListener('change', (e) => { const f = e.target.files && e.target.files[0]; if (f) loadAudio(f); });
+  const drop = $('#songDrop');
+  drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); const f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) loadAudio(f); });
+  $('#findLyrics').addEventListener('click', findLyrics);
+  $('#lrcFile').addEventListener('change', async (e) => { const f = e.target.files && e.target.files[0]; if (!f) return; if (!pending.A) { status('Choose a song file first.', 'err'); return; } useCues(SONG.parseLRC(await f.text()), 'Lyric file loaded'); });
+  for (const b of document.querySelectorAll('[data-off]')) b.addEventListener('click', () => apply(Math.round((pending.offset + Number(b.dataset.off)) * 10) / 10));
+  $('#autoOff').addEventListener('click', () => { if (!pending.cues) return; const o = isClip() ? SONG.autoOffset(pending.cues, pending.A, 0, pending.cues[pending.cues.length - 1].t) : SONG.autoOffset(pending.cues, pending.A, pending.offset - 2, pending.offset + 2); apply(o); });
+  $('#demoSong').addEventListener('click', () => { const wasPlaying = state.playing; if (wasPlaying) play(false); useSong(null); state.t = 12.2; status(''); if (wasPlaying) play(true); else render(0); });
   window.addEventListener('keydown', (e) => {
     if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') && e.key === ' ') return;
     if (e.key === 'ArrowRight') select(state.look + 1);
@@ -2769,5 +3186,17 @@
   fontsReady.then(() => { for (const v of swarmCache.values()) gl.deleteTexture(v.tex); swarmCache.clear(); CLASSIC.fontsLoaded(); state.lastFrameT = null; render(0); window.__labReady = true; if (!/nothumbs/.test(location.search)) { thumbQ = LOOKS.map((_, i) => i); setTimeout(thumbNext, 400); } });
   requestAnimationFrame((n) => { state.last = n; tick(n); });
   // test hook: draw a given look at a given time (used by the screenshot check)
-  window.__lab = { looks: LOOKS.map((l) => l.id), show(id, t, aspect) { if (aspect && aspect !== state.aspect) { state.aspect = aspect; size(); syncButtons(); } state.playing = false; stopSound(); state.t = t; select(LOOKS.findIndex((l) => l.id === id)); } };
+  window.__lab = {
+    /** test hook: load a song from bytes plus LRC text, exactly as the picker does */
+    async loadSong(bytes, lrc, title, artist, offset) {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      const buffer = await ac.decodeAudioData(bytes.slice(0));
+      pending.A = await SONG.analyse(buffer); pending.buffer = buffer; pending.name = title;
+      $('#songTitle').value = title; $('#songArtist').value = artist || '';
+      useCues(SONG.parseLRC(lrc), 'Test lyrics');
+      if (typeof offset === 'number') apply(offset);
+      return { bpm: BPM, lines: LINES.length, offset: pending.offset, duration: DURATION, beats: TRACK.beats.length, kicks: KICKS.length, snares: SNARES.length, sections: SECTIONS.map((x) => `${x.name} ${x.start.toFixed(1)}-${x.end.toFixed(1)}`), status: $('#songStatus').textContent };
+    },
+    song: () => ({ margin: SONG.autoOffset.margin, lines: LINES.map((L) => ({ start: L.start, end: L.end, words: L.words.map((w) => [w.s, w.e]) })), beats: TRACK ? TRACK.beats : [], offset: pending.offset }),
+    looks: LOOKS.map((l) => l.id), show(id, t, aspect) { if (aspect && aspect !== state.aspect) { state.aspect = aspect; size(); syncButtons(); } state.playing = false; stopSound(); state.t = t; select(LOOKS.findIndex((l) => l.id === id)); } };
 })();

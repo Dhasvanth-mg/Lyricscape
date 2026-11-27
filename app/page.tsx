@@ -92,7 +92,7 @@ export default function Home() {
             </div>
             <div className="flex h-11 items-center gap-4 border-b border-line px-2">
               <dt className="w-24 text-ink-400">Storage</dt>
-              <dd className="flex-1">This computer only. Nothing goes to a cloud.</dd>
+              <dd className="flex-1">This computer only, no cloud</dd>
             </div>
           </dl>
         </section>

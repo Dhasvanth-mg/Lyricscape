@@ -14,39 +14,39 @@ export function TrackRow({ track, context, index, extra }: { track: Track; conte
   const isPlaying = current && (status === 'playing' || status === 'buffering');
 
   return (
-    <li className={clsx('group flex items-center gap-3 rounded-xl p-2 pr-3 transition', current ? 'bg-ink-800' : 'hover:bg-ink-850')}>
+    <li className={clsx('group flex h-14 items-center gap-3 border-b border-line px-2 transition-colors duration-150', current ? 'bg-ink-900' : 'hover:bg-ink-900')}>
+      {index !== undefined && (
+        <span className={clsx('w-6 shrink-0 text-right font-mono text-[12px] tabular-nums', current ? 'text-signal' : 'text-ink-500')}>{index + 1}</span>
+      )}
       <button
         className="relative shrink-0"
         aria-label={isPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
         onClick={() => (current ? void player.toggle() : void player.playTrack(track, context))}
       >
-        <Cover track={track} className="h-12 w-12 text-lg" />
-        <span className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/55 opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100">
-          {isPlaying ? <Pause size={20} fill="white" /> : <Play size={20} fill="white" />}
+        <Cover track={track} className="h-10 w-10 text-lg" rounded="rounded-[3px]" />
+        <span className="absolute inset-0 flex items-center justify-center rounded-[3px] bg-black/60 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100">
+          {isPlaying ? <Pause size={16} fill="white" /> : <Play size={16} fill="white" />}
         </span>
       </button>
       <div className="min-w-0 flex-1">
-        <p className={clsx('truncate text-sm font-semibold', current && 'text-signal')}>
-          {index !== undefined && <span className="mr-2 font-mono text-[11px] text-ink-400">{index + 1}</span>}
-          {track.title}
-        </p>
-        <p className="truncate text-xs text-ink-300">
+        <p className={clsx('truncate text-[13px] font-semibold', current && 'text-signal')}>{track.title}</p>
+        <p className="truncate text-[12px] text-ink-400">
           {track.artists.join(', ')}
           {track.album ? ` · ${track.album}` : ''}
         </p>
       </div>
       {extra}
-      {track.provider === 'spotify' && <Chip tone="spotify" className="hidden sm:inline-flex">Spotify</Chip>}
-      <span className="hidden w-10 text-right font-mono text-xs text-ink-400 tabular-nums sm:block">{fmtTime(track.durationMs)}</span>
-      <div className="flex">
-        <IconButton label="Play next" onClick={() => player.addToQueue([track], 'next')} className="h-8 w-8">
+      {track.provider === 'spotify' && <Chip tone="spotify" className="max-sm:hidden">Spotify</Chip>}
+      <span className="hidden w-10 text-right font-mono text-[12px] text-ink-400 tabular-nums sm:block">{fmtTime(track.durationMs)}</span>
+      <div className="flex opacity-60 transition-opacity duration-150 group-hover:opacity-100 focus-within:opacity-100">
+        <IconButton label="Play next" onClick={() => player.addToQueue([track], 'next')} className="h-7 w-7">
           <ListPlus size={16} />
         </IconButton>
-        <IconButton label="Add to queue" onClick={() => player.addToQueue([track], 'end')} className="h-8 w-8">
+        <IconButton label="Add to queue" onClick={() => player.addToQueue([track], 'end')} className="h-7 w-7">
           <ListEnd size={16} />
         </IconButton>
         {track.externalUrl && (
-          <a href={track.externalUrl} target="_blank" rel="noreferrer" aria-label="Open in Spotify" className="inline-flex h-8 w-8 items-center justify-center rounded-full text-ink-300 hover:text-bone">
+          <a href={track.externalUrl} target="_blank" rel="noreferrer" aria-label="Open in Spotify" className="inline-flex h-7 w-7 items-center justify-center rounded text-ink-300 hover:bg-ink-800 hover:text-bone">
             <ExternalLink size={15} />
           </a>
         )}

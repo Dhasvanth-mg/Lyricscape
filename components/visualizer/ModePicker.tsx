@@ -21,7 +21,7 @@ export function ModePicker() {
   useEffect(() => setGl(turboSupported()), []);
   return (
     <section className="mb-5" aria-label="Stage mode" data-testid="mode-picker">
-      <h3 className="mb-1 font-mono text-[10px] tracking-[0.14em] text-ink-400 uppercase">Mode</h3>
+      <h3 className="mb-1 text-[12px] font-medium text-ink-400">Mode</h3>
       <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Stage mode">
         {STAGE_MODES.map((id) => {
           const def = MODES[id];
@@ -36,11 +36,11 @@ export function ModePicker() {
               disabled={disabled}
               onClick={() => set({ mode: id })}
               data-testid={`mode-${id}`}
-              className={clsx('flex flex-col items-start gap-1 rounded-xl border p-3 text-left transition disabled:opacity-40', on ? 'border-signal bg-signal/10' : 'border-white/10 hover:border-white/30')}
+              className={clsx('flex flex-col items-start gap-1 rounded-md border p-3 text-left transition disabled:opacity-40', on ? 'border-signal bg-signal/10' : 'border-white/10 hover:border-white/30')}
             >
               <span className="flex items-center gap-1.5 text-sm font-semibold">
                 <Icon size={14} aria-hidden /> {def.label}
-                <span className="ml-auto font-mono text-[9px] tracking-wide text-ink-400 uppercase">{def.renderer === 'webgl2' ? 'GPU' : 'Canvas'}</span>
+                <span className="ml-auto font-mono text-[10px] text-ink-400">{def.renderer === 'webgl2' ? 'GPU' : 'Canvas'}</span>
               </span>
               <span className="text-[11px] leading-snug text-ink-300">{def.tagline}</span>
             </button>
@@ -57,10 +57,10 @@ export function ModePicker() {
       </details>
       {mode === 'turbo' && (
         <>
-          <h3 className="mt-3 mb-1 font-mono text-[10px] tracking-[0.14em] text-ink-400 uppercase">Turbo style</h3>
+          <h3 className="mt-3 mb-1 text-[12px] font-medium text-ink-400">Turbo style</h3>
           <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Turbo style">
             {TURBO_STYLE_IDS.map((id) => (
-              <button key={id} role="radio" aria-checked={turboStyle === id} onClick={() => set({ turboStyle: id })} data-testid={`turbo-style-${id}`} className={clsx('rounded-full border px-3 py-1.5 text-xs font-semibold transition', turboStyle === id ? 'border-signal bg-signal text-white' : 'border-white/15 hover:border-white/40')}>
+              <button key={id} role="radio" aria-checked={turboStyle === id} onClick={() => set({ turboStyle: id })} data-testid={`turbo-style-${id}`} className={clsx('rounded border px-3 py-1.5 text-xs font-semibold transition', turboStyle === id ? 'border-bone bg-bone text-ink-950' : 'border-white/15 hover:border-white/40')}>
                 {TURBO_STYLES[id].label}
               </button>
             ))}

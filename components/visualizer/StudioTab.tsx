@@ -33,7 +33,7 @@ const LINE_LABEL: Record<LineTransition, string> = { none: 'None', zoomPunch: 'Z
 function Group({ title, hint, children, className }: { title: string; hint?: string; children: React.ReactNode; className?: string }) {
   return (
     <section className={clsx('mb-5 last:mb-0', className)}>
-      <h3 className="mb-1 font-mono text-[10px] tracking-[0.14em] text-ink-400 uppercase">{title}</h3>
+      <h3 className="mb-1 text-[12px] font-medium text-ink-400">{title}</h3>
       {hint && <p className="mb-2 text-xs text-ink-300">{hint}</p>}
       {children}
     </section>
@@ -43,7 +43,7 @@ function Group({ title, hint, children, className }: { title: string; hint?: str
 function Disclosure({ title, children, defaultOpen = false, testId }: { title: string; children: React.ReactNode; defaultOpen?: boolean; testId?: string }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="mb-4 rounded-xl border border-white/10" data-testid={testId}>
+    <div className="mb-4 rounded-md border border-white/10" data-testid={testId}>
       <button onClick={() => setOpen(!open)} aria-expanded={open} className="flex w-full items-center justify-between px-3 py-2.5 text-left text-sm font-semibold">
         {title}
         <ChevronDown size={16} className={clsx('text-ink-300 transition-transform', open && 'rotate-180')} aria-hidden />
@@ -80,7 +80,7 @@ function Select<T extends string>({ id, label, value, options, onChange, onReset
         {label}
       </label>
       <span className="flex items-center gap-1">
-        <select id={id} value={value} onChange={(e) => onChange(e.target.value as T)} className="h-8 max-w-[11rem] rounded-lg border border-ink-600 bg-ink-900/80 px-2 text-xs">
+        <select id={id} value={value} onChange={(e) => onChange(e.target.value as T)} className="h-8 max-w-[11rem] rounded border border-ink-600 bg-ink-900/80 px-2 text-xs">
           {options.map(([v, l]) => (
             <option key={v} value={v}>
               {l}
@@ -97,7 +97,7 @@ function Select<T extends string>({ id, label, value, options, onChange, onReset
 
 function Swatch({ id, label, value, onChange, onReset, overridden }: { id: string; label: string; value: string; onChange: (v: string) => void; onReset: () => void; overridden: boolean }) {
   return (
-    <div className="flex items-center justify-between gap-2 rounded-lg border border-white/10 px-2 py-1.5">
+    <div className="flex items-center justify-between gap-2 rounded border border-white/10 px-2 py-1.5">
       <label htmlFor={id} className="text-xs font-semibold">
         {label}
       </label>
@@ -119,8 +119,8 @@ function DirectionCard({ id, selected, auto, onPick }: { id: StyleId; selected: 
   const g1 = spec && spec.ground !== 'cover' ? spec.ground[1] : spec ? '#f08a5d' : '#2a2a35';
   const font = st.fonts[st.displayFont];
   return (
-    <button role="radio" aria-checked={selected} data-testid={`dir-${id}`} onClick={onPick} title={st.description} className={clsx('rounded-xl border p-1.5 text-left transition', selected ? 'border-signal bg-signal/10' : 'border-white/10 hover:border-white/30')}>
-      <span className="flex h-12 items-center justify-between rounded-lg px-2.5" style={{ background: `linear-gradient(135deg, ${g0}, ${g1})` }}>
+    <button role="radio" aria-checked={selected} data-testid={`dir-${id}`} onClick={onPick} title={st.description} className={clsx('rounded-md border p-1.5 text-left transition', selected ? 'border-signal bg-signal/10' : 'border-white/10 hover:border-white/30')}>
+      <span className="flex h-12 items-center justify-between rounded px-2.5" style={{ background: `linear-gradient(135deg, ${g0}, ${g1})` }}>
         <span style={{ color: spec?.ink ?? '#f4f2ea', fontFamily: `"${font.family}", serif`, fontWeight: font.weight, fontStyle: font.italic ? 'italic' : 'normal', fontSize: 22, textTransform: font.uppercase ? 'uppercase' : 'none', letterSpacing: `${font.letterSpacingEm}em` }}>Aa</span>
         <span className="h-2.5 w-2.5 rounded-full" style={{ background: spec?.active ?? '#ffd23f' }} />
       </span>
@@ -175,8 +175,8 @@ export function StudioTab({ sl, readable, onReadable, reduced, osReduced, onForc
     <>
       <ModePicker />
       {/* ---- what the app understood about this song ---------------------------------------------------------------- */}
-      <section className="mb-5 rounded-xl border border-white/10 bg-white/[0.03] p-3" data-testid="identity-card">
-        <p className="font-mono text-[10px] tracking-[0.14em] text-ink-400 uppercase">This song, as understood</p>
+      <section className="mb-5 rounded-md border border-white/10 bg-white/[0.03] p-3" data-testid="identity-card">
+        <p className="text-[12px] font-medium text-ink-400">This song, as understood</p>
         <p className="mt-1 text-lg leading-snug font-semibold" data-testid="identity-headline">
           {described?.headline ?? '—'}
         </p>
@@ -190,7 +190,7 @@ export function StudioTab({ sl, readable, onReadable, reduced, osReduced, onForc
         <p className="mt-3 text-xs font-semibold">Not quite right?</p>
         <div className="mt-1.5 flex flex-wrap gap-1.5" role="group" aria-label="Correct the interpretation">
           {CORRECTION_DEFS.filter((c) => c.id !== 'lessIntimate').map((c) => (
-            <button key={c.id} onClick={() => sl.correct(c.id)} className="rounded-full border border-white/15 px-2.5 py-1 text-[11px] font-semibold transition hover:border-white/40">
+            <button key={c.id} onClick={() => sl.correct(c.id)} className="rounded border border-white/15 px-2.5 py-1 text-[11px] font-semibold transition hover:border-white/40">
               {c.label}
             </button>
           ))}
@@ -218,7 +218,7 @@ export function StudioTab({ sl, readable, onReadable, reduced, osReduced, onForc
 
       {/* ---- the art direction ---------------------------------------------------------------------------------------- */}
       <Group title="Art direction" hint="Each one is a composed world: palette, type, artwork, motion. Auto picks from what is known about the song.">
-        <button onClick={() => sl.setPick({ kind: 'auto' })} aria-pressed={auto} data-testid="dir-auto" className={clsx('mb-2 flex w-full items-start gap-3 rounded-xl border p-3 text-left transition', auto ? 'border-signal bg-signal/10' : 'border-white/10 hover:border-white/30')}>
+        <button onClick={() => sl.setPick({ kind: 'auto' })} aria-pressed={auto} data-testid="dir-auto" className={clsx('mb-2 flex w-full items-start gap-3 rounded-md border p-3 text-left transition', auto ? 'border-signal bg-signal/10' : 'border-white/10 hover:border-white/30')}>
           <Sparkles size={18} className="mt-0.5 shrink-0 text-signal" aria-hidden />
           <span>
             <span className="block text-sm font-semibold">Auto · {autoName}</span>
@@ -253,7 +253,7 @@ export function StudioTab({ sl, readable, onReadable, reduced, osReduced, onForc
             <span>
               When Auto sees {GENRE_LABEL[family]}, use:
             </span>
-            <select aria-label={`Default direction for ${GENRE_LABEL[family]}`} value={familyDefaults[family] ?? ''} onChange={(e) => setFamilyDefault(family, (e.target.value || null) as StyleId | null)} className="h-8 rounded-lg border border-ink-600 bg-ink-900/80 px-2 text-xs">
+            <select aria-label={`Default direction for ${GENRE_LABEL[family]}`} value={familyDefaults[family] ?? ''} onChange={(e) => setFamilyDefault(family, (e.target.value || null) as StyleId | null)} className="h-8 rounded border border-ink-600 bg-ink-900/80 px-2 text-xs">
               <option value="">Whatever fits the song</option>
               {DIRECTION_GROUPS.slice(0, -1).flatMap((g) => g.ids).map((id) => (
                 <option key={id} value={id}>
@@ -271,11 +271,11 @@ export function StudioTab({ sl, readable, onReadable, reduced, osReduced, onForc
 
         <Group title="Colour">
           <div className="mb-2 flex flex-wrap gap-1.5" role="radiogroup" aria-label="Palette">
-            <button role="radio" aria-checked={!T.paletteId} onClick={() => unsetTop('paletteId')} className={clsx('rounded-full border px-2.5 py-1 text-[11px] font-semibold', !T.paletteId ? 'border-signal bg-signal/15' : 'border-white/15 hover:border-white/40')}>
+            <button role="radio" aria-checked={!T.paletteId} onClick={() => unsetTop('paletteId')} className={clsx('rounded border px-2.5 py-1 text-[11px] font-semibold', !T.paletteId ? 'border-signal bg-signal/15' : 'border-white/15 hover:border-white/40')}>
               Direction&apos;s own
             </button>
             {PALETTES.map((p) => (
-              <button key={p.id} role="radio" aria-checked={T.paletteId === p.id} onClick={() => setTop('paletteId', p.id)} title={p.label} className={clsx('inline-flex items-center gap-1.5 rounded-full border px-2 py-1 text-[11px] font-semibold', T.paletteId === p.id ? 'border-signal bg-signal/15' : 'border-white/15 hover:border-white/40')}>
+              <button key={p.id} role="radio" aria-checked={T.paletteId === p.id} onClick={() => setTop('paletteId', p.id)} title={p.label} className={clsx('inline-flex items-center gap-1.5 rounded border px-2 py-1 text-[11px] font-semibold', T.paletteId === p.id ? 'border-signal bg-signal/15' : 'border-white/15 hover:border-white/40')}>
                 <span className="flex">
                   {[p.ground === 'cover' ? '#e85d75' : p.ground[0], p.active, p.accent].map((c, i) => (
                     <span key={i} className="-ml-1 h-3.5 w-3.5 rounded-full border border-black/30 first:ml-0" style={{ background: c }} />
@@ -301,7 +301,7 @@ export function StudioTab({ sl, readable, onReadable, reduced, osReduced, onForc
             {TYPE_PAIRS.map((p) => {
               const f = p.display;
               return (
-                <button key={p.id} role="radio" aria-checked={(T.typography ?? 'direction') === p.id} onClick={() => (p.id === 'direction' ? unsetTop('typography') : setTop('typography', p.id as TypePairId))} title={p.hint} className={clsx('flex items-center gap-2 rounded-lg border px-2 py-1.5 text-left', (T.typography ?? 'direction') === p.id ? 'border-signal bg-signal/10' : 'border-white/10 hover:border-white/30')}>
+                <button key={p.id} role="radio" aria-checked={(T.typography ?? 'direction') === p.id} onClick={() => (p.id === 'direction' ? unsetTop('typography') : setTop('typography', p.id as TypePairId))} title={p.hint} className={clsx('flex items-center gap-2 rounded border px-2 py-1.5 text-left', (T.typography ?? 'direction') === p.id ? 'border-signal bg-signal/10' : 'border-white/10 hover:border-white/30')}>
                   <span className="w-7 text-center text-lg leading-none" style={f ? { fontFamily: `"${f.family}", serif`, fontWeight: f.weight, fontStyle: f.italic ? 'italic' : 'normal' } : undefined}>
                     {p.sample}
                   </span>
@@ -369,8 +369,8 @@ export function StudioTab({ sl, readable, onReadable, reduced, osReduced, onForc
             setName('');
           }}
         >
-          <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder="Name this theme" aria-label="Theme name" className="h-9 min-w-0 flex-1 rounded-lg border border-ink-600 bg-ink-900/80 px-3 text-sm" />
-          <button type="submit" disabled={!name.trim()} className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-bone px-3 text-xs font-semibold text-ink-950 disabled:opacity-40">
+          <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder="Name this theme" aria-label="Theme name" className="h-9 min-w-0 flex-1 rounded border border-ink-600 bg-ink-900/80 px-3 text-sm" />
+          <button type="submit" disabled={!name.trim()} className="inline-flex h-9 items-center gap-1.5 rounded bg-bone px-3 text-xs font-semibold text-ink-950 disabled:opacity-40">
             <Bookmark size={13} aria-hidden /> Save
           </button>
         </form>
@@ -381,12 +381,12 @@ export function StudioTab({ sl, readable, onReadable, reduced, osReduced, onForc
             {saved.map((t) => {
               const on = r.basis === 'saved' && r.savedName === t.name;
               return (
-                <li key={t.id} className={clsx('flex items-center gap-2 rounded-lg border px-2.5 py-1.5', on ? 'border-signal bg-signal/10' : 'border-white/10')}>
+                <li key={t.id} className={clsx('flex items-center gap-2 rounded border px-2.5 py-1.5', on ? 'border-signal bg-signal/10' : 'border-white/10')}>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-semibold">{t.name}</span>
                     <span className="block text-[11px] text-ink-400">{DIRECTIONS[t.base]?.label ?? t.base}</span>
                   </span>
-                  <button onClick={() => sl.setPick({ kind: 'saved', id: t.id })} disabled={on} className="rounded-full border border-white/15 px-2.5 py-1 text-[11px] font-semibold transition hover:border-white/40 disabled:opacity-50">
+                  <button onClick={() => sl.setPick({ kind: 'saved', id: t.id })} disabled={on} className="rounded border border-white/15 px-2.5 py-1 text-[11px] font-semibold transition hover:border-white/40 disabled:opacity-50">
                     {on ? 'In use' : 'Use here'}
                   </button>
                   <button onClick={() => deleteTheme(t.id)} aria-label={`Delete ${t.name}`} className="rounded p-1 text-ink-300 transition hover:text-bone">
@@ -412,9 +412,9 @@ export function StudioTab({ sl, readable, onReadable, reduced, osReduced, onForc
 
 function ToggleRow({ on, onChange, label, hint, disabled }: { on: boolean; onChange: (v: boolean) => void; label: string; hint?: string; disabled?: boolean }) {
   return (
-    <button onClick={() => onChange(!on)} disabled={disabled} role="switch" aria-checked={on} className="flex w-full items-start gap-3 rounded-xl p-2 text-left transition hover:bg-white/5 disabled:opacity-40">
-      <span className={clsx('mt-0.5 inline-flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition', on ? 'bg-signal' : 'bg-ink-600')}>
-        <span className={clsx('h-4 w-4 rounded-full bg-white transition-transform', on && 'translate-x-4')} />
+    <button onClick={() => onChange(!on)} disabled={disabled} role="switch" aria-checked={on} className="flex w-full items-start gap-3 rounded-md p-2 text-left transition hover:bg-white/5 disabled:opacity-40">
+      <span className={clsx('mt-0.5 inline-flex h-5 w-9 shrink-0 items-center rounded p-0.5 transition', on ? 'bg-signal' : 'bg-ink-600')}>
+        <span className={clsx('h-4 w-4 rounded-[2px] bg-white transition-transform', on && 'translate-x-4')} />
       </span>
       <span>
         <span className="block text-sm font-semibold">{label}</span>

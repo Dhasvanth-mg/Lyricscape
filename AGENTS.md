@@ -120,3 +120,13 @@ Do not leave a dev server or headless browser running when you finish, unless th
 ## 10. Known gaps (do not pretend these exist)
 
 Cloud adapters (Supabase Auth and Postgres RLS, R2, Inngest); a real Spotify run-through is owner-only (needs their credentials), and that includes **listening to a real Spotify session for tempo** (tab capture was verified on real recorded music; system-audio capture and a real Spotify song were not); multi-user listening rooms and concert memories; Demucs and WhisperX; a screen-reader audit; the five Turbo reference scenes were checked with English lyrics only (Hindi, Tamil and right-to-left lines in them are unchecked); the RTX 5050 and high-refresh displays have not been measured.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

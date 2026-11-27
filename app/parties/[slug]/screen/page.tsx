@@ -72,7 +72,7 @@ function Slideshow({ media }: { media: MediaDto[] }) {
       ) : (
         <video key={current.id} ref={videoRef} src={current.url} autoPlay muted playsInline onEnded={next} className="absolute inset-0 h-full w-full object-contain" />
       )}
-      <div className="absolute bottom-6 left-6 rounded-full bg-black/60 px-4 py-2 text-lg backdrop-blur">
+      <div className="absolute bottom-6 left-6 rounded bg-black/60 px-4 py-2 text-lg">
         {fresh === current.id && <span className="mr-2 font-bold text-signal">NEW</span>}
         {current.uploaderName}
       </div>
@@ -118,11 +118,11 @@ function Screen({ slug }: { slug: string }) {
     <div className={clsx('fixed inset-0 grid grid-cols-[1fr_minmax(340px,28vw)] bg-ink-950 text-bone', chromeHidden && 'cursor-none')} data-testid="big-screen">
       <div className="relative min-w-0">
         <Slideshow media={snap.media.filter((m) => m.status === 'approved')} />
-        <div className="absolute top-6 left-6 rounded-full bg-black/60 px-5 py-2 font-display text-3xl tracking-wide uppercase backdrop-blur">{snap.event.title}</div>
+        <div className="absolute top-6 left-6 rounded bg-black/60 px-5 py-2 font-display text-3xl tracking-wide uppercase">{snap.event.title}</div>
       </div>
       <aside className="flex min-h-0 flex-col gap-6 border-l border-ink-800 bg-ink-900 p-6">
         <section>
-          <p className="mb-1 font-mono text-xs tracking-[0.2em] text-signal uppercase">Now playing</p>
+          <p className="mb-1 text-lg text-signal">Now playing</p>
           {snap.nowPlaying ? (
             <>
               <p className="font-display text-5xl leading-none tracking-wide uppercase">{snap.nowPlaying.track.title}</p>
@@ -133,7 +133,7 @@ function Screen({ slug }: { slug: string }) {
           )}
         </section>
         <section className="min-h-0 flex-1 overflow-hidden">
-          <p className="mb-2 font-mono text-xs tracking-[0.2em] text-ink-300 uppercase">Up next</p>
+          <p className="mb-2 text-lg text-ink-300">Up next</p>
           <ol className="space-y-3">
             {upNext.length === 0 && <li className="text-ink-400">Scan the code to suggest a song</li>}
             {upNext.map((r, i) => (
@@ -150,7 +150,7 @@ function Screen({ slug }: { slug: string }) {
           </ol>
         </section>
         {joinLink && (
-          <section className="flex items-center gap-4 rounded-2xl bg-white p-3 text-ink-950">
+          <section className="flex items-center gap-4 rounded-md bg-white p-3 text-ink-950">
             <QrImage url={joinLink} size={132} />
             <p className="text-lg leading-tight font-bold">
               Scan to join,

@@ -14,7 +14,7 @@ export function wallpaperHtml(url: string): string {
   return `<!doctype html>\n<html><head><meta charset="utf-8"><title>Lyricscape lyrics</title>\n<style>html,body{margin:0;height:100%;background:#0b0a12;overflow:hidden}iframe{border:0;width:100%;height:100%}</style></head>\n<body><iframe src="${safe}" allow="autoplay"></iframe></body></html>\n`;
 }
 
-const sel = 'h-9 rounded-lg border border-ink-600 bg-ink-850 px-2 text-sm';
+const sel = 'h-9 rounded border border-ink-600 bg-ink-850 px-2 text-sm';
 
 /** Settings card: the floating lyrics window, and lyrics for OBS and desktop wallpapers. */
 export function LiveSection() {
@@ -142,7 +142,7 @@ export function LiveSection() {
         </div>
 
         <div className="mt-3 flex items-center gap-2">
-          <code className="min-w-0 flex-1 truncate rounded-lg bg-ink-850 px-3 py-2 text-xs" data-testid="overlay-url">{url}</code>
+          <code className="min-w-0 flex-1 truncate rounded bg-ink-850 px-3 py-2 text-xs" data-testid="overlay-url">{url}</code>
           <Button size="sm" onClick={() => copy(url, 'url')}>
             {copied === 'url' ? <Check size={14} /> : <Copy size={14} />} Copy
           </Button>

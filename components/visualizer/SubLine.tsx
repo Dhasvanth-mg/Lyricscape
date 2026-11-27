@@ -30,7 +30,7 @@ export function SubLine({ lines, sub, now }: { lines: StripLine[] | null; sub: (
   const text = idx >= 0 ? sub?.[idx] : null;
   if (!text) return null;
   return (
-    <p data-testid="sub-line" className="pointer-events-none absolute inset-x-0 bottom-[84px] z-[5] mx-auto w-fit max-w-[86%] rounded-xl bg-black/45 px-4 py-1.5 text-center text-[clamp(15px,2.2vw,24px)] leading-snug font-semibold text-white/95 backdrop-blur-sm [text-wrap:balance] sm:bottom-[96px]">
+    <p data-testid="sub-line" className="pointer-events-none absolute inset-x-0 bottom-[84px] z-[5] mx-auto w-fit max-w-[86%] rounded-md bg-black/45 px-4 py-1.5 text-center text-[clamp(15px,2.2vw,24px)] leading-snug font-semibold text-white/95 [text-wrap:balance] sm:bottom-[96px]">
       {text}
     </p>
   );

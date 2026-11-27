@@ -52,10 +52,10 @@ export default function LibraryPage() {
 
   return (
     <div>
-      <PageHeader eyebrow="Collection" title="Library" />
+      <PageHeader title="Library" />
 
       <section className="mb-10">
-        <h2 className="mb-3 font-display text-3xl tracking-wide uppercase">Playlists</h2>
+        <h2 className="mb-3 text-[15px] font-semibold">Playlists</h2>
         <form
           className="mb-4 flex flex-wrap gap-2"
           onSubmit={(e) => {
@@ -69,7 +69,7 @@ export default function LibraryPage() {
             placeholder="Playlist name"
             aria-label="Playlist name"
             maxLength={80}
-            className="h-10 min-w-[220px] flex-1 rounded-full border border-ink-600 bg-ink-850 px-4 text-sm outline-none focus:border-aqua sm:max-w-xs"
+            className="h-9 min-w-[220px] flex-1 rounded border border-ink-700 bg-ink-900 px-4 text-sm outline-none focus:border-ink-400 sm:max-w-xs"
           />
           <Button variant="primary" type="submit">
             <Plus size={16} /> {current ? 'Create with current song' : 'Create'}
@@ -80,7 +80,7 @@ export default function LibraryPage() {
         ) : (
           <ul className="space-y-2">
             {playlists.map((p) => (
-              <li key={p.id} className="rounded-2xl border border-ink-700 bg-ink-900">
+              <li key={p.id} className="rounded-md border border-line bg-ink-900">
                 <div className="flex items-center gap-2 p-3">
                   <button className="min-w-0 flex-1 text-left" onClick={() => setOpen(open === p.id ? null : p.id)} aria-expanded={open === p.id}>
                     <span className="block truncate font-semibold">{p.title}</span>
@@ -108,7 +108,7 @@ export default function LibraryPage() {
                         extra={
                           <button
                             aria-label={`Remove ${t.title}`}
-                            className="rounded-full p-2 text-ink-400 hover:text-red-300"
+                            className="rounded p-2 text-ink-400 hover:text-red-300"
                             onClick={() => putPlaylist({ ...p, tracks: p.tracks.filter((x) => x.id !== t.id), trackIds: p.trackIds.filter((x) => x !== t.id) })}
                           >
                             <Trash2 size={14} />
@@ -125,12 +125,12 @@ export default function LibraryPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="mb-3 font-display text-3xl tracking-wide uppercase">My files</h2>
+        <h2 className="mb-3 text-[15px] font-semibold">My files</h2>
         {files.length === 0 ? (
           <Empty
             title="No imported files"
             action={
-              <Link href="/listen" className="inline-flex h-10 items-center rounded-full bg-bone px-5 text-sm font-semibold text-ink-950">
+              <Link href="/listen" className="inline-flex h-9 items-center rounded bg-bone px-3.5 text-[13px] font-medium text-ink-950 hover:bg-white">
                 Import in Listen
               </Link>
             }
@@ -138,14 +138,14 @@ export default function LibraryPage() {
         ) : (
           <ul>
             {files.map((t) => (
-              <TrackRow key={t.id} track={t} context={files} extra={withLyrics.includes(t.id) ? <span className="text-[11px] text-aqua uppercase">lyrics</span> : null} />
+              <TrackRow key={t.id} track={t} context={files} extra={withLyrics.includes(t.id) ? <span className="text-[11px] text-aqua">Lyrics</span> : null} />
             ))}
           </ul>
         )}
       </section>
 
       <section>
-        <h2 className="mb-3 font-display text-3xl tracking-wide uppercase">Songs with saved lyrics</h2>
+        <h2 className="mb-3 text-[15px] font-semibold">Songs with saved lyrics</h2>
         <p className="text-sm text-ink-300">{withLyrics.length} songs (including Spotify tracks) have lyrics saved on this device, so they work offline next time.</p>
         {demo.length > 0 && <p className="mt-1 text-xs text-ink-400">Bundled demo songs ship with their own timed lyrics.</p>}
       </section>

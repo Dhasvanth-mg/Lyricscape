@@ -137,13 +137,13 @@ function RecapSetup({ eventId, onCreated, hasPrevious, onBack }: { eventId: stri
   if (!tracks) return <Spinner />;
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <section className="space-y-4 rounded-2xl border border-ink-700 bg-ink-900 p-5">
-        <h2 className="font-display text-3xl tracking-wide uppercase">New recap</h2>
+      <section className="space-y-4 rounded-md border border-line bg-ink-900 p-5">
+        <h2 className="text-[15px] font-semibold">New recap</h2>
         <div>
           <p className="mb-1.5 text-sm text-ink-300">Length</p>
           <div className="flex flex-wrap gap-2">
             {PRESETS.map((p) => (
-              <button key={p} onClick={() => setPreset(p)} aria-pressed={preset === p} className={clsx('rounded-full border px-4 py-2 text-sm font-semibold capitalize', preset === p ? 'border-signal bg-signal text-white' : 'border-ink-600 text-ink-200')}>
+              <button key={p} onClick={() => setPreset(p)} aria-pressed={preset === p} className={clsx('h-8 rounded border px-3 text-[13px] font-medium capitalize', preset === p ? 'border-bone bg-bone text-ink-950' : 'border-ink-600 text-ink-200')}>
                 {p === 'quick' ? 'Quick (30–60s)' : p === 'highlight' ? 'Highlight (1–3 min)' : 'Extended'}
               </button>
             ))}
@@ -157,7 +157,7 @@ function RecapSetup({ eventId, onCreated, hasPrevious, onBack }: { eventId: stri
           <p className="mb-1.5 text-sm text-ink-300">Shape</p>
           <div className="flex gap-2">
             {ASPECTS.map((a) => (
-              <button key={a} onClick={() => setAspect(a)} aria-pressed={aspect === a} className={clsx('rounded-full border px-4 py-2 text-sm font-semibold', aspect === a ? 'border-bone bg-bone text-ink-950' : 'border-ink-600 text-ink-200')}>
+              <button key={a} onClick={() => setAspect(a)} aria-pressed={aspect === a} className={clsx('h-8 rounded border px-3 text-[13px] font-medium', aspect === a ? 'border-bone bg-bone text-ink-950' : 'border-ink-600 text-ink-200')}>
                 {a} {a === '9:16' ? 'Stories' : a === '1:1' ? 'Square' : 'Wide'}
               </button>
             ))}
@@ -175,18 +175,18 @@ function RecapSetup({ eventId, onCreated, hasPrevious, onBack }: { eventId: stri
           {hasPrevious && <Button onClick={onBack}>Back</Button>}
         </div>
         {!tracks.workerOnline && (
-          <p className="rounded-lg border border-sun/40 bg-sun/10 p-3 text-sm text-sun">
+          <p className="rounded border border-sun/40 bg-sun/10 p-3 text-sm text-sun">
             The media worker isn&apos;t running. Start it in another terminal with <code>pnpm worker</code> (or run <code>pnpm dev:all</code>). Jobs wait in the queue until it connects.
           </p>
         )}
       </section>
 
-      <section className="space-y-4 rounded-2xl border border-ink-700 bg-ink-900 p-5">
-        <h2 className="font-display text-3xl tracking-wide uppercase">Soundtrack</h2>
+      <section className="space-y-4 rounded-md border border-line bg-ink-900 p-5">
+        <h2 className="text-[15px] font-semibold">Soundtrack</h2>
         <fieldset className="space-y-1.5">
           <legend className="sr-only">Choose a soundtrack</legend>
           {tracks.demo.map((d) => (
-            <label key={d.id} className="flex cursor-pointer items-start gap-2 rounded-lg p-2 hover:bg-ink-850">
+            <label key={d.id} className="flex cursor-pointer items-start gap-2 rounded p-2 hover:bg-ink-850">
               <input type="radio" name="st" checked={pick === `demo:${d.id}`} onChange={() => setPick(`demo:${d.id}`)} className="mt-1 accent-[var(--color-signal)]" />
               <span>
                 <span className="block font-semibold">{d.title}</span>
@@ -195,7 +195,7 @@ function RecapSetup({ eventId, onCreated, hasPrevious, onBack }: { eventId: stri
             </label>
           ))}
           {tracks.uploads.map((u) => (
-            <label key={u.id} className="flex cursor-pointer items-start gap-2 rounded-lg p-2 hover:bg-ink-850">
+            <label key={u.id} className="flex cursor-pointer items-start gap-2 rounded p-2 hover:bg-ink-850">
               <input type="radio" name="st" checked={pick === `upload:${u.id}`} onChange={() => setPick(`upload:${u.id}`)} className="mt-1 accent-[var(--color-signal)]" />
               <span>
                 <span className="block font-semibold">{u.title}</span>
@@ -204,7 +204,7 @@ function RecapSetup({ eventId, onCreated, hasPrevious, onBack }: { eventId: stri
             </label>
           ))}
         </fieldset>
-        <div className="rounded-xl border border-ink-700 p-3">
+        <div className="rounded-md border border-ink-700 p-3">
           <p className="mb-2 text-sm font-semibold">Use your own audio</p>
           <label className="mb-2 flex items-start gap-2 text-sm text-ink-300">
             <input type="checkbox" checked={rights} onChange={(e) => setRights(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[var(--color-signal)]" />I own this audio or have the rights to use it in a video (including sync rights).
@@ -214,7 +214,7 @@ function RecapSetup({ eventId, onCreated, hasPrevious, onBack }: { eventId: stri
             <Upload size={14} /> {upPct !== null ? `Uploading ${upPct}%` : 'Choose an audio file'}
           </Button>
         </div>
-        <p className="rounded-lg bg-ink-850 p-3 text-xs text-ink-300">
+        <p className="rounded bg-ink-850 p-3 text-xs text-ink-300">
           <strong>Why not Spotify?</strong> {tracks.spotify.reason}
         </p>
       </section>
@@ -338,13 +338,13 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
       </div>
 
       {err && (
-        <p role="alert" className="rounded-lg border border-red-500/30 bg-red-950/40 p-3 text-sm text-red-200">
+        <p role="alert" className="rounded border border-red-500/30 bg-red-950/40 p-3 text-sm text-red-200">
           {err}
         </p>
       )}
 
       {runningPlan && planJob && (
-        <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5" aria-live="polite">
+        <section className="rounded-md border border-line bg-ink-900 p-5" aria-live="polite">
           <p className="mb-2 font-semibold">
             {planJob.status === 'queued' ? (d.workerOnline ? 'Waiting for the worker…' : 'Waiting for the media worker. Run `pnpm worker`.') : planJob.status === 'analyzing' ? 'Analysing the music and checking your media…' : 'Planning the edit…'}
           </p>
@@ -353,7 +353,7 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
         </section>
       )}
       {d.project.status === 'failed' && (
-        <section className="rounded-2xl border border-red-500/40 bg-red-950/30 p-5">
+        <section className="rounded-md border border-red-500/40 bg-red-950/30 p-5">
           <p className="font-semibold text-red-200">Planning failed</p>
           <p className="text-sm text-red-200">{d.project.error ?? planJob?.error}</p>
           <Button className="mt-3" size="sm" onClick={onNew}>
@@ -365,16 +365,16 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
       {tl && (
         <>
           {tl.notes.length > 0 && (
-            <ul className="space-y-1 rounded-xl border border-ink-700 bg-ink-900 p-4 text-sm text-ink-300">
+            <ul className="space-y-1 rounded-md border border-line bg-ink-900 p-4 text-sm text-ink-300">
               {tl.notes.map((n, i) => (
                 <li key={i}>• {n}</li>
               ))}
             </ul>
           )}
 
-          <section className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
+          <section className="rounded-md border border-line bg-ink-900 p-4">
             <div className="mb-3 flex flex-wrap items-center gap-2">
-              <h3 className="font-display text-2xl tracking-wide uppercase">Timeline · {fmt(tl.durationMs)}</h3>
+              <h3 className="text-[15px] font-semibold">Timeline · {fmt(tl.durationMs)}</h3>
               <span className="text-xs text-ink-400">
                 {tl.audio.title ?? 'soundtrack'} · {tl.audio.license}
               </span>
@@ -404,7 +404,7 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
                     aria-selected={sel === c.id}
                     onClick={() => setSel(c.id)}
                     style={{ width: Math.max(64, (c.durationMs / tl.durationMs) * 900) }}
-                    className={clsx('relative h-24 shrink-0 overflow-hidden rounded-lg border-2 bg-ink-800', sel === c.id ? 'border-signal' : 'border-transparent')}
+                    className={clsx('relative h-24 shrink-0 overflow-hidden rounded border-2 bg-ink-800', sel === c.id ? 'border-signal' : 'border-transparent')}
                     title={`${fmt(c.timelineStartMs)} · ${(c.durationMs / 1000).toFixed(1)}s · ${c.contributor ?? ''}`}
                   >
                     {a &&
@@ -442,9 +442,9 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
           </section>
 
           {selected && (
-            <section className="rounded-2xl border border-signal/40 bg-ink-900 p-4" aria-label="Selected clip">
+            <section className="rounded-md border border-signal/40 bg-ink-900 p-4" aria-label="Selected clip">
               <div className="mb-3 flex flex-wrap items-center gap-2">
-                <h3 className="font-display text-xl tracking-wide uppercase">
+                <h3 className="text-[15px] font-semibold">
                   Clip {tl.clips.findIndex((c) => c.id === selected.id) + 1} · {fmt(selected.timelineStartMs)} · {(selected.durationMs / 1000).toFixed(1)}s
                 </h3>
                 <span className="text-xs text-ink-400">by {selected.contributor}</span>
@@ -458,7 +458,7 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
                 </label>
                 <label className="inline-flex items-center gap-1.5">
                   Transition
-                  <select value={selected.transition.type} onChange={(e) => setClip(selected.id, { transition: { type: e.target.value as Clip['transition']['type'], durationMs: e.target.value === 'cut' ? 0 : e.target.value === 'flash' ? 180 : 240 } })} className="h-8 rounded-lg border border-ink-600 bg-ink-850 px-2">
+                  <select value={selected.transition.type} onChange={(e) => setClip(selected.id, { transition: { type: e.target.value as Clip['transition']['type'], durationMs: e.target.value === 'cut' ? 0 : e.target.value === 'flash' ? 180 : 240 } })} className="h-8 rounded border border-ink-600 bg-ink-850 px-2">
                     <option value="cut">Cut</option>
                     <option value="dip">Dip to black</option>
                     <option value="flash">Flash</option>
@@ -466,7 +466,7 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
                 </label>
                 <label className="inline-flex items-center gap-1.5">
                   Motion
-                  <select value={selected.crop.zoom} onChange={(e) => setClip(selected.id, { crop: { ...selected.crop, zoom: e.target.value as Clip['crop']['zoom'] } })} className="h-8 rounded-lg border border-ink-600 bg-ink-850 px-2">
+                  <select value={selected.crop.zoom} onChange={(e) => setClip(selected.id, { crop: { ...selected.crop, zoom: e.target.value as Clip['crop']['zoom'] } })} className="h-8 rounded border border-ink-600 bg-ink-850 px-2">
                     <option value="in">Slow zoom in</option>
                     <option value="out">Slow zoom out</option>
                     <option value="none">Still</option>
@@ -500,7 +500,7 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
                   .filter((a) => a.usable || a.mustInclude)
                   .map((a) => (
                     <li key={a.id} className="shrink-0">
-                      <button onClick={() => swap(selected.id, a)} className={clsx('h-16 w-16 overflow-hidden rounded-lg border-2', a.id === selected.assetId ? 'border-signal' : 'border-transparent')} aria-label={`Use this ${a.mediaType}`}>
+                      <button onClick={() => swap(selected.id, a)} className={clsx('h-16 w-16 overflow-hidden rounded border-2', a.id === selected.assetId ? 'border-signal' : 'border-transparent')} aria-label={`Use this ${a.mediaType}`}>
                         {a.mediaType === 'image' ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={a.url} alt="" className="h-full w-full object-cover" />
@@ -515,8 +515,8 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
           )}
 
           <section className="grid gap-4 lg:grid-cols-2">
-            <div className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
-              <h3 className="mb-2 font-display text-2xl tracking-wide uppercase">Render</h3>
+            <div className="rounded-md border border-line bg-ink-900 p-4">
+              <h3 className="mb-2 text-[15px] font-semibold">Render</h3>
               {dirty && <p className="mb-2 text-sm text-sun">Save your edits first. Renders use the saved version.</p>}
               <div className="flex flex-wrap gap-2">
                 <Button onClick={() => void render('preview')} disabled={busy || dirty}>
@@ -550,12 +550,12 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
                   </p>
                 ))}
             </div>
-            <div className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
-              <h3 className="mb-2 font-display text-2xl tracking-wide uppercase">Result</h3>
+            <div className="rounded-md border border-line bg-ink-900 p-4">
+              <h3 className="mb-2 text-[15px] font-semibold">Result</h3>
               {!latestPreview && !latestFinal && <p className="text-sm text-ink-400">Render a preview to watch it here.</p>}
               {(latestFinal ?? latestPreview) && (
                 <>
-                  <video key={(latestFinal ?? latestPreview)!.videoUrl!} src={(latestFinal ?? latestPreview)!.videoUrl!} controls playsInline className="mx-auto max-h-[60vh] w-full rounded-xl bg-black" />
+                  <video key={(latestFinal ?? latestPreview)!.videoUrl!} src={(latestFinal ?? latestPreview)!.videoUrl!} controls playsInline className="mx-auto max-h-[60vh] w-full rounded-md bg-black" />
                   <div className="mt-2 flex flex-wrap gap-2 text-sm">
                     {latestPreview && (
                       <a className="inline-flex items-center gap-1 underline" href={latestPreview.videoUrl!} download="recap-preview.mp4">
@@ -609,7 +609,7 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
 
 function Progress({ pct }: { pct: number }) {
   return (
-    <div className="h-2 overflow-hidden rounded-full bg-ink-700" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
+    <div className="h-2 overflow-hidden rounded bg-ink-700" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
       <div className="h-full bg-signal transition-[width] duration-500" style={{ width: `${pct}%` }} />
     </div>
   );

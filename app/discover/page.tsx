@@ -87,11 +87,11 @@ export default function DiscoverPage() {
   if (!me) {
     return (
       <div>
-        <PageHeader eyebrow="Social" title="Discover" />
+        <PageHeader title="Discover" />
         <Empty
           title="Sign in to share music"
           action={
-            <Link href="/login?next=/discover" className="inline-flex h-10 items-center rounded-full bg-bone px-5 text-sm font-semibold text-ink-950">
+            <Link href="/login?next=/discover" className="inline-flex h-9 items-center rounded bg-bone px-3.5 text-[13px] font-medium text-ink-950 hover:bg-white">
               Pick a profile
             </Link>
           }
@@ -104,7 +104,7 @@ export default function DiscoverPage() {
 
   return (
     <div>
-      <PageHeader eyebrow="Social" title="Discover">
+      <PageHeader title="Discover">
         <div className="relative">
           <Button
             variant="outline"
@@ -114,13 +114,13 @@ export default function DiscoverPage() {
             }}
             aria-expanded={showNotifs}
           >
-            <Bell size={16} /> {notifs.unread > 0 && <span className="rounded-full bg-signal px-1.5 text-xs font-bold text-white">{notifs.unread}</span>} Notifications
+            <Bell size={16} /> {notifs.unread > 0 && <span className="rounded bg-signal px-1.5 text-xs font-bold text-white">{notifs.unread}</span>} Notifications
           </Button>
           {showNotifs && (
-            <ul className="absolute top-12 right-0 z-20 w-80 max-w-[90vw] space-y-1 rounded-xl border border-ink-600 bg-ink-850 p-2 shadow-2xl">
+            <ul className="absolute top-12 right-0 z-20 w-80 max-w-[90vw] space-y-1 rounded-md border border-ink-600 bg-ink-850 p-2 shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
               {notifs.notifications.length === 0 && <li className="p-3 text-sm text-ink-400">Nothing yet.</li>}
               {notifs.notifications.slice(0, 12).map((n) => (
-                <li key={n.id} className="rounded-lg p-2 text-sm hover:bg-ink-800">
+                <li key={n.id} className="rounded p-2 text-sm hover:bg-ink-800">
                   {notifText(n)} <span className="text-xs text-ink-400">{new Date(n.createdAt).toLocaleDateString()}</span>
                 </li>
               ))}
@@ -130,7 +130,7 @@ export default function DiscoverPage() {
       </PageHeader>
 
       {err && (
-        <p role="alert" className="mb-4 rounded-lg border border-red-500/30 bg-red-950/40 p-3 text-sm text-red-200">
+        <p role="alert" className="mb-4 rounded border border-red-500/30 bg-red-950/40 p-3 text-sm text-red-200">
           {err}
         </p>
       )}
@@ -142,7 +142,7 @@ export default function DiscoverPage() {
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="min-w-0 space-y-5">
-          <section className="rounded-2xl border border-ink-700 bg-ink-900 p-4" aria-label="Share a song">
+          <section className="rounded-md border border-line bg-ink-900 p-4" aria-label="Share a song">
             <div className="mb-3 flex gap-2">
               {(
                 [
@@ -150,22 +150,22 @@ export default function DiscoverPage() {
                   ['recommendation', 'Recommend to a friend'],
                 ] as const
               ).map(([k, label]) => (
-                <button key={k} onClick={() => setKind(k)} aria-pressed={kind === k} className={clsx('rounded-full border px-3.5 py-1.5 text-sm font-semibold', kind === k ? 'border-bone bg-bone text-ink-950' : 'border-ink-600 text-ink-200')}>
+                <button key={k} onClick={() => setKind(k)} aria-pressed={kind === k} className={clsx('h-8 rounded border px-3 text-[13px] font-medium', kind === k ? 'border-bone bg-bone text-ink-950' : 'border-ink-600 text-ink-200')}>
                   {label}
                 </button>
               ))}
             </div>
             <p className="mb-2 text-sm text-ink-300">{track ? <>Sharing <strong>{track.title}</strong> by {track.artists[0]}, the song playing now.</> : 'Play a song first, then share it here.'}</p>
-            <textarea value={caption} onChange={(e) => setCaption(e.target.value)} maxLength={500} rows={2} placeholder="Say something about it (optional)" disabled={!track} className="mb-2 w-full rounded-lg border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-aqua" />
+            <textarea value={caption} onChange={(e) => setCaption(e.target.value)} maxLength={500} rows={2} placeholder="Say something about it (optional)" disabled={!track} className="mb-2 w-full rounded border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-ink-400" />
             <div className="flex flex-wrap items-center gap-2">
               {kind === 'sotd' ? (
-                <select value={vis} onChange={(e) => setVis(e.target.value as typeof vis)} aria-label="Who can see this" className="h-9 rounded-lg border border-ink-600 bg-ink-850 px-2 text-sm">
+                <select value={vis} onChange={(e) => setVis(e.target.value as typeof vis)} aria-label="Who can see this" className="h-9 rounded border border-ink-600 bg-ink-850 px-2 text-sm">
                   <option value="friends">Friends only</option>
                   <option value="public">Public</option>
                   <option value="private">Just me</option>
                 </select>
               ) : (
-                <select value={toHandle} onChange={(e) => setToHandle(e.target.value)} aria-label="Send to" className="h-9 rounded-lg border border-ink-600 bg-ink-850 px-2 text-sm">
+                <select value={toHandle} onChange={(e) => setToHandle(e.target.value)} aria-label="Send to" className="h-9 rounded border border-ink-600 bg-ink-850 px-2 text-sm">
                   <option value="">Choose a friend…</option>
                   {friends?.friends.map((f) => (
                     <option key={f.friendshipId} value={f.handle}>
@@ -188,7 +188,7 @@ export default function DiscoverPage() {
                 ['mine', 'Mine'],
               ] as const
             ).map(([k, label]) => (
-              <button key={k} role="tab" aria-selected={scope === k} onClick={() => setScope(k)} className={clsx('rounded-full border px-4 py-1.5 text-sm font-semibold', scope === k ? 'border-signal bg-signal text-white' : 'border-ink-600 text-ink-200')}>
+              <button key={k} role="tab" aria-selected={scope === k} onClick={() => setScope(k)} className={clsx('h-8 rounded border px-3 text-[13px] font-medium', scope === k ? 'border-bone bg-bone text-ink-950' : 'border-ink-600 text-ink-200')}>
                 {label}
               </button>
             ))}
@@ -219,8 +219,8 @@ export default function DiscoverPage() {
         </div>
 
         <aside className="space-y-5">
-          <section className="rounded-2xl border border-ink-700 bg-ink-900 p-4" aria-label="Friends">
-            <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Friends</h3>
+          <section className="rounded-md border border-line bg-ink-900 p-4" aria-label="Friends">
+            <h3 className="mb-3 text-[15px] font-semibold">Friends</h3>
             <form
               className="mb-3 flex gap-2"
               onSubmit={(e) => {
@@ -228,7 +228,7 @@ export default function DiscoverPage() {
                 void run(() => api('POST', '/api/social/friends', { handle: addHandle }).then(() => setAddHandle('')), 'Request sent.');
               }}
             >
-              <input value={addHandle} onChange={(e) => setAddHandle(e.target.value)} placeholder="@handle" aria-label="Friend's handle" maxLength={30} className="h-9 min-w-0 flex-1 rounded-lg border border-ink-600 bg-ink-850 px-3 text-sm outline-none focus:border-aqua" />
+              <input value={addHandle} onChange={(e) => setAddHandle(e.target.value)} placeholder="@handle" aria-label="Friend's handle" maxLength={30} className="h-9 min-w-0 flex-1 rounded border border-ink-600 bg-ink-850 px-3 text-sm outline-none focus:border-ink-400" />
               <Button size="sm" type="submit" disabled={!addHandle.trim()}>
                 <UserPlus size={14} /> Add
               </Button>
@@ -236,14 +236,14 @@ export default function DiscoverPage() {
             {friends && friends.incoming.length > 0 && (
               <ul className="mb-3 space-y-1.5">
                 {friends.incoming.map((f) => (
-                  <li key={f.friendshipId} className="flex items-center gap-2 rounded-lg bg-ink-850 p-2 text-sm">
+                  <li key={f.friendshipId} className="flex items-center gap-2 rounded bg-ink-850 p-2 text-sm">
                     <span className="flex-1">
                       {f.displayName} <span className="text-ink-400">@{f.handle}</span>
                     </span>
-                    <button aria-label={`Accept ${f.handle}`} className="rounded-full bg-aqua/20 p-1.5 text-aqua" onClick={() => void run(() => api('PATCH', `/api/social/friends/${f.friendshipId}`, { accept: true }))}>
+                    <button aria-label={`Accept ${f.handle}`} className="rounded bg-aqua/20 p-1.5 text-aqua" onClick={() => void run(() => api('PATCH', `/api/social/friends/${f.friendshipId}`, { accept: true }))}>
                       <Check size={14} />
                     </button>
-                    <button aria-label={`Decline ${f.handle}`} className="rounded-full p-1.5 text-ink-400 hover:text-red-300" onClick={() => void run(() => api('PATCH', `/api/social/friends/${f.friendshipId}`, { accept: false }))}>
+                    <button aria-label={`Decline ${f.handle}`} className="rounded p-1.5 text-ink-400 hover:text-red-300" onClick={() => void run(() => api('PATCH', `/api/social/friends/${f.friendshipId}`, { accept: false }))}>
                       <X size={14} />
                     </button>
                   </li>

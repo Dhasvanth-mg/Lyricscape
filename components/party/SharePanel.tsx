@@ -18,7 +18,7 @@ export function QrImage({ url, size = 240, className }: { url: string; size?: nu
     };
   }, [url, size]);
   // eslint-disable-next-line @next/next/no-img-element
-  return src ? <img src={src} width={size} height={size} alt="QR code to join the party" className={className} /> : <div style={{ width: size, height: size }} className="animate-pulse rounded-lg bg-ink-700" />;
+  return src ? <img src={src} width={size} height={size} alt="QR code to join the party" className={className} /> : <div style={{ width: size, height: size }} className="animate-pulse rounded bg-ink-700" />;
 }
 
 /**
@@ -84,15 +84,15 @@ export function SharePanel({ eventId, slug }: { eventId: string; slug: string })
   const active = invites.filter((i) => !i.revokedAt && Date.parse(i.expiresAt) > nowTs);
 
   return (
-    <div className="rounded-2xl border border-ink-700 bg-ink-900 p-5">
-      <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Invite guests</h3>
+    <div className="rounded-md border border-line bg-ink-900 p-5">
+      <h3 className="mb-3 text-[15px] font-semibold">Invite guests</h3>
       {url ? (
         <div className="flex flex-col items-center gap-4 xl:flex-row xl:items-start">
-          <div className="rounded-xl bg-white p-2">
+          <div className="rounded-md bg-white p-2">
             <QrImage url={url} size={176} />
           </div>
           <div className="min-w-0 flex-1 space-y-3">
-            <code className="block overflow-x-auto rounded-lg bg-ink-800 px-3 py-2 font-mono text-xs whitespace-nowrap" data-testid="invite-link">
+            <code className="block overflow-x-auto rounded bg-ink-800 px-3 py-2 font-mono text-xs whitespace-nowrap" data-testid="invite-link">
               {url}
             </code>
             <div className="flex flex-wrap gap-2">

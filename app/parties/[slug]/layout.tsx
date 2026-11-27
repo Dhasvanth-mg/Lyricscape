@@ -34,10 +34,10 @@ function Room({ slug, children }: { slug: string; children: React.ReactNode }) {
         title={d.title}
         action={
           <div className="flex gap-2">
-            <Link href="/login?next=/parties" className="inline-flex h-10 items-center rounded-full bg-bone px-5 text-sm font-semibold text-ink-950">
+            <Link href="/login?next=/parties" className="inline-flex h-9 items-center rounded bg-bone px-3.5 text-[13px] font-medium text-ink-950 hover:bg-white">
               Sign in
             </Link>
-            <Link href="/parties" className="inline-flex h-10 items-center rounded-full border border-ink-600 px-5 text-sm font-semibold">
+            <Link href="/parties" className="inline-flex h-9 items-center rounded border border-ink-600 px-3.5 text-[13px] font-medium hover:border-ink-400">
               My parties
             </Link>
           </div>
@@ -61,10 +61,10 @@ function Room({ slug, children }: { slug: string; children: React.ReactNode }) {
             {connected ? 'live' : 'offline'}
           </span>
         </div>
-        <h1 className="font-display text-5xl leading-none tracking-wide uppercase sm:text-6xl">{snap.event.title}</h1>
+        <h1 className="text-[28px] leading-tight font-semibold tracking-[-0.02em]">{snap.event.title}</h1>
         {snap.event.description && <p className="mt-2 max-w-2xl text-ink-300">{snap.event.description}</p>}
       </header>
-      <nav aria-label="Party sections" className="mb-6 flex flex-wrap items-center gap-1 border-b border-ink-800 pb-3">
+      <nav aria-label="Party sections" className="mb-6 flex items-stretch gap-5 border-b border-line">
         {TABS.map(([path, label]) => {
           const href = base + path;
           const active = pathname === href;
@@ -73,7 +73,7 @@ function Room({ slug, children }: { slug: string; children: React.ReactNode }) {
               key={path}
               href={href}
               aria-current={active ? 'page' : undefined}
-              className={clsx('rounded-full px-4 py-2 text-sm font-semibold transition', active ? 'bg-bone text-ink-950' : 'text-ink-300 hover:bg-ink-800')}
+              className={clsx('-mb-px border-b-2 pt-1 pb-2.5 text-[13px] font-medium transition-colors duration-150', active ? 'border-bone text-bone' : 'border-transparent text-ink-400 hover:text-bone')}
             >
               {label}
             </Link>
@@ -96,7 +96,7 @@ function ScreenLink({ eventId, slug }: { eventId: string; slug: string }) {
     window.open(url, '_blank', 'noopener');
   };
   return (
-    <button onClick={() => void open()} className="ml-auto inline-flex items-center gap-2 rounded-full border border-ink-600 px-4 py-2 text-sm font-semibold text-ink-200 hover:border-ink-400" aria-label={`Open big screen for ${slug}`}>
+    <button onClick={() => void open()} className="ml-auto mb-2 inline-flex h-8 items-center gap-2 self-center rounded border border-ink-600 px-3 text-[13px] font-medium text-ink-200 hover:border-ink-400" aria-label={`Open big screen for ${slug}`}>
       Big screen <ExternalLink size={14} />
     </button>
   );

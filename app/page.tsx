@@ -1,19 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Mic2, Play } from 'lucide-react';
+import { ArrowUpRight, Mic2, Play } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { Track } from '@/lib/types';
 import { loadDemoCatalog } from '@/lib/player/providers';
 import { player, usePlayer } from '@/lib/player/controller';
 import { useUi } from '@/lib/ui-store';
 import { Cover } from '@/components/ui/Cover';
-import { Button, Chip } from '@/components/ui/bits';
+import { TrackRow } from '@/components/player/TrackRow';
+import { Button, SectionTitle, buttonClass } from '@/components/ui/bits';
 
-const FEATURES = [
-  { href: '/visuals', title: 'Kinetic lyrics', body: 'Words pop, stretch, split and explode in time with the song. Pick a style, edit the timing, go fullscreen.', accent: 'bg-signal' },
-  { href: '/map', title: 'Music map', body: 'Opt-in, approximate places tied to the songs you were listening to. Private by default; delete anytime.', accent: 'bg-aqua' },
-  { href: '/parties', title: 'Parties', body: 'Share a link or QR. Guests add songs and photos from their phones; the big screen shows it live.', accent: 'bg-sun' },
+const PLACES = [
+  { href: '/visuals', title: 'Visuals', body: 'Pick a lyric style, edit the timing, export a video.' },
+  { href: '/map', title: 'Map', body: 'Opt-in, approximate places tied to what you were playing.' },
+  { href: '/parties', title: 'Parties', body: 'Guests add songs and photos from their phones; the big screen shows it live.' },
 ] as const;
 
 export default function Home() {
@@ -27,69 +28,90 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      <section className="grain relative mb-10 overflow-hidden rounded-3xl border border-ink-700 bg-gradient-to-br from-ink-850 via-ink-900 to-[#1b0d16] px-6 py-12 sm:px-12 sm:py-16">
-        <p className="mb-3 font-mono text-[11px] tracking-[0.2em] text-signal uppercase">Lyrics, alive</p>
-        <h1 className="max-w-3xl font-display text-6xl leading-[0.95] tracking-wide uppercase sm:text-8xl">
-          Put the words <span className="text-signal">on the beat</span>
-        </h1>
-        <p className="mt-5 max-w-xl text-lg text-ink-200">
-          Play a song, or just leave Spotify running, and watch the lyrics turn into motion. Built to chill with.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          {spotify.connected ? (
-            <Button variant="spotify" size="lg" onClick={openStage} disabled={!track}>
-              <Mic2 size={18} /> {track ? 'Open lyrics for what’s playing' : 'Play something on Spotify'}
+    <div className="grid gap-x-12 gap-y-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+      <section aria-label="Now playing">
+        <Cover track={track ?? demo[0] ?? null} rounded="rounded-[4px]" className={track ? 'aspect-square w-full max-w-[520px]' : 'aspect-square w-full max-w-[520px] opacity-40 grayscale max-lg:hidden'} />
+        <div className="mt-5">
+          {track ? (
+            <>
+              <p className="text-[12px] text-ink-400">Now playing</p>
+              <h1 className="mt-1 text-[32px] leading-tight font-semibold tracking-[-0.02em]">{track.title}</h1>
+              <p className="text-[15px] text-ink-300">{track.artists.join(', ')}</p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-[32px] leading-tight font-semibold tracking-[-0.02em]">Nothing playing</h1>
+              <p className="text-[15px] text-ink-300">Play a song, or leave Spotify running, and the lyrics move with it.</p>
+            </>
+          )}
+        </div>
+        <div className="mt-5 flex flex-wrap gap-2">
+          {track ? (
+            <Button variant="primary" size="lg" onClick={openStage}>
+              <Mic2 size={16} /> Open lyrics
             </Button>
           ) : (
-            <Link href="/settings#spotify" className="inline-flex h-12 items-center gap-2 rounded-full bg-spotify px-7 text-base font-semibold text-black hover:brightness-110">
-              Connect Spotify <ArrowRight size={18} />
+            <Button variant="primary" size="lg" onClick={() => demo.length && void player.playQueue(demo, 0)} disabled={!demo.length}>
+              <Play size={16} fill="currentColor" /> Play the demo songs
+            </Button>
+          )}
+          {!spotify.connected && (
+            <Link href="/settings#spotify" className={buttonClass('outline', 'lg')}>
+              Connect Spotify
             </Link>
           )}
-          <Button size="lg" onClick={() => demo.length && void player.playQueue(demo, 0)} disabled={!demo.length}>
-            <Play size={18} fill="currentColor" /> Try the demo songs
-          </Button>
-        </div>
-        <div className="mt-6 flex flex-wrap gap-2">
-          <Chip tone={spotify.connected ? 'spotify' : 'default'}>{spotify.connected ? 'Spotify connected' : 'Spotify: not connected'}</Chip>
-          <Chip>Runs locally · no cloud</Chip>
         </div>
       </section>
 
-      <section className="mb-10">
-        <h2 className="mb-4 font-display text-3xl tracking-wide uppercase">Start with a demo</h2>
-        <ul className="grid gap-4 sm:grid-cols-3">
-          {demo.map((t, i) => (
-            <li key={t.id}>
-              <button
-                onClick={() => void player.playQueue(demo, i)}
-                className="group block w-full overflow-hidden rounded-2xl border border-ink-700 bg-ink-900 text-left transition hover:border-ink-400"
-              >
-                <Cover track={t} rounded="rounded-none" className="aspect-square w-full" />
-                <span className="block p-4">
-                  <span className="block font-semibold">{t.title}</span>
-                  <span className="block text-sm text-ink-300">
-                    {t.artists[0]} · {t.bpm} BPM
-                  </span>
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <div className="min-w-0">
+        <section className="mb-10">
+          <div className="mb-2 flex items-baseline justify-between">
+            <SectionTitle className="mb-0">Demo songs</SectionTitle>
+            <Link href="/listen" className="text-[12px] text-ink-400 hover:text-bone">
+              All music
+            </Link>
+          </div>
+          <ul className="border-t border-line">
+            {demo.map((t, i) => (
+              <TrackRow key={t.id} track={t} context={demo} index={i} />
+            ))}
+          </ul>
+        </section>
 
-      <section className="grid gap-4 md:grid-cols-3">
-        {FEATURES.map((f) => (
-          <Link key={f.href} href={f.href} className="group rounded-2xl border border-ink-700 bg-ink-900 p-6 transition hover:border-ink-400">
-            <span className={`mb-4 block h-1.5 w-10 rounded-full ${f.accent}`} />
-            <h3 className="mb-2 font-display text-2xl tracking-wide uppercase">{f.title}</h3>
-            <p className="text-sm text-ink-300">{f.body}</p>
-            <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-bone group-hover:gap-2">
-              Open <ArrowRight size={14} />
-            </span>
-          </Link>
-        ))}
-      </section>
+        <section className="mb-10">
+          <SectionTitle className="mb-2">Sources</SectionTitle>
+          <dl className="border-t border-line text-[13px]">
+            <div className="flex h-11 items-center gap-4 border-b border-line px-2">
+              <dt className="w-24 text-ink-400">Spotify</dt>
+              <dd className="flex-1">{spotify.connected ? 'Connected' : 'Not connected'}</dd>
+              <dd>
+                <Link href="/settings#spotify" className="text-ink-400 hover:text-bone">
+                  {spotify.connected ? 'Manage' : 'Connect'}
+                </Link>
+              </dd>
+            </div>
+            <div className="flex h-11 items-center gap-4 border-b border-line px-2">
+              <dt className="w-24 text-ink-400">Storage</dt>
+              <dd className="flex-1">This computer only, no cloud</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section>
+          <SectionTitle className="mb-2">Go to</SectionTitle>
+          <ul className="border-t border-line">
+            {PLACES.map((p) => (
+              <li key={p.href}>
+                <Link href={p.href} className="group flex h-14 items-center gap-4 border-b border-line px-2 transition-colors duration-150 hover:bg-ink-900">
+                  <span className="w-24 text-[13px] font-semibold">{p.title}</span>
+                  <span className="flex-1 truncate text-[13px] text-ink-400">{p.body}</span>
+                  <ArrowUpRight size={15} className="text-ink-500 group-hover:text-bone" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
     </div>
   );
 }

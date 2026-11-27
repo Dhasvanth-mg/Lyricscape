@@ -52,7 +52,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-5 py-10">
-      <p className="mb-6 font-display text-2xl tracking-wide uppercase">
+      <p className="mb-6 text-[15px] font-semibold">
         Lyric<span className="text-signal">scape</span>
       </p>
       {!preview && !error && (
@@ -62,7 +62,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
       )}
       {error && (
         <div role="alert">
-          <h1 className="mb-2 font-display text-4xl uppercase">
+          <h1 className="mb-2 text-[28px] leading-tight font-semibold tracking-[-0.02em]">
             {error.code === 'invite_revoked' ? 'Link turned off' : error.code === 'invite_expired' ? 'Link expired' : 'Invite not valid'}
           </h1>
           <p className="text-ink-300">{error.message}. Ask the host for a fresh link.</p>
@@ -70,15 +70,15 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
       )}
       {preview && (
         <>
-          <p className="mb-1 font-mono text-[11px] tracking-[0.2em] text-signal uppercase">You&apos;re invited</p>
-          <h1 className="font-display text-6xl leading-[0.95] tracking-wide uppercase">{preview.eventTitle}</h1>
+          <p className="mb-1 text-[13px] text-ink-400">You&apos;re invited to</p>
+          <h1 className="text-[28px] leading-tight font-semibold tracking-[-0.02em]">{preview.eventTitle}</h1>
           <p className="mt-3 text-ink-300">
             Hosted by {preview.hostName}
             {preview.place ? ` · ${preview.place}` : ''}
             {preview.startsAt ? ` · ${new Date(preview.startsAt).toLocaleString()}` : ''}
           </p>
           {ended ? (
-            <p className="mt-8 rounded-xl border border-ink-700 p-4 text-ink-300">This party has ended.</p>
+            <p className="mt-8 rounded-md border border-ink-700 p-4 text-ink-300">This party has ended.</p>
           ) : (
             <form onSubmit={join} className="mt-8 space-y-4">
               <label className="block text-sm">
@@ -91,13 +91,13 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
                   autoFocus
                   autoComplete="nickname"
                   placeholder="e.g. Alex"
-                  className="h-14 w-full rounded-xl border border-ink-600 bg-ink-850 px-4 text-lg outline-none focus:border-aqua"
+                  className="h-14 w-full rounded-md border border-ink-600 bg-ink-850 px-4 text-lg outline-none focus:border-ink-400"
                 />
               </label>
               {preview.needsPasscode && (
                 <label className="block text-sm">
                   <span className="mb-1 block text-ink-300">Party passcode</span>
-                  <input value={passcode} onChange={(e) => setPasscode(e.target.value)} required inputMode="text" autoComplete="off" className="h-14 w-full rounded-xl border border-ink-600 bg-ink-850 px-4 text-lg outline-none focus:border-aqua" />
+                  <input value={passcode} onChange={(e) => setPasscode(e.target.value)} required inputMode="text" autoComplete="off" className="h-14 w-full rounded-md border border-ink-600 bg-ink-850 px-4 text-lg outline-none focus:border-ink-400" />
                 </label>
               )}
               {formErr && (
@@ -108,7 +108,7 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
               <button
                 type="submit"
                 disabled={busy || !name.trim()}
-                className="h-14 w-full rounded-full bg-signal text-lg font-bold text-white transition active:scale-[0.98] disabled:opacity-40"
+                className="h-14 w-full rounded bg-signal text-lg font-bold text-white transition disabled:opacity-40"
               >
                 {busy ? 'Joining…' : 'Join party'}
               </button>

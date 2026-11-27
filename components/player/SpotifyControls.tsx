@@ -24,7 +24,7 @@ export function SpotifyControls({ onOutputChange }: { onOutputChange?: () => voi
   };
 
   return (
-    <div className="mb-4 space-y-3 rounded-xl border border-ink-700 bg-ink-850 p-4" aria-label="Spotify playback controls">
+    <div className="mb-4 space-y-3 rounded-md border border-ink-700 bg-ink-850 p-4" aria-label="Spotify playback controls">
       <p className="text-sm font-semibold">{spotify.output === 'browser' ? 'Output: this browser (Lyricscape)' : 'Output: active Spotify device'}</p>
       <div className="flex flex-wrap gap-2">
         <Button size="sm" variant="spotify" disabled={busy || spotify.sdk !== 'ready'} onClick={() => void selectBrowser()}>

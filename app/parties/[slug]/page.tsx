@@ -58,7 +58,7 @@ export default function PartyOverview() {
   return (
     <div className="space-y-6">
       {err && (
-        <p role="alert" className="rounded-lg border border-red-500/30 bg-red-950/40 p-3 text-sm text-red-200">
+        <p role="alert" className="rounded border border-red-500/30 bg-red-950/40 p-3 text-sm text-red-200">
           {err}
         </p>
       )}
@@ -66,20 +66,20 @@ export default function PartyOverview() {
       {mod && (pendingSongs > 0 || pendingMedia > 0 || reports.length > 0) && (
         <section className="grid gap-3 sm:grid-cols-3" aria-label="Needs attention">
           {pendingSongs > 0 && (
-            <Link href={`/parties/${slug}/queue`} className="rounded-2xl border border-sun/40 bg-sun/10 p-4">
-              <p className="font-display text-3xl">{pendingSongs}</p>
+            <Link href={`/parties/${slug}/queue`} className="rounded-md border border-sun/40 bg-sun/10 p-4">
+              <p className="text-[24px] font-semibold tabular-nums">{pendingSongs}</p>
               <p className="text-sm">song suggestion{pendingSongs > 1 ? 's' : ''} to approve</p>
             </Link>
           )}
           {pendingMedia > 0 && (
-            <Link href={`/parties/${slug}/gallery`} className="rounded-2xl border border-sun/40 bg-sun/10 p-4">
-              <p className="font-display text-3xl">{pendingMedia}</p>
+            <Link href={`/parties/${slug}/gallery`} className="rounded-md border border-sun/40 bg-sun/10 p-4">
+              <p className="text-[24px] font-semibold tabular-nums">{pendingMedia}</p>
               <p className="text-sm">upload{pendingMedia > 1 ? 's' : ''} to review</p>
             </Link>
           )}
           {reports.length > 0 && (
-            <div className="rounded-2xl border border-red-500/40 bg-red-500/10 p-4">
-              <p className="font-display text-3xl">{reports.length}</p>
+            <div className="rounded-md border border-red-500/40 bg-red-500/10 p-4">
+              <p className="text-[24px] font-semibold tabular-nums">{reports.length}</p>
               <p className="text-sm">open report{reports.length > 1 ? 's' : ''}</p>
             </div>
           )}
@@ -91,8 +91,8 @@ export default function PartyOverview() {
           {mod && <SharePanel eventId={e.id} slug={slug} />}
 
           {host && (
-            <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5">
-              <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Status</h3>
+            <section className="rounded-md border border-line bg-ink-900 p-5">
+              <h3 className="mb-3 text-[15px] font-semibold">Status</h3>
               <div className="flex flex-wrap gap-2">
                 {e.status !== 'live' && e.status !== 'ended' && e.status !== 'archived' && (
                   <Button variant="primary" onClick={() => void setStatus('live')}>
@@ -108,12 +108,12 @@ export default function PartyOverview() {
           )}
 
           {host && (
-            <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5">
-              <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Rules</h3>
+            <section className="rounded-md border border-line bg-ink-900 p-5">
+              <h3 className="mb-3 text-[15px] font-semibold">Rules</h3>
               <div className="space-y-3 text-sm">
                 <label className="block">
                   <span className="mb-1 block text-ink-300">Guest uploads</span>
-                  <select value={e.settings.guestUploads} onChange={(ev) => void setSettings({ guestUploads: ev.target.value as EventSettings['guestUploads'] })} className="h-10 w-full rounded-lg border border-ink-600 bg-ink-850 px-3">
+                  <select value={e.settings.guestUploads} onChange={(ev) => void setSettings({ guestUploads: ev.target.value as EventSettings['guestUploads'] })} className="h-9 w-full rounded border border-ink-700 bg-ink-900 px-3">
                     <option value="approval">Allowed, I approve each upload</option>
                     <option value="open">Allowed, show right away</option>
                     <option value="off">Off</option>
@@ -125,7 +125,7 @@ export default function PartyOverview() {
                 </label>
                 <label className="block">
                   <span className="mb-1 block text-ink-300">Voting</span>
-                  <select value={e.settings.songVoting} onChange={(ev) => void setSettings({ songVoting: ev.target.value as EventSettings['songVoting'] })} className="h-10 w-full rounded-lg border border-ink-600 bg-ink-850 px-3">
+                  <select value={e.settings.songVoting} onChange={(ev) => void setSettings({ songVoting: ev.target.value as EventSettings['songVoting'] })} className="h-9 w-full rounded border border-ink-700 bg-ink-900 px-3">
                     <option value="open">Everyone</option>
                     <option value="host-only">Only hosts</option>
                   </select>
@@ -136,8 +136,8 @@ export default function PartyOverview() {
         </div>
 
         <div className="space-y-6">
-          <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5">
-            <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">People ({snap.members.length})</h3>
+          <section className="rounded-md border border-line bg-ink-900 p-5">
+            <h3 className="mb-3 text-[15px] font-semibold">People ({snap.members.length})</h3>
             <ul className="space-y-1.5">
               {snap.members.map((m) => (
                 <li key={m.id} className="flex items-center gap-2 text-sm">
@@ -149,7 +149,7 @@ export default function PartyOverview() {
                   {mod && m.role !== 'host' && m.id !== snap.me.memberId && !(m.role === 'cohost' && !host) && (
                     <button
                       aria-label={`Remove ${m.displayName}`}
-                      className="rounded-full p-1.5 text-ink-400 hover:text-red-300"
+                      className="rounded p-1.5 text-ink-400 hover:text-red-300"
                       onClick={() => confirm(`Remove ${m.displayName}? Their pending uploads and suggestions are hidden.`) && void act(() => api('DELETE', `/api/events/${e.id}/members/${m.id}`))}
                     >
                       <Ban size={14} />
@@ -161,8 +161,8 @@ export default function PartyOverview() {
           </section>
 
           {mod && reports.length > 0 && (
-            <section className="rounded-2xl border border-red-500/30 bg-ink-900 p-5">
-              <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Reports</h3>
+            <section className="rounded-md border border-red-500/30 bg-ink-900 p-5">
+              <h3 className="mb-3 text-[15px] font-semibold">Reports</h3>
               <ul className="space-y-2 text-sm">
                 {reports.map((r) => (
                   <li key={r.id}>
@@ -173,8 +173,8 @@ export default function PartyOverview() {
             </section>
           )}
 
-          <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5 text-sm text-ink-300">
-            <h3 className="mb-2 font-display text-2xl tracking-wide text-bone uppercase">Details</h3>
+          <section className="rounded-md border border-line bg-ink-900 p-5 text-sm text-ink-300">
+            <h3 className="mb-2 text-[15px] font-semibold text-bone">Details</h3>
             <p>Hosted by {e.hostName}</p>
             {e.place && <p>Where: {e.place}</p>}
             {e.startsAt && <p>When: {new Date(e.startsAt).toLocaleString()}</p>}
@@ -182,8 +182,8 @@ export default function PartyOverview() {
           </section>
 
           {host && (
-            <section className="rounded-2xl border border-red-500/30 bg-ink-900 p-5">
-              <h3 className="mb-2 font-display text-2xl tracking-wide uppercase">Danger zone</h3>
+            <section className="rounded-md border border-red-500/30 bg-ink-900 p-5">
+              <h3 className="mb-2 text-[15px] font-semibold">Danger zone</h3>
               <p className="mb-3 text-sm text-ink-300">Deleting removes the party, every upload and all suggestions permanently.</p>
               <Button
                 variant="danger"

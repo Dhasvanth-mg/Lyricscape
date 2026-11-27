@@ -171,7 +171,7 @@ export function MapView({ places, selectedId, onSelect, className }: { places: M
   return (
     <div className={className} data-testid="music-map">
       <div ref={el} className="h-full w-full" />
-      {error && <p role="alert" className="absolute inset-x-4 bottom-4 rounded-lg bg-red-950/80 p-3 text-sm text-red-200">{error}</p>}
+      {error && <p role="alert" className="absolute inset-x-4 bottom-4 rounded bg-red-950/80 p-3 text-sm text-red-200">{error}</p>}
       {!styleUrl && ready && <p className="pointer-events-none absolute bottom-2 left-3 text-[10px] text-ink-500">Offline basemap · Natural Earth · set NEXT_PUBLIC_MAP_STYLE_URL for streets</p>}
     </div>
   );

@@ -30,7 +30,7 @@ export default function ProfilePage({ params }: { params: Promise<{ handle: stri
 
   return (
     <div>
-      <PageHeader eyebrow={`@${p.handle}`} title={p.displayName}>
+      <PageHeader title={`${p.displayName} · @${p.handle}`}>
         {me && !p.isMe && (
           <div className="flex flex-wrap gap-2">
             {p.relationship === 'none' && <Button variant="primary" onClick={() => void api('POST', '/api/social/friends', { handle: p.handle }).then(load).catch((e) => alert(e.message))}>Add friend</Button>}

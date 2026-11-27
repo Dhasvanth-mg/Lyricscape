@@ -175,7 +175,7 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
   };
 
   return (
-    <div className="rounded-2xl border border-ink-700 bg-ink-900">
+    <div className="rounded-md border border-line bg-ink-900">
       <div className="flex flex-wrap items-center gap-1 border-b border-ink-700 p-2">
         <IconButton label="Undo" onClick={doUndo} disabled={!undo.length}>
           <Undo2 size={16} />
@@ -244,7 +244,7 @@ type RowProps = { line: LyricDocument['lines'][number]; li: number; active: bool
 /** One lyric line. Memoised: it only re-renders when its own line, highlight or selection changes. */
 const LineRow = memo(function LineRow({ line, li, active, sungWord, selWord, onSelect }: RowProps) {
   return (
-    <div data-line={li} className={clsx('flex items-start gap-2 rounded-lg px-2 py-1.5', active && 'bg-ink-800')}>
+    <div data-line={li} className={clsx('flex items-start gap-2 rounded px-2 py-1.5', active && 'bg-ink-800')}>
       <button className="mt-0.5 w-16 shrink-0 text-left font-mono text-[11px] text-ink-400 hover:text-bone" onClick={() => void player.seek(line.startMs)} title="Seek to this line">
         {formatTimestamp(line.startMs)}
       </button>

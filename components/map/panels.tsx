@@ -11,7 +11,7 @@ import { player, usePlayer } from '@/lib/player/controller';
 import { Button, Chip } from '@/components/ui/bits';
 import { MAP_SETTINGS_EVENT } from './ListeningLogger';
 
-const field = 'h-10 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 text-sm outline-none focus:border-aqua';
+const field = 'h-9 w-full rounded border border-ink-700 bg-ink-900 px-3 text-sm outline-none focus:border-ink-400';
 
 function getPosition(): Promise<GeolocationPosition> {
   return new Promise((resolve, reject) => {
@@ -92,9 +92,9 @@ export function PrivacyPanel({ settings, onChange, onWipe }: { settings: MapSett
   };
 
   return (
-    <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5" aria-label="Privacy and capture">
+    <section className="rounded-md border border-line bg-ink-900 p-5" aria-label="Privacy and capture">
       <div className="mb-3 flex items-center gap-2">
-        <h3 className="font-display text-2xl tracking-wide uppercase">Listening log</h3>
+        <h3 className="text-[15px] font-semibold">Listening log</h3>
         {settings.enabled ? <Chip tone={settings.paused ? 'warn' : 'good'}>{settings.paused ? 'paused' : 'on'}</Chip> : <Chip>off</Chip>}
       </div>
 
@@ -241,13 +241,13 @@ export function MemoriesPanel({ memories, onChange, sessionForPlace }: { memorie
   };
 
   return (
-    <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5" aria-label="Song memories">
-      <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Song memories</h3>
+    <section className="rounded-md border border-line bg-ink-900 p-5" aria-label="Song memories">
+      <h3 className="mb-3 text-[15px] font-semibold">Song memories</h3>
       <form onSubmit={save} className="mb-4 space-y-2">
         <p className="text-sm text-ink-300">{track ? <>Attach a note to <strong>{track.title}</strong>, the song playing now.</> : 'Play a song to attach a memory to it.'}</p>
-        <textarea value={caption} onChange={(e) => setCaption(e.target.value)} maxLength={1000} rows={2} placeholder="Where were you? What did it feel like?" disabled={!track} className="w-full rounded-lg border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-aqua" />
+        <textarea value={caption} onChange={(e) => setCaption(e.target.value)} maxLength={1000} rows={2} placeholder="Where were you? What did it feel like?" disabled={!track} className="w-full rounded border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-ink-400" />
         <div className="flex flex-wrap items-center gap-2 text-sm">
-          <label className="inline-flex cursor-pointer items-center rounded-full border border-ink-600 px-3 py-1.5 hover:border-ink-400">
+          <label className="inline-flex cursor-pointer items-center rounded border border-ink-600 px-3 py-1.5 hover:border-ink-400">
             Add photo
             <input
               type="file"
@@ -271,7 +271,7 @@ export function MemoriesPanel({ memories, onChange, sessionForPlace }: { memorie
           )}
           <label className="inline-flex items-center gap-1.5 text-ink-300">
             Seal until
-            <input type="datetime-local" value={unlock} onChange={(e) => setUnlock(e.target.value)} className="h-9 rounded-lg border border-ink-600 bg-ink-850 px-2 text-xs" />
+            <input type="datetime-local" value={unlock} onChange={(e) => setUnlock(e.target.value)} className="h-9 rounded border border-ink-600 bg-ink-850 px-2 text-xs" />
           </label>
         </div>
         {sessionForPlace && (
@@ -293,10 +293,10 @@ export function MemoriesPanel({ memories, onChange, sessionForPlace }: { memorie
       <ul className="space-y-3">
         {memories.length === 0 && <li className="text-sm text-ink-400">No memories yet.</li>}
         {memories.map((m) => (
-          <li key={m.id} className="flex gap-3 rounded-xl bg-ink-850 p-3">
+          <li key={m.id} className="flex gap-3 rounded-md bg-ink-850 p-3">
             {m.photo && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={m.photo} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" />
+              <img src={m.photo} alt="" className="h-16 w-16 shrink-0 rounded object-cover" />
             )}
             <div className="min-w-0 flex-1 text-sm">
               <p className="flex items-center gap-1.5 font-semibold">
@@ -352,8 +352,8 @@ export function TripsPanel({ trips, onChange }: { trips: TripDto[]; onChange: ()
   };
 
   return (
-    <section className="rounded-2xl border border-ink-700 bg-ink-900 p-5" aria-label="Trips">
-      <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Trips & soundtracks</h3>
+    <section className="rounded-md border border-line bg-ink-900 p-5" aria-label="Trips">
+      <h3 className="mb-3 text-[15px] font-semibold">Trips & soundtracks</h3>
       <form onSubmit={create} className="mb-4 grid gap-2 sm:grid-cols-2">
         <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Trip name" required maxLength={80} className={field + ' sm:col-span-2'} aria-label="Trip name" />
         <input type="datetime-local" value={from} onChange={(e) => setFrom(e.target.value)} required className={field} aria-label="Trip start" />
@@ -370,7 +370,7 @@ export function TripsPanel({ trips, onChange }: { trips: TripDto[]; onChange: ()
       <ul className="space-y-2">
         {trips.length === 0 && <li className="text-sm text-ink-400">Group listening spots by date range to get a soundtrack of the trip.</li>}
         {trips.map((t) => (
-          <li key={t.id} className="flex items-center gap-3 rounded-xl bg-ink-850 p-3 text-sm">
+          <li key={t.id} className="flex items-center gap-3 rounded-md bg-ink-850 p-3 text-sm">
             <div className="min-w-0 flex-1">
               <p className="font-semibold">{t.name}</p>
               <p className="text-xs text-ink-400">

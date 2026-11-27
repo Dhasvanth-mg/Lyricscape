@@ -59,16 +59,16 @@ export function LyricsPanel({ track, lyrics }: { track: Track; lyrics: L }) {
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-center gap-2">
-        <h2 className="font-display text-2xl tracking-wide uppercase">Lyrics</h2>
+        <h2 className="text-[15px] font-semibold">Lyrics</h2>
         {lyrics.source && <Chip tone="good">{lyrics.source}</Chip>}
         {lyrics.doc && <TimingChips doc={lyrics.doc} />}
-        <div className="ml-auto flex gap-1 rounded-full bg-ink-800 p-1 text-sm">
+        <div className="ml-auto flex gap-1 rounded bg-ink-800 p-1 text-sm">
           {(['add', 'timing'] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
               disabled={t === 'timing' && !lyrics.doc}
-              className={`rounded-full px-3.5 py-1 font-semibold transition disabled:opacity-30 ${tab === t ? 'bg-bone text-ink-950' : 'text-ink-300'}`}
+              className={`rounded px-3.5 py-1 font-semibold transition disabled:opacity-30 ${tab === t ? 'bg-bone text-ink-950' : 'text-ink-300'}`}
             >
               {t === 'add' ? 'Add / replace' : 'Edit timing'}
             </button>
@@ -124,7 +124,7 @@ export function LyricsPanel({ track, lyrics }: { track: Track; lyrics: L }) {
               rows={9}
               spellCheck={false}
               placeholder={'[00:12.30] first line of the song\n[00:16.80] second line…'}
-              className="w-full rounded-xl border border-ink-600 bg-ink-850 p-3 font-mono text-sm outline-none focus:border-aqua"
+              className="w-full rounded-md border border-ink-600 bg-ink-850 p-3 font-mono text-sm outline-none focus:border-ink-400"
             />
           </label>
           <div className="flex items-center gap-3">

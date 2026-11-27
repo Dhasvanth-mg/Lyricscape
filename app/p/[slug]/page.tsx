@@ -28,7 +28,7 @@ export default function GuestRoom({ params }: { params: Promise<{ slug: string }
     const d = describeError(error ?? ({ status: 500, code: 'x', message: 'Unknown error' } as never));
     return (
       <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-5">
-        <h1 className="mb-2 font-display text-4xl uppercase">{d.title}</h1>
+        <h1 className="mb-2 text-[28px] leading-tight font-semibold tracking-[-0.02em]">{d.title}</h1>
         <p className="text-ink-300">{d.body}</p>
       </main>
     );
@@ -50,21 +50,21 @@ export default function GuestRoom({ params }: { params: Promise<{ slug: string }
             </Link>
           )}
         </div>
-        <h1 className="font-display text-5xl leading-none tracking-wide uppercase">{snap.event.title}</h1>
+        <h1 className="text-[28px] leading-tight font-semibold tracking-[-0.02em]">{snap.event.title}</h1>
         <p className="mt-1 text-sm text-ink-300">Hi {snap.me.displayName} <Icon id="hand" size={16} className="ml-0.5 inline align-[-3px]" />
         </p>
       </header>
 
-      {closed && <p className="mb-4 rounded-xl border border-ink-700 p-3 text-sm text-ink-300">This party has ended. You can still look around.</p>}
+      {closed && <p className="mb-4 rounded-md border border-ink-700 p-3 text-sm text-ink-300">This party has ended. You can still look around.</p>}
 
-      <div role="tablist" className="sticky top-0 z-10 mb-4 grid grid-cols-2 gap-1 rounded-full bg-ink-850 p-1">
+      <div role="tablist" className="sticky top-0 z-10 mb-4 grid grid-cols-2 gap-1 rounded bg-ink-850 p-1">
         {(
           [
             ['songs', 'Songs'],
             ['photos', 'Photos'],
           ] as const
         ).map(([id, label]) => (
-          <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)} className={clsx('h-11 rounded-full text-base font-bold transition', tab === id ? 'bg-bone text-ink-950' : 'text-ink-300')}>
+          <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)} className={clsx('h-11 rounded text-base font-bold transition', tab === id ? 'bg-bone text-ink-950' : 'text-ink-300')}>
             {label}
             {id === 'photos' && snap.media.length > 0 && <span className="ml-1.5 text-xs opacity-60">{snap.media.length}</span>}
           </button>
@@ -80,7 +80,7 @@ export default function GuestRoom({ params }: { params: Promise<{ slug: string }
       {tab === 'photos' && (
         <div className="space-y-5">
           {!closed && canUpload && <Uploader eventId={snap.event.id} onUploaded={() => void refresh()} compact />}
-          {!closed && !canUpload && <p className="rounded-xl border border-ink-700 p-4 text-sm text-ink-300">The host turned uploads off.</p>}
+          {!closed && !canUpload && <p className="rounded-md border border-ink-700 p-4 text-sm text-ink-300">The host turned uploads off.</p>}
           <MediaGrid eventId={snap.event.id} media={snap.media} role={snap.me.role} meId={snap.me.memberId} onChange={() => void refresh()} />
         </div>
       )}

@@ -41,17 +41,17 @@ export function StagePanel(p: Props) {
   const ui = useUi();
   return (
     <aside
-      className="absolute top-16 right-3 bottom-16 z-20 flex w-[min(380px,calc(100%-1.5rem))] flex-col overflow-hidden rounded-2xl border border-white/10 bg-ink-950/80 text-bone shadow-2xl backdrop-blur-xl"
+      className="absolute top-16 right-3 bottom-16 z-20 flex w-[min(380px,calc(100%-1.5rem))] flex-col overflow-hidden rounded-md border border-white/10 bg-ink-950/80 text-bone shadow-[0_2px_8px_rgba(0,0,0,0.3)]"
       aria-label="Stage settings"
       data-testid="stage-panel"
     >
       <div className="flex items-center gap-1 border-b border-white/10 p-2">
         {(['look', 'sync'] as const).map((t) => (
-          <button key={t} onClick={() => p.onTab(t)} aria-pressed={p.tab === t} className={clsx('rounded-full px-4 py-1.5 text-sm font-semibold transition', p.tab === t ? 'bg-bone text-ink-950' : 'text-ink-300 hover:text-bone')}>
+          <button key={t} onClick={() => p.onTab(t)} aria-pressed={p.tab === t} className={clsx('rounded px-4 py-1.5 text-sm font-semibold transition', p.tab === t ? 'bg-bone text-ink-950' : 'text-ink-300 hover:text-bone')}>
             {t === 'look' ? 'Studio' : 'Sync'}
           </button>
         ))}
-        <button onClick={p.onClose} className="ml-auto rounded-full p-2 text-ink-300 transition hover:text-bone" aria-label="Close panel">
+        <button onClick={p.onClose} className="ml-auto rounded p-2 text-ink-300 transition hover:text-bone" aria-label="Close panel">
           <X size={16} />
         </button>
       </div>
@@ -70,7 +70,7 @@ export function StagePanel(p: Props) {
 function Section({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
   return (
     <section className="mb-5 last:mb-0">
-      <h3 className="mb-1 font-mono text-[10px] tracking-[0.14em] text-ink-400 uppercase">{title}</h3>
+      <h3 className="mb-1 text-[12px] font-medium text-ink-400">{title}</h3>
       {hint && <p className="mb-2 text-xs text-ink-300">{hint}</p>}
       {children}
     </section>
@@ -79,9 +79,9 @@ function Section({ title, hint, children }: { title: string; hint?: string; chil
 
 function Toggle({ on, onChange, label, hint, disabled }: { on: boolean; onChange: (v: boolean) => void; label: string; hint?: string; disabled?: boolean }) {
   return (
-    <button onClick={() => onChange(!on)} disabled={disabled} role="switch" aria-checked={on} className="flex w-full items-start gap-3 rounded-xl p-2 text-left transition hover:bg-white/5 disabled:opacity-40">
-      <span className={clsx('mt-0.5 inline-flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition', on ? 'bg-signal' : 'bg-ink-600')}>
-        <span className={clsx('h-4 w-4 rounded-full bg-white transition-transform', on && 'translate-x-4')} />
+    <button onClick={() => onChange(!on)} disabled={disabled} role="switch" aria-checked={on} className="flex w-full items-start gap-3 rounded-md p-2 text-left transition hover:bg-white/5 disabled:opacity-40">
+      <span className={clsx('mt-0.5 inline-flex h-5 w-9 shrink-0 items-center rounded p-0.5 transition', on ? 'bg-signal' : 'bg-ink-600')}>
+        <span className={clsx('h-4 w-4 rounded-[2px] bg-white transition-transform', on && 'translate-x-4')} />
       </span>
       <span>
         <span className="block text-sm font-semibold">{label}</span>
@@ -111,7 +111,7 @@ function SyncTab(p: Props) {
       )}
       <Section title="These lyrics">
         {doc && sum ? (
-          <div className="rounded-xl border border-white/10 p-3 text-sm">
+          <div className="rounded-md border border-white/10 p-3 text-sm">
             <p className="font-semibold">{sum.label}</p>
             <p className="mt-0.5 text-xs text-ink-300">
               {sum.words === 'estimated' ? 'Only the start of each line is timed. Word timing inside a line is an estimate, so it can run early or late and reset at the next line. Turn off estimated word motion below to follow line timestamps.' : sum.words === 'authored' ? 'Every word has its own time.' : sum.lines === 'unsynced' ? 'No timing: lines are spread across the song. Not really in sync.' : 'Some lines have word timing, the rest are estimated.'}
@@ -122,12 +122,12 @@ function SyncTab(p: Props) {
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {(p.lyrics.versionId != null || p.lyrics.origin === 'musixmatch') && (
-                <button onClick={() => void p.lyrics.anotherVersion()} disabled={p.lyrics.searching} className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold transition hover:border-white/40 disabled:opacity-50" title="Different recordings of a song can be timed differently">
+                <button onClick={() => void p.lyrics.anotherVersion()} disabled={p.lyrics.searching} className="rounded border border-white/15 px-3 py-1.5 text-xs font-semibold transition hover:border-white/40 disabled:opacity-50" title="Different recordings of a song can be timed differently">
                   {p.lyrics.searching ? 'Looking…' : 'Try another version'}
                 </button>
               )}
               {p.onEditLyrics && (
-                <button onClick={p.onEditLyrics} className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold transition hover:border-white/40">
+                <button onClick={p.onEditLyrics} className="inline-flex items-center gap-1.5 rounded border border-white/15 px-3 py-1.5 text-xs font-semibold transition hover:border-white/40">
                   <FilePen size={12} aria-hidden /> Open editor
                 </button>
               )}
@@ -141,12 +141,12 @@ function SyncTab(p: Props) {
 
       <Section title="Fix this song" hint="Almost right but off by about a second? Tap when you hear the line start, or nudge it.">
         <div className="mb-3 grid grid-cols-2 gap-2">
-          <button onClick={() => p.onAnchor('this')} disabled={!doc} className="rounded-xl border border-white/15 p-2.5 text-left transition hover:border-white/40 disabled:opacity-40" title="Lyrics too early: wait until you hear the highlighted line begin, then tap">
+          <button onClick={() => p.onAnchor('this')} disabled={!doc} className="rounded-md border border-white/15 p-2.5 text-left transition hover:border-white/40 disabled:opacity-40" title="Lyrics too early: wait until you hear the highlighted line begin, then tap">
             <Target size={14} className="mb-1 text-signal" aria-hidden />
             <span className="block text-xs font-semibold">This line starts now</span>
             <span className="block text-[11px] text-ink-400">lyrics showed it too early</span>
           </button>
-          <button onClick={() => p.onAnchor('next')} disabled={!doc} className="rounded-xl border border-white/15 p-2.5 text-left transition hover:border-white/40 disabled:opacity-40" title="Lyrics too late: tap when you hear the NEXT line begin, before it shows">
+          <button onClick={() => p.onAnchor('next')} disabled={!doc} className="rounded-md border border-white/15 p-2.5 text-left transition hover:border-white/40 disabled:opacity-40" title="Lyrics too late: tap when you hear the NEXT line begin, before it shows">
             <Target size={14} className="mb-1 text-signal" aria-hidden />
             <span className="block text-xs font-semibold">Next line starts now</span>
             <span className="block text-[11px] text-ink-400">lyrics showed it too late</span>
@@ -154,7 +154,7 @@ function SyncTab(p: Props) {
         </div>
         <div className="mb-3 grid grid-cols-4 gap-1.5" role="group" aria-label="Nudge this song">
           {[-1000, -250, 250, 1000].map((d) => (
-            <button key={d} onClick={() => nudge(d)} className="rounded-lg border border-white/10 py-1.5 text-xs font-semibold tabular-nums transition hover:border-white/40" title={d < 0 ? 'Lyrics later' : 'Lyrics sooner'}>
+            <button key={d} onClick={() => nudge(d)} className="rounded border border-white/10 py-1.5 text-xs font-semibold tabular-nums transition hover:border-white/40" title={d < 0 ? 'Lyrics later' : 'Lyrics sooner'}>
               {d > 0 ? '+' : '−'}
               {Math.abs(d) >= 1000 ? `${Math.abs(d) / 1000} s` : `${Math.abs(d)}`}
             </button>

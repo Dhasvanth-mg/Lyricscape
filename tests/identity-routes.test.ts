@@ -11,8 +11,9 @@ afterEach(() => {
 });
 
 describe('POST /api/identity/interpret', () => {
-  it('is off unless a gateway key is configured (501), so the app falls back to its local analysis', async () => {
+  it('is off unless an AI source is available (501), so the app falls back to its local analysis', async () => {
     vi.stubEnv('OMNIROUTE_API_KEY', '');
+    vi.stubEnv('PATH', '');
     const res = await interpret(post({ title: 't', artist: 'a', tags: [], lyrics: LYRICS }));
     expect(res.status).toBe(501);
     expect((await res.json()).code).toBe('ai_unconfigured');

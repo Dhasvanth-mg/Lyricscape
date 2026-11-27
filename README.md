@@ -60,7 +60,7 @@ Server profiles, parties, map history, social data and recap jobs live in .data/
 
 Imported library files, saved lyrics, per-song looks and offsets live in browser IndexedDB. Player session data, Spotify tokens, saved themes and UI preferences also use browser storage. Different browser profiles or origins therefore have separate libraries and Spotify sessions. Local-first does not mean that these browser stores are included in a backup of .data.
 
-See [.env.example](.env.example) for optional settings. Do not commit .env.local, tokens or server signing material. The app can use Spotify, development Musixmatch, LRCLIB and MusicBrainz over the network. Optional AI interpretation sends an excerpt and metadata to the configured gateway only when enabled. The normal player and visualizer work without that gateway.
+See [.env.example](.env.example) for optional settings. Do not commit .env.local, tokens or server signing material. The app can use Spotify, development Musixmatch, LRCLIB and MusicBrainz over the network. Optional AI interpretation and translation send an excerpt and metadata, only when enabled, to the AI source: a gateway you configure, or the Claude Code or Codex command line signed in on this computer (`LYRICSCAPE_AI_PROVIDER`, see .env.example; Settings shows which one is in use and can test it). The normal player and visualizer work without any of them.
 
 ## Development and verification
 

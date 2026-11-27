@@ -6,6 +6,7 @@ import { GpuStatus } from '@/components/ui/GpuStatus';
 import { SpotifyControls } from '@/components/player/SpotifyControls';
 import { SongIndexSection } from '@/components/settings/SongIndexSection';
 import { LiveSection } from '@/components/settings/LiveSection';
+import { AiSourceStatus } from '@/components/settings/AiSourceStatus';
 import { usePlayer, player } from '@/lib/player/controller';
 import { disconnect, getClientId, isLocalhostOrigin, redirectUri, setClientId, startLogin, SpotifyAuthError } from '@/lib/spotify/auth';
 import { getDevices, getMe, SpotifyApiError, type SpotifyDevice, type SpotifyMe } from '@/lib/spotify/api';
@@ -289,7 +290,7 @@ export default function SettingsPage() {
           <label className="mt-2 flex cursor-pointer items-start gap-3">
             <input type="checkbox" checked={aiTranslate} onChange={(e) => setUi({ aiTranslate: e.target.checked })} className="mt-1 h-4 w-4 accent-[var(--color-signal)]" />
             <span className="text-sm text-ink-300">
-              When the browser cannot translate, ask the AI gateway (<code>OMNIROUTE_API_KEY</code>). This sends the song&apos;s lyric lines to that gateway. Off by default.
+              When the browser cannot translate, ask the AI source below (a gateway, or Claude Code or Codex on this computer). This sends the song&apos;s lyric lines to it. Off by default.
             </span>
           </label>
         </div>
@@ -307,10 +308,11 @@ export default function SettingsPage() {
           <span>
             <span className="block font-semibold">AI reading of lyric themes (optional)</span>
             <span className="text-sm text-ink-300">
-              Asks an AI gateway you configure (<code>OMNIROUTE_API_KEY</code>, see the README) for the emotional shape and imagery of a song&apos;s lyrics, once per song, then keeps the answer on this device. It sends the title, artist, genre tags and an excerpt of the lyrics to that gateway. It never controls animation; it is one more clue, with its confidence capped, and the app works fully without it. Off by default.
+              Asks the AI source below (a gateway you configure, or Claude Code or Codex signed in on this computer) for the emotional shape and imagery of a song&apos;s lyrics, once per song, then keeps the answer on this device. It sends the title, artist, genre tags and an excerpt of the lyrics to it. It never controls animation; it is one more clue, with its confidence capped, and the app works fully without it. Off by default.
             </span>
           </span>
         </label>
+        <AiSourceStatus />
       </Section>
 
       <Section title="Lyrics outside the app" id="outside">

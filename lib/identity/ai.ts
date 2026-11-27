@@ -35,7 +35,7 @@ export const AI_SYSTEM_PROMPT = [
   'Return ONLY one JSON object, no prose, with these optional keys:',
   '"dims": for each of valence, energy, intimacy, tension, warmth, nostalgia, melancholy, urgency, dreaminess an object {"v": 0..1, "conf": 0..1}. Omit a dimension you cannot judge from the text.',
   '"ambiguity": {"v","conf"} high when the lyrics mix or contradict feelings. "delivery": rapped|sung|mixed. "perspective": inward|addressed|collective|narrative.',
-  '"subjects": up to 4 short phrases. "motifs": up to 4 of ' + MOTIFS.join(', ') + '. "imagery": up to 5 concrete images in the text. "arc": steady|rising|falling|turning. "summary": one short sentence about the lyrics.',
+  '"subjects": up to 4 short phrases (at most 40 characters each). "motifs": up to 4, chosen ONLY from this list: ' + MOTIFS.join(', ') + '. "imagery": up to 5 concrete images in the text, 1 to 4 words each (at most 30 characters). "arc": steady|rising|falling|turning. "summary": one short sentence about the lyrics.',
   'Judge only the words you are shown. Do NOT state facts about the artist, their influences, intentions, the production or how the recording sounds. If unsure, omit the key. Lower conf when the text is short or ambiguous.',
 ].join('\n');
 
@@ -49,6 +49,24 @@ export function buildAiMessages(r: AiRequest): { role: 'system' | 'user'; conten
   ];
 }
 
+/**
+ * Word lists are tidied before validation: an item outside the motif vocabulary or longer than its limit is dropped and the lists
+ * are cut to size, so one wordy image does not throw away a good reply. Numbers and enums are not tidied: an out-of-range value
+ * still rejects the whole reply.
+ */
+function tidyLists(raw: unknown): unknown {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+  const o = { ...(raw as Record<string, unknown>) };
+  const list = (key: string, keep: (x: unknown) => boolean, max: number) => {
+    if (Array.isArray(o[key])) o[key] = (o[key] as unknown[]).filter(keep).slice(0, max);
+  };
+  const motifs: readonly string[] = MOTIFS;
+  list('motifs', (x) => typeof x === 'string' && motifs.includes(x), 4);
+  list('subjects', (x) => typeof x === 'string' && x.length <= 40, 4);
+  list('imagery', (x) => typeof x === 'string' && x.length <= 30, 5);
+  return o;
+}
+
 /** Pull the first JSON object out of a reply (models sometimes wrap it in a code fence), validate it, cap its confidence. */
 export function parseAiResponse(text: string, model?: string): AiProfile | null {
   const start = text.indexOf('{');
@@ -60,7 +78,7 @@ export function parseAiResponse(text: string, model?: string): AiProfile | null 
   } catch {
     return null;
   }
-  const parsed = aiProfileSchema.safeParse(raw);
+  const parsed = aiProfileSchema.safeParse(tidyLists(raw));
   if (!parsed.success) return null;
   const p = parsed.data;
   const cap = <T extends { conf: number }>(d: T | undefined) => (d ? { ...d, conf: Math.min(AI_CONF_CAP, d.conf) } : d);

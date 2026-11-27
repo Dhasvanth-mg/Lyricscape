@@ -85,14 +85,14 @@ export function SpotifyLibrary() {
     finally { setMixing(false); }
   }
 
-  return <section aria-label="Spotify library" className="mb-6 space-y-4 rounded-2xl border border-ink-700 p-4">
+  return <section aria-label="Spotify library" className="mb-6 space-y-4 rounded-md border border-ink-700 p-4">
     <h2 className="font-semibold">Your Spotify library</h2>
     {!allowed ? <p className="text-sm text-ink-300">Reconnect Spotify in <Link href="/settings" className="text-aqua underline">Settings</Link> to allow access to playlists and saved music.</p> : <>
       <div className="flex flex-wrap gap-2">
         {(['playlists', 'liked', 'albums'] as const).map(id => <Button key={id} size="sm" variant={view === id ? 'spotify' : 'outline'} onClick={() => { setView(id); setCollection(null); }}>{id === 'liked' ? 'Liked songs' : id === 'albums' ? 'Saved albums' : 'Playlists'}</Button>)}
       </div>
       {collection && <div className="flex items-center gap-3"><Button size="sm" onClick={() => setCollection(null)}>Back</Button><h3>{collection.name}</h3></div>}
-      {collections.length > 0 && <div className="grid gap-2 sm:grid-cols-2">{collections.map(c => <button key={c.id} className="rounded-xl border border-ink-600 p-3 text-left text-sm hover:bg-ink-800" onClick={() => setCollection(c)}>{c.name}</button>)}</div>}
+      {collections.length > 0 && <div className="grid gap-2 sm:grid-cols-2">{collections.map(c => <button key={c.id} className="rounded-md border border-ink-600 p-3 text-left text-sm hover:bg-ink-800" onClick={() => setCollection(c)}>{c.name}</button>)}</div>}
       {tracks.length > 0 && <>
         <div className="flex flex-wrap items-center gap-2">
           <Button size="sm" variant="spotify" disabled={mixing || busy} onClick={() => void play(false)}>{mixing ? 'Preparing queue…' : 'Play collection'}</Button>

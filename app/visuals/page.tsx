@@ -24,7 +24,7 @@ export default function VisualsPage() {
 
   return (
     <div>
-      <PageHeader eyebrow="Kinetic lyrics" title="Visuals">
+      <PageHeader title="Visuals">
         <Button variant="primary" onClick={openStage} disabled={!track}>
           <Maximize2 size={16} /> Chill mode
         </Button>
@@ -34,7 +34,7 @@ export default function VisualsPage() {
         <Empty
           title="Play something first"
           action={
-            <Link href="/listen" className="inline-flex h-10 items-center rounded-full bg-bone px-5 text-sm font-semibold text-ink-950">
+            <Link href="/listen" className="inline-flex h-9 items-center rounded bg-bone px-3.5 text-[13px] font-medium text-ink-950 hover:bg-white">
               Choose a song
             </Link>
           }
@@ -53,7 +53,7 @@ export default function VisualsPage() {
             {track.provider === 'spotify' && <span className="text-xs text-ink-400">Spotify gives no audio analysis, so mood comes from the lyrics alone.</span>}
           </div>
 
-          <LyricStage track={track} style={style} className="mb-5 aspect-video max-h-[62vh] w-full rounded-2xl border border-ink-700" />
+          <LyricStage track={track} style={style} className="mb-5 aspect-video max-h-[62vh] w-full rounded-md border border-ink-700" />
 
           <div className="mb-8 flex flex-wrap gap-2" role="radiogroup" aria-label="Visual style">
             <button
@@ -61,7 +61,7 @@ export default function VisualsPage() {
               aria-checked={autoTheme}
               onClick={() => setUi({ autoTheme: true })}
               title="Pick the look from the song: genre, delivery speed, mood and cover"
-              className={clsx('rounded-full border px-4 py-2 text-sm font-semibold transition', autoTheme ? 'border-signal bg-signal text-white' : 'border-ink-600 text-ink-200 hover:border-ink-400')}
+              className={clsx('h-8 rounded border px-3 text-[13px] font-medium transition', autoTheme ? 'border-bone bg-bone text-ink-950' : 'border-ink-600 text-ink-200 hover:border-ink-400')}
             >
               Auto
             </button>
@@ -76,8 +76,8 @@ export default function VisualsPage() {
                 }}
                 title={STYLES[id].description}
                 className={clsx(
-                  'rounded-full border px-4 py-2 text-sm font-semibold transition',
-                  !autoTheme && style === id ? 'border-signal bg-signal text-white' : 'border-ink-600 text-ink-200 hover:border-ink-400',
+                  'h-8 rounded border px-3 text-[13px] font-medium transition',
+                  !autoTheme && style === id ? 'border-bone bg-bone text-ink-950' : 'border-ink-600 text-ink-200 hover:border-ink-400',
                 )}
               >
                 {STYLES[id].label}

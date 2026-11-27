@@ -13,7 +13,7 @@ import { SpotifyApiError } from '@/lib/spotify/api';
 import { TrackRow } from '@/components/player/TrackRow';
 import { SpotifyControls } from '@/components/player/SpotifyControls';
 import { SpotifyLibrary } from '@/components/player/SpotifyLibrary';
-import { Button, Chip, Empty, PageHeader, Spinner } from '@/components/ui/bits';
+import { Button, Chip, Empty, PageHeader, Spinner, Tabs } from '@/components/ui/bits';
 import { useUi } from '@/lib/ui-store';
 import { Trash2 } from 'lucide-react';
 
@@ -78,7 +78,7 @@ export default function ListenPage() {
 
   return (
     <div>
-      <PageHeader eyebrow="Player" title="Listen">
+      <PageHeader title="Listen">
         <div className="flex gap-2">
           {current && (
             <Button variant="outline" onClick={openStage}>
@@ -93,38 +93,29 @@ export default function ListenPage() {
         </div>
       </PageHeader>
 
-      <div role="tablist" aria-label="Music source" className="mb-5 flex flex-wrap items-center gap-2">
-        {(
-          [
+      <div className="mb-5 flex flex-wrap items-end gap-x-6 gap-y-3">
+        <Tabs
+          label="Music source"
+          value={source}
+          onChange={(id) => {
+            setSource(id);
+            setQ('');
+          }}
+          items={[
             ['demo', 'Demo songs'],
             ['licensed', 'My files'],
             ['spotify', 'Spotify'],
-          ] as const
-        ).map(([id, label]) => (
-          <button
-            key={id}
-            role="tab"
-            aria-selected={source === id}
-            onClick={() => {
-              setSource(id);
-              setQ('');
-            }}
-            className={clsx(
-              'rounded-full border px-4 py-2 text-sm font-semibold transition',
-              source === id ? (id === 'spotify' ? 'border-spotify bg-spotify text-black' : 'border-bone bg-bone text-ink-950') : 'border-ink-600 text-ink-200 hover:border-ink-400',
-            )}
-          >
-            {label}
-          </button>
-        ))}
+          ]}
+          className="flex-1"
+        />
         <div className="relative ml-auto min-w-[220px] flex-1 sm:max-w-sm">
-          <Search size={16} className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-ink-400" />
+          <Search size={15} className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-400" />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder={source === 'spotify' ? 'Search any Spotify song…' : 'Search…'}
             aria-label="Search"
-            className="h-10 w-full rounded-full border border-ink-600 bg-ink-850 pr-4 pl-10 text-sm outline-none placeholder:text-ink-400 focus:border-aqua"
+            className="h-9 w-full rounded border border-ink-700 bg-ink-900 pr-3 pl-9 text-[13px] outline-none placeholder:text-ink-400 focus:border-ink-400"
           />
         </div>
       </div>
@@ -147,7 +138,7 @@ export default function ListenPage() {
             setDrag(false);
             void doImport([...e.dataTransfer.files]);
           }}
-          className={clsx('mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-dashed p-5 transition', drag ? 'border-aqua bg-aqua/5' : 'border-ink-600')}
+          className={clsx('mb-5 flex flex-wrap items-center gap-4 rounded-md border border-dashed p-5 transition', drag ? 'border-aqua bg-aqua/5' : 'border-ink-600')}
         >
           <div className="flex-1">
             <p className="font-semibold">Drop audio files here (MP3, FLAC, WAV, M4A, OGG)</p>
@@ -186,7 +177,7 @@ export default function ListenPage() {
         <Empty
           title="Connect Spotify"
           action={
-            <Link href="/settings" className="inline-flex h-10 items-center rounded-full bg-spotify px-5 text-sm font-semibold text-black">
+            <Link href="/settings" className="inline-flex h-9 items-center rounded bg-spotify px-3.5 text-[13px] font-medium text-black">
               Connect in Settings
             </Link>
           }
@@ -201,7 +192,7 @@ export default function ListenPage() {
       {source === 'spotify' && spotifyConnected && <SpotifyLibrary />}
 
       {source === 'spotify' && spotifyConnected && (
-        <div className="mb-5 flex flex-wrap items-center gap-3 rounded-2xl border border-spotify/30 bg-spotify/5 p-4 text-sm">
+        <div className="mb-5 flex flex-wrap items-center gap-3 rounded-md border border-spotify/30 bg-spotify/5 p-4 text-sm">
           <Chip tone="spotify">Spotify</Chip>
           <span className="flex-1 text-ink-200">Search for a song to play on your selected output, or follow music already playing in Spotify.</span>
           <Button size="sm" onClick={openStage} disabled={!current}>
@@ -216,7 +207,7 @@ export default function ListenPage() {
         </div>
       )}
       {error && (
-        <div role="alert" className="mb-4 rounded-xl border border-red-500/30 bg-red-950/40 p-4 text-sm text-red-200">
+        <div role="alert" className="mb-4 rounded-md border border-red-500/30 bg-red-950/40 p-4 text-sm text-red-200">
           {error}
         </div>
       )}
@@ -230,7 +221,7 @@ export default function ListenPage() {
       )}
 
       {tracks.length > 0 && (
-        <ul className="space-y-0.5">
+        <ul className="border-t border-line">
           {tracks.map((t, i) => (
             <TrackRow
               key={t.id}
@@ -241,7 +232,7 @@ export default function ListenPage() {
                 source === 'licensed' ? (
                   <button
                     aria-label={`Remove ${t.title} from library`}
-                    className="rounded-full p-2 text-ink-400 opacity-0 transition group-hover:opacity-100 hover:text-red-300 focus:opacity-100"
+                    className="rounded p-2 text-ink-400 opacity-0 transition group-hover:opacity-100 hover:text-red-300 focus:opacity-100"
                     onClick={async () => {
                       await deleteLocalTrack(t.id);
                       setTracks(await listLocalTracks().then((l) => l.map((s) => s.track)));

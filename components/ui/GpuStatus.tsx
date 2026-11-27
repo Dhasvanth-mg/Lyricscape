@@ -24,7 +24,7 @@ export function GpuStatus({ compact = false }: { compact?: boolean }) {
     );
   }
   return (
-    <div className={clsx('rounded-xl border p-4', slow ? 'border-amber-400/40 bg-amber-400/5' : 'border-ink-700')} data-testid="gpu-card" data-kind={gpu.kind}>
+    <div className={clsx('rounded-md border p-4', slow ? 'border-amber-400/40 bg-amber-400/5' : 'border-ink-700')} data-testid="gpu-card" data-kind={gpu.kind}>
       <p className="font-semibold">
         <Cpu size={15} className="mr-1.5 inline align-[-2px]" aria-hidden />
         {gpu.renderer || 'Unknown graphics'} <span className="font-normal text-ink-300">· {LABEL[gpu.kind]}</span>

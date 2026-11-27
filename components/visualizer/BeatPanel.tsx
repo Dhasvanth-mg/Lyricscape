@@ -57,7 +57,7 @@ export function BeatPanel({ beat }: { beat: BeatApi }) {
             tap();
           }
         }}
-        className="mt-3 flex h-24 w-full flex-col items-center justify-center gap-1 rounded-2xl border border-white/15 bg-white/5 text-sm font-semibold transition select-none hover:border-white/40 active:scale-[0.99] active:bg-white/10"
+        className="mt-3 flex h-24 w-full flex-col items-center justify-center gap-1 rounded-md border border-white/15 bg-white/5 text-sm font-semibold transition select-none hover:border-white/40 active:bg-white/10"
         data-testid="beat-tap"
         aria-label="Tap on every beat"
       >
@@ -66,31 +66,31 @@ export function BeatPanel({ beat }: { beat: BeatApi }) {
         <span className="text-xs font-normal text-ink-300 tabular-nums">{taps.length < 4 ? `${taps.length} tap${taps.length === 1 ? '' : 's'}: keep going` : est ? `${est.bpm.toFixed(1)} BPM · ${est.used} taps · steadiness ${Math.round(est.confidence * 100)}%` : 'lost the beat? keep tapping'}</span>
       </button>
       <div className="mt-2 flex flex-wrap gap-2">
-        <button onClick={save} disabled={!est} className="rounded-full bg-signal px-4 py-1.5 text-xs font-semibold text-white transition hover:brightness-110 disabled:opacity-40" data-testid="beat-save">
+        <button onClick={save} disabled={!est} className="rounded bg-signal px-4 py-1.5 text-xs font-semibold text-white transition hover:brightness-110 disabled:opacity-40" data-testid="beat-save">
           Use this beat
         </button>
-        <button onClick={() => setTaps([])} disabled={!taps.length} className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold transition hover:border-white/40 disabled:opacity-40">
+        <button onClick={() => setTaps([])} disabled={!taps.length} className="inline-flex items-center gap-1.5 rounded border border-white/15 px-3 py-1.5 text-xs font-semibold transition hover:border-white/40 disabled:opacity-40">
           <RotateCcw size={12} aria-hidden /> Start over
         </button>
       </div>
 
       {tapped && tapped.phaseMs !== null && (
-        <div className="mt-4 rounded-xl border border-white/10 p-3">
+        <div className="mt-4 rounded-md border border-white/10 p-3">
           <p className="mb-2 text-xs text-ink-300">Your tapped beat. Adjust it if the pulses feel off.</p>
           <div className="flex flex-wrap gap-2">
-            <button onClick={() => change(tapped.bpm * 2, tapped.phaseMs!)} className="rounded-lg border border-white/10 px-2.5 py-1.5 text-xs font-semibold transition hover:border-white/40" title="Twice as fast">
+            <button onClick={() => change(tapped.bpm * 2, tapped.phaseMs!)} className="rounded border border-white/10 px-2.5 py-1.5 text-xs font-semibold transition hover:border-white/40" title="Twice as fast">
               ×2
             </button>
-            <button onClick={() => change(tapped.bpm / 2, tapped.phaseMs!)} className="rounded-lg border border-white/10 px-2.5 py-1.5 text-xs font-semibold transition hover:border-white/40" title="Half as fast">
+            <button onClick={() => change(tapped.bpm / 2, tapped.phaseMs!)} className="rounded border border-white/10 px-2.5 py-1.5 text-xs font-semibold transition hover:border-white/40" title="Half as fast">
               ÷2
             </button>
-            <button onClick={() => change(tapped.bpm, tapped.phaseMs! - 20)} className="rounded-lg border border-white/10 px-2.5 py-1.5 text-xs font-semibold tabular-nums transition hover:border-white/40" title="Pulses 20 ms sooner">
+            <button onClick={() => change(tapped.bpm, tapped.phaseMs! - 20)} className="rounded border border-white/10 px-2.5 py-1.5 text-xs font-semibold tabular-nums transition hover:border-white/40" title="Pulses 20 ms sooner">
               −20 ms
             </button>
-            <button onClick={() => change(tapped.bpm, tapped.phaseMs! + 20)} className="rounded-lg border border-white/10 px-2.5 py-1.5 text-xs font-semibold tabular-nums transition hover:border-white/40" title="Pulses 20 ms later">
+            <button onClick={() => change(tapped.bpm, tapped.phaseMs! + 20)} className="rounded border border-white/10 px-2.5 py-1.5 text-xs font-semibold tabular-nums transition hover:border-white/40" title="Pulses 20 ms later">
               +20 ms
             </button>
-            <button onClick={beat.forgetTapped} className="rounded-lg border border-white/10 px-2.5 py-1.5 text-xs font-semibold transition hover:border-white/40" title="Go back to what was known before you tapped">
+            <button onClick={beat.forgetTapped} className="rounded border border-white/10 px-2.5 py-1.5 text-xs font-semibold transition hover:border-white/40" title="Go back to what was known before you tapped">
               Forget my taps
             </button>
           </div>

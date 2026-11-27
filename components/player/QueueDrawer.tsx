@@ -21,11 +21,11 @@ export function QueueDrawer() {
   return (
     <aside
       aria-label="Queue"
-      className="fixed top-0 right-0 bottom-[calc(var(--player-h)+var(--nav-h))] z-50 flex w-full max-w-sm flex-col border-l border-ink-700 bg-ink-900/98 shadow-2xl backdrop-blur-xl animate-rise md:bottom-[var(--player-h)]"
+      className="fixed top-0 right-0 bottom-[calc(var(--player-h)+var(--nav-h))] z-50 flex w-full max-w-sm flex-col border-l border-ink-700 bg-ink-900/98 shadow-[0_2px_8px_rgba(0,0,0,0.3)] animate-rise md:bottom-[var(--player-h)]"
     >
       <header className="flex items-center justify-between border-b border-ink-700 p-4">
         <div>
-          <h2 className="font-display text-2xl tracking-wide uppercase">Queue</h2>
+          <h2 className="text-[15px] font-semibold">Queue</h2>
           <p className="text-xs text-ink-400">
             {queue.entries.length} tracks {queue.shuffle && '· shuffled'}
           </p>
@@ -49,7 +49,7 @@ export function QueueDrawer() {
           const current = qid === queue.currentQid;
           const userIdx = queue.entries.findIndex((x) => x.qid === qid);
           return (
-            <li key={qid} className={clsx('group flex items-center gap-3 rounded-xl p-2', current ? 'bg-ink-800' : 'hover:bg-ink-850')}>
+            <li key={qid} className={clsx('group flex items-center gap-3 rounded-md p-2', current ? 'bg-ink-800' : 'hover:bg-ink-850')}>
               <button className="flex min-w-0 flex-1 items-center gap-3 text-left" onClick={() => void player.jumpToQid(qid)}>
                 <span className="w-5 text-center font-mono text-[11px] text-ink-400">{current ? (status === 'playing' ? '▶' : '•') : i + 1}</span>
                 <Cover track={e.track} className="h-10 w-10 shrink-0 text-sm" />
@@ -58,7 +58,7 @@ export function QueueDrawer() {
                   <span className="block truncate text-xs text-ink-400">{e.track.artists.join(', ')}</span>
                 </span>
               </button>
-              {e.track.provider === 'spotify' && <Chip tone="spotify" className="hidden sm:inline-flex">SP</Chip>}
+              {e.track.provider === 'spotify' && <Chip tone="spotify" className="max-sm:hidden">SP</Chip>}
               <div className="flex opacity-0 transition group-focus-within:opacity-100 group-hover:opacity-100">
                 {!queue.shuffle && (
                   <>

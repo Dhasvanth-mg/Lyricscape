@@ -26,7 +26,7 @@ export function MediaGrid({ eventId, media, role, meId, onChange }: { eventId: s
   const visible = [...media].sort((a, b) => (a.status === 'pending' ? -1 : 0) - (b.status === 'pending' ? -1 : 0) || b.createdAt.localeCompare(a.createdAt));
 
   if (visible.length === 0) {
-    return <p className="rounded-2xl border border-dashed border-ink-700 p-8 text-center text-sm text-ink-400">No photos or videos yet. Be the first to add one.</p>;
+    return <p className="rounded-md border border-dashed border-ink-700 p-8 text-center text-sm text-ink-400">No photos or videos yet. Be the first to add one.</p>;
   }
 
   return (
@@ -38,7 +38,7 @@ export function MediaGrid({ eventId, media, role, meId, onChange }: { eventId: s
       )}
       <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
         {visible.map((m) => (
-          <li key={m.id} className={clsx('group relative aspect-square overflow-hidden rounded-xl bg-ink-800', m.status === 'rejected' && 'opacity-40')}>
+          <li key={m.id} className={clsx('group relative aspect-square overflow-hidden rounded-md bg-ink-800', m.status === 'rejected' && 'opacity-40')}>
             <button className="absolute inset-0" onClick={() => setOpen(m)} aria-label={`Open ${m.mediaType} by ${m.uploaderName}`}>
               {m.mediaType === 'image' ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -106,14 +106,14 @@ export function MediaGrid({ eventId, media, role, meId, onChange }: { eventId: s
 
       {open && (
         <div role="dialog" aria-modal="true" aria-label="Media viewer" className="fixed inset-0 z-[90] flex items-center justify-center bg-black/90 p-4" onClick={() => setOpen(null)}>
-          <button className="absolute top-4 right-4 rounded-full bg-white/10 p-2" aria-label="Close" onClick={() => setOpen(null)}>
+          <button className="absolute top-4 right-4 rounded bg-white/10 p-2" aria-label="Close" onClick={() => setOpen(null)}>
             <X size={22} />
           </button>
           {open.mediaType === 'image' ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={open.url} alt={`Photo by ${open.uploaderName}`} className="max-h-full max-w-full rounded-lg object-contain" onClick={(e) => e.stopPropagation()} />
+            <img src={open.url} alt={`Photo by ${open.uploaderName}`} className="max-h-full max-w-full rounded object-contain" onClick={(e) => e.stopPropagation()} />
           ) : (
-            <video src={open.url} controls autoPlay playsInline className="max-h-full max-w-full rounded-lg" onClick={(e) => e.stopPropagation()} />
+            <video src={open.url} controls autoPlay playsInline className="max-h-full max-w-full rounded" onClick={(e) => e.stopPropagation()} />
           )}
         </div>
       )}

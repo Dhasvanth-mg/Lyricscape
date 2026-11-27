@@ -108,48 +108,47 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <main id="main">{children}</main>
       ) : (
         <div className="min-h-dvh">
-          {/* desktop sidebar */}
-          <aside className="fixed inset-y-0 left-0 z-30 hidden w-[220px] flex-col border-r border-ink-800 bg-ink-950 px-4 py-6 md:flex">
-            <Link href="/" className="mb-8 block px-2">
-              <span className="font-display text-[28px] leading-none tracking-wide uppercase">
-                Lyric<span className="text-signal">scape</span>
-              </span>
-            </Link>
-            <nav aria-label="Primary" className="flex flex-1 flex-col gap-1">
-              {NAV.map(({ href, label, icon: Icon }) => {
-                const active = pathname === href || pathname.startsWith(href + '/');
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    aria-current={active ? 'page' : undefined}
-                    className={clsx(
-                      'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition',
-                      active ? 'bg-ink-800 text-bone' : 'text-ink-300 hover:bg-ink-850 hover:text-bone',
-                    )}
-                  >
-                    <Icon size={18} className={active ? 'text-signal' : ''} />
-                    {label}
-                  </Link>
-                );
-              })}
-            </nav>
-            <Link
-              href="/settings"
-              className={clsx(
-                'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition',
-                pathname.startsWith('/settings') ? 'bg-ink-800 text-bone' : 'text-ink-300 hover:bg-ink-850 hover:text-bone',
-              )}
-            >
-              <Settings size={18} /> Settings
-            </Link>
-          </aside>
+          <header className="fixed inset-x-0 top-0 z-40 h-[var(--top-h)] border-b border-line bg-ink-950 px-4 sm:px-6">
+            <div className="mx-auto flex h-full max-w-[1320px] items-stretch gap-8">
+              <Link href="/" className="flex items-center text-[15px] font-bold tracking-[-0.01em]">
+                Lyricscape
+              </Link>
+              <nav aria-label="Primary" className="hidden items-stretch gap-6 md:flex">
+                {NAV.map(({ href, label }) => {
+                  const active = pathname === href || pathname.startsWith(href + '/');
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      aria-current={active ? 'page' : undefined}
+                      className={clsx(
+                        '-mb-px flex items-center border-b-2 text-[13px] font-medium transition-colors duration-150',
+                        active ? 'border-signal text-bone' : 'border-transparent text-ink-400 hover:text-bone',
+                      )}
+                    >
+                      {label}
+                    </Link>
+                  );
+                })}
+              </nav>
+              <Link
+                href="/settings"
+                aria-current={pathname.startsWith('/settings') ? 'page' : undefined}
+                className={clsx(
+                  '-mb-px ml-auto flex items-center gap-2 border-b-2 text-[13px] font-medium transition-colors duration-150',
+                  pathname.startsWith('/settings') ? 'border-signal text-bone' : 'border-transparent text-ink-400 hover:text-bone',
+                )}
+              >
+                <Settings size={16} /> <span className="hidden sm:inline">Settings</span>
+              </Link>
+            </div>
+          </header>
 
           <main
             id="main"
-            className="px-4 pt-6 pb-[calc(var(--player-h)+var(--nav-h)+32px)] sm:px-8 md:ml-[220px] md:pt-10 md:pb-[calc(var(--player-h)+40px)]"
+            className="px-4 pt-[calc(var(--top-h)+28px)] pb-[calc(var(--player-h)+var(--nav-h)+32px)] sm:px-6 md:pb-[calc(var(--player-h)+48px)]"
           >
-            <div className="mx-auto max-w-[1200px]">{children}</div>
+            <div className="mx-auto max-w-[1320px]">{children}</div>
           </main>
 
           <MiniPlayer />
@@ -158,26 +157,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {/* mobile bottom nav */}
           <nav
             aria-label="Primary mobile"
-            className="fixed inset-x-0 bottom-0 z-40 flex h-[var(--nav-h)] items-center justify-around border-t border-ink-800 bg-ink-950/95 backdrop-blur md:hidden"
+            className="fixed inset-x-0 bottom-0 z-40 grid h-[var(--nav-h)] grid-cols-6 border-t border-line bg-ink-950 md:hidden"
           >
-            {NAV.slice(0, 5).map(({ href, label, icon: Icon }) => {
+            {NAV.map(({ href, label, icon: Icon }) => {
               const active = pathname === href || pathname.startsWith(href + '/');
               return (
                 <Link
                   key={href}
                   href={href}
                   aria-current={active ? 'page' : undefined}
-                  className={clsx('flex flex-col items-center gap-0.5 px-2 text-[10px] font-semibold', active ? 'text-bone' : 'text-ink-400')}
+                  className={clsx(
+                    '-mt-px flex flex-col items-center justify-center gap-1 border-t-2 text-[10px] font-medium',
+                    active ? 'border-signal text-bone' : 'border-transparent text-ink-400',
+                  )}
                 >
-                  <Icon size={20} className={active ? 'text-signal' : ''} />
+                  <Icon size={18} />
                   {label}
                 </Link>
               );
             })}
-            <Link href="/settings" aria-label="Settings" className={clsx('flex flex-col items-center gap-0.5 px-2 text-[10px] font-semibold', pathname.startsWith('/settings') ? 'text-bone' : 'text-ink-400')}>
-              <Settings size={20} />
-              More
-            </Link>
           </nav>
 
           <QueueDrawer />
@@ -189,10 +187,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {notice && (
         <div
           role="status"
-          className="fixed top-4 left-1/2 z-[120] flex max-w-[92vw] -translate-x-1/2 items-center gap-3 rounded-full border border-ink-600 bg-ink-850/95 py-2 pr-2 pl-5 text-sm shadow-2xl backdrop-blur animate-rise"
+          className="fixed top-[calc(var(--top-h)+12px)] left-1/2 z-[120] flex max-w-[92vw] -translate-x-1/2 items-center gap-3 rounded border border-ink-600 bg-ink-850 py-1.5 pr-1.5 pl-4 text-[13px] shadow-[0_2px_8px_rgba(0,0,0,0.3)] animate-rise"
         >
           <span>{notice}</span>
-          <button onClick={() => player.dismissNotice()} aria-label="Dismiss" className="rounded-full p-1.5 text-ink-300 hover:bg-ink-700">
+          <button onClick={() => player.dismissNotice()} aria-label="Dismiss" className="rounded p-1.5 text-ink-300 hover:bg-ink-700">
             <X size={14} />
           </button>
         </div>

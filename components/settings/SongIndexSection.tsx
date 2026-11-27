@@ -69,7 +69,7 @@ export function SongIndexSection() {
         </span>
       </label>
 
-      <div className="mb-4 rounded-xl border border-ink-700 bg-ink-850 p-4">
+      <div className="mb-4 rounded-md border border-ink-700 bg-ink-850 p-4">
         <h3 className="mb-1 text-sm font-semibold">Listening (for Spotify songs)</h3>
         <p className="mb-3 text-sm text-ink-300">
           Spotify does not give out its audio, so the tempo of a Spotify song can only be learned by listening while it plays in this tab. Your browser asks you to share <em>this tab</em> with its audio; the sound is analysed on the spot and thrown away, only the

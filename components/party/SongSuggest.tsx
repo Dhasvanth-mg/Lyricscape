@@ -53,8 +53,8 @@ export function SongSuggest({ eventId, onAdded, extraSearch }: Props) {
   const typed = q.split(/\s[-–—]\s/);
 
   return (
-    <div className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
-      <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Suggest a song</h3>
+    <div className="rounded-md border border-line bg-ink-900 p-4">
+      <h3 className="mb-3 text-[15px] font-semibold">Suggest a song</h3>
       <div className="relative mb-3">
         <Search size={16} className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-ink-400" />
         <input
@@ -63,13 +63,13 @@ export function SongSuggest({ eventId, onAdded, extraSearch }: Props) {
           placeholder="Search, paste a Spotify link, or type “Song – Artist”"
           aria-label="Song to suggest"
           maxLength={200}
-          className="h-11 w-full rounded-full border border-ink-600 bg-ink-850 pr-4 pl-10 text-sm outline-none focus:border-aqua"
+          className="h-9 w-full rounded border border-ink-700 bg-ink-900 pr-4 pl-10 text-sm outline-none focus:border-ink-400"
         />
       </div>
 
       <ul className="max-h-72 space-y-1 overflow-y-auto">
         {[...extra, ...matches].slice(0, 12).map((t) => (
-          <li key={t.id} className="flex items-center gap-3 rounded-xl p-1.5 hover:bg-ink-850">
+          <li key={t.id} className="flex items-center gap-3 rounded-md p-1.5 hover:bg-ink-850">
             <Cover track={t} className="h-10 w-10 text-sm" />
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold">{t.title}</p>
@@ -83,7 +83,7 @@ export function SongSuggest({ eventId, onAdded, extraSearch }: Props) {
       </ul>
 
       {spotifyId && (
-        <div className="mt-3 flex items-center gap-2 rounded-xl border border-spotify/30 bg-spotify/5 p-3 text-sm">
+        <div className="mt-3 flex items-center gap-2 rounded-md border border-spotify/30 bg-spotify/5 p-3 text-sm">
           <span className="flex-1">Spotify link detected.</span>
           <TitleForLink onSubmit={(title, artist) => void submit({ provider: 'spotify', providerTrackId: spotifyId, title, artists: [artist || 'Unknown artist'], externalUrl: `https://open.spotify.com/track/${spotifyId}` })} busy={busy} />
         </div>
@@ -118,8 +118,8 @@ function TitleForLink({ onSubmit, busy }: { onSubmit: (title: string, artist: st
         if (title.trim()) onSubmit(title.trim(), artist.trim());
       }}
     >
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Song title" aria-label="Song title" required maxLength={160} className="h-8 w-32 rounded-lg border border-ink-600 bg-ink-850 px-2 text-xs" />
-      <input value={artist} onChange={(e) => setArtist(e.target.value)} placeholder="Artist" aria-label="Artist" maxLength={120} className="h-8 w-28 rounded-lg border border-ink-600 bg-ink-850 px-2 text-xs" />
+      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Song title" aria-label="Song title" required maxLength={160} className="h-8 w-32 rounded border border-ink-600 bg-ink-850 px-2 text-xs" />
+      <input value={artist} onChange={(e) => setArtist(e.target.value)} placeholder="Artist" aria-label="Artist" maxLength={120} className="h-8 w-28 rounded border border-ink-600 bg-ink-850 px-2 text-xs" />
       <Button size="sm" type="submit" disabled={busy || !title.trim()}>
         Add
       </Button>

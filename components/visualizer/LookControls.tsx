@@ -14,12 +14,12 @@ const MODES: [ColorMode, string, string][] = [
 /** Color source, mood override, and the icon / vector-doodle toggles. */
 export function LookControls({ compact = false, className }: { compact?: boolean; className?: string }) {
   const { colorMode, emojis, doodles, interlude, mood, artwork, quality, set } = useUi();
-  const pill = (on: boolean) => clsx('inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition', on ? 'border-signal bg-signal text-white' : 'border-ink-600 text-ink-200 hover:border-ink-400');
+  const pill = (on: boolean) => clsx('inline-flex items-center gap-1.5 h-8 rounded border px-3 text-[13px] font-medium transition', on ? 'border-bone bg-bone text-ink-950' : 'border-ink-600 text-ink-200 hover:border-ink-400');
   return (
     <div className={clsx('flex flex-wrap items-center gap-2', className)} role="group" aria-label="Look">
-      <div className="flex gap-1 rounded-full bg-ink-800/80 p-1" role="radiogroup" aria-label="Color source">
+      <div className="flex gap-1 rounded bg-ink-800/80 p-1" role="radiogroup" aria-label="Color source">
         {MODES.map(([id, label, hint]) => (
-          <button key={id} role="radio" aria-checked={colorMode === id} title={hint} onClick={() => set({ colorMode: id })} className={clsx('rounded-full px-3 py-1 text-sm font-semibold transition', colorMode === id ? 'bg-bone text-ink-950' : 'text-ink-300 hover:text-bone')}>
+          <button key={id} role="radio" aria-checked={colorMode === id} title={hint} onClick={() => set({ colorMode: id })} className={clsx('rounded px-3 py-1 text-sm font-semibold transition', colorMode === id ? 'bg-bone text-ink-950' : 'text-ink-300 hover:text-bone')}>
             {label}
           </button>
         ))}
@@ -36,14 +36,14 @@ export function LookControls({ compact = false, className }: { compact?: boolean
       <label className="sr-only" htmlFor="art-pick">
         Album art
       </label>
-      <select id="art-pick" value={artwork} onChange={(e) => set({ artwork: e.target.value as 'off' | 'background' })} className="h-9 rounded-full border border-ink-600 bg-ink-900/80 px-3 text-sm" title="How much the album cover is shown">
+      <select id="art-pick" value={artwork} onChange={(e) => set({ artwork: e.target.value as 'off' | 'background' })} className="h-9 rounded border border-ink-600 bg-ink-900/80 px-3 text-sm" title="How much the album cover is shown">
         <option value="background">Art: soft background</option>
         <option value="off">Art: off</option>
       </select>
       <label className="sr-only" htmlFor="quality-pick">
         Performance
       </label>
-      <select id="quality-pick" value={quality} onChange={(e) => set({ quality: e.target.value as 'auto' | 'high' | 'medium' | 'low' })} className="h-9 rounded-full border border-ink-600 bg-ink-900/80 px-3 text-sm" title="Auto lowers effects when your machine can't keep up">
+      <select id="quality-pick" value={quality} onChange={(e) => set({ quality: e.target.value as 'auto' | 'high' | 'medium' | 'low' })} className="h-9 rounded border border-ink-600 bg-ink-900/80 px-3 text-sm" title="Auto lowers effects when your machine can't keep up">
         <option value="auto">Performance: auto</option>
         <option value="high">Performance: high</option>
         <option value="medium">Performance: balanced</option>
@@ -52,7 +52,7 @@ export function LookControls({ compact = false, className }: { compact?: boolean
       <label className="sr-only" htmlFor="mood-pick">
         Mood
       </label>
-      <select id="mood-pick" value={mood} onChange={(e) => set({ mood: e.target.value as EmotionId | 'auto' })} className="h-9 rounded-full border border-ink-600 bg-ink-900/80 px-3 text-sm" title="Mood is detected from lyrics and tempo. Pick one to override.">
+      <select id="mood-pick" value={mood} onChange={(e) => set({ mood: e.target.value as EmotionId | 'auto' })} className="h-9 rounded border border-ink-600 bg-ink-900/80 px-3 text-sm" title="Mood is detected from lyrics and tempo. Pick one to override.">
         <option value="auto">Mood: auto-detect</option>
         {EMOTIONS.map((e) => (
           <option key={e} value={e}>

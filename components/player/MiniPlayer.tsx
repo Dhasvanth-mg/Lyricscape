@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { ListMusic, Maximize2, Pause, Play, Repeat, Repeat1, Shuffle, SkipBack, SkipForward, Volume2, VolumeX, Mic2 } from 'lucide-react';
-import clsx from 'clsx';
 import { usePlayer, player } from '@/lib/player/controller';
 import { useUi } from '@/lib/ui-store';
 import { Cover } from '@/components/ui/Cover';
@@ -27,21 +26,34 @@ export function MiniPlayer() {
     <div
       role="region"
       aria-label="Player"
-      className="fixed inset-x-0 bottom-[var(--nav-h)] z-40 border-t border-ink-700 bg-ink-900/95 backdrop-blur-xl md:bottom-0 md:left-[220px]"
+      className="fixed inset-x-0 bottom-[var(--nav-h)] z-40 border-t border-line bg-ink-900 px-4 sm:px-6 md:bottom-0"
     >
-      <div className="relative mx-auto flex h-[var(--player-h)] max-w-[1600px] items-center gap-3 px-3 sm:px-5">
+      {/* the seek line runs the full width of the bar's top edge */}
+      <input
+        type="range"
+        className="seek absolute inset-x-0 -top-[10px] z-10 !h-5"
+        aria-label="Seek"
+        min={0}
+        max={Math.max(1, dur)}
+        step={250}
+        value={Math.min(pos, dur)}
+        disabled={!canSeek}
+        style={{ ['--pct' as string]: `${pct}%`, ['--fill' as string]: 'var(--color-signal)' }}
+        onChange={(e) => void player.seek(Number(e.target.value))}
+      />
+      <div className="mx-auto flex h-[var(--player-h)] max-w-[1320px] items-center gap-4">
         {/* track */}
-        <div className="flex min-w-0 flex-1 items-center gap-3 md:flex-none md:basis-[30%]">
+        <div className="flex min-w-0 flex-1 items-center gap-3 md:basis-1/3">
           <Link href="/listen/now-playing" aria-label="Open now playing" className="shrink-0">
-            <Cover track={track} className="h-12 w-12 text-lg" />
+            <Cover track={track} className="h-11 w-11 text-lg" rounded="rounded-[3px]" />
           </Link>
           <div className="min-w-0">
             {track ? (
               <>
-                <p className="truncate text-sm font-semibold">{track.title}</p>
-                <p className="flex items-center gap-2 truncate text-xs text-ink-300">
+                <p className="truncate text-[13px] font-semibold">{track.title}</p>
+                <p className="flex items-center gap-2 truncate text-[12px] text-ink-400">
                   <span className="truncate">{track.artists.join(', ')}</span>
-                  <Chip tone={track.provider === 'spotify' ? 'spotify' : 'default'} className="hidden shrink-0 sm:inline-flex">
+                  <Chip tone={track.provider === 'spotify' ? 'spotify' : 'default'} className="shrink-0 max-sm:hidden">
                     {PROVIDER_LABEL[track.provider]}
                     {following && ' · following'}
                   </Chip>
@@ -49,66 +61,59 @@ export function MiniPlayer() {
               </>
             ) : (
               <>
-                <p className="text-sm font-semibold text-ink-200">Nothing playing</p>
-                <p className="text-xs text-ink-400">Pick a song in Listen</p>
+                <p className="truncate text-[13px] font-semibold text-ink-200">Nothing playing</p>
+                <p className="truncate text-[12px] text-ink-400 max-sm:hidden">Pick a song in Listen</p>
               </>
             )}
           </div>
         </div>
 
         {/* transport */}
-        <div className="flex flex-col items-center gap-0.5 md:flex-1">
-          <div className="flex items-center gap-1">
-            <IconButton label={queue.shuffle ? 'Shuffle on' : 'Shuffle off'} active={queue.shuffle} onClick={() => player.toggleShuffle()} className="hidden sm:inline-flex">
-              <Shuffle size={17} />
-            </IconButton>
-            <IconButton label="Previous" onClick={() => void player.previous()} disabled={!track}>
-              <SkipBack size={19} fill="currentColor" />
-            </IconButton>
-            <button
-              onClick={() => void player.toggle()}
-              disabled={!track && queue.entries.length === 0}
-              aria-label={playing ? 'Pause' : 'Play'}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-bone text-ink-950 transition hover:scale-105 active:scale-95 disabled:opacity-30"
-            >
-              {busy && status === 'loading' ? <Spinner className="border-ink-600 border-t-ink-950" /> : playing ? <Pause size={19} fill="currentColor" /> : <Play size={19} fill="currentColor" className="translate-x-px" />}
-            </button>
-            <IconButton label="Next" onClick={() => void player.next()} disabled={!track}>
-              <SkipForward size={19} fill="currentColor" />
-            </IconButton>
-            <IconButton label={`Repeat: ${queue.repeat}`} active={queue.repeat !== 'off'} onClick={() => player.cycleRepeat()} className="hidden sm:inline-flex">
-              {queue.repeat === 'one' ? <Repeat1 size={17} /> : <Repeat size={17} />}
-            </IconButton>
-          </div>
-          <div className="hidden w-full max-w-xl items-center gap-2 font-mono text-[11px] text-ink-400 md:flex">
-            <span className="w-9 text-right tabular-nums">{fmtTime(pos)}</span>
-            <input
-              type="range"
-              className="seek"
-              aria-label="Seek"
-              min={0}
-              max={Math.max(1, dur)}
-              step={250}
-              value={Math.min(pos, dur)}
-              disabled={!canSeek}
-              style={{ ['--pct' as string]: `${pct}%` }}
-              onChange={(e) => void player.seek(Number(e.target.value))}
-            />
-            <span className="w-9 tabular-nums">{fmtTime(dur)}</span>
-          </div>
+        <div className="flex items-center gap-1 md:basis-1/3 md:justify-center">
+          <IconButton label={queue.shuffle ? 'Shuffle on' : 'Shuffle off'} active={queue.shuffle} onClick={() => player.toggleShuffle()} className="max-sm:hidden">
+            <Shuffle size={16} />
+          </IconButton>
+          <IconButton label="Previous" onClick={() => void player.previous()} disabled={!track}>
+            <SkipBack size={17} fill="currentColor" />
+          </IconButton>
+          <button
+            onClick={() => void player.toggle()}
+            disabled={!track && queue.entries.length === 0}
+            aria-label={playing ? 'Pause' : 'Play'}
+            className="mx-1 flex h-9 w-9 items-center justify-center rounded bg-bone text-ink-950 transition-colors duration-150 hover:bg-white disabled:opacity-30"
+          >
+            {busy && status === 'loading' ? <Spinner className="border-ink-600 border-t-ink-950" /> : playing ? <Pause size={17} fill="currentColor" /> : <Play size={17} fill="currentColor" className="translate-x-px" />}
+          </button>
+          <IconButton label="Next" onClick={() => void player.next()} disabled={!track}>
+            <SkipForward size={17} fill="currentColor" />
+          </IconButton>
+          <IconButton label={`Repeat: ${queue.repeat}`} active={queue.repeat !== 'off'} onClick={() => player.cycleRepeat()} className="max-sm:hidden">
+            {queue.repeat === 'one' ? <Repeat1 size={16} /> : <Repeat size={16} />}
+          </IconButton>
+          <span className="ml-3 hidden font-mono text-[11px] text-ink-400 tabular-nums md:inline">
+            {fmtTime(pos)} / {fmtTime(dur)}
+          </span>
         </div>
 
         {/* right cluster */}
-        <div className="flex items-center justify-end gap-1 md:basis-[30%]">
-          <IconButton label="Lyrics stage (L)" onClick={openStage} disabled={!track}>
-            <Mic2 size={18} />
+        <div className="flex items-center justify-end gap-1 md:basis-1/3">
+          <button
+            onClick={openStage}
+            disabled={!track}
+            title="Lyrics stage (L)"
+            className="hidden h-8 items-center gap-2 rounded border border-ink-600 px-2.5 text-[12px] font-medium text-bone transition-colors duration-150 hover:border-ink-400 disabled:opacity-30 sm:inline-flex"
+          >
+            <Mic2 size={14} /> Lyrics
+          </button>
+          <IconButton label="Lyrics stage (L)" onClick={openStage} disabled={!track} className="sm:hidden">
+            <Mic2 size={17} />
           </IconButton>
-          <IconButton label="Queue" active={queueOpen} onClick={() => setQueueOpen(!queueOpen)} className="hidden sm:inline-flex">
-            <ListMusic size={18} />
+          <IconButton label="Queue" active={queueOpen} onClick={() => setQueueOpen(!queueOpen)} className="max-sm:hidden">
+            <ListMusic size={17} />
           </IconButton>
           <div className="hidden items-center gap-1 lg:flex">
             <IconButton label={muted ? 'Unmute' : 'Mute'} onClick={() => player.toggleMute()}>
-              {muted || volume === 0 ? <VolumeX size={18} /> : <Volume2 size={18} />}
+              {muted || volume === 0 ? <VolumeX size={17} /> : <Volume2 size={17} />}
             </IconButton>
             <input
               type="range"
@@ -122,19 +127,14 @@ export function MiniPlayer() {
               onChange={(e) => player.setVolume(Number(e.target.value))}
             />
           </div>
-          <Link href="/visuals" aria-label="Open visuals" className="hidden h-9 w-9 items-center justify-center rounded-full text-ink-300 hover:text-bone xl:inline-flex">
-            <Maximize2 size={17} />
+          <Link href="/visuals" aria-label="Open visuals" title="Open visuals" className="hidden h-8 w-8 items-center justify-center rounded text-ink-300 transition-colors duration-150 hover:bg-ink-800 hover:text-bone xl:inline-flex">
+            <Maximize2 size={16} />
           </Link>
-        </div>
-
-        {/* thin progress on mobile */}
-        <div className="absolute inset-x-0 top-0 h-0.5 bg-ink-700 md:hidden">
-          <div className={clsx('h-full bg-signal')} style={{ width: `${pct}%` }} />
         </div>
       </div>
 
       {error && (
-        <div role="alert" className="flex items-center justify-between gap-3 border-t border-red-500/30 bg-red-950/60 px-4 py-2 text-xs text-red-200">
+        <div role="alert" className="flex items-center justify-between gap-3 border-t border-red-500/30 bg-red-950 px-4 py-2 text-xs text-red-200">
           <span>{error.message}</span>
           <div className="flex gap-3">
             {error.kind === 'auth' && (

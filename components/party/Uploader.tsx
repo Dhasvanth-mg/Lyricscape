@@ -90,7 +90,7 @@ export function Uploader({ eventId, onUploaded, compact }: { eventId: string; on
   };
 
   return (
-    <div className={clsx('rounded-2xl border border-ink-700 bg-ink-900', compact ? 'p-4' : 'p-5')}>
+    <div className={clsx('rounded-md border border-line bg-ink-900', compact ? 'p-4' : 'p-5')}>
       <div className="flex flex-wrap items-center gap-3">
         <Button variant="primary" size="lg" onClick={() => input.current?.click()} className="flex-1 sm:flex-none">
           <Camera size={18} /> Add photos & videos
@@ -116,7 +116,7 @@ export function Uploader({ eventId, onUploaded, compact }: { eventId: string; on
       {items.length > 0 && (
         <ul className="mt-4 space-y-2" aria-live="polite">
           {items.slice(0, 12).map((it) => (
-            <li key={it.key} className="rounded-xl bg-ink-850 p-3 text-sm">
+            <li key={it.key} className="rounded-md bg-ink-850 p-3 text-sm">
               <div className="flex items-center gap-2">
                 <span className="min-w-0 flex-1 truncate">{it.file.name}</span>
                 <span
@@ -131,18 +131,18 @@ export function Uploader({ eventId, onUploaded, compact }: { eventId: string; on
                   {it.state === 'pending' ? 'waiting for host' : it.state === 'done' ? 'added' : it.state === 'uploading' ? `${it.pct}%` : it.state}
                 </span>
                 {it.state === 'uploading' && (
-                  <button aria-label="Cancel upload" onClick={() => it.abort?.abort()} className="rounded-full p-1 text-ink-400 hover:text-bone">
+                  <button aria-label="Cancel upload" onClick={() => it.abort?.abort()} className="rounded p-1 text-ink-400 hover:text-bone">
                     <X size={14} />
                   </button>
                 )}
                 {it.state === 'error' && (
-                  <button aria-label="Retry upload" onClick={() => void run(it)} className="rounded-full p-1 text-ink-300 hover:text-bone">
+                  <button aria-label="Retry upload" onClick={() => void run(it)} className="rounded p-1 text-ink-300 hover:text-bone">
                     <RotateCcw size={14} />
                   </button>
                 )}
               </div>
               {(it.state === 'uploading' || it.state === 'processing') && (
-                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink-700" role="progressbar" aria-valuenow={it.pct} aria-valuemin={0} aria-valuemax={100}>
+                <div className="mt-2 h-1.5 overflow-hidden rounded bg-ink-700" role="progressbar" aria-valuenow={it.pct} aria-valuemin={0} aria-valuemax={100}>
                   <div className="h-full bg-signal transition-[width]" style={{ width: `${it.pct}%` }} />
                 </div>
               )}

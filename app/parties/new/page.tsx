@@ -50,10 +50,10 @@ export default function NewParty() {
     }
   };
 
-  const field = 'h-11 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 text-sm outline-none focus:border-aqua';
+  const field = 'h-9 w-full rounded border border-ink-700 bg-ink-900 px-3 text-sm outline-none focus:border-ink-400';
   return (
     <div className="max-w-2xl">
-      <PageHeader eyebrow="Party mode" title="New party" />
+      <PageHeader title="New party" />
       <form onSubmit={submit} className="space-y-5">
         <label className="block text-sm">
           <span className="mb-1 block text-ink-300">Name</span>
@@ -61,7 +61,7 @@ export default function NewParty() {
         </label>
         <label className="block text-sm">
           <span className="mb-1 block text-ink-300">Description (optional)</span>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} maxLength={500} rows={2} className="w-full rounded-lg border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-aqua" />
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} maxLength={500} rows={2} className="w-full rounded border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-ink-400" />
         </label>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block text-sm">
@@ -78,7 +78,7 @@ export default function NewParty() {
           <input value={passcode} onChange={(e) => setPasscode(e.target.value)} minLength={4} maxLength={64} placeholder="min. 4 characters" className={field} />
         </label>
 
-        <fieldset className="space-y-3 rounded-xl border border-ink-700 p-4">
+        <fieldset className="space-y-3 rounded-md border border-ink-700 p-4">
           <legend className="px-2 text-sm font-semibold">Rules</legend>
           <label className="block text-sm">
             <span className="mb-1 block text-ink-300">Guest photo & video uploads</span>

@@ -12,6 +12,10 @@ Ideas the owner has asked to keep for later. Not started; nothing here is built.
   5. Optional: aligner on in-memory audio with a multilingual forced-alignment model (Hindi, Tamil). Stretches the listening rule; owner to decide.
   - Not recommended without an explicit owner decision: a Spicetify bridge (modifies the Spotify client) or librespot as the player (unofficial client, account risk).
 
+## Radical UI overhaul with Uncodixfy (started 2026-11-27)
+
+- Start: owner asked to "use decodexify to improve ui" with "a full and radical overhaul". Read as the Uncodixfy ruleset (github.com/cyxzdev/Uncodixfy), which bans the default AI-generated UI look: hero blocks, eyebrow labels, pills everywhere, 16-32 px radii, glass and blur, gradients, glows, big shadows and hover transforms. Scope: the app chrome and pages (shell, player bar, shared components, every page). Lyric styles, the stage renderers and timing are not touched. Acceptance: no left sidebar shell; top bar navigation with an underline indicator; sharp radii (4-6 px); no pills, eyebrows, gradients, blur or hover transforms in the chrome; project palette kept; typecheck, lint and tests pass; before and after screenshots at desktop and phone width.
+
 ## Lyric visual styles, Phase 3: production of the 15 (started 2026-11-10)
 
 - Start: owner sent the Phase 3 brief: build the approved Phase 2 blueprint (shared infrastructure, the asset library in batches, all 15 styles in production order, diversity checks, app integration, QA, tests and a final report). Work autonomously; record blockers and move on. Do not push, open pull requests or touch remote branches without the owner's OK; no AI-generated images, no paid or cloud services, no copyrighted material. The four open Phase 2 owner decisions are taken at the Phase 2 recommendations and recorded as assumptions. Acceptance: the brief's milestones 1-7 and deliverables A-J.

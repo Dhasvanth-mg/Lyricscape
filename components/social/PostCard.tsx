@@ -26,7 +26,7 @@ export function PostCard({ post, onChange }: { post: PostDto; onChange: () => vo
   const playable = post.track.provider === 'demo' || !!post.track.providerTrackId;
 
   return (
-    <article className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
+    <article className="rounded-md border border-line bg-ink-900 p-4">
       <header className="mb-2 flex flex-wrap items-center gap-2 text-sm">
         <Link href={`/profile/${post.author.handle}`} className="font-semibold hover:underline">
           {post.author.displayName}
@@ -43,12 +43,12 @@ export function PostCard({ post, onChange }: { post: PostDto; onChange: () => vo
           onClick={() => void play()}
           disabled={!playable}
           aria-label={`Play ${post.track.title}`}
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-bone text-ink-950 transition hover:scale-105 disabled:opacity-30"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded bg-bone text-ink-950 transition disabled:opacity-30"
         >
           <Play size={18} fill="currentColor" className="translate-x-px" />
         </button>
         <div className="min-w-0">
-          <p className="truncate font-display text-2xl tracking-wide uppercase">{post.track.title}</p>
+          <p className="truncate text-[15px] font-semibold">{post.track.title}</p>
           <p className="truncate text-sm text-ink-300">{post.track.artists.join(', ')}</p>
         </div>
       </div>
@@ -60,7 +60,7 @@ export function PostCard({ post, onChange }: { post: PostDto; onChange: () => vo
             aria-label={`${k}${post.reactions[k] ? ` (${post.reactions[k]})` : ''}`}
             aria-pressed={post.myReaction === k}
             onClick={() => void api('POST', `/api/social/posts/${post.id}/react`, { kind: post.myReaction === k ? null : k }).then(onChange)}
-            className={clsx('inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs transition', post.myReaction === k ? 'bg-signal/20 text-signal' : 'text-ink-300 hover:bg-ink-800')}
+            className={clsx('inline-flex items-center gap-1 rounded px-2.5 py-1 text-xs transition', post.myReaction === k ? 'bg-signal/20 text-signal' : 'text-ink-300 hover:bg-ink-800')}
           >
             <Icon size={14} /> {post.reactions[k] ?? ''}
           </button>

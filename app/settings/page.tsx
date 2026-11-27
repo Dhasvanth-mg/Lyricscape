@@ -21,9 +21,9 @@ import type { CapabilityKey } from '@/lib/types';
 
 function Section({ title, children, id }: { title: string; children: React.ReactNode; id?: string }) {
   return (
-    <section id={id} className="mb-6 rounded-2xl border border-ink-700 bg-ink-900 p-5 sm:p-6">
-      <h2 className="mb-4 font-display text-2xl tracking-wide uppercase">{title}</h2>
-      {children}
+    <section id={id} className="grid scroll-mt-20 gap-x-10 gap-y-4 border-t border-line py-8 md:grid-cols-[200px_minmax(0,1fr)]">
+      <h2 className="text-[15px] font-semibold">{title}</h2>
+      <div className="max-w-[720px] min-w-0">{children}</div>
     </section>
   );
 }
@@ -94,8 +94,8 @@ export default function SettingsPage() {
   const premium = me?.product === 'premium';
 
   return (
-    <div className="max-w-3xl">
-      <PageHeader eyebrow="Account" title="Settings" />
+    <div className="max-w-[1000px]">
+      <PageHeader title="Settings" />
 
       <Section title="Spotify" id="spotify">
         <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -116,7 +116,7 @@ export default function SettingsPage() {
             <li>
               Add this exact Redirect URI:
               <div className="mt-1.5 flex items-center gap-2">
-                <code className="flex-1 overflow-x-auto rounded-lg bg-ink-800 px-3 py-2 font-mono text-xs whitespace-nowrap">{redirect}</code>
+                <code className="flex-1 overflow-x-auto rounded bg-ink-800 px-3 py-2 font-mono text-xs whitespace-nowrap">{redirect}</code>
                 <Button
                   size="sm"
                   onClick={() => {
@@ -135,7 +135,7 @@ export default function SettingsPage() {
         )}
 
         {localhost && (
-          <p role="alert" className="mb-4 rounded-lg border border-sun/40 bg-sun/10 p-3 text-sm text-sun">
+          <p role="alert" className="mb-4 rounded border border-sun/40 bg-sun/10 p-3 text-sm text-sun">
             You opened the app at <code>localhost</code>. Spotify only accepts <code>127.0.0.1</code> redirects, so open{' '}
             <a className="underline" href={`http://127.0.0.1:${window.location.port || 3000}/settings`}>
               127.0.0.1:{window.location.port || 3000}
@@ -154,7 +154,7 @@ export default function SettingsPage() {
                 placeholder="e.g. 3f2a…"
                 autoComplete="off"
                 spellCheck={false}
-                className="h-10 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 font-mono text-sm outline-none focus:border-aqua"
+                className="h-9 w-full rounded border border-ink-700 bg-ink-900 px-3 font-mono text-sm outline-none focus:border-ink-400"
               />
             </label>
             <Button variant="spotify" onClick={() => void connect()} disabled={!clientId.trim() || localhost}>
@@ -169,7 +169,7 @@ export default function SettingsPage() {
               </p>
             )}
             {!premium && me && (
-              <p className="rounded-lg border border-sun/30 bg-sun/10 p-3 text-sm text-sun">
+              <p className="rounded border border-sun/30 bg-sun/10 p-3 text-sm text-sun">
                 Free accounts can&apos;t be remote-controlled or play in the browser, but lyrics still follow whatever you play in the Spotify app.
               </p>
             )}
@@ -207,7 +207,7 @@ export default function SettingsPage() {
           </div>
         )}
         {err && (
-          <p role="alert" className="mt-4 rounded-lg border border-red-500/30 bg-red-950/40 p-3 text-sm text-red-200">
+          <p role="alert" className="mt-4 rounded border border-red-500/30 bg-red-950/40 p-3 text-sm text-red-200">
             {err}
           </p>
         )}
@@ -269,14 +269,14 @@ export default function SettingsPage() {
             Romanised: Hindi and Tamil lyrics spelled in Latin letters, the way people type them (a rule-based spelling, not checked by native readers yet). Translation: each line translated by your browser&apos;s on-device translator (Chrome 138 or newer; nothing leaves this computer). Line by line, so wordplay can get lost. The stage&apos;s <em>Aa</em> button switches it too.
           </span>
           <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
-            <select value={secondLine} onChange={(e) => setUi({ secondLine: e.target.value as typeof secondLine })} className="h-9 rounded-lg border border-ink-600 bg-ink-850 px-2" data-testid="second-line-select">
+            <select value={secondLine} onChange={(e) => setUi({ secondLine: e.target.value as typeof secondLine })} className="h-9 rounded border border-ink-600 bg-ink-850 px-2" data-testid="second-line-select">
               <option value="off">Off</option>
               <option value="roman">Romanised</option>
               <option value="translate">Translation</option>
             </select>
             <label className="flex items-center gap-1.5">
               Translate to
-              <select value={translateTo} onChange={(e) => setUi({ translateTo: e.target.value })} className="h-9 rounded-lg border border-ink-600 bg-ink-850 px-2">
+              <select value={translateTo} onChange={(e) => setUi({ translateTo: e.target.value })} className="h-9 rounded border border-ink-600 bg-ink-850 px-2">
                 <option value="">My browser&apos;s language</option>
                 {LANGUAGES.map((l) => (
                   <option key={l.code} value={l.code}>
@@ -321,7 +321,7 @@ export default function SettingsPage() {
         <button
           onClick={() => setUi({ autoTheme: true })}
           aria-pressed={autoTheme}
-          className={`mb-3 block w-full rounded-xl border p-4 text-left transition ${autoTheme ? 'border-signal bg-signal/10' : 'border-ink-700 hover:border-ink-500'}`}
+          className={`mb-3 block w-full rounded-md border p-4 text-left transition ${autoTheme ? 'border-signal bg-signal/10' : 'border-ink-700 hover:border-ink-500'}`}
         >
           <span className="block font-semibold">Auto: fits each song</span>
           <span className="text-sm text-ink-300">
@@ -338,7 +338,7 @@ export default function SettingsPage() {
                 setUi({ autoTheme: false });
               }}
               aria-pressed={!autoTheme && style === id}
-              className={`rounded-xl border p-3 text-left transition ${!autoTheme && style === id ? 'border-signal bg-signal/10' : 'border-ink-700 hover:border-ink-500'}`}
+              className={`rounded-md border p-3 text-left transition ${!autoTheme && style === id ? 'border-signal bg-signal/10' : 'border-ink-700 hover:border-ink-500'}`}
             >
               <span className="block font-semibold">{STYLES[id].label}</span>
               <span className="text-xs text-ink-300">{STYLES[id].description}</span>

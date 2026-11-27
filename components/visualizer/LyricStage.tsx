@@ -439,7 +439,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
     return () => window.removeEventListener('keydown', onKey);
   }, [chrome, clock]);
 
-  const pill = (on: boolean) => clsx('inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold backdrop-blur transition', on ? 'border-signal bg-signal text-white' : 'border-white/15 bg-black/40 text-bone hover:border-white/40');
+  const pill = (on: boolean) => clsx('inline-flex h-9 items-center gap-1.5 rounded border px-3.5 text-sm font-semibold transition', on ? 'border-bone bg-bone text-ink-950' : 'border-white/15 bg-black/40 text-bone hover:border-white/40');
 
   return (
     <div
@@ -450,32 +450,32 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       <canvas key={mode} ref={canvasRef} data-renderer={mode === 'turbo' ? 'webgl2' : 'canvas2d'} className="absolute inset-0 h-full w-full" aria-label={track ? `Lyrics for ${track.title}` : 'Lyrics'} role="img" />
 
       {ui.mode === 'turbo' && turboFailed && (
-        <p role="status" className="absolute top-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-amber-400/15 px-3 py-1.5 text-xs text-amber-200 backdrop-blur">
+        <p role="status" className="absolute top-3 left-1/2 z-10 -translate-x-1/2 rounded bg-amber-400/15 px-3 py-1.5 text-xs text-amber-200">
           Turbo needs WebGL2 ({turboFailed}). Showing Clean instead.
         </p>
       )}
 
       {!track && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-8 text-center">
-          <p className="font-display text-4xl uppercase">Nothing playing</p>
+          <p className="text-[28px] leading-tight font-semibold tracking-[-0.02em]">Nothing playing</p>
           <p className="max-w-sm text-sm text-ink-300">Play a demo song, import a file, or connect Spotify and play anything. The lyrics will appear here.</p>
         </div>
       )}
 
       {track && lyrics.status === 'loading' && (
-        <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-black/60 px-3 py-1.5 text-xs backdrop-blur">
+        <div className="absolute left-4 top-4 flex items-center gap-2 rounded bg-black/60 px-3 py-1.5 text-xs">
           <Spinner /> Loading lyrics…
         </div>
       )}
       {track && lyrics.searching && (
-        <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-black/60 px-3 py-1.5 text-xs backdrop-blur">
+        <div className="absolute left-4 top-4 flex items-center gap-2 rounded bg-black/60 px-3 py-1.5 text-xs">
           <Spinner /> Searching LRCLIB…
         </div>
       )}
 
       {noLyrics && !lyrics.searching && (
-        <div className="absolute inset-x-4 bottom-24 mx-auto flex max-w-lg flex-col items-center gap-3 rounded-2xl border border-white/10 bg-black/70 p-5 text-center backdrop-blur-md sm:bottom-28">
-          <p className="font-display text-2xl uppercase">No lyrics for this song yet</p>
+        <div className="absolute inset-x-4 bottom-24 mx-auto flex max-w-lg flex-col items-center gap-3 rounded-md border border-white/10 bg-black/70 p-5 text-center sm:bottom-28">
+          <p className="text-[15px] font-semibold">No lyrics for this song yet</p>
           <p className="text-sm text-ink-200">
             {lyrics.status === 'error' ? lyrics.message : track?.provider === 'spotify' ? 'Spotify does not provide lyrics. Find timed lyrics online or paste your own (LRC, VTT or plain text).' : 'Add timed lyrics to see them come alive.'}
           </p>
@@ -488,7 +488,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
                 Paste lyrics
               </Button>
             ) : (
-              <Link href="/visuals" onClick={onClose} className="inline-flex h-8 items-center rounded-full border border-ink-600 bg-ink-850 px-3.5 text-[13px] font-semibold hover:border-ink-400">
+              <Link href="/visuals" onClick={onClose} className="inline-flex h-8 items-center rounded border border-ink-600 bg-ink-850 px-3.5 text-[13px] font-semibold hover:border-ink-400">
                 Paste lyrics
               </Link>
             )}
@@ -501,7 +501,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
         <>
           {/* top: what is playing, the look, sync, window controls */}
           <div onPointerEnter={() => (barHover.current = true)} onPointerLeave={() => (barHover.current = false)} className={clsx('absolute inset-x-0 top-0 z-10 flex items-center gap-3 bg-gradient-to-b from-black/75 via-black/30 to-transparent p-3 transition-opacity duration-300 sm:p-4', controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0')}>
-            {track && <Cover track={track} className="h-10 w-10 shrink-0 shadow-lg ring-1 ring-white/15" rounded="rounded-md" />}
+            {track && <Cover track={track} className="h-10 w-10 shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.3)] ring-1 ring-white/15" rounded="rounded-md" />}
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold">{track?.title ?? '—'}</p>
               <p className="truncate text-xs text-ink-300">{track?.artists.join(', ')}</p>
@@ -550,7 +550,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
 
           {/* bottom: transport only. Everything else lives in the panel so the lyrics stay the show. */}
           <div onPointerEnter={() => (barHover.current = true)} onPointerLeave={() => (barHover.current = false)} className={clsx('absolute inset-x-0 bottom-0 z-10 flex items-center gap-3 bg-gradient-to-t from-black/70 to-transparent p-3 transition-opacity duration-300 sm:p-4', controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0')}>
-            <button onClick={() => void player.toggle()} className="grid h-11 w-11 place-items-center rounded-full bg-bone text-ink-950 shadow-lg transition hover:scale-105 active:scale-95" aria-label={status === 'playing' ? 'Pause' : 'Play'}>
+            <button onClick={() => void player.toggle()} className="grid h-11 w-11 place-items-center rounded bg-bone text-ink-950 shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition" aria-label={status === 'playing' ? 'Pause' : 'Play'}>
               {status === 'playing' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" className="ml-0.5" />}
             </button>
             {lyrics.doc && (
@@ -587,7 +587,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
 
       {second.lines && <SubLine lines={lyrics.doc?.lines ?? null} sub={second.lines} now={clock.now} />}
       {track && lyrics.doc && second.kind !== 'off' && !second.lines && (second.busy || second.note) && (
-        <p role="status" data-testid="second-line-status" className="absolute inset-x-0 bottom-[84px] z-[5] mx-auto w-fit max-w-[86%] rounded-full bg-black/60 px-3 py-1.5 text-center text-xs text-white/80 backdrop-blur sm:bottom-[96px]">
+        <p role="status" data-testid="second-line-status" className="absolute inset-x-0 bottom-[84px] z-[5] mx-auto w-fit max-w-[86%] rounded bg-black/60 px-3 py-1.5 text-center text-xs text-white/80 sm:bottom-[96px]">
           {second.busy ? `Translating the lyrics… ${Math.round(second.progress * 100)}%` : second.note}
         </p>
       )}
@@ -595,7 +595,7 @@ export function LyricStage({ track, style, onStyleChange, chrome = false, onClos
       {!chrome && canExport && (
         <button
           onClick={() => setExportShown(true)}
-          className="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-3 py-1.5 text-xs font-semibold text-white opacity-70 backdrop-blur transition hover:opacity-100 focus-visible:opacity-100"
+          className="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded bg-black/55 px-3 py-1.5 text-xs font-semibold text-white opacity-70 transition hover:opacity-100 focus-visible:opacity-100"
           title="Export this as a lyric video (no audio)"
         >
           <Download size={14} /> Export

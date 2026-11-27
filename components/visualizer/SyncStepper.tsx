@@ -57,7 +57,7 @@ export function SyncStepper({ value, onChange, id = 'sync-offset', label = 'Sync
     setDraft(null);
   };
 
-  const btn = 'inline-flex h-7 w-7 items-center justify-center rounded-full border border-ink-600 bg-ink-850/80 text-ink-100 transition hover:border-ink-400 active:scale-90 select-none touch-none';
+  const btn = 'inline-flex h-7 w-7 items-center justify-center rounded border border-ink-600 bg-ink-850/80 text-ink-100 transition hover:border-ink-400 select-none touch-none';
   return (
     <div className="flex items-center gap-1.5" role="group" aria-label={title}>
       <Gauge size={14} aria-hidden />

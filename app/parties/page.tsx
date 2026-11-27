@@ -23,9 +23,9 @@ export default function PartiesPage() {
 
   return (
     <div>
-      <PageHeader eyebrow="Collaborate" title="Parties">
+      <PageHeader title="Parties">
         {me && (
-          <Link href="/parties/new" className="inline-flex h-10 items-center gap-2 rounded-full bg-signal px-5 text-sm font-semibold text-white hover:bg-[#ff5a87]">
+          <Link href="/parties/new" className="inline-flex h-9 items-center gap-2 rounded bg-bone px-3.5 text-[13px] font-medium text-ink-950 hover:bg-white">
             <Plus size={16} /> New party
           </Link>
         )}
@@ -36,7 +36,7 @@ export default function PartiesPage() {
         <Empty
           title="Sign in to host"
           action={
-            <Link href="/login?next=/parties" className="inline-flex h-10 items-center rounded-full bg-bone px-5 text-sm font-semibold text-ink-950">
+            <Link href="/login?next=/parties" className="inline-flex h-9 items-center rounded bg-bone px-3.5 text-[13px] font-medium text-ink-950 hover:bg-white">
               Pick a profile
             </Link>
           }
@@ -60,12 +60,12 @@ export default function PartiesPage() {
       <ul className="grid gap-3 sm:grid-cols-2">
         {rows?.map((r) => (
           <li key={r.id}>
-            <Link href={r.role === 'host' || r.role === 'cohost' ? `/parties/${r.slug}` : `/p/${r.slug}`} className="block rounded-2xl border border-ink-700 bg-ink-900 p-5 transition hover:border-ink-400">
+            <Link href={r.role === 'host' || r.role === 'cohost' ? `/parties/${r.slug}` : `/p/${r.slug}`} className="block rounded-md border border-line bg-ink-900 p-5 transition hover:border-ink-400">
               <div className="mb-2 flex items-center gap-2">
                 <Chip tone={r.status === 'live' ? 'good' : r.status === 'ended' || r.status === 'archived' ? 'default' : 'warn'}>{r.status}</Chip>
                 <Chip>{r.role}</Chip>
               </div>
-              <h2 className="font-display text-3xl tracking-wide uppercase">{r.title}</h2>
+              <h2 className="text-[15px] font-semibold">{r.title}</h2>
               <p className="text-sm text-ink-300">
                 {r.startsAt ? new Date(r.startsAt).toLocaleString() : 'No date set'}
                 {r.place ? ` · ${r.place}` : ''}

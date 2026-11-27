@@ -294,23 +294,23 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
   const eta = progress?.eta ?? null;
   const pct = progress ? Math.round((progress.done / progress.total) * 100) : 0;
 
-  const field = 'h-9 rounded-full border border-ink-600 bg-ink-900 px-3 text-sm';
-  const pill = (on: boolean) => clsx('rounded-full border px-3 py-1.5 text-sm font-semibold transition disabled:opacity-40', on ? 'border-signal bg-signal text-white' : 'border-ink-600 text-ink-200 hover:border-ink-400');
-  const seg = (on: boolean) => clsx('rounded-full px-3 py-1 text-sm font-semibold transition disabled:opacity-40', on ? 'bg-bone text-ink-950' : 'text-ink-300 hover:text-bone');
+  const field = 'h-9 rounded border border-ink-600 bg-ink-900 px-3 text-sm';
+  const pill = (on: boolean) => clsx('h-8 rounded border px-3 text-[13px] font-medium transition disabled:opacity-40', on ? 'border-bone bg-bone text-ink-950' : 'border-ink-600 text-ink-200 hover:border-ink-400');
+  const seg = (on: boolean) => clsx('rounded px-3 py-1 text-sm font-semibold transition disabled:opacity-40', on ? 'bg-bone text-ink-950' : 'text-ink-300 hover:text-bone');
   const lock = busy !== null;
 
   return (
-    <div className="fixed inset-0 z-[300] flex items-end justify-center bg-black/75 p-0 backdrop-blur-sm sm:items-center sm:p-6" onMouseDown={(e) => e.target === e.currentTarget && !lock && close()}>
-      <div role="dialog" aria-modal="true" aria-label="Export lyric video" className="flex max-h-[96vh] w-full max-w-5xl flex-col overflow-hidden rounded-t-3xl border border-ink-700 bg-ink-900 text-bone shadow-2xl sm:rounded-3xl">
+    <div className="fixed inset-0 z-[300] flex items-end justify-center bg-black/75 p-0 sm:items-center sm:p-6" onMouseDown={(e) => e.target === e.currentTarget && !lock && close()}>
+      <div role="dialog" aria-modal="true" aria-label="Export lyric video" className="flex max-h-[96vh] w-full max-w-5xl flex-col overflow-hidden rounded-t-md border border-ink-700 bg-ink-900 text-bone shadow-[0_2px_8px_rgba(0,0,0,0.3)] sm:rounded-md">
         <header className="flex items-center gap-3 border-b border-ink-700 px-5 py-3">
           <Film size={18} aria-hidden />
           <div className="min-w-0 flex-1">
-            <h2 className="font-display text-xl uppercase leading-none">Export lyric video</h2>
+            <h2 className="text-[15px] font-semibold leading-none">Export lyric video</h2>
             <p className="truncate text-xs text-ink-300">
               {track.title} · {track.artists.join(', ')} · no audio, just the visuals
             </p>
           </div>
-          <button onClick={close} aria-label="Close" className="rounded-full p-2 text-ink-300 hover:bg-ink-800 hover:text-bone">
+          <button onClick={close} aria-label="Close" className="rounded p-2 text-ink-300 hover:bg-ink-800 hover:text-bone">
             <X size={18} />
           </button>
         </header>
@@ -318,18 +318,18 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
         <div className="grid min-h-0 flex-1 gap-5 overflow-y-auto p-5 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
           {/* preview */}
           <section aria-label="Preview" className="flex flex-col gap-3">
-            <div className="flex justify-center rounded-2xl border border-ink-700 bg-black/40 p-2">
-              <div ref={wrapRef} className="relative max-h-[52vh] w-full overflow-hidden rounded-xl bg-ink-950" style={{ aspectRatio: `${sz.width} / ${sz.height}`, maxWidth: `min(100%, calc(52vh * ${sz.width / sz.height}))` }}>
+            <div className="flex justify-center rounded-md border border-ink-700 bg-black/40 p-2">
+              <div ref={wrapRef} className="relative max-h-[52vh] w-full overflow-hidden rounded-md bg-ink-950" style={{ aspectRatio: `${sz.width} / ${sz.height}`, maxWidth: `min(100%, calc(52vh * ${sz.width / sz.height}))` }}>
                 <canvas key={mode} ref={canvasRef} className="absolute inset-0 h-full w-full" aria-label="Export preview" role="img" />
                 {art === undefined && track.artworkUrl && (
-                  <span className="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-1 text-[10px]">
+                  <span className="absolute right-2 top-2 rounded bg-black/60 px-2 py-1 text-[10px]">
                     <Spinner /> cover
                   </span>
                 )}
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <button onClick={() => setPlaying((p) => !p)} className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-bone text-ink-950" aria-label={playing ? 'Pause preview' : 'Play preview'}>
+              <button onClick={() => setPlaying((p) => !p)} className="inline-flex h-9 w-9 items-center justify-center rounded bg-bone text-ink-950" aria-label={playing ? 'Pause preview' : 'Play preview'}>
                 {playing ? <Pause size={16} /> : <Play size={16} />}
               </button>
               <input
@@ -356,8 +356,8 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
           {/* settings */}
           <section aria-label="Export settings" className="flex flex-col gap-4 text-sm">
             <fieldset className="grid gap-2">
-              <legend className="mb-1 font-mono text-[11px] tracking-wide text-ink-400 uppercase">Mode</legend>
-              <div className="flex gap-1 rounded-full bg-ink-800/80 p-1" role="radiogroup" aria-label="Stage mode">
+              <legend className="mb-1 text-[12px] font-medium text-ink-400">Mode</legend>
+              <div className="flex gap-1 rounded bg-ink-800/80 p-1" role="radiogroup" aria-label="Stage mode">
                 {STAGE_MODES.map((m) => (
                   <button key={m} role="radio" aria-checked={mode === m} onClick={() => setMode(m)} disabled={lock || (m === 'turbo' && !canTurbo)} title={m === 'turbo' && !canTurbo ? 'WebGL2 is not available in this browser' : MODES[m].tagline} className={seg(mode === m)} data-testid={`export-mode-${m}`}>
                     {MODES[m].label}
@@ -387,7 +387,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
             </fieldset>
 
             <fieldset className="grid gap-2">
-              <legend className="mb-1 font-mono text-[11px] tracking-wide text-ink-400 uppercase">Look</legend>
+              <legend className="mb-1 text-[12px] font-medium text-ink-400">Look</legend>
               <div className="flex flex-wrap items-center gap-2">
                 <label className="sr-only" htmlFor="exp-style">
                   Visual style
@@ -399,7 +399,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
                     </option>
                   ))}
                 </select>
-                <div className="flex gap-1 rounded-full bg-ink-800/80 p-1" role="radiogroup" aria-label="Color source">
+                <div className="flex gap-1 rounded bg-ink-800/80 p-1" role="radiogroup" aria-label="Color source">
                   {([['blend', 'Blend'], ['album', 'Album'], ['emotion', 'Mood']] as [ColorMode, string][]).map(([id, label]) => (
                     <button key={id} role="radio" aria-checked={colorMode === id} onClick={() => setColorMode(id)} className={seg(colorMode === id)} disabled={lock}>
                       {label}
@@ -421,7 +421,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
             </fieldset>
 
             <fieldset className="grid gap-2">
-              <legend className="mb-1 flex w-full items-center font-mono text-[11px] tracking-wide text-ink-400 uppercase">
+              <legend className="mb-1 flex w-full items-center text-[12px] font-medium text-ink-400">
                 What gets drawn
                 <span className="ml-auto flex gap-3 normal-case">
                   <button onClick={lyricsOnly} className="underline" disabled={lock}>
@@ -456,7 +456,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
             </fieldset>
 
             <fieldset className="grid gap-2">
-              <legend className="mb-1 font-mono text-[11px] tracking-wide text-ink-400 uppercase">Range</legend>
+              <legend className="mb-1 text-[12px] font-medium text-ink-400">Range</legend>
               <div className="flex flex-wrap items-center gap-2">
                 <label className="flex items-center gap-1.5">
                   From
@@ -485,7 +485,7 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
             </fieldset>
 
             <fieldset className="grid gap-2">
-              <legend className="mb-1 font-mono text-[11px] tracking-wide text-ink-400 uppercase">File</legend>
+              <legend className="mb-1 text-[12px] font-medium text-ink-400">File</legend>
               <div className="flex flex-wrap items-center gap-2">
                 <label className="sr-only" htmlFor="exp-size">
                   Size
@@ -497,14 +497,14 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
                     </option>
                   ))}
                 </select>
-                <div className="flex gap-1 rounded-full bg-ink-800/80 p-1" role="radiogroup" aria-label="Frame rate">
+                <div className="flex gap-1 rounded bg-ink-800/80 p-1" role="radiogroup" aria-label="Frame rate">
                   {([30, 60] as const).map((f) => (
                     <button key={f} role="radio" aria-checked={fps === f} onClick={() => setFps(f)} className={seg(fps === f)} disabled={lock}>
                       {f} fps
                     </button>
                   ))}
                 </div>
-                <div className="flex gap-1 rounded-full bg-ink-800/80 p-1" role="radiogroup" aria-label="Format">
+                <div className="flex gap-1 rounded bg-ink-800/80 p-1" role="radiogroup" aria-label="Format">
                   {(['mp4', 'webm'] as const).map((f) => (
                     <button key={f} role="radio" aria-checked={format === f} onClick={() => setFormat(f)} className={seg(format === f)} disabled={lock || (formats !== null && !formats[f])} title={formats && !formats[f] ? 'Not supported by this browser at this size' : undefined}>
                       {f.toUpperCase()}
@@ -535,15 +535,15 @@ export function ExportDialog({ track, doc, direction, look: stageLook, identity,
               </p>
             </fieldset>
 
-            {!supported && <p className="rounded-xl border border-amber-400/30 bg-amber-400/10 p-3 text-xs text-amber-200">Video export needs a Chromium-based browser (Chrome, Edge or Brave). PNG frames still work here.</p>}
+            {!supported && <p className="rounded-md border border-amber-400/30 bg-amber-400/10 p-3 text-xs text-amber-200">Video export needs a Chromium-based browser (Chrome, Edge or Brave). PNG frames still work here.</p>}
           </section>
         </div>
 
         <footer className="flex flex-col gap-2 border-t border-ink-700 px-5 py-3">
           {progress && (
             <div role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Export progress" className="flex items-center gap-3 text-xs text-ink-200">
-              <div className="h-2 flex-1 overflow-hidden rounded-full bg-ink-700">
-                <div className="h-full rounded-full bg-signal transition-[width]" style={{ width: `${pct}%` }} />
+              <div className="h-2 flex-1 overflow-hidden rounded bg-ink-700">
+                <div className="h-full rounded bg-signal transition-[width]" style={{ width: `${pct}%` }} />
               </div>
               <span className="w-44 text-right font-mono tabular-nums">
                 {pct}% · {progress.done}/{progress.total}

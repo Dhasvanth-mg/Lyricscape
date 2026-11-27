@@ -47,7 +47,7 @@ export async function spFetch<T = unknown>(path: string, opts: FetchOpts = {}, a
   try {
     token = await getAccessToken();
   } catch (e) {
-    if (e instanceof SpotifyAuthError) throw new SpotifyApiError(e.message, 'auth', 401);
+    if (e instanceof SpotifyAuthError) throw new SpotifyApiError(e.message, e.code === 'network' ? 'network' : 'auth', e.code === 'network' ? 0 : 401);
     throw e;
   }
   const url = new URL(path.startsWith('http') ? path : BASE + path);

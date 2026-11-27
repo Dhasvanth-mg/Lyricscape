@@ -22,7 +22,7 @@ export type SpotifyTokens = { accessToken: string; refreshToken?: string; expire
 export class SpotifyAuthError extends Error {
   constructor(
     message: string,
-    public code: 'not-configured' | 'not-connected' | 'refresh-failed' | 'state-mismatch' | 'denied' | 'exchange-failed' | 'bad-origin',
+    public code: 'not-configured' | 'not-connected' | 'refresh-failed' | 'network' | 'state-mismatch' | 'denied' | 'exchange-failed' | 'bad-origin',
   ) {
     super(message);
   }
@@ -179,11 +179,17 @@ async function refresh(tokens: SpotifyTokens): Promise<SpotifyTokens> {
     writeTokens(null);
     throw new SpotifyAuthError('Spotify session expired. Reconnect in Settings.', 'refresh-failed');
   }
-  const res = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: tokens.refreshToken, client_id: clientId }),
-  });
+  let res: Response;
+  try {
+    res = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: tokens.refreshToken, client_id: clientId }),
+    });
+  } catch {
+    // offline or blocked: keep the tokens so it recovers once Spotify is reachable again
+    throw new SpotifyAuthError('Cannot reach Spotify to renew the login. Check your connection.', 'network');
+  }
   if (!res.ok) {
     if (res.status === 400 || res.status === 401) writeTokens(null); // revoked / invalid grant
     throw new SpotifyAuthError('Spotify session expired or was revoked. Reconnect in Settings.', 'refresh-failed');

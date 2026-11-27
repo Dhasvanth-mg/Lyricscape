@@ -101,6 +101,7 @@ Updated: 2026-10-27. Status distinguishes implementation from verification. This
 | Auto queue, loop, shuffle and Smart Shuffle | App features verified; Spotify Smart Shuffle unavailable through Web API | Queue selected collection, loop off/all/one, shuffle, optional liked-song autofill | Edge verified next-track progression through collection and liked-song autofill, loop and shuffle controls. Local smart library mix is distinct from Spotify's recommendation-based Smart Shuffle, which the Web API shuffle endpoint does not expose. Local mix uniqueness and artist separation have unit coverage |
 | Replace unofficial provider with licensed access before beta/production | Planned for beta preparation | Licensed provider and production verification | Deferred as requested; no paid credentials or purchase needed during current development |
 | Track every future feature request and save instructions | Complete | Separate tracker, start/end updates for every request, repository and persistent instructions | This file created; repository AGENTS.md and C:/Users/dhasv/.codex/AGENTS.md both contain the standing rule |
+| Spotify "couldn't connect" error and Feb 2026 API changes | Partly fixed, cause awaiting owner screenshot | Premium no longer read from /me (Spotify dropped `product`), genres fetched per artist (batch /artists removed), offline token renewal keeps the login | Typecheck and Spotify tests pass. Likely causes on Spotify's side: app owner needs Premium, user must be in User Management (5 users max), redirect must be 127.0.0.1 |
 
 ## Request log
 

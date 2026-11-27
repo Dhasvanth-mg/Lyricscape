@@ -374,6 +374,26 @@
   gl.generateMipmap(gl.TEXTURE_2D);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT);
+  // The cover is the current track's album art when a song brings one (embedded in the file, looked up, or picked by
+  // hand); the procedural cover stands in for the demo song. Every look that draws `cover` or samples texCover follows it.
+  const PROC_COVER = document.createElement('canvas');
+  PROC_COVER.width = PROC_COVER.height = 1024; PROC_COVER.getContext('2d').drawImage(cover, 0, 0);
+  let COVER_VER = 0, COVER_IS_ART = false;
+  function setCoverArt(img) {
+    const c = cover.getContext('2d');
+    c.clearRect(0, 0, 1024, 1024);
+    if (img) {
+      const w = img.width || img.naturalWidth, h = img.height || img.naturalHeight, s = Math.min(w, h);
+      c.imageSmoothingQuality = 'high';
+      c.drawImage(img, (w - s) / 2, (h - s) / 2, s, s, 0, 0, 1024, 1024);
+    } else c.drawImage(PROC_COVER, 0, 0);
+    COVER_IS_ART = !!img;
+    gl.bindTexture(gl.TEXTURE_2D, texCover); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, gl.RGBA, gl.UNSIGNED_BYTE, cover);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    COVER_VER++;
+    CLASSIC.coverChanged();
+  }
   const texText = gl.createTexture();
   const texSpec = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texSpec);
@@ -2138,7 +2158,7 @@
   });
     try { REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { /* no media query support */ }
     const keep = ['platter', 'strip', 'marginalia', 'sticker', 'punch', 'recap', 'kinetic', 'lull', 'boil', 'warp', 'magnet', 'mirror', 'melt', 'karaoke', 'highway'];
-    return { looks: LOOKS.filter((l) => keep.includes(l.id)), resize() { kinCache.clear(); }, fontsLoaded() { ptsCache.clear(); kinCache.clear(); } };
+    return { looks: LOOKS.filter((l) => keep.includes(l.id)), resize() { kinCache.clear(); }, fontsLoaded() { ptsCache.clear(); kinCache.clear(); }, coverChanged() { const c = cover.getContext('2d'); c.clearRect(0, 0, 1024, 1024); c.drawImage(COVER_ART, 0, 0, 1024, 1024); } };
   })();
   for (const l of CLASSIC.looks) LOOKS.push(Object.assign(l, { kind: '2d', gpuFamily: l.family, family: 'Hand-made and quirky', post: POST(Object.assign({ thresh: 0.9, bloom: 0.45, grain: 0.032, ca: 0.12, vig: 0.4 }, POLISH[l.id] || {})) }));
   const P_PIC = program(PRE + `
@@ -2164,7 +2184,11 @@
   // ---------- Constellation ----------
   // Each sung word becomes a star. A spark travels along a fresh line from the last word to the next and lands on the
   // syllable; the word blooms large if it is held, then settles into a small label. A couplet builds one constellation,
-  // and the next couplet cuts to a clean sky on the downbeat.
+  // and the next couplet cuts to a clean sky (and a new crop of the album art) on the downbeat.
+  // The sky is the current track's album art, blurred and dimmed. Above it sits a lock-screen clock and date (real time).
+  // Lock screen (passive mode): when the song has no vocal for a while (intro, breaks, outro), when playback has been
+  // still for a few seconds, or when it is switched on with L, the stars give way to the art as a card with a glass
+  // now-playing panel, like a phone's lock screen. It keeps breathing on the beat while the music plays.
   const constCache = new Map();
   function constLayout(c, W, H) {
     const key = `${c}:${W}x${H}`;
@@ -2202,45 +2226,135 @@
     for (let i = 0; i < 8; i++) { const rr = i % 2 ? r * 0.28 : r; const an = (i / 8) * TAU - Math.PI / 2; ctx.lineTo(Math.cos(an) * rr, Math.sin(an) * rr); }
     ctx.closePath(); ctx.fill(); ctx.restore();
   }
+  const rrect = (ctx, x, y, w, h, r) => { ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x, y, w, h, r); else ctx.rect(x, y, w, h); };
+  // the album art prepared for the sky: a soft, blurred copy and an accent colour, rebuilt whenever the art changes
+  let constArt = null;
+  function constArtFx() {
+    if (constArt && constArt.v === COVER_VER) return constArt;
+    const b = document.createElement('canvas'); b.width = b.height = 512;
+    const c = b.getContext('2d');
+    if (HAS_FILTER2) { c.filter = 'blur(14px) saturate(1.2)'; c.drawImage(cover, -48, -48, 608, 608); c.filter = 'none'; }
+    else { const s = document.createElement('canvas'); s.width = s.height = 24; s.getContext('2d').drawImage(cover, 0, 0, 24, 24); c.imageSmoothingQuality = 'high'; c.drawImage(s, 0, 0, 512, 512); }
+    // accent: the brightest, most colourful part of the art, lifted so it reads as light
+    const p = document.createElement('canvas'); p.width = p.height = 32;
+    const pc = p.getContext('2d'); pc.drawImage(cover, 0, 0, 32, 32);
+    const d = pc.getImageData(0, 0, 32, 32).data, cand = [];
+    let lum = 0;
+    for (let i = 0; i < d.length; i += 4) {
+      const r = d[i], g = d[i + 1], bl = d[i + 2], mx = Math.max(r, g, bl), mn = Math.min(r, g, bl);
+      lum += 0.2126 * r + 0.7152 * g + 0.0722 * bl;
+      cand.push([(mx - mn) / 255 * 0.7 + mx / 255 * 0.3, r, g, bl]);
+    }
+    cand.sort((a, z) => z[0] - a[0]);
+    const top = cand.slice(0, 40), acc = [0, 0, 0];
+    for (const q of top) { acc[0] += q[1] / top.length; acc[1] += q[2] / top.length; acc[2] += q[3] / top.length; }
+    const m = Math.max(1, ...acc), lift = 235 / m;
+    const accent = acc.map((v) => Math.round(clamp(v * lift * 0.75 + 235 * 0.25, 0, 255)));
+    constArt = { v: COVER_VER, blur: b, accent, luma: lum / (d.length / 4) / 255 };
+    return constArt;
+  }
+  // real clock and date, lock-screen style ("Fri 27 Nov" over "02:30"), no am/pm
+  let clockFmt = null;
+  function lockClock() {
+    const now = new Date();
+    if (!clockFmt) {
+      try {
+        clockFmt = {
+          time: new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit' }),
+          date: new Intl.DateTimeFormat(undefined, { weekday: 'short', day: 'numeric', month: 'short' }),
+        };
+      } catch { clockFmt = {}; }
+    }
+    let time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`, date = now.toDateString().slice(0, 10);
+    try {
+      const tp = clockFmt.time.formatToParts(now), dp = clockFmt.date.formatToParts(now);
+      const get = (parts, k) => (parts.find((x) => x.type === k) || {}).value || '';
+      time = `${get(tp, 'hour')}:${get(tp, 'minute')}`;
+      date = `${get(dp, 'weekday')} ${get(dp, 'day')} ${get(dp, 'month')}`.replace(/\./g, '');
+    } catch { /* plain fallback above */ }
+    return { time, date };
+  }
+  // lock-screen amount from the song itself: no vocal for a while (intro, long breaks, outro)
+  function constGapLock(t) {
+    if (!LINES.length) return 1;
+    const first = LINES[0], last = LINES[LINES.length - 1];
+    if (t < first.start) return 1 - smooth(first.start - 1.3, first.start - 0.35, t);
+    const li = Song.lastStarted(t), prev = LINES[Math.max(0, li)], next = LINES[li + 1];
+    if (!next) return smooth(last.end + 1.6, last.end + 3.0, t);
+    if (next.start - prev.end < 7) return 0;
+    return smooth(prev.end + 1.6, prev.end + 3.0, t) * (1 - smooth(next.start - 1.3, next.start - 0.35, t));
+  }
+  // passive state: 'auto' (gaps and idle) or 'on' (always the lock screen). Idle = song time has not moved for 4 s.
+  const LOCK = { mode: 'auto', v: 0, lastT: null, still: 0, real: 0 };
   MOTION.push({
     id: 'constellation', name: 'Constellation', family: 'Live motion',
-    from: 'Fan lyric edits that map each sung word to a star on a dark lock-screen-style sky.',
-    what: 'Every sung word becomes a star. A spark races along a new line from the last word and lands exactly on the syllable; held words bloom large and glow while the note lasts, then shrink into a small label. Each couplet draws one constellation, and the next couplet cuts to a clean sky on the downbeat. The thin clock up top is the song’s own time.',
-    post: POST({ thresh: 0.75, bloom: 0.75, grain: 0.04, ca: 0.15, vig: 0.7 }),
+    from: 'Fan lyric edits that map each sung word to a star over the song’s own art, on a lock-screen-style clock.',
+    what: 'Every sung word becomes a star over the track’s album art. A spark races along a new line from the last word and lands exactly on the syllable; held words bloom large and glow while the note lasts, then shrink into a small label. Each couplet draws one constellation, and the next couplet cuts to a clean sky and a new crop of the art on the downbeat. The clock and date up top are real time. In intros, long breaks and the outro, or when playback sits still, it settles into a lock screen with the art and a now-playing card; press L to keep the lock screen on.',
+    post: POST({ thresh: 0.78, bloom: 0.7, grain: 0.04, ca: 0.12, vig: 0.65 }),
     draw(ctx, W, H, t) {
       const S = Math.min(W, H), tall = H > W;
-      ctx.fillStyle = '#040407'; ctx.fillRect(0, 0, W, H);
-      // a faint field of background stars, deterministic
-      for (let i = 0; i < 90; i++) { const a = 0.08 + 0.18 * hash(i * 9.1) * (0.6 + 0.4 * Math.sin(t * (0.5 + hash(i)) + i)); ctx.fillStyle = `rgba(200,205,235,${a})`; ctx.fillRect(hash(i * 1.7) * W, hash(i * 2.9) * H, 1.2, 1.2); }
+      const real = performance.now() / 1000, rdt = LOCK.real ? clamp(real - LOCK.real, 0, 0.25) : 0;
+      LOCK.real = real;
+      // passive amount: idle eases in over ~1 s; any movement of song time (play, scrub) wakes it straight away
+      const moved = LOCK.lastT == null || Math.abs(t - LOCK.lastT) > 1e-4;
+      LOCK.lastT = t;
+      if (moved) LOCK.still = 0; else LOCK.still += rdt;
+      const want = LOCK.mode === 'on' ? 1 : LOCK.still > 4 ? 1 : 0;
+      LOCK.v = rdt === 0 && state.lastFrameT == null ? want : want > LOCK.v ? Math.min(want, LOCK.v + rdt * 1.2) : Math.max(want, LOCK.v - rdt * 3.5);
+      const lock = ease(Math.max(LOCK.v, constGapLock(t)));
+      const live = moved ? 1 : 0; // the music is moving: let the beat drive things
+      const bt = Song.beat(t), kick = kickEnv(t, 7) * live, art = constArtFx();
+      const A = art.accent, acc = (a) => `rgba(${A[0]},${A[1]},${A[2]},${a})`;
+
       const li = Song.lastStarted(t);
       const L = li >= 0 ? LINES[li] : null;
       const c = L ? couplet(L.i) : -1;
       const cs = c >= 0 ? LINES.find((x) => couplet(x.i) === c) : null;
       const ce = c >= 0 ? LINES.filter((x) => couplet(x.i) === c).pop() : null;
-      // camera: a fresh framing per couplet (a cut), then a slow push and a breath of handheld drift
       const since = cs ? t - cs.start : t;
-      const push = 1 + 0.05 * clamp(since / 8, 0, 1) + 0.008 * Song.beat(t).barEnv;
-      const ox = (c >= 0 ? (hash(c * 4.4) - 0.5) * W * 0.04 : 0) + Math.sin(t * 0.7) * S * 0.003, oy = (c >= 0 ? (hash(c * 6.1) - 0.5) * H * 0.03 : 0) + Math.cos(t * 0.9) * S * 0.003;
-      ctx.save(); ctx.translate(W / 2 + ox, H / 2 + oy); ctx.scale(push, push); ctx.translate(-W / 2, -H / 2);
-      // clock: the song's own time, in a thin face
-      const secs = Math.floor(t), clock = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
+
+      // ---- sky: the album art, blurred. A new crop per couplet (a hard cut), a slow push, a breath on the bar.
+      ctx.fillStyle = '#040407'; ctx.fillRect(0, 0, W, H);
+      const M = Math.max(W, H);
+      const cutZ = M * (1.3 + 0.35 * hash(c * 2.7 + 1)), cutX = (W - cutZ) * hash(c * 1.9 + 0.3), cutY = (H - cutZ) * hash(c * 3.1 + 0.7);
+      const lockZ = M * 1.12, lockX = (W - lockZ) / 2, lockY = (H - lockZ) / 2;
+      const pushK = 1 + 0.06 * clamp(since / 10, 0, 1) * (1 - lock) + 0.012 * bt.barEnv * live;
+      const drift = S * 0.015;
+      let z = lerp(cutZ, lockZ, lock) * pushK;
+      let bx = lerp(cutX, lockX, lock) - (z - lerp(cutZ, lockZ, lock)) / 2 + Math.sin(real * 0.05) * drift, by = lerp(cutY, lockY, lock) - (z - lerp(cutZ, lockZ, lock)) / 2 + Math.cos(real * 0.04) * drift;
+      ctx.drawImage(art.blur, bx, by, z, z);
+      // dim so the stars read, a touch less on the lock screen; the kick lifts the sky a little
+      const dim = clamp(lerp(0.47, 0.38, lock) + (art.luma - 0.35) * 0.4, 0.3, 0.78) - 0.05 * kick;
+      ctx.fillStyle = `rgba(3,3,9,${dim})`; ctx.fillRect(0, 0, W, H);
+      const vg = ctx.createRadialGradient(W / 2, H * 0.45, S * 0.2, W / 2, H * 0.5, M * 0.75);
+      vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,6,0.55)');
+      ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+      // a faint field of background stars, deterministic, twinkling in real time
+      for (let i = 0; i < 90; i++) { const a = (0.06 + 0.16 * hash(i * 9.1) * (0.6 + 0.4 * Math.sin(real * (0.5 + hash(i)) + i))) * (1 - 0.5 * lock); ctx.fillStyle = `rgba(220,225,245,${a})`; ctx.fillRect(hash(i * 1.7) * W, hash(i * 2.9) * H, 1.2, 1.2); }
+
+      // ---- the lock-screen clock and date (real time), same place in both modes
+      const clk = lockClock();
+      const dateY = H * (tall ? 0.115 : 0.095), clockY = H * (tall ? 0.235 : 0.27), clockPx = S * (tall ? 0.2 : 0.17) * (1 + 0.08 * lock);
       ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
-      ctx.fillStyle = 'rgba(220,224,240,0.62)'; ctx.font = F.tight(600, S * 0.024); if ('letterSpacing' in ctx) ctx.letterSpacing = `${S * 0.002}px`;
-      ctx.fillText(Song.section(t).name.toUpperCase(), W / 2, H * (tall ? 0.13 : 0.12));
-      if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
-      ctx.fillStyle = 'rgba(214,218,236,0.82)'; ctx.font = F.tight(300, S * (tall ? 0.15 : 0.13)); ctx.fillText(clock, W / 2, H * (tall ? 0.24 : 0.26));
-      // intro / break / outro: the song title floats where the stars will be
-      const tf = titleFade(t);
-      if (tf > 0 && (!L || t > (ce ? ce.end + 1.2 : 0) || t < LINES[0].start)) {
-        ctx.globalAlpha = tf; ctx.fillStyle = '#eef0fa'; ctx.font = F.tight(700, S * 0.05); ctx.fillText(TITLE, W / 2, H * 0.6);
-        ctx.fillStyle = 'rgba(200,205,225,0.7)'; ctx.font = F.tight(500, S * 0.022); ctx.fillText(ARTIST, W / 2, H * 0.6 + S * 0.05); ctx.globalAlpha = 1;
-        sparkle(ctx, W / 2, H * 0.6 - S * 0.09, S * 0.016 * (1 + 0.3 * Song.beat(t).env), tf);
-      }
-      if (L) {
+      ctx.fillStyle = 'rgba(236,238,250,0.78)'; ctx.font = F.serif(S * (tall ? 0.034 : 0.03)); ctx.fillText(clk.date, W / 2, dateY);
+      const cg = ctx.createLinearGradient(0, clockY - clockPx * 0.72, 0, clockY);
+      cg.addColorStop(0, 'rgba(255,255,255,0.96)'); cg.addColorStop(1, `rgba(${Math.round(lerp(210, A[0], 0.35))},${Math.round(lerp(214, A[1], 0.35))},${Math.round(lerp(236, A[2], 0.35))},0.72)`);
+      ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.35)'; ctx.shadowBlur = S * 0.03; ctx.shadowOffsetY = S * 0.006;
+      ctx.fillStyle = cg; ctx.font = F.serif(clockPx); if ('letterSpacing' in ctx) ctx.letterSpacing = `${-clockPx * 0.01}px`;
+      ctx.fillText(clk.time, W / 2, clockY);
+      ctx.restore(); if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+
+      // ---- the constellation (fades away as the lock screen comes in)
+      const show = 1 - lock;
+      if (L && show > 0.01) {
         const lay = constLayout(c, W, H);
-        const fadeOut = 1 - smooth(ce.end + 0.5, ce.end + 1.3, t);
+        const fadeOut = (1 - smooth(ce.end + 0.5, ce.end + 1.3, t)) * show;
         const pts = lay.pts.filter((p) => p.w.s - 0.2 <= t);
         if (pts.length && fadeOut > 0) {
+          // camera: a fresh framing per couplet (a cut), then a slow push and a breath of handheld drift
+          const push = 1 + 0.05 * clamp(since / 8, 0, 1) + 0.008 * bt.barEnv + 0.04 * lock;
+          const ox = (hash(c * 4.4) - 0.5) * W * 0.04 + Math.sin(t * 0.7) * S * 0.003, oy = (hash(c * 6.1) - 0.5) * H * 0.03 + Math.cos(t * 0.9) * S * 0.003 + lock * S * 0.05;
+          ctx.save(); ctx.translate(W / 2 + ox, H / 2 + oy); ctx.scale(push, push); ctx.translate(-W / 2, -H / 2);
           ctx.globalAlpha = fadeOut;
           const cur = pts[pts.length - 1];
           // lines: each drawn as the spark travels it, landing on the syllable
@@ -2248,10 +2362,11 @@
           for (let k = 1; k < pts.length; k++) {
             const a = pts[k - 1], b = pts[k];
             const p = smooth(b.w.s - 0.2, b.w.s, t);
-            const g = ctx.createLinearGradient(a.x, a.y, b.x, b.y); g.addColorStop(0, 'rgba(190,198,235,0.35)'); g.addColorStop(1, 'rgba(225,230,255,0.7)');
+            const g = ctx.createLinearGradient(a.x, a.y, b.x, b.y); g.addColorStop(0, 'rgba(225,230,250,0.4)'); g.addColorStop(1, 'rgba(245,247,255,0.8)');
             ctx.strokeStyle = g; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(lerp(a.x, b.x, p), lerp(a.y, b.y, p)); ctx.stroke();
           }
           // nodes and labels
+          ctx.save(); ctx.shadowColor = 'rgba(0,0,8,0.45)'; ctx.shadowBlur = S * 0.012;
           for (const q of pts) {
             const isCur = q === cur, w = q.w;
             const landed = t >= w.s;
@@ -2262,24 +2377,25 @@
             const settle = isCur ? 1 : 1 - smooth(0, 0.3, t - (pts[pts.indexOf(q) + 1] ? pts[pts.indexOf(q) + 1].w.s : 1e9));
             const pop = easeBack(clamp(age / 0.16, 0, 1));
             const size = landed ? lerp(S * 0.022, peak, settle * (big ? Math.max(voice, 0.35) : 1)) * (0.85 + 0.15 * pop) : 0;
-            ctx.fillStyle = '#dfe3f6';
+            ctx.fillStyle = '#eef0fb';
             sparkle(ctx, q.x, q.y, S * (isCur ? 0.012 : 0.008), landed ? 1 : 0.4);
             if (isCur && landed) {
               const env = leadEnv(t);
-              ctx.strokeStyle = `rgba(230,235,255,${0.5 * voice + 0.25 * env})`; ctx.lineWidth = Math.max(1, S * 0.0018);
-              ctx.beginPath(); ctx.arc(q.x, q.y, S * (0.02 + 0.006 * env + 0.004 * Song.beat(t).env), 0, TAU); ctx.stroke();
+              ctx.strokeStyle = acc(0.45 * voice + 0.3 * env); ctx.lineWidth = Math.max(1, S * 0.0018);
+              ctx.beginPath(); ctx.arc(q.x, q.y, S * (0.02 + 0.006 * env + 0.004 * bt.env), 0, TAU); ctx.stroke();
               ctx.fillStyle = '#ffffff'; sparkle(ctx, q.x, q.y, S * (0.016 + 0.01 * voice * env), 1);
             }
             if (size > 0) {
               ctx.font = F.tight(isCur || settle > 0.5 ? 700 : 600, size);
               ctx.textBaseline = 'middle';
-              const bright = isCur ? 0.98 : lerp(0.55, 0.95, settle);
-              ctx.fillStyle = `rgba(232,236,252,${bright})`;
+              const bright = isCur ? 0.98 : lerp(0.6, 0.95, settle);
+              ctx.fillStyle = `rgba(240,242,253,${bright})`;
               const dx = q.side * (S * 0.022 + size * 0.15), dy = isCur && big ? S * 0.03 : -S * 0.018;
               ctx.textAlign = q.side > 0 ? 'left' : 'right';
               ctx.fillText(w.text, q.x + dx, q.y + dy);
             }
           }
+          ctx.restore();
           // the travelling spark between nodes
           const nxt = lay.pts.find((p) => p.w.s > t);
           if (nxt && t > nxt.w.s - 0.2) {
@@ -2287,9 +2403,60 @@
             ctx.fillStyle = '#ffffff'; sparkle(ctx, lerp(cur.x, nxt.x, p), lerp(cur.y, nxt.y, p), S * 0.014, 1);
           }
           ctx.globalAlpha = 1;
+          ctx.restore();
         }
       }
-      ctx.restore();
+
+      // ---- lock screen: the art as a card and a glass now-playing panel
+      if (lock > 0.01) {
+        const k = lock;
+        const size = (tall ? W * 0.62 : H * 0.34) * lerp(0.82, 1, k) * (1 + 0.018 * kick);
+        const cx = W / 2, cy = H * (tall ? 0.455 : 0.525) + (1 - k) * S * 0.06;
+        const x0 = cx - size / 2, y0 = cy - size / 2, rad = size * 0.045;
+        ctx.save(); ctx.globalAlpha = k;
+        // a glow of the art's own colour behind the card, pulsing on the kick
+        const gl0 = ctx.createRadialGradient(cx, cy, size * 0.2, cx, cy, size * (0.95 + 0.08 * kick));
+        gl0.addColorStop(0, acc(0.22 + 0.12 * kick)); gl0.addColorStop(1, acc(0));
+        ctx.fillStyle = gl0; ctx.fillRect(cx - size * 1.1, cy - size * 1.1, size * 2.2, size * 2.2);
+        ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = S * 0.05; ctx.shadowOffsetY = S * 0.016;
+        ctx.fillStyle = '#000'; rrect(ctx, x0, y0, size, size, rad); ctx.fill(); ctx.restore();
+        ctx.save(); rrect(ctx, x0, y0, size, size, rad); ctx.clip(); ctx.drawImage(cover, x0, y0, size, size); ctx.restore();
+        ctx.strokeStyle = 'rgba(255,255,255,0.14)'; ctx.lineWidth = Math.max(1, S * 0.0015); rrect(ctx, x0, y0, size, size, rad); ctx.stroke();
+        // glass panel
+        const pw = tall ? size * 1.02 : size * 1.25, ph = S * (tall ? 0.2 : 0.155);
+        const px = cx - pw / 2, py = y0 + size + S * 0.028;
+        ctx.fillStyle = 'rgba(255,255,255,0.09)'; rrect(ctx, px, py, pw, ph, ph * 0.22); ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.stroke();
+        const pad = pw * 0.07, tx = px + pad, tw = pw - pad * 2;
+        // title, artist and a small live equaliser
+        ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+        const titleY = py + ph * 0.3;
+        ctx.fillStyle = 'rgba(248,248,252,0.96)'; ctx.font = F.tight(650, S * (tall ? 0.03 : 0.024));
+        let title = TITLE; const tmax = tw * 0.82;
+        while (title.length > 3 && ctx.measureText(title).width > tmax) title = title.slice(0, -2).trimEnd() + '…';
+        ctx.fillText(title, tx, titleY);
+        ctx.fillStyle = 'rgba(235,236,245,0.62)'; ctx.font = F.tight(500, S * (tall ? 0.024 : 0.019));
+        ctx.fillText(ARTIST || ' ', tx, titleY + S * (tall ? 0.032 : 0.026));
+        const eqW = S * 0.004, eqX = px + pw - pad - eqW * 7, eqB = titleY;
+        ctx.fillStyle = acc(0.9);
+        for (let i = 0; i < 4; i++) { const hh = S * (0.006 + (live ? 0.02 * (0.35 + 0.65 * Math.abs(Math.sin(real * (5 + i * 1.7) + i * 1.3))) * (0.5 + 0.5 * bt.env) : 0.004)); ctx.fillRect(eqX + i * eqW * 2, eqB - hh, eqW, hh); }
+        // progress
+        const barY = py + ph * 0.62, prog = clamp(t / DURATION, 0, 1);
+        ctx.fillStyle = 'rgba(255,255,255,0.18)'; rrect(ctx, tx, barY, tw, S * 0.004, S * 0.002); ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,0.85)'; rrect(ctx, tx, barY, Math.max(S * 0.004, tw * prog), S * 0.004, S * 0.002); ctx.fill();
+        ctx.font = F.tight(500, S * (tall ? 0.018 : 0.0145)); ctx.fillStyle = 'rgba(235,236,245,0.55)';
+        const fm = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+        ctx.fillText(fm(t), tx, barY + S * 0.026); ctx.textAlign = 'right'; ctx.fillText(`−${fm(Math.max(0, DURATION - t))}`, tx + tw, barY + S * 0.026);
+        // transport glyphs (decorative; the real controls are below the stage)
+        const iy = py + ph * 0.86, is = S * (tall ? 0.017 : 0.014);
+        ctx.fillStyle = 'rgba(250,250,255,0.9)';
+        const tri = (x, y, s, dir) => { ctx.beginPath(); ctx.moveTo(x - dir * s * 0.5, y - s * 0.6); ctx.lineTo(x + dir * s * 0.6, y); ctx.lineTo(x - dir * s * 0.5, y + s * 0.6); ctx.closePath(); ctx.fill(); };
+        tri(cx - is * 3.6, iy, is, -1); tri(cx - is * 4.5, iy, is, -1);
+        tri(cx + is * 3.6, iy, is, 1); tri(cx + is * 4.5, iy, is, 1);
+        if (state.playing) { ctx.fillRect(cx - is * 0.55, iy - is * 0.65, is * 0.38, is * 1.3); ctx.fillRect(cx + is * 0.17, iy - is * 0.65, is * 0.38, is * 1.3); }
+        else tri(cx + is * 0.1, iy, is * 1.15, 1);
+        ctx.restore();
+      }
     },
   });
 
@@ -3328,7 +3495,7 @@
     $('#offsetRow').hidden = !TRACK;
     state.lastFrameT = null;
   });
-  const pending = { A: null, buffer: null, cues: null, name: '', offset: 0 };
+  const pending = { A: null, buffer: null, cues: null, name: '', offset: 0, art: null, artFor: '' };
   const status = (msg, kind) => { const el = $('#songStatus'); el.textContent = msg; el.className = `status${kind ? ' ' + kind : ''}`; };
   const panel = $('#songPanel');
   const openPanel = (on) => { panel.hidden = !on; $('#songBtn').setAttribute('aria-expanded', String(on)); };
@@ -3362,6 +3529,89 @@
     return out;
   }
 
+  // album art embedded in the file: ID3v2 APIC (mp3), the MP4 'covr' atom (m4a/aac) or a FLAC PICTURE block
+  function readPicture(bytes) {
+    const u32 = (p) => ((bytes[p] << 24) | (bytes[p + 1] << 16) | (bytes[p + 2] << 8) | bytes[p + 3]) >>> 0;
+    const sniff = (a) => (a[0] === 0x89 && a[1] === 0x50 ? 'image/png' : 'image/jpeg');
+    try {
+      if (bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33) {
+        const v = bytes[3], size = ((bytes[6] & 127) << 21) | ((bytes[7] & 127) << 14) | ((bytes[8] & 127) << 7) | (bytes[9] & 127);
+        let p = 10;
+        while (p + 10 < size + 10) {
+          const id = String.fromCharCode(bytes[p], bytes[p + 1], bytes[p + 2], bytes[p + 3]);
+          const fs = v === 4 ? ((bytes[p + 4] & 127) << 21) | ((bytes[p + 5] & 127) << 14) | ((bytes[p + 6] & 127) << 7) | (bytes[p + 7] & 127) : u32(p + 4);
+          if (!/^[A-Z0-9]{4}$/.test(id) || fs <= 0) break;
+          if (id === 'APIC') {
+            const a = p + 10, end = a + fs, enc = bytes[a];
+            let q = a + 1; while (q < end && bytes[q] !== 0) q++; q += 2; // mime, then picture type
+            if (enc === 1 || enc === 2) { while (q + 1 < end && !(bytes[q] === 0 && bytes[q + 1] === 0)) q += 2; q += 2; } else { while (q < end && bytes[q] !== 0) q++; q++; }
+            if (q < end) { const img = bytes.subarray(q, end); return { data: img, type: sniff(img) }; }
+          }
+          p += 10 + fs;
+        }
+      }
+      if (bytes[0] === 0x66 && bytes[1] === 0x4c && bytes[2] === 0x61 && bytes[3] === 0x43) {
+        let p = 4;
+        for (let n = 0; n < 64 && p + 4 < bytes.length; n++) {
+          const last = bytes[p] & 128, type = bytes[p] & 127, len = (bytes[p + 1] << 16) | (bytes[p + 2] << 8) | bytes[p + 3];
+          if (type === 6) {
+            let q = p + 8; const ml = u32(q); const mime = new TextDecoder('latin1').decode(bytes.subarray(q + 4, q + 4 + ml)); q += 4 + ml;
+            const dl = u32(q); q += 4 + dl + 16; const il = u32(q); q += 4;
+            return { data: bytes.subarray(q, q + il), type: mime || 'image/jpeg' };
+          }
+          if (last) break;
+          p += 4 + len;
+        }
+      }
+      // MP4: find 'covr' followed by its 'data' atom (the moov box can sit at the start or the end of the file)
+      for (let i = 4; i + 24 < bytes.length; i++) {
+        if (bytes[i] === 0x63 && bytes[i + 1] === 0x6f && bytes[i + 2] === 0x76 && bytes[i + 3] === 0x72 && bytes[i + 8] === 0x64 && bytes[i + 9] === 0x61 && bytes[i + 10] === 0x74 && bytes[i + 11] === 0x61) {
+          const dl = u32(i + 4) - 16, img = bytes.subarray(i + 20, i + 20 + dl);
+          if (dl > 100) return { data: img, type: bytes[i + 15] === 14 ? 'image/png' : sniff(img) };
+        }
+      }
+    } catch { /* no usable picture */ }
+    return null;
+  }
+  async function decodeArt(blob) {
+    try { return await createImageBitmap(blob); } catch { /* fall back to an <img> */ }
+    return new Promise((res) => { const u = URL.createObjectURL(blob), im = new Image(); im.onload = () => { URL.revokeObjectURL(u); res(im); }; im.onerror = () => { URL.revokeObjectURL(u); res(null); }; im.src = u; });
+  }
+  // no art in the file: ask the iTunes Search API for the release's artwork (only the title and artist are sent)
+  async function lookupArt(title, artist) {
+    const term = `${artist} ${title}`.trim();
+    if (!term) return null;
+    const url = `https://itunes.apple.com/search?${new URLSearchParams({ term, media: 'music', entity: 'song', limit: '5' })}`;
+    let j = null;
+    try { const r = await fetch(url); if (r.ok) j = await r.json(); } catch { /* no CORS here: try JSONP below */ }
+    if (!j) j = await new Promise((res) => {
+      const cb = `__lsArt${Date.now()}`, sc = document.createElement('script');
+      const done = (v) => { delete window[cb]; sc.remove(); res(v); };
+      window[cb] = (v) => done(v); sc.onerror = () => done(null); setTimeout(() => done(null), 8000);
+      sc.src = `${url}&callback=${cb}`; document.head.appendChild(sc);
+    });
+    const list = (j && j.results) || [];
+    const norm = (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+    const hit = list.find((x) => norm(x.trackName) === norm(title) && (!artist || norm(x.artistName).includes(norm(artist).slice(0, 6)))) || list.find((x) => !artist || norm(x.artistName).includes(norm(artist).slice(0, 6))) || list[0];
+    if (!hit || !hit.artworkUrl100) return null;
+    const big = hit.artworkUrl100.replace(/\/\d+x\d+(bb)?\.(jpg|png|webp)$/, '/1000x1000bb.jpg');
+    for (const src of [big, hit.artworkUrl100]) {
+      try { const r = await fetch(src, { mode: 'cors' }); if (r.ok) { const im = await decodeArt(await r.blob()); if (im) return im; } } catch { /* next */ }
+    }
+    return null;
+  }
+  // put the pending song's art on screen: the file's own picture, else a lookup by title and artist
+  async function applyArt() {
+    if (!TRACK) return;
+    const key = `${$('#songTitle').value.trim()}|${$('#songArtist').value.trim()}`;
+    if (pending.art) { if (pending.artFor !== 'file' && pending.artFor !== 'picked') pending.artFor = 'file'; setCoverArt(pending.art); return; }
+    if (pending.artFor === key) return;
+    pending.artFor = key;
+    const [title, artist] = key.split('|');
+    const im = await lookupArt(title, artist).catch(() => null);
+    if (im && pending.artFor === key && TRACK) { pending.art = im; setCoverArt(im); }
+  }
+
   async function lookupLyrics(title, artist, duration) {
     const q = new URLSearchParams({ title, artist }); if (duration) q.set('duration', String(Math.round(duration)));
     try { // the Lyricscape app's own route (ranks LRCLIB versions); missing when the lab is opened on its own
@@ -3382,6 +3632,7 @@
     if (!built) { status('No sung lines fall inside this audio. Try Auto-align or another lyric file.', 'err'); return false; }
     const wasPlaying = state.playing; if (wasPlaying) play(false);
     useSong(makeTrack(pending.A, pending.buffer, built, { title: $('#songTitle').value.trim() || pending.name, artist: $('#songArtist').value.trim(), offset }));
+    applyArt();
     $('#offVal').textContent = `${offset >= 0 ? '+' : '−'}${Math.abs(offset).toFixed(1)} s`;
     state.t = clamp(state.t, 0, DURATION - 0.01);
     if (wasPlaying) play(true); else render(0);
@@ -3400,6 +3651,8 @@
     try {
       const bytes = new Uint8Array(await file.arrayBuffer());
       const tags = readTags(bytes, file.name);
+      const pic = readPicture(bytes);
+      pending.art = pic ? await decodeArt(new Blob([pic.data], { type: pic.type })) : null; pending.artFor = pending.art ? 'file' : '';
       $('#songTitle').value = tags.title; $('#songArtist').value = tags.artist; pending.name = tags.title;
       ac = ac || new (window.AudioContext || window.webkitAudioContext)();
       const buffer = await ac.decodeAudioData(bytes.buffer.slice(0));
@@ -3427,15 +3680,17 @@
   drop.addEventListener('dragleave', () => drop.classList.remove('over'));
   drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); const f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) loadAudio(f); });
   $('#findLyrics').addEventListener('click', findLyrics);
+  $('#artFile').addEventListener('change', async (e) => { const f = e.target.files && e.target.files[0]; if (!f) return; const im = await decodeArt(f); if (!im) { status('That image could not be read.', 'err'); return; } pending.art = im; pending.artFor = 'picked'; setCoverArt(im); status('Cover art set.', 'ok'); });
   $('#lrcFile').addEventListener('change', async (e) => { const f = e.target.files && e.target.files[0]; if (!f) return; if (!pending.A) { status('Choose a song file first.', 'err'); return; } useCues(SONG.parseLRC(await f.text()), 'Lyric file loaded'); });
   for (const b of document.querySelectorAll('[data-off]')) b.addEventListener('click', () => apply(Math.round((pending.offset + Number(b.dataset.off)) * 10) / 10));
   $('#autoOff').addEventListener('click', () => { if (!pending.cues) return; const o = isClip() ? SONG.autoOffset(pending.cues, pending.A, 0, pending.cues[pending.cues.length - 1].t) : SONG.autoOffset(pending.cues, pending.A, pending.offset - 2, pending.offset + 2); apply(o); });
-  $('#demoSong').addEventListener('click', () => { const wasPlaying = state.playing; if (wasPlaying) play(false); useSong(null); state.t = 12.2; status(''); if (wasPlaying) play(true); else render(0); });
+  $('#demoSong').addEventListener('click', () => { const wasPlaying = state.playing; if (wasPlaying) play(false); useSong(null); pending.art = null; pending.artFor = ''; setCoverArt(null); state.t = 12.2; status(''); if (wasPlaying) play(true); else render(0); });
   window.addEventListener('keydown', (e) => {
     if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') && e.key === ' ') return;
     if (e.key === 'ArrowRight') select(state.look + 1);
     else if (e.key === 'ArrowLeft') select(state.look - 1);
     else if (e.key === ' ') { e.preventDefault(); play(!state.playing); }
+    else if ((e.key === 'l' || e.key === 'L') && !(e.target && e.target.tagName === 'INPUT')) { LOCK.mode = LOCK.mode === 'on' ? 'auto' : 'on'; }
   });
   window.addEventListener('resize', () => { size(); state.lastFrameT = null; render(0); });
   window.addEventListener('hashchange', fromHash);
@@ -3453,11 +3708,15 @@
       ac = ac || new (window.AudioContext || window.webkitAudioContext)();
       const buffer = await ac.decodeAudioData(bytes.slice(0));
       pending.A = await SONG.analyse(buffer); pending.buffer = buffer; pending.name = title;
+      const pic = readPicture(new Uint8Array(bytes)); pending.art = pic ? await decodeArt(new Blob([pic.data], { type: pic.type })) : null; pending.artFor = pending.art ? 'file' : '';
       $('#songTitle').value = title; $('#songArtist').value = artist || '';
       useCues(SONG.parseLRC(lrc), 'Test lyrics');
       if (typeof offset === 'number') apply(offset);
       return { bpm: BPM, lines: LINES.length, offset: pending.offset, duration: DURATION, beats: TRACK.beats.length, kicks: KICKS.length, snares: SNARES.length, sections: SECTIONS.map((x) => `${x.name} ${x.start.toFixed(1)}-${x.end.toFixed(1)}`), status: $('#songStatus').textContent };
     },
     song: () => ({ margin: SONG.autoOffset.margin, lines: LINES.map((L) => ({ start: L.start, end: L.end, words: L.words.map((w) => [w.s, w.e]) })), beats: TRACK ? TRACK.beats : [], offset: pending.offset }),
+    /** test hook: lock screen 'on' or 'auto'; cover art from image bytes (null = the demo cover) */
+    lock(mode) { LOCK.mode = mode === 'on' ? 'on' : 'auto'; LOCK.v = LOCK.mode === 'on' ? 1 : 0; },
+    async art(bytes) { setCoverArt(bytes ? await decodeArt(new Blob([bytes])) : null); state.lastFrameT = null; },
     looks: LOOKS.map((l) => l.id), show(id, t, aspect) { if (aspect && aspect !== state.aspect) { state.aspect = aspect; size(); syncButtons(); } state.playing = false; stopSound(); state.t = t; select(LOOKS.findIndex((l) => l.id === id)); } };
 })();

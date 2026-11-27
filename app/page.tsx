@@ -9,10 +9,11 @@ import { player, usePlayer } from '@/lib/player/controller';
 import { useUi } from '@/lib/ui-store';
 import { Cover } from '@/components/ui/Cover';
 import { Button, Chip } from '@/components/ui/bits';
+import { JukeboxMark } from '@/components/brand/Logo';
 
 const FEATURES = [
   { href: '/visuals', title: 'Kinetic lyrics', body: 'Words pop, stretch, split and explode in time with the song. Pick a style, edit the timing, go fullscreen.', accent: 'bg-signal' },
-  { href: '/map', title: 'Music map', body: 'Opt-in, approximate places tied to the songs you were listening to. Private by default; delete anytime.', accent: 'bg-aqua' },
+  { href: '/map', title: 'Music map', body: 'Opt-in, approximate places tied to the songs you were listening to. Private by default; delete anytime.', accent: 'bg-ok' },
   { href: '/parties', title: 'Parties', body: 'Share a link or QR. Guests add songs and photos from their phones; the big screen shows it live.', accent: 'bg-sun' },
 ] as const;
 
@@ -28,9 +29,10 @@ export default function Home() {
 
   return (
     <div>
-      <section className="grain relative mb-10 overflow-hidden rounded-3xl border border-ink-700 bg-gradient-to-br from-ink-850 via-ink-900 to-[#1b0d16] px-6 py-12 sm:px-12 sm:py-16">
-        <p className="mb-3 font-mono text-[11px] tracking-[0.2em] text-signal uppercase">Lyrics, alive</p>
-        <h1 className="max-w-3xl font-display text-6xl leading-[0.95] tracking-wide uppercase sm:text-8xl">
+      <section className="grain relative mb-10 overflow-hidden rounded-3xl border border-ink-700 bg-gradient-to-br from-ink-850 via-ink-900 to-[#2a0709] px-6 py-12 sm:px-12 sm:py-16">
+        <JukeboxMark size={260} className="pointer-events-none absolute top-1/2 right-8 hidden -translate-y-1/2 drop-shadow-[0_24px_48px_rgba(255,43,58,0.18)] lg:block" />
+        <p className="mb-3 font-mono text-[11px] tracking-[0.2em] text-signal uppercase">Who has aux?</p>
+        <h1 className="max-w-3xl lg:max-w-[62%] font-display text-6xl leading-[0.95] tracking-wide uppercase sm:text-8xl">
           Put the words <span className="text-signal">on the beat</span>
         </h1>
         <p className="mt-5 max-w-xl text-lg text-ink-200">

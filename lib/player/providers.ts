@@ -85,8 +85,8 @@ export function spotifyCapabilities(connected: boolean, premium: boolean | null)
 }
 
 const SPOTIFY_WHY: Partial<Record<CapabilityKey, string>> = {
-  queueRead: "Spotify's queue endpoint is limited in Development Mode; Lyricscape keeps its own app queue.",
-  queueWrite: 'Playback is driven from the Lyricscape queue, one track at a time.',
+  queueRead: "Spotify's queue endpoint is limited in Development Mode; whohasaux keeps its own app queue.",
+  queueWrite: 'Playback is driven from the whohasaux queue, one track at a time.',
   audioAnalysis: 'Spotify does not expose raw audio. Beat-sync uses tempo only when available; use an imported file for full analysis.',
   djMixing: 'Mixing/overlapping Spotify recordings is not permitted by Spotify policy. Use imported, licensed audio.',
   videoExport: 'Rendering Spotify recordings into video is not permitted. Use imported, licensed audio.',

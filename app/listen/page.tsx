@@ -124,7 +124,7 @@ export default function ListenPage() {
             onChange={(e) => setQ(e.target.value)}
             placeholder={source === 'spotify' ? 'Search any Spotify song…' : 'Search…'}
             aria-label="Search"
-            className="h-10 w-full rounded-full border border-ink-600 bg-ink-850 pr-4 pl-10 text-sm outline-none placeholder:text-ink-400 focus:border-aqua"
+            className="h-10 w-full rounded-full border border-ink-600 bg-ink-850 pr-4 pl-10 text-sm outline-none placeholder:text-ink-400 focus:border-signal"
           />
         </div>
       </div>
@@ -147,7 +147,7 @@ export default function ListenPage() {
             setDrag(false);
             void doImport([...e.dataTransfer.files]);
           }}
-          className={clsx('mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-dashed p-5 transition', drag ? 'border-aqua bg-aqua/5' : 'border-ink-600')}
+          className={clsx('mb-5 flex flex-wrap items-center gap-4 rounded-2xl border border-dashed p-5 transition', drag ? 'border-signal bg-signal/5' : 'border-ink-600')}
         >
           <div className="flex-1">
             <p className="font-semibold">Drop audio files here (MP3, FLAC, WAV, M4A, OGG)</p>
@@ -172,7 +172,7 @@ export default function ListenPage() {
           {report.length > 0 && (
             <ul className="w-full space-y-1 text-sm" aria-live="polite">
               {report.map((r, i) => (
-                <li key={i} className={clsx(r.status === 'added' ? 'text-aqua' : r.status === 'duplicate' ? 'text-sun' : 'text-red-300')}>
+                <li key={i} className={clsx(r.status === 'added' ? 'text-ok' : r.status === 'duplicate' ? 'text-sun' : 'text-red-300')}>
                   {r.status === 'added' ? <Check size={14} className="inline" /> : r.status === 'duplicate' ? <Equal size={14} className="inline" /> : <X size={14} className="inline" />} {r.fileName}
                   {r.message ? ` — ${r.message}` : ''}
                 </li>

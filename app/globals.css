@@ -7,21 +7,28 @@
   --font-serif: 'DM Serif Display', Georgia, serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
 
-  --color-ink-950: #08080a;
-  --color-ink-900: #0d0d10;
-  --color-ink-850: #121216;
-  --color-ink-800: #17171c;
-  --color-ink-700: #212128;
-  --color-ink-600: #2e2e37;
-  --color-ink-500: #4a4a56;
-  --color-ink-400: #7a7a88;
-  --color-ink-300: #a7a7b4;
-  --color-ink-200: #d2d2da;
-  --color-bone: #f4efe6;
-  --color-signal: #ff3d71;
-  --color-signal-dim: #b82a52;
-  --color-sun: #ffd23f;
-  --color-aqua: #19e3d4;
+  /* whohasaux: jukebox black with a red-paint accent. Neutrals carry a faint red undertone so greys never read blue next to the red. */
+  --color-ink-950: #0a0708;
+  --color-ink-900: #110c0d;
+  --color-ink-850: #171112;
+  --color-ink-800: #1e1718;
+  --color-ink-700: #2a2022;
+  --color-ink-600: #3b2e30;
+  --color-ink-500: #5c4b4e;
+  --color-ink-400: #937f82;
+  --color-ink-300: #bcaaad;
+  --color-ink-100: #efe6e6;
+  --color-ink-200: #e0d4d5;
+  --color-bone: #f7efea;
+  /* brand red: text-signal on ink-950 is 5.4:1; white on bg-signal is large/bold text only (3.7:1) */
+  --color-signal: #ff2b3a;
+  --color-signal-hi: #ff5a66;
+  --color-signal-dim: #b3141f;
+  --color-signal-deep: #6e0a11;
+  /* chrome-gold highlight (selection, "duplicate", map pick) */
+  --color-sun: #ffc93d;
+  /* success / live / approved: a mint that stays clear of both the brand red and Spotify green */
+  --color-ok: #4fe0b0;
   --color-spotify: #1ed760;
 
   --animate-rise: rise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
@@ -65,7 +72,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-aqua);
+  outline: 2px solid var(--color-signal-hi);
   outline-offset: 2px;
   border-radius: 6px;
 }

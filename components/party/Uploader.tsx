@@ -122,7 +122,7 @@ export function Uploader({ eventId, onUploaded, compact }: { eventId: string; on
                 <span
                   className={clsx(
                     'shrink-0 text-xs font-semibold uppercase',
-                    it.state === 'done' && 'text-aqua',
+                    it.state === 'done' && 'text-ok',
                     it.state === 'pending' && 'text-sun',
                     it.state === 'error' && 'text-red-300',
                     (it.state === 'uploading' || it.state === 'processing' || it.state === 'queued') && 'text-ink-300',

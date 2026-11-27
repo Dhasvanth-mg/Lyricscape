@@ -26,7 +26,7 @@ const query = z.object({
 });
 
 const BASE = 'https://lrclib.net/api';
-const UA = 'Lyricscape/0.1.0 (local-first dev build; https://github.com/Dhasvanth-mg/Lyricscape)';
+const UA = 'whohasaux/0.1.0 (local-first dev build; https://github.com/Dhasvanth-mg/Lyricscape)';
 const cache = new Map<string, { at: number; body: unknown }>();
 const TTL = 24 * 3600 * 1000;
 

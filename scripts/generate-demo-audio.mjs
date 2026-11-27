@@ -128,7 +128,7 @@ const TRACKS = [
   {
     id: 'neon-static',
     title: 'Neon Static',
-    artist: 'Lyricscape Demo Lab',
+    artist: 'whohasaux Demo Lab',
     album: 'Cleared Signals',
     bpm: 112,
     root: 57, // A3
@@ -159,7 +159,7 @@ const TRACKS = [
   {
     id: 'paper-planets',
     title: 'Paper Planets',
-    artist: 'Lyricscape Demo Lab',
+    artist: 'whohasaux Demo Lab',
     album: 'Cleared Signals',
     bpm: 88,
     root: 60, // C4
@@ -185,7 +185,7 @@ const TRACKS = [
   {
     id: 'glass-hours',
     title: 'Glass Hours',
-    artist: 'Lyricscape Demo Lab',
+    artist: 'whohasaux Demo Lab',
     album: 'Cleared Signals',
     bpm: 128,
     root: 55, // G3
@@ -364,7 +364,7 @@ function toEnhancedLrc(track, lines) {
     `[ti:${track.title}]`,
     `[ar:${track.artist}]`,
     `[al:${track.album}]`,
-    `[by:Lyricscape demo generator - original lyrics, CC0]`,
+    `[by:whohasaux demo generator - original lyrics, CC0]`,
   ];
   const body = lines.map(
     (l) => `[${fmt(l.startMs)}] ` + l.words.map((w) => `<${fmt(w.startMs)}>${w.text}`).join(' ') + ` <${fmt(l.endMs)}>`,

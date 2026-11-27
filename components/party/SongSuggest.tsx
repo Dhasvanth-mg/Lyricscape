@@ -63,7 +63,7 @@ export function SongSuggest({ eventId, onAdded, extraSearch }: Props) {
           placeholder="Search, paste a Spotify link, or type “Song – Artist”"
           aria-label="Song to suggest"
           maxLength={200}
-          className="h-11 w-full rounded-full border border-ink-600 bg-ink-850 pr-4 pl-10 text-sm outline-none focus:border-aqua"
+          className="h-11 w-full rounded-full border border-ink-600 bg-ink-850 pr-4 pl-10 text-sm outline-none focus:border-signal"
         />
       </div>
 
@@ -99,7 +99,7 @@ export function SongSuggest({ eventId, onAdded, extraSearch }: Props) {
         </div>
       )}
       {msg && (
-        <p role="status" className={msg.ok ? 'mt-3 text-sm text-aqua' : 'mt-3 text-sm text-red-300'}>
+        <p role="status" className={msg.ok ? 'mt-3 text-sm text-ok' : 'mt-3 text-sm text-red-300'}>
           {msg.text}
         </p>
       )}

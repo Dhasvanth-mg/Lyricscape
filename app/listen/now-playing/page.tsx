@@ -75,7 +75,7 @@ export default function NowPlaying() {
             <ul className="mt-2 space-y-1">
               {(Object.keys(CAP_LABEL) as CapabilityKey[]).map((k) => (
                 <li key={k} className="flex gap-2">
-                  <span className={capabilities[k] ? 'text-aqua' : 'text-ink-500'}>{capabilities[k] ? <Check size={14} aria-label="yes" className="inline" /> : <X size={14} aria-label="no" className="inline" />}</span>
+                  <span className={capabilities[k] ? 'text-ok' : 'text-ink-500'}>{capabilities[k] ? <Check size={14} aria-label="yes" className="inline" /> : <X size={14} aria-label="no" className="inline" />}</span>
                   <span>
                     {CAP_LABEL[k]}
                     {!capabilities[k] && track.provider === 'spotify' && explainSpotifyCapability(k) && (

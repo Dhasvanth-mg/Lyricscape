@@ -200,7 +200,7 @@ export function TimingEditor({ track, doc, onSaved }: { track: Track; doc: Lyric
           <Crosshair size={14} /> Stamp now
         </Button>
         <div className="ml-auto flex items-center gap-2">
-          {saved && <span className="text-xs text-aqua">{saved}</span>}
+          {saved && <span className="text-xs text-ok">{saved}</span>}
           {dirty && !saved && <span className="text-xs text-sun">Unsaved</span>}
           <Button size="sm" onClick={download}>
             Export .lrc
@@ -260,7 +260,7 @@ const LineRow = memo(function LineRow({ line, li, active, sungWord, selWord, onS
               'rounded px-1.5 py-0.5 text-sm transition',
               line.wordTiming && line.wordTiming !== 'authored' && 'border border-dashed border-ink-500 text-ink-300',
               w.confidence !== undefined && w.confidence < LOW_CONFIDENCE && 'ring-1 ring-amber-400/80',
-              selWord === wi ? 'bg-signal text-white' : sungWord === wi ? 'bg-aqua/25 text-aqua' : 'hover:bg-ink-700',
+              selWord === wi ? 'bg-signal text-white' : sungWord === wi ? 'bg-ok/25 text-ok' : 'hover:bg-ink-700',
             )}
           >
             {w.text}

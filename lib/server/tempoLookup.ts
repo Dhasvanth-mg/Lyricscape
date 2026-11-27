@@ -16,7 +16,7 @@ const VERSIONY = /\b(remix|live|karaoke|tribute|cover|instrumental|made famous|s
 
 async function getJson<T>(url: string): Promise<T | null> {
   try {
-    const res = await fetch(url, { headers: { 'User-Agent': 'Lyricscape/0.1 (local-first dev build)' }, signal: AbortSignal.timeout(6000) });
+    const res = await fetch(url, { headers: { 'User-Agent': 'whohasaux/0.1 (local-first dev build)' }, signal: AbortSignal.timeout(6000) });
     return res.ok ? ((await res.json()) as T) : null;
   } catch {
     return null;

@@ -112,7 +112,7 @@ class PlayerController {
         // another tab started *local* playback: don't talk over it
         if (e.data?.type === 'playing' && e.data.tab !== this.tabId && get().status === 'playing' && this.active?.kind === 'local') {
           void this.pause();
-          set({ notice: 'Paused: Lyricscape started playing in another tab.' });
+          set({ notice: 'Paused: whohasaux started playing in another tab.' });
         }
       };
     }
@@ -509,7 +509,7 @@ class PlayerController {
 
   /**
    * The in-browser Spotify player plays from Spotify's own hidden frame, and the browser shows the media info of whichever frame
-   * is playing: Windows' media popup (and the lock screen, headsets, Bluetooth cars) then showed just "Lyricscape" with no song.
+   * is playing: Windows' media popup (and the lock screen, headsets, Bluetooth cars) then showed just "whohasaux" with no song.
    * A silent loop on our own page while Spotify plays in this tab makes this page the media owner, so the title, artist and cover
    * set in updateMediaSession are what the system shows. It plays silence only: no Spotify audio is touched.
    */

@@ -1,4 +1,4 @@
-// Open Lyricscape in a browser that is running on the DEDICATED GPU.   pnpm open:gpu [url]
+// Open whohasaux in a browser that is running on the DEDICATED GPU.   pnpm open:gpu [url]
 //
 // A page cannot pick the GPU; the browser process is started on one. This starts Edge / Chrome with --force_high_performance_gpu.
 // If that browser is already running, the flag is ignored (new windows join the running process), so we stop and say so instead of

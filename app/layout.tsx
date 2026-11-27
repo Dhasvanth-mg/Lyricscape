@@ -39,13 +39,13 @@ import './globals.css';
 import { AppShell } from '@/components/shell/AppShell';
 
 export const metadata: Metadata = {
-  title: { default: 'Lyricscape', template: '%s · Lyricscape' },
+  title: { default: 'whohasaux', template: '%s · whohasaux' },
   description: 'A music player with expressive kinetic lyrics, a listening map, and collaborative parties.',
-  applicationName: 'Lyricscape',
+  applicationName: 'whohasaux',
 };
 
 export const viewport: Viewport = {
-  themeColor: '#08080a',
+  themeColor: '#0a0708',
   width: 'device-width',
   initialScale: 1,
 };

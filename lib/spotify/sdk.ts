@@ -1,5 +1,5 @@
 // Spotify Web Playback SDK wrapper: registers this browser tab as a Spotify Connect
-// device ("Lyricscape"). Requires Premium; failures are surfaced, never faked.
+// device ("whohasaux"). Requires Premium; failures are surfaced, never faked.
 
 import { getAccessToken } from './auth';
 
@@ -95,7 +95,7 @@ export class SpotifySdk {
       return null;
     }
     const player = new window.Spotify.Player({
-      name: 'Lyricscape',
+      name: 'whohasaux',
       volume: this.volume,
       getOAuthToken: (cb) => {
         getAccessToken()

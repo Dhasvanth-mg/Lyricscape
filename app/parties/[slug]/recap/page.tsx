@@ -328,8 +328,8 @@ function RecapEditor({ projectId, onNew }: { projectId: string; onNew: () => voi
         <Chip>{d.project.aspect}</Chip>
         {d.analysis && <Chip>{d.analysis.bpm} BPM</Chip>}
         <span className="text-xs text-ink-400">version {d.project.version}</span>
-        <span className={clsx('inline-flex items-center gap-1.5 text-xs', d.workerOnline ? 'text-aqua' : 'text-ink-400')}>
-          <span className={clsx('h-2 w-2 rounded-full', d.workerOnline ? 'bg-aqua' : 'bg-ink-500')} />
+        <span className={clsx('inline-flex items-center gap-1.5 text-xs', d.workerOnline ? 'text-ok' : 'text-ink-400')}>
+          <span className={clsx('h-2 w-2 rounded-full', d.workerOnline ? 'bg-ok' : 'bg-ink-500')} />
           worker {d.workerOnline ? 'online' : 'offline'}
         </span>
         <Button size="sm" className="ml-auto" onClick={onNew}>

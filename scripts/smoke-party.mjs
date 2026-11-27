@@ -83,7 +83,7 @@ check('guest snapshot', r.status === 200 && r.json.me.role === 'guest');
 check('no secrets in snapshot', !/passcodeHash|guestSecretHash|tokenHash/.test(JSON.stringify(r.json)));
 
 console.log('songs');
-r = await guest.req('POST', `/api/events/${event.id}/song-requests`, { provider: 'demo', providerTrackId: 'neon-static', title: 'Neon Static', artists: ['Lyricscape Demo Lab'] });
+r = await guest.req('POST', `/api/events/${event.id}/song-requests`, { provider: 'demo', providerTrackId: 'neon-static', title: 'Neon Static', artists: ['whohasaux Demo Lab'] });
 check('suggest', r.status === 201 && r.json.status === 'pending', JSON.stringify(r.json));
 const reqId = r.json.id;
 r = await guest.req('PATCH', `/api/events/${event.id}/requests/${reqId}`, { status: 'approved' });

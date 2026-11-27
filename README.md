@@ -1,6 +1,6 @@
-# Lyricscape
+# whohasaux
 
-Lyricscape is a local-first music player with kinetic lyrics, a private listening map, collaborative parties and automatic media recaps. It runs on one machine. Supabase, Vercel, R2 and cloud job orchestration are future adapters, not requirements for the current app.
+whohasaux (whohasaux.com, formerly Lyricscape) is a local-first music player with kinetic lyrics, a private listening map, collaborative parties and automatic media recaps. It runs on one machine. Supabase, Vercel, R2 and cloud job orchestration are future adapters, not requirements for the current app.
 
 The app uses Next.js 16, React 19, TypeScript 6, Tailwind 4, Zustand and Zod. Browser playback uses Spotify's official SDK or local audio. The visual stage has Canvas 2D and WebGL2 renderers. A separate Node worker uses FFmpeg for party recaps.
 
@@ -23,10 +23,10 @@ Click **Try the demo songs** to listen without configuring Spotify. The bundled 
 1. Create a Spotify developer app with Web API and Web Playback SDK access. For a development app, authorize the account you intend to use.
 2. Register http://127.0.0.1:3000/spotify/callback as its redirect URI. If you use another port, register the exact URI displayed in Settings.
 3. Enter the public Client ID in Settings and select **Connect Spotify**. The browser uses PKCE. No client secret is needed.
-4. For playback inside Lyricscape, use Premium, wait for **Browser device ready**, and select **Play on this browser** in Settings, Listen's Spotify tab or Now Playing.
+4. For playback inside whohasaux, use Premium, wait for **Browser device ready**, and select **Play on this browser** in Settings, Listen's Spotify tab or Now Playing.
 5. Search for a song in Listen and press Play. Volume, percentage and mute controls are available on desktop and phone layouts.
 
-Browser selection targets Lyricscape for subsequent tracks and controls. **Follow Spotify device** follows the device selected in Spotify instead. The explicit output choice resets on a page reload. The clock also detects when the active device is the browser and uses its local SDK position automatically, rather than mixing it with aged remote API reports.
+Browser selection targets whohasaux for subsequent tracks and controls. **Follow Spotify device** follows the device selected in Spotify instead. The explicit output choice resets on a page reload. The clock also detects when the active device is the browser and uses its local SDK position automatically, rather than mixing it with aged remote API reports.
 
 Automated Spotify checks use mocked SDK and API responses. Live audible sync remains under investigation. Premium and successful authentication do not by themselves verify every device or browser combination. See [Spotify integration notes](docs/spotify-compliance.md) for provider restrictions.
 
@@ -36,7 +36,7 @@ Press **L** or select **Lyrics stage**, then open **Sync**. The panel identifies
 
 Spotify provides playback position, not lyric timestamps. Lyrics come from saved/imported files, bundled demos, the unofficial Musixmatch API during development, or LRCLIB. Online lookup can be disabled in Settings. User-owned lyrics are protected from automatic replacement. Musixmatch preserves actual word offsets when available and otherwise returns line timing. Rejections fall back to LRCLIB. Set `LYRICSCAPE_UNOFFICIAL_MUSIXMATCH=false` to disable it. It is off by default in production and must be replaced with licensed access before beta/production. Live lookup of Flashing Lights returned word-synced lyrics through the app: 50 line cues and 702 word/end timestamp tags. Initial token probes also returned internal 401 responses, so fallback remains necessary. Audible accuracy has not been verified.
 
-The Spotify tab in Listen includes playlists, liked songs and saved albums with pagination. Reconnect Spotify in Settings to grant the new library scopes. Use Play collection to fetch all remaining pages and create an app queue, then use shuffle and loop (off/all/one). Smart library mix removes duplicate songs and separates lead artists where possible. Optional auto queue appends up to 50 liked songs when starting a collection with Play collection or Smart library mix. These controls manage Lyricscape's queue. They do not enable Spotify's recommendation-based Smart Shuffle. Development Mode can restrict access to playlist contents. Podcast episodes, audiobooks and Spotify local-file entries are skipped.
+The Spotify tab in Listen includes playlists, liked songs and saved albums with pagination. Reconnect Spotify in Settings to grant the new library scopes. Use Play collection to fetch all remaining pages and create an app queue, then use shuffle and loop (off/all/one). Smart library mix removes duplicate songs and separates lead artists where possible. Optional auto queue appends up to 50 liked songs when starting a collection with Play collection or Smart library mix. These controls manage whohasaux's queue. They do not enable Spotify's recommendation-based Smart Shuffle. Development Mode can restrict access to playlist contents. Podcast episodes, audiobooks and Spotify local-file entries are skipped.
 
 **Word-synced** files supply individual word times. **Line-synced** files supply line starts, with word times estimated by the app when estimated word motion is enabled. Those estimates can run ahead or behind and reset at the next line. A correct Spotify clock cannot recover missing vocal word timestamps. Turn estimated word motion off in Sync to display lines from their supplied timestamps, or load a word-synced version for actual word cues. Plain text has no reliable sync.
 

@@ -45,8 +45,8 @@ export const usePip = create<PipState>((set, get) => ({
     try {
       const win = await pip.requestWindow({ width: 520, height: 180 });
       copyStyles(win.document);
-      win.document.title = 'Lyricscape lyrics';
-      win.document.documentElement.style.background = '#0b0a12';
+      win.document.title = 'whohasaux lyrics';
+      win.document.documentElement.style.background = '#0a0708';
       win.document.body.style.margin = '0';
       win.addEventListener('pagehide', () => set({ win: null }), { once: true });
       set({ win, error: null });

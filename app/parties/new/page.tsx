@@ -50,7 +50,7 @@ export default function NewParty() {
     }
   };
 
-  const field = 'h-11 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 text-sm outline-none focus:border-aqua';
+  const field = 'h-11 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 text-sm outline-none focus:border-signal';
   return (
     <div className="max-w-2xl">
       <PageHeader eyebrow="Party mode" title="New party" />
@@ -61,7 +61,7 @@ export default function NewParty() {
         </label>
         <label className="block text-sm">
           <span className="mb-1 block text-ink-300">Description (optional)</span>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} maxLength={500} rows={2} className="w-full rounded-lg border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-aqua" />
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} maxLength={500} rows={2} className="w-full rounded-lg border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-signal" />
         </label>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block text-sm">

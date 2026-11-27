@@ -53,7 +53,7 @@ export function Chip({ children, tone = 'default', className }: { children: Reac
       className={clsx(
         'inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-semibold tracking-wide uppercase',
         tone === 'default' && 'bg-ink-800 text-ink-300',
-        tone === 'good' && 'bg-aqua/15 text-aqua',
+        tone === 'good' && 'bg-ok/15 text-ok',
         tone === 'warn' && 'bg-sun/15 text-sun',
         tone === 'bad' && 'bg-red-500/15 text-red-300',
         tone === 'spotify' && 'bg-spotify/15 text-spotify',

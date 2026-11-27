@@ -124,7 +124,7 @@ export function LyricsPanel({ track, lyrics }: { track: Track; lyrics: L }) {
               rows={9}
               spellCheck={false}
               placeholder={'[00:12.30] first line of the song\n[00:16.80] second line…'}
-              className="w-full rounded-xl border border-ink-600 bg-ink-850 p-3 font-mono text-sm outline-none focus:border-aqua"
+              className="w-full rounded-xl border border-ink-600 bg-ink-850 p-3 font-mono text-sm outline-none focus:border-signal"
             />
           </label>
           <div className="flex items-center gap-3">
@@ -134,12 +134,12 @@ export function LyricsPanel({ track, lyrics }: { track: Track; lyrics: L }) {
             <p className="text-xs text-ink-400">Plain text is spread evenly over the song. Fix the timing in “Edit timing”.</p>
           </div>
           {msg && (
-            <p role="status" className={msg.ok ? 'text-sm text-aqua' : 'text-sm text-red-300'}>
+            <p role="status" className={msg.ok ? 'text-sm text-ok' : 'text-sm text-red-300'}>
               {msg.text}
             </p>
           )}
           <p className="text-xs text-ink-400">
-            Online lookup uses LRCLIB (open lyrics database) and only sends title, artist and length. Lyricscape never scrapes lyrics websites. You are responsible for the rights to any lyrics you add.
+            Online lookup uses LRCLIB (open lyrics database) and only sends title, artist and length. whohasaux never scrapes lyrics websites. You are responsible for the rights to any lyrics you add.
           </p>
         </div>
       )}
@@ -148,7 +148,7 @@ export function LyricsPanel({ track, lyrics }: { track: Track; lyrics: L }) {
         <p className="mt-3 text-xs text-ink-400">Auto-align needs the optional local aligner ({aligner.reason}). It only works on audio files you have here, never on Spotify.</p>
       )}
       {msg && tab === 'timing' && (
-        <p role="status" className={msg.ok ? 'mb-2 text-sm text-aqua' : 'mb-2 text-sm text-amber-300'}>
+        <p role="status" className={msg.ok ? 'mb-2 text-sm text-ok' : 'mb-2 text-sm text-amber-300'}>
           {msg.text}
         </p>
       )}

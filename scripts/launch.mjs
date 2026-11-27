@@ -38,7 +38,7 @@ const open = () => {
 };
 
 if (await up()) {
-  console.log(`Lyricscape is already running at ${URL_}. Opening it.`);
+  console.log(`whohasaux is already running at ${URL_}. Opening it.`);
   open();
   process.exit(0);
 }
@@ -52,13 +52,13 @@ if (!existsSync(path.join(root, 'node_modules'))) {
   }
 }
 
-console.log(`Starting Lyricscape on ${URL_} ...`);
+console.log(`Starting whohasaux on ${URL_} ...`);
 const dev = spawn('pnpm', ['dev', '--hostname', '127.0.0.1', '--port', String(PORT)], { cwd: root, stdio: 'inherit', shell: win });
 dev.on('exit', async (code) => {
   // `next dev` refuses to start twice: if the app is answering anyway, that is fine
   if (code && (await up())) {
     console.log(`
-Lyricscape is already running at ${URL_}.`);
+whohasaux is already running at ${URL_}.`);
     process.exit(0);
   }
   process.exit(code ?? 0);

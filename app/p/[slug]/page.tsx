@@ -43,7 +43,7 @@ export default function GuestRoom({ params }: { params: Promise<{ slug: string }
       <header className="mb-4">
         <div className="mb-1 flex items-center gap-2">
           <Chip tone={snap.event.status === 'live' ? 'good' : 'default'}>{snap.event.status}</Chip>
-          <span className={clsx('text-xs', connected ? 'text-aqua' : 'text-ink-400')}>{connected ? '● live' : '○ reconnecting…'}</span>
+          <span className={clsx('text-xs', connected ? 'text-ok' : 'text-ink-400')}>{connected ? '● live' : '○ reconnecting…'}</span>
           {mod && (
             <Link href={`/parties/${slug}`} className="ml-auto text-xs underline">
               host dashboard

@@ -27,7 +27,7 @@ export function SongIndexSection() {
   return (
     <div data-testid="song-index">
       <p className="mb-3 text-sm text-ink-300">
-        Lyricscape remembers what it works out about each song (cover colours, lyrics you found, the tempo and beat of the audio) in a small local database, so it never does the same work twice. Only numbers and text are kept:{' '}
+        whohasaux remembers what it works out about each song (cover colours, lyrics you found, the tempo and beat of the audio) in a small local database, so it never does the same work twice. Only numbers and text are kept:{' '}
         <strong>never the audio itself</strong>.
       </p>
 
@@ -73,7 +73,7 @@ export function SongIndexSection() {
         <h3 className="mb-1 text-sm font-semibold">Listening (for Spotify songs)</h3>
         <p className="mb-3 text-sm text-ink-300">
           Spotify does not give out its audio, so the tempo of a Spotify song can only be learned by listening while it plays in this tab. Your browser asks you to share <em>this tab</em> with its audio; the sound is analysed on the spot and thrown away, only the
-          numbers are kept. Each time you play a song it learns a bit more, and once it has the beat it never listens to that song again. Two ways: this tab (for songs playing in Lyricscape&apos;s own Spotify player), or the computer&apos;s whole sound (Windows, Chrome or Edge: you share the screen with its sound; it also hears the Spotify app or other tabs, so play only the song). It is off until you switch it on, and asks again after a reload.
+          numbers are kept. Each time you play a song it learns a bit more, and once it has the beat it never listens to that song again. Two ways: this tab (for songs playing in whohasaux&apos;s own Spotify player), or the computer&apos;s whole sound (Windows, Chrome or Edge: you share the screen with its sound; it also hears the Spotify app or other tabs, so play only the song). It is off until you switch it on, and asks again after a reload.
         </p>
         <p className="mb-3 text-xs text-ink-400">Note: analysing Spotify audio is outside Spotify&apos;s developer terms. This is a personal, local setting you chose to turn on.</p>
         <div className="flex flex-wrap items-center gap-3">

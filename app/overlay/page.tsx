@@ -6,7 +6,7 @@ import { parseOverlayParams } from '@/lib/live/overlayParams';
 import { EMPTY_SONG, liveNow, type LiveClock, type LiveSong } from '@/lib/live/types';
 
 /**
- * Lyrics of whatever Lyricscape is playing, for a stream overlay (OBS browser source) or a desktop wallpaper (Lively,
+ * Lyrics of whatever whohasaux is playing, for a stream overlay (OBS browser source) or a desktop wallpaper (Lively,
  * Wallpaper Engine). It reads the local server's "now playing" stream, so it works in another browser or app on the same
  * computer. Needs Settings -> Lyrics outside the app -> Share with overlays.
  */
@@ -52,7 +52,7 @@ export default function OverlayPage() {
         <LyricStrip lines={song.lines} now={now} options={opts} sub={song.sub}
           title={song.track.title} artist={song.track.artists.join(', ')} artworkUrl={song.track.artworkUrl} palette={song.palette} emptyText={opts.bg === 'transparent' ? null : 'No lyrics for this song'} />
       ) : opts.bg !== 'transparent' ? (
-        <div className="grid h-full place-items-center bg-[#0b0a12] p-6 text-center text-sm text-white/50">{connected ? 'Waiting for Lyricscape to play something…' : 'Connecting to Lyricscape…'}</div>
+        <div className="grid h-full place-items-center bg-[#0a0708] p-6 text-center text-sm text-white/50">{connected ? 'Waiting for whohasaux to play something…' : 'Connecting to whohasaux…'}</div>
       ) : null}
     </div>
   );

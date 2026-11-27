@@ -154,7 +154,7 @@ export default function SettingsPage() {
                 placeholder="e.g. 3f2a…"
                 autoComplete="off"
                 spellCheck={false}
-                className="h-10 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 font-mono text-sm outline-none focus:border-aqua"
+                className="h-10 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 font-mono text-sm outline-none focus:border-signal"
               />
             </label>
             <Button variant="spotify" onClick={() => void connect()} disabled={!clientId.trim() || localhost}>
@@ -217,7 +217,7 @@ export default function SettingsPage() {
           <ul className="mt-3 space-y-1.5">
             {capKeys.map((k) => (
               <li key={k} className="flex gap-2">
-                <span className={caps[k] ? 'text-aqua' : 'text-ink-500'}>{caps[k] ? <Check size={14} aria-label="yes" className="inline" /> : <X size={14} aria-label="no" className="inline" />}</span>
+                <span className={caps[k] ? 'text-ok' : 'text-ink-500'}>{caps[k] ? <Check size={14} aria-label="yes" className="inline" /> : <X size={14} aria-label="no" className="inline" />}</span>
                 <span>
                   <span className="font-mono text-xs">{k}</span>
                   {!caps[k] && explainSpotifyCapability(k) && <span className="block text-ink-400">{explainSpotifyCapability(k)}</span>}

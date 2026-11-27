@@ -2647,6 +2647,13 @@
     },
   });
   LOOKS.unshift(...MOTION.map((l) => Object.assign(l, { kind: '2d' })));
+  // Looks built from the owner's reference clips live in clips.js, which registers a factory before this file runs.
+  if (typeof window.LyricscapeClipLooks === 'function') {
+    const api = { Song, LINES, SECTIONS, KICKS, SNARES, F, POST, hash, lerp, clamp, smooth, ease, easeBack, TAU, held, couplet, cutAt, kickEnv, snareEnv, leadEnv, titleFade, spectrum,
+      get BEAT() { return BEAT; }, get BAR() { return BAR; }, get TITLE() { return TITLE; }, get ARTIST() { return ARTIST; }, get cover() { return cover; }, get reduced() { return REDUCED_M; },
+      onSong: (f) => songListeners.push(f) };
+    try { LOOKS.unshift(...window.LyricscapeClipLooks(api).map((l) => Object.assign(l, { kind: '2d' }))); } catch (e) { console.error('clip looks', e); }
+  }
 
   // title "lines" for the swarm to build during the intro, the break and the outro
   function makeTitleLines() {
@@ -3443,7 +3450,7 @@
   select(0, true);
   fromHash();
   syncButtons();
-  const fontsReady = document.fonts && document.fonts.load ? Promise.all(['300 40px "Inter Tight"', '600 40px "Inter Tight"', '700 40px "Inter Tight"', '800 40px "Inter Tight"', '900 40px "Inter Tight"', '400 40px "Instrument Serif"', 'italic 400 40px "Instrument Serif"', '800 40px "Bricolage Grotesque"', '800 40px Inter', '400 40px Anton', '700 40px "Space Grotesk"', '500 40px "JetBrains Mono"', '400 40px "Permanent Marker"'].map((f) => document.fonts.load(f).catch(() => null))) : Promise.resolve();
+  const fontsReady = document.fonts && document.fonts.load ? Promise.all(['300 40px "Inter Tight"', '600 40px "Inter Tight"', '700 40px "Inter Tight"', '800 40px "Inter Tight"', '900 40px "Inter Tight"', '400 40px "Instrument Serif"', 'italic 400 40px "Instrument Serif"', '800 40px "Bricolage Grotesque"', '800 40px Inter', '400 40px Anton', '700 40px "Space Grotesk"', '500 40px "JetBrains Mono"', '400 40px "Permanent Marker"', ...(window.LyricscapeClipFonts || [])].map((f) => document.fonts.load(f).catch(() => null))) : Promise.resolve();
   fontsReady.then(() => { for (const v of swarmCache.values()) gl.deleteTexture(v.tex); swarmCache.clear(); CLASSIC.fontsLoaded(); state.lastFrameT = null; render(0); window.__labReady = true; if (!/nothumbs/.test(location.search)) { thumbQ = LOOKS.map((_, i) => i); setTimeout(thumbNext, 400); } });
   requestAnimationFrame((n) => { state.last = n; tick(n); });
   // test hook: draw a given look at a given time (used by the screenshot check)

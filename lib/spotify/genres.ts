@@ -22,16 +22,19 @@ export async function genresForTrack(track: Track): Promise<string[]> {
     else missing.push(id);
   }
   if (missing.length) {
-    try {
-      const data = await spFetch<{ artists?: ({ id: string; genres?: string[] } | null)[] }>('/artists', { query: { ids: missing.join(',') } });
-      for (const a of data?.artists ?? []) {
-        if (!a) continue;
-        mem.set(a.id, a.genres ?? []);
-        void kvSet(`genres:${a.id}`, a.genres ?? []);
-      }
-    } catch {
-      /* no genres: the theme falls back to the other signals */
-    }
+    // One request per artist: Spotify removed the batch GET /artists?ids= for Development Mode apps in Feb 2026.
+    await Promise.all(
+      missing.map(async (id) => {
+        try {
+          const a = await spFetch<{ id: string; genres?: string[] }>(`/artists/${encodeURIComponent(id)}`);
+          if (!a) return;
+          mem.set(id, a.genres ?? []);
+          void kvSet(`genres:${id}`, a.genres ?? []);
+        } catch {
+          /* no genres: the theme falls back to the other signals */
+        }
+      }),
+    );
   }
   return [...new Set(ids.flatMap((id) => mem.get(id) ?? []))];
 }

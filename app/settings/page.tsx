@@ -89,9 +89,11 @@ export default function SettingsPage() {
     }
   };
 
-  const caps = spotifyCapabilities(spotify.connected, me ? me.product === 'premium' : null);
+  // Since Feb 2026 Spotify's /me no longer says which plan an account is on (product is gone for apps in Development
+  // Mode). Treat it as unknown unless /me still sends it, or the in-browser device came up, which only works on Premium.
+  const premium: boolean | null = spotify.sdk === 'ready' ? true : me?.product ? me.product === 'premium' : null;
+  const caps = spotifyCapabilities(spotify.connected, premium);
   const capKeys = Object.keys(caps) as CapabilityKey[];
-  const premium = me?.product === 'premium';
 
   return (
     <div className="max-w-3xl">
@@ -100,7 +102,7 @@ export default function SettingsPage() {
       <Section title="Spotify" id="spotify">
         <div className="mb-4 flex flex-wrap items-center gap-2">
           {spotify.connected ? <Chip tone="spotify">Connected</Chip> : <Chip>Not connected</Chip>}
-          {me && <Chip tone={premium ? 'good' : 'warn'}>{premium ? 'Premium' : `${me.product ?? 'free'} plan`}</Chip>}
+          {me && premium !== null && <Chip tone={premium ? 'good' : 'warn'}>{premium ? 'Premium' : `${me.product ?? 'free'} plan`}</Chip>}
           {spotify.connected && spotify.sdk === 'ready' && <Chip tone="good">Browser device ready</Chip>}
         </div>
 
@@ -168,7 +170,7 @@ export default function SettingsPage() {
                 Signed in as <strong>{me.display_name ?? me.id}</strong>.
               </p>
             )}
-            {!premium && me && (
+            {premium === false && me && (
               <p className="rounded-lg border border-sun/30 bg-sun/10 p-3 text-sm text-sun">
                 Free accounts can&apos;t be remote-controlled or play in the browser, but lyrics still follow whatever you play in the Spotify app.
               </p>

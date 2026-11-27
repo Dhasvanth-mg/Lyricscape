@@ -182,6 +182,12 @@ describe('corrections and AI', () => {
     expect(parseAiResponse('no json here')).toBeNull();
   });
 
+  it('a motif outside the vocabulary or an over-long image is dropped from its list, not the reason to discard the reply', () => {
+    const p = parseAiResponse('{"dims":{"warmth":{"v":0.4,"conf":0.5}},"motifs":["moon","ripple","note"],"imagery":["paper boat","streetlights humming through a long night"]}', 'm');
+    expect(p!.motifs).toEqual(['moon', 'note']);
+    expect(p!.imagery).toEqual(['paper boat']);
+  });
+
   it('AI evidence joins the blend with source "ai" but cannot outvote the text it was given', () => {
     const ai = parseAiResponse('{"dims":{"melancholy":{"v":0.1,"conf":0.7}}}', 'm')!;
     const without = buildIdentity(base({ trackId: 'ai', lyrics: SAD }));

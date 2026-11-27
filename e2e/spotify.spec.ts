@@ -75,8 +75,8 @@ test('Spotify browser selection, volume, mute and transport at desktop and phone
     }
     let json: unknown = {};
     if (suffix === '/me') json = { id: 'test', display_name: 'Playback test', product: 'premium' };
-    else if (suffix === '/me/player/devices') json = { devices: [{ id: 'browser-test', name: 'Lyricscape', type: 'Computer', is_active: state?.browser ?? false }, { id: 'phone-test', name: 'Phone', type: 'Smartphone', is_active: !state?.browser }] };
-    else if (suffix === '/me/player') json = { device: { id: state?.browser ? 'browser-test' : 'phone-test', name: state?.browser ? 'Lyricscape' : 'Phone', type: 'Computer', is_active: true }, is_playing: state?.playing ?? true, progress_ms: state?.position ?? 10_000, timestamp: Date.now(), item };
+    else if (suffix === '/me/player/devices') json = { devices: [{ id: 'browser-test', name: 'whohasaux', type: 'Computer', is_active: state?.browser ?? false }, { id: 'phone-test', name: 'Phone', type: 'Smartphone', is_active: !state?.browser }] };
+    else if (suffix === '/me/player') json = { device: { id: state?.browser ? 'browser-test' : 'phone-test', name: state?.browser ? 'whohasaux' : 'Phone', type: 'Computer', is_active: true }, is_playing: state?.playing ?? true, progress_ms: state?.position ?? 10_000, timestamp: Date.now(), item };
     else if (suffix === '/search') json = { tracks: { items: [item] } };
     await route.fulfill({ json });
   });
@@ -87,7 +87,7 @@ test('Spotify browser selection, volume, mute and transport at desktop and phone
   const select = page.getByRole('button', { name: 'Play on this browser', exact: true });
   await expect(select).toBeEnabled();
   await select.click();
-  await expect(page.getByText('Output: this browser (Lyricscape)', { exact: true })).toBeVisible();
+  await expect(page.getByText('Output: this browser (whohasaux)', { exact: true })).toBeVisible();
   await page.getByRole('slider', { name: 'Spotify volume', exact: true }).fill('0.33');
   await expect.poll(() => page.evaluate(() => window.__spotifyPlaybackTest.volume)).toBe(.33);
   await page.getByRole('button', { name: 'Mute', exact: true }).first().click();

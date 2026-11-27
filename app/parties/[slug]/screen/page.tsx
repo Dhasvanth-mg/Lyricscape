@@ -160,7 +160,7 @@ function Screen({ slug }: { slug: string }) {
           </section>
         )}
         <div className="flex items-center justify-between text-xs text-ink-400">
-          <span className={connected ? 'text-aqua' : ''}>{connected ? '● live' : '○ reconnecting'}</span>
+          <span className={connected ? 'text-ok' : ''}>{connected ? '● live' : '○ reconnecting'}</span>
           <button
             className={clsx('inline-flex items-center gap-1 transition-opacity', chromeHidden && 'opacity-0')}
             onClick={() => (document.fullscreenElement ? void document.exitFullscreen() : void document.documentElement.requestFullscreen())}

@@ -140,10 +140,10 @@ export function LyricStrip({ lines, now, win, options, title, artist, artworkUrl
     >
       <style>{CSS}</style>
       {options.bg === 'solid' && (
-        <div aria-hidden className="absolute inset-0 -z-10" style={{ background: `radial-gradient(120% 140% at 15% 0%, color-mix(in srgb, ${accent} 30%, #0b0a12) 0%, #0b0a12 55%), #0b0a12` }} />
+        <div aria-hidden className="absolute inset-0 -z-10" style={{ background: `radial-gradient(120% 140% at 15% 0%, color-mix(in srgb, ${accent} 30%, #0a0708) 0%, #0a0708 55%), #0a0708` }} />
       )}
       {options.bg === 'cover' && (
-        <div aria-hidden className="absolute inset-0 -z-10 bg-[#0b0a12]">
+        <div aria-hidden className="absolute inset-0 -z-10 bg-[#0a0708]">
           {artworkUrl && (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={artworkUrl} alt="" className="h-full w-full scale-125 object-cover opacity-70 blur-3xl saturate-150" />

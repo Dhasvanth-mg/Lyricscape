@@ -11,7 +11,7 @@ import { player, usePlayer } from '@/lib/player/controller';
 import { Button, Chip } from '@/components/ui/bits';
 import { MAP_SETTINGS_EVENT } from './ListeningLogger';
 
-const field = 'h-10 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 text-sm outline-none focus:border-aqua';
+const field = 'h-10 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 text-sm outline-none focus:border-signal';
 
 function getPosition(): Promise<GeolocationPosition> {
   return new Promise((resolve, reject) => {
@@ -245,7 +245,7 @@ export function MemoriesPanel({ memories, onChange, sessionForPlace }: { memorie
       <h3 className="mb-3 font-display text-2xl tracking-wide uppercase">Song memories</h3>
       <form onSubmit={save} className="mb-4 space-y-2">
         <p className="text-sm text-ink-300">{track ? <>Attach a note to <strong>{track.title}</strong>, the song playing now.</> : 'Play a song to attach a memory to it.'}</p>
-        <textarea value={caption} onChange={(e) => setCaption(e.target.value)} maxLength={1000} rows={2} placeholder="Where were you? What did it feel like?" disabled={!track} className="w-full rounded-lg border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-aqua" />
+        <textarea value={caption} onChange={(e) => setCaption(e.target.value)} maxLength={1000} rows={2} placeholder="Where were you? What did it feel like?" disabled={!track} className="w-full rounded-lg border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-signal" />
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <label className="inline-flex cursor-pointer items-center rounded-full border border-ink-600 px-3 py-1.5 hover:border-ink-400">
             Add photo

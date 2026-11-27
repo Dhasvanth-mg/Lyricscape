@@ -4,6 +4,7 @@ import { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ApiError, api } from '@/lib/party/client';
 import { Spinner } from '@/components/ui/bits';
+import { Wordmark } from '@/components/brand/Logo';
 
 type Preview = { eventTitle: string; hostName: string; place?: string; startsAt?: string; status: string; needsPasscode: boolean; slug: string };
 
@@ -52,8 +53,8 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-5 py-10">
-      <p className="mb-6 font-display text-2xl tracking-wide uppercase">
-        Lyric<span className="text-signal">scape</span>
+      <p className="mb-6">
+        <Wordmark size="sm" />
       </p>
       {!preview && !error && (
         <div className="flex items-center gap-2 text-ink-300">
@@ -91,13 +92,13 @@ export default function JoinPage({ params }: { params: Promise<{ token: string }
                   autoFocus
                   autoComplete="nickname"
                   placeholder="e.g. Alex"
-                  className="h-14 w-full rounded-xl border border-ink-600 bg-ink-850 px-4 text-lg outline-none focus:border-aqua"
+                  className="h-14 w-full rounded-xl border border-ink-600 bg-ink-850 px-4 text-lg outline-none focus:border-signal"
                 />
               </label>
               {preview.needsPasscode && (
                 <label className="block text-sm">
                   <span className="mb-1 block text-ink-300">Party passcode</span>
-                  <input value={passcode} onChange={(e) => setPasscode(e.target.value)} required inputMode="text" autoComplete="off" className="h-14 w-full rounded-xl border border-ink-600 bg-ink-850 px-4 text-lg outline-none focus:border-aqua" />
+                  <input value={passcode} onChange={(e) => setPasscode(e.target.value)} required inputMode="text" autoComplete="off" className="h-14 w-full rounded-xl border border-ink-600 bg-ink-850 px-4 text-lg outline-none focus:border-signal" />
                 </label>
               )}
               {formErr && (

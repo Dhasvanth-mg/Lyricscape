@@ -79,14 +79,14 @@ export function MapView({ places, selectedId, onSelect, className }: { places: M
             type: 'circle',
             source: 'places',
             filter: ['!', ['has', 'point_count']],
-            paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 1, 8, 8, 26, 12, 56], 'circle-color': '#ff3d71', 'circle-opacity': 0.12, 'circle-blur': 0.6 },
+            paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 1, 8, 8, 26, 12, 56], 'circle-color': '#ff2b3a', 'circle-opacity': 0.12, 'circle-blur': 0.6 },
           });
           map.addLayer({
             id: 'clusters',
             type: 'circle',
             source: 'places',
             filter: ['has', 'point_count'],
-            paint: { 'circle-color': '#ff3d71', 'circle-opacity': 0.85, 'circle-radius': ['step', ['get', 'point_count'], 12, 5, 16, 20, 22, 100, 30], 'circle-stroke-width': 2, 'circle-stroke-color': '#08080a' },
+            paint: { 'circle-color': '#ff2b3a', 'circle-opacity': 0.85, 'circle-radius': ['step', ['get', 'point_count'], 12, 5, 16, 20, 22, 100, 30], 'circle-stroke-width': 2, 'circle-stroke-color': '#0a0708' },
           });
           map.addLayer({
             id: 'points',
@@ -94,10 +94,10 @@ export function MapView({ places, selectedId, onSelect, className }: { places: M
             source: 'places',
             filter: ['!', ['has', 'point_count']],
             paint: {
-              'circle-color': ['case', ['boolean', ['get', 'selected'], false], '#ffd23f', '#ff3d71'],
+              'circle-color': ['case', ['boolean', ['get', 'selected'], false], '#ffc93d', '#ff2b3a'],
               'circle-radius': ['interpolate', ['linear'], ['get', 'count'], 1, 6, 20, 13],
               'circle-stroke-width': 2,
-              'circle-stroke-color': '#08080a',
+              'circle-stroke-color': '#0a0708',
             },
           });
           map.on('click', 'clusters', (e) => {

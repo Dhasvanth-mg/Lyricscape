@@ -59,7 +59,7 @@ export function MediaGrid({ eventId, media, role, meId, onChange }: { eventId: s
               {mod && (
                 <>
                   {m.status !== 'approved' && (
-                    <IconButton label="Approve" className="h-7 w-7 bg-aqua/20 text-aqua" onClick={() => void act(() => api('PATCH', `/api/events/${eventId}/media/${m.id}`, { status: 'approved' }))}>
+                    <IconButton label="Approve" className="h-7 w-7 bg-ok/20 text-ok" onClick={() => void act(() => api('PATCH', `/api/events/${eventId}/media/${m.id}`, { status: 'approved' }))}>
                       <Check size={14} />
                     </IconButton>
                   )}

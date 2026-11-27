@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/bits';
 /** A tiny web wallpaper for Wallpaper Engine (Create Wallpaper -> Web): a full-page frame showing the overlay. */
 export function wallpaperHtml(url: string): string {
   const safe = url.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-  return `<!doctype html>\n<html><head><meta charset="utf-8"><title>Lyricscape lyrics</title>\n<style>html,body{margin:0;height:100%;background:#0b0a12;overflow:hidden}iframe{border:0;width:100%;height:100%}</style></head>\n<body><iframe src="${safe}" allow="autoplay"></iframe></body></html>\n`;
+  return `<!doctype html>\n<html><head><meta charset="utf-8"><title>whohasaux lyrics</title>\n<style>html,body{margin:0;height:100%;background:#0a0708;overflow:hidden}iframe{border:0;width:100%;height:100%}</style></head>\n<body><iframe src="${safe}" allow="autoplay"></iframe></body></html>\n`;
 }
 
 const sel = 'h-9 rounded-lg border border-ink-600 bg-ink-850 px-2 text-sm';
@@ -92,7 +92,7 @@ export function LiveSection() {
           <span>
             <span className="block font-semibold">Share what is playing with overlays on this computer</span>
             <span className="text-sm text-ink-300">
-              While this tab plays, it hands the song title, artist, lyric lines and playback position to Lyricscape&apos;s own local server, where an OBS browser source or a wallpaper app can show them. Nothing leaves this computer, but anything that can open this app&apos;s address (for example a phone on your network, if you started it for a party) can read it while this is on. Off by default.
+              While this tab plays, it hands the song title, artist, lyric lines and playback position to whohasaux&apos;s own local server, where an OBS browser source or a wallpaper app can show them. Nothing leaves this computer, but anything that can open this app&apos;s address (for example a phone on your network, if you started it for a party) can read it while this is on. Off by default.
             </span>
           </span>
         </label>
@@ -149,7 +149,7 @@ export function LiveSection() {
         </div>
         <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-ink-300">
           <li data-testid="desktop-lyrics">
-            <strong>See-through on your desktop</strong> (just the words, over your wallpaper and every window; clicks go through to what is under them): in a terminal in the Lyricscape folder, run{' '}
+            <strong>See-through on your desktop</strong> (just the words, over your wallpaper and every window; clicks go through to what is under them): in a terminal in the whohasaux folder, run{' '}
             <button className="font-mono text-xs underline" onClick={() => copy(desktopCmd, 'desk')}>
               {copied === 'desk' ? 'copied' : desktopCmd}
             </button>
@@ -171,10 +171,10 @@ export function LiveSection() {
               <Download size={12} className="mr-0.5 inline" />
               download index.html
             </button>
-            , then Create Wallpaper → Web and pick that file. It frames the wallpaper address, so Lyricscape must be running.
+            , then Create Wallpaper → Web and pick that file. It frames the wallpaper address, so whohasaux must be running.
           </li>
         </ul>
-        <p className="mt-2 text-xs text-ink-400">The overlay follows this tab: keep Lyricscape open (it can be in the background) while you stream.</p>
+        <p className="mt-2 text-xs text-ink-400">The overlay follows this tab: keep whohasaux open (it can be in the background) while you stream.</p>
       </div>
     </div>
   );

@@ -135,7 +135,7 @@ export default function DiscoverPage() {
         </p>
       )}
       {info && (
-        <p role="status" className="mb-4 text-sm text-aqua">
+        <p role="status" className="mb-4 text-sm text-ok">
           {info}
         </p>
       )}
@@ -156,7 +156,7 @@ export default function DiscoverPage() {
               ))}
             </div>
             <p className="mb-2 text-sm text-ink-300">{track ? <>Sharing <strong>{track.title}</strong> by {track.artists[0]}, the song playing now.</> : 'Play a song first, then share it here.'}</p>
-            <textarea value={caption} onChange={(e) => setCaption(e.target.value)} maxLength={500} rows={2} placeholder="Say something about it (optional)" disabled={!track} className="mb-2 w-full rounded-lg border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-aqua" />
+            <textarea value={caption} onChange={(e) => setCaption(e.target.value)} maxLength={500} rows={2} placeholder="Say something about it (optional)" disabled={!track} className="mb-2 w-full rounded-lg border border-ink-600 bg-ink-850 p-3 text-sm outline-none focus:border-signal" />
             <div className="flex flex-wrap items-center gap-2">
               {kind === 'sotd' ? (
                 <select value={vis} onChange={(e) => setVis(e.target.value as typeof vis)} aria-label="Who can see this" className="h-9 rounded-lg border border-ink-600 bg-ink-850 px-2 text-sm">
@@ -228,7 +228,7 @@ export default function DiscoverPage() {
                 void run(() => api('POST', '/api/social/friends', { handle: addHandle }).then(() => setAddHandle('')), 'Request sent.');
               }}
             >
-              <input value={addHandle} onChange={(e) => setAddHandle(e.target.value)} placeholder="@handle" aria-label="Friend's handle" maxLength={30} className="h-9 min-w-0 flex-1 rounded-lg border border-ink-600 bg-ink-850 px-3 text-sm outline-none focus:border-aqua" />
+              <input value={addHandle} onChange={(e) => setAddHandle(e.target.value)} placeholder="@handle" aria-label="Friend's handle" maxLength={30} className="h-9 min-w-0 flex-1 rounded-lg border border-ink-600 bg-ink-850 px-3 text-sm outline-none focus:border-signal" />
               <Button size="sm" type="submit" disabled={!addHandle.trim()}>
                 <UserPlus size={14} /> Add
               </Button>
@@ -240,7 +240,7 @@ export default function DiscoverPage() {
                     <span className="flex-1">
                       {f.displayName} <span className="text-ink-400">@{f.handle}</span>
                     </span>
-                    <button aria-label={`Accept ${f.handle}`} className="rounded-full bg-aqua/20 p-1.5 text-aqua" onClick={() => void run(() => api('PATCH', `/api/social/friends/${f.friendshipId}`, { accept: true }))}>
+                    <button aria-label={`Accept ${f.handle}`} className="rounded-full bg-ok/20 p-1.5 text-ok" onClick={() => void run(() => api('PATCH', `/api/social/friends/${f.friendshipId}`, { accept: true }))}>
                       <Check size={14} />
                     </button>
                     <button aria-label={`Decline ${f.handle}`} className="rounded-full p-1.5 text-ink-400 hover:text-red-300" onClick={() => void run(() => api('PATCH', `/api/social/friends/${f.friendshipId}`, { accept: false }))}>

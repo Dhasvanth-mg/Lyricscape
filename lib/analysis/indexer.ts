@@ -122,7 +122,7 @@ function onBlock(samples: Float32Array, sampleRate: number) {
   const now = performance.now();
   if (heard <= before + 1) {
     s.silentSince ??= now;
-    if (now - s.silentSince > 8000) set({ message: capture?.mode === 'system' ? 'No sound heard from this computer. Is the song playing on this computer, with its volume up?' : 'No sound heard from this tab. Is the song playing in Lyricscape’s own player (not another device)? Listening to the whole computer’s sound can hear other apps too.' });
+    if (now - s.silentSince > 8000) set({ message: capture?.mode === 'system' ? 'No sound heard from this computer. Is the song playing on this computer, with its volume up?' : 'No sound heard from this tab. Is the song playing in whohasaux’s own player (not another device)? Listening to the whole computer’s sound can hear other apps too.' });
   } else s.silentSince = null;
   if (heard - s.heardAtSave >= 12_000) {
     const f = s.ft.toFeatures('capture');

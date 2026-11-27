@@ -66,9 +66,9 @@ const LEASE_MS = 2 * 60_000;
 const MAX_ATTEMPTS = 3;
 
 export const DEMO_SOUNDTRACKS: Record<string, { title: string; license: string; file: string }> = {
-  'neon-static': { title: 'Neon Static', license: 'CC0-1.0 (synthesized by Lyricscape)', file: 'neon-static.wav' },
-  'paper-planets': { title: 'Paper Planets', license: 'CC0-1.0 (synthesized by Lyricscape)', file: 'paper-planets.wav' },
-  'glass-hours': { title: 'Glass Hours', license: 'CC0-1.0 (synthesized by Lyricscape)', file: 'glass-hours.wav' },
+  'neon-static': { title: 'Neon Static', license: 'CC0-1.0 (synthesized by whohasaux)', file: 'neon-static.wav' },
+  'paper-planets': { title: 'Paper Planets', license: 'CC0-1.0 (synthesized by whohasaux)', file: 'paper-planets.wav' },
+  'glass-hours': { title: 'Glass Hours', license: 'CC0-1.0 (synthesized by whohasaux)', file: 'glass-hours.wav' },
 };
 
 // ---------------------------------------------------------------------------

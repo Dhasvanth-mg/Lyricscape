@@ -11,6 +11,7 @@ import { MiniPlayer } from '@/components/player/MiniPlayer';
 import { AudioIndexer } from '@/components/player/AudioIndexer';
 import { QueueDrawer } from '@/components/player/QueueDrawer';
 import { StageOverlay } from './StageOverlay';
+import { Wordmark } from '@/components/brand/Logo';
 import { ListeningLogger } from '@/components/map/ListeningLogger';
 import { NowPlayingBridge } from '@/components/live/NowPlayingBridge';
 
@@ -110,10 +111,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="min-h-dvh">
           {/* desktop sidebar */}
           <aside className="fixed inset-y-0 left-0 z-30 hidden w-[220px] flex-col border-r border-ink-800 bg-ink-950 px-4 py-6 md:flex">
-            <Link href="/" className="mb-8 block px-2">
-              <span className="font-display text-[28px] leading-none tracking-wide uppercase">
-                Lyric<span className="text-signal">scape</span>
-              </span>
+            <Link href="/" aria-label="whohasaux home" className="mb-8 block px-1">
+              <Wordmark size="sm" />
             </Link>
             <nav aria-label="Primary" className="flex flex-1 flex-col gap-1">
               {NAV.map(({ href, label, icon: Icon }) => {
@@ -149,7 +148,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             id="main"
             className="px-4 pt-6 pb-[calc(var(--player-h)+var(--nav-h)+32px)] sm:px-8 md:ml-[220px] md:pt-10 md:pb-[calc(var(--player-h)+40px)]"
           >
-            <div className="mx-auto max-w-[1200px]">{children}</div>
+            <div className="mx-auto max-w-[1200px]">
+              <Link href="/" aria-label="whohasaux home" className="mb-5 inline-block md:hidden">
+                <Wordmark size="sm" />
+              </Link>
+              {children}
+            </div>
           </main>
 
           <MiniPlayer />

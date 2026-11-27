@@ -69,7 +69,7 @@ export default function LibraryPage() {
             placeholder="Playlist name"
             aria-label="Playlist name"
             maxLength={80}
-            className="h-10 min-w-[220px] flex-1 rounded-full border border-ink-600 bg-ink-850 px-4 text-sm outline-none focus:border-aqua sm:max-w-xs"
+            className="h-10 min-w-[220px] flex-1 rounded-full border border-ink-600 bg-ink-850 px-4 text-sm outline-none focus:border-signal sm:max-w-xs"
           />
           <Button variant="primary" type="submit">
             <Plus size={16} /> {current ? 'Create with current song' : 'Create'}
@@ -138,7 +138,7 @@ export default function LibraryPage() {
         ) : (
           <ul>
             {files.map((t) => (
-              <TrackRow key={t.id} track={t} context={files} extra={withLyrics.includes(t.id) ? <span className="text-[11px] text-aqua uppercase">lyrics</span> : null} />
+              <TrackRow key={t.id} track={t} context={files} extra={withLyrics.includes(t.id) ? <span className="text-[11px] text-ok uppercase">lyrics</span> : null} />
             ))}
           </ul>
         )}

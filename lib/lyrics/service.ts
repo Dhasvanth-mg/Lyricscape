@@ -4,7 +4,7 @@
 //   1. lyrics already saved on this machine (IndexedDB), then the song index's copy  <- user-supplied / previously found
 //   2. bundled lyrics (demo tracks)
 //   3. optional online lookup (development Musixmatch, then LRCLIB), when enabled or explicitly requested
-// Spotify provides no lyrics API; Lyricscape never scrapes lyrics pages.
+// Spotify provides no lyrics API; whohasaux never scrapes lyrics pages.
 
 import type { LyricDocument, MatchInfo, Track } from '../types';
 import { deleteLyrics, getLyrics, kvGet, kvSet, saveLyrics } from '../library/db';

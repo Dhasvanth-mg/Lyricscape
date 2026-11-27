@@ -1,6 +1,6 @@
 // SpotifyBackend: controls and *follows* real Spotify playback through official APIs.
 //  - Controls play/pause/seek/volume on whichever Spotify Connect device is active
-//    (your phone, desktop app, speaker, or this tab's "Lyricscape" Web Playback device).
+//    (your phone, desktop app, speaker, or this tab's "whohasaux" Web Playback device).
 //  - Follows what is playing anywhere, so lyrics can run alongside any Spotify song.
 //  - Never touches audio data. Position comes from API/SDK state + a PlaybackClock.
 

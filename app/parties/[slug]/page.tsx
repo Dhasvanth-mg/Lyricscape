@@ -141,7 +141,7 @@ export default function PartyOverview() {
             <ul className="space-y-1.5">
               {snap.members.map((m) => (
                 <li key={m.id} className="flex items-center gap-2 text-sm">
-                  <span className={`h-2 w-2 rounded-full ${m.online ? 'bg-aqua' : 'bg-ink-600'}`} title={m.online ? 'online' : 'away'} />
+                  <span className={`h-2 w-2 rounded-full ${m.online ? 'bg-ok' : 'bg-ink-600'}`} title={m.online ? 'online' : 'away'} />
                   <span className="min-w-0 flex-1 truncate">
                     {m.displayName} {m.id === snap.me.memberId && <span className="text-ink-400">(you)</span>}
                   </span>

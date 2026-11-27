@@ -96,7 +96,7 @@ export async function spFetch<T = unknown>(path: string, opts: FetchOpts = {}, a
   const reason = body.error?.reason;
   if (res.status === 404 && opts.allow404) return null;
   if (res.status === 404 && reason === 'NO_ACTIVE_DEVICE') {
-    throw new SpotifyApiError('No active Spotify device. Open Spotify on a device, or use the "Lyricscape" browser device.', 'no-device', 404, undefined, reason);
+    throw new SpotifyApiError('No active Spotify device. Open Spotify on a device, or use the "whohasaux" browser device.', 'no-device', 404, undefined, reason);
   }
   if (res.status === 404) throw new SpotifyApiError(message || 'Not found', 'not-found', 404, undefined, reason);
   if (res.status === 403 && (reason === 'PREMIUM_REQUIRED' || /premium/i.test(message))) {
@@ -174,7 +174,7 @@ export const getDevices = async () => (await spFetch<{ devices: SpotifyDevice[] 
 
 /**
  * Start `trackId`. `context` is the app queue's Spotify songs in play order (it must contain trackId): Spotify gets them all, so
- * skip and previous also work from the phone, the desktop app or a headset while Lyricscape is playing, and Spotify moves on by
+ * skip and previous also work from the phone, the desktop app or a headset while whohasaux is playing, and Spotify moves on by
  * itself when a song ends. Without it Spotify only knows this one song and has nothing to skip to.
  */
 export const playTrackUri = (trackId: string, deviceId?: string, positionMs = 0, context?: string[]) => {

@@ -87,7 +87,7 @@ export function SpotifyLibrary() {
 
   return <section aria-label="Spotify library" className="mb-6 space-y-4 rounded-2xl border border-ink-700 p-4">
     <h2 className="font-semibold">Your Spotify library</h2>
-    {!allowed ? <p className="text-sm text-ink-300">Reconnect Spotify in <Link href="/settings" className="text-aqua underline">Settings</Link> to allow access to playlists and saved music.</p> : <>
+    {!allowed ? <p className="text-sm text-ink-300">Reconnect Spotify in <Link href="/settings" className="text-ok underline">Settings</Link> to allow access to playlists and saved music.</p> : <>
       <div className="flex flex-wrap gap-2">
         {(['playlists', 'liked', 'albums'] as const).map(id => <Button key={id} size="sm" variant={view === id ? 'spotify' : 'outline'} onClick={() => { setView(id); setCollection(null); }}>{id === 'liked' ? 'Liked songs' : id === 'albums' ? 'Saved albums' : 'Playlists'}</Button>)}
       </div>

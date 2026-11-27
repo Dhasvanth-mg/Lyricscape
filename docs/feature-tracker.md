@@ -117,3 +117,12 @@ Typecheck, lint and production build passed. The build retains the existing dyna
 - Outcome: feature tracking instructions saved persistently and in repository AGENTS.md. Library and development provider implementation complete within the documented API limits. Live Spotify library access and audible word sync still require owner account testing. The paid provider migration remains planned for beta/production.
 
 Isolated recap rerun: all eight tests passed, including the real FFmpeg video/photo case, in 42.18 seconds. No test expectations or timeouts were changed.
+
+## Rebrand to whohasaux.com (2026-11-27)
+
+- Start: owner asked to rebrand the app to whohasaux.com with a red and black theme that works, and a logo of a black radio jukebox with red paint dripping from the top in big droplets.
+- Scope: visible name, page titles, favicon, sidebar and invite wordmark, home hero, colour tokens (neutrals, accent, success, focus), raw colours in the map, overlay and live strip. Internal ids keep the old name on purpose so nothing already saved is lost: `LYRICSCAPE_*` environment variables, `lyricscape.*` localStorage keys, the `~/.lyricscape` song index folder, scene-data schema ids, the package name and the GitHub repository URL.
+- Acceptance: no "Lyricscape" left in visible text; the mark reads on black and on white at 16 px; body text keeps 4.5:1 on the new blacks; typecheck, lint and tests pass; looked at in a browser.
+- Outcome: built. New tokens in `app/globals.css` (warm blacks, red `signal` with hi/dim/deep steps, mint `ok` for success and live states, red focus ring); the old `aqua` token is gone (focus borders now red, success states mint). Jukebox mark and wordmark in `components/brand/Logo.tsx`, same artwork as the favicon `app/icon.svg`; used in the sidebar, a new mobile header, the invite page and the home hero.
+- Verification: typecheck and lint pass. Tests: 984 passed, 2 failed, both unrelated and also failing without this change in the cloud container (the FFmpeg there has no `drawtext` filter; the social notification-order test is flaky and passes on rerun). Looked at home (1440 and 390 wide), settings and the invite page in Chromium, and the mark on black and white at 16 to 300 px.
+- Remaining: owner review of the look on their machine. Lyric styles and the demo cover art keep their own colours.

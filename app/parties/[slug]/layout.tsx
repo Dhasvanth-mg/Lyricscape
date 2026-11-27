@@ -56,8 +56,8 @@ function Room({ slug, children }: { slug: string; children: React.ReactNode }) {
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <Chip tone={snap.event.status === 'live' ? 'good' : snap.event.status === 'scheduled' ? 'warn' : 'default'}>{snap.event.status}</Chip>
           <Chip>{snap.me.role}</Chip>
-          <span className={clsx('inline-flex items-center gap-1.5 text-xs', connected ? 'text-aqua' : 'text-ink-400')} title={connected ? 'Live updates connected' : 'Reconnecting…'}>
-            <span className={clsx('h-2 w-2 rounded-full', connected ? 'bg-aqua' : 'bg-ink-500')} />
+          <span className={clsx('inline-flex items-center gap-1.5 text-xs', connected ? 'text-ok' : 'text-ink-400')} title={connected ? 'Live updates connected' : 'Reconnecting…'}>
+            <span className={clsx('h-2 w-2 rounded-full', connected ? 'bg-ok' : 'bg-ink-500')} />
             {connected ? 'live' : 'offline'}
           </span>
         </div>

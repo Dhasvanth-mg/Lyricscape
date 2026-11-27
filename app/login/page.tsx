@@ -33,7 +33,7 @@ function LoginForm() {
     <div className="max-w-md">
       <PageHeader eyebrow="Local profile" title="Sign in" />
       <p className="mb-6 text-sm text-ink-300">
-        Lyricscape is running locally, so there are no passwords or cloud accounts: pick a handle for this machine. It identifies you as a party host and keeps your parties together. (Cloud sign-in via Supabase Auth plugs in here later.)
+        whohasaux is running locally, so there are no passwords or cloud accounts: pick a handle for this machine. It identifies you as a party host and keeps your parties together. (Cloud sign-in via Supabase Auth plugs in here later.)
       </p>
       {me ? (
         <div className="space-y-4">
@@ -67,12 +67,12 @@ function LoginForm() {
               pattern="[a-zA-Z0-9_]{3,24}"
               autoComplete="username"
               placeholder="maya_b"
-              className="h-11 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 outline-none focus:border-aqua"
+              className="h-11 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 outline-none focus:border-signal"
             />
           </label>
           <label className="block text-sm">
             <span className="mb-1 block text-ink-300">Display name</span>
-            <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder="Maya" className="h-11 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 outline-none focus:border-aqua" />
+            <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder="Maya" className="h-11 w-full rounded-lg border border-ink-600 bg-ink-850 px-3 outline-none focus:border-signal" />
           </label>
           {err && (
             <p role="alert" className="text-sm text-red-300">

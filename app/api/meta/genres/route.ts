@@ -9,7 +9,7 @@ import { z } from 'zod';
 export const dynamic = 'force-dynamic';
 
 const query = z.object({ artist: z.string().trim().min(1).max(120) });
-const UA = 'Lyricscape/0.1.0 (local-first dev build; https://github.com/Dhasvanth-mg/Lyricscape)';
+const UA = 'whohasaux/0.1.0 (local-first dev build; https://github.com/Dhasvanth-mg/Lyricscape)';
 const TTL = 7 * 24 * 3600 * 1000;
 const cache = new Map<string, { at: number; body: { artist: string; tags: { name: string; count: number }[] } }>();
 let chain: Promise<unknown> = Promise.resolve();

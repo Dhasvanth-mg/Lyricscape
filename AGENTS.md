@@ -5,7 +5,7 @@ product spec in `docs/original-product-spec.md` (sections 14 and P), **this file
 
 ## 1. What this project is
 
-Lyricscape is a music player with expressive kinetic lyrics, a listening map, and collaborative parties with auto-made recaps. It is **local-first**:
+whohasaux (whohasaux.com, formerly Lyricscape; the repository and internal ids keep the old name) is a music player with expressive kinetic lyrics, a listening map, and collaborative parties with auto-made recaps. It is **local-first**:
 it runs on one machine with no Supabase, Vercel or cloud service. Data lives in `.data/`. Those cloud pieces are planned, not wired; the repository
 boundaries in `lib/server/*.ts` are where they plug in. Do not add cloud dependencies unless the owner asks.
 

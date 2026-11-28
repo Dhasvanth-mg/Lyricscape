@@ -18,7 +18,7 @@
     const cache = () => { const m = new Map(); caches.push(m); return m; };
     const clearAll = () => { for (const m of caches) m.clear(); };
     // lab.js sets up its song listeners after registering looks, so subscribe once it has finished loading
-    Promise.resolve().then(() => A.onSong(clearAll));
+    Promise.resolve().then(() => A.onSong(() => { clearAll(); feat = null; }));
     try { document.fonts.addEventListener('loadingdone', clearAll); } catch { /* no font events */ }
 
     // ---------- timing helpers ----------
@@ -201,7 +201,7 @@
       let best = list[0], bs = Infinity;
       list.forEach((th, i) => {
         const fit = th.fit || {};
-        const s = Math.pow((fit.lum ?? 0.5) - f.lum, 2) + 0.7 * Math.pow(((fit.warm ?? 0) - f.warm) / 2, 2) + 0.8 * Math.pow((fit.energy ?? 0.5) - f.energy, 2) + i * 1e-4;
+        const s = Math.pow((fit.lum ?? 0.5) - f.lum, 2) + 0.7 * Math.pow(((fit.warm ?? 0) - f.warm) / 2, 2) + 0.6 * Math.pow((fit.energy ?? 0.5) - f.energy, 2) + i * 1e-4;
         if (s < bs) { bs = s; best = th; }
       });
       return best;
@@ -399,8 +399,8 @@
     THEMES['lily-split'] = [
       { name: 'Lily', swatch: '#e5829f', fit: { lum: 0.3, warm: 0.5, energy: 0.5 }, stops: ['#2a1023', '#8e3a64', '#e5829f', '#f5bba5', '#fbd9c4'], spots: 'rgba(90,20,55,0.65)', sheen: 'rgba(120,150,190,0.28)', anther: '#7a2e16', leaf: '#26302f', word: ['#f8e1cc', '#c69f82'], glow: [160, 60, 100] },
       { name: 'Iris', swatch: '#7c79d6', fit: { lum: 0.3, warm: -0.6, energy: 0.4 }, stops: ['#120d2a', '#3b2f7a', '#7c79d6', '#b8c2f2', '#e6ecff'], spots: 'rgba(25,18,70,0.6)', sheen: 'rgba(200,150,230,0.25)', anther: '#e0b23a', leaf: '#1f2c33', word: ['#e8edff', '#98a3d6'], glow: [70, 80, 170] },
-      { name: 'Marigold', swatch: '#f0a03a', fit: { lum: 0.55, warm: 1, energy: 0.8 }, stops: ['#2b1405', '#8a3d0c', '#e58a2a', '#f6c15a', '#fde6a8'], spots: 'rgba(90,36,6,0.6)', sheen: 'rgba(255,90,60,0.22)', anther: '#5a2406', leaf: '#2c3320', word: ['#fde6a8', '#d6973f'], glow: [170, 90, 20] },
-      { name: 'Moonflower', swatch: '#e9eaf2', fit: { lum: 0.12, warm: 0, energy: 0.2 }, stops: ['#17171b', '#4f5058', '#c4c6cf', '#ececf2', '#ffffff'], spots: 'rgba(40,40,52,0.55)', sheen: 'rgba(160,190,255,0.22)', anther: '#c9a24a', leaf: '#202426', word: ['#ffffff', '#b5b7c3'], glow: [140, 140, 165] },
+      { name: 'Marigold', swatch: '#f0a03a', fit: { lum: 0.45, warm: 0.9, energy: 0.75 }, stops: ['#2b1405', '#8a3d0c', '#e58a2a', '#f6c15a', '#fde6a8'], spots: 'rgba(90,36,6,0.6)', sheen: 'rgba(255,90,60,0.22)', anther: '#5a2406', leaf: '#2c3320', word: ['#fde6a8', '#d6973f'], glow: [170, 90, 20] },
+      { name: 'Moonflower', swatch: '#e9eaf2', fit: { lum: 0.85, warm: -0.1, energy: 0.45 }, stops: ['#17171b', '#4f5058', '#c4c6cf', '#ececf2', '#ffffff'], spots: 'rgba(40,40,52,0.55)', sheen: 'rgba(160,190,255,0.22)', anther: '#c9a24a', leaf: '#202426', word: ['#ffffff', '#b5b7c3'], glow: [140, 140, 165] },
     ];
     const lilyCache = cache();
     function lily(R, th) {
@@ -449,7 +449,7 @@
         const th = theme('lily-split'), en = 0.5 + songFeatures().energy;
         const S = Math.min(W, H), tall = H > W, k = kickEnv(t);
         ctx.fillStyle = '#020202'; ctx.fillRect(0, 0, W, H);
-        const R = tall ? W * 0.4 : H * 0.44, fx = tall ? W * 0.52 : W * 0.72, fy = tall ? H * 0.3 : H * 0.36;
+        const R = tall ? W * 0.4 : H * 0.44, fx = tall ? W * 0.52 : W * 0.74, fy = tall ? H * 0.3 : H * 0.36;
         const gl = th.glow, g = ctx.createRadialGradient(fx, fy, 0, fx, fy, R * 1.6); g.addColorStop(0, `rgba(${gl[0]},${gl[1]},${gl[2]},${0.14 + 0.1 * k})`); g.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
         const img = lily(R, th);
@@ -460,7 +460,7 @@
         ctx.font = `700 ${S * 0.02}px "Inter Tight", Inter, sans-serif`; ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.fillText(A.TITLE.toUpperCase(), fx + R * 0.2, tall ? H * 0.06 : H * 0.12);
         ctx.font = `500 ${S * 0.016}px "Inter Tight", Inter, sans-serif`; ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.fillText(A.ARTIST, fx + R * 0.2, (tall ? H * 0.06 : H * 0.12) + S * 0.028);
         const N = now(t);
-        const wx = tall ? W / 2 : W * 0.37, wy = tall ? H * 0.74 : H * 0.5, maxW = tall ? W * 0.8 : W * 0.3;
+        const wx = tall ? W / 2 : W * 0.29, wy = tall ? H * 0.74 : H * 0.5, maxW = tall ? W * 0.8 : W * 0.3;
         const drawWord = (txt, age, st, alpha) => {
           let px = tall ? H * 0.075 : H * 0.17; ctx.font = `400 ${px}px Anton, Impact, sans-serif`;
           const tw = ctx.measureText(txt).width; if (tw > maxW) { px *= maxW / tw; ctx.font = `400 ${px}px Anton, Impact, sans-serif`; }
@@ -530,7 +530,7 @@
           if (p) { x = lerp(p.x, a.x, k); y = lerp(p.y, a.y, k); px = lerp(p.px, a.px, k); }
           ctx.font = th.font(px);
           // the new word waits for the others to make room, then drops in
-          ctx.globalAlpha = i === n - 1 && !p ? N.fade * ease((age - glide * 0.55) / 0.06) : N.fade;
+          ctx.globalAlpha = i === n - 1 && !p ? N.fade * ease((age - (n > 1 ? Math.min(0.05, glide * 0.3) : 0)) / 0.05) : N.fade;
           if (st > 0) spacing(ctx, px * 0.06 * st);
           ctx.fillText(N.L.words[i].text, x, y);
           if (st > 0) spacing(ctx, 0);
@@ -658,10 +658,10 @@
     // stars, the card on alternate lines, and the whole page boiling like a flipbook 8 times a second. Doodles pop in on
     // the line, bob on the beat and puff up on a held note; the lyric is hand-written in crayon underneath.
     THEMES['crayon-night'] = [
-      { name: 'Night', swatch: '#9a9aa8', fit: { lum: 0.15, warm: 0, energy: 0.4 }, base: '#050506', grainCol: 'rgba(150,150,165,0.9)', swirl: '#020203', stars: ['#ff2fa0', '#39e6f0'], text: '#f2ead8', hot: '#ffe27a', card: '#020203', edge: '#5a5c68' },
+      { name: 'Night', swatch: '#9a9aa8', fit: { lum: 0.15, warm: -0.2, energy: 0.65 }, base: '#050506', grainCol: 'rgba(150,150,165,0.9)', swirl: '#020203', stars: ['#ff2fa0', '#39e6f0'], text: '#f2ead8', hot: '#ffe27a', card: '#020203', edge: '#5a5c68' },
       { name: 'Chalkboard', swatch: '#2f4a3a', fit: { lum: 0.3, warm: -0.4, energy: 0.3 }, base: '#122019', grainCol: 'rgba(160,195,175,0.75)', swirl: '#0a140f', stars: ['#fff3a0', '#ffffff'], text: '#f4f1e2', hot: '#fff3a0', card: '#0a140f', edge: '#6f8f7d' },
-      { name: 'Kraft', swatch: '#a07a50', fit: { lum: 0.55, warm: 0.9, energy: 0.5 }, base: '#8a6644', grainCol: 'rgba(60,38,18,0.6)', swirl: '#6e4f31', stars: ['#ffffff', '#2b1d10'], text: '#2b1d10', hot: '#fff6dc', card: '#5c4128', edge: '#2b1d10' },
-      { name: 'Grape', swatch: '#7c4fd0', fit: { lum: 0.2, warm: 0.3, energy: 0.8 }, base: '#120a20', grainCol: 'rgba(170,140,225,0.8)', swirl: '#07040d', stars: ['#ffd23f', '#ff7ad1'], text: '#f6eaff', hot: '#ffd23f', card: '#07040d', edge: '#6e58a0' },
+      { name: 'Kraft', swatch: '#a07a50', fit: { lum: 0.55, warm: 0.9, energy: 0.5 }, base: '#8a6644', grainCol: 'rgba(60,38,18,0.6)', swirl: '#6e4f31', stars: ['#ffffff', '#2b1d10'], text: '#2b1d10', cardText: '#fff2d6', hot: '#ffd98a', card: '#5c4128', edge: '#2b1d10' },
+      { name: 'Grape', swatch: '#7c4fd0', fit: { lum: 0.35, warm: 0.5, energy: 0.9 }, base: '#120a20', grainCol: 'rgba(170,140,225,0.8)', swirl: '#07040d', stars: ['#ffd23f', '#ff7ad1'], text: '#f6eaff', hot: '#ffd23f', card: '#07040d', edge: '#6e58a0' },
     ];
     const CRAYON = { sun: '#ffd24a', moon: '#fff4a8', heart: '#ff8fb1', star: '#b9a8ff', cloud: '#e9e9f2', flower: '#ff9fc6', planet: '#ffb36b', note: '#9be37a', eye: '#bfe8ff', quill: '#f4e3c1' };
     function crayonDoodle(ctx, kind, x, y, r, seed, b) {
@@ -759,7 +759,7 @@
         }
         if (L) {
           const love = /\b(love|heart|us|we|together|baby|hold|you)\b/i.test(L.text);
-          const kind = love && L.i % 3 !== 2 ? 'pals' : themeOf(L.text, L.i);
+          const kind = love && L.i % 3 !== 2 ? 'pals' : themeOf(L.text, L.i + L.text.length * 1.37);
           const age = t - L.start, pop = easeBack(clamp((age + 0.1) / 0.3, 0, 1));
           const w = N && N.w, st = stretchOf(w, t);
           const r = S * (tall ? 0.17 : kind === 'pals' ? 0.2 : 0.18) * pop * (1 + 0.18 * st + 0.04 * k * en);
@@ -786,7 +786,7 @@
             for (const it of r.items) {
               const wd = N.L.words[it.k]; if (t < wd.s) continue;
               const isCur = wd === N.w, st = stretchOf(wd, t);
-              C.globalAlpha = N.fade; C.fillStyle = isCur ? th.hot : th.text;
+              C.globalAlpha = N.fade; C.fillStyle = isCur ? th.hot : card && th.cardText ? th.cardText : th.text;
               const txt = typedText(wd, t), j = (hash(boil + it.k) - 0.5) * S * 0.003;
               if (st > 0) { const g = graphemes(txt); let xx = x0 + it.x; for (let gi = 0; gi < g.length; gi++) { const cw = C.measureText(g[gi]).width; C.fillText(g[gi], xx, y0 + ri * f.px * 1.1 + Math.sin(t * 9 + gi) * S * 0.008 * st); xx += cw; } }
               else C.fillText(txt, x0 + it.x + j, y0 + ri * f.px * 1.1 + j);
@@ -818,10 +818,10 @@
     // their syllable, the page turns when the rows are full, and a held word strings its letters out with dashes and
     // arrows that spread as long as the voice holds.
     THEMES['sticker-book'] = [
-      { name: 'Lilac', swatch: '#cdb6ef', fit: { lum: 0.6, warm: 0, energy: 0.5 }, band: '#cdb6ef', navy: '#1c2357', purple: '#6c3fc0', edge: '#efe6ff', red: '#d5303e', cream: '#f8ecd6', doodle: '#8a5cc9', bars: '#000000' },
+      { name: 'Lilac', swatch: '#cdb6ef', fit: { lum: 0.55, warm: -0.1, energy: 0.55 }, band: '#cdb6ef', navy: '#1c2357', purple: '#6c3fc0', edge: '#efe6ff', red: '#d5303e', cream: '#f8ecd6', doodle: '#8a5cc9', bars: '#000000' },
       { name: 'Butter', swatch: '#f6e08a', fit: { lum: 0.75, warm: 0.8, energy: 0.6 }, band: '#f6e08a', navy: '#2a2140', purple: '#e0601f', edge: '#fff7d6', red: '#c62a4a', cream: '#fff7e3', doodle: '#d28a1a', bars: '#121008' },
-      { name: 'Mint', swatch: '#a8e3c9', fit: { lum: 0.65, warm: -0.6, energy: 0.4 }, band: '#a8e3c9', navy: '#123a46', purple: '#2f7a5c', edge: '#e9fff5', red: '#e0475b', cream: '#f2fff8', doodle: '#3d9c7c', bars: '#06110d' },
-      { name: 'Bubblegum', swatch: '#f7a8cd', fit: { lum: 0.6, warm: 0.6, energy: 0.9 }, band: '#f7a8cd', navy: '#3a1645', purple: '#9b2bb8', edge: '#ffe9f4', red: '#e4002b', cream: '#fff1f7', doodle: '#c2449a', bars: '#0d0509' },
+      { name: 'Mint', swatch: '#a8e3c9', fit: { lum: 0.4, warm: -0.5, energy: 0.6 }, band: '#a8e3c9', navy: '#123a46', purple: '#2f7a5c', edge: '#e9fff5', red: '#e0475b', cream: '#f2fff8', doodle: '#3d9c7c', bars: '#06110d' },
+      { name: 'Bubblegum', swatch: '#f7a8cd', fit: { lum: 0.5, warm: 0.5, energy: 0.95 }, band: '#f7a8cd', navy: '#3a1645', purple: '#9b2bb8', edge: '#ffe9f4', red: '#e4002b', cream: '#fff1f7', doodle: '#c2449a', bars: '#0d0509' },
     ];
     const FEEL = /^(love|heart|you|never|forever|always|alone|baby|mine|apart|together|cry|kiss|dream|home|soul|true|lost|free|fall|falling)$/i;
     const SUNNY = /^(sun|sunshine|day|light|bright|summer|morning|shine|gold|golden)$/i;
@@ -846,7 +846,7 @@
     const stickerText = (w, style) => { const b = bare(w.text) || w.text; return style === 'block' || style === 'label' || style === 'tall' ? b.toUpperCase() : style === 'spread' ? graphemes(b.toLowerCase()).join('-') : b.toLowerCase(); };
     const stickerLay = cache();
     /** the band the page sits in: a 16:9 strip letterboxed in black */
-    const stickerBand = (W, H) => { const bh = Math.min(H * 0.92, W * 9 / 16); return [0, (H - bh) / 2, W, bh]; };
+    const stickerBand = (W, H) => { const bh = H > W ? H * 0.42 : Math.min(H * 0.92, W * 9 / 16); return [0, (H - bh) / 2, W, bh]; };
     function stickerLayout(ctx, L, W, H) {
       const key = `${L.i}:${W}x${H}`;
       if (stickerLay.has(key)) return stickerLay.get(key);
@@ -1046,7 +1046,7 @@
         const A0 = camFor(c.idx - 1), A1 = camFor(c.idx), whip = 0.32 - 0.12 * songFeatures().energy;
         const camAt = (into) => { const wk = ease(clamp(into / whip, 0, 1)), o = {}; for (const key of Object.keys(A1)) o[key] = lerp(A0[key], A1[key], wk); o.yaw += Math.sin(t * 0.4) * 0.05; o.pitch += Math.cos(t * 0.33) * 0.03; return o; };
         const cam = camAt(c.into), whipping = c.into < whip && !REDUCED();
-        const f = tall ? W * 1.2 : Math.min(W * 0.95, H * 1.7);
+        const f = tall ? W * 1.45 : Math.min(W * 0.95, H * 1.7);
         const proj = (x, y, z, o) => {
           // rotate a panel-local point by the panel's orientation, then place it in front of the camera
           const cy = Math.cos(o.yaw), sy = Math.sin(o.yaw), cp = Math.cos(o.pitch), sp = Math.sin(o.pitch), cr = Math.cos(o.roll), sr = Math.sin(o.roll);
@@ -1260,7 +1260,7 @@
           const q = Math.min(S * (tall ? 0.05 : 0.055), (W * 0.84) / (v.w + 0.6), (H * 0.36) / (v.h + 0.6));
           const x0 = W / 2 - (v.w * q) / 2, y0 = Math.min(front[1] + u * 1.5, H * (tall ? 0.72 : 0.76));
           const dur = Math.max(0.15, Math.min(0.55, w.e - w.s)), st = stretchOf(w, t);
-          const order = v.vox.slice().sort((a2, b2) => a2[1] - b2[1] || a2[0] - b2[0]);
+          const order = v.vox.slice().sort((a2, b2) => a2[1] - b2[1] || a2[0] - b2[0]), drawn = [];
           for (const p of order) {
             const land = w.s + (p[0] / v.w) * dur, a2 = t - land;
             if (a2 < -0.14 && !crumble) continue;
@@ -1270,8 +1270,14 @@
             y -= st * q * 0.6 * Math.max(0, Math.sin(t * 9 - p[0] * 0.45));
             const glow = st > 0 && hash(p[0] * 1.7 + p[1] + Math.floor(t * 10)) > 0.65;
             const top = glow ? '#fff6c8' : p[1] >= v.h - 1 ? shade(sc.letter, 1.12) : sc.letter;
-            ctx.globalAlpha = crumble ? 1 - crumble : clamp((a2 + 0.14) / 0.08, 0, 1) * N.fade;
-            const d = q * 0.32;
+            drawn.push([x, y, top, glow, crumble ? Math.pow(1 - crumble, 2) : clamp((a2 + 0.14) / 0.08, 0, 1) * N.fade]);
+          }
+          // a dark rim under the letters so they read against any scenery, then the blocks themselves
+          const d = q * 0.32, rim = q * 0.14;
+          ctx.fillStyle = 'rgba(12,10,28,0.55)';
+          for (const [x, y, , , al] of drawn) { ctx.globalAlpha = al; ctx.fillRect(x - rim, y - d * 0.6 - rim, q + d + rim * 2, q + d * 0.6 + rim * 2.6); }
+          for (const [x, y, top, glow, al] of drawn) {
+            ctx.globalAlpha = al;
             poly([[x, y], [x + d, y - d * 0.6], [x + q + d, y - d * 0.6], [x + q, y]], top);
             poly([[x + q, y], [x + q + d, y - d * 0.6], [x + q + d, y + q - d * 0.6], [x + q, y + q]], shade(sc.letter, 0.62));
             poly([[x, y], [x + q, y], [x + q, y + q], [x, y + q]], glow ? '#fff1b0' : shade(sc.letter, 0.86));
@@ -1279,7 +1285,7 @@
           ctx.globalAlpha = 1;
         };
         if (cur) {
-          if (prevW && t - cur.s < 0.2) buildWord(prevW, clamp((t - cur.s) / 0.2, 0, 1));
+          if (prevW && t - cur.s < 0.12) buildWord(prevW, clamp((t - cur.s) / 0.12, 0, 1));
           buildWord(cur, 0);
           // the wooden plank sign with the whole line; words light up as they're sung
           const px = Math.max(10, S * (tall ? 0.034 : 0.04)), pw0 = (() => { ctx.font = `400 ${px}px Silkscreen, monospace`; return ctx.measureText(N.L.words.map((w) => (bare(w.text) || w.text).toUpperCase()).join(' ')).width; })();
@@ -1567,7 +1573,7 @@
       setInterval(() => { const id = currentId(); if (THEMES[id] && autoTheme(id).name !== shownAuto) build(); }, 1500);
       setTimeout(kick, 0);
     })();
-    window.__clipThemes = { list: (id) => (THEMES[id] || []).map((x) => x.name), set(id, name) { if (name) themeChoice.set(id, name); else themeChoice.delete(id); }, auto: (id) => autoTheme(id) && autoTheme(id).name, features: () => songFeatures() };
+    window.__clipThemes = { refresh() { feat = null; }, list: (id) => (THEMES[id] || []).map((x) => x.name), set(id, name) { if (name) themeChoice.set(id, name); else themeChoice.delete(id); }, auto: (id) => autoTheme(id) && autoTheme(id).name, features: () => songFeatures() };
 
     return LOOKS;
   };

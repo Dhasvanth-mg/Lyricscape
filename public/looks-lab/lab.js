@@ -3465,6 +3465,14 @@
       if (typeof offset === 'number') apply(offset);
       return { bpm: BPM, lines: LINES.length, offset: pending.offset, duration: DURATION, beats: TRACK.beats.length, kicks: KICKS.length, snares: SNARES.length, sections: SECTIONS.map((x) => `${x.name} ${x.start.toFixed(1)}-${x.end.toFixed(1)}`), status: $('#songStatus').textContent };
     },
+    /** test hook: replace the cover art with an image (bytes), as a song's album art would */
+    async setCover(bytes) {
+      const img = await createImageBitmap(new Blob([new Uint8Array(bytes)]));
+      const c = cover.getContext('2d'); c.drawImage(img, 0, 0, cover.width, cover.height);
+      gl.bindTexture(gl.TEXTURE_2D, texCover); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, gl.RGBA, gl.UNSIGNED_BYTE, cover); gl.generateMipmap(gl.TEXTURE_2D);
+      if (window.__clipThemes && window.__clipThemes.refresh) window.__clipThemes.refresh();
+    },
     song: () => ({ margin: SONG.autoOffset.margin, lines: LINES.map((L) => ({ start: L.start, end: L.end, words: L.words.map((w) => [w.s, w.e]) })), beats: TRACK ? TRACK.beats : [], offset: pending.offset }),
     looks: LOOKS.map((l) => l.id), show(id, t, aspect) { if (aspect && aspect !== state.aspect) { state.aspect = aspect; size(); syncButtons(); } state.playing = false; stopSound(); state.t = t; select(LOOKS.findIndex((l) => l.id === id)); } };
 })();
